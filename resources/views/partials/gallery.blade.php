@@ -52,7 +52,7 @@
                 'category' => '👶 Aqiqah',
                 'client' => 'Tasyakuran Baby Dania',
                 'theme' => 'Sweet Baby Pastel',
-                'quote' => 'Lucu banget tema pastelnya! Foto dedek bayi tampil jernih, musiknya lembut, dan tim D\'Kreasi bantu setting sampai tuntas cuma dalam 2 jam.',
+                'quote' => 'Lucu banget tema pastelnya! Foto dedek bayi tampil jernih, musiknya lembut, dan tim D\'Karsa bantu setting sampai tuntas cuma dalam 2 jam.',
                 'date' => 'Februari 2026',
             ],
             [

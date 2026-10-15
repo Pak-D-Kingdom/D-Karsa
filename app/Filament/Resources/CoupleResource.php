@@ -43,6 +43,11 @@ class CoupleResource extends Resource
                     ])->default('published')->required(),
                 Forms\Components\TextInput::make('customer_name')->label('Nama Pemesan')->placeholder('Rizky Kurniawan'),
                 Forms\Components\TextInput::make('customer_phone')->label('Nomor WhatsApp Pemesan')->tel()->placeholder('081234567890'),
+                Forms\Components\Textarea::make('story')
+                    ->label('Paket & Catatan Request Desain')
+                    ->rows(2)
+                    ->columnSpanFull()
+                    ->helperText('Paket yang dipilih dan catatan request kustom dari pemesan'),
             ])->columns(3),
 
             Forms\Components\Section::make('Info Umum')->schema([
@@ -116,6 +121,7 @@ class CoupleResource extends Resource
                 ->sortable(),
             Tables\Columns\TextColumn::make('customer_name')->label('Pemesan')->searchable()->placeholder('-'),
             Tables\Columns\TextColumn::make('customer_phone')->label('No. WA')->searchable()->placeholder('-'),
+            Tables\Columns\TextColumn::make('story')->label('Paket / Catatan')->limit(25)->tooltip(fn ($record) => $record->story)->placeholder('-'),
             Tables\Columns\TextColumn::make('slug')->searchable()->badge(),
             Tables\Columns\TextColumn::make('category')->label('Kategori')->badge()->color(fn (string $state) => match ($state) { 'Pernikahan' => 'danger', 'Khitanan' => 'warning', 'Halal Bihalal' => 'success', default => 'info' }),
             Tables\Columns\TextColumn::make('groom_name')->label('Pria / Utama')->searchable(),

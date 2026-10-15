@@ -56,19 +56,85 @@
             if (section) section.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Filter Katalog Desain Undangan (#desain)
-        function filterThemes(category, btn) {
-            document.querySelectorAll('#themeFilters .chip').forEach(c => c.classList.remove('aktif'));
-            if (btn) btn.classList.add('aktif');
+        let currentSelectedCategory = 'semua';
+        let currentSelectedTier = 'semua';
 
+        function applyCatalogFilters() {
             document.querySelectorAll('#catalogGrid .theme-card').forEach(card => {
-                const cats = card.dataset.category || '';
-                if (category === 'semua' || cats.includes(category)) {
+                const cardCat = card.dataset.category || '';
+                const cardTier = card.dataset.tier || '';
+
+                const matchCat = (currentSelectedCategory === 'semua' || cardCat === currentSelectedCategory || cardCat === 'semua');
+                const matchTier = (currentSelectedTier === 'semua' || cardTier === currentSelectedTier);
+
+                if (matchCat && matchTier) {
                     card.classList.remove('hidden');
                 } else {
                     card.classList.add('hidden');
                 }
             });
+        }
+
+        // Filter Katalog Desain Berdasarkan Kategori Acara
+        function filterThemes(category, btn) {
+            currentSelectedCategory = category;
+            document.querySelectorAll('#themeFilters .chip').forEach(c => c.classList.remove('aktif'));
+            if (btn) btn.classList.add('aktif');
+            applyCatalogFilters();
+        }
+
+        // Filter Katalog Desain Berdasarkan Tingkat Paket (Basic, Premium, Eksklusif, Kustom)
+        function filterCatalogByTier(tier, packageName) {
+            currentSelectedTier = tier;
+
+            // Update status chip aktif di tier filters
+            document.querySelectorAll('#tierFilters .chip').forEach(c => c.classList.remove('aktif'));
+            const activeChip = document.getElementById('chipTier_' + tier);
+            if (activeChip) activeChip.classList.add('aktif');
+
+            // Update Banner Informasi Tier
+            const banner = document.getElementById('catalogTierBanner');
+            const titleEl = document.getElementById('tierBannerTitle');
+            const descEl = document.getElementById('tierBannerDesc');
+            const badgeEl = document.getElementById('tierBannerBadge');
+
+            if (banner && titleEl && descEl) {
+                if (tier === 'semua') {
+                    banner.classList.add('hidden');
+                } else {
+                    banner.classList.remove('hidden');
+                    if (tier === 'basic') {
+                        if (badgeEl) { badgeEl.textContent = 'Paket Basic (Rp50.000)'; badgeEl.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-emerald-600 text-white'; }
+                        titleEl.textContent = 'Koleksi Desain Paket Basic (Rp50.000)';
+                        descEl.textContent = 'Pilihan desain standar, bersih & esensial dengan harga paling murah/hemat. Silakan klik "Pilih & Buat" pada desain yang Anda inginkan!';
+                    } else if (tier === 'premium') {
+                        if (badgeEl) { badgeEl.textContent = 'Paket Premium (Rp110.000)'; badgeEl.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-blue-600 text-white'; }
+                        titleEl.textContent = 'Koleksi Desain Paket Premium (Rp110.000)';
+                        descEl.textContent = 'Pilihan desain modern & elegan dengan animasi transisi halus, amplop digital QRIS/Bank, dan ucapan doa restu tamu.';
+                    } else if (tier === 'eksklusif') {
+                        if (badgeEl) { badgeEl.textContent = 'Paket Eksklusif (Rp180.000)'; badgeEl.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-brand text-white'; }
+                        titleEl.textContent = 'Koleksi Desain Paket Eksklusif (Rp180.000)';
+                        descEl.textContent = 'Pilihan desain mewah 3D royal nusantara, video sinematik, siaran langsung, dan link nama tamu tanpa batas.';
+                    } else if (tier === 'kustom') {
+                        if (badgeEl) { badgeEl.textContent = 'Paket Kustom (Rp280.000)'; badgeEl.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-purple-600 text-white'; }
+                        titleEl.textContent = 'Paket Kustom: Full Request Desain Baru';
+                        descEl.textContent = 'Bisa request desain baru dari nol sesuai keinginan customer! Diskusikan tema, warna, ornamen, atau referensi impian Anda langsung dengan desainer D\'Karsa.';
+                    }
+                }
+            }
+
+            applyCatalogFilters();
+
+            // Scroll halus ke katalog
+            const catalogSec = document.getElementById('desain');
+            if (catalogSec) {
+                catalogSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Aksi Request Desain Kustom
+        function selectPackageCustomRequest() {
+            window.location.href = "{{ route('invitation.create') }}?package=" + encodeURIComponent('Paket Kustom - Rp280.000') + "&theme=" + encodeURIComponent('Custom Desain Sesuai Request');
         }
 
         // Live Preview Tema di Layar HP Hero
@@ -159,7 +225,7 @@
 
         function copyText(t) {
             navigator.clipboard.writeText(t);
-            alert('Nomor rekening resmi D\'Kreasi berhasil disalin: ' + t);
+            alert('Nomor rekening resmi D\'Karsa berhasil disalin: ' + t);
         }
 
         function openLightbox(src) {

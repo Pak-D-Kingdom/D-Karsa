@@ -8,7 +8,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Great+Vibes&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -16,6 +16,8 @@
                 extend: {
                     fontFamily: {
                         serif: ['"Playfair Display"', 'Georgia', 'serif'],
+                        cinzel: ['"Cinzel"', 'serif'],
+                        cursive: ['"Great Vibes"', 'cursive'],
                         sans: ['"Plus Jakarta Sans"', 'sans-serif'],
                     },
                     colors: {
@@ -43,14 +45,77 @@
         }
         .step-pill.active { background-color: #f63854; color: #ffffff; border-color: #f63854; box-shadow: 0 4px 12px rgba(246, 56, 84, 0.25); }
         .step-pill.completed { background-color: #fdf4f5; color: #cf2445; border-color: #f63854; }
+
+        /* ========================================================
+           PREVIEW THEME STYLING PRESETS
+        ======================================================== */
+        .theme-floral-wreath { background-color: #fcfbfa; color: #2d4a3e; font-family: 'Playfair Display', Georgia, serif; }
+        .theme-floral-wreath .theme-accent { color: #5a7d65; }
+        .theme-floral-wreath .theme-border { border-color: #d1ded5; }
+
+        .theme-rose-romance { background-color: #fff7f8; color: #4a2c35; font-family: 'Playfair Display', Georgia, serif; }
+        .theme-rose-romance .theme-accent { color: #b76e79; }
+        .theme-rose-romance .theme-border { border-color: #fed7df; }
+
+        .theme-javanese-royal { background-color: #17110c; color: #f7eedb; font-family: 'Cinzel', Georgia, serif; }
+        .theme-javanese-royal .theme-accent { color: #d4af37; }
+        .theme-javanese-royal .theme-border { border-color: #8c6d2d; }
+
+        .theme-snow-white { background-color: #ffffff; color: #111827; font-family: 'Cinzel', sans-serif; }
+        .theme-snow-white .theme-accent { color: #4b5563; }
+        .theme-snow-white .theme-border { border-color: #e5e7eb; }
+
+        .theme-batak-heritage { background-color: #1e0e13; color: #fef3c7; font-family: 'Playfair Display', serif; }
+        .theme-batak-heritage .theme-accent { color: #f59e0b; }
+        .theme-batak-heritage .theme-border { border-color: #92400e; }
+
+        .theme-green-mosque { background-color: #0d281c; color: #f0fdf4; font-family: 'Playfair Display', serif; }
+        .theme-green-mosque .theme-accent { color: #e5c07b; }
+        .theme-green-mosque .theme-border { border-color: #047857; }
+
+        .theme-ketupat-raya { background-color: #f4f9f6; color: #14532d; font-family: 'Playfair Display', serif; }
+        .theme-ketupat-raya .theme-accent { color: #16a34a; }
+        .theme-ketupat-raya .theme-border { border-color: #bbf7d0; }
+
+        .theme-little-prince { background-color: #fffdf7; color: #451a03; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .theme-little-prince .theme-accent { color: #d97706; }
+        .theme-little-prince .theme-border { border-color: #fde68a; }
+
+        .theme-khitan-berkah { background-color: #f0fdfa; color: #134e4a; font-family: 'Playfair Display', serif; }
+        .theme-khitan-berkah .theme-accent { color: #0d9488; }
+        .theme-khitan-berkah .theme-border { border-color: #99f6e4; }
+
+        .theme-tahlilan-khusyuk { background-color: #0f172a; color: #f8fafc; font-family: 'Playfair Display', serif; }
+        .theme-tahlilan-khusyuk .theme-accent { color: #94a3b8; }
+        .theme-tahlilan-khusyuk .theme-border { border-color: #334155; }
+
+        .theme-baby-aqiqah { background-color: #fffaf5; color: #4c0519; font-family: 'Playfair Display', serif; }
+        .theme-baby-aqiqah .theme-accent { color: #f43f5e; }
+        .theme-baby-aqiqah .theme-border { border-color: #fecdd3; }
+
+        .theme-golden-birthday { background-color: #0a0a0a; color: #ffffff; font-family: 'Cinzel', sans-serif; }
+        .theme-golden-birthday .theme-accent { color: #fbbf24; }
+        .theme-golden-birthday .theme-border { border-color: #b45309; }
+
+        .theme-syukuran-rumah { background-color: #faf6f0; color: #451a03; font-family: 'Playfair Display', serif; }
+        .theme-syukuran-rumah .theme-accent { color: #b45309; }
+        .theme-syukuran-rumah .theme-border { border-color: #fed7aa; }
+
+        .theme-reuni-akbar { background-color: #f8fafc; color: #0f172a; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .theme-reuni-akbar .theme-accent { color: #2563eb; }
+        .theme-reuni-akbar .theme-border { border-color: #bfdbfe; }
+
+        .theme-custom-vip { background-color: #180f28; color: #f3e8ff; font-family: 'Playfair Display', serif; }
+        .theme-custom-vip .theme-accent { color: #c084fc; }
+        .theme-custom-vip .theme-border { border-color: #7e22ce; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between antialiased">
 
     {{-- TOP NAVBAR --}}
-    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-ink/10 py-3.5 px-4 sm:px-8">
-        <div class="max-w-5xl mx-auto flex items-center justify-between gap-4">
-            <a href="{{ route('invitation.index') }}" class="flex items-center gap-2.5 group">
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-ink/10 py-3.5 px-4 sm:px-8 shadow-sm">
+        <div class="max-w-5xl mx-auto flex items-center justify-between gap-3">
+            <a href="{{ route('invitation.index') }}" class="flex items-center gap-2.5 group shrink-0">
                 <span class="w-9 h-9 rounded-full bg-brand text-white font-serif font-bold text-base grid place-items-center shadow-md group-hover:scale-105 transition">
                     DK
                 </span>
@@ -60,9 +125,16 @@
                 </div>
             </a>
 
+            {{-- Top Bar Quick Actions: Template Selector, Preview, and Home --}}
             <div class="flex items-center gap-2">
-                <a href="{{ route('invitation.index') }}" class="px-3.5 py-1.5 rounded-full text-xs font-bold text-ink2 hover:text-brand hover:bg-sunk transition flex items-center gap-1.5 border border-ink/10">
-                    <span>←</span> Beranda
+                <button type="button" onclick="openTemplateModal()" class="px-3.5 py-1.5 rounded-full text-xs font-bold text-ink hover:text-brand bg-sunk/80 hover:bg-sunk transition flex items-center gap-1.5 border border-ink/15 shadow-sm">
+                    <span>🎨</span> <span class="hidden sm:inline">Pilih</span> <span>Template</span>
+                </button>
+                <button type="button" onclick="openPreviewModal()" class="px-4 py-1.5 rounded-full text-xs font-bold text-white bg-brand hover:bg-accent transition flex items-center gap-1.5 shadow-md shadow-brand/20">
+                    <span>👁️</span> <span>Preview</span>
+                </button>
+                <a href="{{ route('invitation.index') }}" class="px-3 py-1.5 rounded-full text-xs font-bold text-ink3 hover:text-ink hover:bg-sunk transition flex items-center gap-1 border border-ink/10">
+                    <span>←</span> <span class="hidden md:inline">Beranda</span>
                 </a>
             </div>
         </div>
@@ -118,7 +190,7 @@
         </div>
 
         {{-- Validation Errors Display --}}
-        @if ($errors->any())
+        @if (isset($errors) && $errors->any())
             <div class="mb-6 p-4 rounded-2xl bg-rose-50 border border-rose-300 text-rose-800 text-xs space-y-1">
                 <b class="font-bold block">Mohon periksa kembali inputan Anda:</b>
                 <ul class="list-disc list-inside space-y-0.5">
@@ -150,6 +222,262 @@
             $selectedCat = $catMap[strtolower(trim($rawCat))] ?? ($rawCat ?: 'Pernikahan');
             $selectedTheme = request('theme');
             $selectedPackage = request('package');
+
+            $categoryGalleryConfigs = [
+                'Pernikahan' => [
+                    'title' => 'Galeri Prewedding & Musik',
+                    'desc' => 'Lengkapi undangan dengan foto-foto prewedding kenangan dan lagu romantis favorit.',
+                    'label' => 'Upload Foto Galeri (Prewedding)',
+                    'sub' => 'Bisa pilih beberapa foto prewedding atau momen bahagia sekaligus',
+                    'step5Desc' => 'Berikan kemudahan bagi para tamu undangan yang ingin mengirimkan kado pernikahan secara cashless.',
+                ],
+                'Khitanan' => [
+                    'title' => 'Galeri Foto Khitan & Musik',
+                    'desc' => 'Lengkapi undangan dengan foto keceriaan ananda tercinta dan alunan musik syukuran syahdu.',
+                    'label' => 'Upload Foto Galeri (Anak & Momen Syukuran Khitan)',
+                    'sub' => 'Bisa pilih beberapa foto ananda atau momen kebersamaan keluarga',
+                    'step5Desc' => 'Berikan kemudahan bagi kerabat yang ingin mengirimkan hadiah / tali asih syukuran khitan.',
+                ],
+                'Tahlilan' => [
+                    'title' => 'Foto Kenangan Almarhum & Audio Doa',
+                    'desc' => 'Lengkapi undangan dengan foto kenangan almarhum/almarhumah semasa hidup dan alunan doa syahdu.',
+                    'label' => 'Upload Foto Galeri (Kenangan Almarhum / Keluarga)',
+                    'sub' => 'Bisa pilih beberapa foto kenangan indah almarhum(ah) semasa hidup',
+                    'step5Desc' => 'Fasilitasi tanda kasih, sedekah jariyah, atau tali asih duka cita dari para tamu dan kerabat.',
+                ],
+                'Aqiqah' => [
+                    'title' => 'Galeri Foto Buah Hati & Musik',
+                    'desc' => 'Lengkapi undangan dengan potret manis sang buah hati dan alunan musik hangat penuh kasih sayang.',
+                    'label' => 'Upload Foto Galeri (Buah Hati & Bayi)',
+                    'sub' => 'Bisa pilih beberapa foto manis tumbuh kembang buah hati',
+                    'step5Desc' => 'Berikan kemudahan bagi kerabat yang ingin mengirimkan hadiah / kado untuk sang buah hati.',
+                ],
+                'Ulang Tahun' => [
+                    'title' => 'Galeri Foto Ultah & Musik Pesta',
+                    'desc' => 'Lengkapi undangan dengan koleksi foto terbaik yang berulang tahun dan lagu pesta yang ceria.',
+                    'label' => 'Upload Foto Galeri (Foto Seru & Momen Ultah)',
+                    'sub' => 'Bisa pilih beberapa foto terbaik dari masa ke masa',
+                    'step5Desc' => 'Berikan kemudahan bagi sahabat dan keluarga yang ingin mengirimkan kado ulang tahun secara cashless.',
+                ],
+                'Halal Bihalal' => [
+                    'title' => 'Galeri Foto Silaturahmi & Musik',
+                    'desc' => 'Lengkapi undangan dengan dokumentasi silaturahmi kebersamaan dan alunan musik yang hangat.',
+                    'label' => 'Upload Foto Galeri (Dokumentasi Silaturahmi & Trah)',
+                    'sub' => 'Bisa pilih beberapa foto kebersamaan keluarga besar / komunitas',
+                    'step5Desc' => 'Berikan kemudahan bagi para tamu yang ingin berpartisipasi atau mengirimkan tali asih silaturahmi.',
+                ],
+                'Syukuran' => [
+                    'title' => 'Galeri Foto Syukuran & Musik',
+                    'desc' => 'Lengkapi undangan dengan dokumentasi momen syukuran dan alunan musik pengiring yang hangat.',
+                    'label' => 'Upload Foto Galeri (Dokumentasi Momen Syukuran)',
+                    'sub' => 'Bisa pilih beberapa foto kegiatan atau momen tasyakuran',
+                    'step5Desc' => 'Berikan kemudahan bagi para tamu yang ingin mengirimkan kado atau tanda kasih syukuran.',
+                ],
+            ];
+            $currentGalConf = $categoryGalleryConfigs[$selectedCat] ?? $categoryGalleryConfigs['Pernikahan'];
+
+            $allTemplates = [
+                // 1. TIER BASIC: Desain Standar / Paling Hemat (Rp50.000)
+                [
+                    'name' => 'Simple Minimalist Floral',
+                    'category' => 'pernikahan',
+                    'category_label' => 'Pernikahan',
+                    'tier' => 'basic',
+                    'price' => 'Rp50.000',
+                    'badge' => '💍 Pernikahan • Basic',
+                    'package_val' => 'Paket Basic - Rp50.000',
+                    'theme_css' => 'theme-floral-wreath',
+                    'desc' => 'Desain pernikahan bersih, minimalis & rapi dengan tipografi anggun, lingkaran botanical floral & harga paling hemat.',
+                    'img' => 'https://images.unsplash.com/photo-1519741497674-611481863552?w=700&q=80&auto=format&fit=crop',
+                ],
+                [
+                    'name' => 'Ketupat Raya Silaturahmi',
+                    'category' => 'halalbihalal',
+                    'category_label' => 'Halal Bihalal',
+                    'tier' => 'basic',
+                    'price' => 'Rp50.000',
+                    'badge' => '🕌 Halal Bihalal • Basic',
+                    'package_val' => 'Paket Basic - Rp50.000',
+                    'theme_css' => 'theme-ketupat-raya',
+                    'desc' => 'Desain silaturahmi Idul Fitri ceria dengan nuansa hijau segar, ornamen ketupat standar & Google Maps.',
+                    'img' => 'https://images.unsplash.com/photo-1564769625905-50e93615e769?w=700&q=80&auto=format&fit=crop',
+                ],
+                [
+                    'name' => 'Little Prince Safari Khitan',
+                    'category' => 'khitanan',
+                    'category_label' => 'Khitanan',
+                    'tier' => 'basic',
+                    'price' => 'Rp50.000',
+                    'badge' => '✂️ Khitanan • Basic',
+                    'package_val' => 'Paket Basic - Rp50.000',
+                    'theme_css' => 'theme-little-prince',
+                    'desc' => 'Tema khitanan anak yang simpel dan ceria, lengkap dengan link nama teman, lokasi & hitung mundur.',
+                    'img' => 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=700&q=80&auto=format&fit=crop',
+                ],
+                [
+                    'name' => 'Tasyakuran & Doa Rumah Baru',
+                    'category' => 'syukuran',
+                    'category_label' => 'Syukuran',
+                    'tier' => 'basic',
+                    'price' => 'Rp50.000',
+                    'badge' => '🎉 Syukuran • Basic',
+                    'package_val' => 'Paket Basic - Rp50.000',
+                    'theme_css' => 'theme-syukuran-rumah',
+                    'desc' => 'Undangan syukuran rumah baru, tasyakuran usaha, atau doa bersama keluarga dan tetangga.',
+                    'img' => 'https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=700&q=80&auto=format&fit=crop',
+                ],
+                [
+                    'name' => 'Doa Bersama & Tahlilan Khusyuk',
+                    'category' => 'tahlilan',
+                    'category_label' => 'Tahlilan',
+                    'tier' => 'basic',
+                    'price' => 'Rp50.000',
+                    'badge' => '🕯️ Tahlilan • Basic',
+                    'package_val' => 'Paket Basic - Rp50.000',
+                    'theme_css' => 'theme-tahlilan-khusyuk',
+                    'desc' => 'Desain tahlilan & haul mengenang almarhum/almarhumah bernuansa teduh, doa khusyuk & lokasi acara.',
+                    'img' => 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=700&q=80&auto=format&fit=crop',
+                ],
+
+                // 2. TIER PREMIUM: Desain Modern & Elegan (Rp110.000)
+                [
+                    'name' => 'Elegant Rose Romance',
+                    'category' => 'pernikahan',
+                    'category_label' => 'Pernikahan',
+                    'tier' => 'premium',
+                    'price' => 'Rp110.000',
+                    'badge' => '💍 Pernikahan • Premium',
+                    'package_val' => 'Paket Premium - Rp110.000',
+                    'theme_css' => 'theme-rose-romance',
+                    'desc' => 'Desain pernikahan modern dengan sentuhan rose gold anggun, amplop digital QRIS & galeri foto.',
+                    'img' => 'https://images.unsplash.com/photo-1519225424606-491ea8be74d2?w=700&q=80&auto=format&fit=crop',
+                ],
+                [
+                    'name' => 'Green Mosque Harmony',
+                    'category' => 'halalbihalal',
+                    'category_label' => 'Halal Bihalal',
+                    'tier' => 'premium',
+                    'price' => 'Rp110.000',
+                    'badge' => '🕌 Halal Bihalal • Premium',
+                    'package_val' => 'Paket Premium - Rp110.000',
+                    'theme_css' => 'theme-green-mosque',
+                    'desc' => 'Undangan Halal Bihalal keluarga besar bernuansa hijau sage islami, kubah masjid & ayat suci.',
+                    'img' => 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=700&q=80&auto=format&fit=crop',
+                ],
+                [
+                    'name' => 'Walimatul Khitan Berkah Sholeh',
+                    'category' => 'khitanan',
+                    'category_label' => 'Khitanan',
+                    'tier' => 'premium',
+                    'price' => 'Rp110.000',
+                    'badge' => '✂️ Khitanan • Premium',
+                    'package_val' => 'Paket Premium - Rp110.000',
+                    'theme_css' => 'theme-khitan-berkah',
+                    'desc' => 'Undangan syukuran khitanan islami dengan foto jagoan kecil, doa anak sholeh & amplop digital.',
+                    'img' => 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=700&q=80&auto=format&fit=crop',
+                ],
+                [
+                    'name' => 'Sweet Baby Pastel Aqiqah',
+                    'category' => 'aqiqah',
+                    'category_label' => 'Aqiqah',
+                    'tier' => 'premium',
+                    'price' => 'Rp110.000',
+                    'badge' => '👶 Aqiqah • Premium',
+                    'package_val' => 'Paket Premium - Rp110.000',
+                    'theme_css' => 'theme-baby-aqiqah',
+                    'desc' => 'Tasyakuran kelahiran & aqiqah buah hati dengan warna pastel lembut, doa penyejuk hati & peta acara.',
+                    'img' => 'https://images.unsplash.com/photo-1519689680058-324335c77eba?w=700&q=80&auto=format&fit=crop',
+                ],
+                [
+                    'name' => 'Reuni Akbar & Temu Kangen',
+                    'category' => 'syukuran',
+                    'category_label' => 'Syukuran',
+                    'tier' => 'premium',
+                    'price' => 'Rp110.000',
+                    'badge' => '🎉 Reuni • Premium',
+                    'package_val' => 'Paket Premium - Rp110.000',
+                    'theme_css' => 'theme-reuni-akbar',
+                    'desc' => 'Undangan temu kangen alumni dengan konfirmasi kehadiran angkatan, buku tamu & galeri foto.',
+                    'img' => 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=700&q=80&auto=format&fit=crop',
+                ],
+
+                // 3. TIER EKSKLUSIF: Desain Mewah 3D & Adat (Rp180.000)
+                [
+                    'name' => '3D Javanese Royal',
+                    'category' => 'pernikahan',
+                    'category_label' => 'Pernikahan',
+                    'tier' => 'eksklusif',
+                    'price' => 'Rp180.000',
+                    'badge' => '💍 Pernikahan • Eksklusif',
+                    'package_val' => 'Paket Eksklusif - Rp180.000',
+                    'theme_css' => 'theme-javanese-royal',
+                    'desc' => 'Nuansa keraton Jawa klasik dengan animasi gunungan 3D, gending halus, live streaming & doa restu.',
+                    'img' => 'https://images.unsplash.com/photo-1519741497674-611481863552?w=700&q=80&auto=format&fit=crop',
+                ],
+                [
+                    'name' => 'SnowFall Minimalist White',
+                    'category' => 'pernikahan',
+                    'category_label' => 'Pernikahan',
+                    'tier' => 'eksklusif',
+                    'price' => 'Rp180.000',
+                    'badge' => '💍 Pernikahan • Eksklusif',
+                    'package_val' => 'Paket Eksklusif - Rp180.000',
+                    'theme_css' => 'theme-snow-white',
+                    'desc' => 'Desain putih bersih bergaya editorial modern dengan efek partikel salju lembut & tata letak sinematik.',
+                    'img' => 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=700&q=80&auto=format&fit=crop',
+                ],
+                [
+                    'name' => 'Batak Istimewa Heritage',
+                    'category' => 'pernikahan',
+                    'category_label' => 'Pernikahan',
+                    'tier' => 'eksklusif',
+                    'price' => 'Rp180.000',
+                    'badge' => '💍 Pernikahan • Eksklusif',
+                    'package_val' => 'Paket Eksklusif - Rp180.000',
+                    'theme_css' => 'theme-batak-heritage',
+                    'desc' => 'Ornamen ulos khas Batak dengan perpaduan warna marun & emas yang megah, sakral dan berwibawa.',
+                    'img' => 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=700&q=80&auto=format&fit=crop',
+                ],
+                [
+                    'name' => 'Golden Luxury Birthday / Milad',
+                    'category' => 'ultah',
+                    'category_label' => 'Ulang Tahun',
+                    'tier' => 'eksklusif',
+                    'price' => 'Rp180.000',
+                    'badge' => '🎂 Ulang Tahun • Eksklusif',
+                    'package_val' => 'Paket Eksklusif - Rp180.000',
+                    'theme_css' => 'theme-golden-birthday',
+                    'desc' => 'Perayaan sweet seventeen / milad istimewa dengan ornamen emas berkilau dan RSVP kehadiran tamu VIP.',
+                    'img' => 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=700&q=80&auto=format&fit=crop',
+                ],
+
+                // 4. TIER KUSTOM: Full Request Desain Sesuai Keinginan (Rp280.000)
+                [
+                    'name' => 'Custom Request Desain Bebas Impianmu',
+                    'category' => 'semua',
+                    'category_label' => 'Pernikahan',
+                    'tier' => 'kustom',
+                    'price' => 'Rp280.000',
+                    'badge' => '✨ Kustom • VIP Request',
+                    'package_val' => 'Paket Kustom - Rp280.000',
+                    'theme_css' => 'theme-custom-vip',
+                    'desc' => 'Request tema baru dari nol sesuai keinginan Anda! Tim desainer D\'Karsa siap membuatkan konsep khusus.',
+                    'img' => 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=700&q=80&auto=format&fit=crop',
+                ],
+            ];
+
+            // Resolve initial template based on query parameters or category
+            $currentTemplate = null;
+            if ($selectedTheme) {
+                $currentTemplate = collect($allTemplates)->firstWhere('name', $selectedTheme);
+            }
+            if (!$currentTemplate) {
+                $currentTemplate = collect($allTemplates)->firstWhere('category_label', $selectedCat) ?: $allTemplates[0];
+            }
+            $selectedTheme = $currentTemplate['name'];
+            if (!$selectedPackage) {
+                $selectedPackage = $currentTemplate['package_val'];
+            }
         @endphp
 
         @if($selectedTheme || $selectedPackage)
@@ -159,23 +487,25 @@
                     <div>
                         <b class="text-xs font-bold text-ink block">Pilihan Desain / Paket Terpilih</b>
                         <span class="text-xs text-brand font-semibold">
-                            {{ $selectedTheme ? 'Tema: ' . $selectedTheme : '' }}
-                            {{ $selectedTheme && $selectedPackage ? ' • ' : '' }}
-                            {{ $selectedPackage ? $selectedPackage : '' }}
+                            Tema: {{ $selectedTheme }} • {{ $selectedPackage }}
                         </span>
                     </div>
                 </div>
-                <span class="text-[10px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full bg-brand text-white shadow-sm">
-                    Tersambung Otomatis
-                </span>
+                <div class="flex items-center gap-2">
+                    <button type="button" onclick="openTemplateModal()" class="px-3 py-1 rounded-full text-xs font-bold bg-white text-ink hover:text-brand border border-ink/15 shadow-sm transition">
+                        Ganti Desain
+                    </button>
+                    <button type="button" onclick="openPreviewModal()" class="px-3 py-1 rounded-full text-xs font-bold bg-brand text-white hover:bg-accent shadow-sm transition">
+                        Preview
+                    </button>
+                </div>
             </div>
         @endif
 
         {{-- BUILDER FORM --}}
         <form action="{{ route('invitation.store') }}" method="POST" enctype="multipart/form-data" id="invitationBuilderForm" class="bg-white rounded-3xl p-6 sm:p-8 shadow-md border border-brand/15">
             @csrf
-            <input type="hidden" name="selected_theme" value="{{ $selectedTheme }}">
-            <input type="hidden" name="selected_package" value="{{ $selectedPackage }}">
+            <input type="hidden" name="selected_theme" id="selectedThemeInput" value="{{ $selectedTheme }}">
 
             {{-- ========================================================
                  LANGKAH 1: KATEGORI & INFO UTAMA
@@ -253,6 +583,134 @@
                                 <span class="text-[10px] text-ink3">Rumah Baru / Temu Alumni</span>
                             </div>
                         </label>
+                    </div>
+                </div>
+
+                {{-- Pilihan Paket & Tingkat Desain --}}
+                <div class="space-y-2 pt-2 border-t border-ink/10">
+                    <div class="flex items-center justify-between">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-ink2">Pilih Paket &amp; Tingkat Desain *</label>
+                        <span class="text-[11px] text-brand font-semibold">4 Pilihan Tingkat</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="selected_package" value="Paket Basic - Rp50.000" class="peer sr-only"
+                                   {{ str_contains(strtolower($selectedPackage ?? ''), 'basic') || (!$selectedPackage && !request('theme')) ? 'checked' : '' }}
+                                   onchange="onPackageSelect(this.value)">
+                            <div class="p-3.5 rounded-2xl border-2 border-ink/15 bg-white text-center peer-checked:border-emerald-500 peer-checked:bg-emerald-50/50 transition h-full flex flex-col justify-between">
+                                <div>
+                                    <span class="text-xs font-bold text-emerald-800 block">🟢 Basic</span>
+                                    <b class="text-sm font-bold text-ink block mt-0.5">Rp50.000</b>
+                                    <span class="text-[10px] text-ink3 block mt-1">Desain Standar / Biasa</span>
+                                </div>
+                                <span class="text-[9px] font-bold text-emerald-700 bg-emerald-100 rounded-full py-0.5 px-2 mt-2">Paling Hemat</span>
+                            </div>
+                        </label>
+
+                        <label class="cursor-pointer">
+                            <input type="radio" name="selected_package" value="Paket Premium - Rp110.000" class="peer sr-only"
+                                   {{ str_contains(strtolower($selectedPackage ?? ''), 'premium') ? 'checked' : '' }}
+                                   onchange="onPackageSelect(this.value)">
+                            <div class="p-3.5 rounded-2xl border-2 border-ink/15 bg-white text-center peer-checked:border-blue-500 peer-checked:bg-blue-50/50 transition h-full flex flex-col justify-between">
+                                <div>
+                                    <span class="text-xs font-bold text-blue-800 block">🔵 Premium</span>
+                                    <b class="text-sm font-bold text-ink block mt-0.5">Rp110.000</b>
+                                    <span class="text-[10px] text-ink3 block mt-1">Desain Modern &amp; Elegan</span>
+                                </div>
+                                <span class="text-[9px] font-bold text-blue-700 bg-blue-100 rounded-full py-0.5 px-2 mt-2">+ Amplop Digital</span>
+                            </div>
+                        </label>
+
+                        <label class="cursor-pointer">
+                            <input type="radio" name="selected_package" value="Paket Eksklusif - Rp180.000" class="peer sr-only"
+                                   {{ str_contains(strtolower($selectedPackage ?? ''), 'eksklusif') ? 'checked' : '' }}
+                                   onchange="onPackageSelect(this.value)">
+                            <div class="p-3.5 rounded-2xl border-2 border-ink/15 bg-white text-center peer-checked:border-brand peer-checked:bg-rose-50/50 transition h-full flex flex-col justify-between">
+                                <div>
+                                    <span class="text-xs font-bold text-brand block">🔴 Eksklusif</span>
+                                    <b class="text-sm font-bold text-ink block mt-0.5">Rp180.000</b>
+                                    <span class="text-[10px] text-ink3 block mt-1">Desain 3D &amp; Adat</span>
+                                </div>
+                                <span class="text-[9px] font-bold text-white bg-brand rounded-full py-0.5 px-2 mt-2">Tamu Tanpa Batas</span>
+                            </div>
+                        </label>
+
+                        <label class="cursor-pointer">
+                            <input type="radio" name="selected_package" value="Paket Kustom - Rp280.000" class="peer sr-only"
+                                   {{ str_contains(strtolower($selectedPackage ?? ''), 'kustom') || str_contains(strtolower($selectedPackage ?? ''), 'luxury') ? 'checked' : '' }}
+                                   onchange="onPackageSelect(this.value)">
+                            <div class="p-3.5 rounded-2xl border-2 border-ink/15 bg-white text-center peer-checked:border-purple-500 peer-checked:bg-purple-50/50 transition h-full flex flex-col justify-between">
+                                <div>
+                                    <span class="text-xs font-bold text-purple-800 block">✨ Kustom</span>
+                                    <b class="text-sm font-bold text-ink block mt-0.5">Rp280.000</b>
+                                    <span class="text-[10px] text-ink3 block mt-1">Request Desain Bebas</span>
+                                </div>
+                                <span class="text-[9px] font-bold text-purple-700 bg-purple-100 rounded-full py-0.5 px-2 mt-2">Full Request 1-on-1</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    {{-- Dynamic Custom Request Box (appears if Kustom is chosen) --}}
+                    <div id="customRequestBox" class="{{ str_contains(strtolower($selectedPackage ?? ''), 'kustom') || str_contains(strtolower($selectedPackage ?? ''), 'luxury') ? '' : 'hidden' }} mt-3 p-4 rounded-2xl bg-purple-50/80 border border-purple-200 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <b class="text-xs font-bold text-purple-900 flex items-center gap-1.5">
+                                <span>🎨</span> Request Konsep Desain Sesuai Keinginan Anda
+                            </b>
+                            <span class="text-[10px] font-bold text-purple-700 bg-purple-100 px-2.5 py-0.5 rounded-full">Paket Kustom VIP</span>
+                        </div>
+                        <p class="text-[11px] text-purple-800 leading-relaxed">
+                            Jelaskan konsep tema, kombinasi warna impian, ornamen adat langka, animasi latar, atau sertakan tautan referensi (Pinterest/Canva/Instagram) yang Anda inginkan:
+                        </p>
+                        <textarea name="custom_design_request" id="customDesignRequestInput" rows="2"
+                                  placeholder="Contoh: Saya ingin tema perpaduan adat Bugis & modern dengan warna terracotta gold, ada animasi daun gugur, dan layout cover sinematik..."
+                                  class="w-full rounded-xl border border-purple-300 p-3 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+                    </div>
+                </div>
+
+                {{-- Template Desain Aktif Card (Bisa diganti kapan saja via modal & dipreview) --}}
+                <div class="space-y-2 pt-2 border-t border-ink/10">
+                    <div class="flex items-center justify-between">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-ink2">Template Desain Terpilih *</label>
+                        <button type="button" onclick="openTemplateModal()" class="text-xs font-bold text-brand hover:underline flex items-center gap-1">
+                            <span>🎨</span> <span>Katalog Template</span>
+                        </button>
+                    </div>
+
+                    <div id="activeTemplateCard" class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-brand/5 via-blush to-amber-50/40 border-2 border-brand/20 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+                        <div class="flex items-center gap-4 w-full sm:w-auto">
+                            <div class="relative w-16 h-20 sm:w-20 sm:h-24 rounded-xl overflow-hidden shadow-md border border-brand/20 shrink-0 bg-sunk">
+                                <img id="activeTemplateImg" src="{{ $currentTemplate['img'] }}" alt="{{ $currentTemplate['name'] }}" class="w-full h-full object-cover">
+                                <span class="absolute top-1 right-1 w-5 h-5 rounded-full bg-brand text-white text-[10px] grid place-items-center font-bold shadow">
+                                    ✓
+                                </span>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex flex-wrap items-center gap-1.5">
+                                    <span id="activeTemplateBadge" class="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand text-white">
+                                        {{ $currentTemplate['badge'] }}
+                                    </span>
+                                    <span id="activeTemplatePrice" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white border border-ink/15 text-ink">
+                                        {{ $currentTemplate['price'] }}
+                                    </span>
+                                </div>
+                                <h3 id="activeTemplateTitle" class="font-serif text-lg sm:text-xl font-bold text-ink leading-tight">
+                                    {{ $currentTemplate['name'] }}
+                                </h3>
+                                <p id="activeTemplateDesc" class="text-[11px] text-ink2 line-clamp-2 max-w-md">
+                                    {{ $currentTemplate['desc'] }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-2 w-full sm:w-auto justify-end shrink-0">
+                            <button type="button" onclick="openTemplateModal()" class="px-4 py-2 rounded-xl text-xs font-bold text-ink hover:text-brand bg-white hover:bg-sunk transition flex items-center gap-1.5 border border-ink/15 shadow-sm">
+                                <span>🎨</span> <span>Ganti Template</span>
+                            </button>
+                            <button type="button" onclick="openPreviewModal()" class="px-4 py-2 rounded-xl text-xs font-bold text-white bg-brand hover:bg-accent transition flex items-center gap-1.5 shadow-md shadow-brand/25">
+                                <span>👁️</span> <span>Live Preview</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -627,7 +1085,7 @@
                 <div>
                     <span class="text-xs font-bold uppercase tracking-widest text-brand block mb-1">Langkah 5</span>
                     <h2 class="font-serif text-2xl font-bold text-ink">Amplop Digital &amp; Tanda Kasih</h2>
-                    <p class="text-xs text-ink2 mt-1">Berikan kemudahan bagi para tamu undangan yang ingin mengirimkan kado pernikahan secara *cashless*.</p>
+                    <p id="step5Desc" class="text-xs text-ink2 mt-1">{{ $currentGalConf['step5Desc'] }}</p>
                 </div>
 
                 {{-- Rekening 1 --}}
@@ -711,17 +1169,17 @@
             <div id="stepPanel6" class="step-panel space-y-6">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-widest text-brand block mb-1">Langkah 6</span>
-                    <h2 class="font-serif text-2xl font-bold text-ink">Galeri Prewedding &amp; Musik</h2>
-                    <p class="text-xs text-ink2 mt-1">Lengkapi undangan dengan foto-foto kenangan dan lagu romantis favorit.</p>
+                    <h2 id="step6Title" class="font-serif text-2xl font-bold text-ink">{{ $currentGalConf['title'] }}</h2>
+                    <p id="step6Desc" class="text-xs text-ink2 mt-1">{{ $currentGalConf['desc'] }}</p>
                 </div>
 
                 {{-- Pilihan Musik Latar --}}
                 <div class="p-5 rounded-3xl bg-white border border-ink/15 shadow-sm space-y-3">
-                    <b class="text-xs font-bold uppercase tracking-wider text-ink block">Pilihan Musik Latar (Autoplay Audio)</b>
-                    <select name="music_url" class="w-full rounded-2xl border border-ink/20 px-4 py-3 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
-                        <option value="wedding-melody.wav" selected>♫ Beautiful Wedding Melody (Instrumental Romantis Bawaan)</option>
-                        <option value="https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-640.mp3">♫ Romantic Wedding Acoustic (Gitar Akustik Lembut)</option>
-                        <option value="https://assets.mixkit.co/music/preview/mixkit-wedding-piano-641.mp3">♫ Sweet Wedding Piano (Alunan Piano Manis)</option>
+                    <b id="musicSectionLabel" class="text-xs font-bold uppercase tracking-wider text-ink block">Pilihan Musik Latar (Autoplay Audio)</b>
+                    <select name="music_url" id="musicUrlSelect" class="w-full rounded-2xl border border-ink/20 px-4 py-3 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                        <option value="wedding-melody.wav" selected>♫ Beautiful Melody (Instrumental Bawaan)</option>
+                        <option value="https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-640.mp3">♫ Melodi Akustik Syahdu &amp; Lembut</option>
+                        <option value="https://assets.mixkit.co/music/preview/mixkit-wedding-piano-641.mp3">♫ Sweet Piano Melody</option>
                     </select>
                     <p class="text-[10px] text-ink3">Musik akan diputar secara otomatis saat tamu menekan tombol "Buka Undangan".</p>
                 </div>
@@ -729,8 +1187,8 @@
                 {{-- Upload Galeri Foto --}}
                 <div class="p-5 rounded-3xl bg-sunk/50 border border-ink/15 space-y-3">
                     <div class="flex items-center justify-between">
-                        <b class="text-xs font-bold uppercase tracking-wider text-ink block">Upload Foto Galeri (Prewedding)</b>
-                        <span class="text-[11px] text-ink3">Bisa pilih beberapa foto sekaligus</span>
+                        <b id="galleryUploadLabel" class="text-xs font-bold uppercase tracking-wider text-ink block">{{ $currentGalConf['label'] }}</b>
+                        <span id="galleryUploadSub" class="text-[11px] text-ink3">{{ $currentGalConf['sub'] }}</span>
                     </div>
 
                     <input type="file" name="gallery_photos[]" multiple accept="image/*" onchange="previewGalleryFiles(this)"
@@ -822,6 +1280,349 @@
     <footer class="py-6 px-4 text-center text-xs text-ink3 border-t border-ink/10 bg-white">
         <p>&copy; {{ date('Y') }} D'Karsa Digital Invitation Platform. Seluruh Hak Cipta Dilindungi.</p>
     </footer>
+
+    <!-- ========================================================
+         FLOATING ACTION BUTTON (Selalu Muncul di Pojok Kanan Bawah)
+    ======================================================== -->
+    <div id="floatingPreviewBtn" class="fixed bottom-5 right-5 z-40">
+        <button type="button" onclick="openPreviewModal()" class="group px-4 py-3 rounded-full bg-brand hover:bg-accent text-white font-bold text-xs sm:text-sm shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2 border-2 border-white">
+            <span class="text-base animate-pulse">👁️</span>
+            <span>Live Preview</span>
+            <span class="hidden sm:inline text-white/80 font-normal">| D'Karsa</span>
+        </button>
+    </div>
+
+    <!-- ========================================================
+         MODAL PILIH TEMPLATE (Matching Screenshot 1)
+    ======================================================== -->
+    <div id="templateModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm p-2 sm:p-4 md:p-6 flex items-center justify-center">
+        <div class="relative w-full max-w-5xl bg-white rounded-3xl shadow-2xl border border-ink/10 overflow-hidden flex flex-col max-h-[92vh] animate-in fade-in duration-200">
+            <!-- Modal Header -->
+            <div class="p-4 sm:p-6 border-b border-ink/10 flex items-center justify-between bg-white shrink-0">
+                <div class="flex items-center gap-3">
+                    <span class="w-10 h-10 rounded-2xl bg-brand/10 text-brand grid place-items-center text-lg font-bold">🎨</span>
+                    <div>
+                        <h3 class="font-serif text-lg sm:text-2xl font-bold text-ink">Pilih Template Undangan</h3>
+                        <p class="text-xs text-ink3 mt-0.5">Pilih template desain yang Anda sukai, sesuaikan dengan tema acara.</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeTemplateModal()" class="w-9 h-9 rounded-full bg-sunk hover:bg-brand/10 text-ink2 hover:text-brand transition grid place-items-center text-lg font-bold">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="px-4 sm:px-6 py-3 bg-sunk/40 border-b border-ink/10 space-y-2.5 shrink-0">
+                <!-- Category Filter Chips -->
+                <div class="flex items-center gap-1.5 overflow-x-auto pb-1" style="scrollbar-width: thin;">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-ink3 shrink-0 mr-1">Kategori:</span>
+                    <button type="button" onclick="filterModalCategory('semua', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-brand text-white shadow-sm">Semua Acara</button>
+                    <button type="button" onclick="filterModalCategory('pernikahan', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">💍 Pernikahan</button>
+                    <button type="button" onclick="filterModalCategory('khitanan', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">✂️ Khitanan</button>
+                    <button type="button" onclick="filterModalCategory('tahlilan', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">🕯️ Tahlilan / Haul</button>
+                    <button type="button" onclick="filterModalCategory('aqiqah', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">👶 Aqiqah</button>
+                    <button type="button" onclick="filterModalCategory('ultah', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">🎂 Ulang Tahun</button>
+                    <button type="button" onclick="filterModalCategory('halalbihalal', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">🕌 Halal Bihalal</button>
+                    <button type="button" onclick="filterModalCategory('syukuran', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">🎉 Syukuran</button>
+                </div>
+
+                <!-- Tier Filter Chips -->
+                <div class="flex items-center gap-1.5 overflow-x-auto pb-1" style="scrollbar-width: thin;">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-ink3 shrink-0 mr-1">Paket:</span>
+                    <button type="button" onclick="filterModalTier('semua', this)" class="modal-tier-chip px-3 py-1 rounded-full text-xs font-bold transition bg-ink text-white shadow-sm">Semua Paket</button>
+                    <button type="button" onclick="filterModalTier('basic', this)" class="modal-tier-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-emerald-800 border border-emerald-300 hover:bg-emerald-50">🟢 Basic (Rp50k)</button>
+                    <button type="button" onclick="filterModalTier('premium', this)" class="modal-tier-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-blue-800 border border-blue-300 hover:bg-blue-50">🔵 Premium (Rp110k)</button>
+                    <button type="button" onclick="filterModalTier('eksklusif', this)" class="modal-tier-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-rose-800 border border-rose-300 hover:bg-rose-50">🔴 Eksklusif (Rp180k)</button>
+                    <button type="button" onclick="filterModalTier('kustom', this)" class="modal-tier-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-purple-800 border border-purple-300 hover:bg-purple-50">✨ Kustom VIP (Rp280k)</button>
+                </div>
+            </div>
+
+            <!-- Templates Grid Container -->
+            <div class="p-4 sm:p-6 overflow-y-auto flex-1 bg-sunk/20" style="scrollbar-width: thin;">
+                <div id="modalTemplatesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    @foreach($allTemplates as $tmpl)
+                        <div class="modal-template-card group relative bg-white rounded-2xl border-2 transition-all duration-200 overflow-hidden shadow-sm hover:shadow-md flex flex-col justify-between {{ $selectedTheme === $tmpl['name'] ? 'border-brand ring-2 ring-brand/30' : 'border-ink/10' }}"
+                             data-name="{{ $tmpl['name'] }}"
+                             data-category="{{ $tmpl['category'] }}"
+                             data-tier="{{ $tmpl['tier'] }}"
+                             data-price="{{ $tmpl['price'] }}"
+                             data-package="{{ $tmpl['package_val'] }}"
+                             data-eventcat="{{ $tmpl['category_label'] }}"
+                             data-img="{{ $tmpl['img'] }}"
+                             data-themeclass="{{ $tmpl['theme_css'] }}"
+                             data-badge="{{ $tmpl['badge'] }}"
+                             data-desc="{{ $tmpl['desc'] }}">
+
+                            <div>
+                                <!-- Image Thumbnail -->
+                                <div class="relative aspect-[4/3] bg-sunk overflow-hidden">
+                                    <img src="{{ $tmpl['img'] }}" alt="{{ $tmpl['name'] }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+
+                                    <!-- Circular Pink Checkmark (Matching Screenshot 1) -->
+                                    <div class="template-check-badge absolute top-3 right-3 w-7 h-7 rounded-full bg-brand text-white shadow-lg grid place-items-center text-sm font-bold border-2 border-white transition-transform {{ $selectedTheme === $tmpl['name'] ? 'scale-100' : 'scale-0' }}">
+                                        ✓
+                                    </div>
+
+                                    <!-- Overlay Badges -->
+                                    <div class="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between text-[10px] font-bold text-white">
+                                        <span class="px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-sm border border-white/20">
+                                            {{ $tmpl['badge'] }}
+                                        </span>
+                                        <span class="px-2 py-0.5 rounded-full bg-brand/90 backdrop-blur-sm shadow">
+                                            {{ $tmpl['price'] }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Card Content -->
+                                <div class="p-4 space-y-1">
+                                    <h4 class="font-serif text-base font-bold text-ink group-hover:text-brand transition leading-tight">
+                                        {{ $tmpl['name'] }}
+                                    </h4>
+                                    <p class="text-xs text-ink3 line-clamp-2 leading-relaxed">
+                                        {{ $tmpl['desc'] }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="p-4 pt-0 grid grid-cols-2 gap-2 mt-2">
+                                <button type="button" onclick="selectTemplate('{{ $tmpl['name'] }}', false)" class="btn-select-tmpl py-2 px-3 rounded-xl text-xs font-bold transition text-center flex items-center justify-center gap-1 {{ $selectedTheme === $tmpl['name'] ? 'bg-brand text-white' : 'bg-sunk/60 text-ink2 border border-ink/20 hover:border-brand hover:text-brand' }}">
+                                    <span>{{ $selectedTheme === $tmpl['name'] ? '✓ Terpilih' : 'Pilih Template' }}</span>
+                                </button>
+                                <button type="button" onclick="previewSpecificTemplate('{{ $tmpl['name'] }}')" class="py-2 px-3 rounded-xl text-xs font-bold text-white bg-ink hover:bg-brand transition text-center flex items-center justify-center gap-1 shadow-sm">
+                                    <span>👁️ Preview</span>
+                                </button>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-4 sm:p-5 border-t border-ink/10 bg-white flex items-center justify-between shrink-0">
+                <button type="button" onclick="closeTemplateModal()" class="px-5 py-2.5 rounded-full text-xs font-bold text-ink2 hover:text-ink bg-sunk hover:bg-ink/10 transition">
+                    Tutup / Batal
+                </button>
+                <button type="button" onclick="closeTemplateModal()" class="px-6 py-2.5 rounded-full text-xs font-bold text-white bg-brand hover:bg-accent transition shadow-md shadow-brand/25 flex items-center gap-1.5">
+                    <span>✓</span> <span>Gunakan Template Terpilih</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         MODAL LIVE PREVIEW (Smartphone Frame - Matching Screenshot 2)
+    ======================================================== -->
+    <div id="livePreviewModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md p-2 sm:p-4 md:p-6 flex flex-col items-center justify-center">
+        <!-- Floating Preview Top Bar -->
+        <div class="w-full max-w-xl mx-auto mb-3 flex items-center justify-between gap-2 px-2 text-white">
+            <div class="flex items-center gap-2">
+                <span class="w-8 h-8 rounded-full bg-white/10 grid place-items-center text-sm">📱</span>
+                <div>
+                    <b class="text-xs sm:text-sm font-bold block leading-tight">Live Smartphone Preview</b>
+                    <span id="prevCurrentThemeLabel" class="text-[10px] text-white/70 block">Tema: {{ $selectedTheme }}</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <!-- Device Width Toggle -->
+                <div class="bg-white/10 rounded-full p-0.5 border border-white/20 flex items-center text-[11px] font-bold">
+                    <button type="button" id="btnDeviceMobile" onclick="setPreviewDevice(380)" class="px-2.5 py-1 rounded-full bg-brand text-white transition">
+                        📱 380px
+                    </button>
+                    <button type="button" id="btnDeviceWide" onclick="setPreviewDevice(480)" class="px-2.5 py-1 rounded-full text-white/70 hover:text-white transition">
+                        📲 480px
+                    </button>
+                </div>
+
+                <button type="button" onclick="openTemplateModalFromPreview()" class="px-3 py-1.5 rounded-full text-xs font-bold bg-white/15 hover:bg-white/25 text-white transition border border-white/20 flex items-center gap-1">
+                    <span>🎨</span> <span class="hidden sm:inline">Ganti</span>
+                </button>
+
+                <button type="button" onclick="closePreviewModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/25 text-white transition grid place-items-center font-bold text-sm">
+                    ✕
+                </button>
+            </div>
+        </div>
+
+        <!-- Realistic Smartphone Chassis -->
+        <div id="phoneChassis" class="relative transition-all duration-300 w-full max-w-[380px] bg-[#1a181b] rounded-[48px] p-3 shadow-2xl border-4 border-neutral-700/80 ring-1 ring-white/15 flex flex-col max-h-[86vh]">
+            <!-- Dynamic Island / Camera Notch -->
+            <div class="w-24 h-4 bg-black rounded-full mx-auto mb-2 flex items-center justify-end px-3 shrink-0 shadow-inner">
+                <span class="w-2 h-2 rounded-full bg-neutral-900 border border-neutral-700 block"></span>
+            </div>
+
+            <!-- Scrollable Screen Area -->
+            <div id="previewScreenScroll" class="relative w-full rounded-[36px] overflow-y-auto flex-1 bg-white shadow-inner" style="scrollbar-width: thin;">
+                <!-- Inner Themed Invitation Canvas -->
+                <div id="previewCanvas" class="theme-floral-wreath min-h-full p-4 sm:p-5 transition-colors duration-300 flex flex-col justify-between">
+                    <div>
+                        <!-- Cover Card / Decorative Border -->
+                        <div class="p-4 rounded-3xl border-2 theme-border bg-white/70 backdrop-blur-sm text-center shadow-sm relative overflow-hidden mb-5">
+                            <div class="text-[10px] uppercase font-bold tracking-widest theme-accent mb-1" id="prevHeadingDisplay">
+                                WALIMATUL 'URSY
+                            </div>
+
+                            <!-- Botanical Floral Wreath SVG (Faithfully Matching Screenshot 2) -->
+                            <div class="my-4 relative flex items-center justify-center">
+                                <svg class="w-44 h-44 text-emerald-800/85 mx-auto" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="100" cy="100" r="88" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 3" opacity="0.35"/>
+                                    <circle cx="100" cy="100" r="80" stroke="currentColor" stroke-width="0.8" opacity="0.25"/>
+                                    <!-- Branches -->
+                                    <path d="M 100 22 C 55 22 24 58 24 100 C 24 142 55 178 100 178" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                                    <path d="M 100 22 C 145 22 176 58 176 100 C 176 142 145 178 100 178" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                                    <!-- Leaves sprigs left -->
+                                    <path d="M 90 22 C 85 15 78 20 80 28 C 82 35 90 28 90 22 Z" fill="currentColor" opacity="0.85"/>
+                                    <path d="M 60 38 C 52 33 46 40 50 47 C 54 54 62 45 60 38 Z" fill="currentColor" opacity="0.85"/>
+                                    <path d="M 38 65 C 30 62 26 70 32 76 C 37 82 43 72 38 65 Z" fill="currentColor" opacity="0.85"/>
+                                    <path d="M 26 100 C 18 100 18 110 26 112 C 34 114 34 102 26 100 Z" fill="currentColor" opacity="0.85"/>
+                                    <path d="M 36 135 C 30 140 36 148 43 144 C 50 140 44 130 36 135 Z" fill="currentColor" opacity="0.85"/>
+                                    <path d="M 60 162 C 54 168 62 175 68 170 C 74 165 67 156 60 162 Z" fill="currentColor" opacity="0.85"/>
+                                    <path d="M 90 178 C 86 186 96 190 99 183 C 102 176 94 172 90 178 Z" fill="currentColor" opacity="0.85"/>
+                                    <!-- Leaves sprigs right -->
+                                    <path d="M 110 22 C 115 15 122 20 120 28 C 118 35 110 28 110 22 Z" fill="currentColor" opacity="0.85"/>
+                                    <path d="M 140 38 C 148 33 154 40 150 47 C 146 54 138 45 140 38 Z" fill="currentColor" opacity="0.85"/>
+                                    <path d="M 162 65 C 170 62 174 70 168 76 C 163 82 157 72 162 65 Z" fill="currentColor" opacity="0.85"/>
+                                    <path d="M 174 100 C 182 100 182 110 174 112 C 166 114 166 102 174 100 Z" fill="currentColor" opacity="0.85"/>
+                                    <path d="M 164 135 C 170 140 164 148 157 144 C 150 140 156 130 164 135 Z" fill="currentColor" opacity="0.85"/>
+                                    <path d="M 140 162 C 146 168 138 175 132 170 C 126 165 133 156 140 162 Z" fill="currentColor" opacity="0.85"/>
+                                    <path d="M 110 178 C 114 186 104 190 101 183 C 98 176 106 172 110 178 Z" fill="currentColor" opacity="0.85"/>
+                                    <!-- Flower Bud at bottom center -->
+                                    <circle cx="100" cy="180" r="5" fill="#f472b6" opacity="0.9"/>
+                                    <circle cx="96" cy="178" r="3.5" fill="#fbcfe8" opacity="0.85"/>
+                                    <circle cx="104" cy="178" r="3.5" fill="#fbcfe8" opacity="0.85"/>
+                                </svg>
+
+                                <!-- Text Inside Wreath -->
+                                <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+                                    <div id="prevCoupleNames" class="font-serif text-xl sm:text-2xl font-bold leading-tight theme-accent">
+                                        Rizky &amp; Amanda
+                                    </div>
+                                    <div id="prevWreathDate" class="text-[10px] font-semibold mt-1 tracking-wider opacity-75">
+                                        18 . 10 . 2026
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Live Cover Photo Preview -->
+                            <div class="relative w-full h-36 rounded-2xl overflow-hidden mb-3 border theme-border shadow-inner bg-sunk">
+                                <img id="prevLiveCoverImg" src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600" class="w-full h-full object-cover" alt="Foto Cover">
+                            </div>
+
+                            <!-- Save Date Button -->
+                            <div class="inline-block px-3.5 py-1 rounded-full text-[10px] font-bold bg-brand text-white shadow-sm">
+                                📅 Simpan Tanggal Acara
+                            </div>
+                        </div>
+
+                        <!-- Quote / Ayat Section -->
+                        <div class="p-3.5 rounded-2xl bg-white/70 border theme-border text-center mb-4 shadow-sm">
+                            <span class="text-lg opacity-40 block">“</span>
+                            <p id="prevLiveQuote" class="text-[11px] italic leading-relaxed opacity-85">
+                                Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu...
+                            </p>
+                        </div>
+
+                        <!-- Mempelai / Tokoh Section -->
+                        <div class="space-y-3 mb-5">
+                            <div class="text-center">
+                                <span class="text-[9px] uppercase font-bold tracking-widest opacity-60">Profil Acara</span>
+                                <h4 class="font-serif text-sm font-bold" id="prevSectionTokohTitle">Mempelai Pria &amp; Wanita</h4>
+                            </div>
+
+                            <!-- Tokoh 1 -->
+                            <div class="p-3 rounded-2xl bg-white/80 border theme-border flex items-center gap-3 shadow-sm">
+                                <img id="prevLiveGroomImg" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200" class="w-12 h-12 rounded-full object-cover border theme-border shrink-0" alt="Tokoh 1">
+                                <div class="text-left text-xs flex-1 min-w-0">
+                                    <span id="prevLiveGroomBadge" class="text-[9px] font-bold text-brand uppercase block truncate">Mempelai Pria</span>
+                                    <b id="prevLiveGroomName" class="font-serif text-xs block truncate">Rizky Pratama, S.Kom</b>
+                                    <p id="prevLiveGroomParents" class="text-[10px] opacity-75 truncate">Putra dari Bpk. Hendra Pratama &amp; Ibu Ratna</p>
+                                </div>
+                            </div>
+
+                            <!-- Divider Ampersand -->
+                            <div id="prevAmpersandDivider" class="text-center font-cursive text-xl theme-accent">&amp;</div>
+
+                            <!-- Tokoh 2 -->
+                            <div id="prevTokoh2Card" class="p-3 rounded-2xl bg-white/80 border theme-border flex items-center gap-3 shadow-sm">
+                                <img id="prevLiveBrideImg" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200" class="w-12 h-12 rounded-full object-cover border theme-border shrink-0" alt="Tokoh 2">
+                                <div class="text-left text-xs flex-1 min-w-0">
+                                    <span id="prevLiveBrideBadge" class="text-[9px] font-bold text-brand uppercase block truncate">Mempelai Wanita</span>
+                                    <b id="prevLiveBrideName" class="font-serif text-xs block truncate">Amanda Putri, S.E</b>
+                                    <p id="prevLiveBrideParents" class="text-[10px] opacity-75 truncate">Putri dari Bpk. Surya Wijaya &amp; Ibu Dewi</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Acara 1 & Acara 2 Section -->
+                        <div class="space-y-2.5 mb-5">
+                            <div class="text-center">
+                                <span class="text-[9px] uppercase font-bold tracking-widest opacity-60">Jadwal &amp; Lokasi</span>
+                                <h4 class="font-serif text-sm font-bold">Rangkaian Acara</h4>
+                            </div>
+
+                            <!-- Event 1 -->
+                            <div class="p-3.5 rounded-2xl bg-white/80 border theme-border text-center shadow-sm space-y-1">
+                                <b id="prevLiveEv1Title" class="text-xs font-bold block">Akad Nikah</b>
+                                <p id="prevLiveEv1Time" class="text-[10px] font-semibold theme-accent">08:00 - 10:00 WIB</p>
+                                <p id="prevLiveEv1Venue" class="text-[10px] opacity-80">Gedung Serbaguna Bahagia</p>
+                                <span class="inline-block mt-1 px-2.5 py-0.5 rounded-full text-[9px] font-bold bg-sunk border border-ink/10">
+                                    📍 Peta Google Maps
+                                </span>
+                            </div>
+
+                            <!-- Event 2 -->
+                            <div id="prevLiveEv2Card" class="p-3.5 rounded-2xl bg-white/80 border theme-border text-center shadow-sm space-y-1">
+                                <b id="prevLiveEv2Title" class="text-xs font-bold block">Resepsi Pernikahan</b>
+                                <p id="prevLiveEv2Time" class="text-[10px] font-semibold theme-accent">11:00 - 14:00 WIB</p>
+                                <p id="prevLiveEv2Venue" class="text-[10px] opacity-80">Gedung Serbaguna Bahagia</p>
+                            </div>
+                        </div>
+
+                        <!-- Galeri Foto Momen Section -->
+                        <div class="space-y-2 mb-5">
+                            <div class="text-center">
+                                <span class="text-[9px] uppercase font-bold tracking-widest opacity-60">Foto Kenangan</span>
+                                <h4 id="prevLiveGalTitle" class="font-serif text-xs font-bold">Galeri Foto Prewedding</h4>
+                            </div>
+                            <div id="prevLiveGalGrid" class="grid grid-cols-3 gap-1.5">
+                                <div class="aspect-square rounded-xl overflow-hidden bg-sunk shadow-sm">
+                                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=300" class="w-full h-full object-cover">
+                                </div>
+                                <div class="aspect-square rounded-xl overflow-hidden bg-sunk shadow-sm">
+                                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=300" class="w-full h-full object-cover">
+                                </div>
+                                <div class="aspect-square rounded-xl overflow-hidden bg-sunk shadow-sm">
+                                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=300" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Amplop Digital & Rekening Section -->
+                        <div class="p-3.5 rounded-2xl bg-white/80 border theme-border text-center space-y-1.5 mb-5 shadow-sm">
+                            <span class="text-sm">💳</span>
+                            <b class="text-[10px] font-bold uppercase tracking-wider block">Amplop Digital &amp; Kado</b>
+                            <div class="p-2.5 rounded-xl bg-sunk/60 border border-ink/10 text-center">
+                                <span id="prevLiveBankName" class="font-bold text-xs block">Bank BCA</span>
+                                <span id="prevLiveBankAcc" class="font-mono text-xs font-bold text-brand block my-0.5">1234-5678-90</span>
+                                <span id="prevLiveBankHolder" class="text-[10px] opacity-75 block">a.n Rizky Pratama</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="pt-3 border-t theme-border text-center text-[9px] opacity-65">
+                        Dibuat dengan cinta melalui <b class="font-serif">D'Karsa</b>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Home indicator bar -->
+            <div class="w-28 h-1 bg-neutral-600 rounded-full mx-auto mt-2 shrink-0"></div>
+        </div>
+    </div>
 
     {{-- INTERACTIVE JAVASCRIPT CONTROLS --}}
     <script>
@@ -1004,6 +1805,19 @@
                 event2Header: "🎉 Acara 2: Resepsi Pernikahan",
                 event2Title: "Resepsi Pernikahan",
                 event2VenuePlaceholder: "Contoh: Grand Ballroom Menara 165",
+
+                // Step 5 & 6
+                step5Desc: "Berikan kemudahan bagi para tamu undangan yang ingin mengirimkan kado pernikahan secara cashless.",
+                step6Title: "Galeri Prewedding & Musik",
+                step6Desc: "Lengkapi undangan dengan foto-foto prewedding kenangan dan lagu romantis favorit.",
+                galleryLabel: "Upload Foto Galeri (Prewedding)",
+                gallerySub: "Bisa pilih beberapa foto prewedding atau momen bahagia sekaligus",
+                musicLabel: "Pilihan Musik Latar Romantis (Autoplay Audio)",
+                musicOptions: [
+                    { value: 'wedding-melody.wav', label: '♫ Beautiful Wedding Melody (Instrumental Romantis Bawaan)' },
+                    { value: 'https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-640.mp3', label: '♫ Romantic Wedding Acoustic (Gitar Akustik Lembut)' },
+                    { value: 'https://assets.mixkit.co/music/preview/mixkit-wedding-piano-641.mp3', label: '♫ Sweet Wedding Piano (Alunan Piano Manis)' }
+                ],
             },
 
             'Tahlilan': {
@@ -1057,6 +1871,19 @@
                 event2Header: "🤲 Acara 2: Tausiyah & Ramah Tamah",
                 event2Title: "Tausiyah Singkat & Ramah Tamah",
                 event2VenuePlaceholder: "Contoh: Kediaman Keluarga Duka",
+
+                // Step 5 & 6
+                step5Desc: "Fasilitasi tanda kasih, sedekah jariyah, atau tali asih duka cita dari para tamu dan kerabat.",
+                step6Title: "Foto Kenangan Almarhum & Audio Doa",
+                step6Desc: "Lengkapi undangan dengan foto kenangan almarhum/almarhumah semasa hidup dan alunan doa syahdu.",
+                galleryLabel: "Upload Foto Galeri (Kenangan Almarhum / Keluarga)",
+                gallerySub: "Bisa pilih beberapa foto kenangan indah almarhum(ah) semasa hidup",
+                musicLabel: "Pilihan Audio Latar / Doa Syahdu (Autoplay Audio)",
+                musicOptions: [
+                    { value: 'wedding-melody.wav', label: '♫ Alunan Dzikir & Sholawat Syahdu (Menenangkan Hati Bawaan)' },
+                    { value: 'https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-640.mp3', label: '♫ Instrumental Doa Religi Khidmat' },
+                    { value: 'https://assets.mixkit.co/music/preview/mixkit-wedding-piano-641.mp3', label: '♫ Alunan Melodi Tenang & Khusyuk' }
+                ],
             },
 
             'Khitanan': {
@@ -1110,6 +1937,19 @@
                 event2Header: "🎉 Acara 2: Tasyakuran & Ramah Tamah",
                 event2Title: "Tasyakuran & Ramah Tamah",
                 event2VenuePlaceholder: "Contoh: Gedung Serbaguna RW 05",
+
+                // Step 5 & 6
+                step5Desc: "Berikan kemudahan bagi kerabat yang ingin mengirimkan hadiah / tali asih syukuran khitan.",
+                step6Title: "Galeri Foto Khitan & Musik",
+                step6Desc: "Lengkapi undangan dengan foto keceriaan ananda tercinta dan alunan musik syukuran syahdu.",
+                galleryLabel: "Upload Foto Galeri (Anak & Momen Syukuran Khitan)",
+                gallerySub: "Bisa pilih beberapa foto ananda atau momen kebersamaan keluarga",
+                musicLabel: "Pilihan Musik Latar Syukuran (Autoplay Audio)",
+                musicOptions: [
+                    { value: 'wedding-melody.wav', label: '♫ Melodi Syukuran Khitan (Ceria & Syahdu Bawaan)' },
+                    { value: 'https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-640.mp3', label: '♫ Akustik Ceria Tradisional' },
+                    { value: 'https://assets.mixkit.co/music/preview/mixkit-wedding-piano-641.mp3', label: '♫ Alunan Riang Walimatul Khitan' }
+                ],
             },
 
             'Aqiqah': {
@@ -1163,6 +2003,19 @@
                 event2Header: "🎉 Acara 2: Tasyakuran & Santap Siang",
                 event2Title: "Tasyakuran & Santap Siang",
                 event2VenuePlaceholder: "Contoh: Kediaman Keluarga Besar",
+
+                // Step 5 & 6
+                step5Desc: "Berikan kemudahan bagi kerabat yang ingin mengirimkan hadiah / kado untuk sang buah hati.",
+                step6Title: "Galeri Foto Buah Hati & Musik",
+                step6Desc: "Lengkapi undangan dengan potret manis sang buah hati dan alunan musik hangat penuh kasih sayang.",
+                galleryLabel: "Upload Foto Galeri (Buah Hati & Bayi)",
+                gallerySub: "Bisa pilih beberapa foto manis tumbuh kembang buah hati",
+                musicLabel: "Pilihan Musik Latar Lembut (Autoplay Audio)",
+                musicOptions: [
+                    { value: 'wedding-melody.wav', label: '♫ Lullaby Kasih Buah Hati (Alunan Lembut Bawaan)' },
+                    { value: 'https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-640.mp3', label: '♫ Melodi Akustik Hangat Buah Hati' },
+                    { value: 'https://assets.mixkit.co/music/preview/mixkit-wedding-piano-641.mp3', label: '♫ Piano Manis Tasyakuran Aqiqah' }
+                ],
             },
 
             'Ulang Tahun': {
@@ -1216,6 +2069,19 @@
                 event2Header: "🎉 Acara 2: Pesta Ramah Tamah & Games",
                 event2Title: "Pesta Ramah Tamah & Games",
                 event2VenuePlaceholder: "Contoh: Sky Garden Ballroom",
+
+                // Step 5 & 6
+                step5Desc: "Berikan kemudahan bagi sahabat dan keluarga yang ingin mengirimkan kado ulang tahun secara cashless.",
+                step6Title: "Galeri Foto Ultah & Musik Pesta",
+                step6Desc: "Lengkapi undangan dengan koleksi foto terbaik yang berulang tahun dan lagu pesta yang ceria.",
+                galleryLabel: "Upload Foto Galeri (Foto Seru & Momen Ultah)",
+                gallerySub: "Bisa pilih beberapa foto terbaik dari masa ke masa",
+                musicLabel: "Pilihan Musik Latar Pesta (Autoplay Audio)",
+                musicOptions: [
+                    { value: 'wedding-melody.wav', label: '♫ Happy Birthday Instrumental (Melodi Ceria Pesta Bawaan)' },
+                    { value: 'https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-640.mp3', label: '♫ Akustik Ceria Semarak Pesta' },
+                    { value: 'https://assets.mixkit.co/music/preview/mixkit-wedding-piano-641.mp3', label: '♫ Melodi Manis Sweet Birthday' }
+                ],
             },
 
             'Halal Bihalal': {
@@ -1269,6 +2135,19 @@
                 event2Header: "🎉 Acara 2: Ramah Tamah & Santap Siang Bersama",
                 event2Title: "Ramah Tamah & Santap Siang Bersama",
                 event2VenuePlaceholder: "Contoh: Halaman Utama Gedung",
+
+                // Step 5 & 6
+                step5Desc: "Berikan kemudahan bagi para tamu yang ingin berpartisipasi atau mengirimkan tali asih silaturahmi.",
+                step6Title: "Galeri Foto Silaturahmi & Musik",
+                step6Desc: "Lengkapi undangan dengan dokumentasi silaturahmi kebersamaan dan alunan musik yang hangat.",
+                galleryLabel: "Upload Foto Galeri (Dokumentasi Silaturahmi & Trah)",
+                gallerySub: "Bisa pilih beberapa foto kebersamaan keluarga besar / komunitas",
+                musicLabel: "Pilihan Musik Latar Silaturahmi (Autoplay Audio)",
+                musicOptions: [
+                    { value: 'wedding-melody.wav', label: '♫ Instrumental Silaturahmi Fitri (Alunan Hangat Bawaan)' },
+                    { value: 'https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-640.mp3', label: '♫ Gambus & Akustik Suci Idul Fitri' },
+                    { value: 'https://assets.mixkit.co/music/preview/mixkit-wedding-piano-641.mp3', label: '♫ Harmoni Damai Kekeluargaan' }
+                ],
             },
 
             'Syukuran': {
@@ -1322,6 +2201,19 @@
                 event2Header: "🎉 Acara 2: Ramah Tamah & Santap Bersama",
                 event2Title: "Ramah Tamah & Santap Bersama",
                 event2VenuePlaceholder: "Contoh: Kediaman Bpk. Joko Santoso",
+
+                // Step 5 & 6
+                step5Desc: "Berikan kemudahan bagi para tamu yang ingin mengirimkan kado atau tanda kasih syukuran.",
+                step6Title: "Galeri Foto Syukuran & Musik",
+                step6Desc: "Lengkapi undangan dengan dokumentasi momen syukuran dan alunan musik pengiring yang hangat.",
+                galleryLabel: "Upload Foto Galeri (Dokumentasi Momen Syukuran)",
+                gallerySub: "Bisa pilih beberapa foto kegiatan atau momen tasyakuran",
+                musicLabel: "Pilihan Musik Latar Syukuran (Autoplay Audio)",
+                musicOptions: [
+                    { value: 'wedding-melody.wav', label: '♫ Instrumental Tasyakuran & Syukur (Alunan Harmonis Bawaan)' },
+                    { value: 'https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-640.mp3', label: '♫ Akustik Hangat Kebersamaan' },
+                    { value: 'https://assets.mixkit.co/music/preview/mixkit-wedding-piano-641.mp3', label: '♫ Piano Syahdu Tasyakuran' }
+                ],
             }
         };
 
@@ -1443,6 +2335,53 @@
             }
             const ev2Venue = document.getElementById('event2VenueInput');
             if (ev2Venue) ev2Venue.placeholder = conf.event2VenuePlaceholder;
+
+            // 9. Step 5 (Amplop Digital & Kado)
+            const step5Desc = document.getElementById('step5Desc');
+            if (step5Desc && conf.step5Desc) step5Desc.textContent = conf.step5Desc;
+
+            // 10. Step 6 (Galeri & Musik)
+            const step6Title = document.getElementById('step6Title');
+            if (step6Title && conf.step6Title) step6Title.textContent = conf.step6Title;
+
+            const step6Desc = document.getElementById('step6Desc');
+            if (step6Desc && conf.step6Desc) step6Desc.textContent = conf.step6Desc;
+
+            const galleryUploadLabel = document.getElementById('galleryUploadLabel');
+            if (galleryUploadLabel && conf.galleryLabel) galleryUploadLabel.textContent = conf.galleryLabel;
+
+            const galleryUploadSub = document.getElementById('galleryUploadSub');
+            if (galleryUploadSub && conf.gallerySub) galleryUploadSub.textContent = conf.gallerySub;
+
+            const musicSectionLabel = document.getElementById('musicSectionLabel');
+            if (musicSectionLabel && conf.musicLabel) musicSectionLabel.textContent = conf.musicLabel;
+
+            const musicSelect = document.getElementById('musicUrlSelect');
+            if (musicSelect && conf.musicOptions && conf.musicOptions.length) {
+                const curVal = musicSelect.value;
+                musicSelect.innerHTML = '';
+                conf.musicOptions.forEach((opt, idx) => {
+                    const optEl = document.createElement('option');
+                    optEl.value = opt.value;
+                    optEl.textContent = opt.label;
+                    if (opt.value === curVal || (!curVal && idx === 0)) {
+                        optEl.selected = true;
+                    }
+                    musicSelect.appendChild(optEl);
+                });
+            }
+        }
+
+        // Toggle Custom Request Box based on Package Selection
+        function onPackageSelect(pkgVal) {
+            const customBox = document.getElementById('customRequestBox');
+            if (customBox) {
+                if (pkgVal.toLowerCase().includes('kustom') || pkgVal.toLowerCase().includes('luxury')) {
+                    customBox.classList.remove('hidden');
+                } else {
+                    customBox.classList.add('hidden');
+                }
+            }
         }
 
         // Live Single Image Preview
@@ -1476,7 +2415,406 @@
             }
         }
 
-        // Initialize category on page load
+        // ========================================================
+        // TEMPLATE SELECTION & LIVE PREVIEW CONTROLS
+        // ========================================================
+        const allTemplatesData = @json($allTemplates);
+        let currentSelectedTheme = @json($selectedTheme) || 'Simple Minimalist Floral';
+        let modalActiveCategory = 'semua';
+        let modalActiveTier = 'semua';
+
+        // Open Template Selection Modal
+        function openTemplateModal() {
+            const modal = document.getElementById('templateModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // Close Template Selection Modal
+        function closeTemplateModal() {
+            const modal = document.getElementById('templateModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Filter modal by Category
+        function filterModalCategory(cat, btn) {
+            modalActiveCategory = cat;
+            document.querySelectorAll('.modal-cat-chip').forEach(b => {
+                b.classList.remove('bg-brand', 'text-white', 'shadow-sm');
+                b.classList.add('bg-white', 'text-ink2');
+            });
+            if (btn) {
+                btn.classList.add('bg-brand', 'text-white', 'shadow-sm');
+                btn.classList.remove('bg-white', 'text-ink2');
+            }
+            applyModalFilters();
+        }
+
+        // Filter modal by Tier
+        function filterModalTier(tier, btn) {
+            modalActiveTier = tier;
+            document.querySelectorAll('.modal-tier-chip').forEach(b => {
+                b.classList.remove('bg-ink', 'text-white', 'shadow-sm');
+            });
+            if (btn) {
+                btn.classList.add('bg-ink', 'text-white', 'shadow-sm');
+            }
+            applyModalFilters();
+        }
+
+        // Apply both filters to cards in modal
+        function applyModalFilters() {
+            const cards = document.querySelectorAll('.modal-template-card');
+            cards.forEach(card => {
+                const cardCat = card.dataset.category || '';
+                const cardTier = card.dataset.tier || '';
+
+                const matchCat = (modalActiveCategory === 'semua') || (cardCat === modalActiveCategory) || (cardCat === 'semua');
+                const matchTier = (modalActiveTier === 'semua') || (cardTier === modalActiveTier);
+
+                if (matchCat && matchTier) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // Select a template
+        function selectTemplate(tmplName, autoClose = true) {
+            const tmpl = allTemplatesData.find(t => t.name === tmplName);
+            if (!tmpl) return;
+
+            currentSelectedTheme = tmpl.name;
+
+            // Update hidden input
+            const themeInput = document.getElementById('selectedThemeInput');
+            if (themeInput) themeInput.value = tmpl.name;
+
+            // Update Active Template Card in Step 1
+            const cardImg = document.getElementById('activeTemplateImg');
+            if (cardImg) cardImg.src = tmpl.img;
+            const cardBadge = document.getElementById('activeTemplateBadge');
+            if (cardBadge) cardBadge.textContent = tmpl.badge;
+            const cardPrice = document.getElementById('activeTemplatePrice');
+            if (cardPrice) cardPrice.textContent = tmpl.price;
+            const cardTitle = document.getElementById('activeTemplateTitle');
+            if (cardTitle) cardTitle.textContent = tmpl.name;
+            const cardDesc = document.getElementById('activeTemplateDesc');
+            if (cardDesc) cardDesc.textContent = tmpl.desc;
+
+            // Synchronize matching Package Radio button in Step 1
+            const pkgRadios = document.querySelectorAll('input[name="selected_package"]');
+            pkgRadios.forEach(r => {
+                if (r.value.includes(tmpl.tier.charAt(0).toUpperCase() + tmpl.tier.slice(1)) || 
+                    (tmpl.tier === 'kustom' && r.value.includes('Kustom'))) {
+                    r.checked = true;
+                    onPackageSelect(r.value);
+                }
+            });
+
+            // Update modal cards checkmark badge and selection buttons
+            const cards = document.querySelectorAll('.modal-template-card');
+            cards.forEach(card => {
+                const isSelected = (card.dataset.name === tmpl.name);
+                const checkBadge = card.querySelector('.template-check-badge');
+                const selectBtn = card.querySelector('.btn-select-tmpl');
+
+                if (isSelected) {
+                    card.classList.add('border-brand', 'ring-2', 'ring-brand/30');
+                    card.classList.remove('border-ink/10');
+                    if (checkBadge) checkBadge.classList.replace('scale-0', 'scale-100');
+                    if (selectBtn) {
+                        selectBtn.classList.add('bg-brand', 'text-white');
+                        selectBtn.classList.remove('bg-sunk/60', 'text-ink2');
+                        selectBtn.textContent = '✓ Terpilih';
+                    }
+                } else {
+                    card.classList.remove('border-brand', 'ring-2', 'ring-brand/30');
+                    card.classList.add('border-ink/10');
+                    if (checkBadge) checkBadge.classList.replace('scale-100', 'scale-0');
+                    if (selectBtn) {
+                        selectBtn.classList.remove('bg-brand', 'text-white');
+                        selectBtn.classList.add('bg-sunk/60', 'text-ink2');
+                        selectBtn.textContent = 'Pilih Template';
+                    }
+                }
+            });
+
+            // Update live preview styling
+            const canvas = document.getElementById('previewCanvas');
+            if (canvas) {
+                canvas.className = canvas.className.replace(/theme-[a-z-]+/g, '').trim();
+                canvas.classList.add(tmpl.theme_css);
+            }
+            const prevThemeLabel = document.getElementById('prevCurrentThemeLabel');
+            if (prevThemeLabel) prevThemeLabel.textContent = 'Tema: ' + tmpl.name;
+
+            // Trigger preview data update
+            updateLivePreviewContent();
+
+            if (autoClose) {
+                closeTemplateModal();
+            }
+        }
+
+        // Preview a specific template from within the modal
+        function previewSpecificTemplate(tmplName) {
+            selectTemplate(tmplName, false);
+            openPreviewModal();
+        }
+
+        // Open Template Modal from Preview
+        function openTemplateModalFromPreview() {
+            closePreviewModal();
+            openTemplateModal();
+        }
+
+        // Open Live Preview Modal
+        function openPreviewModal() {
+            updateLivePreviewContent();
+            const modal = document.getElementById('livePreviewModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // Close Live Preview Modal
+        function closePreviewModal() {
+            const modal = document.getElementById('livePreviewModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Device toggle inside Preview Modal (380px vs 480px)
+        function setPreviewDevice(width) {
+            const chassis = document.getElementById('phoneChassis');
+            const btnMob = document.getElementById('btnDeviceMobile');
+            const btnWide = document.getElementById('btnDeviceWide');
+
+            if (chassis) {
+                chassis.style.maxWidth = width + 'px';
+            }
+            if (width === 380) {
+                btnMob?.classList.add('bg-brand', 'text-white');
+                btnMob?.classList.remove('text-white/70');
+                btnWide?.classList.remove('bg-brand', 'text-white');
+                btnWide?.classList.add('text-white/70');
+            } else {
+                btnWide?.classList.add('bg-brand', 'text-white');
+                btnWide?.classList.remove('text-white/70');
+                btnMob?.classList.remove('bg-brand', 'text-white');
+                btnMob?.classList.add('text-white/70');
+            }
+        }
+
+        // Live data binding from builder form inputs into preview modal
+        function updateLivePreviewContent() {
+            const headingVal = document.getElementById('eventHeadingInput')?.value || "WALIMATUL 'URSY";
+            const groomNick = document.getElementById('groomNameInput')?.value || "Rizky";
+            const brideNick = document.getElementById('brideNameInput')?.value || "Amanda";
+            const groomFull = document.getElementById('groomFullNameInput')?.value || "Rizky Pratama, S.Kom";
+            const brideFull = document.getElementById('brideFullNameInput')?.value || "Amanda Putri, S.E";
+            const quoteVal = document.getElementById('quoteInput')?.value || "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu...";
+            const weddingDateInput = document.querySelector('input[name="wedding_date"]')?.value;
+
+            // Heading & Quote
+            const prevHeading = document.getElementById('prevHeadingDisplay');
+            if (prevHeading) prevHeading.textContent = headingVal.toUpperCase();
+
+            const prevQuote = document.getElementById('prevLiveQuote');
+            if (prevQuote) prevQuote.textContent = quoteVal;
+
+            // Names in Wreath
+            const prevCouple = document.getElementById('prevCoupleNames');
+            const selectedCatVal = document.querySelector('input[name="category"]:checked')?.value || 'Pernikahan';
+            const isNonWedding = (selectedCatVal !== 'Pernikahan');
+
+            if (prevCouple) {
+                if (isNonWedding && !brideNick) {
+                    prevCouple.textContent = groomNick;
+                } else if (!brideNick) {
+                    prevCouple.textContent = groomNick;
+                } else {
+                    prevCouple.textContent = groomNick + " & " + brideNick;
+                }
+            }
+
+            // Date in Wreath & Save Date
+            const prevWreathDate = document.getElementById('prevWreathDate');
+            if (prevWreathDate) {
+                if (weddingDateInput) {
+                    const d = new Date(weddingDateInput);
+                    if (!isNaN(d.getTime())) {
+                        const day = String(d.getDate()).padStart(2, '0');
+                        const month = String(d.getMonth() + 1).padStart(2, '0');
+                        const year = d.getFullYear();
+                        prevWreathDate.textContent = `${day} . ${month} . ${year}`;
+                    }
+                } else {
+                    prevWreathDate.textContent = '18 . 10 . 2026';
+                }
+            }
+
+            // Tokoh 1 (Groom / Almarhum / Buah Hati)
+            const groomFather = document.querySelector('input[name="groom_father"]')?.value || 'Bpk. Hendra Pratama';
+            const groomMother = document.querySelector('input[name="groom_mother"]')?.value || 'Ibu Ratna';
+            const groomBadge = document.getElementById('labelGroomTitle')?.textContent || 'Mempelai Pria';
+
+            const prevLiveGroomBadge = document.getElementById('prevLiveGroomBadge');
+            if (prevLiveGroomBadge) prevLiveGroomBadge.textContent = groomBadge;
+
+            const prevLiveGroomName = document.getElementById('prevLiveGroomName');
+            if (prevLiveGroomName) prevLiveGroomName.textContent = groomFull;
+
+            const prevLiveGroomParents = document.getElementById('prevLiveGroomParents');
+            if (prevLiveGroomParents) {
+                prevLiveGroomParents.textContent = `Putra dari ${groomFather} & ${groomMother}`;
+            }
+
+            // Tokoh 2 (Bride / Pendamping)
+            const brideFather = document.querySelector('input[name="bride_father"]')?.value || 'Bpk. Surya Wijaya';
+            const brideMother = document.querySelector('input[name="bride_mother"]')?.value || 'Ibu Dewi';
+            const brideBadge = document.getElementById('labelBrideTitle')?.textContent || 'Mempelai Wanita';
+
+            const prevLiveBrideBadge = document.getElementById('prevLiveBrideBadge');
+            if (prevLiveBrideBadge) prevLiveBrideBadge.textContent = brideBadge;
+
+            const prevLiveBrideName = document.getElementById('prevLiveBrideName');
+            if (prevLiveBrideName) prevLiveBrideName.textContent = brideFull;
+
+            const prevLiveBrideParents = document.getElementById('prevLiveBrideParents');
+            if (prevLiveBrideParents) {
+                prevLiveBrideParents.textContent = `Putri dari ${brideFather} & ${brideMother}`;
+            }
+
+            // Handle Non-Wedding single Tokoh display
+            const tokoh2Card = document.getElementById('prevTokoh2Card');
+            const ampersandDiv = document.getElementById('prevAmpersandDivider');
+            if (isNonWedding && !document.getElementById('brideNameInput')?.value) {
+                if (tokoh2Card) tokoh2Card.style.display = 'none';
+                if (ampersandDiv) ampersandDiv.style.display = 'none';
+            } else {
+                if (tokoh2Card) tokoh2Card.style.display = 'flex';
+                if (ampersandDiv) ampersandDiv.style.display = 'block';
+            }
+
+            // Events
+            const ev1Title = document.getElementById('event1TitleInput')?.value || 'Akad Nikah';
+            const ev1Time = document.querySelector('input[name="event_1_start_time"]')?.value || '08:00';
+            const ev1EndTime = document.querySelector('input[name="event_1_end_time"]')?.value || '10:00 WIB';
+            const ev1Venue = document.getElementById('event1VenueInput')?.value || 'Gedung Serbaguna Bahagia';
+
+            const prevEv1Title = document.getElementById('prevLiveEv1Title');
+            if (prevEv1Title) prevEv1Title.textContent = ev1Title;
+            const prevEv1Time = document.getElementById('prevLiveEv1Time');
+            if (prevEv1Time) prevEv1Time.textContent = `${ev1Time} - ${ev1EndTime}`;
+            const prevEv1Venue = document.getElementById('prevLiveEv1Venue');
+            if (prevEv1Venue) prevEv1Venue.textContent = ev1Venue;
+
+            const ev2Title = document.getElementById('event2TitleInput')?.value || 'Resepsi Pernikahan';
+            const ev2Time = document.querySelector('input[name="event_2_start_time"]')?.value || '11:00';
+            const ev2EndTime = document.querySelector('input[name="event_2_end_time"]')?.value || '14:00 WIB';
+            const ev2Venue = document.getElementById('event2VenueInput')?.value || 'Gedung Serbaguna Bahagia';
+
+            const prevEv2Title = document.getElementById('prevLiveEv2Title');
+            if (prevEv2Title) prevEv2Title.textContent = ev2Title;
+            const prevEv2Time = document.getElementById('prevLiveEv2Time');
+            if (prevEv2Time) prevEv2Time.textContent = `${ev2Time} - ${ev2EndTime}`;
+            const prevEv2Venue = document.getElementById('prevLiveEv2Venue');
+            if (prevEv2Venue) prevEv2Venue.textContent = ev2Venue;
+
+            // Bank Account
+            const bankName = document.querySelector('input[name="bank_name_1"]')?.value || 'Bank BCA';
+            const bankAcc = document.querySelector('input[name="bank_account_1"]')?.value || '1234-5678-90';
+            const bankHolder = document.querySelector('input[name="bank_holder_1"]')?.value || 'a.n ' + groomNick;
+
+            const prevBankName = document.getElementById('prevLiveBankName');
+            if (prevBankName) prevBankName.textContent = bankName;
+            const prevBankAcc = document.getElementById('prevLiveBankAcc');
+            if (prevBankAcc) prevBankAcc.textContent = bankAcc;
+            const prevBankHolder = document.getElementById('prevLiveBankHolder');
+            if (prevBankHolder) prevBankHolder.textContent = bankHolder;
+
+            // Category-sensitive Gallery title
+            const galTitle = document.getElementById('step6Title')?.textContent || 'Galeri Foto Momen';
+            const prevGalTitle = document.getElementById('prevLiveGalTitle');
+            if (prevGalTitle) prevGalTitle.textContent = galTitle;
+        }
+
+        // Connect image uploads to Live Preview modal
+        function connectLiveImagePreviews() {
+            const coverInput = document.getElementById('coverPhotoInput');
+            if (coverInput) {
+                coverInput.addEventListener('change', function() {
+                    if (this.files && this.files[0]) {
+                        const r = new FileReader();
+                        r.onload = e => {
+                            const prev = document.getElementById('prevLiveCoverImg');
+                            if (prev) prev.src = e.target.result;
+                        };
+                        r.readAsDataURL(this.files[0]);
+                    }
+                });
+            }
+
+            const groomInput = document.getElementById('groomPhotoInput');
+            if (groomInput) {
+                groomInput.addEventListener('change', function() {
+                    if (this.files && this.files[0]) {
+                        const r = new FileReader();
+                        r.onload = e => {
+                            const prev = document.getElementById('prevLiveGroomImg');
+                            if (prev) prev.src = e.target.result;
+                        };
+                        r.readAsDataURL(this.files[0]);
+                    }
+                });
+            }
+
+            const brideInput = document.getElementById('bridePhotoInput');
+            if (brideInput) {
+                brideInput.addEventListener('change', function() {
+                    if (this.files && this.files[0]) {
+                        const r = new FileReader();
+                        r.onload = e => {
+                            const prev = document.getElementById('prevLiveBrideImg');
+                            if (prev) prev.src = e.target.result;
+                        };
+                        r.readAsDataURL(this.files[0]);
+                    }
+                });
+            }
+
+            const galInput = document.getElementById('galleryPhotosInput');
+            if (galInput) {
+                galInput.addEventListener('change', function() {
+                    const grid = document.getElementById('prevLiveGalGrid');
+                    if (!grid || !this.files.length) return;
+                    grid.innerHTML = '';
+                    Array.from(this.files).slice(0, 6).forEach(f => {
+                        const r = new FileReader();
+                        r.onload = e => {
+                            const item = document.createElement('div');
+                            item.className = 'aspect-square rounded-xl overflow-hidden bg-sunk shadow-sm';
+                            item.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover">`;
+                            grid.appendChild(item);
+                        };
+                        r.readAsDataURL(f);
+                    });
+                });
+            }
+        }
+
+        // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
             ['eventHeadingInput', 'quoteInput', 'event1TitleInput', 'event2TitleInput'].forEach(id => {
                 const el = document.getElementById(id);
@@ -1490,6 +2828,16 @@
 
             const initialCat = @json($selectedCat) || 'Pernikahan';
             updateCategoryTheme(initialCat);
+
+            // Connect form live-binding listeners
+            const form = document.getElementById('invitationBuilderForm');
+            if (form) {
+                form.addEventListener('input', updateLivePreviewContent);
+                form.addEventListener('change', updateLivePreviewContent);
+            }
+
+            connectLiveImagePreviews();
+            updateLivePreviewContent();
         });
     </script>
 </body>

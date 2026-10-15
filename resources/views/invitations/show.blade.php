@@ -22,6 +22,8 @@
         $dividerText = '🤲 Doa Bersama 🤲';
         $navPersonIcon = '🕯️';
         $navPersonLabel = 'Almarhum';
+        $galleryBadge = 'Kenangan Berharga';
+        $galleryTitle = 'Galeri Kenangan Almarhum';
         $pageTitle = ($couple->event_heading ?: 'Doa & Tahlil') . ' ' . $couple->groom_name;
     } elseif ($isKhitan) {
         $coverSubtitle = 'Walimatul Khitan';
@@ -33,6 +35,8 @@
         $dividerText = '⭐';
         $navPersonIcon = '✂️';
         $navPersonLabel = 'Anak';
+        $galleryBadge = 'Momen Syukuran';
+        $galleryTitle = 'Galeri Foto Khitan';
         $pageTitle = ($couple->event_heading ?: 'Khitanan') . ' ' . $couple->groom_name;
     } elseif ($isAqiqah) {
         $coverSubtitle = 'Tasyakuran Aqiqah';
@@ -44,6 +48,8 @@
         $dividerText = '👶';
         $navPersonIcon = '👶';
         $navPersonLabel = 'Bayi';
+        $galleryBadge = 'Momen Buah Hati';
+        $galleryTitle = 'Galeri Foto Buah Hati';
         $pageTitle = ($couple->event_heading ?: 'Tasyakuran Aqiqah') . ' ' . $couple->groom_name;
     } elseif ($isUltah) {
         $coverSubtitle = 'Hari Bahagia Ulang Tahun';
@@ -55,6 +61,8 @@
         $dividerText = '🎂';
         $navPersonIcon = '🎂';
         $navPersonLabel = 'Ultah';
+        $galleryBadge = 'Momen Spesial';
+        $galleryTitle = 'Galeri Foto Perayaan';
         $pageTitle = ($couple->event_heading ?: 'Ulang Tahun') . ' ' . $couple->groom_name;
     } elseif ($isSilaturahmi) {
         $coverSubtitle = 'Silaturahmi & Kebersamaan';
@@ -66,6 +74,8 @@
         $dividerText = '🤝';
         $navPersonIcon = '🏡';
         $navPersonLabel = 'Tuan Rumah';
+        $galleryBadge = 'Dokumentasi Kebersamaan';
+        $galleryTitle = 'Galeri Foto Silaturahmi';
         $pageTitle = ($couple->event_heading ?: 'Silaturahmi') . ' ' . $couple->groom_name;
     } else {
         $coverSubtitle = 'The Wedding Celebration of';
@@ -77,6 +87,8 @@
         $dividerText = '&';
         $navPersonIcon = '💍';
         $navPersonLabel = 'Mempelai';
+        $galleryBadge = 'Momen Bahagia';
+        $galleryTitle = 'Galeri Kenangan & Prewedding';
         $pageTitle = ($couple->event_heading ?: 'The Wedding of') . ' ' . $couple->groom_name . ' & ' . $couple->bride_name;
     }
 
@@ -432,8 +444,8 @@
         @if($couple->galleries->count() > 0)
             <section id="galeri" class="py-16 px-6 bg-white space-y-8">
                 <div class="text-center">
-                    <span class="text-xs font-bold uppercase tracking-widest text-brand block mb-1">Momen Bahagia</span>
-                    <h3 class="font-serif text-3xl font-bold text-ink">Galeri Kenangan</h3>
+                    <span class="text-xs font-bold uppercase tracking-widest text-brand block mb-1">{{ $galleryBadge ?? 'Momen Bahagia' }}</span>
+                    <h3 class="font-serif text-3xl font-bold text-ink">{{ $galleryTitle ?? 'Galeri Kenangan' }}</h3>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">

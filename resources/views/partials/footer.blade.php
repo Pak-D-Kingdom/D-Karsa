@@ -27,7 +27,7 @@
             <div>
                 <h2 class="text-xs font-extrabold uppercase tracking-widest text-ink3 mb-3">Pemesanan &amp; Bantuan</h2>
                 <ul class="space-y-2 text-sm font-medium text-ink2">
-                    <li><a href="#pesan" class="hover:text-ink">Formulir Pemesanan</a></li>
+                    <li><a href="{{ route('invitation.create') }}" class="hover:text-ink">Buat Undangan Sendiri</a></li>
                     <li><a href="#portofolio" class="hover:text-ink">Portofolio &amp; Testimoni</a></li>
                     <li><a href="#faq" class="hover:text-ink">Pertanyaan Umum (FAQ)</a></li>
                     <li><a href="https://wa.me/6281234567890" target="_blank" rel="noopener" class="hover:text-ink">Chat Support WhatsApp</a></li>

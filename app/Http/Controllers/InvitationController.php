@@ -184,6 +184,21 @@ class InvitationController extends Controller
             $coverPhotoPath = $request->file('cover_photo')->store('couples/covers', 'public');
         }
 
+        $selectedPackage = $request->input('selected_package');
+        $selectedTheme = $request->input('selected_theme');
+        $customDesign = $request->input('custom_design_request');
+
+        $storyNotes = [];
+        if (!empty($selectedPackage)) {
+            $storyNotes[] = "Paket: " . $selectedPackage;
+        }
+        if (!empty($selectedTheme)) {
+            $storyNotes[] = "Tema: " . $selectedTheme;
+        }
+        if (!empty($customDesign)) {
+            $storyNotes[] = "Request Kustom Desain: " . $customDesign;
+        }
+
         $couple = Couple::create([
             'slug' => $slug,
             'category' => $category,
@@ -219,6 +234,7 @@ class InvitationController extends Controller
             'gift_address' => $validated['gift_address'] ?? null,
             'music_url' => $validated['music_url'] ?? null,
             'thank_you_note' => $validated['thank_you_note'] ?? null,
+            'story' => !empty($storyNotes) ? implode("\n", $storyNotes) : null,
             'customer_name' => $validated['customer_name'] ?? null,
             'customer_phone' => $validated['customer_phone'] ?? null,
             'status' => 'pending',
@@ -428,6 +444,6 @@ class InvitationController extends Controller
             return back()->with('wish_success', 'Terima kasih atas ucapan doa restu dan konfirmasi kehadiran Anda!')->withFragment('rsvp');
         }
 
-        return back()->with('wish_success', 'Terima kasih atas ulasan & testimoni Anda untuk D\'Kreasi!')->withFragment('wishes');
+        return back()->with('wish_success', 'Terima kasih atas ulasan & testimoni Anda untuk D\'Karsa!')->withFragment('wishes');
     }
 }
