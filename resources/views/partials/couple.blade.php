@@ -80,12 +80,14 @@
                 <span class="text-xs font-bold uppercase tracking-wider text-ink3 mr-1 shrink-0">Kategori Acara:</span>
                 <button type="button" onclick="filterThemes('semua', this)" class="chip aktif">Semua Acara</button>
                 <button type="button" onclick="filterThemes('pernikahan', this)" class="chip">💍 Pernikahan</button>
+                <button type="button" onclick="filterThemes('tahlilan', this)" class="chip">🕯️ Doa Bersama / Tahlilan</button>
                 <button type="button" onclick="filterThemes('halalbihalal', this)" class="chip">🕌 Halal Bihalal</button>
                 <button type="button" onclick="filterThemes('khitanan', this)" class="chip">✂️ Khitanan</button>
                 <button type="button" onclick="filterThemes('aqiqah', this)" class="chip">👶 Aqiqah</button>
                 <button type="button" onclick="filterThemes('ultah', this)" class="chip">🎂 Ulang Tahun</button>
-                <button type="button" onclick="filterThemes('syukuran', this)" class="chip">🎉 Syukuran &amp; Reuni</button>
-                <button type="button" onclick="filterThemes('tahlilan', this)" class="chip">🕯️ Tahlilan / Haul</button>
+                <button type="button" onclick="filterThemes('wisuda', this)" class="chip">🎓 Wisuda</button>
+                <button type="button" onclick="filterThemes('formal', this)" class="chip">🏛️ Acara Formal</button>
+                <button type="button" onclick="filterThemes('syukuran', this)" class="chip">🎉 Syukuran</button>
             </div>
         </div>
 
@@ -102,6 +104,7 @@
                     'badge' => '💍 Pernikahan • Basic',
                     'package_val' => 'Paket Basic - Rp50.000',
                     'event_cat' => 'Pernikahan',
+                    'sub_cat' => 'Minimalis modern',
                     'desc' => 'Desain pernikahan bersih, minimalis & rapi dengan tipografi anggun, tata letak esensial & harga paling hemat.',
                     'img' => 'https://images.unsplash.com/photo-1519741497674-611481863552?w=700&q=80&auto=format&fit=crop',
                 ],
@@ -112,7 +115,8 @@
                     'price' => 'Rp50.000',
                     'badge' => '🕌 Halal Bihalal • Basic',
                     'package_val' => 'Paket Basic - Rp50.000',
-                    'event_cat' => 'Halal Bihalal',
+                    'event_cat' => 'Keagamaan',
+                    'sub_cat' => 'Halal bihalal',
                     'desc' => 'Desain silaturahmi Idul Fitri ceria dengan ornamen ketupat standar, jadwal halal bihalal & lokasi Google Maps.',
                     'img' => 'https://images.unsplash.com/photo-1564769625905-50e93615e769?w=700&q=80&auto=format&fit=crop',
                 ],
@@ -123,7 +127,8 @@
                     'price' => 'Rp50.000',
                     'badge' => '✂️ Khitanan • Basic',
                     'package_val' => 'Paket Basic - Rp50.000',
-                    'event_cat' => 'Khitanan',
+                    'event_cat' => 'Aqiqah',
+                    'sub_cat' => 'Tasyakuran khitanan',
                     'desc' => 'Tema khitanan anak yang simpel dan ceria, lengkap dengan link nama teman & keluarga.',
                     'img' => 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=700&q=80&auto=format&fit=crop',
                 ],
@@ -134,7 +139,8 @@
                     'price' => 'Rp50.000',
                     'badge' => '🎉 Syukuran • Basic',
                     'package_val' => 'Paket Basic - Rp50.000',
-                    'event_cat' => 'Syukuran',
+                    'event_cat' => 'Keagamaan',
+                    'sub_cat' => 'Tasyakuran',
                     'desc' => 'Undangan syukuran rumah baru, tahlilan, wisuda, atau doa bersama keluarga dan tetangga.',
                     'img' => 'https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=700&q=80&auto=format&fit=crop',
                 ],
@@ -143,10 +149,11 @@
                     'category' => 'tahlilan',
                     'tier' => 'basic',
                     'price' => 'Rp50.000',
-                    'badge' => '🕯️ Tahlilan • Basic',
+                    'badge' => '🕯️ Doa Bersama • Basic',
                     'package_val' => 'Paket Basic - Rp50.000',
-                    'event_cat' => 'Tahlilan',
-                    'desc' => 'Desain tahlilan & haul mengenang almarhum/almarhumah bernuansa teduh, doa khusyuk & lokasi acara.',
+                    'event_cat' => 'Keagamaan',
+                    'sub_cat' => 'Doa bersama & tahlilan',
+                    'desc' => 'Desain tahlilan & haul mengenang almarhum/almarhumah bernuansa teduh khusyuk, teks doa jelas, hemat dan sopan untuk sanak kerabat.',
                     'img' => 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=700&q=80&auto=format&fit=crop',
                 ],
 
@@ -154,14 +161,15 @@
                 // 2. TIER PREMIUM: Desain Modern & Elegan (Rp110.000)
                 // ==========================================
                 [
-                    'name' => 'Elegant Rose Romance',
+                    'name' => 'Elegant Rose Romance (ChungDoi Wildflower)',
                     'category' => 'pernikahan',
                     'tier' => 'premium',
                     'price' => 'Rp110.000',
                     'badge' => '💍 Pernikahan • Premium',
                     'package_val' => 'Paket Premium - Rp110.000',
                     'event_cat' => 'Pernikahan',
-                    'desc' => 'Desain pernikahan modern dengan gradasi rose gold, amplop digital QRIS, galeri foto & kisah cinta.',
+                    'sub_cat' => 'Elegan, floral, dan islami',
+                    'desc' => 'Desain pernikahan modern ChungDoi Wildflower Pink: bingkai kubah lengkung, wax seal berdenyut, kaligrafi anggun & efek kelopak bunga jatuh.',
                     'img' => 'https://images.unsplash.com/photo-1519225424606-491ea8be74d2?w=700&q=80&auto=format&fit=crop',
                 ],
                 [
@@ -171,7 +179,8 @@
                     'price' => 'Rp110.000',
                     'badge' => '🕌 Halal Bihalal • Premium',
                     'package_val' => 'Paket Premium - Rp110.000',
-                    'event_cat' => 'Halal Bihalal',
+                    'event_cat' => 'Keagamaan',
+                    'sub_cat' => 'Pengajian',
                     'desc' => 'Undangan Halal Bihalal keluarga besar / kantor bernuansa hijau sage, kubah masjid & ayat suci.',
                     'img' => 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=700&q=80&auto=format&fit=crop',
                 ],
@@ -182,7 +191,8 @@
                     'price' => 'Rp110.000',
                     'badge' => '✂️ Khitanan • Premium',
                     'package_val' => 'Paket Premium - Rp110.000',
-                    'event_cat' => 'Khitanan',
+                    'event_cat' => 'Aqiqah',
+                    'sub_cat' => 'Tasyakuran khitanan',
                     'desc' => 'Undangan syukuran khitanan islami dengan foto jagoan kecil, doa anak sholeh & amplop digital.',
                     'img' => 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=700&q=80&auto=format&fit=crop',
                 ],
@@ -194,17 +204,31 @@
                     'badge' => '👶 Aqiqah • Premium',
                     'package_val' => 'Paket Premium - Rp110.000',
                     'event_cat' => 'Aqiqah',
+                    'sub_cat' => 'Aqiqah anak',
                     'desc' => 'Tasyakuran kelahiran & aqiqah buah hati dengan warna pastel lembut, doa penyejuk hati & peta acara.',
                     'img' => 'https://images.unsplash.com/photo-1519689680058-324335c77eba?w=700&q=80&auto=format&fit=crop',
                 ],
                 [
-                    'name' => 'Reuni Akbar & Temu Kangen',
-                    'category' => 'syukuran',
+                    'name' => 'Wisuda Sarjana Prestasi Emas',
+                    'category' => 'wisuda',
                     'tier' => 'premium',
                     'price' => 'Rp110.000',
-                    'badge' => '🎉 Reuni • Premium',
+                    'badge' => '🎓 Wisuda • Premium',
                     'package_val' => 'Paket Premium - Rp110.000',
-                    'event_cat' => 'Syukuran',
+                    'event_cat' => 'Wisuda',
+                    'sub_cat' => 'Wisuda kuliah',
+                    'desc' => 'Perayaan wisuda sarjana berprestasi dengan foto toga resmi, jadwal sidang dan peta acara.',
+                    'img' => 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=700&q=80&auto=format&fit=crop',
+                ],
+                [
+                    'name' => 'Reuni Akbar & Temu Kangen',
+                    'category' => 'formal',
+                    'tier' => 'premium',
+                    'price' => 'Rp110.000',
+                    'badge' => '🏛️ Reuni & Formal • Premium',
+                    'package_val' => 'Paket Premium - Rp110.000',
+                    'event_cat' => 'Acara Formal',
+                    'sub_cat' => 'Rapat dan gathering perusahaan',
                     'desc' => 'Undangan temu kangen alumni sekolah / kampus dengan konfirmasi kehadiran angkatan & galeri kenangan.',
                     'img' => 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=700&q=80&auto=format&fit=crop',
                 ],
@@ -220,6 +244,7 @@
                     'badge' => '💍 Pernikahan • Eksklusif',
                     'package_val' => 'Paket Eksklusif - Rp180.000',
                     'event_cat' => 'Pernikahan',
+                    'sub_cat' => 'Pernikahan adat Jawa, Sunda, Minang, dan lainnya',
                     'desc' => 'Nuansa keraton Jawa klasik dengan animasi gunungan 3D, gending halus, live streaming & doa restu.',
                     'img' => 'https://images.unsplash.com/photo-1519741497674-611481863552?w=700&q=80&auto=format&fit=crop',
                 ],
@@ -231,6 +256,7 @@
                     'badge' => '💍 Pernikahan • Eksklusif',
                     'package_val' => 'Paket Eksklusif - Rp180.000',
                     'event_cat' => 'Pernikahan',
+                    'sub_cat' => 'Minimalis modern',
                     'desc' => 'Desain putih bersih bergaya editorial modern dengan efek partikel salju lembut dan video cover sinematik.',
                     'img' => 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=700&q=80&auto=format&fit=crop',
                 ],
@@ -242,6 +268,7 @@
                     'badge' => '💍 Pernikahan • Eksklusif',
                     'package_val' => 'Paket Eksklusif - Rp180.000',
                     'event_cat' => 'Pernikahan',
+                    'sub_cat' => 'Pernikahan adat Jawa, Sunda, Minang, dan lainnya',
                     'desc' => 'Ornamen ulos khas Batak dengan perpaduan warna marun & emas yang megah dan sakral.',
                     'img' => 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=700&q=80&auto=format&fit=crop',
                 ],
@@ -253,8 +280,21 @@
                     'badge' => '🎂 Ulang Tahun • Eksklusif',
                     'package_val' => 'Paket Eksklusif - Rp180.000',
                     'event_cat' => 'Ulang Tahun',
+                    'sub_cat' => 'Sweet seventeen',
                     'desc' => 'Perayaan sweet seventeen / anniversary / milad dengan ornamen emas berkilau dan RSVP kehadiran tamu VIP.',
                     'img' => 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=700&q=80&auto=format&fit=crop',
+                ],
+                [
+                    'name' => 'Executive Corporate & Grand Opening',
+                    'category' => 'formal',
+                    'tier' => 'eksklusif',
+                    'price' => 'Rp180.000',
+                    'badge' => '🏛️ Acara Formal • Eksklusif',
+                    'package_val' => 'Paket Eksklusif - Rp180.000',
+                    'event_cat' => 'Acara Formal',
+                    'sub_cat' => 'Grand opening bisnis',
+                    'desc' => 'Tata letak arsitektural minimalis premium untuk peresmian bisnis, seminar eksekutif & gala dinner perusahaan.',
+                    'img' => 'https://images.unsplash.com/photo-1511578314322-379afb476865?w=700&q=80&auto=format&fit=crop',
                 ],
 
                 // ==========================================
@@ -268,6 +308,7 @@
                     'badge' => '✨ Kustom • Full Request',
                     'package_val' => 'Paket Kustom - Rp280.000',
                     'event_cat' => 'Pernikahan',
+                    'sub_cat' => '',
                     'desc' => 'Request tema baru dari nol sesuai keinginan Anda! Tim desainer D\'Karsa siap membuatkan konsep khusus berdasarkan warna, tema adat langka, atau referensi apapun.',
                     'img' => 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=700&q=80&auto=format&fit=crop',
                     'is_custom' => true,
@@ -364,7 +405,7 @@
                                 <span>👁️</span> Lihat Preview
                             </button>
                             <button type="button"
-                                    onclick="selectThemeAndOrder('{{ $t['name'] }}', '{{ $t['package_val'] }}', '{{ $t['event_cat'] }}')"
+                                    onclick="selectThemeAndOrder('{{ $t['name'] }}', '{{ $t['package_val'] }}', '{{ $t['event_cat'] }}', '{{ $t['sub_cat'] ?? '' }}')"
                                     class="tbl tbl--utama !h-9 !pl-4 !pr-1.5 !text-xs">
                                 <span>Pilih &amp; Buat</span>
                                 <span class="tbl__ikon !w-6 !h-6">

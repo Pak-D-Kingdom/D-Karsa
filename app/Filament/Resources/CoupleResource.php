@@ -53,14 +53,14 @@ class CoupleResource extends Resource
             Forms\Components\Section::make('Info Umum')->schema([
                 Forms\Components\Select::make('category')->label('Kategori Undangan')
                     ->options([
-                        'Pernikahan' => 'Pernikahan',
-                        'Halal Bihalal' => 'Halal Bihalal',
-                        'Khitanan' => 'Khitanan',
-                        'Aqiqah' => 'Aqiqah',
-                        'Ulang Tahun' => 'Ulang Tahun',
-                        'Syukuran' => 'Syukuran / Reuni',
-                        'Tahlilan' => 'Tahlilan / Haul',
+                        'Pernikahan' => '1. Undangan Pernikahan',
+                        'Ulang Tahun' => '2. Undangan Ulang Tahun',
+                        'Aqiqah' => '3. Undangan Aqiqah & Kelahiran',
+                        'Keagamaan' => '4. Undangan Keagamaan',
+                        'Wisuda' => '5. Undangan Wisuda & Kelulusan',
+                        'Acara Formal' => '6. Undangan Acara Formal',
                     ])->default('Pernikahan')->required(),
+                Forms\Components\TextInput::make('sub_category')->label('Sub-Kategori / Spesifikasi Acara')->placeholder('Contoh: Minimalis modern / Sweet seventeen'),
                 Forms\Components\TextInput::make('event_heading')->label('Kata Pembuka / Heading')->placeholder("WALIMATUL 'URSY"),
                 Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord: true)->helperText('Untuk URL: /undangan/slug'),
                 Forms\Components\DatePicker::make('wedding_date')->label('Tanggal Acara')->required(),
@@ -123,9 +123,22 @@ class CoupleResource extends Resource
             Tables\Columns\TextColumn::make('customer_phone')->label('No. WA')->searchable()->placeholder('-'),
             Tables\Columns\TextColumn::make('story')->label('Paket / Catatan')->limit(25)->tooltip(fn ($record) => $record->story)->placeholder('-'),
             Tables\Columns\TextColumn::make('slug')->searchable()->badge(),
-            Tables\Columns\TextColumn::make('category')->label('Kategori')->badge()->color(fn (string $state) => match ($state) { 'Pernikahan' => 'danger', 'Khitanan' => 'warning', 'Halal Bihalal' => 'success', default => 'info' }),
-            Tables\Columns\TextColumn::make('groom_name')->label('Pria / Utama')->searchable(),
-            Tables\Columns\TextColumn::make('bride_name')->label('Wanita / Mitra')->searchable(),
+            Tables\Columns\TextColumn::make('category')->label('Kategori')
+                ->badge()
+                ->color(fn (string $state) => match ($state) {
+                    'Pernikahan' => 'danger',
+                    'Ulang Tahun' => 'info',
+                    'Aqiqah' => 'success',
+                    'Keagamaan' => 'warning',
+                    'Wisuda' => 'primary',
+                    default => 'gray'
+                }),
+            Tables\Columns\TextColumn::make('sub_category')->label('Sub Kategori')
+                ->limit(20)
+                ->tooltip(fn ($record) => $record->sub_category)
+                ->placeholder('-'),
+            Tables\Columns\TextColumn::make('groom_name')->label('Pria / Tokoh 1')->searchable(),
+            Tables\Columns\TextColumn::make('bride_name')->label('Wanita / Tokoh 2')->searchable(),
             Tables\Columns\TextColumn::make('wedding_date')->label('Tanggal')->date('d M Y')->sortable(),
             Tables\Columns\IconColumn::make('is_in_catalog')->label('Katalog?')->boolean(),
         ])
@@ -140,12 +153,11 @@ class CoupleResource extends Resource
                 ->label('Filter Kategori')
                 ->options([
                     'Pernikahan' => 'Pernikahan',
-                    'Khitanan' => 'Khitanan',
-                    'Aqiqah' => 'Aqiqah',
-                    'Tahlilan' => 'Tahlilan',
-                    'Halal Bihalal' => 'Halal Bihalal',
                     'Ulang Tahun' => 'Ulang Tahun',
-                    'Syukuran' => 'Syukuran',
+                    'Aqiqah' => 'Aqiqah & Kelahiran',
+                    'Keagamaan' => 'Keagamaan',
+                    'Wisuda' => 'Wisuda & Kelulusan',
+                    'Acara Formal' => 'Acara Formal',
                 ]),
         ])
         ->actions([

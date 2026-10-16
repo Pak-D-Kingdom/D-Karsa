@@ -78,6 +78,7 @@ class InvitationController extends Controller
         $validated = $request->validate([
             // Category & Header
             'category' => 'nullable|string|max:100',
+            'sub_category' => 'nullable|string|max:150',
             'event_heading' => 'nullable|string|max:150',
             'wedding_date' => 'required|date',
             'quote' => 'nullable|string|max:1000',
@@ -189,6 +190,9 @@ class InvitationController extends Controller
         $customDesign = $request->input('custom_design_request');
 
         $storyNotes = [];
+        if (!empty($validated['sub_category'])) {
+            $storyNotes[] = "Sub-Kategori: " . $validated['sub_category'];
+        }
         if (!empty($selectedPackage)) {
             $storyNotes[] = "Paket: " . $selectedPackage;
         }
@@ -202,6 +206,9 @@ class InvitationController extends Controller
         $couple = Couple::create([
             'slug' => $slug,
             'category' => $category,
+            'sub_category' => $validated['sub_category'] ?? null,
+            'theme' => $selectedTheme,
+            'package_name' => $selectedPackage,
             'event_heading' => (!empty($validated['event_heading'])) ? $validated['event_heading'] : ($isNonWedding ? "UNDANGAN " . strtoupper($category) : "WALIMATUL 'URSY"),
             'groom_name' => $validated['groom_name'],
             'groom_fullname' => (!empty($validated['groom_fullname'])) ? $validated['groom_fullname'] : $validated['groom_name'],

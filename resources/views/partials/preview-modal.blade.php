@@ -62,7 +62,7 @@
                                 </div>
 
                                 <div class="my-auto py-6 space-y-2">
-                                    <p class="text-xs uppercase tracking-widest text-white/80 font-medium">The Wedding of</p>
+                                    <p id="phoneCoverSubtitle" class="text-xs uppercase tracking-widest text-white/80 font-medium">The Wedding of</p>
                                     <h4 id="phoneCoverTitle" class="font-serif text-3xl font-bold text-white leading-tight">
                                         Rizky &amp; Amanda
                                     </h4>
@@ -86,7 +86,7 @@
                                 
                                 {{-- Quote / Ayat Section --}}
                                 <div class="text-center pt-3 pb-2 border-b border-ink/10">
-                                    <span class="w-8 h-8 rounded-full bg-brand/10 text-brand inline-grid place-items-center text-sm mb-2">♥</span>
+                                    <span id="phoneQuoteIcon" class="w-8 h-8 rounded-full bg-brand/10 text-brand inline-grid place-items-center text-sm mb-2">♥</span>
                                     <h5 id="phoneQuoteTitle" class="font-serif text-base font-bold text-ink">QS. Ar-Rum: 21</h5>
                                     <p id="phoneQuoteBody" class="text-[11.5px] text-ink2 italic mt-1 leading-relaxed">
                                         "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya..."
@@ -99,6 +99,9 @@
                                         <img id="phoneProfileImg" src="https://images.unsplash.com/photo-1519741497674-611481863552?w=300" class="w-full h-full object-cover" alt="Foto">
                                     </div>
                                     <div>
+                                        <span id="phoneProfileBadge" class="inline-block px-3 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-brand/10 text-brand mb-1">
+                                            Mempelai Bahagia
+                                        </span>
                                         <h5 id="phoneProfileName" class="font-serif text-xl font-bold text-ink">Rizky Amanda &amp; Nabila Putri</h5>
                                         <p id="phoneProfileDesc" class="text-[11px] text-ink3 mt-0.5">Putra Bpk. Hendra &amp; Putri Bpk. Sastro</p>
                                     </div>
@@ -134,8 +137,8 @@
 
                                 {{-- Digital Envelope (Transfer / QRIS) --}}
                                 <div class="p-3.5 rounded-2xl bg-white shadow-sm border border-brand/20 text-center space-y-2.5">
-                                    <span class="text-xs font-bold text-brand block">💳 Tanda Kasih / Amplop Digital</span>
-                                    <p class="text-[10.5px] text-ink3">Doa restu Anda adalah karunia terindah, jika ingin memberikan tanda kasih dapat melalui:</p>
+                                    <span class="text-xs font-bold text-brand block" id="phoneGiftTitle">💳 Tanda Kasih / Amplop Digital</span>
+                                    <p class="text-[10.5px] text-ink3" id="phoneGiftDesc">Doa restu Anda adalah karunia terindah, jika ingin memberikan tanda kasih dapat melalui:</p>
                                     <div class="p-2.5 rounded-xl bg-sunk text-left flex items-center justify-between text-xs">
                                         <div>
                                             <b class="block text-ink text-[11px]">BCA • 1234 5678 90</b>
@@ -149,7 +152,7 @@
 
                                 {{-- Guest Book / Wishes Simulator --}}
                                 <div class="p-3.5 rounded-2xl bg-white shadow-sm border border-ink/10 space-y-2.5">
-                                    <span class="text-xs font-bold text-ink block text-center">Ucapan &amp; Doa Restu</span>
+                                    <span class="text-xs font-bold text-ink block text-center" id="phoneWishTitle">Ucapan &amp; Doa Restu</span>
                                     <div class="space-y-2 text-[11px]">
                                         <div class="p-2 rounded-xl bg-blush">
                                             <b class="text-ink">Hendra &amp; Keluarga</b>
@@ -184,11 +187,14 @@
                         <label class="block text-xs font-extrabold uppercase tracking-wider text-ink3 mb-2">Pilih Preview Kategori Acara:</label>
                         <div class="flex flex-wrap gap-1.5" id="previewCategoryTabs">
                             <button type="button" onclick="switchPreviewByCategory('pernikahan')" class="px-3 py-1.5 rounded-full text-xs font-bold border transition bg-white text-ink hover:border-brand">💍 Pernikahan</button>
+                            <button type="button" onclick="switchPreviewByCategory('tahlilan')" class="px-3 py-1.5 rounded-full text-xs font-bold border transition bg-white text-ink hover:border-brand">🕯️ Doa Bersama / Tahlilan</button>
                             <button type="button" onclick="switchPreviewByCategory('halalbihalal')" class="px-3 py-1.5 rounded-full text-xs font-bold border transition bg-white text-ink hover:border-brand">🕌 Halal Bihalal</button>
                             <button type="button" onclick="switchPreviewByCategory('khitanan')" class="px-3 py-1.5 rounded-full text-xs font-bold border transition bg-white text-ink hover:border-brand">✂️ Khitanan</button>
                             <button type="button" onclick="switchPreviewByCategory('aqiqah')" class="px-3 py-1.5 rounded-full text-xs font-bold border transition bg-white text-ink hover:border-brand">👶 Aqiqah</button>
                             <button type="button" onclick="switchPreviewByCategory('ultah')" class="px-3 py-1.5 rounded-full text-xs font-bold border transition bg-white text-ink hover:border-brand">🎂 Ulang Tahun</button>
-                            <button type="button" onclick="switchPreviewByCategory('syukuran')" class="px-3 py-1.5 rounded-full text-xs font-bold border transition bg-white text-ink hover:border-brand">🎉 Syukuran &amp; Reuni</button>
+                            <button type="button" onclick="switchPreviewByCategory('wisuda')" class="px-3 py-1.5 rounded-full text-xs font-bold border transition bg-white text-ink hover:border-brand">🎓 Wisuda</button>
+                            <button type="button" onclick="switchPreviewByCategory('formal')" class="px-3 py-1.5 rounded-full text-xs font-bold border transition bg-white text-ink hover:border-brand">🏛️ Acara Formal</button>
+                            <button type="button" onclick="switchPreviewByCategory('syukuran')" class="px-3 py-1.5 rounded-full text-xs font-bold border transition bg-white text-ink hover:border-brand">🎉 Syukuran</button>
                         </div>
                     </div>
 

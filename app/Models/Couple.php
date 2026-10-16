@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Couple extends Model
 {
     protected $fillable = [
-        'slug', 'category', 'event_heading',
+        'slug', 'category', 'sub_category', 'theme', 'package_name', 'event_heading',
         'groom_name', 'groom_fullname', 'groom_birth_order', 'groom_father', 'groom_mother', 'groom_city', 'groom_photo',
         'bride_name', 'bride_fullname', 'bride_birth_order', 'bride_father', 'bride_mother', 'bride_city', 'bride_photo',
         'display_order', 'cover_photo', 'wedding_date', 'venue_name', 'quote',

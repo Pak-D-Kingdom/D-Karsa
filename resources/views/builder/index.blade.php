@@ -8,7 +8,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Great+Vibes&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Beau+Rivage&family=Cinzel:wght@600;700;800&family=Great+Vibes&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -17,7 +17,9 @@
                     fontFamily: {
                         serif: ['"Playfair Display"', 'Georgia', 'serif'],
                         cinzel: ['"Cinzel"', 'serif'],
-                        cursive: ['"Great Vibes"', 'cursive'],
+                        cursive: ['"Beau Rivage"', '"Great Vibes"', 'cursive'],
+                        script: ['"Alex Brush"', 'cursive'],
+                        lora: ['"Lora"', 'Georgia', 'serif'],
                         sans: ['"Plus Jakarta Sans"', 'sans-serif'],
                     },
                     colors: {
@@ -37,6 +39,11 @@
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; color: #1c1417; background-color: #faf5f6; }
         .font-serif { font-family: 'Playfair Display', Georgia, serif; }
+        .font-cinzel { font-family: 'Cinzel', Georgia, serif; }
+        .font-cursive { font-family: 'Beau Rivage', 'Great Vibes', cursive; }
+        .font-script { font-family: 'Alex Brush', cursive; }
+        .font-lora { font-family: 'Lora', Georgia, serif; }
+
         .step-panel { display: none; }
         .step-panel.active { display: block; animation: fadeIn 0.3s ease-out; }
         @keyframes fadeIn {
@@ -47,65 +54,128 @@
         .step-pill.completed { background-color: #fdf4f5; color: #cf2445; border-color: #f63854; }
 
         /* ========================================================
-           PREVIEW THEME STYLING PRESETS
+           CHUNGDOI & MULTI-THEME AMBIENT ANIMATIONS
         ======================================================== */
+        @keyframes seal-pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 4px 16px rgba(183, 88, 115, 0.4), inset 0 2px 4px rgba(255,255,255,0.4); }
+            50% { transform: scale(1.07); box-shadow: 0 8px 24px rgba(183, 88, 115, 0.7), inset 0 2px 4px rgba(255,255,255,0.6); }
+        }
+        .animate-seal-pulse { animation: seal-pulse 2.2s ease-in-out infinite; }
+
+        @keyframes shine-sweep {
+            0% { transform: translateX(-150%); }
+            45%, 100% { transform: translateX(250%); }
+        }
+        .animate-shine { animation: shine-sweep 3s ease-in-out infinite; }
+
+        @keyframes ambient-fall {
+            0% { transform: translate3d(0, -20px, 0) rotate(0deg); opacity: 0; }
+            12% { opacity: 0.85; }
+            85% { opacity: 0.85; }
+            100% { transform: translate3d(var(--sway, 25px), 620px, 0) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes gold-sparkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.85); }
+            50% { opacity: 0.95; transform: scale(1.15); }
+        }
+
+        @keyframes pulse-glow-purple {
+            0%, 100% { border-color: #a855f7; box-shadow: 0 0 16px rgba(168, 85, 247, 0.35); }
+            50% { border-color: #f43f5e; box-shadow: 0 0 26px rgba(244, 63, 94, 0.55); }
+        }
+        .animate-pulse-glow { animation: pulse-glow-purple 2.5s ease-in-out infinite; }
+
+        /* ========================================================
+           PREVIEW THEME STYLING PRESETS (Comprehensive for Tiers)
+        ======================================================== */
+        /* 1. Floral Wreath (Tier Basic - Minimalist) */
         .theme-floral-wreath { background-color: #fcfbfa; color: #2d4a3e; font-family: 'Playfair Display', Georgia, serif; }
+        .theme-floral-wreath .theme-card { background-color: rgba(255, 255, 255, 0.9); border-color: #d1ded5; color: #2d4a3e; }
         .theme-floral-wreath .theme-accent { color: #5a7d65; }
         .theme-floral-wreath .theme-border { border-color: #d1ded5; }
 
-        .theme-rose-romance { background-color: #fff7f8; color: #4a2c35; font-family: 'Playfair Display', Georgia, serif; }
-        .theme-rose-romance .theme-accent { color: #b76e79; }
-        .theme-rose-romance .theme-border { border-color: #fed7df; }
+        /* 2. Rose Romance / ChungDoi Wildflower Pink (Tier Premium) */
+        .theme-rose-romance { background-color: #fdf6f3; color: #4a2c35; font-family: 'Playfair Display', Georgia, serif; }
+        .theme-rose-romance .theme-card { background-color: #ffffff; border-color: #f6d2dc; color: #4a2c35; }
+        .theme-rose-romance .theme-accent { color: #b75873; }
+        .theme-rose-romance .theme-border { border-color: #f6d2dc; }
 
+        /* 3. Javanese Royal Keraton (Tier Eksklusif) */
         .theme-javanese-royal { background-color: #17110c; color: #f7eedb; font-family: 'Cinzel', Georgia, serif; }
+        .theme-javanese-royal .theme-card { background-color: #241b14; border-color: #8c6d2d; color: #f7eedb; }
         .theme-javanese-royal .theme-accent { color: #d4af37; }
         .theme-javanese-royal .theme-border { border-color: #8c6d2d; }
 
-        .theme-snow-white { background-color: #ffffff; color: #111827; font-family: 'Cinzel', sans-serif; }
-        .theme-snow-white .theme-accent { color: #4b5563; }
-        .theme-snow-white .theme-border { border-color: #e5e7eb; }
-
+        /* 4. Batak Heritage (Tier Eksklusif) */
         .theme-batak-heritage { background-color: #1e0e13; color: #fef3c7; font-family: 'Playfair Display', serif; }
+        .theme-batak-heritage .theme-card { background-color: #2e151c; border-color: #92400e; color: #fef3c7; }
         .theme-batak-heritage .theme-accent { color: #f59e0b; }
         .theme-batak-heritage .theme-border { border-color: #92400e; }
 
+        /* 5. Green Mosque Harmony (Tier Premium) */
         .theme-green-mosque { background-color: #0d281c; color: #f0fdf4; font-family: 'Playfair Display', serif; }
+        .theme-green-mosque .theme-card { background-color: #153b2a; border-color: #047857; color: #f0fdf4; }
         .theme-green-mosque .theme-accent { color: #e5c07b; }
         .theme-green-mosque .theme-border { border-color: #047857; }
 
-        .theme-ketupat-raya { background-color: #f4f9f6; color: #14532d; font-family: 'Playfair Display', serif; }
-        .theme-ketupat-raya .theme-accent { color: #16a34a; }
-        .theme-ketupat-raya .theme-border { border-color: #bbf7d0; }
+        /* 6. Snow White Modern Editorial (Tier Eksklusif) */
+        .theme-snow-white { background-color: #f8fafc; color: #0f172a; font-family: 'Cinzel', sans-serif; }
+        .theme-snow-white .theme-card { background-color: #ffffff; border-color: #e2e8f0; color: #0f172a; }
+        .theme-snow-white .theme-accent { color: #475569; }
+        .theme-snow-white .theme-border { border-color: #cbd5e1; }
 
-        .theme-little-prince { background-color: #fffdf7; color: #451a03; font-family: 'Plus Jakarta Sans', sans-serif; }
-        .theme-little-prince .theme-accent { color: #d97706; }
-        .theme-little-prince .theme-border { border-color: #fde68a; }
-
-        .theme-khitan-berkah { background-color: #f0fdfa; color: #134e4a; font-family: 'Playfair Display', serif; }
-        .theme-khitan-berkah .theme-accent { color: #0d9488; }
-        .theme-khitan-berkah .theme-border { border-color: #99f6e4; }
-
-        .theme-tahlilan-khusyuk { background-color: #0f172a; color: #f8fafc; font-family: 'Playfair Display', serif; }
-        .theme-tahlilan-khusyuk .theme-accent { color: #94a3b8; }
-        .theme-tahlilan-khusyuk .theme-border { border-color: #334155; }
-
-        .theme-baby-aqiqah { background-color: #fffaf5; color: #4c0519; font-family: 'Playfair Display', serif; }
-        .theme-baby-aqiqah .theme-accent { color: #f43f5e; }
-        .theme-baby-aqiqah .theme-border { border-color: #fecdd3; }
-
+        /* 7. Golden Birthday / Wisuda Emas (Tier Eksklusif) */
         .theme-golden-birthday { background-color: #0a0a0a; color: #ffffff; font-family: 'Cinzel', sans-serif; }
+        .theme-golden-birthday .theme-card { background-color: #171717; border-color: #b45309; color: #ffffff; }
         .theme-golden-birthday .theme-accent { color: #fbbf24; }
         .theme-golden-birthday .theme-border { border-color: #b45309; }
 
+        /* 8. Little Prince (Tier Basic) */
+        .theme-little-prince { background-color: #fffdf7; color: #451a03; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .theme-little-prince .theme-card { background-color: #ffffff; border-color: #fde68a; color: #451a03; }
+        .theme-little-prince .theme-accent { color: #d97706; }
+        .theme-little-prince .theme-border { border-color: #fde68a; }
+
+        /* 9. Khitan Berkah (Tier Premium) */
+        .theme-khitan-berkah { background-color: #f0fdfa; color: #134e4a; font-family: 'Playfair Display', serif; }
+        .theme-khitan-berkah .theme-card { background-color: #ffffff; border-color: #99f6e4; color: #134e4a; }
+        .theme-khitan-berkah .theme-accent { color: #0d9488; }
+        .theme-khitan-berkah .theme-border { border-color: #99f6e4; }
+
+        /* 10. Baby Pastel Aqiqah (Tier Premium) */
+        .theme-baby-aqiqah { background-color: #fffaf5; color: #4c0519; font-family: 'Playfair Display', serif; }
+        .theme-baby-aqiqah .theme-card { background-color: #ffffff; border-color: #fecdd3; color: #4c0519; }
+        .theme-baby-aqiqah .theme-accent { color: #f43f5e; }
+        .theme-baby-aqiqah .theme-border { border-color: #fecdd3; }
+
+        /* 11. Ketupat Raya Silaturahmi (Tier Basic) */
+        .theme-ketupat-raya { background-color: #f4f9f6; color: #14532d; font-family: 'Playfair Display', serif; }
+        .theme-ketupat-raya .theme-card { background-color: #ffffff; border-color: #bbf7d0; color: #14532d; }
+        .theme-ketupat-raya .theme-accent { color: #16a34a; }
+        .theme-ketupat-raya .theme-border { border-color: #bbf7d0; }
+
+        /* 12. Syukuran Rumah (Tier Basic) */
         .theme-syukuran-rumah { background-color: #faf6f0; color: #451a03; font-family: 'Playfair Display', serif; }
+        .theme-syukuran-rumah .theme-card { background-color: #ffffff; border-color: #fed7aa; color: #451a03; }
         .theme-syukuran-rumah .theme-accent { color: #b45309; }
         .theme-syukuran-rumah .theme-border { border-color: #fed7aa; }
 
+        /* 13. Tahlilan Khusyuk (Tier Basic) */
+        .theme-tahlilan-khusyuk { background-color: #0f172a; color: #f8fafc; font-family: 'Playfair Display', serif; }
+        .theme-tahlilan-khusyuk .theme-card { background-color: #1e293b; border-color: #334155; color: #f8fafc; }
+        .theme-tahlilan-khusyuk .theme-accent { color: #94a3b8; }
+        .theme-tahlilan-khusyuk .theme-border { border-color: #334155; }
+
+        /* 14. Reuni Akbar (Tier Premium) */
         .theme-reuni-akbar { background-color: #f8fafc; color: #0f172a; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .theme-reuni-akbar .theme-card { background-color: #ffffff; border-color: #bfdbfe; color: #0f172a; }
         .theme-reuni-akbar .theme-accent { color: #2563eb; }
         .theme-reuni-akbar .theme-border { border-color: #bfdbfe; }
 
+        /* 15. Custom VIP (Tier Kustom) */
         .theme-custom-vip { background-color: #180f28; color: #f3e8ff; font-family: 'Playfair Display', serif; }
+        .theme-custom-vip .theme-card { background-color: #26163f; border-color: #7e22ce; color: #f3e8ff; }
         .theme-custom-vip .theme-accent { color: #c084fc; }
         .theme-custom-vip .theme-border { border-color: #7e22ce; }
     </style>
@@ -203,23 +273,144 @@
 
         @php
             $rawCat = request('category', 'Pernikahan');
-            $catMap = [
-                'pernikahan'   => 'Pernikahan',
-                'tahlilan'     => 'Tahlilan',
-                'tahlil'       => 'Tahlilan',
-                'doa bersama'  => 'Tahlilan',
-                'haul'         => 'Tahlilan',
-                'halalbihalal' => 'Halal Bihalal',
-                'halal bihalal'=> 'Halal Bihalal',
-                'khitanan'     => 'Khitanan',
-                'khitan'       => 'Khitanan',
-                'aqiqah'       => 'Aqiqah',
-                'akikah'       => 'Aqiqah',
-                'ultah'        => 'Ulang Tahun',
-                'ulang tahun'  => 'Ulang Tahun',
-                'syukuran'     => 'Syukuran',
+            $rawSub = request('sub_category');
+
+            // ========================================================
+            // 6 BAB KATEGORI UNDANGAN DIGITAL BESERTA SUB-BAB LENGKAP
+            // ========================================================
+            $categoryChapters = [
+                'Pernikahan' => [
+                    'id' => 'pernikahan',
+                    'number' => 1,
+                    'title' => 'Undangan Pernikahan',
+                    'badge' => 'Prioritas Utama',
+                    'icon' => '💍',
+                    'desc' => 'Pernikahan adat, minimalis modern, elegan floral & internasional',
+                    'sub_categories' => [
+                        'Pernikahan adat Jawa, Sunda, Minang, dan lainnya',
+                        'Minimalis modern',
+                        'Elegan, floral, dan islami',
+                        'Akad nikah dan resepsi',
+                        'Undangan pernikahan internasional',
+                    ],
+                    'default_sub' => 'Pernikahan adat Jawa, Sunda, Minang, dan lainnya',
+                ],
+                'Ulang Tahun' => [
+                    'id' => 'ultah',
+                    'number' => 2,
+                    'title' => 'Undangan Ulang Tahun',
+                    'badge' => 'Pesta Ceria',
+                    'icon' => '🎂',
+                    'desc' => 'Ulang tahun anak, remaja, sweet seventeen, dewasa & karakter',
+                    'sub_categories' => [
+                        'Ulang tahun anak',
+                        'Ulang tahun remaja',
+                        'Sweet seventeen',
+                        'Ulang tahun dewasa',
+                        'Ulang tahun dengan tema kartun atau karakter original',
+                    ],
+                    'default_sub' => 'Sweet seventeen',
+                ],
+                'Aqiqah' => [
+                    'id' => 'aqiqah',
+                    'number' => 3,
+                    'title' => 'Undangan Aqiqah dan Kelahiran',
+                    'badge' => 'Buah Hati',
+                    'icon' => '👶',
+                    'desc' => 'Aqiqah anak, tasyakuran bayi, tasmiyah & syukuran khitanan',
+                    'sub_categories' => [
+                        'Aqiqah anak',
+                        'Tasyakuran kelahiran bayi',
+                        'Pemberian nama bayi',
+                        'Tasyakuran khitanan',
+                    ],
+                    'default_sub' => 'Aqiqah anak',
+                ],
+                'Keagamaan' => [
+                    'id' => 'keagamaan',
+                    'number' => 4,
+                    'title' => 'Undangan Keagamaan',
+                    'badge' => 'Islami & Berkah',
+                    'icon' => '🕌',
+                    'desc' => 'Pengajian, tasyakuran, maulid, bukber, haji, tahlilan & halal bihalal',
+                    'sub_categories' => [
+                        'Pengajian',
+                        'Tasyakuran',
+                        'Maulid Nabi',
+                        'Buka puasa bersama',
+                        'Walimatus safar dan syukuran haji',
+                        'Halal bihalal',
+                        'Doa bersama & tahlilan',
+                    ],
+                    'default_sub' => 'Halal bihalal',
+                ],
+                'Wisuda' => [
+                    'id' => 'wisuda',
+                    'number' => 5,
+                    'title' => 'Undangan Wisuda dan Kelulusan',
+                    'badge' => 'Momen Kelulusan',
+                    'icon' => '🎓',
+                    'desc' => 'Wisuda kuliah sarjana/pasca, kelulusan sekolah & syukuran keluarga',
+                    'sub_categories' => [
+                        'Wisuda kuliah',
+                        'Kelulusan sekolah',
+                        'Perayaan kelulusan bersama keluarga',
+                    ],
+                    'default_sub' => 'Wisuda kuliah',
+                ],
+                'Acara Formal' => [
+                    'id' => 'acara-formal',
+                    'number' => 6,
+                    'title' => 'Undangan Acara Formal',
+                    'badge' => 'Bisnis & Instansi',
+                    'icon' => '🏛️',
+                    'desc' => 'Seminar, gathering perusahaan, grand opening bisnis & komunitas',
+                    'sub_categories' => [
+                        'Seminar dan workshop',
+                        'Rapat dan gathering perusahaan',
+                        'Grand opening bisnis',
+                        'Peluncuran produk',
+                        'Acara komunitas',
+                    ],
+                    'default_sub' => 'Grand opening bisnis',
+                ],
             ];
-            $selectedCat = $catMap[strtolower(trim($rawCat))] ?? ($rawCat ?: 'Pernikahan');
+
+            // Mapping keyword lama/URL ke 6 Bab Utama & Sub-Bab
+            $catMap = [
+                'pernikahan'   => ['cat' => 'Pernikahan', 'sub' => 'Pernikahan adat Jawa, Sunda, Minang, dan lainnya'],
+                'wedding'      => ['cat' => 'Pernikahan', 'sub' => 'Pernikahan adat Jawa, Sunda, Minang, dan lainnya'],
+                'ultah'        => ['cat' => 'Ulang Tahun', 'sub' => 'Sweet seventeen'],
+                'ulang tahun'  => ['cat' => 'Ulang Tahun', 'sub' => 'Sweet seventeen'],
+                'birthday'     => ['cat' => 'Ulang Tahun', 'sub' => 'Sweet seventeen'],
+                'aqiqah'       => ['cat' => 'Aqiqah', 'sub' => 'Aqiqah anak'],
+                'akikah'       => ['cat' => 'Aqiqah', 'sub' => 'Aqiqah anak'],
+                'khitan'       => ['cat' => 'Aqiqah', 'sub' => 'Tasyakuran khitanan'],
+                'khitanan'     => ['cat' => 'Aqiqah', 'sub' => 'Tasyakuran khitanan'],
+                'keagamaan'    => ['cat' => 'Keagamaan', 'sub' => 'Pengajian'],
+                'pengajian'    => ['cat' => 'Keagamaan', 'sub' => 'Pengajian'],
+                'halalbihalal' => ['cat' => 'Keagamaan', 'sub' => 'Halal bihalal'],
+                'halal bihalal'=> ['cat' => 'Keagamaan', 'sub' => 'Halal bihalal'],
+                'tahlilan'     => ['cat' => 'Keagamaan', 'sub' => 'Doa bersama & tahlilan'],
+                'tahlil'       => ['cat' => 'Keagamaan', 'sub' => 'Doa bersama & tahlilan'],
+                'haul'         => ['cat' => 'Keagamaan', 'sub' => 'Doa bersama & tahlilan'],
+                'syukuran'     => ['cat' => 'Keagamaan', 'sub' => 'Tasyakuran'],
+                'wisuda'       => ['cat' => 'Wisuda', 'sub' => 'Wisuda kuliah'],
+                'kelulusan'    => ['cat' => 'Wisuda', 'sub' => 'Kelulusan sekolah'],
+                'formal'       => ['cat' => 'Acara Formal', 'sub' => 'Seminar dan workshop'],
+                'acara formal' => ['cat' => 'Acara Formal', 'sub' => 'Seminar dan workshop'],
+                'seminar'      => ['cat' => 'Acara Formal', 'sub' => 'Seminar dan workshop'],
+                'gathering'    => ['cat' => 'Acara Formal', 'sub' => 'Rapat dan gathering perusahaan'],
+            ];
+
+            $matchedCat = $catMap[strtolower(trim($rawCat))] ?? null;
+            if ($matchedCat) {
+                $selectedCat = $matchedCat['cat'];
+                $selectedSubCat = $rawSub ?: $matchedCat['sub'];
+            } else {
+                $selectedCat = isset($categoryChapters[$rawCat]) ? $rawCat : 'Pernikahan';
+                $selectedSubCat = $rawSub ?: ($categoryChapters[$selectedCat]['default_sub'] ?? 'Pernikahan adat Jawa, Sunda, Minang, dan lainnya');
+            }
             $selectedTheme = request('theme');
             $selectedPackage = request('package');
 
@@ -231,27 +422,6 @@
                     'sub' => 'Bisa pilih beberapa foto prewedding atau momen bahagia sekaligus',
                     'step5Desc' => 'Berikan kemudahan bagi para tamu undangan yang ingin mengirimkan kado pernikahan secara cashless.',
                 ],
-                'Khitanan' => [
-                    'title' => 'Galeri Foto Khitan & Musik',
-                    'desc' => 'Lengkapi undangan dengan foto keceriaan ananda tercinta dan alunan musik syukuran syahdu.',
-                    'label' => 'Upload Foto Galeri (Anak & Momen Syukuran Khitan)',
-                    'sub' => 'Bisa pilih beberapa foto ananda atau momen kebersamaan keluarga',
-                    'step5Desc' => 'Berikan kemudahan bagi kerabat yang ingin mengirimkan hadiah / tali asih syukuran khitan.',
-                ],
-                'Tahlilan' => [
-                    'title' => 'Foto Kenangan Almarhum & Audio Doa',
-                    'desc' => 'Lengkapi undangan dengan foto kenangan almarhum/almarhumah semasa hidup dan alunan doa syahdu.',
-                    'label' => 'Upload Foto Galeri (Kenangan Almarhum / Keluarga)',
-                    'sub' => 'Bisa pilih beberapa foto kenangan indah almarhum(ah) semasa hidup',
-                    'step5Desc' => 'Fasilitasi tanda kasih, sedekah jariyah, atau tali asih duka cita dari para tamu dan kerabat.',
-                ],
-                'Aqiqah' => [
-                    'title' => 'Galeri Foto Buah Hati & Musik',
-                    'desc' => 'Lengkapi undangan dengan potret manis sang buah hati dan alunan musik hangat penuh kasih sayang.',
-                    'label' => 'Upload Foto Galeri (Buah Hati & Bayi)',
-                    'sub' => 'Bisa pilih beberapa foto manis tumbuh kembang buah hati',
-                    'step5Desc' => 'Berikan kemudahan bagi kerabat yang ingin mengirimkan hadiah / kado untuk sang buah hati.',
-                ],
                 'Ulang Tahun' => [
                     'title' => 'Galeri Foto Ultah & Musik Pesta',
                     'desc' => 'Lengkapi undangan dengan koleksi foto terbaik yang berulang tahun dan lagu pesta yang ceria.',
@@ -259,19 +429,33 @@
                     'sub' => 'Bisa pilih beberapa foto terbaik dari masa ke masa',
                     'step5Desc' => 'Berikan kemudahan bagi sahabat dan keluarga yang ingin mengirimkan kado ulang tahun secara cashless.',
                 ],
-                'Halal Bihalal' => [
-                    'title' => 'Galeri Foto Silaturahmi & Musik',
-                    'desc' => 'Lengkapi undangan dengan dokumentasi silaturahmi kebersamaan dan alunan musik yang hangat.',
-                    'label' => 'Upload Foto Galeri (Dokumentasi Silaturahmi & Trah)',
-                    'sub' => 'Bisa pilih beberapa foto kebersamaan keluarga besar / komunitas',
-                    'step5Desc' => 'Berikan kemudahan bagi para tamu yang ingin berpartisipasi atau mengirimkan tali asih silaturahmi.',
+                'Aqiqah' => [
+                    'title' => 'Galeri Foto Buah Hati & Musik',
+                    'desc' => 'Lengkapi undangan dengan potret manis sang buah hati dan alunan musik hangat penuh kasih sayang.',
+                    'label' => 'Upload Foto Galeri (Buah Hati / Momen Khitan)',
+                    'sub' => 'Bisa pilih beberapa foto manis tumbuh kembang buah hati atau momen syukuran khitan',
+                    'step5Desc' => 'Berikan kemudahan bagi kerabat yang ingin mengirimkan hadiah / kado untuk sang buah hati atau tali asih syukuran.',
                 ],
-                'Syukuran' => [
-                    'title' => 'Galeri Foto Syukuran & Musik',
-                    'desc' => 'Lengkapi undangan dengan dokumentasi momen syukuran dan alunan musik pengiring yang hangat.',
-                    'label' => 'Upload Foto Galeri (Dokumentasi Momen Syukuran)',
-                    'sub' => 'Bisa pilih beberapa foto kegiatan atau momen tasyakuran',
-                    'step5Desc' => 'Berikan kemudahan bagi para tamu yang ingin mengirimkan kado atau tanda kasih syukuran.',
+                'Keagamaan' => [
+                    'title' => 'Dokumentasi Syiar & Alunan Doa',
+                    'desc' => 'Lengkapi undangan dengan dokumentasi silaturahmi, foto kenangan, dan alunan doa syahdu.',
+                    'label' => 'Upload Foto Dokumentasi / Kenangan Acara',
+                    'sub' => 'Bisa pilih beberapa foto kebersamaan keluarga, jamaah, atau kenangan almarhum',
+                    'step5Desc' => 'Fasilitasi tanda kasih, sedekah jariyah, partisipasi konsumsi, atau tali asih silaturahmi.',
+                ],
+                'Wisuda' => [
+                    'title' => 'Galeri Foto Wisuda & Musik',
+                    'desc' => 'Lengkapi undangan dengan dokumentasi wisuda, foto toga, dan alunan musik kenangan masa studi.',
+                    'label' => 'Upload Foto Wisuda & Momen Kelulusan',
+                    'sub' => 'Bisa pilih beberapa foto wisuda, foto toga, atau foto bersama sahabat & keluarga',
+                    'step5Desc' => 'Berikan kemudahan bagi keluarga dan teman yang ingin mengirimkan hadiah / kado wisuda secara cashless.',
+                ],
+                'Acara Formal' => [
+                    'title' => 'Dokumentasi Acara & Audio Pengiring',
+                    'desc' => 'Lengkapi undangan dengan foto pembicara, dokumentasi kegiatan, atau logo institusi & sponsor.',
+                    'label' => 'Upload Foto Dokumentasi Acara / Poster',
+                    'sub' => 'Bisa pilih beberapa foto kegiatan, foto venue, atau logo pendukung',
+                    'step5Desc' => 'Fasilitasi kemudahan untuk registrasi tiket, tanda partisipasi, atau hadiah mitra bisnis.',
                 ],
             ];
             $currentGalConf = $categoryGalleryConfigs[$selectedCat] ?? $categoryGalleryConfigs['Pernikahan'];
@@ -282,122 +466,156 @@
                     'name' => 'Simple Minimalist Floral',
                     'category' => 'pernikahan',
                     'category_label' => 'Pernikahan',
+                    'sub_category' => 'Minimalis modern',
                     'tier' => 'basic',
                     'price' => 'Rp50.000',
                     'badge' => '💍 Pernikahan • Basic',
                     'package_val' => 'Paket Basic - Rp50.000',
                     'theme_css' => 'theme-floral-wreath',
-                    'desc' => 'Desain pernikahan bersih, minimalis & rapi dengan tipografi anggun, lingkaran botanical floral & harga paling hemat.',
+                    'skin' => 'skin-minimalist-floral',
+                    'desc' => 'Desain pernikahan bersih, minimalis & rapi dengan lingkaran fine-line botanical floral, layout teratur & harga paling hemat.',
                     'img' => 'https://images.unsplash.com/photo-1519741497674-611481863552?w=700&q=80&auto=format&fit=crop',
                 ],
                 [
                     'name' => 'Ketupat Raya Silaturahmi',
-                    'category' => 'halalbihalal',
-                    'category_label' => 'Halal Bihalal',
+                    'category' => 'keagamaan',
+                    'category_label' => 'Keagamaan',
+                    'sub_category' => 'Halal bihalal',
                     'tier' => 'basic',
                     'price' => 'Rp50.000',
-                    'badge' => '🕌 Halal Bihalal • Basic',
+                    'badge' => '🕌 Keagamaan • Basic',
                     'package_val' => 'Paket Basic - Rp50.000',
                     'theme_css' => 'theme-ketupat-raya',
-                    'desc' => 'Desain silaturahmi Idul Fitri ceria dengan nuansa hijau segar, ornamen ketupat standar & Google Maps.',
+                    'skin' => 'skin-ketupat-raya',
+                    'desc' => 'Desain silaturahmi ceria bernuansa hijau segar pandan, pita anyaman ketupat standar & Google Maps terintegrasi.',
                     'img' => 'https://images.unsplash.com/photo-1564769625905-50e93615e769?w=700&q=80&auto=format&fit=crop',
                 ],
                 [
                     'name' => 'Little Prince Safari Khitan',
-                    'category' => 'khitanan',
-                    'category_label' => 'Khitanan',
+                    'category' => 'aqiqah',
+                    'category_label' => 'Aqiqah',
+                    'sub_category' => 'Tasyakuran khitanan',
                     'tier' => 'basic',
                     'price' => 'Rp50.000',
-                    'badge' => '✂️ Khitanan • Basic',
+                    'badge' => '👶 Aqiqah & Khitan • Basic',
                     'package_val' => 'Paket Basic - Rp50.000',
                     'theme_css' => 'theme-little-prince',
-                    'desc' => 'Tema khitanan anak yang simpel dan ceria, lengkap dengan link nama teman, lokasi & hitung mundur.',
+                    'skin' => 'skin-baby-pastel',
+                    'desc' => 'Tema khitanan anak yang simpel, imut dan ceria, lengkap dengan ornamen mahkota bintang, link nama tamu & hitung mundur.',
                     'img' => 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=700&q=80&auto=format&fit=crop',
                 ],
                 [
                     'name' => 'Tasyakuran & Doa Rumah Baru',
-                    'category' => 'syukuran',
-                    'category_label' => 'Syukuran',
+                    'category' => 'keagamaan',
+                    'category_label' => 'Keagamaan',
+                    'sub_category' => 'Tasyakuran',
                     'tier' => 'basic',
                     'price' => 'Rp50.000',
-                    'badge' => '🎉 Syukuran • Basic',
+                    'badge' => '🕌 Keagamaan • Basic',
                     'package_val' => 'Paket Basic - Rp50.000',
                     'theme_css' => 'theme-syukuran-rumah',
-                    'desc' => 'Undangan syukuran rumah baru, tasyakuran usaha, atau doa bersama keluarga dan tetangga.',
+                    'skin' => 'skin-minimalist-floral',
+                    'desc' => 'Undangan syukuran rumah baru, tasyakuran usaha, atau doa bersama keluarga dengan bingkai minimalis praktis.',
                     'img' => 'https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=700&q=80&auto=format&fit=crop',
                 ],
                 [
                     'name' => 'Doa Bersama & Tahlilan Khusyuk',
-                    'category' => 'tahlilan',
-                    'category_label' => 'Tahlilan',
+                    'category' => 'keagamaan',
+                    'category_label' => 'Keagamaan',
+                    'sub_category' => 'Doa bersama & tahlilan',
                     'tier' => 'basic',
                     'price' => 'Rp50.000',
-                    'badge' => '🕯️ Tahlilan • Basic',
+                    'badge' => '🕯️ Keagamaan • Basic',
                     'package_val' => 'Paket Basic - Rp50.000',
                     'theme_css' => 'theme-tahlilan-khusyuk',
-                    'desc' => 'Desain tahlilan & haul mengenang almarhum/almarhumah bernuansa teduh, doa khusyuk & lokasi acara.',
+                    'skin' => 'skin-minimalist-floral',
+                    'desc' => 'Desain tahlilan & haul almarhum bernuansa teduh khusyuk, teks doa jelas, hemat dan sopan untuk sanak kerabat.',
                     'img' => 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=700&q=80&auto=format&fit=crop',
                 ],
 
                 // 2. TIER PREMIUM: Desain Modern & Elegan (Rp110.000)
                 [
-                    'name' => 'Elegant Rose Romance',
+                    'name' => 'Elegant Rose Romance (ChungDoi Wildflower)',
                     'category' => 'pernikahan',
                     'category_label' => 'Pernikahan',
+                    'sub_category' => 'Elegan, floral, dan islami',
                     'tier' => 'premium',
                     'price' => 'Rp110.000',
                     'badge' => '💍 Pernikahan • Premium',
                     'package_val' => 'Paket Premium - Rp110.000',
                     'theme_css' => 'theme-rose-romance',
-                    'desc' => 'Desain pernikahan modern dengan sentuhan rose gold anggun, amplop digital QRIS & galeri foto.',
+                    'skin' => 'skin-wildflower',
+                    'desc' => 'Desain pernikahan modern ChungDoi Wildflower Pink: bingkai kubah lengkung (arched frame), wax seal berdenyut, kaligrafi anggun & efek kelopak bunga jatuh.',
                     'img' => 'https://images.unsplash.com/photo-1519225424606-491ea8be74d2?w=700&q=80&auto=format&fit=crop',
                 ],
                 [
                     'name' => 'Green Mosque Harmony',
-                    'category' => 'halalbihalal',
-                    'category_label' => 'Halal Bihalal',
+                    'category' => 'keagamaan',
+                    'category_label' => 'Keagamaan',
+                    'sub_category' => 'Pengajian',
                     'tier' => 'premium',
                     'price' => 'Rp110.000',
-                    'badge' => '🕌 Halal Bihalal • Premium',
+                    'badge' => '🕌 Keagamaan • Premium',
                     'package_val' => 'Paket Premium - Rp110.000',
                     'theme_css' => 'theme-green-mosque',
-                    'desc' => 'Undangan Halal Bihalal keluarga besar bernuansa hijau sage islami, kubah masjid & ayat suci.',
+                    'skin' => 'skin-islamic-dome',
+                    'desc' => 'Bingkai lengkung kubah masjid islami dengan ornamen geometri arabesque, kaligrafi bismillah, nuansa hijau sage & emas anggun.',
                     'img' => 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=700&q=80&auto=format&fit=crop',
                 ],
                 [
                     'name' => 'Walimatul Khitan Berkah Sholeh',
-                    'category' => 'khitanan',
-                    'category_label' => 'Khitanan',
+                    'category' => 'aqiqah',
+                    'category_label' => 'Aqiqah',
+                    'sub_category' => 'Tasyakuran khitanan',
                     'tier' => 'premium',
                     'price' => 'Rp110.000',
-                    'badge' => '✂️ Khitanan • Premium',
+                    'badge' => '✂️ Khitan • Premium',
                     'package_val' => 'Paket Premium - Rp110.000',
                     'theme_css' => 'theme-khitan-berkah',
-                    'desc' => 'Undangan syukuran khitanan islami dengan foto jagoan kecil, doa anak sholeh & amplop digital.',
+                    'skin' => 'skin-islamic-dome',
+                    'desc' => 'Syukuran khitanan islami berbingkai kubah tosca dengan ornamen lentera (fanous) gantung, doa anak sholeh & amplop digital.',
                     'img' => 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=700&q=80&auto=format&fit=crop',
                 ],
                 [
                     'name' => 'Sweet Baby Pastel Aqiqah',
                     'category' => 'aqiqah',
                     'category_label' => 'Aqiqah',
+                    'sub_category' => 'Aqiqah anak',
                     'tier' => 'premium',
                     'price' => 'Rp110.000',
                     'badge' => '👶 Aqiqah • Premium',
                     'package_val' => 'Paket Premium - Rp110.000',
                     'theme_css' => 'theme-baby-aqiqah',
-                    'desc' => 'Tasyakuran kelahiran & aqiqah buah hati dengan warna pastel lembut, doa penyejuk hati & peta acara.',
+                    'skin' => 'skin-baby-pastel',
+                    'desc' => 'Desain pastel scalloped cloud lembut untuk kelahiran & aqiqah buah hati, dilengkapi gantungan bintang manis, doa & amplop kado.',
                     'img' => 'https://images.unsplash.com/photo-1519689680058-324335c77eba?w=700&q=80&auto=format&fit=crop',
                 ],
                 [
-                    'name' => 'Reuni Akbar & Temu Kangen',
-                    'category' => 'syukuran',
-                    'category_label' => 'Syukuran',
+                    'name' => 'Wisuda Sarjana Prestasi Emas',
+                    'category' => 'wisuda',
+                    'category_label' => 'Wisuda',
+                    'sub_category' => 'Wisuda kuliah',
                     'tier' => 'premium',
                     'price' => 'Rp110.000',
-                    'badge' => '🎉 Reuni • Premium',
+                    'badge' => '🎓 Wisuda • Premium',
+                    'package_val' => 'Paket Premium - Rp110.000',
+                    'theme_css' => 'theme-golden-birthday',
+                    'skin' => 'skin-golden-luxury',
+                    'desc' => 'Perayaan wisuda sarjana berprestasi dengan bingkai aksen emas berkilau, foto toga resmi, jadwal sidang dan peta acara.',
+                    'img' => 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=700&q=80&auto=format&fit=crop',
+                ],
+                [
+                    'name' => 'Reuni Akbar & Temu Kangen',
+                    'category' => 'acara-formal',
+                    'category_label' => 'Acara Formal',
+                    'sub_category' => 'Rapat dan gathering perusahaan',
+                    'tier' => 'premium',
+                    'price' => 'Rp110.000',
+                    'badge' => '🏛️ Formal • Premium',
                     'package_val' => 'Paket Premium - Rp110.000',
                     'theme_css' => 'theme-reuni-akbar',
-                    'desc' => 'Undangan temu kangen alumni dengan konfirmasi kehadiran angkatan, buku tamu & galeri foto.',
+                    'skin' => 'skin-snow-white',
+                    'desc' => 'Undangan temu kangen alumni bernuansa modern editorial dengan konfirmasi kehadiran angkatan, buku tamu & galeri foto.',
                     'img' => 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=700&q=80&auto=format&fit=crop',
                 ],
 
@@ -406,49 +624,71 @@
                     'name' => '3D Javanese Royal',
                     'category' => 'pernikahan',
                     'category_label' => 'Pernikahan',
+                    'sub_category' => 'Pernikahan adat Jawa, Sunda, Minang, dan lainnya',
                     'tier' => 'eksklusif',
                     'price' => 'Rp180.000',
                     'badge' => '💍 Pernikahan • Eksklusif',
                     'package_val' => 'Paket Eksklusif - Rp180.000',
                     'theme_css' => 'theme-javanese-royal',
-                    'desc' => 'Nuansa keraton Jawa klasik dengan animasi gunungan 3D, gending halus, live streaming & doa restu.',
+                    'skin' => 'skin-javanese-royal',
+                    'desc' => 'Kemegahan keraton Jawa klasik: latar charcoal gelap, ornamen siluet Gunungan Wayang emas 3D, motif batik parang & kilau emas royal.',
                     'img' => 'https://images.unsplash.com/photo-1519741497674-611481863552?w=700&q=80&auto=format&fit=crop',
                 ],
                 [
                     'name' => 'SnowFall Minimalist White',
                     'category' => 'pernikahan',
                     'category_label' => 'Pernikahan',
+                    'sub_category' => 'Minimalis modern',
                     'tier' => 'eksklusif',
                     'price' => 'Rp180.000',
                     'badge' => '💍 Pernikahan • Eksklusif',
                     'package_val' => 'Paket Eksklusif - Rp180.000',
                     'theme_css' => 'theme-snow-white',
-                    'desc' => 'Desain putih bersih bergaya editorial modern dengan efek partikel salju lembut & tata letak sinematik.',
+                    'skin' => 'skin-snow-white',
+                    'desc' => 'Kemewahan editorial modern serba putih dengan efek partikel salju jatuh lembut (snowfall), tipografi haute couture & tata letak sinematik.',
                     'img' => 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=700&q=80&auto=format&fit=crop',
                 ],
                 [
                     'name' => 'Batak Istimewa Heritage',
                     'category' => 'pernikahan',
                     'category_label' => 'Pernikahan',
+                    'sub_category' => 'Pernikahan adat Jawa, Sunda, Minang, dan lainnya',
                     'tier' => 'eksklusif',
                     'price' => 'Rp180.000',
                     'badge' => '💍 Pernikahan • Eksklusif',
                     'package_val' => 'Paket Eksklusif - Rp180.000',
                     'theme_css' => 'theme-batak-heritage',
-                    'desc' => 'Ornamen ulos khas Batak dengan perpaduan warna marun & emas yang megah, sakral dan berwibawa.',
+                    'skin' => 'skin-batak-heritage',
+                    'desc' => 'Adat Batak megah berwibawa dengan ornamen Gorga zigzag merah marun & emas, motif kain Ulos sakral serta tipografi berkarakter kuat.',
                     'img' => 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=700&q=80&auto=format&fit=crop',
                 ],
                 [
                     'name' => 'Golden Luxury Birthday / Milad',
                     'category' => 'ultah',
                     'category_label' => 'Ulang Tahun',
+                    'sub_category' => 'Sweet seventeen',
                     'tier' => 'eksklusif',
                     'price' => 'Rp180.000',
                     'badge' => '🎂 Ulang Tahun • Eksklusif',
                     'package_val' => 'Paket Eksklusif - Rp180.000',
                     'theme_css' => 'theme-golden-birthday',
-                    'desc' => 'Perayaan sweet seventeen / milad istimewa dengan ornamen emas berkilau dan RSVP kehadiran tamu VIP.',
+                    'skin' => 'skin-golden-luxury',
+                    'desc' => 'Pesta ulang tahun VIP / sweet seventeen dengan kilau konfeti emas, latar obsidian hitam mewah, countdown timer & buku tamu digital.',
                     'img' => 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=700&q=80&auto=format&fit=crop',
+                ],
+                [
+                    'name' => 'Executive Corporate & Grand Opening',
+                    'category' => 'acara-formal',
+                    'category_label' => 'Acara Formal',
+                    'sub_category' => 'Grand opening bisnis',
+                    'tier' => 'eksklusif',
+                    'price' => 'Rp180.000',
+                    'badge' => '🏛️ Acara Formal • Eksklusif',
+                    'package_val' => 'Paket Eksklusif - Rp180.000',
+                    'theme_css' => 'theme-snow-white',
+                    'skin' => 'skin-snow-white',
+                    'desc' => 'Tata letak arsitektural minimalis premium untuk peresmian bisnis, seminar eksekutif & gala dinner perusahaan.',
+                    'img' => 'https://images.unsplash.com/photo-1511578314322-379afb476865?w=700&q=80&auto=format&fit=crop',
                 ],
 
                 // 4. TIER KUSTOM: Full Request Desain Sesuai Keinginan (Rp280.000)
@@ -456,12 +696,14 @@
                     'name' => 'Custom Request Desain Bebas Impianmu',
                     'category' => 'semua',
                     'category_label' => 'Pernikahan',
+                    'sub_category' => 'Pernikahan adat Jawa, Sunda, Minang, dan lainnya',
                     'tier' => 'kustom',
                     'price' => 'Rp280.000',
                     'badge' => '✨ Kustom • VIP Request',
                     'package_val' => 'Paket Kustom - Rp280.000',
                     'theme_css' => 'theme-custom-vip',
-                    'desc' => 'Request tema baru dari nol sesuai keinginan Anda! Tim desainer D\'Karsa siap membuatkan konsep khusus.',
+                    'skin' => 'skin-custom-vip',
+                    'desc' => 'Request tema baru dari nol sesuai impian Anda! Didukung bingkai aura glowing neon-gold, konsultasi 1-on-1 desainer D\'Karsa.',
                     'img' => 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=700&q=80&auto=format&fit=crop',
                 ],
             ];
@@ -506,83 +748,104 @@
         <form action="{{ route('invitation.store') }}" method="POST" enctype="multipart/form-data" id="invitationBuilderForm" class="bg-white rounded-3xl p-6 sm:p-8 shadow-md border border-brand/15">
             @csrf
             <input type="hidden" name="selected_theme" id="selectedThemeInput" value="{{ $selectedTheme }}">
+            <input type="hidden" name="sub_category" id="hiddenSubCategoryInput" value="{{ $selectedSubCat }}">
 
             {{-- ========================================================
-                 LANGKAH 1: KATEGORI & INFO UTAMA
+                 LANGKAH 1: KATEGORI (BAB & SUB-BAB) & INFO UTAMA
             ======================================================== --}}
             <div id="stepPanel1" class="step-panel active space-y-6">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-widest text-brand block mb-1">Langkah 1</span>
-                    <h2 class="font-serif text-2xl font-bold text-ink">Kategori Acara &amp; Sampul</h2>
-                    <p class="text-xs text-ink2 mt-1">Pilih jenis perayaan dan kata pembuka yang akan tampil di bagian depan undangan.</p>
+                    <h2 class="font-serif text-2xl font-bold text-ink">Bab &amp; Sub-Bab Kategori Acara</h2>
+                    <p class="text-xs text-ink2 mt-1">Pilih bab kategori acara utama dan tentukan sub-pilihan spesifik sesuai konsep perayaan Anda.</p>
                 </div>
 
-                {{-- Pilihan Kategori --}}
-                <div class="space-y-2">
-                    <label class="block text-xs font-bold uppercase tracking-wider text-ink2">Pilih Kategori Undangan *</label>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-                        <label class="cursor-pointer">
-                            <input type="radio" name="category" value="Pernikahan" class="peer sr-only" {{ $selectedCat === 'Pernikahan' ? 'checked' : '' }} onchange="updateCategoryTheme('Pernikahan')">
-                            <div class="p-3.5 rounded-2xl border-2 border-ink/15 bg-white text-center peer-checked:border-brand peer-checked:bg-blush transition h-full flex flex-col justify-center">
-                                <span class="text-2xl block mb-1">💍</span>
-                                <b class="text-xs font-bold text-ink block">Pernikahan</b>
-                                <span class="text-[10px] text-ink3">Wedding / Resepsi</span>
-                            </div>
+                {{-- ========================================================
+                     PILIHAN BAB & SUB-BAB KATEGORI (BERDASARKAN STRUKTUR BAB)
+                ======================================================== --}}
+                <div class="space-y-4">
+                    <!-- 1. Header Bab -->
+                    <div class="flex items-center justify-between">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-ink2">
+                            1. Pilih Bab Kategori Undangan *
                         </label>
+                        <span class="text-[11px] text-brand font-semibold">6 Bab Kategori</span>
+                    </div>
 
-                        <label class="cursor-pointer">
-                            <input type="radio" name="category" value="Tahlilan" class="peer sr-only" {{ $selectedCat === 'Tahlilan' ? 'checked' : '' }} onchange="updateCategoryTheme('Tahlilan')">
-                            <div class="p-3.5 rounded-2xl border-2 border-ink/15 bg-white text-center peer-checked:border-brand peer-checked:bg-blush transition h-full flex flex-col justify-center">
-                                <span class="text-2xl block mb-1">🕯️</span>
-                                <b class="text-xs font-bold text-ink block">Tahlilan / Haul</b>
-                                <span class="text-[10px] text-ink3">Doa &amp; Mengenang</span>
-                            </div>
-                        </label>
+                    <!-- 6 Bab Grid Cards -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3" id="chapterCategoryGrid">
+                        @foreach($categoryChapters as $catKey => $chapter)
+                            <label class="cursor-pointer group">
+                                <input type="radio" name="category" value="{{ $catKey }}" class="peer sr-only" 
+                                       {{ $selectedCat === $catKey ? 'checked' : '' }} 
+                                       onchange="onSelectCategoryChapter('{{ $catKey }}')">
+                                <div class="p-3.5 rounded-2xl border-2 border-ink/15 bg-white group-hover:border-brand/40 peer-checked:border-brand peer-checked:bg-blush peer-checked:shadow-sm transition h-full flex flex-col justify-between relative overflow-hidden">
+                                    <div>
+                                        <div class="flex items-center justify-between gap-1 mb-1.5">
+                                            <span class="text-[9px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full {{ $chapter['badge'] === 'Prioritas Utama' ? 'bg-brand text-white' : 'bg-sunk text-ink2' }}">
+                                                Bab {{ $chapter['number'] }}
+                                            </span>
+                                            @if(!empty($chapter['badge']) && $chapter['badge'] === 'Prioritas Utama')
+                                                <span class="text-[9px] font-bold text-brand flex items-center gap-0.5">
+                                                    ★ Prioritas
+                                                </span>
+                                            @endif
+                                        </div>
+                                        <div class="flex items-center gap-2 mb-1">
+                                            <span class="text-xl shrink-0">{{ $chapter['icon'] }}</span>
+                                            <b class="text-xs font-bold text-ink leading-tight block">{{ $chapter['title'] }}</b>
+                                        </div>
+                                        <p class="text-[10px] text-ink3 line-clamp-2 leading-relaxed">
+                                            {{ $chapter['desc'] }}
+                                        </p>
+                                    </div>
+                                    <div class="mt-2.5 pt-2 border-t border-ink/10 flex items-center justify-between text-[10px] text-ink3">
+                                        <span class="font-medium">{{ count($chapter['sub_categories']) }} Sub-Pilihan</span>
+                                        <span class="text-brand font-bold text-xs opacity-0 peer-checked:opacity-100 transition">✓ Terpilih</span>
+                                    </div>
+                                </div>
+                            </label>
+                        @endforeach
+                    </div>
 
-                        <label class="cursor-pointer">
-                            <input type="radio" name="category" value="Khitanan" class="peer sr-only" {{ $selectedCat === 'Khitanan' ? 'checked' : '' }} onchange="updateCategoryTheme('Khitanan')">
-                            <div class="p-3.5 rounded-2xl border-2 border-ink/15 bg-white text-center peer-checked:border-brand peer-checked:bg-blush transition h-full flex flex-col justify-center">
-                                <span class="text-2xl block mb-1">✂️</span>
-                                <b class="text-xs font-bold text-ink block">Khitanan</b>
-                                <span class="text-[10px] text-ink3">Walimatul Khitan</span>
+                    <!-- 2. Sub-Bab Selection Box (Dropdown) -->
+                    <div id="subCategoryContainer" class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-sunk/80 via-blush/60 to-white border-2 border-brand/20 shadow-sm space-y-3">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="w-6 h-6 rounded-full bg-brand/10 text-brand grid place-items-center text-xs font-bold">📋</span>
+                                    <label for="subCategorySelect" class="text-xs font-bold text-ink uppercase tracking-wider">
+                                        2. Pilih Sub-Bab / Spesifikasi Acara *
+                                    </label>
+                                </div>
+                                <p class="text-[11px] text-ink2 mt-0.5" id="subCategoryHelperText">
+                                    Pilih sub-kategori spesifik untuk perayaan <b id="subCatChapterNameDisplay" class="text-brand">{{ $categoryChapters[$selectedCat]['title'] ?? 'Undangan' }}</b>:
+                                </p>
                             </div>
-                        </label>
+                            
+                            <span id="activeSubCatBadge" class="self-start sm:self-auto text-[10px] font-bold px-3 py-1 rounded-full bg-white border border-brand/30 text-brand shadow-xs">
+                                ✓ {{ $selectedSubCat }}
+                            </span>
+                        </div>
 
-                        <label class="cursor-pointer">
-                            <input type="radio" name="category" value="Aqiqah" class="peer sr-only" {{ $selectedCat === 'Aqiqah' ? 'checked' : '' }} onchange="updateCategoryTheme('Aqiqah')">
-                            <div class="p-3.5 rounded-2xl border-2 border-ink/15 bg-white text-center peer-checked:border-brand peer-checked:bg-blush transition h-full flex flex-col justify-center">
-                                <span class="text-2xl block mb-1">👶</span>
-                                <b class="text-xs font-bold text-ink block">Aqiqah</b>
-                                <span class="text-[10px] text-ink3">Tasyakuran Bayi</span>
+                        <!-- Dropdown Selector -->
+                        <div class="relative">
+                            <select name="sub_category" id="subCategorySelect" onchange="onSubCategoryChange(this.value)"
+                                    class="w-full rounded-xl border border-ink/20 px-3.5 py-3 text-xs sm:text-sm font-semibold bg-white text-ink focus:outline-none focus:ring-2 focus:ring-brand shadow-sm cursor-pointer appearance-none pr-10">
+                                @if(isset($categoryChapters[$selectedCat]))
+                                    @foreach($categoryChapters[$selectedCat]['sub_categories'] as $subItem)
+                                        <option value="{{ $subItem }}" {{ $selectedSubCat === $subItem ? 'selected' : '' }}>
+                                            {{ $subItem }}
+                                        </option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-ink2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
                             </div>
-                        </label>
-
-                        <label class="cursor-pointer">
-                            <input type="radio" name="category" value="Ulang Tahun" class="peer sr-only" {{ $selectedCat === 'Ulang Tahun' ? 'checked' : '' }} onchange="updateCategoryTheme('Ulang Tahun')">
-                            <div class="p-3.5 rounded-2xl border-2 border-ink/15 bg-white text-center peer-checked:border-brand peer-checked:bg-blush transition h-full flex flex-col justify-center">
-                                <span class="text-2xl block mb-1">🎂</span>
-                                <b class="text-xs font-bold text-ink block">Ulang Tahun</b>
-                                <span class="text-[10px] text-ink3">Milad / Sweet 17</span>
-                            </div>
-                        </label>
-
-                        <label class="cursor-pointer">
-                            <input type="radio" name="category" value="Halal Bihalal" class="peer sr-only" {{ $selectedCat === 'Halal Bihalal' ? 'checked' : '' }} onchange="updateCategoryTheme('Halal Bihalal')">
-                            <div class="p-3.5 rounded-2xl border-2 border-ink/15 bg-white text-center peer-checked:border-brand peer-checked:bg-blush transition h-full flex flex-col justify-center">
-                                <span class="text-2xl block mb-1">🕌</span>
-                                <b class="text-xs font-bold text-ink block">Halal Bihalal</b>
-                                <span class="text-[10px] text-ink3">Silaturahmi Idul Fitri</span>
-                            </div>
-                        </label>
-
-                        <label class="cursor-pointer col-span-2 sm:col-span-1">
-                            <input type="radio" name="category" value="Syukuran" class="peer sr-only" {{ $selectedCat === 'Syukuran' ? 'checked' : '' }} onchange="updateCategoryTheme('Syukuran')">
-                            <div class="p-3.5 rounded-2xl border-2 border-ink/15 bg-white text-center peer-checked:border-brand peer-checked:bg-blush transition h-full flex flex-col justify-center">
-                                <span class="text-2xl block mb-1">🎉</span>
-                                <b class="text-xs font-bold text-ink block">Syukuran / Reuni</b>
-                                <span class="text-[10px] text-ink3">Rumah Baru / Temu Alumni</span>
-                            </div>
-                        </label>
+                        </div>
                     </div>
                 </div>
 
@@ -1317,13 +1580,12 @@
                 <div class="flex items-center gap-1.5 overflow-x-auto pb-1" style="scrollbar-width: thin;">
                     <span class="text-[11px] font-bold uppercase tracking-wider text-ink3 shrink-0 mr-1">Kategori:</span>
                     <button type="button" onclick="filterModalCategory('semua', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-brand text-white shadow-sm">Semua Acara</button>
-                    <button type="button" onclick="filterModalCategory('pernikahan', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">💍 Pernikahan</button>
-                    <button type="button" onclick="filterModalCategory('khitanan', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">✂️ Khitanan</button>
-                    <button type="button" onclick="filterModalCategory('tahlilan', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">🕯️ Tahlilan / Haul</button>
-                    <button type="button" onclick="filterModalCategory('aqiqah', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">👶 Aqiqah</button>
-                    <button type="button" onclick="filterModalCategory('ultah', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">🎂 Ulang Tahun</button>
-                    <button type="button" onclick="filterModalCategory('halalbihalal', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">🕌 Halal Bihalal</button>
-                    <button type="button" onclick="filterModalCategory('syukuran', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">🎉 Syukuran</button>
+                    <button type="button" onclick="filterModalCategory('pernikahan', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">💍 1. Pernikahan</button>
+                    <button type="button" onclick="filterModalCategory('ultah', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">🎂 2. Ulang Tahun</button>
+                    <button type="button" onclick="filterModalCategory('aqiqah', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">👶 3. Aqiqah & Kelahiran</button>
+                    <button type="button" onclick="filterModalCategory('keagamaan', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">🕌 4. Keagamaan</button>
+                    <button type="button" onclick="filterModalCategory('wisuda', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">🎓 5. Wisuda</button>
+                    <button type="button" onclick="filterModalCategory('acara-formal', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">🏛️ 6. Acara Formal</button>
                 </div>
 
                 <!-- Tier Filter Chips -->
@@ -1350,6 +1612,7 @@
                              data-eventcat="{{ $tmpl['category_label'] }}"
                              data-img="{{ $tmpl['img'] }}"
                              data-themeclass="{{ $tmpl['theme_css'] }}"
+                             data-skin="{{ $tmpl['skin'] }}"
                              data-badge="{{ $tmpl['badge'] }}"
                              data-desc="{{ $tmpl['desc'] }}">
 
@@ -1456,54 +1719,33 @@
 
             <!-- Scrollable Screen Area -->
             <div id="previewScreenScroll" class="relative w-full rounded-[36px] overflow-y-auto flex-1 bg-white shadow-inner" style="scrollbar-width: thin;">
+                <!-- Ambient Falling Particles Container (ChungDoi Petals / Snow / Gold Sparkles) -->
+                <div id="prevAmbientParticles" class="pointer-events-none absolute inset-0 overflow-hidden z-20"></div>
+
                 <!-- Inner Themed Invitation Canvas -->
-                <div id="previewCanvas" class="theme-floral-wreath min-h-full p-4 sm:p-5 transition-colors duration-300 flex flex-col justify-between">
+                <div id="previewCanvas" class="theme-floral-wreath skin-minimalist-floral min-h-full p-4 sm:p-5 transition-colors duration-300 flex flex-col justify-between relative">
                     <div>
-                        <!-- Cover Card / Decorative Border -->
-                        <div class="p-4 rounded-3xl border-2 theme-border bg-white/70 backdrop-blur-sm text-center shadow-sm relative overflow-hidden mb-5">
+                        <!-- Tier & Price Badge Banner -->
+                        <div id="prevTierBanner" class="mb-3 px-3 py-1.5 rounded-full text-[10px] font-bold text-center tracking-wider flex items-center justify-center gap-1.5 shadow-sm border bg-emerald-50 text-emerald-800 border-emerald-200">
+                            <span>🟢 Paket Basic • Rp50.000 (Desain Standar Minimalis)</span>
+                        </div>
+
+                        <!-- Cover Card / Decorative Border (Skin Specific Geometry) -->
+                        <div id="previewCoverCard" class="theme-card p-4 rounded-3xl border-2 theme-border text-center shadow-sm relative overflow-hidden mb-5 transition-all duration-300">
+                            
+                            <!-- Top Ornament Slot (Wax Seal / Gunungan / Mosque Dome / Crown / VIP etc.) -->
+                            <div id="prevCoverTopOrnament" class="mb-2"></div>
+
                             <div class="text-[10px] uppercase font-bold tracking-widest theme-accent mb-1" id="prevHeadingDisplay">
                                 WALIMATUL 'URSY
                             </div>
+                            <div id="prevSubCategoryDisplay" class="text-[9px] font-semibold opacity-75 mb-1">
+                                {{ $selectedSubCat }}
+                            </div>
 
-                            <!-- Botanical Floral Wreath SVG (Faithfully Matching Screenshot 2) -->
-                            <div class="my-4 relative flex items-center justify-center">
-                                <svg class="w-44 h-44 text-emerald-800/85 mx-auto" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="100" cy="100" r="88" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 3" opacity="0.35"/>
-                                    <circle cx="100" cy="100" r="80" stroke="currentColor" stroke-width="0.8" opacity="0.25"/>
-                                    <!-- Branches -->
-                                    <path d="M 100 22 C 55 22 24 58 24 100 C 24 142 55 178 100 178" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-                                    <path d="M 100 22 C 145 22 176 58 176 100 C 176 142 145 178 100 178" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-                                    <!-- Leaves sprigs left -->
-                                    <path d="M 90 22 C 85 15 78 20 80 28 C 82 35 90 28 90 22 Z" fill="currentColor" opacity="0.85"/>
-                                    <path d="M 60 38 C 52 33 46 40 50 47 C 54 54 62 45 60 38 Z" fill="currentColor" opacity="0.85"/>
-                                    <path d="M 38 65 C 30 62 26 70 32 76 C 37 82 43 72 38 65 Z" fill="currentColor" opacity="0.85"/>
-                                    <path d="M 26 100 C 18 100 18 110 26 112 C 34 114 34 102 26 100 Z" fill="currentColor" opacity="0.85"/>
-                                    <path d="M 36 135 C 30 140 36 148 43 144 C 50 140 44 130 36 135 Z" fill="currentColor" opacity="0.85"/>
-                                    <path d="M 60 162 C 54 168 62 175 68 170 C 74 165 67 156 60 162 Z" fill="currentColor" opacity="0.85"/>
-                                    <path d="M 90 178 C 86 186 96 190 99 183 C 102 176 94 172 90 178 Z" fill="currentColor" opacity="0.85"/>
-                                    <!-- Leaves sprigs right -->
-                                    <path d="M 110 22 C 115 15 122 20 120 28 C 118 35 110 28 110 22 Z" fill="currentColor" opacity="0.85"/>
-                                    <path d="M 140 38 C 148 33 154 40 150 47 C 146 54 138 45 140 38 Z" fill="currentColor" opacity="0.85"/>
-                                    <path d="M 162 65 C 170 62 174 70 168 76 C 163 82 157 72 162 65 Z" fill="currentColor" opacity="0.85"/>
-                                    <path d="M 174 100 C 182 100 182 110 174 112 C 166 114 166 102 174 100 Z" fill="currentColor" opacity="0.85"/>
-                                    <path d="M 164 135 C 170 140 164 148 157 144 C 150 140 156 130 164 135 Z" fill="currentColor" opacity="0.85"/>
-                                    <path d="M 140 162 C 146 168 138 175 132 170 C 126 165 133 156 140 162 Z" fill="currentColor" opacity="0.85"/>
-                                    <path d="M 110 178 C 114 186 104 190 101 183 C 98 176 106 172 110 178 Z" fill="currentColor" opacity="0.85"/>
-                                    <!-- Flower Bud at bottom center -->
-                                    <circle cx="100" cy="180" r="5" fill="#f472b6" opacity="0.9"/>
-                                    <circle cx="96" cy="178" r="3.5" fill="#fbcfe8" opacity="0.85"/>
-                                    <circle cx="104" cy="178" r="3.5" fill="#fbcfe8" opacity="0.85"/>
-                                </svg>
-
-                                <!-- Text Inside Wreath -->
-                                <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-                                    <div id="prevCoupleNames" class="font-serif text-xl sm:text-2xl font-bold leading-tight theme-accent">
-                                        Rizky &amp; Amanda
-                                    </div>
-                                    <div id="prevWreathDate" class="text-[10px] font-semibold mt-1 tracking-wider opacity-75">
-                                        18 . 10 . 2026
-                                    </div>
-                                </div>
+                            <!-- Dynamic Center Visual Area (SVG Wreath / Arched Frame / Gorga / Dome / Confetti) -->
+                            <div id="prevCenterVisualArea" class="my-4 relative flex items-center justify-center min-h-[170px]">
+                                <!-- Populated dynamically by renderCoverCardSkin() -->
                             </div>
 
                             <!-- Live Cover Photo Preview -->
@@ -1512,13 +1754,14 @@
                             </div>
 
                             <!-- Save Date Button -->
-                            <div class="inline-block px-3.5 py-1 rounded-full text-[10px] font-bold bg-brand text-white shadow-sm">
-                                📅 Simpan Tanggal Acara
+                            <div id="prevSaveDateBtn" class="relative overflow-hidden inline-block px-4 py-1.5 rounded-full text-[10px] font-bold bg-brand text-white shadow-sm">
+                                <span>📅 Simpan Tanggal Acara</span>
+                                <div class="absolute inset-0 w-8 bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none animate-shine"></div>
                             </div>
                         </div>
 
                         <!-- Quote / Ayat Section -->
-                        <div class="p-3.5 rounded-2xl bg-white/70 border theme-border text-center mb-4 shadow-sm">
+                        <div id="prevQuoteCard" class="theme-card p-3.5 rounded-2xl border theme-border text-center mb-4 shadow-sm">
                             <span class="text-lg opacity-40 block">“</span>
                             <p id="prevLiveQuote" class="text-[11px] italic leading-relaxed opacity-85">
                                 Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu...
@@ -1533,7 +1776,7 @@
                             </div>
 
                             <!-- Tokoh 1 -->
-                            <div class="p-3 rounded-2xl bg-white/80 border theme-border flex items-center gap-3 shadow-sm">
+                            <div class="theme-card p-3 rounded-2xl border theme-border flex items-center gap-3 shadow-sm">
                                 <img id="prevLiveGroomImg" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200" class="w-12 h-12 rounded-full object-cover border theme-border shrink-0" alt="Tokoh 1">
                                 <div class="text-left text-xs flex-1 min-w-0">
                                     <span id="prevLiveGroomBadge" class="text-[9px] font-bold text-brand uppercase block truncate">Mempelai Pria</span>
@@ -1546,7 +1789,7 @@
                             <div id="prevAmpersandDivider" class="text-center font-cursive text-xl theme-accent">&amp;</div>
 
                             <!-- Tokoh 2 -->
-                            <div id="prevTokoh2Card" class="p-3 rounded-2xl bg-white/80 border theme-border flex items-center gap-3 shadow-sm">
+                            <div id="prevTokoh2Card" class="theme-card p-3 rounded-2xl border theme-border flex items-center gap-3 shadow-sm">
                                 <img id="prevLiveBrideImg" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200" class="w-12 h-12 rounded-full object-cover border theme-border shrink-0" alt="Tokoh 2">
                                 <div class="text-left text-xs flex-1 min-w-0">
                                     <span id="prevLiveBrideBadge" class="text-[9px] font-bold text-brand uppercase block truncate">Mempelai Wanita</span>
@@ -1564,17 +1807,17 @@
                             </div>
 
                             <!-- Event 1 -->
-                            <div class="p-3.5 rounded-2xl bg-white/80 border theme-border text-center shadow-sm space-y-1">
+                            <div class="theme-card p-3.5 rounded-2xl border theme-border text-center shadow-sm space-y-1">
                                 <b id="prevLiveEv1Title" class="text-xs font-bold block">Akad Nikah</b>
                                 <p id="prevLiveEv1Time" class="text-[10px] font-semibold theme-accent">08:00 - 10:00 WIB</p>
                                 <p id="prevLiveEv1Venue" class="text-[10px] opacity-80">Gedung Serbaguna Bahagia</p>
-                                <span class="inline-block mt-1 px-2.5 py-0.5 rounded-full text-[9px] font-bold bg-sunk border border-ink/10">
+                                <span class="inline-block mt-1 px-2.5 py-0.5 rounded-full text-[9px] font-bold bg-sunk text-ink2 border border-ink/10">
                                     📍 Peta Google Maps
                                 </span>
                             </div>
 
                             <!-- Event 2 -->
-                            <div id="prevLiveEv2Card" class="p-3.5 rounded-2xl bg-white/80 border theme-border text-center shadow-sm space-y-1">
+                            <div id="prevLiveEv2Card" class="theme-card p-3.5 rounded-2xl border theme-border text-center shadow-sm space-y-1">
                                 <b id="prevLiveEv2Title" class="text-xs font-bold block">Resepsi Pernikahan</b>
                                 <p id="prevLiveEv2Time" class="text-[10px] font-semibold theme-accent">11:00 - 14:00 WIB</p>
                                 <p id="prevLiveEv2Venue" class="text-[10px] opacity-80">Gedung Serbaguna Bahagia</p>
@@ -1601,10 +1844,10 @@
                         </div>
 
                         <!-- Amplop Digital & Rekening Section -->
-                        <div class="p-3.5 rounded-2xl bg-white/80 border theme-border text-center space-y-1.5 mb-5 shadow-sm">
+                        <div class="theme-card p-3.5 rounded-2xl border theme-border text-center space-y-1.5 mb-5 shadow-sm">
                             <span class="text-sm">💳</span>
                             <b class="text-[10px] font-bold uppercase tracking-wider block">Amplop Digital &amp; Kado</b>
-                            <div class="p-2.5 rounded-xl bg-sunk/60 border border-ink/10 text-center">
+                            <div class="p-2.5 rounded-xl bg-sunk/40 border border-ink/10 text-center">
                                 <span id="prevLiveBankName" class="font-bold text-xs block">Bank BCA</span>
                                 <span id="prevLiveBankAcc" class="font-mono text-xs font-bold text-brand block my-0.5">1234-5678-90</span>
                                 <span id="prevLiveBankHolder" class="text-[10px] opacity-75 block">a.n Rizky Pratama</span>
@@ -1751,6 +1994,9 @@
                 quoteEl.value = 'Dua jiwa yang bersatu, dua hati yang berpadu dalam ikatan cinta yang suci untuk melangkah bersama mengarungi perjalanan hidup selamanya.';
             }
         }
+
+        // Data 6 Bab Kategori Undangan Beserta Sub-Pilihannya
+        const categoryChaptersData = @json($categoryChapters);
 
         // Category change adaptations with dedicated non-wedding configurations
         const categoryConfigs = {
@@ -2214,11 +2460,230 @@
                     { value: 'https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-640.mp3', label: '♫ Akustik Hangat Kebersamaan' },
                     { value: 'https://assets.mixkit.co/music/preview/mixkit-wedding-piano-641.mp3', label: '♫ Piano Syahdu Tasyakuran' }
                 ],
+            },
+
+            'Keagamaan': {
+                heading: "UNDANGAN PENGAJIAN & SYIAR",
+                quote: "مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ\n\"Barangsiapa menempuh suatu jalan untuk mencari ilmu, maka Allah akan memudahkan baginya jalan menuju surga.\" (HR. Muslim)",
+                slugPlaceholder: "pengajian-akbar-al-ikhlas",
+                step2Tab: "Penyelenggara",
+                step2Title: "Penyelenggara / Tuan Rumah Pengajian",
+                step2Desc: "Masukkan nama tokoh tuan rumah, penceramah, atau perwakilan majelis taklim.",
+                showDisplayOrder: false,
+                orderFirst: "Tuan Rumah Dulu",
+                orderSecond: "Panitia Dulu",
+
+                // Tokoh 1
+                person1Badge: "🕌 Penceramah / Tokoh Agama Utama",
+                person1NickLabel: "Nama Singkat / Gelar *",
+                person1NickPlaceholder: "Contoh: Ustadz H. Abdul Somad / Habib Novel",
+                person1FullLabel: "Nama Lengkap & Gelar Ustadz / Tokoh *",
+                person1FullPlaceholder: "Contoh: Ustadz Dr. H. M. Syafii, M.Ag.",
+                person1ExtraLabel: "Keterangan Tokoh / Topik",
+                person1ExtraPlaceholder: "Contoh: Pengasuh Ponpes / Penceramah Maulid Nabi",
+                person1PhotoLabel: "Upload Foto Penceramah / Banner Acara",
+
+                // Tokoh 2
+                person2Badge: "👥 Tuan Rumah / Ketua Panitia",
+                person2NickLabel: "Nama Ketua Panitia / Pengundang",
+                person2NickPlaceholder: "Contoh: Bpk. H. Rahmat Hidayat",
+                person2FullLabel: "Nama Lengkap Penyelenggara / Majelis",
+                person2FullPlaceholder: "Contoh: Majelis Ta'lim Al-Ikhlas / DKM Masjid",
+                person2ExtraLabel: "Keterangan",
+                person2ExtraPlaceholder: "Contoh: Ketua DKM / Perwakilan Sohibul Hajat",
+                person2PhotoLabel: "Upload Foto Masjid / Logo Majelis (Opsional)",
+
+                // Step 3
+                step3Tab: "Panitia",
+                step3Title: "Informasi Majelis & Panitia Pelaksana",
+                step3Desc: "Informasi penanggung jawab dan panitia pengajian.",
+                family1Title: "Kepanitiaan / DKM",
+                family1FatherLabel: "Nama Pembina Majelis",
+                family1MotherLabel: "Nama Ketua Panitia",
+                family1CityLabel: "Kota Domisili Majelis",
+                family2Title: "Sekretariat & Hubungan Masyarakat",
+                family2FatherLabel: "Nama Sekretaris Acara",
+                family2MotherLabel: "Nama Narahubung / Humas",
+                family2CityLabel: "Kota Sekretariat",
+
+                // Step 4
+                event1Header: "🕌 Acara 1: Tausiyah & Pengajian Inti",
+                event1Title: "Tausiyah & Pengajian Akbar",
+                event1VenuePlaceholder: "Contoh: Masjid Raya Baiturrahman",
+                event2Header: "🎉 Acara 2: Doa Bersama & Santap Siang",
+                event2Title: "Doa Bersama & Ramah Tamah",
+                event2VenuePlaceholder: "Contoh: Halaman Utama Masjid",
+
+                // Step 5 & 6
+                step5Desc: "Fasilitasi sedekah jariyah, infak majelis, partisipasi konsumsi, atau tali asih silaturahmi.",
+                step6Title: "Dokumentasi Syiar & Alunan Doa",
+                step6Desc: "Lengkapi undangan dengan dokumentasi silaturahmi, foto kenangan, dan alunan doa syahdu.",
+                galleryLabel: "Upload Foto Dokumentasi Kegiatan / Syiar",
+                gallerySub: "Bisa pilih beberapa foto kebersamaan jamaah atau kegiatan majelis",
+                musicLabel: "Pilihan Audio Pengiring Religi (Autoplay Audio)",
+                musicOptions: [
+                    { value: 'wedding-melody.wav', label: '♫ Alunan Sholawat & Dzikir Menenangkan (Bawaan)' },
+                    { value: 'https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-640.mp3', label: '♫ Instrumental Gambus Syahdu' },
+                    { value: 'https://assets.mixkit.co/music/preview/mixkit-wedding-piano-641.mp3', label: '♫ Harmoni Doa Khidmat' }
+                ],
+            },
+
+            'Wisuda': {
+                heading: "UNDANGAN WISUDA & KELULUSAN",
+                quote: "Barangsiapa menempuh suatu jalan untuk menuntut ilmu, maka Allah akan memudahkan baginya jalan menuju surga. (HR. Muslim)\n\"Keberhasilan hari ini adalah buah dari ketekunan, doa orang tua, dan rahmat dari Allah SWT.\"",
+                slugPlaceholder: "wisuda-sarjana-rizky",
+                step2Tab: "Wisudawan",
+                step2Title: "Profil Wisudawan / Wisudawati",
+                step2Desc: "Masukkan data wisudawan yang merayakan kelulusan dan pendamping/orang tua tercinta.",
+                showDisplayOrder: false,
+                orderFirst: "Wisudawan Dulu",
+                orderSecond: "Orang Tua Dulu",
+
+                // Tokoh 1
+                person1Badge: "🎓 Wisudawan / Wisudawati",
+                person1NickLabel: "Nama Panggilan Wisudawan *",
+                person1NickPlaceholder: "Contoh: Rizky",
+                person1FullLabel: "Nama Lengkap & Gelar Kelulusan *",
+                person1FullPlaceholder: "Contoh: Rizky Pratama, S.Kom. (Cumlaude)",
+                person1ExtraLabel: "Program Studi & Universitas / Sekolah",
+                person1ExtraPlaceholder: "Contoh: S1 Teknik Informatika - Universitas Indonesia",
+                person1PhotoLabel: "Upload Foto Toga / Kelulusan",
+
+                // Tokoh 2
+                person2Badge: "👨‍👩‍👦 Orang Tua / Pendamping Wisuda",
+                person2NickLabel: "Nama Singkat Orang Tua/Pendamping",
+                person2NickPlaceholder: "Contoh: Bpk. Hendra & Ibu Ratna",
+                person2FullLabel: "Nama Lengkap Orang Tua Tercinta",
+                person2FullPlaceholder: "Contoh: Bpk. Hendra Pratama & Ibu Ratna Dewi",
+                person2ExtraLabel: "Keterangan Hubungan",
+                person2ExtraPlaceholder: "Contoh: Orang Tua Tercinta / Keluarga Besar",
+                person2PhotoLabel: "Upload Foto Bersama Keluarga (Opsional)",
+
+                // Step 3
+                step3Tab: "Keluarga",
+                step3Title: "Informasi Orang Tua & Keluarga Wisudawan",
+                step3Desc: "Informasi keluarga yang menyelenggarakan syukuran kelulusan.",
+                family1Title: "Keluarga Utama Wisudawan",
+                family1FatherLabel: "Nama Ayah Wisudawan",
+                family1MotherLabel: "Nama Ibu Wisudawan",
+                family1CityLabel: "Kota Domisili Keluarga",
+                family2Title: "Pendamping & Kerabat Dekat",
+                family2FatherLabel: "Nama Kerabat / Saudara",
+                family2MotherLabel: "Nama Pendamping / Sahabat",
+                family2CityLabel: "Kota Domisili",
+
+                // Step 4
+                event1Header: "🎓 Acara 1: Prosesi Sidang Senat Terbuka / Wisuda",
+                event1Title: "Prosesi Wisuda / Kelulusan",
+                event1VenuePlaceholder: "Contoh: Balairung UI / Gedung Pertemuan",
+                event2Header: "🎉 Acara 2: Syukuran Kelulusan & Ramah Tamah",
+                event2Title: "Syukuran Kelulusan & Santap Bersama",
+                event2VenuePlaceholder: "Contoh: Resto Grand Orchid / Rumah Keluarga",
+
+                // Step 5 & 6
+                step5Desc: "Berikan kemudahan bagi keluarga dan teman yang ingin mengirimkan hadiah / kado wisuda secara cashless.",
+                step6Title: "Galeri Foto Wisuda & Musik",
+                step6Desc: "Lengkapi undangan dengan dokumentasi wisuda, foto toga, dan alunan musik kenangan masa studi.",
+                galleryLabel: "Upload Foto Wisuda & Momen Kelulusan",
+                gallerySub: "Bisa pilih beberapa foto wisuda, foto toga, atau foto bersama sahabat & keluarga",
+                musicLabel: "Pilihan Musik Latar Kelulusan (Autoplay Audio)",
+                musicOptions: [
+                    { value: 'wedding-melody.wav', label: '♫ Melodi Sukacita Kelulusan (Harmoni Bawaan)' },
+                    { value: 'https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-640.mp3', label: '♫ Akustik Semangat Masa Depan' },
+                    { value: 'https://assets.mixkit.co/music/preview/mixkit-wedding-piano-641.mp3', label: '♫ Piano Syukur Kelulusan' }
+                ],
+            },
+
+            'Acara Formal': {
+                heading: "UNDANGAN RESMI / FORMAL EVENT",
+                quote: "Dengan hormat, kami mengundang Bapak/Ibu/Rekan-rekan sekalian untuk berkenan hadir dan berpartisipasi dalam agenda resmi ini.",
+                slugPlaceholder: "grand-opening-dkarsa-hub",
+                step2Tab: "Penyelenggara",
+                step2Title: "Profil Penyelenggara & Tokoh Utama",
+                step2Desc: "Masukkan data perusahaan/institusi pengundang dan penanggung jawab/pembicara acara.",
+                showDisplayOrder: false,
+                orderFirst: "Institusi Dulu",
+                orderSecond: "Pembicara Dulu",
+
+                // Tokoh 1
+                person1Badge: "🏛️ Institusi / Perusahaan Penyelenggara",
+                person1NickLabel: "Nama Brand / Singkat Perusahaan *",
+                person1NickPlaceholder: "Contoh: PT D'Karsa Solusi Digital",
+                person1FullLabel: "Nama Resmi Perusahaan / Komunitas *",
+                person1FullPlaceholder: "Contoh: PT D'Karsa Solusi Digital Indonesia",
+                person1ExtraLabel: "Bidang Usaha / Jenis Acara",
+                person1ExtraPlaceholder: "Contoh: Teknologi Digital & Media Kreatif",
+                person1PhotoLabel: "Upload Logo Perusahaan / Banner Acara",
+
+                // Tokoh 2
+                person2Badge: "🎤 Pembicara / Keynote Speaker / VIP (Opsional)",
+                person2NickLabel: "Nama Singkat Tokoh / Keynote Speaker",
+                person2NickPlaceholder: "Contoh: Bpk. Ridwan",
+                person2FullLabel: "Nama Lengkap Tokoh & Gelar",
+                person2FullPlaceholder: "Contoh: Ridwan Kamil, S.T., M.U.D. (Keynote Speaker)",
+                person2ExtraLabel: "Jabatan / Keterangan Tokoh",
+                person2ExtraPlaceholder: "Contoh: Direktur Utama / Keynote Speaker",
+                person2PhotoLabel: "Upload Foto Pembicara / Poster (Opsional)",
+
+                // Step 3
+                step3Tab: "Panitia",
+                step3Title: "Informasi Penyelenggara & Kontak Panitia",
+                step3Desc: "Informasi panitia pelaksana dan narahubung resmi acara.",
+                family1Title: "Kepanitiaan & Penanggung Jawab",
+                family1FatherLabel: "Nama Ketua Panitia / Penyelenggara",
+                family1MotherLabel: "Nama Sekretaris Panitia",
+                family1CityLabel: "Kota Kantor / Sekretariat",
+                family2Title: "Hubungan Masyarakat & Narahubung",
+                family2FatherLabel: "Nama Humas / Contact Person 1",
+                family2MotherLabel: "Nama Contact Person 2",
+                family2CityLabel: "Nomor Narahubung / Info",
+
+                // Step 4
+                event1Header: "🏛️ Acara 1: Sesi Utama / Seminar / Grand Opening",
+                event1Title: "Acara Peresmian & Keynote Session",
+                event1VenuePlaceholder: "Contoh: Auditorium Utama Gedung Karsa Center",
+                event2Header: "🤝 Acara 2: Ramah Tamah / Networking & Dinner",
+                event2Title: "Networking Session & Ramah Tamah",
+                event2VenuePlaceholder: "Contoh: Executive Lounge Lt. 5",
+
+                // Step 5 & 6
+                step5Desc: "Fasilitasi kemudahan untuk registrasi tiket, tanda partisipasi, atau hadiah mitra bisnis.",
+                step6Title: "Dokumentasi Acara & Audio Pengiring",
+                step6Desc: "Lengkapi undangan dengan foto pembicara, dokumentasi kegiatan, atau logo institusi & sponsor.",
+                galleryLabel: "Upload Foto Dokumentasi Acara / Poster",
+                gallerySub: "Bisa pilih beberapa foto kegiatan, foto venue, atau logo pendukung",
+                musicLabel: "Pilihan Audio Pengiring Formal (Autoplay Audio)",
+                musicOptions: [
+                    { value: 'wedding-melody.wav', label: '♫ Instrumental Corporate Elegan (Audio Bawaan)' },
+                    { value: 'https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-640.mp3', label: '♫ Ambient Musik Elegan & Modern' },
+                    { value: 'https://assets.mixkit.co/music/preview/mixkit-wedding-piano-641.mp3', label: '♫ Harmoni Piano Formal & Tenang' }
+                ],
             }
         };
 
-        function updateCategoryTheme(cat) {
-            const conf = categoryConfigs[cat] || categoryConfigs['Pernikahan'];
+        function updateCategoryTheme(cat, subCat = null) {
+            let confKey = cat;
+
+            // Sub-category sensitive branching
+            if (cat === 'Aqiqah') {
+                if (subCat && subCat.toLowerCase().includes('khitan')) {
+                    confKey = 'Khitanan';
+                } else {
+                    confKey = 'Aqiqah';
+                }
+            } else if (cat === 'Keagamaan') {
+                if (subCat && (subCat.toLowerCase().includes('tahlil') || subCat.toLowerCase().includes('doa bersama'))) {
+                    confKey = 'Tahlilan';
+                } else if (subCat && (subCat.toLowerCase().includes('halal') || subCat.toLowerCase().includes('silaturahmi'))) {
+                    confKey = 'Halal Bihalal';
+                } else if (subCat && (subCat.toLowerCase().includes('tasyakur') || subCat.toLowerCase().includes('syukuran'))) {
+                    confKey = 'Syukuran';
+                } else {
+                    confKey = 'Keagamaan';
+                }
+            }
+
+            const conf = categoryConfigs[confKey] || categoryConfigs[cat] || categoryConfigs['Pernikahan'];
 
             // 1. Heading & Quote in Step 1
             const heading = document.getElementById('eventHeadingInput');
@@ -2372,6 +2837,75 @@
             }
         }
 
+        // ========================================================
+        // BAB & SUB-BAB CATEGORY SELECTION HANDLERS
+        // ========================================================
+        function onSelectCategoryChapter(catKey, subCat = null) {
+            const chapter = categoryChaptersData[catKey];
+            if (!chapter) return;
+
+            // Update radio if not checked
+            const radio = document.querySelector(`input[name="category"][value="${catKey}"]`);
+            if (radio && !radio.checked) {
+                radio.checked = true;
+            }
+
+            // Update Chapter Name Header display
+            const chapterTitleEl = document.getElementById('subCatChapterNameDisplay');
+            if (chapterTitleEl) {
+                chapterTitleEl.textContent = chapter.title;
+            }
+
+            // Determine target sub-category
+            const targetSub = subCat || chapter.default_sub || (chapter.sub_categories ? chapter.sub_categories[0] : '');
+
+            // Populate Dropdown
+            const selectEl = document.getElementById('subCategorySelect');
+            if (selectEl && chapter.sub_categories) {
+                selectEl.innerHTML = '';
+                chapter.sub_categories.forEach(item => {
+                    const opt = document.createElement('option');
+                    opt.value = item;
+                    opt.textContent = item;
+                    if (item === targetSub) opt.selected = true;
+                    selectEl.appendChild(opt);
+                });
+            }
+
+            onSubCategoryChange(targetSub, false);
+            updateCategoryTheme(catKey, targetSub);
+        }
+
+        function onSubCategoryChange(subCatVal, triggerThemeUpdate = true) {
+            const hiddenInput = document.getElementById('hiddenSubCategoryInput');
+            if (hiddenInput) hiddenInput.value = subCatVal;
+
+            const selectEl = document.getElementById('subCategorySelect');
+            if (selectEl && selectEl.value !== subCatVal) {
+                selectEl.value = subCatVal;
+            }
+
+            const badge = document.getElementById('activeSubCatBadge');
+            if (badge) {
+                badge.textContent = '✓ ' + subCatVal;
+            }
+
+            if (triggerThemeUpdate) {
+                const currentCat = document.querySelector('input[name="category"]:checked')?.value || 'Pernikahan';
+                updateCategoryTheme(currentCat, subCatVal);
+            }
+
+            // Update Live preview display if element exists
+            const prevSub = document.getElementById('prevSubCategoryDisplay');
+            if (prevSub) {
+                prevSub.textContent = subCatVal;
+            }
+
+            if (typeof updateLivePreviewContent === 'function') {
+                updateLivePreviewContent();
+            }
+        }
+
         // Toggle Custom Request Box based on Package Selection
         function onPackageSelect(pkgVal) {
             const customBox = document.getElementById('customRequestBox');
@@ -2492,6 +3026,12 @@
 
             currentSelectedTheme = tmpl.name;
 
+            // Synchronize Category Chapter & Sub-chapter if defined
+            if (tmpl.category_label && typeof onSelectCategoryChapter === 'function') {
+                const targetSub = tmpl.sub_category || null;
+                onSelectCategoryChapter(tmpl.category_label, targetSub);
+            }
+
             // Update hidden input
             const themeInput = document.getElementById('selectedThemeInput');
             if (themeInput) themeInput.value = tmpl.name;
@@ -2546,12 +3086,9 @@
                 }
             });
 
-            // Update live preview styling
-            const canvas = document.getElementById('previewCanvas');
-            if (canvas) {
-                canvas.className = canvas.className.replace(/theme-[a-z-]+/g, '').trim();
-                canvas.classList.add(tmpl.theme_css);
-            }
+            // Update live preview styling & skin
+            renderPreviewSkin(tmpl);
+
             const prevThemeLabel = document.getElementById('prevCurrentThemeLabel');
             if (prevThemeLabel) prevThemeLabel.textContent = 'Tema: ' + tmpl.name;
 
@@ -2560,6 +3097,376 @@
 
             if (autoClose) {
                 closeTemplateModal();
+            }
+        }
+
+        // ========================================================
+        // DYNAMIC PREVIEW SKIN & AMBIENT ENGINE
+        // ========================================================
+        function renderPreviewSkin(tmpl) {
+            const canvas = document.getElementById('previewCanvas');
+            if (!canvas) return;
+
+            // 1. Theme & Skin CSS classes on canvas
+            canvas.className = canvas.className.replace(/theme-[a-z-]+/g, '').replace(/skin-[a-z-]+/g, '').trim();
+            canvas.classList.add(tmpl.theme_css);
+            canvas.classList.add(tmpl.skin || 'skin-minimalist-floral');
+
+            // 2. Tier banner on top of preview phone
+            const tierBanner = document.getElementById('prevTierBanner');
+            if (tierBanner) {
+                if (tmpl.tier === 'basic') {
+                    tierBanner.className = 'mb-3 px-3 py-1.5 rounded-full text-[10px] font-bold text-center tracking-wider flex items-center justify-center gap-1.5 shadow-sm border bg-emerald-50 text-emerald-800 border-emerald-200';
+                    tierBanner.innerHTML = '<span>🟢 Paket Basic • Rp50.000 (Desain Standar Minimalis)</span>';
+                } else if (tmpl.tier === 'premium') {
+                    tierBanner.className = 'mb-3 px-3 py-1.5 rounded-full text-[10px] font-bold text-center tracking-wider flex items-center justify-center gap-1.5 shadow-sm border bg-rose-50 text-rose-800 border-rose-200';
+                    tierBanner.innerHTML = '<span>🔵 Paket Premium • Rp110.000 (ChungDoi Arched Wildflower & Animasi)</span>';
+                } else if (tmpl.tier === 'eksklusif') {
+                    tierBanner.className = 'mb-3 px-3 py-1.5 rounded-full text-[10px] font-bold text-center tracking-wider flex items-center justify-center gap-1.5 shadow-sm border bg-amber-50 text-amber-900 border-amber-300';
+                    tierBanner.innerHTML = '<span>🔴 Paket Eksklusif • Rp180.000 (3D Ornamen Adat & Kemewahan Royal)</span>';
+                } else {
+                    tierBanner.className = 'mb-3 px-3 py-1.5 rounded-full text-[10px] font-bold text-center tracking-wider flex items-center justify-center gap-1.5 shadow-sm border bg-purple-50 text-purple-900 border-purple-300';
+                    tierBanner.innerHTML = '<span>✨ Paket Kustom VIP • Rp280.000 (Bespoke Studio Request Bebas)</span>';
+                }
+            }
+
+            // 3. Ambient particles
+            renderAmbientParticles(tmpl.skin);
+        }
+
+        function renderAmbientParticles(skin) {
+            const container = document.getElementById('prevAmbientParticles');
+            if (!container) return;
+            container.innerHTML = '';
+
+            if (skin === 'skin-wildflower') {
+                container.classList.remove('hidden');
+                const petals = [
+                    { left: '12%', color: '#f6d2dc', size: '16px', dur: '17s', delay: '-3s', sway: '25px' },
+                    { left: '35%', color: '#b75873', size: '13px', dur: '21s', delay: '-9s', sway: '-20px' },
+                    { left: '55%', color: '#f3c969', size: '14px', dur: '19s', delay: '-5s', sway: '18px' },
+                    { left: '78%', color: '#f6d2dc', size: '15px', dur: '23s', delay: '-13s', sway: '-16px' },
+                    { left: '22%', color: '#ffffff', size: '12px', dur: '20s', delay: '-7s', sway: '22px' },
+                    { left: '88%', color: '#567c22', size: '11px', dur: '22s', delay: '-15s', sway: '-24px' },
+                ];
+                petals.forEach(p => {
+                    const el = document.createElement('div');
+                    el.className = 'absolute pointer-events-none';
+                    el.style.left = p.left;
+                    el.style.top = '-20px';
+                    el.style.color = p.color;
+                    el.style.fontSize = p.size;
+                    el.style.setProperty('--sway', p.sway);
+                    el.style.animation = `ambient-fall ${p.dur} ease-in-out ${p.delay} infinite`;
+                    el.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor" width="1em" height="1em"><ellipse cx="12" cy="5" rx="2.5" ry="5"/><ellipse cx="12" cy="5" rx="2.5" ry="5" transform="rotate(60 12 12)"/><ellipse cx="12" cy="5" rx="2.5" ry="5" transform="rotate(120 12 12)"/><ellipse cx="12" cy="5" rx="2.5" ry="5" transform="rotate(180 12 12)"/><ellipse cx="12" cy="5" rx="2.5" ry="5" transform="rotate(240 12 12)"/><ellipse cx="12" cy="5" rx="2.5" ry="5" transform="rotate(300 12 12)"/><circle cx="12" cy="12" r="2" fill-opacity="0.5"/></svg>`;
+                    container.appendChild(el);
+                });
+            } else if (skin === 'skin-snow-white') {
+                container.classList.remove('hidden');
+                const flakes = [
+                    { left: '15%', size: '9px', dur: '12s', delay: '-2s' },
+                    { left: '38%', size: '7px', dur: '16s', delay: '-6s' },
+                    { left: '62%', size: '10px', dur: '14s', delay: '-4s' },
+                    { left: '82%', size: '8px', dur: '17s', delay: '-9s' },
+                ];
+                flakes.forEach(f => {
+                    const el = document.createElement('div');
+                    el.className = 'absolute pointer-events-none text-slate-400/70';
+                    el.style.left = f.left;
+                    el.style.top = '-10px';
+                    el.style.fontSize = f.size;
+                    el.style.setProperty('--sway', '15px');
+                    el.style.animation = `ambient-fall ${f.dur} linear ${f.delay} infinite`;
+                    el.innerHTML = '❄';
+                    container.appendChild(el);
+                });
+            } else if (skin === 'skin-javanese-royal' || skin === 'skin-golden-luxury') {
+                container.classList.remove('hidden');
+                const sparkles = [
+                    { left: '15%', top: '22%', dur: '2.5s', delay: '0s' },
+                    { left: '80%', top: '35%', dur: '3.1s', delay: '0.8s' },
+                    { left: '25%', top: '65%', dur: '2.8s', delay: '1.4s' },
+                    { left: '75%', top: '80%', dur: '2.2s', delay: '0.4s' },
+                ];
+                sparkles.forEach(s => {
+                    const el = document.createElement('div');
+                    el.className = 'absolute pointer-events-none text-[#d4af37] text-sm';
+                    el.style.left = s.left;
+                    el.style.top = s.top;
+                    el.style.animation = `gold-sparkle ${s.dur} ease-in-out ${s.delay} infinite`;
+                    el.innerHTML = '✦';
+                    container.appendChild(el);
+                });
+            } else {
+                container.classList.add('hidden');
+            }
+        }
+
+        function renderCoverCardSkin(tmpl, coupleName, dateText) {
+            const card = document.getElementById('previewCoverCard');
+            const topOrnament = document.getElementById('prevCoverTopOrnament');
+            const visualArea = document.getElementById('prevCenterVisualArea');
+            if (!card || !topOrnament || !visualArea) return;
+
+            const skin = tmpl.skin || 'skin-minimalist-floral';
+
+            // Reset base card shape
+            card.className = "theme-card p-4 rounded-3xl border-2 theme-border text-center shadow-sm relative overflow-hidden mb-5 transition-all duration-300";
+
+            if (skin === 'skin-wildflower') {
+                // ChungDoi Arched Dome geometry
+                card.className = "theme-card p-5 rounded-t-[80px] rounded-b-3xl border-2 border-[#f2c1ce] bg-gradient-to-b from-[#fdf6f3] via-[#fffbf9] to-[#faedf0] text-center shadow-md relative overflow-hidden mb-5 transition-all duration-300";
+                
+                topOrnament.innerHTML = `
+                    <div class="w-12 h-12 -mt-1 mb-2 rounded-full mx-auto bg-gradient-to-br from-[#d46a87] to-[#8d3f57] text-white flex items-center justify-center animate-seal-pulse shadow-md border-2 border-white/80" title="Wax Seal Heart">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    </div>
+                `;
+
+                visualArea.innerHTML = `
+                    <div class="relative w-full py-4 px-2">
+                        <svg class="absolute top-0 left-1 w-14 h-14 text-[#b75873] opacity-80 pointer-events-none" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                            <path d="M 10 90 Q 25 50 80 15" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="80" cy="15" r="7" fill="#b75873" opacity="0.65"/>
+                            <circle cx="60" cy="30" r="5" fill="#f472b6" opacity="0.6"/>
+                            <circle cx="40" cy="50" r="4" fill="#fb7185" opacity="0.6"/>
+                            <ellipse cx="68" cy="22" rx="4" ry="8" fill="#567c22" opacity="0.7" transform="rotate(-30 68 22)"/>
+                            <ellipse cx="48" cy="42" rx="3.5" ry="7" fill="#567c22" opacity="0.7" transform="rotate(-35 48 42)"/>
+                        </svg>
+                        <svg class="absolute bottom-0 right-1 w-14 h-14 text-[#b75873] opacity-80 pointer-events-none" viewBox="0 0 100 100" fill="none" stroke="currentColor">
+                            <path d="M 90 10 Q 75 50 20 85" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="20" cy="85" r="7" fill="#b75873" opacity="0.65"/>
+                            <circle cx="40" cy="70" r="5" fill="#f472b6" opacity="0.6"/>
+                            <circle cx="60" cy="50" r="4" fill="#fb7185" opacity="0.6"/>
+                            <ellipse cx="32" cy="78" rx="4" ry="8" fill="#567c22" opacity="0.7" transform="rotate(30 32 78)"/>
+                            <ellipse cx="52" cy="58" rx="3.5" ry="7" fill="#567c22" opacity="0.7" transform="rotate(35 52 58)"/>
+                        </svg>
+                        <div class="relative z-10 text-center py-2">
+                            <div class="font-cursive text-2xl sm:text-3xl font-normal text-[#b75873] leading-tight">${coupleName}</div>
+                            <div class="flex items-center justify-center gap-2 my-1">
+                                <div class="w-8 h-px bg-gradient-to-r from-transparent to-[#b75873]"></div>
+                                <span class="text-[#b75873] text-xs">❦</span>
+                                <div class="w-8 h-px bg-gradient-to-l from-transparent to-[#b75873]"></div>
+                            </div>
+                            <div class="font-lora text-[11px] font-medium text-[#567c22] tracking-wider">${dateText}</div>
+                        </div>
+                    </div>
+                `;
+            } else if (skin === 'skin-javanese-royal') {
+                // Javanese Royal Keraton Gunungan
+                card.className = "theme-card p-5 rounded-2xl border-2 border-[#d4af37] ring-1 ring-[#8c6d2d] bg-[#1a130e] text-[#f7eedb] text-center shadow-lg relative overflow-hidden mb-5 transition-all duration-300";
+                
+                topOrnament.innerHTML = `
+                    <div class="w-20 h-22 mx-auto mb-1 flex items-center justify-center">
+                        <svg class="w-16 h-20 text-[#d4af37]" viewBox="0 0 100 130" fill="currentColor">
+                            <path d="M 50 5 C 40 25 22 52 14 78 C 6 102 20 118 50 122 C 80 118 94 102 86 78 C 78 52 60 25 50 5 Z" fill-opacity="0.2" stroke="currentColor" stroke-width="2"/>
+                            <path d="M 50 14 C 44 28 30 52 22 74 C 14 94 26 108 50 112 C 74 108 86 94 78 74 C 70 52 56 28 50 14 Z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2 2"/>
+                            <path d="M 50 112 L 50 38 M 50 62 Q 35 52 28 42 M 50 78 Q 32 70 26 60 M 50 62 Q 65 52 72 42 M 50 78 Q 68 70 74 60" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                            <circle cx="50" cy="36" r="3.5" fill="currentColor"/>
+                        </svg>
+                    </div>
+                `;
+
+                visualArea.innerHTML = `
+                    <div class="text-center py-2 px-2">
+                        <span class="text-[9px] uppercase tracking-widest text-[#d4af37]/80 block font-cinzel">KERATON NUSANTARA</span>
+                        <div class="font-cinzel text-xl sm:text-2xl font-bold text-[#d4af37] my-1 leading-tight">${coupleName}</div>
+                        <div class="flex items-center justify-center gap-2 my-1 text-[#d4af37]">
+                            <span class="text-xs">◆</span>
+                            <div class="w-10 h-px bg-[#d4af37]"></div>
+                            <span class="text-xs">⚜</span>
+                            <div class="w-10 h-px bg-[#d4af37]"></div>
+                            <span class="text-xs">◆</span>
+                        </div>
+                        <div class="font-cinzel text-[10px] font-bold text-[#f7eedb]/90 tracking-widest">${dateText}</div>
+                    </div>
+                `;
+            } else if (skin === 'skin-islamic-dome') {
+                // Islamic Dome Kubah Masjid
+                card.className = "theme-card p-5 rounded-t-[85px] rounded-b-2xl border-2 border-emerald-500/60 bg-[#0d281c] text-emerald-50 text-center shadow-md relative overflow-hidden mb-5 transition-all duration-300";
+
+                topOrnament.innerHTML = `
+                    <div class="mx-auto mb-1 text-center">
+                        <svg class="w-16 h-12 mx-auto text-[#e5c07b]" viewBox="0 0 100 65" fill="none" stroke="currentColor">
+                            <path d="M 50 5 C 38 18 28 25 22 35 L 78 35 C 72 25 62 18 50 5 Z" fill="currentColor" fill-opacity="0.25" stroke-width="2"/>
+                            <circle cx="50" cy="5" r="2.5" fill="currentColor"/>
+                            <path d="M 15 22 L 15 48 M 85 22 L 85 48" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M 50 35 L 50 52" stroke-width="1.5"/>
+                        </svg>
+                        <span class="font-serif text-xs block text-[#e5c07b] font-bold mt-1">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</span>
+                    </div>
+                `;
+
+                visualArea.innerHTML = `
+                    <div class="text-center py-2 px-2">
+                        <div class="font-serif text-xl sm:text-2xl font-bold text-[#e5c07b] leading-tight">${coupleName}</div>
+                        <div class="flex items-center justify-center gap-2 my-1 text-[#e5c07b]/80">
+                            <div class="w-8 h-px bg-emerald-500"></div>
+                            <span class="text-xs">🌙</span>
+                            <div class="w-8 h-px bg-emerald-500"></div>
+                        </div>
+                        <div class="text-[10px] font-semibold text-emerald-200 tracking-wider">${dateText}</div>
+                    </div>
+                `;
+            } else if (skin === 'skin-batak-heritage') {
+                // Batak Gorga Tribal
+                card.className = "theme-card p-5 rounded-2xl border-2 border-[#92400e] bg-[#1e0e13] text-[#fef3c7] text-center shadow-md relative overflow-hidden mb-5 transition-all duration-300";
+
+                topOrnament.innerHTML = `
+                    <div class="w-full h-5 mb-2 overflow-hidden flex items-center justify-center opacity-90 text-[#f59e0b]">
+                        <svg class="w-full h-4" viewBox="0 0 200 16" fill="currentColor">
+                            <path d="M 0 8 L 10 0 L 20 8 L 30 0 L 40 8 L 50 0 L 60 8 L 70 0 L 80 8 L 90 0 L 100 8 L 110 0 L 120 8 L 130 0 L 140 8 L 150 0 L 160 8 L 170 0 L 180 8 L 190 0 L 200 8 L 190 16 L 180 8 L 170 16 L 160 8 L 150 16 L 140 8 L 130 16 L 120 8 L 110 16 L 100 8 L 90 16 L 80 8 L 70 16 L 60 8 L 50 16 L 40 8 L 30 16 L 20 8 L 10 16 Z"/>
+                        </svg>
+                    </div>
+                `;
+
+                visualArea.innerHTML = `
+                    <div class="text-center py-2 px-2">
+                        <span class="text-[9px] uppercase tracking-widest text-[#f59e0b] block font-bold">HORAS • ADAT BATAK</span>
+                        <div class="font-serif text-xl sm:text-2xl font-bold text-[#fef3c7] my-1 leading-tight">${coupleName}</div>
+                        <div class="flex items-center justify-center gap-2 my-1 text-[#f59e0b]">
+                            <div class="w-8 h-0.5 bg-[#f59e0b]"></div>
+                            <span class="text-xs font-bold">◈</span>
+                            <div class="w-8 h-0.5 bg-[#f59e0b]"></div>
+                        </div>
+                        <div class="text-[10px] font-bold text-[#fef3c7]/85 tracking-widest">${dateText}</div>
+                    </div>
+                `;
+            } else if (skin === 'skin-golden-luxury') {
+                // Golden VIP Birthday / Wisuda
+                card.className = "theme-card p-5 rounded-2xl border-2 border-[#b45309] bg-[#0a0a0a] text-white text-center shadow-xl relative overflow-hidden mb-5 transition-all duration-300";
+
+                topOrnament.innerHTML = `
+                    <div class="w-12 h-12 rounded-full mx-auto mb-1 bg-gradient-to-br from-amber-300 via-yellow-500 to-amber-700 p-0.5 shadow-lg flex items-center justify-center">
+                        <div class="w-full h-full rounded-full bg-black flex items-center justify-center text-amber-300 font-bold text-[10px]">
+                            ★ VIP ★
+                        </div>
+                    </div>
+                `;
+
+                visualArea.innerHTML = `
+                    <div class="text-center py-2 px-2">
+                        <span class="text-[9px] uppercase tracking-widest text-amber-400 font-bold block">EXCLUSIVE CELEBRATION</span>
+                        <div class="font-cinzel text-xl sm:text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-200 my-1 leading-tight">${coupleName}</div>
+                        <div class="flex items-center justify-center gap-2 my-1 text-amber-400">
+                            <span class="text-xs">✨</span>
+                            <div class="w-10 h-px bg-amber-400/70"></div>
+                            <span class="text-xs">👑</span>
+                            <div class="w-10 h-px bg-amber-400/70"></div>
+                            <span class="text-xs">✨</span>
+                        </div>
+                        <div class="font-cinzel text-[10px] font-bold text-amber-200 tracking-wider">${dateText}</div>
+                    </div>
+                `;
+            } else if (skin === 'skin-snow-white') {
+                // Editorial Snow White
+                card.className = "theme-card p-5 rounded-2xl border-2 border-slate-300 bg-white text-slate-900 text-center shadow-md relative overflow-hidden mb-5 transition-all duration-300";
+
+                topOrnament.innerHTML = `
+                    <div class="w-8 h-8 rounded-full mx-auto mb-1 border border-slate-400 flex items-center justify-center text-slate-600 text-xs font-serif font-bold">
+                        DK
+                    </div>
+                `;
+
+                visualArea.innerHTML = `
+                    <div class="text-center py-2 px-2">
+                        <span class="text-[9px] uppercase tracking-widest text-slate-500 font-bold block">EDITORIAL MODERN</span>
+                        <div class="font-cinzel text-xl sm:text-2xl font-bold text-slate-900 my-1 leading-tight tracking-wider">${coupleName}</div>
+                        <div class="w-12 h-px bg-slate-400 mx-auto my-1.5"></div>
+                        <div class="text-[10px] font-semibold text-slate-600 tracking-widest uppercase">${dateText}</div>
+                    </div>
+                `;
+            } else if (skin === 'skin-baby-pastel') {
+                // Baby Pastel & Little Prince
+                card.className = "theme-card p-5 rounded-3xl border-2 border-[#fecdd3] bg-[#fffaf5] text-[#4c0519] text-center shadow-sm relative overflow-hidden mb-5 transition-all duration-300";
+
+                topOrnament.innerHTML = `
+                    <div class="flex items-center justify-center gap-2 mb-1 text-amber-400 text-base">
+                        <span>⭐</span><span class="text-xl">👑</span><span>⭐</span>
+                    </div>
+                `;
+
+                visualArea.innerHTML = `
+                    <div class="text-center py-2 px-2">
+                        <span class="text-[9px] uppercase tracking-widest text-[#f43f5e] font-bold block">TASYAKURAN SPESIAL</span>
+                        <div class="font-serif text-xl sm:text-2xl font-bold text-[#4c0519] my-1 leading-tight">${coupleName}</div>
+                        <div class="flex items-center justify-center gap-2 my-1 text-[#f43f5e]">
+                            <div class="w-6 h-px bg-[#fecdd3]"></div>
+                            <span class="text-xs">👶</span>
+                            <div class="w-6 h-px bg-[#fecdd3]"></div>
+                        </div>
+                        <div class="text-[10px] font-semibold text-[#f43f5e] tracking-wider">${dateText}</div>
+                    </div>
+                `;
+            } else if (skin === 'skin-ketupat-raya') {
+                // Ketupat Raya Silaturahmi
+                card.className = "theme-card p-5 rounded-2xl border-2 border-[#bbf7d0] bg-[#f4f9f6] text-[#14532d] text-center shadow-sm relative overflow-hidden mb-5 transition-all duration-300";
+
+                topOrnament.innerHTML = `
+                    <div class="w-10 h-10 rounded-full mx-auto mb-1 bg-emerald-100 border border-emerald-300 flex items-center justify-center text-lg">
+                        🎋
+                    </div>
+                `;
+
+                visualArea.innerHTML = `
+                    <div class="text-center py-2 px-2">
+                        <span class="text-[9px] uppercase tracking-widest text-emerald-700 font-bold block">SILATURAHMI KELUARGA</span>
+                        <div class="font-serif text-xl sm:text-2xl font-bold text-[#14532d] my-1 leading-tight">${coupleName}</div>
+                        <div class="flex items-center justify-center gap-2 my-1 text-emerald-600">
+                            <div class="w-6 h-px bg-emerald-300"></div>
+                            <span class="text-xs">✨</span>
+                            <div class="w-6 h-px bg-emerald-300"></div>
+                        </div>
+                        <div class="text-[10px] font-semibold text-emerald-700 tracking-wider">${dateText}</div>
+                    </div>
+                `;
+            } else if (skin === 'skin-custom-vip') {
+                // Custom VIP Haute Couture
+                card.className = "theme-card p-5 rounded-2xl border-2 border-[#c084fc] bg-[#180f28] text-[#f3e8ff] text-center shadow-xl animate-pulse-glow relative overflow-hidden mb-5 transition-all duration-300";
+
+                topOrnament.innerHTML = `
+                    <div class="px-3 py-1 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white text-[10px] font-bold uppercase tracking-widest inline-block mb-1 shadow">
+                        ✨ Bespoke Haute Couture Studio
+                    </div>
+                `;
+
+                visualArea.innerHTML = `
+                    <div class="text-center py-2 px-2">
+                        <div class="font-serif text-xl sm:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-200 to-amber-200 my-1 leading-tight">${coupleName}</div>
+                        <div class="flex items-center justify-center gap-2 my-1 text-purple-300">
+                            <span class="text-xs">✨</span>
+                            <span class="text-[9px] uppercase tracking-wider font-bold">Custom Request 1-on-1 Designer</span>
+                            <span class="text-xs">✨</span>
+                        </div>
+                        <div class="text-[10px] font-semibold text-purple-200 tracking-wider">${dateText}</div>
+                    </div>
+                `;
+            } else {
+                // skin-minimalist-floral (Basic Minimalist Default)
+                card.className = "theme-card p-4 rounded-3xl border-2 border-[#d1ded5] bg-white/90 text-[#2d4a3e] text-center shadow-sm relative overflow-hidden mb-5 transition-all duration-300";
+                topOrnament.innerHTML = '';
+
+                visualArea.innerHTML = `
+                    <div class="my-2 relative flex items-center justify-center">
+                        <svg class="w-40 h-40 text-emerald-800/80 mx-auto" viewBox="0 0 200 200" fill="none">
+                            <circle cx="100" cy="100" r="86" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 3" opacity="0.35"/>
+                            <path d="M 100 24 C 55 24 26 58 26 100 C 26 142 55 176 100 176" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                            <path d="M 100 24 C 145 24 174 58 174 100 C 174 142 145 176 100 176" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                            <path d="M 90 24 C 85 17 78 22 80 30 C 82 37 90 30 90 24 Z" fill="currentColor" opacity="0.85"/>
+                            <path d="M 60 40 C 52 35 46 42 50 49 C 54 56 62 47 60 40 Z" fill="currentColor" opacity="0.85"/>
+                            <path d="M 38 67 C 30 64 26 72 32 78 C 37 84 43 74 38 67 Z" fill="currentColor" opacity="0.85"/>
+                            <path d="M 28 102 C 20 102 20 112 28 114 C 36 116 36 104 28 102 Z" fill="currentColor" opacity="0.85"/>
+                            <path d="M 110 24 C 115 17 122 22 120 30 C 118 37 110 30 110 24 Z" fill="currentColor" opacity="0.85"/>
+                            <path d="M 140 40 C 148 35 154 42 150 49 C 146 56 138 47 140 40 Z" fill="currentColor" opacity="0.85"/>
+                            <path d="M 162 67 C 170 64 174 72 168 78 C 163 84 157 74 162 67 Z" fill="currentColor" opacity="0.85"/>
+                            <path d="M 172 102 C 180 102 180 112 172 114 C 164 116 164 104 172 102 Z" fill="currentColor" opacity="0.85"/>
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+                            <div class="font-serif text-xl sm:text-2xl font-bold leading-tight theme-accent">${coupleName}</div>
+                            <div class="text-[10px] font-semibold mt-1 tracking-wider opacity-75">${dateText}</div>
+                        </div>
+                    </div>
+                `;
             }
         }
 
@@ -2618,56 +3525,102 @@
 
         // Live data binding from builder form inputs into preview modal
         function updateLivePreviewContent() {
-            const headingVal = document.getElementById('eventHeadingInput')?.value || "WALIMATUL 'URSY";
-            const groomNick = document.getElementById('groomNameInput')?.value || "Rizky";
-            const brideNick = document.getElementById('brideNameInput')?.value || "Amanda";
-            const groomFull = document.getElementById('groomFullNameInput')?.value || "Rizky Pratama, S.Kom";
-            const brideFull = document.getElementById('brideFullNameInput')?.value || "Amanda Putri, S.E";
-            const quoteVal = document.getElementById('quoteInput')?.value || "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu...";
-            const weddingDateInput = document.querySelector('input[name="wedding_date"]')?.value;
+            const selectedCatVal = document.querySelector('input[name="category"]:checked')?.value || 'Pernikahan';
+            const subCatVal = document.getElementById('hiddenSubCategoryInput')?.value || '';
+            const isNonWedding = (selectedCatVal !== 'Pernikahan');
 
-            // Heading & Quote
+            // Find matching config based on Category and Sub-Category
+            let confKey = selectedCatVal;
+            if (selectedCatVal === 'Aqiqah') {
+                confKey = (subCatVal && subCatVal.toLowerCase().includes('khitan')) ? 'Khitanan' : 'Aqiqah';
+            } else if (selectedCatVal === 'Keagamaan') {
+                if (subCatVal && (subCatVal.toLowerCase().includes('tahlil') || subCatVal.toLowerCase().includes('doa bersama'))) {
+                    confKey = 'Tahlilan';
+                } else if (subCatVal && (subCatVal.toLowerCase().includes('halal') || subCatVal.toLowerCase().includes('silaturahmi'))) {
+                    confKey = 'Halal Bihalal';
+                } else if (subCatVal && (subCatVal.toLowerCase().includes('tasyakur') || subCatVal.toLowerCase().includes('syukuran'))) {
+                    confKey = 'Syukuran';
+                } else {
+                    confKey = 'Keagamaan';
+                }
+            }
+            const conf = categoryConfigs[confKey] || categoryConfigs[selectedCatVal] || categoryConfigs['Pernikahan'];
+
+            // 1. Heading & Quote
             const prevHeading = document.getElementById('prevHeadingDisplay');
+            const defaultHeading = conf.heading || (selectedCatVal === 'Pernikahan' ? "WALIMATUL 'URSY" : ("UNDANGAN " + selectedCatVal.toUpperCase()));
+            const headingVal = document.getElementById('eventHeadingInput')?.value || defaultHeading;
             if (prevHeading) prevHeading.textContent = headingVal.toUpperCase();
 
+            const prevSub = document.getElementById('prevSubCategoryDisplay');
+            if (prevSub) prevSub.textContent = subCatVal ? `• ${subCatVal} •` : '';
+
+            const defaultQuote = conf.quote || "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu...";
+            const quoteVal = document.getElementById('quoteInput')?.value || defaultQuote;
             const prevQuote = document.getElementById('prevLiveQuote');
             if (prevQuote) prevQuote.textContent = quoteVal;
 
-            // Names in Wreath
-            const prevCouple = document.getElementById('prevCoupleNames');
-            const selectedCatVal = document.querySelector('input[name="category"]:checked')?.value || 'Pernikahan';
-            const isNonWedding = (selectedCatVal !== 'Pernikahan');
-
-            if (prevCouple) {
-                if (isNonWedding && !brideNick) {
-                    prevCouple.textContent = groomNick;
-                } else if (!brideNick) {
-                    prevCouple.textContent = groomNick;
+            // 2. Section Tokoh Title (Sesuaikan dengan Kategori)
+            const prevSectionTokohTitle = document.getElementById('prevSectionTokohTitle');
+            if (prevSectionTokohTitle) {
+                if (selectedCatVal === 'Pernikahan') {
+                    prevSectionTokohTitle.textContent = "Mempelai Pria & Wanita";
+                } else if (selectedCatVal === 'Wisuda') {
+                    prevSectionTokohTitle.textContent = "Wisudawan & Pendamping";
+                } else if (selectedCatVal === 'Ulang Tahun') {
+                    prevSectionTokohTitle.textContent = "Profil yang Berulang Tahun";
+                } else if (selectedCatVal === 'Aqiqah') {
+                    prevSectionTokohTitle.textContent = (confKey === 'Khitanan') ? "Anak Khitan & Orang Tua" : "Buah Hati & Orang Tua";
+                } else if (selectedCatVal === 'Keagamaan') {
+                    prevSectionTokohTitle.textContent = (confKey === 'Tahlilan') ? "Sosok Almarhum & Ahli Waris" : "Penyelenggara & Tokoh Acara";
+                } else if (selectedCatVal === 'Acara Formal') {
+                    prevSectionTokohTitle.textContent = "Penyelenggara & Pembicara";
                 } else {
-                    prevCouple.textContent = groomNick + " & " + brideNick;
+                    prevSectionTokohTitle.textContent = conf.step2Title || "Profil Acara";
                 }
             }
 
-            // Date in Wreath & Save Date
-            const prevWreathDate = document.getElementById('prevWreathDate');
-            if (prevWreathDate) {
-                if (weddingDateInput) {
-                    const d = new Date(weddingDateInput);
-                    if (!isNaN(d.getTime())) {
-                        const day = String(d.getDate()).padStart(2, '0');
-                        const month = String(d.getMonth() + 1).padStart(2, '0');
-                        const year = d.getFullYear();
-                        prevWreathDate.textContent = `${day} . ${month} . ${year}`;
-                    }
-                } else {
-                    prevWreathDate.textContent = '18 . 10 . 2026';
+            // 3. Names & Date for Dynamic Skin Rendering
+            const groomNickInput = document.getElementById('groomNameInput')?.value;
+            const brideNickInput = document.getElementById('brideNameInput')?.value;
+            
+            const groomNick = groomNickInput || (selectedCatVal === 'Pernikahan' ? 'Rizky' : (selectedCatVal === 'Wisuda' ? 'Wisudawan' : (selectedCatVal === 'Ulang Tahun' ? 'Yang Ultah' : (selectedCatVal === 'Aqiqah' ? 'Buah Hati' : 'Penyelenggara'))));
+            const brideNick = brideNickInput || (selectedCatVal === 'Pernikahan' ? 'Amanda' : '');
+
+            let coupleTitleText = groomNick;
+            if (selectedCatVal === 'Pernikahan') {
+                coupleTitleText = brideNick ? (groomNick + " & " + brideNick) : groomNick;
+            } else if (selectedCatVal === 'Wisuda' || selectedCatVal === 'Ulang Tahun' || selectedCatVal === 'Aqiqah') {
+                coupleTitleText = groomNick;
+            } else {
+                coupleTitleText = brideNick ? (groomNick + " & " + brideNick) : groomNick;
+            }
+
+            const weddingDateInput = document.querySelector('input[name="wedding_date"]')?.value;
+            let dateDisplayStr = '18 . 10 . 2026';
+            if (weddingDateInput) {
+                const d = new Date(weddingDateInput);
+                if (!isNaN(d.getTime())) {
+                    const day = String(d.getDate()).padStart(2, '0');
+                    const month = String(d.getMonth() + 1).padStart(2, '0');
+                    const year = d.getFullYear();
+                    dateDisplayStr = `${day} . ${month} . ${year}`;
                 }
             }
 
-            // Tokoh 1 (Groom / Almarhum / Buah Hati)
-            const groomFather = document.querySelector('input[name="groom_father"]')?.value || 'Bpk. Hendra Pratama';
-            const groomMother = document.querySelector('input[name="groom_mother"]')?.value || 'Ibu Ratna';
-            const groomBadge = document.getElementById('labelGroomTitle')?.textContent || 'Mempelai Pria';
+            // Render active skin with couple name and date
+            const activeTmpl = allTemplatesData.find(t => t.name === currentSelectedTheme) || allTemplatesData[0];
+            renderPreviewSkin(activeTmpl);
+            renderCoverCardSkin(activeTmpl, coupleTitleText, dateDisplayStr);
+
+            // 5. Tokoh 1 (Groom / Wisudawan / Ultah / Buah Hati / Penceramah / Formal)
+            const groomFullInput = document.getElementById('groomFullNameInput')?.value;
+            const groomFull = groomFullInput || groomNick;
+            const groomExtra = document.getElementById('groomBirthOrderInput')?.value || '';
+            const groomFather = document.querySelector('input[name="groom_father"]')?.value || '';
+            const groomMother = document.querySelector('input[name="groom_mother"]')?.value || '';
+            const groomCity = document.querySelector('input[name="groom_city"]')?.value || '';
+            const groomBadge = document.getElementById('labelGroomTitle')?.textContent || conf.person1Badge || 'Mempelai Pria';
 
             const prevLiveGroomBadge = document.getElementById('prevLiveGroomBadge');
             if (prevLiveGroomBadge) prevLiveGroomBadge.textContent = groomBadge;
@@ -2677,41 +3630,133 @@
 
             const prevLiveGroomParents = document.getElementById('prevLiveGroomParents');
             if (prevLiveGroomParents) {
-                prevLiveGroomParents.textContent = `Putra dari ${groomFather} & ${groomMother}`;
+                if (selectedCatVal === 'Pernikahan') {
+                    const fatherText = groomFather || 'Bpk. Hendra Pratama';
+                    const motherText = groomMother || 'Ibu Ratna';
+                    prevLiveGroomParents.textContent = `Putra dari ${fatherText} & ${motherText}`;
+                } else if (selectedCatVal === 'Wisuda') {
+                    if (groomExtra) {
+                        prevLiveGroomParents.textContent = groomExtra;
+                    } else if (groomFather || groomMother) {
+                        prevLiveGroomParents.textContent = `Putra/Putri dari ${groomFather || '-'} & ${groomMother || '-'}`;
+                    } else {
+                        prevLiveGroomParents.textContent = 'Sarjana / Mahasiswa Berprestasi';
+                    }
+                } else if (selectedCatVal === 'Ulang Tahun') {
+                    if (groomExtra) {
+                        prevLiveGroomParents.textContent = groomExtra;
+                    } else if (groomFather || groomMother) {
+                        prevLiveGroomParents.textContent = `Putra/Putri dari ${groomFather || '-'} & ${groomMother || '-'}`;
+                    } else {
+                        prevLiveGroomParents.textContent = 'Perayaan Hari Ulang Tahun Bahagia';
+                    }
+                } else if (selectedCatVal === 'Aqiqah') {
+                    if (groomFather || groomMother) {
+                        prevLiveGroomParents.textContent = `Putra/Putri dari ${groomFather || '-'} & ${groomMother || '-'}`;
+                    } else if (groomExtra) {
+                        prevLiveGroomParents.textContent = groomExtra;
+                    } else {
+                        prevLiveGroomParents.textContent = 'Buah Hati Tercinta';
+                    }
+                } else if (selectedCatVal === 'Keagamaan') {
+                    if (confKey === 'Tahlilan') {
+                        prevLiveGroomParents.textContent = groomExtra || (groomCity ? `Kota: ${groomCity}` : 'Almarhum / Almarhumah Tercinta');
+                    } else {
+                        prevLiveGroomParents.textContent = groomExtra || (groomCity ? `Asal: ${groomCity}` : 'Penceramah / Tuan Rumah');
+                    }
+                } else if (selectedCatVal === 'Acara Formal') {
+                    prevLiveGroomParents.textContent = groomExtra || (groomCity ? `Lokasi: ${groomCity}` : 'Perusahaan / Institusi Penyelenggara');
+                } else {
+                    prevLiveGroomParents.textContent = groomExtra || (groomFather ? `Keluarga ${groomFather}` : '');
+                }
             }
 
-            // Tokoh 2 (Bride / Pendamping)
-            const brideFather = document.querySelector('input[name="bride_father"]')?.value || 'Bpk. Surya Wijaya';
-            const brideMother = document.querySelector('input[name="bride_mother"]')?.value || 'Ibu Dewi';
-            const brideBadge = document.getElementById('labelBrideTitle')?.textContent || 'Mempelai Wanita';
+            // 6. Divider between Tokoh 1 and Tokoh 2
+            const ampersandDiv = document.getElementById('prevAmpersandDivider');
+            if (ampersandDiv) {
+                if (selectedCatVal === 'Pernikahan') {
+                    ampersandDiv.textContent = "&";
+                    ampersandDiv.className = "text-center font-cursive text-xl theme-accent";
+                } else if (selectedCatVal === 'Wisuda') {
+                    ampersandDiv.innerHTML = '<span class="text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-sunk text-ink2 border border-ink/10">🎓 Didampingi Oleh</span>';
+                    ampersandDiv.className = "text-center my-1.5";
+                } else if (selectedCatVal === 'Ulang Tahun') {
+                    ampersandDiv.innerHTML = '<span class="text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-sunk text-ink2 border border-ink/10">🎂 Didampingi Oleh</span>';
+                    ampersandDiv.className = "text-center my-1.5";
+                } else if (selectedCatVal === 'Aqiqah') {
+                    ampersandDiv.innerHTML = '<span class="text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-sunk text-ink2 border border-ink/10">👶 Putra/Putri Tercinta Dari</span>';
+                    ampersandDiv.className = "text-center my-1.5";
+                } else if (selectedCatVal === 'Keagamaan') {
+                    const divLabel = (confKey === 'Tahlilan') ? '🤲 Didoakan Oleh Keluarga' : '🕌 Didukung Oleh Panitia';
+                    ampersandDiv.innerHTML = `<span class="text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-sunk text-ink2 border border-ink/10">${divLabel}</span>`;
+                    ampersandDiv.className = "text-center my-1.5";
+                } else if (selectedCatVal === 'Acara Formal') {
+                    ampersandDiv.innerHTML = '<span class="text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-sunk text-ink2 border border-ink/10">🏛️ Menghadirkan Pembicara</span>';
+                    ampersandDiv.className = "text-center my-1.5";
+                } else {
+                    ampersandDiv.textContent = "&";
+                    ampersandDiv.className = "text-center font-cursive text-xl theme-accent";
+                }
+            }
+
+            // 7. Tokoh 2 (Bride / Pendamping / Orang Tua / Pembicara)
+            const brideFullInput = document.getElementById('brideFullNameInput')?.value;
+            const brideBadge = document.getElementById('labelBrideTitle')?.textContent || conf.person2Badge || 'Mempelai Wanita';
+            const brideExtra = document.getElementById('brideBirthOrderInput')?.value || '';
+            const brideFather = document.querySelector('input[name="bride_father"]')?.value || '';
+            const brideMother = document.querySelector('input[name="bride_mother"]')?.value || '';
 
             const prevLiveBrideBadge = document.getElementById('prevLiveBrideBadge');
             if (prevLiveBrideBadge) prevLiveBrideBadge.textContent = brideBadge;
 
             const prevLiveBrideName = document.getElementById('prevLiveBrideName');
-            if (prevLiveBrideName) prevLiveBrideName.textContent = brideFull;
+            const defaultBrideName = (selectedCatVal === 'Pernikahan') ? 'Amanda Putri, S.E' : (selectedCatVal === 'Wisuda' ? 'Orang Tua / Pendamping' : (selectedCatVal === 'Ulang Tahun' ? 'Orang Tua Tercinta' : (selectedCatVal === 'Aqiqah' ? 'Kedua Orang Tua' : 'Panitia Acara')));
+            if (prevLiveBrideName) prevLiveBrideName.textContent = brideFullInput || brideNickInput || defaultBrideName;
 
             const prevLiveBrideParents = document.getElementById('prevLiveBrideParents');
             if (prevLiveBrideParents) {
-                prevLiveBrideParents.textContent = `Putri dari ${brideFather} & ${brideMother}`;
+                if (selectedCatVal === 'Pernikahan') {
+                    const fName = brideFather || 'Bpk. Surya Wijaya';
+                    const mName = brideMother || 'Ibu Dewi';
+                    prevLiveBrideParents.textContent = `Putri dari ${fName} & ${mName}`;
+                } else if (selectedCatVal === 'Wisuda') {
+                    prevLiveBrideParents.textContent = brideExtra || 'Orang Tua Tercinta / Pendamping Wisuda';
+                } else if (selectedCatVal === 'Ulang Tahun') {
+                    prevLiveBrideParents.textContent = brideExtra || 'Orang Tua & Keluarga Tercinta';
+                } else if (selectedCatVal === 'Aqiqah') {
+                    prevLiveBrideParents.textContent = brideExtra || 'Ayah & Ibu Kandung';
+                } else if (selectedCatVal === 'Keagamaan') {
+                    prevLiveBrideParents.textContent = brideExtra || (confKey === 'Tahlilan' ? 'Keluarga Besar Ahli Waris' : 'Panitia Pelaksana Kegiatan');
+                } else if (selectedCatVal === 'Acara Formal') {
+                    prevLiveBrideParents.textContent = brideExtra || 'Keynote Speaker / Narasumber Utama';
+                } else {
+                    prevLiveBrideParents.textContent = brideExtra || '';
+                }
             }
 
-            // Handle Non-Wedding single Tokoh display
+            // Show or hide Tokoh 2 card
             const tokoh2Card = document.getElementById('prevTokoh2Card');
-            const ampersandDiv = document.getElementById('prevAmpersandDivider');
-            if (isNonWedding && !document.getElementById('brideNameInput')?.value) {
-                if (tokoh2Card) tokoh2Card.style.display = 'none';
-                if (ampersandDiv) ampersandDiv.style.display = 'none';
-            } else {
-                if (tokoh2Card) tokoh2Card.style.display = 'flex';
-                if (ampersandDiv) ampersandDiv.style.display = 'block';
+            const hasTokoh2Input = !!(brideNickInput || brideFullInput || brideExtra);
+            if (tokoh2Card) {
+                if (selectedCatVal === 'Pernikahan') {
+                    tokoh2Card.style.display = 'flex';
+                    if (ampersandDiv) ampersandDiv.style.display = 'block';
+                } else {
+                    if (hasTokoh2Input || brideNickInput) {
+                        tokoh2Card.style.display = 'flex';
+                        if (ampersandDiv) ampersandDiv.style.display = 'block';
+                    } else {
+                        tokoh2Card.style.display = 'none';
+                        if (ampersandDiv) ampersandDiv.style.display = 'none';
+                    }
+                }
             }
 
-            // Events
-            const ev1Title = document.getElementById('event1TitleInput')?.value || 'Akad Nikah';
+            // 8. Events
+            const ev1Title = document.getElementById('event1TitleInput')?.value || conf.event1Title || 'Akad Nikah';
             const ev1Time = document.querySelector('input[name="event_1_start_time"]')?.value || '08:00';
             const ev1EndTime = document.querySelector('input[name="event_1_end_time"]')?.value || '10:00 WIB';
-            const ev1Venue = document.getElementById('event1VenueInput')?.value || 'Gedung Serbaguna Bahagia';
+            const ev1Venue = document.getElementById('event1VenueInput')?.value || conf.event1VenuePlaceholder?.replace('Contoh: ', '') || 'Gedung Pertemuan';
 
             const prevEv1Title = document.getElementById('prevLiveEv1Title');
             if (prevEv1Title) prevEv1Title.textContent = ev1Title;
@@ -2720,10 +3765,10 @@
             const prevEv1Venue = document.getElementById('prevLiveEv1Venue');
             if (prevEv1Venue) prevEv1Venue.textContent = ev1Venue;
 
-            const ev2Title = document.getElementById('event2TitleInput')?.value || 'Resepsi Pernikahan';
+            const ev2Title = document.getElementById('event2TitleInput')?.value || conf.event2Title || (selectedCatVal === 'Pernikahan' ? 'Resepsi Pernikahan' : 'Ramah Tamah & Santap Bersama');
             const ev2Time = document.querySelector('input[name="event_2_start_time"]')?.value || '11:00';
             const ev2EndTime = document.querySelector('input[name="event_2_end_time"]')?.value || '14:00 WIB';
-            const ev2Venue = document.getElementById('event2VenueInput')?.value || 'Gedung Serbaguna Bahagia';
+            const ev2Venue = document.getElementById('event2VenueInput')?.value || conf.event2VenuePlaceholder?.replace('Contoh: ', '') || ev1Venue;
 
             const prevEv2Title = document.getElementById('prevLiveEv2Title');
             if (prevEv2Title) prevEv2Title.textContent = ev2Title;
@@ -2827,7 +3872,8 @@
             });
 
             const initialCat = @json($selectedCat) || 'Pernikahan';
-            updateCategoryTheme(initialCat);
+            const initialSubCat = @json($selectedSubCat) || '';
+            onSelectCategoryChapter(initialCat, initialSubCat);
 
             // Connect form live-binding listeners
             const form = document.getElementById('invitationBuilderForm');
