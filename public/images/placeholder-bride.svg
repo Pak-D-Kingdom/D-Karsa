@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <rect width="100%" height="100%" fill="#FBF0F2" rx="100"/>
+  <circle cx="100" cy="80" r="34" fill="#D48B97"/>
+  <path d="M48 168 C48 126 72 120 100 120 C128 120 152 126 152 168 Z" fill="#D48B97"/>
+  <!-- Veil hint -->
+  <path d="M66 85 C66 45 134 45 134 85 C142 125 146 168 146 168 L54 168 C54 168 58 125 66 85 Z" fill="#D48B97" opacity="0.25"/>
+  <circle cx="100" cy="100" r="95" fill="none" stroke="#D48B97" stroke-width="3" opacity="0.4"/>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <rect width="100%" height="100%" fill="#FAF7F2"/>
+  <rect x="25" y="25" width="250" height="250" rx="14" fill="#FFFFFF" stroke="#E3DDD4" stroke-width="2"/>
+  <g transform="translate(150, 130)" text-anchor="middle">
+    <circle r="36" fill="#EDF2EE"/>
+    <path d="M-18 -6 L-8 6 L-2 -1 L12 14 L-22 14 Z" fill="#4F6856"/>
+    <circle cx="10" cy="-12" r="5" fill="#C5A880"/>
+  </g>
+  <text x="150" y="200" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="12" font-weight="600" fill="#768078">Foto Galeri</text>
+</svg>

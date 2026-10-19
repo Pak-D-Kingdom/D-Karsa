@@ -19,9 +19,6 @@
     </nav>
 
     <div class="flex items-center gap-2">
-        <a href="#harga" class="hidden sm:inline-flex px-3.5 py-2 rounded-full text-[13.5px] font-bold text-ink2 hover:text-ink transition">
-            Daftar Harga
-        </a>
         <a href="{{ route('invitation.create') }}" class="tbl tbl--utama !h-10 !pl-4 !pr-1.5 !text-[13.5px]">
             <span>✨ Buat Undangan</span>
             <span class="tbl__ikon !w-7 !h-7">

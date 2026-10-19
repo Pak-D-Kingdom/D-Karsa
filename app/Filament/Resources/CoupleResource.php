@@ -60,6 +60,28 @@ class CoupleResource extends Resource
                         'Wisuda' => '5. Undangan Wisuda & Kelulusan',
                         'Acara Formal' => '6. Undangan Acara Formal',
                     ])->default('Pernikahan')->required(),
+                Forms\Components\TextInput::make('theme')
+                    ->label('Template / Tema Desain')
+                    ->datalist([
+                        'Simple Minimalist Floral',
+                        'Chibi Red',
+                        'Wildflower Pink',
+                        '3D Javanese Royal',
+                        'Batak Istimewa Heritage',
+                        'SnowFall Minimalist',
+                        'Faris & Zahra',
+                        'Golden Luxury Birthday',
+                        'Kids Birthday Party',
+                        'Baby Aqiqah',
+                        'Walimatul Khitan',
+                        'Tahlilan & Doa Bersama',
+                        'Halal Bihalal',
+                        'Wisuda & Kelulusan',
+                        'Syukuran Rumah Baru',
+                        'Formal & Corporate',
+                    ])
+                    ->placeholder('Contoh: Simple Minimalist Floral')
+                    ->helperText('Pilih atau ketik template desain undangan'),
                 Forms\Components\TextInput::make('sub_category')->label('Sub-Kategori / Spesifikasi Acara')->placeholder('Contoh: Minimalis modern / Sweet seventeen'),
                 Forms\Components\TextInput::make('event_heading')->label('Kata Pembuka / Heading')->placeholder("WALIMATUL 'URSY"),
                 Forms\Components\TextInput::make('slug')->required()->unique(ignoreRecord: true)->helperText('Untuk URL: /undangan/slug'),
@@ -76,7 +98,18 @@ class CoupleResource extends Resource
                 Forms\Components\TextInput::make('groom_father')->label('Ayah'),
                 Forms\Components\TextInput::make('groom_mother')->label('Ibu'),
                 Forms\Components\TextInput::make('groom_city')->label('Kota / Asal'),
-                Forms\Components\FileUpload::make('groom_photo')->label('Foto Pria')->image()->directory('couples')->maxSize(5120),
+                Forms\Components\FileUpload::make('groom_photo')
+                    ->label('Foto Pria')
+                    ->image()
+                    ->disk('public')
+                    ->visibility('public')
+                    ->directory('couples')
+                    ->openable()
+                    ->downloadable()
+                    ->maxSize(5120)
+                    ->validationMessages([
+                        'max' => 'Ukuran file foto mempelai pria tidak boleh lebih dari 5 MB.',
+                    ]),
             ])->columns(2),
 
             Forms\Components\Section::make('Pihak Kedua / Wanita')->schema([
@@ -86,11 +119,35 @@ class CoupleResource extends Resource
                 Forms\Components\TextInput::make('bride_father')->label('Ayah'),
                 Forms\Components\TextInput::make('bride_mother')->label('Ibu'),
                 Forms\Components\TextInput::make('bride_city')->label('Kota / Asal'),
-                Forms\Components\FileUpload::make('bride_photo')->label('Foto Wanita')->image()->directory('couples')->maxSize(5120),
+                Forms\Components\FileUpload::make('bride_photo')
+                    ->label('Foto Wanita')
+                    ->image()
+                    ->disk('public')
+                    ->visibility('public')
+                    ->directory('couples')
+                    ->openable()
+                    ->downloadable()
+                    ->maxSize(5120)
+                    ->validationMessages([
+                        'max' => 'Ukuran file foto mempelai wanita tidak boleh lebih dari 5 MB.',
+                    ]),
             ])->columns(2),
 
             Forms\Components\Section::make('Cover & Rekening')->schema([
-                Forms\Components\FileUpload::make('cover_photo')->label('Foto Cover Undangan')->image()->directory('couples/covers')->helperText('Tampil di halaman depan undangan')->columnSpanFull(),
+                Forms\Components\FileUpload::make('cover_photo')
+                    ->label('Foto Cover Undangan')
+                    ->image()
+                    ->disk('public')
+                    ->visibility('public')
+                    ->directory('couples/covers')
+                    ->openable()
+                    ->downloadable()
+                    ->maxSize(5120)
+                    ->validationMessages([
+                        'max' => 'Ukuran file foto cover tidak boleh lebih dari 5 MB.',
+                    ])
+                    ->helperText('Tampil di halaman depan undangan (Maksimal 5 MB)')
+                    ->columnSpanFull(),
                 Forms\Components\TextInput::make('bank_name_1')->label('Bank 1')->placeholder('BCA'),
                 Forms\Components\TextInput::make('bank_account_1')->label('No. Rekening 1')->placeholder('1234567890'),
                 Forms\Components\TextInput::make('bank_holder_1')->label('Atas Nama 1'),
@@ -137,6 +194,32 @@ class CoupleResource extends Resource
                 ->limit(20)
                 ->tooltip(fn ($record) => $record->sub_category)
                 ->placeholder('-'),
+            Tables\Columns\TextColumn::make('theme')->label('Template')
+                ->limit(20)
+                ->tooltip(fn ($record) => $record->theme)
+                ->placeholder('Default')
+                ->searchable(),
+            Tables\Columns\ImageColumn::make('cover_photo')
+                ->label('Cover')
+                ->disk('public')
+                ->square()
+                ->size(44)
+                ->defaultImageUrl(asset('images/placeholder-cover.svg'))
+                ->checkFileExistence(false),
+            Tables\Columns\ImageColumn::make('groom_photo')
+                ->label('Foto Pria')
+                ->disk('public')
+                ->circular()
+                ->size(40)
+                ->defaultImageUrl(asset('images/placeholder-groom.svg'))
+                ->checkFileExistence(false),
+            Tables\Columns\ImageColumn::make('bride_photo')
+                ->label('Foto Wanita')
+                ->disk('public')
+                ->circular()
+                ->size(40)
+                ->defaultImageUrl(asset('images/placeholder-bride.svg'))
+                ->checkFileExistence(false),
             Tables\Columns\TextColumn::make('groom_name')->label('Pria / Tokoh 1')->searchable(),
             Tables\Columns\TextColumn::make('bride_name')->label('Wanita / Tokoh 2')->searchable(),
             Tables\Columns\TextColumn::make('wedding_date')->label('Tanggal')->date('d M Y')->sortable(),

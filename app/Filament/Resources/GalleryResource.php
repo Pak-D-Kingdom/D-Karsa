@@ -21,7 +21,19 @@ class GalleryResource extends Resource
     {
         return $form->schema([
             Forms\Components\Select::make('couple_id')->relationship('couple', 'slug')->label('Mempelai')->searchable()->preload(),
-            Forms\Components\FileUpload::make('image')->label('Foto')->image()->directory('gallery')->required()->maxSize(4096)->columnSpanFull(),
+            Forms\Components\FileUpload::make('image')
+                ->label('Foto')
+                ->image()
+                ->disk('public')
+                ->visibility('public')
+                ->directory('couples/galleries')
+                ->required()
+                ->maxSize(5120)
+                ->validationMessages([
+                    'max' => 'Ukuran file foto galeri tidak boleh lebih dari 5 MB.',
+                ])
+                ->helperText('Format JPG, PNG, atau WEBP (Maksimal 5 MB)')
+                ->columnSpanFull(),
             Forms\Components\TextInput::make('caption')->label('Caption')->maxLength(255)->columnSpanFull(),
             Forms\Components\TextInput::make('sort_order')->label('Urutan')->numeric()->default(0),
         ]);
@@ -30,7 +42,7 @@ class GalleryResource extends Resource
     public static function table(Table $table): Table
     {
         return $table->columns([
-            Tables\Columns\ImageColumn::make('image')->label('Foto'),
+            Tables\Columns\ImageColumn::make('image')->label('Foto')->disk('public')->size(50)->defaultImageUrl(asset('images/placeholder-gallery.svg'))->checkFileExistence(false),
             Tables\Columns\TextColumn::make('caption')->limit(30)->searchable(),
             Tables\Columns\TextColumn::make('sort_order')->sortable(),
             Tables\Columns\TextColumn::make('created_at')->dateTime('d M Y')->sortable()->toggleable(isToggledHiddenByDefault: true),

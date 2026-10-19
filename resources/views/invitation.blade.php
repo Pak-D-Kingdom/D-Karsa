@@ -255,7 +255,7 @@
                 coverSubtitle: 'The Wedding of',
                 coverTitle: 'Rizky & Amanda',
                 coverDate: 'Sabtu, 20 Juni 2026',
-                coverImg: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=700',
+                coverImg: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=700&q=80&auto=format&fit=crop',
                 quoteIcon: '♥',
                 quoteTitle: 'QS. Ar-Rum: 21',
                 quoteBody: '"Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya..."',
@@ -299,21 +299,77 @@
                 giftDesc: 'Doa restu Anda adalah karunia terindah, jika ingin memberikan tanda kasih dapat melalui:',
                 wishTitle: 'Ucapan & Doa Restu'
             },
-            'elegant-rose-romance-chungdoi-wildflower': {
-                name: 'Elegant Rose Romance (ChungDoi Wildflower)',
+            'chibi-red': {
+                name: 'Chibi Red Oriental',
+                category: 'Pernikahan',
+                subCat: 'Minimalis modern',
+                catKey: 'pernikahan',
+                badge: '💍 Pernikahan • Oriental Red',
+                packageVal: 'Paket Premium - Rp110.000',
+                desc: 'Desain pernikahan oriental modern Chibi Red: kaligrafi merah emas, Song Hỷ badge (囍), kalender tanggal interaktif, galeri silinder 3D, dan amplop digital angpao.',
+                coverBadge: 'LỄ THÀNH HÔN • THE WEDDING',
+                coverSubtitle: 'Together with our families',
+                coverTitle: 'Rizky & Amanda',
+                coverDate: 'Sabtu, 20 Juni 2026',
+                coverImg: 'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?w=700&q=80&auto=format&fit=crop',
+                quoteIcon: '囍',
+                quoteTitle: 'Janji Suci Dua Hati',
+                quoteBody: '"Dan di antara tanda-tanda kebesaran-Nya diciptakan-Nya untukmu pasangan hidup dari jenismu sendiri agar kamu merasa tenteram bersamanya."',
+                profileBadge: 'Mempelai Bahagia',
+                profileName: 'Rizky Pratama, S.Kom & Amanda Putri, S.Ds',
+                profileDesc: 'Putra Bpk. Hendra Pratama & Putri Bpk. Surya Wijaya',
+                locationName: 'Grand Oriental Ballroom, Hotel Mulia Jakarta',
+                events: [
+                    { title: 'Akad Nikah / Lễ Vu Quy', time: '08:30 - 10:30 WIB', date: 'Sabtu, 20 Juni 2026', place: 'Masjid Raya Al-Azhar Senayan' },
+                    { title: 'Resepsi Pernikahan / Lễ Thành Hôn', time: '11:30 - 14:30 WIB', date: 'Sabtu, 20 Juni 2026', place: 'Grand Oriental Ballroom, Hotel Mulia' }
+                ],
+                giftTitle: '🧧 Angpao Digital & Tanda Kasih',
+                giftDesc: 'Doa restu Anda adalah karunia terindah bagi kami. Jika ingin memberikan tanda kasih atau angpao digital:',
+                wishTitle: 'Untaian Doa & Ucapan Bahagia'
+            },
+            'chibi-red-oriental': {
+                name: 'Chibi Red Oriental',
+                category: 'Pernikahan',
+                subCat: 'Minimalis modern',
+                catKey: 'pernikahan',
+                badge: '💍 Pernikahan • Oriental Red',
+                packageVal: 'Paket Premium - Rp110.000',
+                desc: 'Desain pernikahan oriental modern Chibi Red: kaligrafi merah emas, Song Hỷ badge (囍), kalender tanggal interaktif, galeri silinder 3D, dan amplop digital angpao.',
+                coverBadge: 'LỄ THÀNH HÔN • THE WEDDING',
+                coverSubtitle: 'Together with our families',
+                coverTitle: 'Rizky & Amanda',
+                coverDate: 'Sabtu, 20 Juni 2026',
+                coverImg: 'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?w=700&q=80&auto=format&fit=crop',
+                quoteIcon: '囍',
+                quoteTitle: 'Janji Suci Dua Hati',
+                quoteBody: '"Dan di antara tanda-tanda kebesaran-Nya diciptakan-Nya untukmu pasangan hidup dari jenismu sendiri agar kamu merasa tenteram bersamanya."',
+                profileBadge: 'Mempelai Bahagia',
+                profileName: 'Rizky Pratama, S.Kom & Amanda Putri, S.Ds',
+                profileDesc: 'Putra Bpk. Hendra Pratama & Putri Bpk. Surya Wijaya',
+                locationName: 'Grand Oriental Ballroom, Hotel Mulia Jakarta',
+                events: [
+                    { title: 'Akad Nikah / Lễ Vu Quy', time: '08:30 - 10:30 WIB', date: 'Sabtu, 20 Juni 2026', place: 'Masjid Raya Al-Azhar Senayan' },
+                    { title: 'Resepsi Pernikahan / Lễ Thành Hôn', time: '11:30 - 14:30 WIB', date: 'Sabtu, 20 Juni 2026', place: 'Grand Oriental Ballroom, Hotel Mulia' }
+                ],
+                giftTitle: '🧧 Angpao Digital & Tanda Kasih',
+                giftDesc: 'Doa restu Anda adalah karunia terindah bagi kami. Jika ingin memberikan tanda kasih atau angpao digital:',
+                wishTitle: 'Untaian Doa & Ucapan Bahagia'
+            },
+            'wildflower-pink': {
+                name: 'Wildflower Pink',
                 category: 'Pernikahan',
                 subCat: 'Elegan, floral, dan islami',
                 catKey: 'pernikahan',
                 badge: '💍 Pernikahan • Premium',
                 packageVal: 'Paket Premium - Rp110.000',
-                desc: 'Desain pernikahan modern ChungDoi Wildflower Pink: bingkai kubah lengkung, wax seal berdenyut, kaligrafi anggun & efek kelopak bunga jatuh.',
+                desc: 'Desain pernikahan modern Wildflower Pink: bingkai kubah lengkung, wax seal berdenyut, kaligrafi anggun & efek kelopak bunga jatuh.',
                 coverBadge: 'THE WEDDING OF',
                 coverSubtitle: 'Together with our families',
                 coverTitle: 'Rian & Dania',
                 coverDate: 'Sabtu, 22 Agustus 2026',
-                coverImg: 'https://images.unsplash.com/photo-1519225424606-491ea8be74d2?w=700',
+                coverImg: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=700',
                 quoteIcon: '🌸',
-                quoteTitle: 'ChungDoi Wildflower Romance',
+                quoteTitle: 'Rose Romance',
                 quoteBody: '"Dua hati bersatu dalam janji suci pernikahan, melangkah bersama dalam ikatan cinta dan ridha Ilahi."',
                 profileBadge: 'Pasangan Berbahagia',
                 profileName: 'dr. Rian Nugraha & Dania Saraswati, S.Ked.',
@@ -328,20 +384,20 @@
                 wishTitle: 'Untaian Doa & Harapan Indah'
             },
             'elegant-rose-romance': {
-                name: 'Elegant Rose Romance (ChungDoi Wildflower)',
+                name: 'Elegant Rose Romance',
                 category: 'Pernikahan',
                 subCat: 'Elegan, floral, dan islami',
                 catKey: 'pernikahan',
                 badge: '💍 Pernikahan • Premium',
                 packageVal: 'Paket Premium - Rp110.000',
-                desc: 'Desain pernikahan modern ChungDoi Wildflower Pink: bingkai kubah lengkung, wax seal berdenyut, kaligrafi anggun & efek kelopak bunga jatuh.',
+                desc: 'Desain pernikahan modern Wildflower Pink: bingkai kubah lengkung, wax seal berdenyut, kaligrafi anggun & efek kelopak bunga jatuh.',
                 coverBadge: 'THE WEDDING OF',
                 coverSubtitle: 'Together with our families',
                 coverTitle: 'Rian & Dania',
                 coverDate: 'Sabtu, 22 Agustus 2026',
-                coverImg: 'https://images.unsplash.com/photo-1519225424606-491ea8be74d2?w=700',
+                coverImg: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=700',
                 quoteIcon: '🌸',
-                quoteTitle: 'ChungDoi Wildflower Romance',
+                quoteTitle: 'Rose Romance',
                 quoteBody: '"Dua hati bersatu dalam janji suci pernikahan, melangkah bersama dalam ikatan cinta dan ridha Ilahi."',
                 profileBadge: 'Pasangan Berbahagia',
                 profileName: 'dr. Rian Nugraha & Dania Saraswati, S.Ked.',
@@ -395,7 +451,7 @@
                 coverSubtitle: 'Ulaon Unjuk & Pamasu-masuon',
                 coverTitle: 'Faishal & Dhira',
                 coverDate: 'Sabtu, 15 Agustus 2026',
-                coverImg: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=700',
+                coverImg: 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=700&q=80&auto=format&fit=crop',
                 quoteIcon: '🌺',
                 quoteTitle: 'Dongan Tubu, Boru, Bere & Ibebere',
                 quoteBody: '"Tumpak ma Debata mamasu-masu pardengganan on, marparbue ma holong nasida tu saleleng ni lelengna."',
@@ -626,7 +682,7 @@
                 coverSubtitle: 'Syukuran Kelulusan & Wisuda',
                 coverTitle: 'Farhan Maulana, S.Kom.',
                 coverDate: 'Sabtu, 19 September 2026',
-                coverImg: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=700',
+                coverImg: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=700',
                 quoteIcon: '🎓',
                 quoteTitle: 'Perjuangan & Rasa Syukur',
                 quoteBody: '"Alhamdulillah atas karunia gelar Sarjana Komputer (S.Kom). Terima kasih tak terhingga untuk kedua orang tua, dosen, dan sahabat tercinta yang selalu mendukung."',
@@ -732,11 +788,80 @@
             }
         };
 
+        themePreviews['wisuda-sarjana'] = themePreviews['wisuda-sarjana-prestasi-emas'];
+        themePreviews['golden-birthday'] = themePreviews['golden-luxury-birthday-milad'];
+        themePreviews['baby-aqiqah'] = themePreviews['sweet-baby-pastel-aqiqah'];
+        themePreviews['formal-corporate'] = themePreviews['executive-corporate-grand-opening'];
+        themePreviews['halal-bihalal'] = themePreviews['ketupat-raya-silaturahmi'];
+        themePreviews['syukuran-rumah'] = themePreviews['tasyakuran-doa-rumah-baru'];
+        themePreviews['walimatul-khitan'] = {
+            name: 'Walimatul Khitan Berkah Sholeh',
+            category: 'Aqiqah',
+            subCat: 'Tasyakuran khitanan',
+            catKey: 'khitanan',
+            badge: '✂️ Khitanan • Premium',
+            packageVal: 'Paket Premium - Rp110.000',
+            desc: 'Undangan syukuran khitanan islami dengan foto jagoan kecil, doa anak sholeh & amplop digital.',
+            coverBadge: 'WALIMATUL KHITAN',
+            coverSubtitle: 'Tasyakuran Putra Tercinta',
+            coverTitle: 'Muhammad Rayyan Al-Ghifari',
+            coverDate: 'Sabtu, 20 Juni 2026',
+            coverImg: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=700',
+            quoteIcon: '✂️',
+            quoteTitle: 'Menuju Generasi Sholeh',
+            quoteBody: '"Khitan adalah sunnah mulia. Semoga ananda tumbuh menjadi putra yang sholeh, tangguh, dan berbakti."',
+            profileBadge: 'Jagoan Cilik Tercinta',
+            profileName: 'Muhammad Rayyan Al-Ghifari',
+            profileDesc: 'Putra Bpk. Irfan Maulana & Ibu Nisa Rahmawati',
+            locationName: 'Kediaman Keluarga & Gedung Pertemuan, Bandung',
+            events: [
+                { title: 'Doa Bersama & Tausiyah Khitanan', time: '09:00 - 10:30 WIB', date: 'Sabtu, 20 Juni 2026', place: 'Kediaman Bpk. Irfan' },
+                { title: 'Tasyakuran & Santap Siang', time: '10:30 - 13:00 WIB', date: 'Sabtu, 20 Juni 2026', place: 'Gedung Pertemuan Al-Muhajirin' }
+            ],
+            giftTitle: 'Tali Asih Si Jagoan Cilik',
+            giftDesc: 'Doa dan kehadiran Anda adalah hadiah terindah. Bagi yang ingin mengirimkan tali asih:',
+            wishTitle: 'Doa & Ucapan untuk Jagoan Cilik',
+            audioSrc: '{{ asset("audio/lullaby-melody.wav") }}'
+        };
+        themePreviews['walimatul-khitan-berkah-sholeh'] = themePreviews['walimatul-khitan'];
+        themePreviews['little-prince-safari-khitan'] = themePreviews['walimatul-khitan'];
+
+        themePreviews['kids-birthday'] = {
+            name: 'Kids Birthday Party Balon Ceria',
+            category: 'Ulang Tahun',
+            subCat: 'Ulang tahun anak',
+            catKey: 'ultah',
+            badge: '🎈 Ultah Anak • Ceria',
+            packageVal: 'Paket Premium - Rp110.000',
+            desc: 'Pesta ulang tahun anak penuh warna ceria, konfeti & balon: perayaan usia si kecil, rundown games seru, tiup lilin bersama sahabat, kado celengan ceria.',
+            coverBadge: 'HAPPY BIRTHDAY PARTY',
+            coverSubtitle: 'Ayo Bergembira Bersama!',
+            coverTitle: 'Rayyan Arsakha (Turning 5)',
+            coverDate: 'Minggu, 16 Agustus 2026',
+            coverImg: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=700',
+            quoteIcon: '🎈',
+            quoteTitle: 'Hari Penuh Ceria & Tawa',
+            quoteBody: '"Ayo teman-teman tersayang, datang ya ke pesta ulang tahunku! Kita main games bareng, tiup lilin, dan bawa pulang goodie bag seru!"',
+            profileBadge: 'The Birthday Boy',
+            profileName: 'Rayyan Arsakha Pratama',
+            profileDesc: 'Putra Tercinta Papa Irfan & Mama Nisa',
+            locationName: 'Funworld Kids Party Room & Cafe, Mall Grand Galaxy',
+            events: [
+                { title: 'Games Seru & Pertunjukan Sulap', time: '15:30 - 16:30 WIB', date: 'Minggu, 16 Agustus 2026', place: 'Funworld Party Room' },
+                { title: 'Tiup Lilin, Potong Kue & Goodie Bag', time: '16:30 - 18:00 WIB', date: 'Minggu, 16 Agustus 2026', place: 'Funworld Dining Area' }
+            ],
+            giftTitle: 'Celengan Ceria & Kado Mainan',
+            giftDesc: 'Kehadiran dan senyum teman-teman adalah kado terindah:',
+            wishTitle: 'Kartu Ucapan Selamat Ulang Tahun',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+        themePreviews['kids-birthday-party-balon-ceria'] = themePreviews['kids-birthday'];
+
         const audioTracks = {
             'pernikahan': '{{ asset("audio/wedding-melody.wav") }}',
             'tahlilan': '{{ asset("audio/islamic-melody.wav") }}',
             'halalbihalal': '{{ asset("audio/islamic-melody.wav") }}',
-            'khitanan': '{{ asset("audio/islamic-melody.wav") }}',
+            'khitanan': '{{ asset("audio/lullaby-melody.wav") }}',
             'aqiqah': '{{ asset("audio/lullaby-melody.wav") }}',
             'ultah': '{{ asset("audio/celebration-melody.wav") }}',
             'wisuda': '{{ asset("audio/celebration-melody.wav") }}',
@@ -744,13 +869,176 @@
             'syukuran': '{{ asset("audio/wedding-melody.wav") }}',
         };
 
-        let currentPreviewSlug = '3d-javanese-royal';
-        const previewKeys = Object.keys(themePreviews);
+        const categoryTemplates = {
+            'pernikahan': [
+                { slug: 'chibi-red', name: 'Chibi Red Oriental', tag: 'Oriental Red & 3D', icon: '囍', iconBg: 'bg-red-100 text-red-700', demoUrl: '/demo/chibi-red' },
+                { slug: 'wildflower-pink', name: 'Wildflower Pink', tag: 'Kubah Lengkung & Lilin', icon: '🌸', iconBg: 'bg-pink-100 text-pink-700', demoUrl: '/demo/wildflower-pink' },
+                { slug: '3d-javanese-royal', name: '3D Javanese Royal', tag: 'Keraton Gunungan 3D', icon: '👑', iconBg: 'bg-amber-100 text-amber-800', demoUrl: '/demo/javanese-royal' },
+                { slug: 'simple-minimalist-floral', name: 'Minimalist Floral', tag: 'Clean Editorial Modern', icon: '🌿', iconBg: 'bg-emerald-100 text-emerald-800', demoUrl: '/demo/minimalist-floral' },
+                { slug: 'snowfall-minimalist-white', name: 'SnowFall Minimalist', tag: 'Pure White Snowfall', icon: '❄️', iconBg: 'bg-sky-100 text-sky-800', demoUrl: '/demo/snowfall-white' },
+                { slug: 'batak-istimewa-heritage', name: 'Batak Istimewa', tag: 'Ulos Marun & Emas', icon: '🧣', iconBg: 'bg-rose-100 text-rose-800', demoUrl: '/demo/batak-heritage' }
+            ],
+            'keagamaan': [
+                { slug: 'doa-bersama-tahlilan-khusyuk', name: 'Doa Bersama & Tahlilan', tag: 'Khusyuk & Sopan', icon: '🕯️', iconBg: 'bg-slate-100 text-slate-800', demoUrl: '/demo/tahlilan-khusyuk' },
+                { slug: 'ketupat-raya-silaturahmi', name: 'Ketupat Raya Silaturahmi', tag: 'Halal Bihalal & Silaturahmi', icon: '✨', iconBg: 'bg-amber-100 text-amber-800', demoUrl: '/demo/halal-bihalal' },
+                { slug: 'tasyakuran-doa-rumah-baru', name: 'Tasyakuran Rumah Baru', tag: 'Syukuran & Doa Bersama', icon: '🏡', iconBg: 'bg-teal-100 text-teal-800', demoUrl: '/demo/syukuran-rumah' }
+            ],
+            'aqiqah': [
+                { slug: 'sweet-baby-pastel-aqiqah', name: 'Sweet Baby Pastel', tag: 'Aqiqah Bayi & Tasmiyah', icon: '👶', iconBg: 'bg-pink-100 text-pink-700', demoUrl: '/demo/baby-aqiqah' },
+                { slug: 'walimatul-khitan-berkah-sholeh', name: 'Walimatul Khitan Berkah', tag: 'Khitanan Islami Sholeh', icon: '✂️', iconBg: 'bg-blue-100 text-blue-700', demoUrl: '/demo/walimatul-khitan' }
+            ],
+            'wisuda': [
+                { slug: 'wisuda-sarjana-prestasi-emas', name: 'Wisuda Sarjana Emas', tag: 'Wisuda & Kelulusan', icon: '🎓', iconBg: 'bg-amber-100 text-amber-800', demoUrl: '/demo/wisuda-sarjana' }
+            ],
+            'ulang-tahun': [
+                { slug: 'golden-luxury-birthday-milad', name: 'Golden Luxury Birthday', tag: 'Sweet 17th & Milad', icon: '🎂', iconBg: 'bg-yellow-100 text-yellow-800', demoUrl: '/demo/golden-birthday' },
+                { slug: 'kids-birthday-party-balon-ceria', name: 'Kids Birthday Balon Ceria', tag: 'Pesta Ceria Anak & Games', icon: '🎈', iconBg: 'bg-pink-100 text-pink-700', demoUrl: '/demo/kids-birthday' }
+            ],
+            'acara-formal': [
+                { slug: 'executive-corporate-grand-opening', name: 'Executive Corporate', tag: 'Grand Opening & Bisnis', icon: '🏢', iconBg: 'bg-indigo-100 text-indigo-800', demoUrl: '/demo/formal-corporate' }
+            ]
+        };
+
+        let currentPreviewSlug = 'chibi-red';
+        let currentCategoryKey = 'pernikahan';
+
+        function detectCategoryKey(slug, theme) {
+            const s = (slug || '').toLowerCase();
+            const cat = theme && theme.category ? theme.category.toLowerCase() : '';
+            const catKey = theme && theme.catKey ? theme.catKey.toLowerCase() : '';
+            const sub = theme && theme.subCat ? theme.subCat.toLowerCase() : '';
+
+            if (cat === 'keagamaan' || catKey === 'keagamaan' || catKey === 'tahlilan' || catKey === 'halalbihalal' || catKey === 'syukuran' 
+                || s.includes('tahlil') || s.includes('doa') || s.includes('haul') || s.includes('mosque') || s.includes('ketupat') || s.includes('syukuran') || sub.includes('tahlil') || sub.includes('doa')) {
+                return 'keagamaan';
+            }
+            if (cat === 'aqiqah' || catKey === 'aqiqah' || catKey === 'khitanan' || s.includes('aqiqah') || s.includes('khitan') || sub.includes('aqiqah') || sub.includes('khitan')) {
+                return 'aqiqah';
+            }
+            if (cat === 'wisuda' || catKey === 'wisuda' || s.includes('wisuda') || s.includes('sarjana') || sub.includes('wisuda') || sub.includes('sarjana')) {
+                return 'wisuda';
+            }
+            if (cat.includes('ulang tahun') || catKey === 'ultah' || s.includes('birthday') || s.includes('milad') || s.includes('ultah') || s.includes('ulang')) {
+                return 'ulang-tahun';
+            }
+            if (cat.includes('formal') || catKey === 'formal' || s.includes('corporate') || s.includes('reuni')) {
+                return 'acara-formal';
+            }
+            return 'pernikahan';
+        }
+
+        function renderCategorySelectorGrid(activeSlug, catKey) {
+            const grid = document.getElementById('previewThemeSelectorGrid');
+            const catBadge = document.getElementById('previewCategoryFilterLabel');
+            if (!grid) return;
+
+            const labelMap = {
+                'pernikahan': '💍 Kategori: Pernikahan',
+                'keagamaan': '🕯️ Kategori: Keagamaan',
+                'aqiqah': '👶 Kategori: Aqiqah & Khitan',
+                'wisuda': '🎓 Kategori: Wisuda',
+                'ulang-tahun': '🎂 Kategori: Ulang Tahun',
+                'acara-formal': '🏢 Kategori: Acara Formal'
+            };
+            if (catBadge) {
+                catBadge.textContent = labelMap[catKey] || ('Kategori: ' + catKey);
+            }
+
+            const list = categoryTemplates[catKey] || categoryTemplates['pernikahan'];
+            grid.innerHTML = list.map(item => {
+                const isActive = (item.slug === activeSlug || 
+                                 (activeSlug.includes('chibi') && item.slug === 'chibi-red') || 
+                                 ((activeSlug.includes('wildflower') || activeSlug.includes('rose')) && item.slug === 'wildflower-pink') ||
+                                 (activeSlug.includes('javanese') && item.slug === '3d-javanese-royal') ||
+                                 ((activeSlug.includes('wisuda') || activeSlug.includes('sarjana')) && item.slug.includes('wisuda')) ||
+                                 ((activeSlug.includes('birthday') || activeSlug.includes('milad') || activeSlug.includes('ultah')) && item.slug.includes('birthday')) ||
+                                 ((activeSlug.includes('aqiqah') || activeSlug.includes('khitan')) && item.slug.includes('aqiqah')));
+                const activeStyle = isActive 
+                    ? 'border-brand bg-brand/5 ring-2 ring-brand/30 shadow-md font-bold' 
+                    : 'border-ink/15 bg-white hover:border-brand shadow-sm';
+                
+                return `
+                    <button type="button" onclick="openThemePreviewModal('${item.slug}')" class="p-2.5 rounded-xl border text-left transition flex items-center gap-2 ${activeStyle}">
+                        <span class="w-8 h-8 rounded-lg ${item.iconBg} flex items-center justify-center text-sm font-bold shrink-0">${item.icon}</span>
+                        <div class="min-w-0 flex-1">
+                            <b class="text-xs text-ink block truncate">${item.name}</b>
+                            <span class="text-[10px] text-brand block truncate">${item.tag}</span>
+                        </div>
+                    </button>
+                `;
+            }).join('');
+        }
 
         function openThemePreviewModal(slug) {
-            const theme = themePreviews[slug] || themePreviews['3d-javanese-royal'];
-            currentPreviewSlug = themePreviews[slug] ? slug : '3d-javanese-royal';
-            renderThemePreview(theme);
+            const rawSlug = (slug || '').toLowerCase();
+            
+            // Map legacy / alternative slugs to canonical themePreviews keys
+            let matchedSlug = rawSlug;
+            if (rawSlug.includes('chibi') || rawSlug.includes('oriental')) matchedSlug = 'chibi-red';
+            else if (rawSlug.includes('wildflower') || rawSlug.includes('rose-romance') || rawSlug.includes('elegant-rose')) matchedSlug = 'wildflower-pink';
+            else if (rawSlug.includes('javanese') || rawSlug.includes('keraton')) matchedSlug = '3d-javanese-royal';
+            else if (rawSlug.includes('minimalist') && !rawSlug.includes('snow')) matchedSlug = 'simple-minimalist-floral';
+            else if (rawSlug.includes('snowfall') || rawSlug.includes('snow')) matchedSlug = 'snowfall-minimalist-white';
+            else if (rawSlug.includes('batak')) matchedSlug = 'batak-istimewa-heritage';
+            else if (rawSlug.includes('mosque') || rawSlug.includes('ketupat') || rawSlug.includes('halal')) matchedSlug = 'ketupat-raya-silaturahmi';
+            else if (rawSlug.includes('khitan') || rawSlug.includes('prince') || rawSlug.includes('sunat')) matchedSlug = 'walimatul-khitan-berkah-sholeh';
+            else if (rawSlug.includes('rumah-baru') || rawSlug.includes('syukuran')) matchedSlug = 'tasyakuran-doa-rumah-baru';
+            else if (rawSlug.includes('tahlil') || rawSlug.includes('doa-bersama')) matchedSlug = 'doa-bersama-tahlilan-khusyuk';
+            else if (rawSlug.includes('wisuda') || rawSlug.includes('sarjana') || rawSlug.includes('kelulusan')) matchedSlug = 'wisuda-sarjana-prestasi-emas';
+            else if (rawSlug.includes('kid') || rawSlug.includes('anak') || rawSlug.includes('balon')) matchedSlug = 'kids-birthday-party-balon-ceria';
+            else if (rawSlug.includes('birthday') || rawSlug.includes('milad') || rawSlug.includes('ultah') || rawSlug.includes('ulang')) matchedSlug = 'golden-luxury-birthday-milad';
+            else if (rawSlug.includes('aqiqah') || rawSlug.includes('baby') || rawSlug.includes('tasmiyah')) matchedSlug = 'sweet-baby-pastel-aqiqah';
+            else if (rawSlug.includes('corporate') || rawSlug.includes('formal') || rawSlug.includes('opening')) matchedSlug = 'executive-corporate-grand-opening';
+            else if (rawSlug.includes('reuni')) matchedSlug = 'reuni-akbar-temu-kangen';
+
+            const theme = themePreviews[matchedSlug] || themePreviews[rawSlug] || themePreviews['chibi-red'];
+            currentCategoryKey = detectCategoryKey(matchedSlug, theme);
+            currentPreviewSlug = matchedSlug;
+
+            renderThemePreview(theme, matchedSlug);
+            renderCategorySelectorGrid(matchedSlug, currentCategoryKey);
+
+            // Determine target iframe url strictly matching the category
+            let targetUrl = '/demo/chibi-red';
+            const catList = categoryTemplates[currentCategoryKey] || categoryTemplates['pernikahan'];
+            const foundItem = catList.find(item => item.slug === matchedSlug);
+            if (foundItem && foundItem.demoUrl) {
+                targetUrl = foundItem.demoUrl;
+            } else if (matchedSlug.includes('kid') || matchedSlug.includes('anak') || matchedSlug.includes('balon')) {
+                targetUrl = '/demo/kids-birthday';
+            } else if (matchedSlug.includes('khitan') || matchedSlug.includes('prince') || matchedSlug.includes('sunat')) {
+                targetUrl = '/demo/walimatul-khitan';
+            } else if (matchedSlug.includes('rumah-baru') || matchedSlug.includes('syukuran')) {
+                targetUrl = '/demo/syukuran-rumah';
+            } else if (matchedSlug.includes('halal') || matchedSlug.includes('ketupat') || matchedSlug.includes('mosque')) {
+                targetUrl = '/demo/halal-bihalal';
+            } else if (currentCategoryKey === 'wisuda' || matchedSlug.includes('wisuda') || matchedSlug.includes('sarjana')) {
+                targetUrl = '/demo/wisuda-sarjana';
+            } else if (currentCategoryKey === 'ulang-tahun' || matchedSlug.includes('birthday') || matchedSlug.includes('milad') || matchedSlug.includes('ultah') || matchedSlug.includes('ulang')) {
+                targetUrl = '/demo/golden-birthday';
+            } else if (currentCategoryKey === 'aqiqah' || matchedSlug.includes('aqiqah')) {
+                targetUrl = '/demo/baby-aqiqah';
+            } else if (currentCategoryKey === 'acara-formal' || matchedSlug.includes('corporate') || matchedSlug.includes('formal') || matchedSlug.includes('reuni')) {
+                targetUrl = '/demo/formal-corporate';
+            } else if (currentCategoryKey === 'keagamaan') {
+                targetUrl = '/demo/tahlilan-khusyuk';
+            } else if (currentCategoryKey === 'pernikahan') {
+                if (matchedSlug.includes('wildflower') || matchedSlug.includes('rose')) targetUrl = '/demo/wildflower-pink';
+                else if (matchedSlug.includes('batak')) targetUrl = '/demo/batak-heritage';
+                else if (matchedSlug.includes('javanese') || matchedSlug.includes('royal')) targetUrl = '/demo/javanese-royal';
+                else if (matchedSlug.includes('snowfall') || matchedSlug.includes('snow')) targetUrl = '/demo/snowfall-white';
+                else if (matchedSlug.includes('minimalist')) targetUrl = '/demo/minimalist-floral';
+                else targetUrl = '/demo/chibi-red';
+            } else {
+                targetUrl = '/demo/golden-birthday';
+            }
+
+            const iframe = document.getElementById('previewModalIframe');
+            if (iframe) iframe.src = targetUrl;
+            const btnFs = document.getElementById('btnModalFullscreenDemo');
+            if (btnFs) btnFs.href = targetUrl;
+            const btnFsBtm = document.getElementById('btnModalFullscreenDemoBottom');
+            if (btnFsBtm) btnFsBtm.href = targetUrl;
 
             const modal = document.getElementById('themePreviewModal');
             const box = document.getElementById('themePreviewBox');
@@ -768,16 +1056,9 @@
         function closeThemePreview() {
             const modal = document.getElementById('themePreviewModal');
             const box = document.getElementById('themePreviewBox');
-            const audioEl = document.getElementById('previewAudio');
-            const musicIcon = document.getElementById('previewMusicIcon');
-
-            if (audioEl) {
-                audioEl.pause();
-                audioEl.currentTime = 0;
-            }
-            if (musicIcon) {
-                musicIcon.classList.remove('animate-spin');
-                musicIcon.textContent = '♫';
+            const iframe = document.getElementById('previewModalIframe');
+            if (iframe) {
+                iframe.src = 'about:blank';
             }
 
             if (modal && box) {
@@ -791,7 +1072,7 @@
             }
         }
 
-        function renderThemePreview(theme) {
+        function renderThemePreview(theme, key) {
             // Header Info
             const catBadge = document.getElementById('previewCategoryBadge');
             const modalTitle = document.getElementById('modalThemeTitle');
@@ -800,149 +1081,12 @@
             const nameEl = document.getElementById('modalThemeName');
             const descEl = document.getElementById('modalThemeDesc');
 
-            if (catBadge) catBadge.textContent = theme.badge;
-            if (modalTitle) modalTitle.textContent = theme.name;
-            if (modalPkg) modalPkg.textContent = 'Paket Rekomendasi: ' + theme.packageVal;
-            if (catSub) catSub.textContent = 'Kategori: ' + theme.category;
-            if (nameEl) nameEl.textContent = theme.name;
-            if (descEl) descEl.textContent = theme.desc;
-
-            // Audio setup for this theme
-            const audioEl = document.getElementById('previewAudio');
-            const musicIcon = document.getElementById('previewMusicIcon');
-            const targetAudio = theme.audioSrc || audioTracks[theme.catKey] || audioTracks['pernikahan'];
-            if (audioEl) {
-                audioEl.pause();
-                audioEl.currentTime = 0;
-                audioEl.src = targetAudio;
-                audioEl.load();
-            }
-            if (musicIcon) {
-                musicIcon.classList.remove('animate-spin');
-                musicIcon.textContent = '♫';
-            }
-
-            // Reset Phone Screen to Cover view
-            const cover = document.getElementById('previewCover');
-            const content = document.getElementById('previewContent');
-            const scrollBox = document.getElementById('phoneScreenScroll');
-            if (cover) {
-                cover.classList.remove('hidden');
-                cover.style.background = `linear-gradient(180deg, rgba(18,10,12,0.35) 0%, rgba(18,10,12,0.88) 100%), url('${theme.coverImg}') center/cover`;
-            }
-            if (content) content.classList.add('hidden');
-            if (scrollBox) scrollBox.scrollTop = 0;
-
-            // Phone Cover Elements
-            const pCoverBadge = document.getElementById('phoneCoverBadge');
-            const pCoverSubtitle = document.getElementById('phoneCoverSubtitle');
-            const pCoverTitle = document.getElementById('phoneCoverTitle');
-            const pCoverDate = document.getElementById('phoneCoverDate');
-            if (pCoverBadge) pCoverBadge.textContent = theme.coverBadge;
-            if (pCoverSubtitle) pCoverSubtitle.textContent = theme.coverSubtitle || 'The Wedding of';
-            if (pCoverTitle) pCoverTitle.textContent = theme.coverTitle;
-            if (pCoverDate) pCoverDate.textContent = theme.coverDate;
-
-            // Phone Content Elements
-            const pQuoteIcon = document.getElementById('phoneQuoteIcon');
-            const pQuoteTitle = document.getElementById('phoneQuoteTitle');
-            const pQuoteBody = document.getElementById('phoneQuoteBody');
-            const pProfileImg = document.getElementById('phoneProfileImg');
-            const pProfileBadge = document.getElementById('phoneProfileBadge');
-            const pProfileName = document.getElementById('phoneProfileName');
-            const pProfileDesc = document.getElementById('phoneProfileDesc');
-            const pLocName = document.getElementById('phoneLocationName');
-            const pGiftTitle = document.getElementById('phoneGiftTitle');
-            const pGiftDesc = document.getElementById('phoneGiftDesc');
-            const pWishTitle = document.getElementById('phoneWishTitle');
-
-            if (pQuoteIcon) pQuoteIcon.textContent = theme.quoteIcon || '♥';
-            if (pQuoteTitle) pQuoteTitle.textContent = theme.quoteTitle;
-            if (pQuoteBody) pQuoteBody.textContent = theme.quoteBody;
-            if (pProfileImg) pProfileImg.src = theme.coverImg;
-            if (pProfileBadge) pProfileBadge.textContent = theme.profileBadge || 'Mempelai Bahagia';
-            if (pProfileName) pProfileName.textContent = theme.profileName;
-            if (pProfileDesc) pProfileDesc.textContent = theme.profileDesc;
-            if (pLocName) pLocName.textContent = theme.locationName;
-            if (pGiftTitle) pGiftTitle.textContent = theme.giftTitle || '💳 Tanda Kasih / Amplop Digital';
-            if (pGiftDesc) pGiftDesc.textContent = theme.giftDesc || 'Doa restu Anda adalah karunia terindah, jika ingin memberikan tanda kasih dapat melalui:';
-            if (pWishTitle) pWishTitle.textContent = theme.wishTitle || 'Ucapan & Doa Restu';
-
-            // Render Events List in Phone
-            const eventsBox = document.getElementById('phoneEventsList');
-            if (eventsBox && theme.events) {
-                eventsBox.innerHTML = theme.events.map(ev => `
-                    <div class="p-3 rounded-xl bg-white shadow-sm border border-ink/10">
-                        <b class="text-xs font-bold text-ink block">${ev.title}</b>
-                        <p class="text-[10.5px] text-accent mt-0.5">📅 ${ev.date} • ${ev.time}</p>
-                        <p class="text-[10px] text-ink3 mt-0.5">📍 ${ev.place}</p>
-                    </div>
-                `).join('');
-            }
-
-            // Update category pills inside modal
-            document.querySelectorAll('#previewCategoryTabs button').forEach(btn => {
-                if (btn.getAttribute('onclick')?.includes(theme.catKey)) {
-                    btn.classList.add('bg-brand', 'text-white', 'border-brand');
-                    btn.classList.remove('bg-white', 'text-ink');
-                } else {
-                    btn.classList.remove('bg-brand', 'text-white', 'border-brand');
-                    btn.classList.add('bg-white', 'text-ink');
-                }
-            });
-        }
-
-        function openPhoneInvitation() {
-            const cover = document.getElementById('previewCover');
-            const content = document.getElementById('previewContent');
-            const scrollBox = document.getElementById('phoneScreenScroll');
-            const audioEl = document.getElementById('previewAudio');
-            const musicIcon = document.getElementById('previewMusicIcon');
-
-            if (cover && content) {
-                cover.classList.add('hidden');
-                content.classList.remove('hidden');
-                if (scrollBox) scrollBox.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-
-            // Autoplay music upon opening invitation
-            if (audioEl) {
-                const playPromise = audioEl.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        if (musicIcon) {
-                            musicIcon.classList.add('animate-spin');
-                            musicIcon.textContent = '♫';
-                        }
-                    }).catch((err) => {
-                        console.log('Audio autoplay deferral:', err);
-                    });
-                }
-            }
-        }
-
-        function togglePreviewMusic(btn) {
-            const audioEl = document.getElementById('previewAudio');
-            const musicIcon = document.getElementById('previewMusicIcon') || btn?.querySelector('span');
-            if (!audioEl) return;
-
-            if (audioEl.paused) {
-                const playPromise = audioEl.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        if (musicIcon) {
-                            musicIcon.classList.add('animate-spin');
-                            musicIcon.textContent = '♫';
-                        }
-                    }).catch((err) => console.log('Audio play error:', err));
-                }
-            } else {
-                audioEl.pause();
-                if (musicIcon) {
-                    musicIcon.classList.remove('animate-spin');
-                    musicIcon.textContent = '⏸';
-                }
-            }
+            if (catBadge && theme) catBadge.textContent = theme.badge;
+            if (modalTitle && theme) modalTitle.textContent = theme.name;
+            if (modalPkg && theme) modalPkg.textContent = 'Paket Rekomendasi: ' + theme.packageVal;
+            if (catSub && theme) catSub.textContent = 'Kategori: ' + theme.category;
+            if (nameEl && theme) nameEl.textContent = theme.name;
+            if (descEl && theme) descEl.textContent = theme.desc;
         }
 
         function orderCurrentPreviewTheme() {
@@ -961,17 +1105,12 @@
             window.open(`https://wa.me/6281234567890?text=${encodeURIComponent(text)}`, '_blank');
         }
 
-        function switchPreviewByCategory(category) {
-            const foundKey = previewKeys.find(k => themePreviews[k].catKey === category);
-            if (foundKey) {
-                openThemePreviewModal(foundKey);
-            }
-        }
-
         function navPreviewTheme(dir) {
-            let idx = previewKeys.indexOf(currentPreviewSlug);
-            idx = (idx + dir + previewKeys.length) % previewKeys.length;
-            openThemePreviewModal(previewKeys[idx]);
+            const list = categoryTemplates[currentCategoryKey] || categoryTemplates['pernikahan'];
+            let idx = list.findIndex(item => item.slug === currentPreviewSlug);
+            if (idx === -1) idx = 0;
+            idx = (idx + dir + list.length) % list.length;
+            openThemePreviewModal(list[idx].slug);
         }
 
         // Close on ESC

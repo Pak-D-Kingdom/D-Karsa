@@ -28,4 +28,37 @@ class Couple extends Model
     public function guests(): HasMany { return $this->hasMany(Guest::class); }
     public function galleries(): HasMany { return $this->hasMany(Gallery::class); }
     public function wishes(): HasMany { return $this->hasMany(Wish::class); }
+
+    /**
+     * Accessor untuk nama kedua orang tua mempelai pria
+     */
+    public function getGroomParentsAttribute(): ?string
+    {
+        return \App\Services\TemplateManager::formatParentNames(
+            $this->groom_father,
+            $this->groom_mother,
+            'Bapak & Ibu Keluarga Mempelai Pria'
+        );
+    }
+
+    /**
+     * Accessor untuk nama kedua orang tua mempelai wanita
+     */
+    public function getBrideParentsAttribute(): ?string
+    {
+        return \App\Services\TemplateManager::formatParentNames(
+            $this->bride_father,
+            $this->bride_mother,
+            'Bapak & Ibu Keluarga Mempelai Wanita'
+        );
+    }
+
+    /**
+     * Accessor untuk foto cover undangan (menggunakan cover undangan pengguna atau fallback ke default template)
+     */
+    public function getCoverPhotoUrlAttribute(): string
+    {
+        $fallback = \App\Services\TemplateManager::getDefaultCoverImage($this->theme ?? $this->category ?? 'chibi-red');
+        return \App\Services\TemplateManager::resolvePhotoUrl($this->cover_photo, $fallback);
+    }
 }
