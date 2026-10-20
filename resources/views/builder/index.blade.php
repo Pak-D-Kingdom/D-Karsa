@@ -1536,6 +1536,19 @@
             </div>
         </div>
 
+        <!-- Interactive Guest Name Simulator for Preview (Melihat tampilan perorangan langsung di HP) -->
+        <div class="w-full max-w-[380px] mx-auto mb-2 px-1 flex items-center gap-2">
+            <div class="relative flex-1">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs">👤</span>
+                <input type="text" id="previewGuestNameTestInput" placeholder="Tes nama tamu perorangan (mis: Ustadz Mansur / dr. Sarah)"
+                       class="w-full pl-8 pr-3 py-1.5 rounded-full bg-white/20 text-white placeholder-white/70 text-xs font-semibold focus:outline-none focus:bg-white focus:text-ink focus:placeholder-ink3 transition border border-white/30 shadow-inner"
+                       oninput="onPreviewGuestNameChange(this.value)">
+            </div>
+            <span class="text-[10px] text-white/90 bg-white/15 px-2.5 py-1 rounded-full border border-white/25 whitespace-nowrap font-medium" title="Ketik nama untuk melihat langsung di cover pembuka">
+                Tes Tamu Cover
+            </span>
+        </div>
+
         <!-- Realistic Smartphone Chassis with Live Template Iframe -->
         <div id="phoneChassis" class="relative transition-all duration-300 w-full max-w-[380px] bg-[#1a181b] rounded-[48px] p-2.5 shadow-2xl border-4 border-neutral-700/80 ring-1 ring-white/15 flex flex-col h-[86vh]">
             <!-- Dynamic Island / Camera Notch -->
@@ -3035,11 +3048,36 @@
         // Apply both filters to cards in modal
         function applyModalFilters() {
             const cards = document.querySelectorAll('.modal-template-card');
+            const categoryGroups = {
+                'keagamaan': ['keagamaan', 'tahlilan', 'halalbihalal', 'syukuran'],
+                'aqiqah': ['aqiqah', 'khitanan'],
+                'acara-formal': ['acara-formal', 'formal'],
+                'formal': ['acara-formal', 'formal'],
+                'pernikahan': ['pernikahan'],
+                'ultah': ['ultah'],
+                'wisuda': ['wisuda']
+            };
+
             cards.forEach(card => {
                 const cardCat = card.dataset.category || '';
+                const cardEventCat = (card.dataset.eventcat || '').toLowerCase();
                 const cardTier = card.dataset.tier || '';
 
-                const matchCat = (modalActiveCategory === 'semua') || (cardCat === modalActiveCategory) || (cardCat === 'semua');
+                let matchCat = false;
+                if (modalActiveCategory === 'semua' || cardCat === 'semua') {
+                    matchCat = true;
+                } else if (cardCat === modalActiveCategory) {
+                    matchCat = true;
+                } else if (categoryGroups[modalActiveCategory] && categoryGroups[modalActiveCategory].includes(cardCat)) {
+                    matchCat = true;
+                } else if (modalActiveCategory === 'acara-formal' && (cardCat === 'formal' || cardEventCat.includes('formal'))) {
+                    matchCat = true;
+                } else if (modalActiveCategory === 'keagamaan' && (cardEventCat.includes('keagamaan') || ['tahlilan', 'halalbihalal', 'syukuran', 'keagamaan'].includes(cardCat))) {
+                    matchCat = true;
+                } else if (modalActiveCategory === 'aqiqah' && (cardEventCat.includes('aqiqah') || ['aqiqah', 'khitanan'].includes(cardCat))) {
+                    matchCat = true;
+                }
+
                 const matchTier = (modalActiveTier === 'semua') || (cardTier === modalActiveTier);
 
                 if (matchCat && matchTier) {
@@ -3312,7 +3350,17 @@
 
             if (giftAddress) params.set('gift_address', giftAddress);
 
+            if (previewGuestTestName) {
+                params.set('to', previewGuestTestName);
+            }
+
             return params;
+        }
+
+        let previewGuestTestName = '';
+        function onPreviewGuestNameChange(val) {
+            previewGuestTestName = val ? val.trim() : '';
+            updateLivePreviewContent(false);
         }
 
         function updateLivePreviewContent(immediate = false) {
@@ -3462,6 +3510,10 @@
             });
             const dateInput = document.querySelector('input[name="wedding_date"]');
             if (dateInput) dateInput.value = '';
+
+            const guestTestInp = document.getElementById('previewGuestNameTestInput');
+            if (guestTestInp) guestTestInp.value = '';
+            previewGuestTestName = '';
 
             // 5. Update live preview iframe to clean default
             updateLivePreviewContent(true);

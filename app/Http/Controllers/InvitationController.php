@@ -334,19 +334,8 @@ class InvitationController extends Controller
             }
         }
 
-        // Create default initial VIP Guests so links are ready right away
-        Guest::create([
-            'couple_id' => $couple->id,
-            'name' => 'Bapak Budi Santoso & Keluarga',
-            'category' => 'Keluarga',
-            'quota' => 2,
-        ]);
-        Guest::create([
-            'couple_id' => $couple->id,
-            'name' => 'Sahabat & Rekan Dekat',
-            'category' => 'Teman',
-            'quota' => 2,
-        ]);
+        // Catatan: Pembuatan data tamu dummy (Bapak Budi Santoso & Sahabat) telah dinonaktifkan
+        // agar database Daftar Tamu bersih dan hanya diisi tamu riil dari customer/admin.
 
         // Create Galleries (Supports binary uploads, base64 array, and automatic couple photo showcase)
         $galleryIndex = 1;

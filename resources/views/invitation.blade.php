@@ -857,6 +857,276 @@
         };
         themePreviews['kids-birthday-party-balon-ceria'] = themePreviews['kids-birthday'];
 
+        themePreviews['cheerful-birthday'] = {
+            name: 'Cheerful Confetti Birthday',
+            category: 'Ulang Tahun',
+            subCat: 'Ulang tahun anak & remaja',
+            catKey: 'ultah',
+            badge: '🎈 Ultah • Fun Minimalist',
+            packageVal: 'Paket Basic - Rp50.000',
+            desc: 'Desain ulang tahun ceria & hemat dengan aksen konfeti pastel, countdown jam pesta, rundown games seru, kado kadoan dan ucapan doa sahabat.',
+            coverBadge: 'BIRTHDAY PARTY CELEBRATION',
+            coverSubtitle: 'Ayo Bergembira Bersama!',
+            coverTitle: 'Arkan Pratama (Turning 7)',
+            coverDate: 'Sabtu, 18 Juli 2026',
+            coverImg: 'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=700',
+            quoteIcon: '🎈',
+            quoteTitle: 'Tawa & Kebahagiaan',
+            quoteBody: '"Bertambah satu tahun usiaku penuh tawa, cerita, dan kebahagiaan. Yuk teman-teman hadir dan seru-seruan bareng di pesta ulang tahunku!"',
+            profileBadge: 'The Birthday Boy',
+            profileName: 'Muhammad Arkan Pratama',
+            profileDesc: 'Putra Bpk. Rizky Pratama & Ibu Nabila Safitri',
+            locationName: 'Kidz Playground & Family Cafe, Kemang',
+            events: [
+                { title: 'Games Seru & Pentas Sulap', time: '15:30 - 16:30 WIB', date: 'Sabtu, 18 Juli 2026', place: 'Kidz Playground Hall' },
+                { title: 'Tiup Lilin, Potong Kue & Goodie Bag', time: '16:30 - 18:00 WIB', date: 'Sabtu, 18 Juli 2026', place: 'Kidz Playground Dining' }
+            ],
+            giftTitle: '🎁 Celengan Ceria & Kado',
+            giftDesc: 'Kehadiran dan senyum teman-teman adalah kado terindah:',
+            wishTitle: 'Kartu Ucapan Selamat Ulang Tahun',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['little-prince'] = {
+            name: 'Little Prince Nordic Aqiqah',
+            category: 'Aqiqah',
+            subCat: 'Aqiqah & kelahiran buah hati',
+            catKey: 'aqiqah',
+            badge: '👶 Aqiqah • Basic Nordic',
+            packageVal: 'Paket Basic - Rp50.000',
+            desc: 'Desain aqiqah & tasmiyah minimalis gaya Skandinavia yang hangat: profil kelahiran, rincian tasyakuran kambing, doa penyejuk hati & peta kediaman.',
+            coverBadge: 'TASYAKURAN AQIQAH & TASMIYAH',
+            coverSubtitle: 'Welcoming Our Precious Blessing',
+            coverTitle: 'Muhammad Rayyan Al-Fatih',
+            coverDate: 'Ahad, 15 Maret 2026',
+            coverImg: 'https://images.unsplash.com/photo-1519689680058-324335c77eba?w=700',
+            quoteIcon: '👶',
+            quoteTitle: 'Doa Penyejuk Hati',
+            quoteBody: '"Semoga Allah memberkahi buah hati kami, menjadikannya anak yang sholeh, berbakti kepada orang tua, cerdas, serta bermanfaat bagi sesama."',
+            profileBadge: 'Buah Hati Tercinta',
+            profileName: 'Muhammad Rayyan Al-Fatih',
+            profileDesc: 'Putra Pertama Bpk. Fajar Ramadhan & Ibu Anisa Rahmawati',
+            locationName: 'Kediaman Bpk. Fajar & Ibu Anisa, Bandung',
+            events: [
+                { title: 'Cukur Rambut & Doa Tasmiyah', time: '09:00 - 10:30 WIB', date: 'Ahad, 15 Maret 2026', place: 'Kediaman Keluarga' },
+                { title: 'Tasyakuran Aqiqah & Santap Siang', time: '10:30 - 13:00 WIB', date: 'Ahad, 15 Maret 2026', place: 'Kediaman Keluarga' }
+            ],
+            giftTitle: '👶 Tali Kasih Buah Hati',
+            giftDesc: 'Doa dan restu Anda adalah karunia terindah bagi keluarga kami:',
+            wishTitle: 'Untaian Doa & Ucapan Selamat',
+            audioSrc: '{{ asset("audio/lullaby-melody.wav") }}'
+        };
+
+        themePreviews['royal-tasmiyah'] = {
+            name: 'Royal Tasmiyah & Aqiqah Sultan',
+            category: 'Aqiqah',
+            subCat: 'Tasmiyah & aqiqah',
+            catKey: 'aqiqah',
+            badge: '👑 Aqiqah • Royal Sultan',
+            packageVal: 'Paket Eksklusif - Rp180.000',
+            desc: 'Kemewahan tasyakuran pemberian nama (tasmiyah) & aqiqah buah hati beraksen zamrud royal & border emas keraton.',
+            coverBadge: 'MAJELIS TASMIYAH & AQIQAH SULTAN',
+            coverSubtitle: 'The Blessing of Royalty',
+            coverTitle: 'Raden Mas Sultan Daniswara Al-Ghifari',
+            coverDate: 'Sabtu, 25 April 2026',
+            coverImg: 'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=700',
+            quoteIcon: '👑',
+            quoteTitle: 'Bait Doa & Risalah Mulia',
+            quoteBody: '"Rasa syukur tak terhingga atas anugerah putra tercinta. Semoga menjadi penerus risalah mulia, berbudi luhur, dan berilmu amaliyah."',
+            profileBadge: 'Putra Sultan Tercinta',
+            profileName: 'Raden Mas Sultan Daniswara',
+            profileDesc: 'Putra Bpk. Dr. Danang Wibowo & Ibu Hj. Sekar Arum, M.Si',
+            locationName: 'Pendopo Agung Ndalem Heritage, Kotagede',
+            events: [
+                { title: 'Prosesi Marhaba & Tasmiyah', time: '09:00 - 11:00 WIB', date: 'Sabtu, 25 April 2026', place: 'Pendopo Agung Ndalem' },
+                { title: 'Tasyakuran Jamuan Tamu', time: '11:30 - 14:00 WIB', date: 'Sabtu, 25 April 2026', place: 'Gedung Bale Ndalem' }
+            ],
+            giftTitle: '👑 Tali Kasih Ananda',
+            giftDesc: 'Doa restu Anda merupakan karunia terindah:',
+            wishTitle: 'Untaian Doa & Restu',
+            audioSrc: '{{ asset("audio/lullaby-melody.wav") }}'
+        };
+
+        themePreviews['green-mosque'] = {
+            name: 'Green Mosque Syiar & Tabligh Akbar',
+            category: 'Keagamaan',
+            subCat: 'Pengajian & syiar',
+            catKey: 'keagamaan',
+            badge: '🕌 Syiar • Green Mosque',
+            packageVal: 'Paket Premium - Rp110.000',
+            desc: 'Desain tabligh akbar & pengajian umum bernuansa kubah hijau zamrud Islami.',
+            coverBadge: 'TABLIGH AKBAR & TAUSIYAH',
+            coverSubtitle: 'Menjemput Ridho Illahi',
+            coverTitle: 'K.H. Ahmad Syarifuddin, M.A.',
+            coverDate: 'Sabtu, 9 Mei 2026',
+            coverImg: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=700',
+            quoteIcon: '🕌',
+            quoteTitle: 'Ukhuwah Islamiyah',
+            quoteBody: '"Menuntut ilmu adalah kewajiban bagi setiap muslim. Mari rapatkan shaf dan raih keberkahan dalam majelis ilmu."',
+            profileBadge: 'Penceramah Utama',
+            profileName: 'K.H. Ahmad Syarifuddin, M.A.',
+            profileDesc: 'Pengasuh Pondok Pesantren & Dai Nasional',
+            locationName: 'Masjid Raya Al-Hikmah, Kebayoran Baru',
+            events: [
+                { title: 'Shalat Berjamaah & Dzikir', time: '19:00 - 20:00 WIB', date: 'Sabtu, 9 Mei 2026', place: 'Ruang Utama Masjid' },
+                { title: 'Tausiyah Akbar & Doa Bersama', time: '20:00 - 22:00 WIB', date: 'Sabtu, 9 Mei 2026', place: 'Ruang Utama Masjid' }
+            ],
+            giftTitle: '🕌 Infaq Dakwah & Masjid',
+            giftDesc: 'Infaq dan shadaqah untuk operasional dakwah:',
+            wishTitle: 'Doa Jamaah & Kehadiran',
+            audioSrc: '{{ asset("audio/islamic-melody.wav") }}'
+        };
+
+        themePreviews['walimatus-safar'] = {
+            name: 'Walimatus Safar Haji & Umrah Mubarok',
+            category: 'Keagamaan',
+            subCat: 'Walimatus safar haji & umrah',
+            catKey: 'keagamaan',
+            badge: '🕋 Haji & Umrah • Eksklusif',
+            packageVal: 'Paket Eksklusif - Rp180.000',
+            desc: 'Kemuliaan safar ke Baitullah bernuansa Ka\'bah Kiswah hitam & emas kaligrafi.',
+            coverBadge: 'WALIMATUS SAFAR HAJI & UMRAH',
+            coverSubtitle: 'Labbaik Allahumma Labbaik',
+            coverTitle: 'Bpk. H. Bambang Hermanto & Istri',
+            coverDate: 'Ahad, 17 Mei 2026',
+            coverImg: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=700',
+            quoteIcon: '🕋',
+            quoteTitle: 'Baitullah Al-Haram',
+            quoteBody: '"Labbaik Allahumma Labbaik. Mohon dimaafkan segala khilaf lahir batin, dan doakan kami agar kembali membawa haji yang mabrur."',
+            profileBadge: 'Calon Jamaah Haji',
+            profileName: 'Bpk. H. Bambang Hermanto & Ibu Hj. Siti',
+            profileDesc: 'Calon Jamaah Haji Kloter 14 JKS',
+            locationName: 'Kediaman Bpk. Bambang & Aula Al-Kautsar',
+            events: [
+                { title: 'Pengajian & Tausiyah Pelepasan', time: '09:00 - 11:00 WIB', date: 'Ahad, 17 Mei 2026', place: 'Aula Al-Kautsar' },
+                { title: 'Ramah Tamah Pamitan', time: '11:00 - 13:00 WIB', date: 'Ahad, 17 Mei 2026', place: 'Kediaman Keluarga' }
+            ],
+            giftTitle: '🕋 Titip Doa & Sedekah Safar',
+            giftDesc: 'Titipan doa dan sedekah safar menuju tanah suci:',
+            wishTitle: 'Untaian Doa Mabrur',
+            audioSrc: '{{ asset("audio/islamic-melody.wav") }}'
+        };
+
+        themePreviews['modern-graduate'] = {
+            name: 'Modern Graduate Editorial',
+            category: 'Wisuda',
+            subCat: 'Wisuda sarjana',
+            catKey: 'wisuda',
+            badge: '🎓 Wisuda • Basic Editorial',
+            packageVal: 'Paket Basic - Rp50.000',
+            desc: 'Desain wisuda minimalis monokrom gaya majalah editorial.',
+            coverBadge: 'GRADUATION COMMENCEMENT',
+            coverSubtitle: 'Class of 2026',
+            coverTitle: 'Faris Al-Ghifari, S.T.',
+            coverDate: 'Sabtu, 22 Agustus 2026',
+            coverImg: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=700',
+            quoteIcon: '🎓',
+            quoteTitle: 'Langkah Awal Pengabdian',
+            quoteBody: '"Sebuah akhir yang menjadi awal babak baru pengabdian. Terima kasih kepada orang tua dan sahabat tercinta."',
+            profileBadge: 'The Graduate',
+            profileName: 'Faris Al-Ghifari, S.T.',
+            profileDesc: 'Sarjana Teknik Informatika • IPK 3.92 (Cum Laude)',
+            locationName: 'Balairung Universitas Indonesia, Depok',
+            events: [
+                { title: 'Upacara Wisuda UI', time: '08:00 - 12:00 WIB', date: 'Sabtu, 22 Agustus 2026', place: 'Balairung Kampus UI' },
+                { title: 'Syukuran & Sesi Foto', time: '13:00 - 16:00 WIB', date: 'Sabtu, 22 Agustus 2026', place: 'Plaza Rektorat UI' }
+            ],
+            giftTitle: '🎓 Apresiasi Sarjana',
+            giftDesc: 'Kado apresiasi kelulusan sarjana:',
+            wishTitle: 'Kartu Ucapan & Doa Sukses',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['scholar-luxury'] = {
+            name: 'Valedictorian Scholar Luxury Gala',
+            category: 'Wisuda',
+            subCat: 'Wisuda sarjana & magister',
+            catKey: 'wisuda',
+            badge: '🎓 Wisuda • Valedictorian Gala',
+            packageVal: 'Paket Eksklusif - Rp180.000',
+            desc: 'Perayaan wisuda kehormatan ala Ivy League bernuansa midnight navy & emas royal.',
+            coverBadge: 'VALEDICTORIAN COMMENCEMENT GALA',
+            coverSubtitle: 'Honoring Academic Excellence',
+            coverTitle: 'Kresna Adiputra, M.B.A., B.Eng',
+            coverDate: 'Sabtu, 5 September 2026',
+            coverImg: 'https://images.unsplash.com/photo-1535982330050-f1c2fb79ff78?w=700',
+            quoteIcon: '🏆',
+            quoteTitle: 'Excellence in Action',
+            quoteBody: '"Excellence is not an act, but a habit. Syukur mendalam atas diraihnya predikat tertinggi."',
+            profileBadge: 'Valedictorian Honor',
+            profileName: 'Kresna Adiputra, M.B.A.',
+            profileDesc: 'Valedictorian • Master of Business Administration',
+            locationName: 'Grand Ballroom The Ritz-Carlton Mega Kuningan',
+            events: [
+                { title: 'Commencement Ceremony', time: '09:00 - 12:00 WIB', date: 'Sabtu, 5 September 2026', place: 'Plenary Hall JCC' },
+                { title: 'Valedictorian Gala Dinner', time: '18:30 - 21:30 WIB', date: 'Sabtu, 5 September 2026', place: 'The Ritz-Carlton Ballroom' }
+            ],
+            giftTitle: '🏆 Scholar Fellowship',
+            giftDesc: 'Tanda kasih fellowship & kehormatan wisuda:',
+            wishTitle: 'Ucapan Rekan & Mitra',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['clean-seminar'] = {
+            name: 'Clean Tech Seminar & Workshop',
+            category: 'Acara Formal',
+            subCat: 'Seminar & workshop',
+            catKey: 'formal',
+            badge: '🎙️ Seminar • Basic Tech',
+            packageVal: 'Paket Basic - Rp50.000',
+            desc: 'Desain simposium, lokakarya & seminar interaktif dengan barcode/QR.',
+            coverBadge: 'NATIONAL TECH SUMMIT & WORKSHOP',
+            coverSubtitle: 'Innovating Digital Ecosystem',
+            coverTitle: 'Indonesia AI Summit 2026',
+            coverDate: 'Kamis, 15 Oktober 2026',
+            coverImg: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=700',
+            quoteIcon: '🎙️',
+            quoteTitle: 'Visi Teknologi Masa Depan',
+            quoteBody: '"Membangun ekosistem teknologi masa depan yang inklusif, etis, dan berdampak nyata."',
+            profileBadge: 'Keynote Speaker',
+            profileName: 'Dr. Aris Sudarsono',
+            profileDesc: 'Principal AI Researcher & Founder TechLabs',
+            locationName: 'Auditorium Menara Mandiri, Jakarta Selatan',
+            events: [
+                { title: 'Keynote Presentation', time: '09:00 - 11:30 WIB', date: 'Kamis, 15 Oktober 2026', place: 'Auditorium Utama' },
+                { title: 'Technical Workshop', time: '13:00 - 16:00 WIB', date: 'Kamis, 15 Oktober 2026', place: 'Workshop Room 1' }
+            ],
+            giftTitle: '🎙️ Donasi Yayasan Summit',
+            giftDesc: 'Dukungan penyelenggaraan konferensi:',
+            wishTitle: 'Testimoni & RSVP Delegasi',
+            audioSrc: '{{ asset("audio/wedding-melody.wav") }}'
+        };
+
+        themePreviews['reuni-akbar'] = {
+            name: 'Reuni Akbar Sapphire Silver',
+            category: 'Acara Formal',
+            subCat: 'Reuni akbar',
+            catKey: 'formal',
+            badge: '🥂 Reuni • Sapphire Silver',
+            packageVal: 'Paket Premium - Rp110.000',
+            desc: 'Desain temu kangen alumni bernuansa sapphire navy & silver.',
+            coverBadge: 'REUNI AKBAR & GALA DINNER',
+            coverSubtitle: 'Satu Dekade Bersama',
+            coverTitle: 'Alumni SMAN 1 Angkatan 2016',
+            coverDate: 'Sabtu, 24 Oktober 2026',
+            coverImg: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=700',
+            quoteIcon: '🥂',
+            quoteTitle: 'Nostalgia Putih Abu-Abu',
+            quoteBody: '"Waktu berlalu begitu cepat, namun kenangan takkan pernah pudar. Mari merajut kembali tali silaturahmi."',
+            profileBadge: 'Keluarga Alumni',
+            profileName: 'Alumni SMAN 1 Angkatan 2016',
+            profileDesc: 'Dresscode: Navy Blue & Touch of Silver',
+            locationName: 'Grand Ballroom Hotel Mulia Senayan, Jakarta',
+            events: [
+                { title: 'Registrasi & Welcome Drink', time: '16:00 - 18:00 WIB', date: 'Sabtu, 24 Oktober 2026', place: 'Foyer Grand Ballroom' },
+                { title: 'Gala Dinner & Live Music', time: '19:00 - 22:00 WIB', date: 'Sabtu, 24 Oktober 2026', place: 'Grand Ballroom Mulia' }
+            ],
+            giftTitle: '🥂 Kas Reuni & Donasi Alumni',
+            giftDesc: 'Kontribusi donasi kas alumni & kegiatan sosial:',
+            wishTitle: 'Pesan Sahabat Alumni',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
         const audioTracks = {
             'pernikahan': '{{ asset("audio/wedding-melody.wav") }}',
             'tahlilan': '{{ asset("audio/islamic-melody.wav") }}',
@@ -881,20 +1151,29 @@
             'keagamaan': [
                 { slug: 'doa-bersama-tahlilan-khusyuk', name: 'Doa Bersama & Tahlilan', tag: 'Khusyuk & Sopan', icon: '🕯️', iconBg: 'bg-slate-100 text-slate-800', demoUrl: '/demo/tahlilan-khusyuk' },
                 { slug: 'ketupat-raya-silaturahmi', name: 'Ketupat Raya Silaturahmi', tag: 'Halal Bihalal & Silaturahmi', icon: '✨', iconBg: 'bg-amber-100 text-amber-800', demoUrl: '/demo/halal-bihalal' },
-                { slug: 'tasyakuran-doa-rumah-baru', name: 'Tasyakuran Rumah Baru', tag: 'Syukuran & Doa Bersama', icon: '🏡', iconBg: 'bg-teal-100 text-teal-800', demoUrl: '/demo/syukuran-rumah' }
+                { slug: 'tasyakuran-doa-rumah-baru', name: 'Tasyakuran Rumah Baru', tag: 'Syukuran & Doa Bersama', icon: '🏡', iconBg: 'bg-teal-100 text-teal-800', demoUrl: '/demo/syukuran-rumah' },
+                { slug: 'green-mosque', name: 'Green Mosque Syiar', tag: 'Tabligh Akbar & Tausiyah', icon: '🕌', iconBg: 'bg-emerald-100 text-emerald-800', demoUrl: '/demo/green-mosque' },
+                { slug: 'walimatus-safar', name: 'Walimatus Safar Mubarok', tag: 'Haji & Umrah Ka\'bah Kiswah', icon: '🕋', iconBg: 'bg-amber-100 text-amber-800', demoUrl: '/demo/walimatus-safar' }
             ],
             'aqiqah': [
-                { slug: 'sweet-baby-pastel-aqiqah', name: 'Sweet Baby Pastel', tag: 'Aqiqah Bayi & Tasmiyah', icon: '👶', iconBg: 'bg-pink-100 text-pink-700', demoUrl: '/demo/baby-aqiqah' },
-                { slug: 'walimatul-khitan-berkah-sholeh', name: 'Walimatul Khitan Berkah', tag: 'Khitanan Islami Sholeh', icon: '✂️', iconBg: 'bg-blue-100 text-blue-700', demoUrl: '/demo/walimatul-khitan' }
+                { slug: 'little-prince', name: 'Little Prince Nordic', tag: 'Aqiqah Bayi Nordic Basic', icon: '👶', iconBg: 'bg-sky-100 text-sky-800', demoUrl: '/demo/little-prince' },
+                { slug: 'sweet-baby-pastel-aqiqah', name: 'Sweet Baby Pastel', tag: 'Aqiqah Bayi & Tasmiyah', icon: '🍼', iconBg: 'bg-pink-100 text-pink-700', demoUrl: '/demo/baby-aqiqah' },
+                { slug: 'walimatul-khitan-berkah-sholeh', name: 'Walimatul Khitan Berkah', tag: 'Khitanan Islami Sholeh', icon: '✂️', iconBg: 'bg-blue-100 text-blue-700', demoUrl: '/demo/walimatul-khitan' },
+                { slug: 'royal-tasmiyah', name: 'Royal Tasmiyah Sultan', tag: 'Tasmiyah & Aqiqah Mewah', icon: '👑', iconBg: 'bg-emerald-100 text-emerald-800', demoUrl: '/demo/royal-tasmiyah' }
             ],
             'wisuda': [
-                { slug: 'wisuda-sarjana-prestasi-emas', name: 'Wisuda Sarjana Emas', tag: 'Wisuda & Kelulusan', icon: '🎓', iconBg: 'bg-amber-100 text-amber-800', demoUrl: '/demo/wisuda-sarjana' }
+                { slug: 'modern-graduate', name: 'Modern Graduate Editorial', tag: 'Monokrom Majalah Basic', icon: '📜', iconBg: 'bg-slate-100 text-slate-800', demoUrl: '/demo/modern-graduate' },
+                { slug: 'wisuda-sarjana-prestasi-emas', name: 'Wisuda Sarjana Emas', tag: 'Wisuda & Kelulusan', icon: '🎓', iconBg: 'bg-amber-100 text-amber-800', demoUrl: '/demo/wisuda-sarjana' },
+                { slug: 'scholar-luxury', name: 'Scholar Luxury Gala', tag: 'Valedictorian Ivy League', icon: '🏆', iconBg: 'bg-blue-100 text-blue-800', demoUrl: '/demo/scholar-luxury' }
             ],
             'ulang-tahun': [
-                { slug: 'golden-luxury-birthday-milad', name: 'Golden Luxury Birthday', tag: 'Sweet 17th & Milad', icon: '🎂', iconBg: 'bg-yellow-100 text-yellow-800', demoUrl: '/demo/golden-birthday' },
-                { slug: 'kids-birthday-party-balon-ceria', name: 'Kids Birthday Balon Ceria', tag: 'Pesta Ceria Anak & Games', icon: '🎈', iconBg: 'bg-pink-100 text-pink-700', demoUrl: '/demo/kids-birthday' }
+                { slug: 'cheerful-birthday', name: 'Cheerful Confetti Birthday', tag: 'Pesta Ceria Fun Minimalist', icon: '🎉', iconBg: 'bg-orange-100 text-orange-800', demoUrl: '/demo/cheerful-birthday' },
+                { slug: 'kids-birthday-party-balon-ceria', name: 'Kids Birthday Balon Ceria', tag: 'Pesta Ceria Anak & Games', icon: '🎈', iconBg: 'bg-pink-100 text-pink-700', demoUrl: '/demo/kids-birthday' },
+                { slug: 'golden-luxury-birthday-milad', name: 'Golden Luxury Birthday', tag: 'Sweet 17th & Milad', icon: '🎂', iconBg: 'bg-yellow-100 text-yellow-800', demoUrl: '/demo/golden-birthday' }
             ],
             'acara-formal': [
+                { slug: 'clean-seminar', name: 'Clean Tech Seminar & Workshop', tag: 'Simposium & Konferensi Basic', icon: '🎙️', iconBg: 'bg-sky-100 text-sky-800', demoUrl: '/demo/clean-seminar' },
+                { slug: 'reuni-akbar', name: 'Reuni Akbar Sapphire Silver', tag: 'Gala Dinner Alumni Navy', icon: '🥂', iconBg: 'bg-blue-100 text-blue-800', demoUrl: '/demo/reuni-akbar' },
                 { slug: 'executive-corporate-grand-opening', name: 'Executive Corporate', tag: 'Grand Opening & Bisnis', icon: '🏢', iconBg: 'bg-indigo-100 text-indigo-800', demoUrl: '/demo/formal-corporate' }
             ]
         };

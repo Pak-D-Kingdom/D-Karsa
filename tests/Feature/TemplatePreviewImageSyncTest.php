@@ -53,9 +53,9 @@ class TemplatePreviewImageSyncTest extends TestCase
     }
 
     /**
-     * Test that all 15 template blades render correctly with base64 data URIs and preview listeners.
+     * Test that all 24 template blades render correctly with base64 data URIs and preview listeners.
      */
-    public function test_all_15_templates_render_and_have_preview_synchronization(): void
+    public function test_all_24_templates_render_and_have_preview_synchronization(): void
     {
         $base64Sample = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
 
@@ -75,6 +75,15 @@ class TemplatePreviewImageSyncTest extends TestCase
             'syukuran-rumah',
             'wisuda-sarjana',
             'formal-corporate',
+            'cheerful-birthday',
+            'little-prince',
+            'royal-tasmiyah',
+            'green-mosque',
+            'walimatus-safar',
+            'modern-graduate',
+            'scholar-luxury',
+            'clean-seminar',
+            'reuni-akbar',
         ];
 
         foreach ($templates as $themeKey) {
@@ -140,4 +149,44 @@ class TemplatePreviewImageSyncTest extends TestCase
         $this->assertStringContainsString('UPDATE_PREVIEW_GALLERY', $content);
         $this->assertStringContainsString('UPDATE_PREVIEW_PARENTS', $content);
     }
+
+    /**
+     * Test all 24 template demo routes return 200 OK with demo couple data.
+     */
+    public function test_all_24_demo_routes_return_status_200(): void
+    {
+        $templates = [
+            'wildflower-pink',
+            'batak-heritage',
+            'minimalist-floral',
+            'snowfall-white',
+            'chibi-red',
+            'javanese-royal',
+            'baby-aqiqah',
+            'walimatul-khitan',
+            'golden-birthday',
+            'kids-birthday',
+            'tahlilan-khusyuk',
+            'halal-bihalal',
+            'syukuran-rumah',
+            'wisuda-sarjana',
+            'formal-corporate',
+            'cheerful-birthday',
+            'little-prince',
+            'royal-tasmiyah',
+            'green-mosque',
+            'walimatus-safar',
+            'modern-graduate',
+            'scholar-luxury',
+            'clean-seminar',
+            'reuni-akbar',
+        ];
+
+        foreach ($templates as $themeKey) {
+            $response = $this->get('/demo/' . $themeKey);
+            $response->assertStatus(200);
+            $this->assertNotEmpty($response->getContent(), "Demo route /demo/{$themeKey} returned empty content.");
+        }
+    }
 }
+

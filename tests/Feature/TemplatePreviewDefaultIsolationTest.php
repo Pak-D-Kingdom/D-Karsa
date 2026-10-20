@@ -63,14 +63,17 @@ class TemplatePreviewDefaultIsolationTest extends TestCase
     }
 
     /**
-     * Test strictly ZERO occurrences of the word 'Chungdoi'
+     * Test strictly ZERO occurrences of the word 'Chungdoi' across all views
      */
     public function test_zero_occurrences_of_forbidden_words(): void
     {
         $builderContent = file_get_contents(resource_path('views/builder/index.blade.php'));
         $this->assertStringNotContainsStringIgnoringCase('chungdoi', $builderContent);
 
-        $templateContent = file_get_contents(resource_path('views/templates/minimalist-floral.blade.php'));
-        $this->assertStringNotContainsStringIgnoringCase('chungdoi', $templateContent);
+        $templateFiles = glob(resource_path('views/templates/*.blade.php'));
+        foreach ($templateFiles as $file) {
+            $content = file_get_contents($file);
+            $this->assertStringNotContainsStringIgnoringCase('chungdoi', $content, "Template " . basename($file) . " contains forbidden word.");
+        }
     }
 }
