@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Buat Undangan Digital Sendiri | D'Karsa Builder</title>
     <meta name="description" content="Buat undangan pernikahan, khitanan, dan acara digital secara mandiri, cepat, dan mudah dengan D'Karsa.">
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo.png') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -186,9 +188,7 @@
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-ink/10 py-3.5 px-4 sm:px-8 shadow-sm">
         <div class="max-w-5xl mx-auto flex items-center justify-between gap-3">
             <a href="{{ route('invitation.index') }}" class="flex items-center gap-2.5 group shrink-0">
-                <span class="w-9 h-9 rounded-full bg-brand text-white font-serif font-bold text-base grid place-items-center shadow-md group-hover:scale-105 transition">
-                    DK
-                </span>
+                <img src="{{ asset('images/logo.png') }}" alt="Logo D'Karsa" class="w-10 h-10 rounded-full object-cover shadow-md border border-amber-300/80 group-hover:scale-105 transition">
                 <div>
                     <b class="text-sm sm:text-base font-serif font-bold text-ink group-hover:text-brand transition block leading-tight">D'Karsa</b>
                     <span class="text-[10px] uppercase font-bold tracking-widest text-ink3 block">Invitation Builder</span>
@@ -1318,12 +1318,14 @@
                     </div>
                 </div>
 
-                {{-- Ringkasan Review Card --}}
-                <div class="p-5 rounded-3xl bg-blush border border-brand/30 space-y-2 text-center">
-                    <span class="text-2xl">⏳</span>
-                    <h4 class="font-serif text-lg font-bold text-brand">Alur Verifikasi &amp; ACC Admin</h4>
-                    <p class="text-xs text-ink2 max-w-md mx-auto leading-relaxed">
-                        Setelah Anda menekan tombol di bawah, formulir undangan akan disimpan dengan status <b>Menunggu ACC Admin</b>. Admin D'Karsa akan memeriksa data dan mengaktifkan tautan resmi undangan Anda.
+                {{-- Pembayaran & Aktivasi Instan via Midtrans --}}
+                <div class="p-5 rounded-3xl bg-gradient-to-br from-emerald-50 via-teal-50 to-white border border-emerald-300 space-y-2 text-center shadow-sm">
+                    <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 text-2xl mx-auto shadow-inner">
+                        💳
+                    </div>
+                    <h4 class="font-serif text-lg font-bold text-emerald-900">Aktivasi Instan &amp; Pembayaran Midtrans</h4>
+                    <p class="text-xs text-emerald-800 max-w-lg mx-auto leading-relaxed">
+                        Setelah menekan tombol di bawah, Anda akan diarahkan ke halaman pembayaran <b>Midtrans Payment Gateway</b> (QRIS, GoPay, ShopeePay, Virtual Account Bank). Begitu pembayaran selesai diverifikasi, undangan Anda <b>langsung aktif seketika tanpa perlu menunggu ACC admin</b> dan siap disebarkan!
                     </p>
                 </div>
             </div>
@@ -1340,7 +1342,7 @@
                     </button>
 
                     <button type="submit" id="submitBtn" class="hidden px-8 py-3 rounded-full text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg transition flex items-center gap-2">
-                        <span>🚀 Ajukan Undangan (Menunggu ACC)</span>
+                        <span>💳 Lanjut ke Pembayaran Midtrans (Aktivasi Instan)</span> <span>→</span>
                     </button>
                 </div>
             </div>

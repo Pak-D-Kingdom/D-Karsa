@@ -1,10 +1,8 @@
 <!-- partials/nav.blade.php -->
 <header id="nav" aria-label="Navigasi utama" class="lp-nav">
-    <a href="#top" class="inline-flex items-center gap-2.5 font-extrabold tracking-tight text-[15px] text-ink">
-        <span class="w-8 h-8 rounded-full bg-accent-soft text-accent grid place-items-center font-serif italic text-sm font-bold border border-brand/20">
-            DK
-        </span>
-        <span>D'Karsa</span>
+    <a href="#top" class="inline-flex items-center gap-2.5 font-extrabold tracking-tight text-[15px] text-ink group">
+        <img src="{{ asset('images/logo.png') }}" alt="Logo D'Karsa" class="w-9 h-9 rounded-full object-cover shadow-sm border border-amber-300/80 group-hover:scale-105 transition">
+        <span class="font-serif font-bold text-base text-ink group-hover:text-brand transition">D'Karsa</span>
     </a>
 
     <nav aria-label="Menu" class="hidden lg:flex items-center gap-1">

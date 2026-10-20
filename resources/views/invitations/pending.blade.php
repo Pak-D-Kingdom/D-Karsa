@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Undangan Menunggu Persetujuan Admin | D'Karsa</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo.png') }}">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,9 +40,12 @@
 
     <div class="max-w-md w-full bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-amber-200 text-center space-y-6 my-auto">
         
-        {{-- Pending Icon --}}
-        <div class="w-20 h-20 rounded-full bg-amber-100 text-amber-600 mx-auto grid place-items-center text-4xl shadow-inner animate-pulse">
-            ⏳
+        {{-- D'Karsa Brand Logo & Pending Icon --}}
+        <div class="relative w-24 h-24 mx-auto">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo D'Karsa" class="w-24 h-24 rounded-full object-cover shadow-lg border-2 border-amber-300">
+            <span class="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-amber-100 text-amber-700 grid place-items-center text-sm shadow-md border-2 border-white animate-pulse" title="Menunggu ACC Admin">
+                ⏳
+            </span>
         </div>
 
         <div>

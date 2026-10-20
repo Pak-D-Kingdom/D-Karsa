@@ -8,6 +8,7 @@ use App\Models\Gallery;
 use App\Models\Guest;
 use App\Models\Rsvp;
 use App\Models\Wish;
+use App\Services\MidtransService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -238,12 +239,18 @@ class InvitationController extends Controller
             $storyNotes[] = "Request Kustom Desain: " . $customDesign;
         }
 
+        $amount = MidtransService::getPackagePrice($selectedPackage);
+        $invoiceNumber = MidtransService::generateInvoiceNumber();
+
         $couple = Couple::create([
             'slug' => $slug,
             'category' => $category,
             'sub_category' => $validated['sub_category'] ?? null,
             'theme' => $selectedTheme,
             'package_name' => $selectedPackage,
+            'amount' => $amount,
+            'invoice_number' => $invoiceNumber,
+            'payment_status' => 'pending',
             'event_heading' => (!empty($validated['event_heading'])) ? $validated['event_heading'] : ($isNonWedding ? "UNDANGAN " . strtoupper($category) : "WALIMATUL 'URSY"),
             'groom_name' => $validated['groom_name'],
             'groom_fullname' => (!empty($validated['groom_fullname'])) ? $validated['groom_fullname'] : $validated['groom_name'],
@@ -377,12 +384,25 @@ class InvitationController extends Controller
             }
         }
 
-        return redirect()->route('invitation.success', ['slug' => $couple->slug]);
+        return redirect()->route('midtrans.checkout', ['slug' => $couple->slug]);
     }
 
-    public function success(string $slug)
+    public function success(Request $request, string $slug)
     {
         $couple = Couple::with('events')->where('slug', $slug)->firstOrFail();
+
+        // If returned from Midtrans redirect with settlement / success status
+        $status = $request->query('transaction_status');
+        $statusCode = $request->query('status_code');
+        if (($status === 'settlement' || $status === 'capture' || $statusCode == '200') && $couple->payment_status !== 'paid') {
+            app(MidtransService::class)->markAsPaid(
+                $couple,
+                'Midtrans - ' . strtoupper($request->query('payment_type', 'Virtual Account / QRIS')),
+                $request->query('order_id')
+            );
+            session()->flash('payment_success', 'Pembayaran via Midtrans berhasil diverifikasi! Undangan Anda kini telah aktif.');
+        }
+
         return view('builder.success', compact('couple'));
     }
 
@@ -643,6 +663,9 @@ class InvitationController extends Controller
             'name' => 'required|string|max:100',
             'message' => 'required|string|max:500',
             'attendance' => 'nullable|string|in:hadir,tidak_hadir,ragu',
+            'guest_count' => 'nullable|integer|min:1|max:10',
+            'guest_slug' => 'nullable|string',
+            'category' => 'nullable|string|max:100',
         ]);
 
         Wish::create([
@@ -652,6 +675,24 @@ class InvitationController extends Controller
             'is_approved' => true,
         ]);
 
+        if (!empty($data['attendance'])) {
+            $guestId = null;
+            if (!empty($data['guest_slug'])) {
+                $guestId = Guest::where('slug', $data['guest_slug'])->value('id');
+            } elseif (!empty($data['couple_id'])) {
+                $guestId = Guest::where('couple_id', $data['couple_id'])->where('name', $data['name'])->value('id');
+            }
+
+            Rsvp::create([
+                'guest_id' => $guestId,
+                'name' => $data['name'],
+                'attendance' => $data['attendance'],
+                'message' => $data['message'],
+                'guest_count' => (int)($data['guest_count'] ?? 1),
+                'category' => $data['category'] ?? 'Tamu Undangan',
+            ]);
+        }
+
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
                 'status' => 'success',
@@ -660,12 +701,6 @@ class InvitationController extends Controller
         }
 
         if (!empty($data['attendance'])) {
-            Rsvp::create([
-                'name' => $data['name'],
-                'attendance' => $data['attendance'],
-                'message' => $data['message'],
-                'guest_count' => 1,
-            ]);
             return back()->with('wish_success', 'Terima kasih atas ucapan doa restu dan konfirmasi kehadiran Anda!')->withFragment('rsvp');
         }
 

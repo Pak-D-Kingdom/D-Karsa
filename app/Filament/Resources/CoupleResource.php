@@ -35,14 +35,24 @@ class CoupleResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\Section::make('Status Undangan & Kontak Pemesan')->schema([
-                Forms\Components\Select::make('status')->label('Status Verifikasi')
+            Forms\Components\Section::make('Status Undangan & Pembayaran Midtrans')->schema([
+                Forms\Components\Select::make('status')->label('Status Undangan')
                     ->options([
-                        'pending' => '⏳ Menunggu ACC Admin',
+                        'pending' => '⏳ Menunggu ACC / Aktivasi',
                         'published' => '✅ Aktif / Terverifikasi',
                     ])->default('published')->required(),
+                Forms\Components\Select::make('payment_status')->label('Status Pembayaran')
+                    ->options([
+                        'pending' => '⏳ Belum Bayar (Pending)',
+                        'paid' => '✅ Lunas (Paid via Midtrans)',
+                        'failed' => '❌ Gagal',
+                        'expired' => '⚠️ Kedaluwarsa',
+                    ])->default('pending')->required(),
+                Forms\Components\TextInput::make('amount')->label('Nominal Pembayaran')->numeric()->prefix('Rp'),
                 Forms\Components\TextInput::make('customer_name')->label('Nama Pemesan')->placeholder('Rizky Kurniawan'),
                 Forms\Components\TextInput::make('customer_phone')->label('Nomor WhatsApp Pemesan')->tel()->placeholder('081234567890'),
+                Forms\Components\TextInput::make('invoice_number')->label('No. Invoice Midtrans')->placeholder('INV-DK-...'),
+                Forms\Components\TextInput::make('payment_method')->label('Metode Bayar')->placeholder('QRIS / BCA VA'),
                 Forms\Components\Textarea::make('story')
                     ->label('Paket & Catatan Request Desain')
                     ->rows(2)
@@ -176,6 +186,26 @@ class CoupleResource extends Resource
                     default => $state,
                 })
                 ->sortable(),
+            Tables\Columns\TextColumn::make('payment_status')->label('Pembayaran')
+                ->badge()
+                ->color(fn (?string $state) => match ($state) {
+                    'paid' => 'success',
+                    'pending' => 'warning',
+                    'failed', 'expired' => 'danger',
+                    default => 'gray',
+                })
+                ->formatStateUsing(fn (?string $state) => match ($state) {
+                    'paid' => 'Lunas (Midtrans)',
+                    'pending' => 'Belum Bayar',
+                    'failed' => 'Gagal',
+                    'expired' => 'Kedaluwarsa',
+                    default => $state ?? 'Belum Bayar',
+                })
+                ->sortable(),
+            Tables\Columns\TextColumn::make('amount')->label('Nominal')
+                ->money('IDR', true)
+                ->sortable()
+                ->toggleable(),
             Tables\Columns\TextColumn::make('customer_name')->label('Pemesan')->searchable()->placeholder('-'),
             Tables\Columns\TextColumn::make('customer_phone')->label('No. WA')->searchable()->placeholder('-'),
             Tables\Columns\TextColumn::make('story')->label('Paket / Catatan')->limit(25)->tooltip(fn ($record) => $record->story)->placeholder('-'),
@@ -231,6 +261,12 @@ class CoupleResource extends Resource
                 ->options([
                     'pending' => 'Menunggu ACC',
                     'published' => 'Aktif',
+                ]),
+            Tables\Filters\SelectFilter::make('payment_status')
+                ->label('Status Pembayaran')
+                ->options([
+                    'paid' => 'Lunas (Midtrans)',
+                    'pending' => 'Belum Bayar',
                 ]),
             Tables\Filters\SelectFilter::make('category')
                 ->label('Filter Kategori')

@@ -27,6 +27,10 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->brandName("D'Karsa")
+            ->brandLogo(fn () => view('filament.admin.logo'))
+            ->brandLogoHeight('2.6rem')
+            ->favicon(asset('images/logo.png'))
             ->colors([
                 'primary' => Color::Amber,
             ])

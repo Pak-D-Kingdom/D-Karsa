@@ -1,9 +1,14 @@
+@php
+    $isPaid = ($couple->payment_status === 'paid' || $couple->status === 'published');
+@endphp
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Menunggu ACC Admin | D'Karsa</title>
+    <title>{{ $isPaid ? "Undangan Aktif & Siap Disebar" : "Menunggu Pembayaran Midtrans" }} | D'Karsa</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo.png') }}">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,33 +43,73 @@
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
 
-    <div class="max-w-xl w-full bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-amber-200 text-center space-y-6 my-auto">
+    <div class="max-w-xl w-full bg-white rounded-3xl p-6 sm:p-10 shadow-xl {{ $isPaid ? 'border border-emerald-200' : 'border border-amber-200' }} text-center space-y-6 my-auto">
         
-        {{-- Pending Icon --}}
-        <div class="w-20 h-20 rounded-full bg-amber-100 text-amber-600 mx-auto grid place-items-center text-4xl shadow-inner animate-pulse">
-            ⏳
+        @if(session('payment_success'))
+            <div class="p-3.5 rounded-2xl bg-emerald-100 border border-emerald-300 text-emerald-900 text-xs font-bold flex items-center justify-center gap-2 animate-bounce">
+                <span>🎉</span>
+                <span>{{ session('payment_success') }}</span>
+            </div>
+        @endif
+
+        {{-- D'Karsa Brand Logo & Status Icon --}}
+        <div class="relative w-24 h-24 mx-auto">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo D'Karsa" class="w-24 h-24 rounded-full object-cover shadow-lg border-2 {{ $isPaid ? 'border-emerald-400' : 'border-amber-300' }}">
+            @if($isPaid)
+                <span class="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 grid place-items-center text-sm shadow-md border-2 border-white" title="Undangan Aktif">
+                    ✅
+                </span>
+            @else
+                <span class="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-amber-100 text-amber-700 grid place-items-center text-sm shadow-md border-2 border-white animate-pulse" title="Menunggu Pembayaran">
+                    ⏳
+                </span>
+            @endif
         </div>
 
         <div>
-            <span class="inline-block px-3.5 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-wider mb-2">
-                Menunggu Persetujuan Admin
-            </span>
-            <h1 class="font-serif text-3xl sm:text-4xl font-bold text-ink leading-tight">
-                Pendaftaran Undangan Berhasil!
-            </h1>
-            <p class="text-xs sm:text-sm text-ink2 mt-2 leading-relaxed">
-                Terima kasih <b>{{ $couple->customer_name ?: $couple->groom_name }}</b>, data formulir undangan Anda telah berhasil kami terima.
-            </p>
+            @if($isPaid)
+                <span class="inline-block px-3.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider mb-2">
+                    🎉 Pembayaran Berhasil &amp; Undangan Aktif
+                </span>
+                <h1 class="font-serif text-3xl sm:text-4xl font-bold text-ink leading-tight">
+                    Undangan Anda Telah Aktif!
+                </h1>
+                <p class="text-xs sm:text-sm text-ink2 mt-2 leading-relaxed">
+                    Terima kasih <b>{{ $couple->customer_name ?: $couple->groom_name }}</b>! Pembayaran Anda melalui Midtrans telah terverifikasi otomatis. Undangan digital Anda kini <b>resmi dipublikasikan</b> dan siap disebarkan.
+                </p>
+            @else
+                <span class="inline-block px-3.5 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-wider mb-2">
+                    Menunggu Pembayaran Midtrans
+                </span>
+                <h1 class="font-serif text-3xl sm:text-4xl font-bold text-ink leading-tight">
+                    Formulir Undangan Tersimpan!
+                </h1>
+                <p class="text-xs sm:text-sm text-ink2 mt-2 leading-relaxed">
+                    Terima kasih <b>{{ $couple->customer_name ?: $couple->groom_name }}</b>, data undangan Anda telah tersimpan. Silakan selesaikan pembayaran agar tautan undangan langsung aktif seketika tanpa menunggu konfirmasi manual.
+                </p>
+                <div class="pt-2">
+                    <a href="{{ route('midtrans.checkout', $couple->slug) }}" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition">
+                        <span>💳 Selesaikan Pembayaran Midtrans</span> <span>→</span>
+                    </a>
+                </div>
+            @endif
         </div>
 
         {{-- Order Summary Card --}}
         <div class="p-5 rounded-2xl bg-sunk/70 border border-ink/15 text-left space-y-3">
             <div class="flex items-center justify-between border-b border-ink/10 pb-2.5">
-                <span class="text-xs font-bold uppercase tracking-wider text-ink3">Ringkasan Data:</span>
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-[11px] font-extrabold">
-                    <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
-                    Menunggu ACC
-                </span>
+                <span class="text-xs font-bold uppercase tracking-wider text-ink3">Ringkasan Undangan:</span>
+                @if($isPaid)
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-extrabold">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                        Lunas (Midtrans) - Aktif
+                    </span>
+                @else
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-[11px] font-extrabold">
+                        <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+                        Menunggu Pembayaran
+                    </span>
+                @endif
             </div>
             
             <div class="grid grid-cols-2 gap-3 text-xs">
@@ -93,34 +138,57 @@
             </div>
         </div>
 
-        {{-- Important Notice Card --}}
-        <div class="p-4 rounded-2xl bg-amber-50/80 border border-amber-300 text-left space-y-2">
-            <b class="text-xs font-bold text-amber-950 flex items-center gap-1.5">
-                <span>📢</span> Langkah Selanjutnya (Alur ACC Admin):
-            </b>
-            <ol class="text-[11.5px] text-amber-900 leading-relaxed list-decimal list-inside space-y-1">
-                <li>Admin D'Karsa akan memeriksa kelengkapan data &amp; tata letak undangan Anda.</li>
-                <li>Setelah disetujui (ACC), Admin akan <b>mengaktifkan tautan resmi</b> undangan Anda.</li>
-                <li>Admin akan menghubungi nomor WhatsApp Anda (<b>{{ $couple->customer_phone ?: 'yang terdaftar' }}</b>) untuk menyerahkan tautan aktif siap sebar.</li>
-            </ol>
-        </div>
+        {{-- Notice Card --}}
+        @if($isPaid)
+            <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-300 text-left space-y-2">
+                <b class="text-xs font-bold text-emerald-950 flex items-center gap-1.5">
+                    <span>🚀</span> Undangan Telah Aktif Secara Instan:
+                </b>
+                <p class="text-[11.5px] text-emerald-900 leading-relaxed">
+                    Tautan undangan resmi Anda kini sudah dapat dibuka secara luas oleh siapa saja. Anda bisa langsung membagikan tautan utama, atau menggunakan <b>Generator Nama Tamu</b> di bawah untuk mengirim undangan personal dengan nama tamu masing-masing melalui WhatsApp.
+                </p>
+            </div>
+        @else
+            <div class="p-4 rounded-2xl bg-amber-50/80 border border-amber-300 text-left space-y-2">
+                <b class="text-xs font-bold text-amber-950 flex items-center gap-1.5">
+                    <span>📢</span> Alur Aktivasi Cepat:
+                </b>
+                <p class="text-[11.5px] text-amber-900 leading-relaxed">
+                    Selesaikan pembayaran melalui <a href="{{ route('midtrans.checkout', $couple->slug) }}" class="underline font-bold text-emerald-700">Midtrans Payment Gateway</a> agar sistem kami langsung mengaktifkan undangan digital Anda secara instan tanpa perlu menunggu verifikasi admin.
+                </p>
+            </div>
+        @endif
 
-        {{-- Planned Link (Akan Aktif Setelah di-ACC) --}}
-        <div class="p-4 rounded-2xl bg-white border border-ink/15 text-left space-y-2 shadow-sm">
+        {{-- Tautan Undangan Utama --}}
+        <div class="p-4 rounded-2xl bg-white border {{ $isPaid ? 'border-emerald-300' : 'border-ink/15' }} text-left space-y-2 shadow-sm">
             <div class="flex items-center justify-between">
-                <span class="text-[11px] font-bold uppercase tracking-wider text-ink3 block">Rencana Tautan Undangan Utama:</span>
-                <span class="text-[10px] text-amber-700 bg-amber-100 font-bold px-2 py-0.5 rounded">Belum Aktif</span>
+                <span class="text-[11px] font-bold uppercase tracking-wider text-ink3 block">Tautan Undangan Utama:</span>
+                @if($isPaid)
+                    <span class="text-[10px] text-emerald-700 bg-emerald-100 font-bold px-2 py-0.5 rounded">Telah Aktif</span>
+                @else
+                    <span class="text-[10px] text-amber-700 bg-amber-100 font-bold px-2 py-0.5 rounded">Belum Aktif</span>
+                @endif
             </div>
             <div class="flex items-center gap-2 bg-sunk/60 rounded-xl p-2.5 border border-ink/10">
                 <input type="text" id="mainInviteLink" readonly value="{{ url('/undangan/' . $couple->slug) }}"
-                       class="w-full text-xs font-mono font-bold text-ink2 bg-transparent focus:outline-none select-all cursor-not-allowed" title="Tautan akan aktif setelah di-ACC oleh Admin">
+                       class="w-full text-xs font-mono font-bold {{ $isPaid ? 'text-brand' : 'text-ink2 cursor-not-allowed' }} bg-transparent focus:outline-none select-all" title="{{ $isPaid ? 'Tautan Resmi Undangan' : 'Tautan akan aktif setelah pembayaran' }}">
                 <button type="button" onclick="copyMainLink()"
                         class="px-3.5 py-1.5 rounded-lg bg-ink/10 hover:bg-ink/20 text-ink text-xs font-bold shrink-0 transition">
                     Salin
                 </button>
+                @if($isPaid)
+                    <a href="{{ url('/undangan/' . $couple->slug) }}" target="_blank"
+                       class="px-3.5 py-1.5 rounded-lg bg-brand hover:bg-accent text-white text-xs font-bold shrink-0 transition flex items-center gap-1 shadow-sm">
+                        <span>🌐</span> Buka
+                    </a>
+                @endif
             </div>
             <p class="text-[10.5px] text-ink3 italic">
-                * Tautan ini saat ini masih terkunci dan akan otomatis terbuka setelah di-ACC oleh admin.
+                @if($isPaid)
+                    * Tautan ini siap disebarkan ke media sosial, grup WhatsApp, maupun pesan pribadi.
+                @else
+                    * Tautan ini saat ini masih terkunci dan akan langsung otomatis terbuka setelah pembayaran selesai.
+                @endif
             </p>
         </div>
 
@@ -247,21 +315,31 @@
             </div>
         </div>
 
-        {{-- WhatsApp Confirm Button to Admin --}}
+        {{-- WhatsApp Support Button to Admin --}}
         @php
-            $waCustomerMsg = "Halo Admin D'Karsa,\n\nSaya telah selesai membuat data undangan digital melalui website:\n" .
-                "- Pemesan: " . ($couple->customer_name ?: $couple->groom_name) . "\n" .
-                "- Acara: " . ($couple->category === 'Pernikahan' ? "{$couple->groom_name} & {$couple->bride_name}" : $couple->groom_name) . "\n" .
-                "- Kode/Slug: {$couple->slug}\n" .
-                "- Tanggal Acara: " . \Carbon\Carbon::parse($couple->wedding_date)->translatedFormat('d F Y') . "\n\n" .
-                "Mohon bantuannya untuk diperiksa dan di-ACC agar link undangan resmi dapat diaktifkan. Terima kasih!";
+            if ($isPaid) {
+                $waCustomerMsg = "Halo Admin D'Karsa,\n\nSaya telah berhasil melakukan pembayaran undangan digital D'Karsa via Midtrans:\n" .
+                    "- Pemesan: " . ($couple->customer_name ?: $couple->groom_name) . "\n" .
+                    "- Acara: " . ($couple->category === 'Pernikahan' ? "{$couple->groom_name} & {$couple->bride_name}" : $couple->groom_name) . "\n" .
+                    "- No. Invoice: " . ($couple->invoice_number ?: '-') . "\n" .
+                    "- Tautan Undangan: " . url('/undangan/' . $couple->slug) . "\n\n" .
+                    "Undangan saya telah aktif. Jika ada pertanyaan atau kebutuhan input daftar tamu, mohon panduannya. Terima kasih!";
+                $waBtnText = "💬 Hubungi WhatsApp Admin (Bantuan & Tamu)";
+            } else {
+                $waCustomerMsg = "Halo Admin D'Karsa,\n\nSaya telah mengisi formulir undangan digital di D'Karsa:\n" .
+                    "- Pemesan: " . ($couple->customer_name ?: $couple->groom_name) . "\n" .
+                    "- Acara: " . ($couple->category === 'Pernikahan' ? "{$couple->groom_name} & {$couple->bride_name}" : $couple->groom_name) . "\n" .
+                    "- No. Invoice: " . ($couple->invoice_number ?: '-') . "\n\n" .
+                    "Mohon panduan terkait pembayaran Midtrans / aktivasi undangan saya. Terima kasih!";
+                $waBtnText = "💬 Hubungi WhatsApp Admin untuk Bantuan";
+            }
             $waAdminUrl = "https://wa.me/6281234567890?text=" . urlencode($waCustomerMsg);
         @endphp
 
         <div class="space-y-2.5 pt-2">
             <a href="{{ $waAdminUrl }}" target="_blank"
                class="w-full py-3.5 px-5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs tracking-wider uppercase transition flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5">
-                <span>💬</span> Konfirmasi ke WhatsApp Admin Sekarang
+                <span>💬</span> {{ $waBtnText }}
             </a>
             <p class="text-[10.5px] text-ink3 text-center leading-relaxed">
                 📎 <i>Ingin dibantu input daftar tamu oleh admin? Setelah chat WA terbuka, lampirkan file Excel/Word atau kirim daftar nama tamu via tombol lampiran (klip 📎) di WhatsApp.</i>

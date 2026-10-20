@@ -17,11 +17,14 @@ class Couple extends Model
         'gift_address', 'music_url', 'thank_you_note', 'story',
         'status', 'is_in_catalog',
         'customer_name', 'customer_phone',
+        'amount', 'invoice_number', 'payment_status', 'payment_method', 'paid_at', 'payment_token',
     ];
 
     protected $casts = [
         'wedding_date' => 'date',
+        'paid_at' => 'datetime',
         'is_in_catalog' => 'boolean',
+        'amount' => 'integer',
     ];
 
     public function events(): HasMany { return $this->hasMany(Event::class); }
