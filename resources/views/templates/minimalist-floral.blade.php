@@ -104,6 +104,9 @@
         
         $groomInitial = mb_substr($couple->groom_nickname ?? $couple->groom_name ?? 'G', 0, 1);
         $brideInitial = mb_substr($couple->bride_nickname ?? $couple->bride_name ?? 'B', 0, 1);
+
+        $groomParentsFormatted = \App\Services\TemplateManager::formatParentNames($couple->groom_father ?? null, $couple->groom_mother ?? null, $couple->groom_parents ?? 'Bapak & Ibu Keluarga Mempelai Pria');
+        $brideParentsFormatted = \App\Services\TemplateManager::formatParentNames($couple->bride_father ?? null, $couple->bride_mother ?? null, $couple->bride_parents ?? 'Bapak & Ibu Keluarga Mempelai Wanita');
     @endphp
 
     <!-- Background Audio -->
@@ -788,8 +791,8 @@
         const defaultGroomPhoto = "{{ $groomImg }}";
         const defaultBridePhoto = "{{ $brideImg }}";
         const defaultCoverPhoto = "{{ $coverImg }}";
-        const defaultGroomParents = @json($groomParentsFormatted);
-        const defaultBrideParents = @json($brideParentsFormatted);
+        const defaultGroomParents = @json($groomParentsFormatted ?? '');
+        const defaultBrideParents = @json($brideParentsFormatted ?? '');
 
         function renderDynamicGallery(images) {
             const container = document.getElementById('previewGalleryGrid');

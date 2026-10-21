@@ -64,4 +64,30 @@ class Couple extends Model
         $fallback = \App\Services\TemplateManager::getDefaultCoverImage($this->theme ?? $this->category ?? 'chibi-red');
         return \App\Services\TemplateManager::resolvePhotoUrl($this->cover_photo, $fallback);
     }
+
+    /**
+     * Accessor alias untuk bank utama (kompatibilitas antar template)
+     */
+    public function getBankNameAttribute(): ?string
+    {
+        return $this->bank_name_1;
+    }
+
+    public function getAccountNumberAttribute(): ?string
+    {
+        return $this->bank_account_1;
+    }
+
+    public function getAccountNameAttribute(): ?string
+    {
+        return $this->bank_holder_1;
+    }
+
+    /**
+     * Accessor alamat venue utama dari event pertama
+     */
+    public function getVenueAddressAttribute(): ?string
+    {
+        return $this->events->first()?->address ?? null;
+    }
 }

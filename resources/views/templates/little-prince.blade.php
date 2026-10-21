@@ -77,12 +77,17 @@
         );
         $audioUrl = !empty($couple->music_url) ? (str_starts_with($couple->music_url, 'http') ? $couple->music_url : asset('audio/' . $couple->music_url)) : asset('audio/lullaby-melody.wav');
 
-        $targetDate = !empty($couple->wedding_date) ? \Carbon\Carbon::parse($couple->wedding_date) : now()->addMonths(1);
+        $firstEvent = isset($couple->events) && count($couple->events) > 0 ? (is_array($couple->events) ? (object)$couple->events[0] : $couple->events->first()) : null;
+        $rawEventDate = !empty($firstEvent->date) ? $firstEvent->date : ($couple->wedding_date ?? null);
+        $targetDate = !empty($rawEventDate) ? \Carbon\Carbon::parse($rawEventDate) : now()->addMonths(1);
         $eventDateFormatted = $targetDate->locale('id')->isoFormat('dddd, D MMMM Y');
-        $eventTimeFormatted = !empty($couple->wedding_time) ? substr($couple->wedding_time, 0, 5) . ' WIB' : '09:00 WIB';
+        $eventTimeFormatted = !empty($firstEvent->start_time) 
+            ? $firstEvent->start_time . (!empty($firstEvent->end_time) ? ' - ' . $firstEvent->end_time : '')
+            : (!empty($couple->wedding_time) ? substr($couple->wedding_time, 0, 5) . ' WIB' : '09:00 WIB');
 
         $babyName = $couple->groom_name ?? 'Muhammad Al-Fatih';
         $babyFull = $couple->groom_fullname ?? $babyName;
+        $babyNick = $couple->groom_nickname ?? 'Fatih';
         $orderInfo = $couple->groom_birth_order ?? 'Putra Pertama Tercinta';
     @endphp
 
@@ -316,7 +321,12 @@
         </section>
 
         <!-- DIGITAL GIFT / TABUNGAN BUAH HATI -->
-        @if(!empty($couple->bank_account_1) || !empty($couple->gift_address))
+        @php
+            $hasBank1 = !empty($couple->bank_account_1) || !empty($couple->account_number);
+            $hasBank2 = !empty($couple->bank_account_2);
+            $hasGift = !empty($couple->gift_address);
+        @endphp
+        @if($hasBank1 || $hasBank2 || $hasGift)
             <section class="p-6 sm:p-8 bg-white border-t border-nordic-border space-y-5 text-center">
                 <div class="space-y-1">
                     <span class="text-xs font-bold uppercase tracking-wider text-nordic-amber">Tanda Kasih &amp; Hadiah</span>
@@ -326,23 +336,53 @@
                     </p>
                 </div>
 
-                @if(!empty($couple->bank_account_1))
-                    <div class="p-4 rounded-2xl bg-nordic-bg border border-nordic-border text-left space-y-2">
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-nordic-amber font-serif">💳 {{ $couple->bank_name_1 ?? 'BANK' }}</span>
-                            <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-amber-100 text-amber-900">Transfer</span>
-                        </div>
-                        <div class="flex items-center justify-between gap-2">
-                            <div>
-                                <b class="text-sm font-mono text-nordic-text block">{{ $couple->bank_account_1 }}</b>
-                                <span class="text-xs text-nordic-muted">a.n. {{ $couple->bank_holder_1 ?? $babyName }}</span>
+                <div class="space-y-3">
+                    @if($hasBank1)
+                        @php
+                            $bName1 = $couple->bank_name_1 ?? ($couple->bank_name ?? 'BANK');
+                            $bAcc1 = $couple->bank_account_1 ?? ($couple->account_number ?? '');
+                            $bHolder1 = $couple->bank_holder_1 ?? ($couple->account_name ?? ($couple->groom_parents ?? $babyName));
+                        @endphp
+                        <div class="p-4 rounded-2xl bg-nordic-bg border border-nordic-border text-left space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-nordic-amber font-serif">💳 {{ $bName1 }}</span>
+                                <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-amber-100 text-amber-900">Transfer</span>
                             </div>
-                            <button type="button" onclick="copyToClipboard('{{ $couple->bank_account_1 }}', 'Nomor rekening berhasil disalin!')" class="px-3.5 py-1.5 rounded-xl bg-nordic-amber text-white text-xs font-medium hover:bg-amber-700 transition">
-                                Salin
-                            </button>
+                            <div class="flex items-center justify-between gap-2">
+                                <div>
+                                    <b class="text-sm font-mono text-nordic-text block">{{ $bAcc1 }}</b>
+                                    <span class="text-xs text-nordic-muted">a.n. {{ $bHolder1 }}</span>
+                                </div>
+                                <button type="button" onclick="copyToClipboard('{{ $bAcc1 }}', 'Nomor rekening berhasil disalin!')" class="px-3.5 py-1.5 rounded-xl bg-nordic-amber text-white text-xs font-medium hover:bg-amber-700 transition cursor-pointer">
+                                    Salin
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                @endif
+                    @endif
+
+                    @if($hasBank2)
+                        @php
+                            $bName2 = $couple->bank_name_2 ?? 'BANK';
+                            $bAcc2 = $couple->bank_account_2 ?? '';
+                            $bHolder2 = $couple->bank_holder_2 ?? ($couple->groom_parents ?? $babyName);
+                        @endphp
+                        <div class="p-4 rounded-2xl bg-nordic-bg border border-nordic-border text-left space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-nordic-amber font-serif">💳 {{ $bName2 }}</span>
+                                <span class="text-[10px] font-semibold px-2 py-0.5 rounded bg-amber-100 text-amber-900">Transfer</span>
+                            </div>
+                            <div class="flex items-center justify-between gap-2">
+                                <div>
+                                    <b class="text-sm font-mono text-nordic-text block">{{ $bAcc2 }}</b>
+                                    <span class="text-xs text-nordic-muted">a.n. {{ $bHolder2 }}</span>
+                                </div>
+                                <button type="button" onclick="copyToClipboard('{{ $bAcc2 }}', 'Nomor rekening berhasil disalin!')" class="px-3.5 py-1.5 rounded-xl bg-nordic-amber text-white text-xs font-medium hover:bg-amber-700 transition cursor-pointer">
+                                    Salin
+                                </button>
+                            </div>
+                        </div>
+                    @endif
+                </div>
 
                 @if(!empty($couple->gift_address))
                     <div class="p-4 rounded-2xl bg-amber-50/50 border border-nordic-border text-left space-y-1">
@@ -350,7 +390,7 @@
                             <span>📦</span> Kirim Kado / Hadiah ke Kediaman:
                         </span>
                         <p class="text-xs text-nordic-muted leading-relaxed">{{ $couple->gift_address }}</p>
-                        <button type="button" onclick="copyToClipboard('{{ addslashes($couple->gift_address) }}', 'Alamat kado berhasil disalin!')" class="mt-1 text-xs font-bold text-nordic-amber underline">
+                        <button type="button" onclick="copyToClipboard('{{ addslashes($couple->gift_address) }}', 'Alamat kado berhasil disalin!')" class="mt-1 text-xs font-bold text-nordic-amber underline cursor-pointer">
                             Salin Alamat Lengkap
                         </button>
                     </div>

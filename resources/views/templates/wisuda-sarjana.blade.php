@@ -100,9 +100,13 @@
         );
         $audioUrl = !empty($couple->music_url) ? (str_starts_with($couple->music_url, 'http') ? $couple->music_url : asset('audio/' . $couple->music_url)) : asset('audio/celebration-melody.wav');
 
-        $targetDate = !empty($couple->wedding_date) ? \Carbon\Carbon::parse($couple->wedding_date) : now()->addDays(20);
+        $firstEvent = isset($couple->events) && count($couple->events) > 0 ? (is_array($couple->events) ? (object)$couple->events[0] : $couple->events->first()) : null;
+        $rawEventDate = !empty($firstEvent->date) ? $firstEvent->date : ($couple->wedding_date ?? null);
+        $targetDate = !empty($rawEventDate) ? \Carbon\Carbon::parse($rawEventDate) : now()->addDays(20);
         $eventDateFormatted = $targetDate->locale('id')->isoFormat('dddd, D MMMM Y');
-        $eventTimeFormatted = !empty($couple->wedding_time) ? substr($couple->wedding_time, 0, 5) . ' WIB' : '09:00 WIB';
+        $eventTimeFormatted = !empty($firstEvent->start_time) 
+            ? $firstEvent->start_time . (!empty($firstEvent->end_time) ? ' - ' . $firstEvent->end_time : '')
+            : (!empty($couple->wedding_time) ? substr($couple->wedding_time, 0, 5) . ' WIB' : '09:00 WIB');
 
         $gradName = $couple->groom_name ?? 'Muhammad Rizky Pratama, S.Kom';
         $gradNick = $couple->groom_nickname ?? 'Rizky';
@@ -286,38 +290,69 @@
             </div>
 
             <div class="space-y-4 max-w-sm mx-auto">
-                <!-- Sesi 1 -->
-                <div class="p-5 rounded-2xl bg-academy-navylight border border-academy-gold/30">
-                    <div class="flex items-center justify-between text-academy-gold text-xs font-cinzel mb-1">
-                        <span>SESI I • SIDANG TERBUKA</span>
-                        <span>08:30 - 11:30 WIB</span>
+                @if(isset($couple->events) && count($couple->events) > 0)
+                    @foreach($couple->events as $idx => $ev)
+                        @php
+                            $evDateFormatted = !empty($ev->date) ? \Carbon\Carbon::parse($ev->date)->locale('id')->isoFormat('dddd, D MMMM Y') : $eventDateFormatted;
+                            $evTimeFormatted = !empty($ev->start_time) ? $ev->start_time . (!empty($ev->end_time) ? ' - ' . $ev->end_time : '') : '09:00 WIB';
+                            $evVenue = $ev->venue_name ?? ($couple->venue_name ?? 'Lokasi Acara');
+                            $evAddress = $ev->address ?? ($couple->venue_address ?? '');
+                            $evMap = !empty($ev->maps_url) ? $ev->maps_url : (!empty($couple->maps_url) ? $couple->maps_url : ('https://maps.google.com/?q=' . urlencode($evVenue . ' ' . $evAddress)));
+                        @endphp
+                        <div class="p-5 rounded-2xl bg-academy-navylight border border-academy-gold/40 hover:border-academy-gold/80 transition text-left shadow">
+                            <div class="flex items-center justify-between text-academy-gold text-xs font-cinzel mb-1">
+                                <span class="font-bold tracking-wider">{{ $ev->title ?? 'SESI ' . ($idx + 1) }}</span>
+                                <span class="text-[11px] px-2 py-0.5 rounded bg-academy-navy border border-academy-gold/30 text-academy-gold">{{ $evTimeFormatted }}</span>
+                            </div>
+                            <h3 class="font-cinzel text-base font-bold text-white mt-1">{{ $evVenue }}</h3>
+                            <p class="text-xs text-academy-gold font-medium mt-0.5">📅 {{ $evDateFormatted }}</p>
+                            @if(!empty($evAddress))
+                                <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">{{ $evAddress }}</p>
+                            @endif
+                            @if(!empty($evMap))
+                                <div class="mt-3 text-left">
+                                    <a href="{{ $evMap }}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-[11px] font-cinzel font-bold text-academy-gold hover:underline">
+                                        <span>📍</span> Buka Google Maps &rarr;
+                                    </a>
+                                </div>
+                            @endif
+                        </div>
+                    @endforeach
+                @else
+                    <!-- Sesi 1 -->
+                    <div class="p-5 rounded-2xl bg-academy-navylight border border-academy-gold/30">
+                        <div class="flex items-center justify-between text-academy-gold text-xs font-cinzel mb-1">
+                            <span>SESI I • SIDANG TERBUKA</span>
+                            <span>08:30 - 11:30 WIB</span>
+                        </div>
+                        <h3 class="font-cinzel text-base font-bold text-white">Prosesi Pelantikan &amp; Pemindahan Kuncir Toga</h3>
+                        <p class="text-xs text-slate-300 mt-1">Upacara wisuda resmi dipimpin Senat Guru Besar dan Rektor universitas.</p>
                     </div>
-                    <h3 class="font-cinzel text-base font-bold text-white">Prosesi Pelantikan &amp; Pemindahan Kuncir Toga</h3>
-                    <p class="text-xs text-slate-300 mt-1">Upacara wisuda resmi dipimpin Senat Guru Besar dan Rektor universitas.</p>
-                </div>
 
-                <!-- Sesi 2 -->
-                <div class="p-5 rounded-2xl bg-academy-navylight border border-academy-gold/50 shadow-md">
-                    <div class="flex items-center justify-between text-academy-gold text-xs font-cinzel mb-1">
-                        <span>SESI II • RAMAH TAMAH</span>
-                        <span>12:30 - 15:30 WIB</span>
+                    <!-- Sesi 2 -->
+                    <div class="p-5 rounded-2xl bg-academy-navylight border border-academy-gold/50 shadow-md">
+                        <div class="flex items-center justify-between text-academy-gold text-xs font-cinzel mb-1">
+                            <span>SESI II • RAMAH TAMAH</span>
+                            <span>12:30 - 15:30 WIB</span>
+                        </div>
+                        <h3 class="font-cinzel text-base font-bold text-white">Syukuran &amp; Jamuan Makan Keluarga</h3>
+                        <p class="text-xs text-slate-300 mt-1">Doa bersama, santap siang prasmanan, sesi foto toga kehormatan bersama keluarga &amp; sahabat.</p>
                     </div>
-                    <h3 class="font-cinzel text-base font-bold text-white">Syukuran &amp; Jamuan Makan Keluarga</h3>
-                    <p class="text-xs text-slate-300 mt-1">Doa bersama, santap siang prasmanan, sesi foto toga kehormatan bersama keluarga &amp; sahabat.</p>
-                </div>
+                @endif
             </div>
 
             <!-- Venue Details & Maps Button -->
-            <div class="max-w-sm mx-auto mt-8 p-6 rounded-2xl bg-academy-navylight border border-academy-gold/40 text-center">
+            @php
+                $mainVenue = $couple->venue_name ?? ($firstEvent->venue_name ?? 'Balairung Utama Universitas');
+                $mainAddress = $couple->venue_address ?? ($firstEvent->address ?? 'Kompleks Kampus UI Depok, Jawa Barat');
+                $mapLink = !empty($couple->maps_url) ? $couple->maps_url : (!empty($firstEvent->maps_url) ? $firstEvent->maps_url : ('https://maps.google.com/?q=' . urlencode($mainVenue . ' ' . $mainAddress)));
+            @endphp
+            <div class="max-w-sm mx-auto mt-8 p-6 rounded-2xl bg-academy-navylight border border-academy-gold/40 text-center shadow">
                 <span class="text-[9px] font-cinzel uppercase tracking-[0.2em] text-academy-gold block mb-1">LOKASI &amp; RUANG PERTEMUAN</span>
-                <h3 class="font-cinzel text-lg font-bold text-white">{{ $couple->venue_name ?? 'Balairung Utama Universitas' }}</h3>
-                <p class="text-xs text-slate-300 mt-1 leading-relaxed">{{ $couple->venue_address ?? 'Kompleks Kampus UI Depok, Jawa Barat' }}</p>
-                
-                @php
-                    $mapLink = !empty($couple->maps_url) ? $couple->maps_url : ('https://maps.google.com/?q=' . urlencode(($couple->venue_name ?? '') . ' ' . ($couple->venue_address ?? '')));
-                @endphp
+                <h3 class="font-cinzel text-lg font-bold text-white">{{ $mainVenue }}</h3>
+                <p class="text-xs text-slate-300 mt-1 leading-relaxed">{{ $mainAddress }}</p>
                 <div class="mt-4">
-                    <a href="{{ $mapLink }}" target="_blank" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-academy-gold to-[#B38F24] text-academy-navy text-xs font-cinzel font-bold uppercase tracking-wider shadow hover:brightness-110 transition">
+                    <a href="{{ $mapLink }}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-academy-gold to-[#B38F24] text-academy-navy text-xs font-cinzel font-bold uppercase tracking-wider shadow hover:brightness-110 transition">
                         <span>📍</span> Buka Petunjuk Arah (Google Maps)
                     </a>
                 </div>

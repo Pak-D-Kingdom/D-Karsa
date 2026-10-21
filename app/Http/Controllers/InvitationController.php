@@ -507,9 +507,25 @@ class InvitationController extends Controller
         if ($request->filled('groom_photo')) $overrides['groom_photo'] = $request->query('groom_photo');
         if ($request->filled('bride_photo')) $overrides['bride_photo'] = $request->query('bride_photo');
 
-        if ($request->filled('bank_name_1')) $overrides['bank_name_1'] = $request->query('bank_name_1');
-        if ($request->filled('bank_account_1')) $overrides['bank_account_1'] = $request->query('bank_account_1');
-        if ($request->filled('bank_holder_1')) $overrides['bank_holder_1'] = $request->query('bank_holder_1');
+        // Bank and Gift parameters with full cross-key compatibility
+        $bName1 = $request->query('bank_name_1') ?: $request->query('bank_name');
+        if (!empty($bName1)) {
+            $overrides['bank_name_1'] = $bName1;
+            $overrides['bank_name'] = $bName1;
+        }
+
+        $bAcc1 = $request->query('bank_account_1') ?: $request->query('account_number');
+        if (!empty($bAcc1)) {
+            $overrides['bank_account_1'] = $bAcc1;
+            $overrides['account_number'] = $bAcc1;
+        }
+
+        $bHolder1 = $request->query('bank_holder_1') ?: $request->query('account_name');
+        if (!empty($bHolder1)) {
+            $overrides['bank_holder_1'] = $bHolder1;
+            $overrides['account_name'] = $bHolder1;
+        }
+
         if ($request->filled('bank_name_2')) $overrides['bank_name_2'] = $request->query('bank_name_2');
         if ($request->filled('bank_account_2')) $overrides['bank_account_2'] = $request->query('bank_account_2');
         if ($request->filled('bank_holder_2')) $overrides['bank_holder_2'] = $request->query('bank_holder_2');
@@ -520,9 +536,13 @@ class InvitationController extends Controller
             $rawEvents = json_decode($request->query('events_json'), true);
             if (is_array($rawEvents) && count($rawEvents) > 0) {
                 $evList = [];
-                $baseDate = isset($overrides['wedding_date']) && $overrides['wedding_date'] instanceof \Carbon\Carbon
-                    ? $overrides['wedding_date']->format('Y-m-d') 
-                    : now()->format('Y-m-d');
+                $firstRawDate = !empty($rawEvents[0]['date']) ? $rawEvents[0]['date'] : null;
+                $baseDate = !empty($firstRawDate) 
+                    ? $firstRawDate 
+                    : (isset($overrides['wedding_date']) && $overrides['wedding_date'] instanceof \Carbon\Carbon
+                        ? $overrides['wedding_date']->format('Y-m-d') 
+                        : now()->format('Y-m-d'));
+
                 foreach ($rawEvents as $i => $ev) {
                     $evList[] = (object)[
                         'title' => $ev['title'] ?? 'Acara ' . ($i + 1),
@@ -536,6 +556,28 @@ class InvitationController extends Controller
                     ];
                 }
                 $overrides['events'] = collect($evList);
+
+                // Harmonize primary date, time, and venue from the first event
+                if (!empty($evList[0])) {
+                    if (empty($overrides['wedding_date']) && !empty($evList[0]->date)) {
+                        try {
+                            $overrides['wedding_date'] = \Carbon\Carbon::parse($evList[0]->date);
+                        } catch (\Exception $e) {}
+                    }
+                    if (!empty($evList[0]->start_time) && empty($overrides['wedding_time'])) {
+                        $overrides['wedding_time'] = $evList[0]->start_time;
+                    }
+                    if (!empty($evList[0]->venue_name) && empty($overrides['venue_name'])) {
+                        $overrides['venue_name'] = $evList[0]->venue_name;
+                    }
+                    if (!empty($evList[0]->address)) {
+                        $overrides['venue_address'] = $evList[0]->address;
+                        $overrides['address'] = $evList[0]->address;
+                    }
+                    if (!empty($evList[0]->maps_url)) {
+                        $overrides['maps_url'] = $evList[0]->maps_url;
+                    }
+                }
             }
         } elseif ($request->filled('event_1_title') || $request->filled('event_1_venue') || $request->filled('event_2_title') || $request->filled('event_2_venue')) {
             $evList = [];
@@ -565,6 +607,12 @@ class InvitationController extends Controller
                 ];
             }
             $overrides['events'] = collect($evList);
+
+            if (empty($overrides['wedding_date']) && !empty($ev1Date)) {
+                try {
+                    $overrides['wedding_date'] = \Carbon\Carbon::parse($ev1Date);
+                } catch (\Exception $e) {}
+            }
         }
 
         // Custom galleries override if provided via JSON array

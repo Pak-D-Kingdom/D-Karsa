@@ -3300,21 +3300,32 @@
                 });
             }
 
-            const bankName1 = document.querySelector('input[name="bank_name_1"]')?.value || '';
-            const bankAcc1 = document.querySelector('input[name="bank_account_1"]')?.value || '';
-            const bankHolder1 = document.querySelector('input[name="bank_holder_1"]')?.value || '';
+            const bankName1 = document.querySelector('[name="bank_name_1"]')?.value || '';
+            const bankAcc1 = document.querySelector('[name="bank_account_1"]')?.value || '';
+            const bankHolder1 = document.querySelector('[name="bank_holder_1"]')?.value || '';
 
-            const bankName2 = document.querySelector('input[name="bank_name_2"]')?.value || '';
-            const bankAcc2 = document.querySelector('input[name="bank_account_2"]')?.value || '';
-            const bankHolder2 = document.querySelector('input[name="bank_holder_2"]')?.value || '';
+            const bankName2 = document.querySelector('[name="bank_name_2"]')?.value || '';
+            const bankAcc2 = document.querySelector('[name="bank_account_2"]')?.value || '';
+            const bankHolder2 = document.querySelector('[name="bank_holder_2"]')?.value || '';
 
-            const giftAddress = document.querySelector('textarea[name="gift_address"]')?.value || '';
+            const giftAddress = document.querySelector('[name="gift_address"]')?.value || '';
 
             if (selectedCatVal) params.set('category', selectedCatVal);
             if (subCatVal) params.set('sub_category', subCatVal);
             if (headingVal) params.set('event_heading', headingVal);
-            if (weddingDateVal) params.set('wedding_date', weddingDateVal);
+            if (weddingDateVal) {
+                params.set('wedding_date', weddingDateVal);
+            } else if (events.length > 0 && events[0].date) {
+                params.set('wedding_date', events[0].date);
+            }
             if (quoteVal) params.set('quote', quoteVal);
+
+            if (events.length > 0 && events[0].start_time) {
+                params.set('wedding_time', events[0].start_time);
+            }
+            if (events.length > 0 && events[0].venue_name) {
+                params.set('venue_name', events[0].venue_name);
+            }
 
             if (groomNick) params.set('groom_name', groomNick);
             if (groomFull) params.set('groom_fullname', groomFull);
@@ -3353,13 +3364,28 @@
                 }
             }
 
-            if (bankName1) params.set('bank_name_1', bankName1);
-            if (bankAcc1) params.set('bank_account_1', bankAcc1);
-            if (bankHolder1) params.set('bank_holder_1', bankHolder1);
+            if (bankName1) {
+                params.set('bank_name_1', bankName1);
+                params.set('bank_name', bankName1);
+            }
+            if (bankAcc1) {
+                params.set('bank_account_1', bankAcc1);
+                params.set('account_number', bankAcc1);
+            }
+            if (bankHolder1) {
+                params.set('bank_holder_1', bankHolder1);
+                params.set('account_name', bankHolder1);
+            }
 
-            if (bankName2) params.set('bank_name_2', bankName2);
-            if (bankAcc2) params.set('bank_account_2', bankAcc2);
-            if (bankHolder2) params.set('bank_holder_2', bankHolder2);
+            if (bankName2) {
+                params.set('bank_name_2', bankName2);
+            }
+            if (bankAcc2) {
+                params.set('bank_account_2', bankAcc2);
+            }
+            if (bankHolder2) {
+                params.set('bank_holder_2', bankHolder2);
+            }
 
             if (giftAddress) params.set('gift_address', giftAddress);
 

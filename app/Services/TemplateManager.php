@@ -2582,6 +2582,50 @@ class TemplateManager
             }
         }
 
+        // Harmonize bank attributes across different template conventions
+        if (!empty($data['bank_name_1'])) {
+            $data['bank_name'] = $data['bank_name_1'];
+        } elseif (!empty($data['bank_name'])) {
+            $data['bank_name_1'] = $data['bank_name'];
+        }
+
+        if (!empty($data['bank_account_1'])) {
+            $data['account_number'] = $data['bank_account_1'];
+        } elseif (!empty($data['account_number'])) {
+            $data['bank_account_1'] = $data['account_number'];
+        }
+
+        if (!empty($data['bank_holder_1'])) {
+            $data['account_name'] = $data['bank_holder_1'];
+        } elseif (!empty($data['account_name'])) {
+            $data['bank_holder_1'] = $data['account_name'];
+        }
+
+        // Harmonize date, venue, and address from custom events override if specifically provided
+        if (!empty($overrides['events']) && count($overrides['events']) > 0) {
+            $firstEv = is_array($overrides['events']) ? (object)$overrides['events'][0] : $overrides['events']->first();
+            if ($firstEv) {
+                if (empty($overrides['wedding_date']) && !empty($firstEv->date)) {
+                    try {
+                        $data['wedding_date'] = \Carbon\Carbon::parse($firstEv->date);
+                    } catch (\Exception $e) {}
+                }
+                if (!empty($firstEv->start_time)) {
+                    $data['wedding_time'] = $firstEv->start_time;
+                }
+                if (empty($overrides['venue_name']) && !empty($firstEv->venue_name)) {
+                    $data['venue_name'] = $firstEv->venue_name;
+                }
+                if (!empty($firstEv->address)) {
+                    $data['venue_address'] = $firstEv->address;
+                    $data['address'] = $firstEv->address;
+                }
+                if (!empty($firstEv->maps_url)) {
+                    $data['maps_url'] = $firstEv->maps_url;
+                }
+            }
+        }
+
         // Dynamically format groom_parents & bride_parents
         $data['groom_parents'] = self::formatParentNames(
             $data['groom_father'] ?? null,

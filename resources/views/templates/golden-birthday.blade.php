@@ -101,9 +101,13 @@
         $celebrantImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->groom_photo, 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600');
         $audioUrl = !empty($couple->music_url) ? (str_starts_with($couple->music_url, 'http') ? $couple->music_url : asset('audio/' . $couple->music_url)) : asset('audio/celebration-melody.wav');
 
-        $targetDate = !empty($couple->wedding_date) ? \Carbon\Carbon::parse($couple->wedding_date) : now()->addDays(20);
+        $firstEvent = isset($couple->events) && count($couple->events) > 0 ? (is_array($couple->events) ? (object)$couple->events[0] : $couple->events->first()) : null;
+        $rawEventDate = !empty($firstEvent->date) ? $firstEvent->date : ($couple->wedding_date ?? null);
+        $targetDate = !empty($rawEventDate) ? \Carbon\Carbon::parse($rawEventDate) : now()->addDays(20);
         $eventDateFormatted = $targetDate->locale('id')->isoFormat('dddd, D MMMM Y');
-        $eventTimeFormatted = !empty($couple->wedding_time) ? substr($couple->wedding_time, 0, 5) . ' WIB' : '19:00 WIB';
+        $eventTimeFormatted = !empty($firstEvent->start_time) 
+            ? $firstEvent->start_time . (!empty($firstEvent->end_time) ? ' - ' . $firstEvent->end_time : '')
+            : (!empty($couple->wedding_time) ? substr($couple->wedding_time, 0, 5) . ' WIB' : '19:00 WIB');
 
         $celebrantName = $couple->groom_name ?? 'Jessica Veranda';
         $celebrantNick = $couple->groom_nickname ?? 'Jessica';
@@ -295,35 +299,65 @@
             </div>
 
             <div class="space-y-4 max-w-sm mx-auto">
-                <!-- Sesi 1 -->
-                <div class="p-5 rounded-2xl bg-noir-card border border-white/10 hover:border-noir-gold/40 transition">
-                    <div class="flex items-center justify-between text-noir-gold text-xs font-mono mb-1">
-                        <span>SESI 01</span>
-                        <span>18:30 - 19:30 WIB</span>
+                @if(isset($couple->events) && count($couple->events) > 0)
+                    @foreach($couple->events as $idx => $ev)
+                        @php
+                            $evDateFormatted = !empty($ev->date) ? \Carbon\Carbon::parse($ev->date)->locale('id')->isoFormat('dddd, D MMMM Y') : $eventDateFormatted;
+                            $evTimeFormatted = !empty($ev->start_time) ? $ev->start_time . (!empty($ev->end_time) ? ' - ' . $ev->end_time : '') : '19:00 WIB';
+                            $evVenue = $ev->venue_name ?? ($couple->venue_name ?? 'VIP Ballroom');
+                            $evAddress = $ev->address ?? ($couple->venue_address ?? '');
+                            $evMap = !empty($ev->maps_url) ? $ev->maps_url : (!empty($couple->maps_url) ? $couple->maps_url : ('https://maps.google.com/?q=' . urlencode($evVenue . ' ' . $evAddress)));
+                        @endphp
+                        <div class="p-5 rounded-2xl bg-noir-card border border-noir-gold/40 hover:border-noir-gold/80 transition text-left">
+                            <div class="flex items-center justify-between text-noir-gold text-xs font-mono mb-1">
+                                <span class="font-bold tracking-wider">{{ $ev->title ?? 'SESI ' . sprintf('%02d', $idx + 1) }}</span>
+                                <span class="text-[11px] px-2 py-0.5 rounded bg-black/60 border border-noir-gold/30 text-noir-gold">{{ $evTimeFormatted }}</span>
+                            </div>
+                            <h3 class="font-syne text-base font-bold text-white mt-1">{{ $evVenue }}</h3>
+                            <p class="text-xs text-noir-champagne font-mono mt-0.5">📅 {{ $evDateFormatted }}</p>
+                            @if(!empty($evAddress))
+                                <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">{{ $evAddress }}</p>
+                            @endif
+                            @if(!empty($evMap))
+                                <div class="mt-3 text-left">
+                                    <a href="{{ $evMap }}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold text-noir-gold hover:underline">
+                                        <span>📍</span> Google Maps Direction &rarr;
+                                    </a>
+                                </div>
+                            @endif
+                        </div>
+                    @endforeach
+                @else
+                    <!-- Sesi 1 -->
+                    <div class="p-5 rounded-2xl bg-noir-card border border-white/10 hover:border-noir-gold/40 transition">
+                        <div class="flex items-center justify-between text-noir-gold text-xs font-mono mb-1">
+                            <span>SESI 01</span>
+                            <span>18:30 - 19:30 WIB</span>
+                        </div>
+                        <h3 class="font-syne text-base font-bold text-white">Red Carpet &amp; Welcome Drinks</h3>
+                        <p class="text-xs text-slate-400 mt-1">Registrasi tamu VIP, foto bersama di photo booth eksklusif &amp; mocktail reception.</p>
                     </div>
-                    <h3 class="font-syne text-base font-bold text-white">Red Carpet &amp; Welcome Drinks</h3>
-                    <p class="text-xs text-slate-400 mt-1">Registrasi tamu VIP, foto bersama di photo booth eksklusif &amp; mocktail reception.</p>
-                </div>
 
-                <!-- Sesi 2 -->
-                <div class="p-5 rounded-2xl bg-noir-card border border-noir-gold/50 shadow-md">
-                    <div class="flex items-center justify-between text-noir-gold text-xs font-mono mb-1">
-                        <span>SESI UTAMA</span>
-                        <span>19:30 - 20:30 WIB</span>
+                    <!-- Sesi 2 -->
+                    <div class="p-5 rounded-2xl bg-noir-card border border-noir-gold/50 shadow-md">
+                        <div class="flex items-center justify-between text-noir-gold text-xs font-mono mb-1">
+                            <span>SESI UTAMA</span>
+                            <span>19:30 - 20:30 WIB</span>
+                        </div>
+                        <h3 class="font-syne text-base font-bold text-white">Birthday Toast &amp; Candle Blowing</h3>
+                        <p class="text-xs text-slate-300 mt-1">Prosesi tiup lilin perayaan, pemotongan kue tart, doa bersama, dan pesan dari sahabat.</p>
                     </div>
-                    <h3 class="font-syne text-base font-bold text-white">Birthday Toast &amp; Candle Blowing</h3>
-                    <p class="text-xs text-slate-300 mt-1">Prosesi tiup lilin perayaan, pemotongan kue tart, doa bersama, dan pesan dari sahabat.</p>
-                </div>
 
-                <!-- Sesi 3 -->
-                <div class="p-5 rounded-2xl bg-noir-card border border-white/10 hover:border-noir-gold/40 transition">
-                    <div class="flex items-center justify-between text-noir-gold text-xs font-mono mb-1">
-                        <span>SESI 03</span>
-                        <span>20:30 - 22:00 WIB</span>
+                    <!-- Sesi 3 -->
+                    <div class="p-5 rounded-2xl bg-noir-card border border-white/10 hover:border-noir-gold/40 transition">
+                        <div class="flex items-center justify-between text-noir-gold text-xs font-mono mb-1">
+                            <span>SESI 03</span>
+                            <span>20:30 - 22:00 WIB</span>
+                        </div>
+                        <h3 class="font-syne text-base font-bold text-white">Gala Dinner &amp; Music Celebration</h3>
+                        <p class="text-xs text-slate-400 mt-1">Santap malam prasmanan eksklusif, live acoustic music, ramah tamah &amp; fun games.</p>
                     </div>
-                    <h3 class="font-syne text-base font-bold text-white">Gala Dinner &amp; Music Celebration</h3>
-                    <p class="text-xs text-slate-400 mt-1">Santap malam prasmanan eksklusif, live acoustic music, ramah tamah &amp; fun games.</p>
-                </div>
+                @endif
             </div>
 
             <!-- Dress Code Pill -->

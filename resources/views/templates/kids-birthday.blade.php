@@ -107,9 +107,13 @@
         $kidImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->groom_photo, 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=600');
         $audioUrl = !empty($couple->music_url) ? (str_starts_with($couple->music_url, 'http') ? $couple->music_url : asset('audio/' . $couple->music_url)) : asset('audio/celebration-melody.wav');
 
-        $targetDate = !empty($couple->wedding_date) ? \Carbon\Carbon::parse($couple->wedding_date) : now()->addDays(20);
+        $firstEvent = isset($couple->events) && count($couple->events) > 0 ? (is_array($couple->events) ? (object)$couple->events[0] : $couple->events->first()) : null;
+        $rawEventDate = !empty($firstEvent->date) ? $firstEvent->date : ($couple->wedding_date ?? null);
+        $targetDate = !empty($rawEventDate) ? \Carbon\Carbon::parse($rawEventDate) : now()->addDays(20);
         $eventDateFormatted = $targetDate->locale('id')->isoFormat('dddd, D MMMM Y');
-        $eventTimeFormatted = !empty($couple->wedding_time) ? substr($couple->wedding_time, 0, 5) . ' WIB' : '15:30 WIB';
+        $eventTimeFormatted = !empty($firstEvent->start_time) 
+            ? $firstEvent->start_time . (!empty($firstEvent->end_time) ? ' - ' . $firstEvent->end_time : '')
+            : (!empty($couple->wedding_time) ? substr($couple->wedding_time, 0, 5) . ' WIB' : '15:30 WIB');
 
         $kidName = $couple->groom_name ?? 'Arkan Danendra';
         $kidNick = $couple->groom_nickname ?? 'Arkan';
@@ -282,49 +286,86 @@
             </div>
 
             <div class="space-y-3.5 max-w-sm mx-auto">
-                <div class="p-4 rounded-2xl bg-white border-2 border-[#F0ECE1] flex items-center gap-3.5 shadow-sm">
-                    <div class="w-11 h-11 rounded-2xl bg-candy-yellowlight flex items-center justify-center text-xl shrink-0">
-                        🤹
+                @if(isset($couple->events) && count($couple->events) > 0)
+                    @php
+                        $partyIcons = ['🎈', '🎂', '🎉', '🎁', '🎪', '🤹'];
+                    @endphp
+                    @foreach($couple->events as $idx => $ev)
+                        @php
+                            $evDateFormatted = !empty($ev->date) ? \Carbon\Carbon::parse($ev->date)->locale('id')->isoFormat('dddd, D MMMM Y') : $eventDateFormatted;
+                            $evTimeFormatted = !empty($ev->start_time) ? $ev->start_time . (!empty($ev->end_time) ? ' - ' . $ev->end_time : '') : '15:30 WIB';
+                            $evVenue = $ev->venue_name ?? ($couple->venue_name ?? 'Tempat Pesta Ceria');
+                            $evAddress = $ev->address ?? ($couple->venue_address ?? '');
+                            $evMap = !empty($ev->maps_url) ? $ev->maps_url : (!empty($couple->maps_url) ? $couple->maps_url : ('https://maps.google.com/?q=' . urlencode($evVenue . ' ' . $evAddress)));
+                            $pIcon = $partyIcons[$idx % count($partyIcons)];
+                        @endphp
+                        <div class="p-4 rounded-2xl bg-white border-2 border-candy-yellow/60 flex items-start gap-3.5 shadow-sm text-left">
+                            <div class="w-11 h-11 rounded-2xl bg-candy-yellowlight flex items-center justify-center text-xl shrink-0 mt-0.5">
+                                {{ $pIcon }}
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between mb-0.5">
+                                    <span class="text-[10px] font-fredoka font-bold text-candy-orange block">{{ $evTimeFormatted }}</span>
+                                    <span class="text-[9px] font-fredoka text-slate-400 font-medium">{{ $evDateFormatted }}</span>
+                                </div>
+                                <h3 class="font-fredoka text-sm font-bold text-candy-ink">{{ $ev->title ?? 'Rangkaian Pesta ' . ($idx + 1) }}</h3>
+                                <p class="text-xs text-candy-ink/80 font-medium mt-0.5">{{ $evVenue }}</p>
+                                @if(!empty($evAddress))
+                                    <p class="text-xs text-slate-500 mt-1 leading-relaxed">{{ $evAddress }}</p>
+                                @endif
+                                @if(!empty($evMap))
+                                    <a href="{{ $evMap }}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-[11px] font-fredoka font-bold text-candy-orange hover:underline mt-2">
+                                        <span>📍</span> Petunjuk Google Maps &rarr;
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
+                @else
+                    <div class="p-4 rounded-2xl bg-white border-2 border-[#F0ECE1] flex items-center gap-3.5 shadow-sm">
+                        <div class="w-11 h-11 rounded-2xl bg-candy-yellowlight flex items-center justify-center text-xl shrink-0">
+                            🤹
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-fredoka font-bold text-candy-orange block">15:30 - 16:00 WIB</span>
+                            <h3 class="font-fredoka text-sm font-bold text-candy-ink">Kedatangan &amp; Sambutan Badut</h3>
+                            <p class="text-xs text-slate-500">Tamu sahabat cilik tiba, foto di booth balon &amp; welcome snacks.</p>
+                        </div>
                     </div>
-                    <div>
-                        <span class="text-[10px] font-fredoka font-bold text-candy-orange block">15:30 - 16:00 WIB</span>
-                        <h3 class="font-fredoka text-sm font-bold text-candy-ink">Kedatangan &amp; Sambutan Badut</h3>
-                        <p class="text-xs text-slate-500">Tamu sahabat cilik tiba, foto di booth balon &amp; welcome snacks.</p>
-                    </div>
-                </div>
 
-                <div class="p-4 rounded-2xl bg-white border-2 border-candy-pink/50 flex items-center gap-3.5 shadow-sm">
-                    <div class="w-11 h-11 rounded-2xl bg-candy-pinklight flex items-center justify-center text-xl shrink-0">
-                        🎯
+                    <div class="p-4 rounded-2xl bg-white border-2 border-candy-pink/50 flex items-center gap-3.5 shadow-sm">
+                        <div class="w-11 h-11 rounded-2xl bg-candy-pinklight flex items-center justify-center text-xl shrink-0">
+                            🎯
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-fredoka font-bold text-candy-pink block">16:00 - 16:45 WIB</span>
+                            <h3 class="font-fredoka text-sm font-bold text-candy-ink">Fun Games &amp; Atraksi Sulap</h3>
+                            <p class="text-xs text-slate-500">Games seru berhadiah banyak hadiah menarik untuk semua anak!</p>
+                        </div>
                     </div>
-                    <div>
-                        <span class="text-[10px] font-fredoka font-bold text-candy-pink block">16:00 - 16:45 WIB</span>
-                        <h3 class="font-fredoka text-sm font-bold text-candy-ink">Fun Games &amp; Atraksi Sulap</h3>
-                        <p class="text-xs text-slate-500">Games seru berhadiah banyak hadiah menarik untuk semua anak!</p>
-                    </div>
-                </div>
 
-                <div class="p-4 rounded-2xl bg-white border-2 border-candy-yellow flex items-center gap-3.5 shadow-md">
-                    <div class="w-11 h-11 rounded-2xl bg-candy-yellow flex items-center justify-center text-xl shrink-0">
-                        🎂
+                    <div class="p-4 rounded-2xl bg-white border-2 border-candy-yellow flex items-center gap-3.5 shadow-md">
+                        <div class="w-11 h-11 rounded-2xl bg-candy-yellow flex items-center justify-center text-xl shrink-0">
+                            🎂
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-fredoka font-bold text-candy-orange block">16:45 - 17:15 WIB</span>
+                            <h3 class="font-fredoka text-sm font-bold text-candy-ink">Tiup Lilin &amp; Potong Kue Tart</h3>
+                            <p class="text-xs text-slate-500">Menyanyikan lagu ulang tahun, tiup lilin, dan makan kue bersama.</p>
+                        </div>
                     </div>
-                    <div>
-                        <span class="text-[10px] font-fredoka font-bold text-candy-orange block">16:45 - 17:15 WIB</span>
-                        <h3 class="font-fredoka text-sm font-bold text-candy-ink">Tiup Lilin &amp; Potong Kue Tart</h3>
-                        <p class="text-xs text-slate-500">Menyanyikan lagu ulang tahun, tiup lilin, dan makan kue bersama.</p>
-                    </div>
-                </div>
 
-                <div class="p-4 rounded-2xl bg-white border-2 border-[#F0ECE1] flex items-center gap-3.5 shadow-sm">
-                    <div class="w-11 h-11 rounded-2xl bg-candy-bluelight flex items-center justify-center text-xl shrink-0">
-                        🛍️
+                    <div class="p-4 rounded-2xl bg-white border-2 border-[#F0ECE1] flex items-center gap-3.5 shadow-sm">
+                        <div class="w-11 h-11 rounded-2xl bg-candy-bluelight flex items-center justify-center text-xl shrink-0">
+                            🛍️
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-fredoka font-bold text-candy-blue block">17:15 WIB - Selesai</span>
+                            <h3 class="font-fredoka text-sm font-bold text-candy-ink">Bagi Goodie Bag Ceria</h3>
+                            <p class="text-xs text-slate-500">Pembagian paket bingkisan &amp; foto bersama teman-teman.</p>
+                        </div>
                     </div>
-                    <div>
-                        <span class="text-[10px] font-fredoka font-bold text-candy-blue block">17:15 WIB - Selesai</span>
-                        <h3 class="font-fredoka text-sm font-bold text-candy-ink">Bagi Goodie Bag Ceria</h3>
-                        <p class="text-xs text-slate-500">Pembagian paket bingkisan &amp; foto bersama teman-teman.</p>
-                    </div>
-                </div>
+                @endif
             </div>
 
             <!-- Venue Details & Maps Button -->

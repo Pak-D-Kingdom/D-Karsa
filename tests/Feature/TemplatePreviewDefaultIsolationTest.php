@@ -22,6 +22,17 @@ class TemplatePreviewDefaultIsolationTest extends TestCase
     }
 
     /**
+     * Test Minimalist Floral preview renders cleanly even when bride is absent (non-wedding or single host)
+     */
+    public function test_minimalist_floral_preview_without_bride(): void
+    {
+        $response = $this->get('/demo/minimalist-floral?category=Wisuda&bride_name=');
+
+        $response->assertStatus(200);
+        $response->assertSee('defaultBrideParents');
+    }
+
+    /**
      * Test Snowfall Minimalist White demo renders authentic default mock data
      */
     public function test_snowfall_white_demo_renders_authentic_defaults(): void
@@ -159,6 +170,115 @@ class TemplatePreviewDefaultIsolationTest extends TestCase
         $response->assertSee('Daniswara');
         $response->assertSee('Danang Wibowo');
         $response->assertDontSee('Dania Azkadina');
+    }
+
+    /**
+     * Test Walimatul Khitan preview respects custom user bank data and events schedule (no hardcoded fallback)
+     */
+    public function test_walimatul_khitan_preview_respects_custom_bank_and_events(): void
+    {
+        $eventsJson = json_encode([
+            [
+                'title' => 'Tasyakuran',
+                'date' => '2026-10-31',
+                'start_time' => '16:00',
+                'end_time' => 'Selesai',
+                'venue_name' => 'Rumah Pak Bambang',
+                'address' => 'Jln Prambon Kec Prambon Kab Sidoarjo',
+                'maps_url' => 'https://maps.google.com/?q=Prambon+Sidoarjo',
+            ]
+        ]);
+
+        $response = $this->get('/demo/walimatul-khitan?' . http_build_query([
+            'preview' => '1',
+            'bank_name_1' => 'Bank BCA',
+            'bank_account_1' => '12345678',
+            'bank_holder_1' => 'Arik Ananda',
+            'events_json' => $eventsJson,
+        ]));
+
+        $response->assertStatus(200);
+        $response->assertSee('Bank BCA');
+        $response->assertSee('12345678');
+        $response->assertSee('Arik Ananda');
+        $response->assertSee('Tasyakuran');
+        $response->assertSee('Rumah Pak Bambang');
+        $response->assertSee('Jln Prambon Kec Prambon Kab Sidoarjo');
+        $response->assertSee('31 Oktober 2026');
+        $response->assertDontSee('7891029384');
+        $response->assertDontSee('TAUSIYAH KHITAN & SHOLAWAT NABI');
+    }
+
+    /**
+     * Test Sweet Baby Pastel Aqiqah preview respects custom user bank data and events schedule
+     */
+    public function test_baby_aqiqah_preview_respects_custom_bank_and_events(): void
+    {
+        $eventsJson = json_encode([
+            [
+                'title' => 'Tasyakuran Aqiqah',
+                'date' => '2026-10-31',
+                'start_time' => '16:00',
+                'end_time' => 'Selesai',
+                'venue_name' => 'Rumah Pak Bambang',
+                'address' => 'Jln Prambon Kec Prambon Kab Sidoarjo',
+                'maps_url' => 'https://maps.google.com/?q=Prambon+Sidoarjo',
+            ]
+        ]);
+
+        $response = $this->get('/demo/baby-aqiqah?' . http_build_query([
+            'preview' => '1',
+            'bank_name_1' => 'Bank BCA',
+            'bank_account_1' => '12345678',
+            'bank_holder_1' => 'Arik Ananda',
+            'events_json' => $eventsJson,
+        ]));
+
+        $response->assertStatus(200);
+        $response->assertSee('Bank BCA');
+        $response->assertSee('12345678');
+        $response->assertSee('Arik Ananda');
+        $response->assertSee('Tasyakuran Aqiqah');
+        $response->assertSee('Rumah Pak Bambang');
+        $response->assertSee('Jln Prambon Kec Prambon Kab Sidoarjo');
+        $response->assertSee('31 Oktober 2026');
+        $response->assertDontSee('7192837465');
+        $response->assertDontSee('Pembacaan Maulid & Doa Selamat');
+    }
+
+    /**
+     * Test Little Prince preview respects custom user bank data and events schedule
+     */
+    public function test_little_prince_preview_respects_custom_bank_and_events(): void
+    {
+        $eventsJson = json_encode([
+            [
+                'title' => 'Tasyakuran Kelahiran',
+                'date' => '2026-10-31',
+                'start_time' => '16:00',
+                'end_time' => 'Selesai',
+                'venue_name' => 'Rumah Pak Bambang',
+                'address' => 'Jln Prambon Kec Prambon Kab Sidoarjo',
+                'maps_url' => 'https://maps.google.com/?q=Prambon+Sidoarjo',
+            ]
+        ]);
+
+        $response = $this->get('/demo/little-prince?' . http_build_query([
+            'preview' => '1',
+            'bank_name_1' => 'Bank BCA',
+            'bank_account_1' => '12345678',
+            'bank_holder_1' => 'Arik Ananda',
+            'events_json' => $eventsJson,
+        ]));
+
+        $response->assertStatus(200);
+        $response->assertSee('Bank BCA');
+        $response->assertSee('12345678');
+        $response->assertSee('Arik Ananda');
+        $response->assertSee('Tasyakuran Kelahiran');
+        $response->assertSee('Rumah Pak Bambang');
+        $response->assertSee('Jln Prambon Kec Prambon Kab Sidoarjo');
+        $response->assertSee('31 Oktober 2026');
     }
 
     /**

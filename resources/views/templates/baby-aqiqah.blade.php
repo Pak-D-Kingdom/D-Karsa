@@ -93,9 +93,13 @@
         $babyImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->groom_photo, 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=600');
         $audioUrl = !empty($couple->music_url) ? (str_starts_with($couple->music_url, 'http') ? $couple->music_url : asset('audio/' . $couple->music_url)) : asset('audio/celebration-melody.wav');
 
-        $targetDate = !empty($couple->wedding_date) ? \Carbon\Carbon::parse($couple->wedding_date) : now()->addDays(20);
+        $firstEvent = isset($couple->events) && count($couple->events) > 0 ? (is_array($couple->events) ? (object)$couple->events[0] : $couple->events->first()) : null;
+        $rawEventDate = !empty($firstEvent->date) ? $firstEvent->date : ($couple->wedding_date ?? null);
+        $targetDate = !empty($rawEventDate) ? \Carbon\Carbon::parse($rawEventDate) : now()->addDays(20);
         $eventDateFormatted = $targetDate->locale('id')->isoFormat('dddd, D MMMM Y');
-        $eventTimeFormatted = !empty($couple->wedding_time) ? substr($couple->wedding_time, 0, 5) . ' WIB' : '09:00 WIB';
+        $eventTimeFormatted = !empty($firstEvent->start_time) 
+            ? $firstEvent->start_time . (!empty($firstEvent->end_time) ? ' - ' . $firstEvent->end_time : '')
+            : (!empty($couple->wedding_time) ? substr($couple->wedding_time, 0, 5) . ' WIB' : '09:00 WIB');
 
         $babyName = $couple->groom_name ?? 'Kenzie Al-Fatih Pratama';
         $babyNick = $couple->groom_nickname ?? 'Kenzie';
@@ -294,51 +298,89 @@
             </div>
 
             <div class="space-y-3.5 max-w-sm mx-auto">
-                <div class="p-4 rounded-2xl bg-white border border-nursery-border shadow-sm flex items-center gap-3.5">
-                    <div class="w-11 h-11 rounded-2xl bg-nursery-softmint flex items-center justify-center text-xl shrink-0">
-                        📖
+                @if(isset($couple->events) && count($couple->events) > 0)
+                    @php
+                        $icons = ['📖', '✂️', '🍲', '🌙', '🕌', '🎉'];
+                    @endphp
+                    @foreach($couple->events as $idx => $ev)
+                        @php
+                            $evDateFormatted = !empty($ev->date) ? \Carbon\Carbon::parse($ev->date)->locale('id')->isoFormat('dddd, D MMMM Y') : $eventDateFormatted;
+                            $evTimeFormatted = !empty($ev->start_time) ? $ev->start_time . (!empty($ev->end_time) ? ' - ' . $ev->end_time : '') : '09:00 WIB';
+                            $evVenue = $ev->venue_name ?? ($couple->venue_name ?? 'Kediaman Keluarga');
+                            $evAddress = $ev->address ?? ($couple->venue_address ?? '');
+                            $evMap = !empty($ev->maps_url) ? $ev->maps_url : (!empty($couple->maps_url) ? $couple->maps_url : ('https://maps.google.com/?q=' . urlencode($evVenue . ' ' . $evAddress)));
+                            $icon = $icons[$idx % count($icons)];
+                        @endphp
+                        <div class="p-4 rounded-2xl bg-white border border-nursery-border shadow-sm flex items-start gap-3.5 text-left">
+                            <div class="w-11 h-11 rounded-2xl bg-nursery-softmint flex items-center justify-center text-xl shrink-0 mt-0.5">
+                                {{ $icon }}
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between mb-0.5">
+                                    <span class="text-[10px] font-quick font-bold text-nursery-mint block">{{ $evTimeFormatted }}</span>
+                                    <span class="text-[9px] font-quick text-slate-400 font-medium">{{ $evDateFormatted }}</span>
+                                </div>
+                                <h3 class="font-serif text-sm font-bold text-nursery-ink">{{ $ev->title ?? 'Rangkaian Acara ' . ($idx + 1) }}</h3>
+                                <p class="text-xs text-nursery-ink/80 font-medium mt-0.5">{{ $evVenue }}</p>
+                                @if(!empty($evAddress))
+                                    <p class="text-xs text-slate-500 mt-1 leading-relaxed">{{ $evAddress }}</p>
+                                @endif
+                                @if(!empty($evMap))
+                                    <a href="{{ $evMap }}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-[11px] font-quick font-bold text-nursery-mint hover:underline mt-2">
+                                        <span>📍</span> Petunjuk Google Maps &rarr;
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
+                @else
+                    <div class="p-4 rounded-2xl bg-white border border-nursery-border shadow-sm flex items-center gap-3.5">
+                        <div class="w-11 h-11 rounded-2xl bg-nursery-softmint flex items-center justify-center text-xl shrink-0">
+                            📖
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-quick font-bold text-nursery-mint block">09:00 - 10:00 WIB</span>
+                            <h3 class="font-serif text-sm font-bold text-nursery-ink">Pembacaan Maulid &amp; Doa Selamat</h3>
+                            <p class="text-xs text-slate-500">Lantunan shalawat, pembacaan Maulid Diba', dan doa keberkahan si kecil.</p>
+                        </div>
                     </div>
-                    <div>
-                        <span class="text-[10px] font-quick font-bold text-nursery-mint block">09:00 - 10:00 WIB</span>
-                        <h3 class="font-serif text-sm font-bold text-nursery-ink">Pembacaan Maulid &amp; Doa Selamat</h3>
-                        <p class="text-xs text-slate-500">Lantunan shalawat, pembacaan Maulid Diba', dan doa keberkahan si kecil.</p>
-                    </div>
-                </div>
 
-                <div class="p-4 rounded-2xl bg-white border border-nursery-mint/50 shadow-sm flex items-center gap-3.5">
-                    <div class="w-11 h-11 rounded-2xl bg-nursery-goldlight flex items-center justify-center text-xl shrink-0">
-                        ✂️
+                    <div class="p-4 rounded-2xl bg-white border border-nursery-mint/50 shadow-sm flex items-center gap-3.5">
+                        <div class="w-11 h-11 rounded-2xl bg-nursery-goldlight flex items-center justify-center text-xl shrink-0">
+                            ✂️
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-quick font-bold text-nursery-gold block">10:00 - 10:30 WIB</span>
+                            <h3 class="font-serif text-sm font-bold text-nursery-ink">Prosesi Tasmiyah &amp; Cukur Rambut</h3>
+                            <p class="text-xs text-slate-500">Pemberian nama resmi, potong rambut bayi, dan penimbangan sedekah perak/emas.</p>
+                        </div>
                     </div>
-                    <div>
-                        <span class="text-[10px] font-quick font-bold text-nursery-gold block">10:00 - 10:30 WIB</span>
-                        <h3 class="font-serif text-sm font-bold text-nursery-ink">Prosesi Tasmiyah &amp; Cukur Rambut</h3>
-                        <p class="text-xs text-slate-500">Pemberian nama resmi, potong rambut bayi, dan penimbangan sedekah perak/emas.</p>
-                    </div>
-                </div>
 
-                <div class="p-4 rounded-2xl bg-white border border-nursery-border shadow-sm flex items-center gap-3.5">
-                    <div class="w-11 h-11 rounded-2xl bg-nursery-softmint flex items-center justify-center text-xl shrink-0">
-                        🍲
+                    <div class="p-4 rounded-2xl bg-white border border-nursery-border shadow-sm flex items-center gap-3.5">
+                        <div class="w-11 h-11 rounded-2xl bg-nursery-softmint flex items-center justify-center text-xl shrink-0">
+                            🍲
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-quick font-bold text-nursery-mint block">10:30 WIB - Selesai</span>
+                            <h3 class="font-serif text-sm font-bold text-nursery-ink">Ramah Tamah &amp; Santap Hidangan</h3>
+                            <p class="text-xs text-slate-500">Menikmati jamuan olahan kambing aqiqah dan ramah tamah bersama keluarga besar.</p>
+                        </div>
                     </div>
-                    <div>
-                        <span class="text-[10px] font-quick font-bold text-nursery-mint block">10:30 WIB - Selesai</span>
-                        <h3 class="font-serif text-sm font-bold text-nursery-ink">Ramah Tamah &amp; Santap Hidangan</h3>
-                        <p class="text-xs text-slate-500">Menikmati jamuan olahan kambing aqiqah dan ramah tamah bersama keluarga besar.</p>
-                    </div>
-                </div>
+                @endif
             </div>
 
             <!-- Venue Details & Maps Button -->
+            @php
+                $mainVenue = $couple->venue_name ?? ($firstEvent->venue_name ?? 'Kediaman Keluarga Besar');
+                $mainAddress = $couple->venue_address ?? ($firstEvent->address ?? 'Jl. Cempaka Putih Timur No. 18, Jakarta Pusat');
+                $mapLink = !empty($couple->maps_url) ? $couple->maps_url : (!empty($firstEvent->maps_url) ? $firstEvent->maps_url : ('https://maps.google.com/?q=' . urlencode($mainVenue . ' ' . $mainAddress)));
+            @endphp
             <div class="max-w-sm mx-auto mt-6 p-5 rounded-2xl bg-white border border-nursery-border text-center shadow-sm">
                 <span class="text-[10px] font-quick uppercase text-nursery-gold font-bold block mb-1">LOKASI KEDIAMAN KAMI</span>
-                <h3 class="font-serif text-base font-bold text-nursery-ink">{{ $couple->venue_name ?? 'Kediaman Keluarga Besar' }}</h3>
-                <p class="text-xs text-slate-500 mt-1 leading-relaxed">{{ $couple->venue_address ?? 'Jl. Cempaka Putih Timur No. 18, Jakarta Pusat' }}</p>
-                
-                @php
-                    $mapLink = !empty($couple->maps_url) ? $couple->maps_url : ('https://maps.google.com/?q=' . urlencode(($couple->venue_name ?? '') . ' ' . ($couple->venue_address ?? '')));
-                @endphp
+                <h3 class="font-serif text-base font-bold text-nursery-ink">{{ $mainVenue }}</h3>
+                <p class="text-xs text-slate-500 mt-1 leading-relaxed">{{ $mainAddress }}</p>
                 <div class="mt-4">
-                    <a href="{{ $mapLink }}" target="_blank" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-nursery-mint hover:bg-[#5B8071] text-white font-quick text-xs font-bold shadow transition">
+                    <a href="{{ $mapLink }}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-nursery-mint hover:bg-[#5B8071] text-white font-quick text-xs font-bold shadow transition">
                         <span>📍</span> Petunjuk Arah (Google Maps)
                     </a>
                 </div>
@@ -376,6 +418,12 @@
         </section>
 
         <!-- Tali Asih Si Kecil (Digital Gift) -->
+        @php
+            $hasBank1 = !empty($couple->bank_account_1) || !empty($couple->account_number);
+            $hasBank2 = !empty($couple->bank_account_2);
+            $hasGift = !empty($couple->gift_address);
+        @endphp
+        @if($hasBank1 || $hasBank2 || $hasGift)
         <section class="py-10 px-6 text-center">
             <span class="text-xs font-quick font-bold uppercase tracking-wider text-nursery-gold block mb-1">TALI ASIH &amp; HADIAH</span>
             <h2 class="font-serif text-2xl font-bold text-nursery-ink mb-3">Tali Asih Buah Hati</h2>
@@ -383,30 +431,61 @@
                 Untaian doa restu adalah karunia terbaik. Namun jika Bapak/Ibu bermaksud memberikan hadiah tanda kasih untuk tabungan si kecil:
             </p>
 
-            <div class="max-w-xs mx-auto p-5 rounded-3xl bg-white border-2 border-nursery-mint/30 shadow-md text-center">
-                <div class="inline-block px-3 py-1 rounded-full bg-nursery-softmint text-nursery-mint text-xs font-quick font-bold uppercase mb-2">
-                    {{ $couple->bank_name ?? 'BSI (BANK SYARIAH INDONESIA)' }}
-                </div>
-                <p class="font-mono text-lg font-bold text-nursery-ink my-1">
-                    {{ $couple->account_number ?? '7192837465' }}
-                </p>
-                <p class="text-xs text-slate-500 mb-4">a.n {{ $couple->account_name ?? ($couple->groom_parents ?? $babyName) }}</p>
+            <div class="space-y-4 max-w-xs mx-auto">
+                @if($hasBank1)
+                    @php
+                        $bName1 = $couple->bank_name_1 ?? ($couple->bank_name ?? 'BSI (BANK SYARIAH INDONESIA)');
+                        $bAcc1 = $couple->bank_account_1 ?? ($couple->account_number ?? '7192837465');
+                        $bHolder1 = $couple->bank_holder_1 ?? ($couple->account_name ?? ($couple->groom_parents ?? $babyName));
+                    @endphp
+                    <div class="p-5 rounded-3xl bg-white border-2 border-nursery-mint/30 shadow-md text-center">
+                        <div class="inline-block px-3 py-1 rounded-full bg-nursery-softmint text-nursery-mint text-xs font-quick font-bold uppercase mb-2">
+                            {{ $bName1 }}
+                        </div>
+                        <p class="font-mono text-lg font-bold text-nursery-ink my-1">
+                            {{ $bAcc1 }}
+                        </p>
+                        <p class="text-xs text-slate-500 mb-4">a.n {{ $bHolder1 }}</p>
 
-                <button type="button" onclick="copyToClipboard('{{ $couple->account_number ?? '7192837465' }}', 'Nomor rekening tali asih disalin')" class="w-full py-2.5 rounded-xl bg-nursery-mint hover:bg-[#5B8071] text-white font-quick text-xs font-bold uppercase tracking-wider transition flex items-center justify-center gap-1.5 shadow-sm">
-                    <span>📋</span> Salin Nomor Rekening
-                </button>
+                        <button type="button" onclick="copyToClipboard('{{ $bAcc1 }}', 'Nomor rekening {{ $bName1 }} disalin')" class="w-full py-2.5 rounded-xl bg-nursery-mint hover:bg-[#5B8071] text-white font-quick text-xs font-bold uppercase tracking-wider transition flex items-center justify-center gap-1.5 shadow-sm cursor-pointer">
+                            <span>📋</span> Salin Nomor Rekening
+                        </button>
+                    </div>
+                @endif
+
+                @if($hasBank2)
+                    @php
+                        $bName2 = $couple->bank_name_2 ?? 'BANK';
+                        $bAcc2 = $couple->bank_account_2 ?? '';
+                        $bHolder2 = $couple->bank_holder_2 ?? ($couple->groom_parents ?? $babyName);
+                    @endphp
+                    <div class="p-5 rounded-3xl bg-white border-2 border-nursery-mint/30 shadow-md text-center">
+                        <div class="inline-block px-3 py-1 rounded-full bg-nursery-softmint text-nursery-mint text-xs font-quick font-bold uppercase mb-2">
+                            {{ $bName2 }}
+                        </div>
+                        <p class="font-mono text-lg font-bold text-nursery-ink my-1">
+                            {{ $bAcc2 }}
+                        </p>
+                        <p class="text-xs text-slate-500 mb-4">a.n {{ $bHolder2 }}</p>
+
+                        <button type="button" onclick="copyToClipboard('{{ $bAcc2 }}', 'Nomor rekening {{ $bName2 }} disalin')" class="w-full py-2.5 rounded-xl bg-nursery-mint hover:bg-[#5B8071] text-white font-quick text-xs font-bold uppercase tracking-wider transition flex items-center justify-center gap-1.5 shadow-sm cursor-pointer">
+                            <span>📋</span> Salin Nomor Rekening
+                        </button>
+                    </div>
+                @endif
             </div>
 
             @if(!empty($couple->gift_address))
-                <div class="max-w-xs mx-auto mt-4 p-4 rounded-2xl bg-white border border-nursery-border text-center">
+                <div class="max-w-xs mx-auto mt-4 p-4 rounded-2xl bg-white border border-nursery-border text-center shadow-sm">
                     <span class="text-[10px] font-quick text-nursery-gold uppercase font-bold block mb-1">KIRIM BINGKISAN / PERLENGKAPAN BAYI</span>
                     <p class="text-xs text-slate-600 leading-relaxed">{{ $couple->gift_address }}</p>
-                    <button type="button" onclick="copyToClipboard('{{ $couple->gift_address }}', 'Alamat pengiriman bingkisan disalin')" class="mt-2 text-xs text-nursery-mint font-quick font-bold hover:underline">
+                    <button type="button" onclick="copyToClipboard('{{ addslashes($couple->gift_address) }}', 'Alamat pengiriman bingkisan disalin')" class="mt-2 text-xs text-nursery-mint font-quick font-bold hover:underline cursor-pointer">
                         Salin Alamat
                     </button>
                 </div>
             @endif
         </section>
+        @endif
 
         <!-- Buku Tamu & RSVP Aqiqah -->
         <section class="py-10 px-6">
