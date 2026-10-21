@@ -59,12 +59,28 @@
         let currentSelectedCategory = 'semua';
         let currentSelectedTier = 'semua';
 
+        const catalogCategoryAliases = {
+            'semua': ['semua'],
+            'pernikahan': ['pernikahan', 'wedding'],
+            'tahlilan': ['tahlilan', 'doa bersama'],
+            'halalbihalal': ['halalbihalal', 'halal bihalal'],
+            'khitanan': ['khitanan', 'khitan', 'sunat'],
+            'aqiqah': ['aqiqah', 'tasmiyah', 'baby'],
+            'ultah': ['ultah', 'ulang tahun', 'birthday', 'milad'],
+            'wisuda': ['wisuda', 'graduate', 'graduation', 'sarjana'],
+            'formal': ['formal', 'acara formal', 'seminar', 'workshop', 'corporate', 'reuni'],
+            'syukuran': ['syukuran', 'selamatan', 'rumah baru']
+        };
+
         function applyCatalogFilters() {
+            const selCat = (currentSelectedCategory || 'semua').toLowerCase();
+            const allowedKeywords = catalogCategoryAliases[selCat] || [selCat];
+
             document.querySelectorAll('#catalogGrid .theme-card').forEach(card => {
-                const cardCat = card.dataset.category || '';
+                const cardCat = (card.dataset.category || '').toLowerCase();
                 const cardTier = card.dataset.tier || '';
 
-                const matchCat = (currentSelectedCategory === 'semua' || cardCat === currentSelectedCategory || cardCat === 'semua');
+                const matchCat = (selCat === 'semua' || cardCat === 'semua' || cardCat === selCat || allowedKeywords.some(kw => cardCat.includes(kw)));
                 const matchTier = (currentSelectedTier === 'semua' || cardTier === currentSelectedTier);
 
                 if (matchCat && matchTier) {
@@ -794,6 +810,16 @@
         themePreviews['formal-corporate'] = themePreviews['executive-corporate-grand-opening'];
         themePreviews['halal-bihalal'] = themePreviews['ketupat-raya-silaturahmi'];
         themePreviews['syukuran-rumah'] = themePreviews['tasyakuran-doa-rumah-baru'];
+
+        // Aliases for slug variants
+        themePreviews['modern-graduate-editorial'] = themePreviews['modern-graduate'];
+        themePreviews['clean-tech-seminar-workshop'] = themePreviews['clean-seminar'];
+        themePreviews['clean-tech-seminar'] = themePreviews['clean-seminar'];
+        themePreviews['cheerful-confetti-birthday'] = themePreviews['cheerful-birthday'];
+        themePreviews['green-mosque-syiar'] = themePreviews['green-mosque'];
+        themePreviews['green-mosque-syiar-tabligh-akbar'] = themePreviews['green-mosque'];
+        themePreviews['green-mosque-harmony'] = themePreviews['green-mosque'];
+        themePreviews['walimatus-safar-mubarok'] = themePreviews['walimatus-safar'];
         themePreviews['walimatul-khitan'] = {
             name: 'Walimatul Khitan Berkah Sholeh',
             category: 'Aqiqah',
@@ -824,7 +850,12 @@
             audioSrc: '{{ asset("audio/lullaby-melody.wav") }}'
         };
         themePreviews['walimatul-khitan-berkah-sholeh'] = themePreviews['walimatul-khitan'];
-        themePreviews['little-prince-safari-khitan'] = themePreviews['walimatul-khitan'];
+        themePreviews['little-prince-safari-khitan'] = themePreviews['little-prince'];
+        themePreviews['little-prince-nordic'] = themePreviews['little-prince'];
+        themePreviews['little-prince-nordic-aqiqah'] = themePreviews['little-prince'];
+        themePreviews['royal-tasmiyah-sultan'] = themePreviews['royal-tasmiyah'];
+        themePreviews['royal-tasmiyah-aqiqah-sultan'] = themePreviews['royal-tasmiyah'];
+        themePreviews['sweet-baby-pastel'] = themePreviews['sweet-baby-pastel-aqiqah'];
 
         themePreviews['kids-birthday'] = {
             name: 'Kids Birthday Party Balon Ceria',
@@ -1194,17 +1225,72 @@
             if (cat === 'aqiqah' || catKey === 'aqiqah' || catKey === 'khitanan' || s.includes('aqiqah') || s.includes('khitan') || sub.includes('aqiqah') || sub.includes('khitan')) {
                 return 'aqiqah';
             }
-            if (cat === 'wisuda' || catKey === 'wisuda' || s.includes('wisuda') || s.includes('sarjana') || sub.includes('wisuda') || sub.includes('sarjana')) {
+            if (cat === 'wisuda' || catKey === 'wisuda' || s.includes('wisuda') || s.includes('sarjana') || s.includes('graduate') || sub.includes('wisuda') || sub.includes('sarjana')) {
                 return 'wisuda';
             }
-            if (cat.includes('ulang tahun') || catKey === 'ultah' || s.includes('birthday') || s.includes('milad') || s.includes('ultah') || s.includes('ulang')) {
+            if (cat.includes('ulang tahun') || catKey === 'ultah' || s.includes('cheerful') || s.includes('confetti') || s.includes('birthday') || s.includes('milad') || s.includes('ultah') || s.includes('ulang')) {
                 return 'ulang-tahun';
             }
-            if (cat.includes('formal') || catKey === 'formal' || s.includes('corporate') || s.includes('reuni')) {
+            if (cat.includes('formal') || catKey === 'formal' || s.includes('seminar') || s.includes('workshop') || s.includes('corporate') || s.includes('reuni')) {
                 return 'acara-formal';
             }
             return 'pernikahan';
         }
+
+        // Direct Map of Canonical Slugs to Demo Routes
+        const demoUrlMap = {
+            'chibi-red': '/demo/chibi-red',
+            'wildflower-pink': '/demo/wildflower-pink',
+            '3d-javanese-royal': '/demo/javanese-royal',
+            'javanese-royal': '/demo/javanese-royal',
+            'simple-minimalist-floral': '/demo/minimalist-floral',
+            'minimalist-floral': '/demo/minimalist-floral',
+            'snowfall-minimalist-white': '/demo/snowfall-white',
+            'snowfall-white': '/demo/snowfall-white',
+            'batak-istimewa-heritage': '/demo/batak-heritage',
+            'batak-heritage': '/demo/batak-heritage',
+            'ketupat-raya-silaturahmi': '/demo/halal-bihalal',
+            'halal-bihalal': '/demo/halal-bihalal',
+            'green-mosque': '/demo/green-mosque',
+            'green-mosque-syiar': '/demo/green-mosque',
+            'green-mosque-harmony': '/demo/green-mosque',
+            'green-mosque-syiar-tabligh-akbar': '/demo/green-mosque',
+            'walimatus-safar': '/demo/walimatus-safar',
+            'walimatus-safar-mubarok': '/demo/walimatus-safar',
+            'walimatul-khitan-berkah-sholeh': '/demo/walimatul-khitan',
+            'walimatul-khitan': '/demo/walimatul-khitan',
+            'little-prince': '/demo/little-prince',
+            'little-prince-nordic': '/demo/little-prince',
+            'little-prince-nordic-aqiqah': '/demo/little-prince',
+            'royal-tasmiyah': '/demo/royal-tasmiyah',
+            'royal-tasmiyah-sultan': '/demo/royal-tasmiyah',
+            'royal-tasmiyah-aqiqah-sultan': '/demo/royal-tasmiyah',
+            'sweet-baby-pastel': '/demo/baby-aqiqah',
+            'sweet-baby-pastel-aqiqah': '/demo/baby-aqiqah',
+            'baby-aqiqah': '/demo/baby-aqiqah',
+            'tasyakuran-doa-rumah-baru': '/demo/syukuran-rumah',
+            'syukuran-rumah': '/demo/syukuran-rumah',
+            'doa-bersama-tahlilan-khusyuk': '/demo/tahlilan-khusyuk',
+            'tahlilan-khusyuk': '/demo/tahlilan-khusyuk',
+            'modern-graduate': '/demo/modern-graduate',
+            'modern-graduate-editorial': '/demo/modern-graduate',
+            'wisuda-sarjana-prestasi-emas': '/demo/wisuda-sarjana',
+            'wisuda-sarjana': '/demo/wisuda-sarjana',
+            'scholar-luxury': '/demo/scholar-luxury',
+            'cheerful-birthday': '/demo/cheerful-birthday',
+            'cheerful-confetti-birthday': '/demo/cheerful-birthday',
+            'kids-birthday-party-balon-ceria': '/demo/kids-birthday',
+            'kids-birthday': '/demo/kids-birthday',
+            'golden-luxury-birthday-milad': '/demo/golden-birthday',
+            'golden-birthday': '/demo/golden-birthday',
+            'clean-seminar': '/demo/clean-seminar',
+            'clean-tech-seminar-workshop': '/demo/clean-seminar',
+            'clean-tech-seminar': '/demo/clean-seminar',
+            'reuni-akbar-temu-kangen': '/demo/reuni-akbar',
+            'reuni-akbar': '/demo/reuni-akbar',
+            'executive-corporate-grand-opening': '/demo/formal-corporate',
+            'formal-corporate': '/demo/formal-corporate',
+        };
 
         function renderCategorySelectorGrid(activeSlug, catKey) {
             const grid = document.getElementById('previewThemeSelectorGrid');
@@ -1229,9 +1315,17 @@
                                  (activeSlug.includes('chibi') && item.slug === 'chibi-red') || 
                                  ((activeSlug.includes('wildflower') || activeSlug.includes('rose')) && item.slug === 'wildflower-pink') ||
                                  (activeSlug.includes('javanese') && item.slug === '3d-javanese-royal') ||
-                                 ((activeSlug.includes('wisuda') || activeSlug.includes('sarjana')) && item.slug.includes('wisuda')) ||
-                                 ((activeSlug.includes('birthday') || activeSlug.includes('milad') || activeSlug.includes('ultah')) && item.slug.includes('birthday')) ||
-                                 ((activeSlug.includes('aqiqah') || activeSlug.includes('khitan')) && item.slug.includes('aqiqah')));
+                                 ((activeSlug.includes('wisuda') || activeSlug.includes('sarjana') || activeSlug.includes('graduate')) && item.slug.includes(activeSlug)) ||
+                                 ((activeSlug.includes('cheerful') || activeSlug.includes('confetti')) && item.slug === 'cheerful-birthday') ||
+                                 ((activeSlug.includes('birthday') || activeSlug.includes('milad') || activeSlug.includes('golden')) && item.slug.includes('golden')) ||
+                                 ((activeSlug.includes('seminar') || activeSlug.includes('workshop')) && item.slug === 'clean-seminar') ||
+                                 ((activeSlug.includes('mosque') || activeSlug.includes('syiar')) && item.slug === 'green-mosque') ||
+                                 ((activeSlug.includes('safar') || activeSlug.includes('haji')) && item.slug === 'walimatus-safar') ||
+                                 ((activeSlug.includes('halal') || activeSlug.includes('ketupat')) && item.slug === 'ketupat-raya-silaturahmi') ||
+                                 ((activeSlug.includes('little-prince') || activeSlug.includes('prince') || activeSlug.includes('nordic')) && item.slug === 'little-prince') ||
+                                 ((activeSlug.includes('royal-tasmiyah') || activeSlug.includes('tasmiyah') || activeSlug.includes('sultan')) && item.slug === 'royal-tasmiyah') ||
+                                 ((activeSlug.includes('walimatul-khitan') || activeSlug.includes('khitan') || activeSlug.includes('sunat')) && item.slug === 'walimatul-khitan-berkah-sholeh') ||
+                                 ((activeSlug.includes('baby') || activeSlug.includes('pastel')) && item.slug === 'sweet-baby-pastel-aqiqah'));
                 const activeStyle = isActive 
                     ? 'border-brand bg-brand/5 ring-2 ring-brand/30 shadow-md font-bold' 
                     : 'border-ink/15 bg-white hover:border-brand shadow-sm';
@@ -1259,16 +1353,24 @@
             else if (rawSlug.includes('minimalist') && !rawSlug.includes('snow')) matchedSlug = 'simple-minimalist-floral';
             else if (rawSlug.includes('snowfall') || rawSlug.includes('snow')) matchedSlug = 'snowfall-minimalist-white';
             else if (rawSlug.includes('batak')) matchedSlug = 'batak-istimewa-heritage';
-            else if (rawSlug.includes('mosque') || rawSlug.includes('ketupat') || rawSlug.includes('halal')) matchedSlug = 'ketupat-raya-silaturahmi';
-            else if (rawSlug.includes('khitan') || rawSlug.includes('prince') || rawSlug.includes('sunat')) matchedSlug = 'walimatul-khitan-berkah-sholeh';
+            else if (rawSlug.includes('mosque') || rawSlug.includes('syiar')) matchedSlug = 'green-mosque';
+            else if (rawSlug.includes('walimatus-safar') || rawSlug.includes('safar') || rawSlug.includes('ka\'bah') || rawSlug.includes('kiswah')) matchedSlug = 'walimatus-safar';
+            else if (rawSlug.includes('ketupat') || rawSlug.includes('halal')) matchedSlug = 'ketupat-raya-silaturahmi';
+            else if (rawSlug.includes('little-prince') || rawSlug.includes('prince') || rawSlug.includes('nordic')) matchedSlug = 'little-prince';
+            else if (rawSlug.includes('royal-tasmiyah') || rawSlug.includes('tasmiyah') || rawSlug.includes('sultan')) matchedSlug = 'royal-tasmiyah';
+            else if (rawSlug.includes('khitan') || rawSlug.includes('sunat')) matchedSlug = 'walimatul-khitan-berkah-sholeh';
             else if (rawSlug.includes('rumah-baru') || rawSlug.includes('syukuran')) matchedSlug = 'tasyakuran-doa-rumah-baru';
             else if (rawSlug.includes('tahlil') || rawSlug.includes('doa-bersama')) matchedSlug = 'doa-bersama-tahlilan-khusyuk';
+            else if (rawSlug.includes('graduate') || rawSlug.includes('modern-graduate')) matchedSlug = 'modern-graduate';
+            else if (rawSlug.includes('scholar') || rawSlug.includes('valedictorian') || rawSlug.includes('ivy')) matchedSlug = 'scholar-luxury';
             else if (rawSlug.includes('wisuda') || rawSlug.includes('sarjana') || rawSlug.includes('kelulusan')) matchedSlug = 'wisuda-sarjana-prestasi-emas';
+            else if (rawSlug.includes('cheerful') || rawSlug.includes('confetti')) matchedSlug = 'cheerful-birthday';
             else if (rawSlug.includes('kid') || rawSlug.includes('anak') || rawSlug.includes('balon')) matchedSlug = 'kids-birthday-party-balon-ceria';
-            else if (rawSlug.includes('birthday') || rawSlug.includes('milad') || rawSlug.includes('ultah') || rawSlug.includes('ulang')) matchedSlug = 'golden-luxury-birthday-milad';
-            else if (rawSlug.includes('aqiqah') || rawSlug.includes('baby') || rawSlug.includes('tasmiyah')) matchedSlug = 'sweet-baby-pastel-aqiqah';
+            else if (rawSlug.includes('golden') || rawSlug.includes('birthday') || rawSlug.includes('milad') || rawSlug.includes('ultah') || rawSlug.includes('ulang')) matchedSlug = 'golden-birthday';
+            else if (rawSlug.includes('seminar') || rawSlug.includes('workshop') || rawSlug.includes('clean-seminar') || rawSlug.includes('clean-tech')) matchedSlug = 'clean-seminar';
+            else if (rawSlug.includes('reuni') || rawSlug.includes('alumni')) matchedSlug = 'reuni-akbar';
+            else if (rawSlug.includes('baby') || rawSlug.includes('pastel') || rawSlug.includes('aqiqah')) matchedSlug = 'sweet-baby-pastel-aqiqah';
             else if (rawSlug.includes('corporate') || rawSlug.includes('formal') || rawSlug.includes('opening')) matchedSlug = 'executive-corporate-grand-opening';
-            else if (rawSlug.includes('reuni')) matchedSlug = 'reuni-akbar-temu-kangen';
 
             const theme = themePreviews[matchedSlug] || themePreviews[rawSlug] || themePreviews['chibi-red'];
             currentCategoryKey = detectCategoryKey(matchedSlug, theme);
@@ -1277,45 +1379,50 @@
             renderThemePreview(theme, matchedSlug);
             renderCategorySelectorGrid(matchedSlug, currentCategoryKey);
 
-            // Determine target iframe url strictly matching the category
-            let targetUrl = '/demo/chibi-red';
-            const catList = categoryTemplates[currentCategoryKey] || categoryTemplates['pernikahan'];
-            const foundItem = catList.find(item => item.slug === matchedSlug);
-            if (foundItem && foundItem.demoUrl) {
-                targetUrl = foundItem.demoUrl;
-            } else if (matchedSlug.includes('kid') || matchedSlug.includes('anak') || matchedSlug.includes('balon')) {
-                targetUrl = '/demo/kids-birthday';
-            } else if (matchedSlug.includes('khitan') || matchedSlug.includes('prince') || matchedSlug.includes('sunat')) {
-                targetUrl = '/demo/walimatul-khitan';
-            } else if (matchedSlug.includes('rumah-baru') || matchedSlug.includes('syukuran')) {
-                targetUrl = '/demo/syukuran-rumah';
-            } else if (matchedSlug.includes('halal') || matchedSlug.includes('ketupat') || matchedSlug.includes('mosque')) {
-                targetUrl = '/demo/halal-bihalal';
-            } else if (currentCategoryKey === 'wisuda' || matchedSlug.includes('wisuda') || matchedSlug.includes('sarjana')) {
-                targetUrl = '/demo/wisuda-sarjana';
-            } else if (currentCategoryKey === 'ulang-tahun' || matchedSlug.includes('birthday') || matchedSlug.includes('milad') || matchedSlug.includes('ultah') || matchedSlug.includes('ulang')) {
-                targetUrl = '/demo/golden-birthday';
-            } else if (currentCategoryKey === 'aqiqah' || matchedSlug.includes('aqiqah')) {
-                targetUrl = '/demo/baby-aqiqah';
-            } else if (currentCategoryKey === 'acara-formal' || matchedSlug.includes('corporate') || matchedSlug.includes('formal') || matchedSlug.includes('reuni')) {
-                targetUrl = '/demo/formal-corporate';
-            } else if (currentCategoryKey === 'keagamaan') {
-                targetUrl = '/demo/tahlilan-khusyuk';
-            } else if (currentCategoryKey === 'pernikahan') {
-                if (matchedSlug.includes('wildflower') || matchedSlug.includes('rose')) targetUrl = '/demo/wildflower-pink';
-                else if (matchedSlug.includes('batak')) targetUrl = '/demo/batak-heritage';
-                else if (matchedSlug.includes('javanese') || matchedSlug.includes('royal')) targetUrl = '/demo/javanese-royal';
-                else if (matchedSlug.includes('snowfall') || matchedSlug.includes('snow')) targetUrl = '/demo/snowfall-white';
-                else if (matchedSlug.includes('minimalist')) targetUrl = '/demo/minimalist-floral';
-                else targetUrl = '/demo/chibi-red';
-            } else {
-                targetUrl = '/demo/golden-birthday';
+            // Determine target iframe url strictly matching the template
+            let targetUrl = demoUrlMap[matchedSlug] || demoUrlMap[rawSlug];
+            if (!targetUrl) {
+                const catList = categoryTemplates[currentCategoryKey] || categoryTemplates['pernikahan'];
+                const foundItem = catList.find(item => item.slug === matchedSlug || item.slug === rawSlug);
+                if (foundItem && foundItem.demoUrl) {
+                    targetUrl = foundItem.demoUrl;
+                } else if (matchedSlug.includes('kid') || matchedSlug.includes('anak') || matchedSlug.includes('balon')) {
+                    targetUrl = '/demo/kids-birthday';
+                } else if (matchedSlug.includes('little-prince') || matchedSlug.includes('prince') || matchedSlug.includes('nordic')) {
+                    targetUrl = '/demo/little-prince';
+                } else if (matchedSlug.includes('royal-tasmiyah') || matchedSlug.includes('tasmiyah') || matchedSlug.includes('sultan')) {
+                    targetUrl = '/demo/royal-tasmiyah';
+                } else if (matchedSlug.includes('khitan') || matchedSlug.includes('sunat')) {
+                    targetUrl = '/demo/walimatul-khitan';
+                } else if (matchedSlug.includes('rumah-baru') || matchedSlug.includes('syukuran')) {
+                    targetUrl = '/demo/syukuran-rumah';
+                } else if (matchedSlug.includes('mosque') || matchedSlug.includes('syiar')) {
+                    targetUrl = '/demo/green-mosque';
+                } else if (matchedSlug.includes('safar') || matchedSlug.includes('haji') || matchedSlug.includes('umrah')) {
+                    targetUrl = '/demo/walimatus-safar';
+                } else if (matchedSlug.includes('halal') || matchedSlug.includes('ketupat')) {
+                    targetUrl = '/demo/halal-bihalal';
+                } else if (currentCategoryKey === 'wisuda' || matchedSlug.includes('wisuda') || matchedSlug.includes('sarjana') || matchedSlug.includes('graduate')) {
+                    targetUrl = '/demo/modern-graduate';
+                } else if (currentCategoryKey === 'ulang-tahun' || matchedSlug.includes('birthday') || matchedSlug.includes('milad') || matchedSlug.includes('ultah') || matchedSlug.includes('ulang')) {
+                    targetUrl = '/demo/cheerful-birthday';
+                } else if (currentCategoryKey === 'aqiqah' || matchedSlug.includes('baby') || matchedSlug.includes('pastel') || matchedSlug.includes('aqiqah')) {
+                    targetUrl = '/demo/baby-aqiqah';
+                } else if (currentCategoryKey === 'acara-formal' || matchedSlug.includes('corporate') || matchedSlug.includes('formal') || matchedSlug.includes('reuni') || matchedSlug.includes('seminar')) {
+                    targetUrl = '/demo/clean-seminar';
+                } else if (currentCategoryKey === 'keagamaan') {
+                    targetUrl = '/demo/tahlilan-khusyuk';
+                } else {
+                    targetUrl = '/demo/chibi-red';
+                }
             }
 
             const iframe = document.getElementById('previewModalIframe');
             if (iframe) iframe.src = targetUrl;
             const btnFs = document.getElementById('btnModalFullscreenDemo');
             if (btnFs) btnFs.href = targetUrl;
+            const btnFsMob = document.getElementById('btnModalFullscreenDemoMobile');
+            if (btnFsMob) btnFsMob.href = targetUrl;
             const btnFsBtm = document.getElementById('btnModalFullscreenDemoBottom');
             if (btnFsBtm) btnFsBtm.href = targetUrl;
 

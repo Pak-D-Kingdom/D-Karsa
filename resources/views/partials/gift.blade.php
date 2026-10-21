@@ -4,12 +4,16 @@
         {{-- FAQ Section (Pertanyaan yang sering masuk - our-wedding.link style) --}}
         <div class="grid lg:grid-cols-12 gap-10 items-start">
             <div class="lg:col-span-5 space-y-4">
-                <span class="alis">Pusat Bantuan &amp; FAQ</span>
-                <h2 class="ow-h2">
-                    Pertanyaan yang <span class="t-script">sering</span> <span class="t-bold">ditanyakan</span>
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-pink-200 shadow-sm text-xs font-bold text-ink">
+                    <span class="text-brand font-extrabold uppercase tracking-wider text-[11px]">Pusat Bantuan</span>
+                    <span class="text-ink/20">•</span>
+                    <span class="text-ink2 font-medium">FAQ &amp; Informasi Layanan</span>
+                </div>
+                <h2 class="font-serif text-2xl sm:text-4xl font-bold text-ink tracking-tight leading-snug">
+                    Segala Hal yang Perlu Anda Ketahui <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand via-accent to-pink-600 font-extrabold">Sebelum Memulai</span>
                 </h2>
-                <p class="text-ink2 text-base leading-relaxed">
-                    Masih ada hal yang ingin ditanyakan sebelum memesan undangan pernikahan digital? Tim support D'Karsa siap merespons dengan cepat di WhatsApp.
+                <p class="text-ink2 text-sm sm:text-base leading-relaxed">
+                    Masih ada hal yang ingin ditanyakan sebelum memesan undangan pernikahan digital? Tim support D'Karsa siap merespons dengan cepat dan ramah melalui WhatsApp.
                 </p>
                 <div class="pt-2">
                     <a href="https://wa.me/6281234567890?text=Halo%20Admin%20D'Karsa,%20saya%20ingin%20konsultasi%20pembuatan%20undangan%20pernikahan%20digital"
@@ -87,12 +91,16 @@
         {{-- Official Payment Channels for Ordering D'Karsa --}}
         <div class="mt-20 pt-14 border-t border-ink/10">
             <div class="text-center max-w-2xl mx-auto mb-10">
-                <span class="alis">Pembayaran Resmi &amp; Aman</span>
-                <h3 class="ow-h2 mt-3">
-                    Rekening pembayaran <span class="t-script">resmi</span> <span class="t-bold">D'Karsa</span>
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-emerald-200 shadow-sm text-xs font-bold text-ink mb-3">
+                    <span class="text-emerald-700 font-extrabold uppercase tracking-wider text-[11px]">Aman &amp; Terverifikasi</span>
+                    <span class="text-ink/20">•</span>
+                    <span class="text-ink2 font-medium">Midtrans Gateway &amp; Rekening Resmi</span>
+                </div>
+                <h3 class="font-serif text-2xl sm:text-3xl font-bold text-ink tracking-tight">
+                    Metode Pembayaran <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand via-accent to-pink-600 font-extrabold">Resmi D'Karsa</span>
                 </h3>
-                <p class="mt-2 text-ink2 text-sm">
-                    Seluruh transaksi pemesanan undangan digital menggunakan rekening resmi atas nama <b>D'Karsa Digital</b>.
+                <p class="mt-2 text-ink2 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
+                    Mendukung pembayaran otomatis instan via Midtrans (QRIS GoPay/ShopeePay, Virtual Account) serta transfer langsung ke rekening resmi perusahaan.
                 </p>
             </div>
 
@@ -135,29 +143,33 @@
             </div>
         </div>
 
-        {{-- Closing Banner styled like our-wedding.link's .penutup__kartu --}}
-        <div class="mt-16 rounded-[32px] overflow-hidden grid lg:grid-cols-12 border border-ink/10 shadow-xl motif"
-             style="background: linear-gradient(140deg, #fff, #fdecef);">
-            <div class="lg:col-span-7 p-8 md:p-14 flex flex-col justify-center space-y-5">
-                <span class="alis w-max">Siap Merancang Hari Bahagia?</span>
-                <h3 class="ow-h2">
-                    Mulai rancang hari <span class="t-script">bahagia</span> <span class="t-bold">kalian bersama D'Karsa</span>
+        {{-- Closing CTA Banner --}}
+        <div class="mt-16 rounded-[32px] overflow-hidden grid lg:grid-cols-12 border border-pink-200/80 shadow-2xl bg-gradient-to-br from-white via-rose-50/40 to-pink-100/30 relative">
+            <div class="lg:col-span-7 p-8 md:p-14 flex flex-col justify-center space-y-5 relative z-10">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-pink-200 shadow-sm text-xs font-bold text-ink w-max">
+                    <span class="text-brand font-extrabold uppercase tracking-wider text-[11px]">Mulai Sekarang</span>
+                    <span class="text-ink/20">•</span>
+                    <span class="text-ink2 font-medium">Konsultasi Gratis Tanpa Komitmen</span>
+                </div>
+                <h3 class="font-serif text-2xl sm:text-4xl font-bold text-ink tracking-tight leading-tight">
+                    Siap Membagikan Kebahagiaan <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand via-accent to-pink-600 font-extrabold">Bersama D'Karsa?</span>
                 </h3>
-                <p class="text-ink2 text-base max-w-[50ch]">
-                    Pilih desain favorit, konsultasikan kebutuhan acara secara gratis, dan lihat hasilnya langsung dari HP dalam hitungan jam.
+                <p class="text-ink2 text-sm sm:text-base max-w-[50ch] leading-relaxed">
+                    Pilih desain favorit Anda, bagikan detail momen spesial, dan miliki undangan digital berkelas yang siap sebar dalam hitungan menit.
                 </p>
-                <div class="flex flex-wrap gap-3 pt-1">
-                    <a href="{{ route('invitation.create') }}" class="tbl tbl--utama">
+                <div class="flex flex-wrap gap-3 pt-2">
+                    <a href="{{ route('invitation.create') }}" class="tbl tbl--utama !h-12 !px-6 !text-sm shadow-lg shadow-brand/25 hover:shadow-xl hover:shadow-brand/35 transition">
                         <span>Buat Undangan Sekarang</span>
-                        <span class="tbl__ikon">
-                            <svg aria-hidden="true" class="w-4 h-4"><use href="#i-arrow-up-right"></use></svg>
+                        <span class="tbl__ikon !w-7 !h-7">
+                            <svg aria-hidden="true" class="w-3.5 h-3.5"><use href="#i-arrow-up-right"></use></svg>
                         </span>
                     </a>
-                    <a href="#desain" class="tbl tbl--kedua">Lihat Katalog Desain</a>
+                    <a href="#desain" class="tbl tbl--kedua !h-12 !px-6 !text-sm">Lihat Katalog Desain</a>
                 </div>
             </div>
-            <div class="lg:col-span-5 min-h-[280px] relative">
-                <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&q=80&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Pasangan bahagia menggunakan undangan digital D'Karsa">
+            <div class="lg:col-span-5 min-h-[300px] relative overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&q=80&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover" alt="Momen bahagia undangan digital D'Karsa">
+                <div class="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-white via-transparent to-transparent"></div>
             </div>
         </div>
     </div>

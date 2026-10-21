@@ -3202,34 +3202,45 @@
         // CANONICAL TEMPLATE RESOLVER & LIVE PREVIEW CONTROLS
         // ========================================================
         function getCanonicalTemplateKey(themeName) {
-            const tmpl = allTemplatesData.find(t => t.name === themeName);
+            const tmpl = allTemplatesData.find(t => t.name === themeName || t.template_key === themeName || t.key === themeName);
             if (tmpl && tmpl.template_key) {
                 return tmpl.template_key;
             }
             const s = (themeName || '').toLowerCase();
+            if (s.includes('cheerful') || s.includes('confetti')) return 'cheerful-birthday';
+            if (s.includes('golden') || s.includes('milad')) return 'golden-birthday';
+            if (s.includes('kids') || s.includes('anak') || s.includes('balon')) return 'kids-birthday';
+            if (s.includes('clean') || s.includes('seminar') || s.includes('workshop')) return 'clean-seminar';
+            if (s.includes('modern graduate') || s.includes('graduate')) return 'modern-graduate';
+            if (s.includes('scholar') || s.includes('valedictorian') || s.includes('ivy')) return 'scholar-luxury';
+            if (s.includes('wisuda') || s.includes('sarjana') || s.includes('kelulusan')) return 'wisuda-sarjana';
+            if (s.includes('reuni') || s.includes('alumni')) return 'reuni-akbar';
+            if (s.includes('corporate') || s.includes('formal') || s.includes('opening')) return 'formal-corporate';
             if (s.includes('batak') || s.includes('ulos') || s.includes('gorga')) return 'batak-heritage';
-            if (s.includes('javanese') || s.includes('royal') || s.includes('keraton') || s.includes('jawa') || s.includes('adat')) return 'javanese-royal';
+            if (s.includes('royal tasmiyah') || s.includes('tasmiyah') || s.includes('sultan')) return 'royal-tasmiyah';
+            if (s.includes('little prince') || s.includes('prince') || s.includes('nordic')) return 'little-prince';
+            if (s.includes('javanese') || s.includes('keraton') || s.includes('jawa') || (s.includes('royal') && !s.includes('tasmiyah')) || s.includes('adat')) return 'javanese-royal';
             if (s.includes('chibi') || s.includes('oriental') || s.includes('chinese')) return 'chibi-red';
             if (s.includes('wildflower') || s.includes('rose') || s.includes('pink')) return 'wildflower-pink';
-            if (s.includes('wisuda') || s.includes('sarjana') || s.includes('kelulusan')) return 'wisuda-sarjana';
             if (s.includes('walimatul') || s.includes('khitan') || s.includes('sunat')) return 'walimatul-khitan';
+            if (s.includes('green mosque') || s.includes('mosque') || s.includes('syiar')) return 'green-mosque';
+            if (s.includes('walimatus safar') || s.includes('safar') || s.includes('haji') || s.includes('umrah')) return 'walimatus-safar';
             if (s.includes('halal') || s.includes('silaturahmi') || s.includes('ketupat')) return 'halal-bihalal';
             if (s.includes('syukuran-rumah') || s.includes('rumah baru') || s.includes('kediaman') || s.includes('tasyakuran rumah')) return 'syukuran-rumah';
             if (s.includes('tahlil') || s.includes('doa bersama') || s.includes('haul')) return 'tahlilan-khusyuk';
-            if (s.includes('kids') || s.includes('anak') || s.includes('balon')) return 'kids-birthday';
-            if (s.includes('golden') || s.includes('birthday') || s.includes('milad') || s.includes('ultah') || s.includes('ulang')) return 'golden-birthday';
-            if (s.includes('baby') || s.includes('aqiqah') || s.includes('tasmiyah')) return 'baby-aqiqah';
+            if (s.includes('birthday') || s.includes('ultah') || s.includes('ulang')) return 'golden-birthday';
+            if (s.includes('baby') || s.includes('pastel') || s.includes('aqiqah')) return 'baby-aqiqah';
             if (s.includes('snowfall') || s.includes('snow')) return 'snowfall-white';
             if (s.includes('minimalist') || s.includes('floral') || s.includes('editorial') || s.includes('basic')) return 'minimalist-floral';
 
             // Check selected category for non-wedding events
             const selectedCatVal = (document.querySelector('input[name="category"]:checked')?.value || 'Pernikahan').toLowerCase();
-            if (selectedCatVal.includes('wisuda')) return 'wisuda-sarjana';
+            if (selectedCatVal.includes('wisuda')) return 'modern-graduate';
             if (selectedCatVal.includes('khitan')) return 'walimatul-khitan';
             if (selectedCatVal.includes('keagamaan')) return 'tahlilan-khusyuk';
-            if (selectedCatVal.includes('ulang') || selectedCatVal.includes('ultah') || selectedCatVal.includes('birthday')) return 'golden-birthday';
+            if (selectedCatVal.includes('ulang') || selectedCatVal.includes('ultah') || selectedCatVal.includes('birthday')) return 'cheerful-birthday';
             if (selectedCatVal.includes('aqiqah')) return 'baby-aqiqah';
-            if (selectedCatVal.includes('formal') || selectedCatVal.includes('bisnis')) return 'formal-corporate';
+            if (selectedCatVal.includes('formal') || selectedCatVal.includes('bisnis') || selectedCatVal.includes('seminar')) return 'clean-seminar';
 
             return 'chibi-red';
         }

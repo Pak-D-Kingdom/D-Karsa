@@ -4,33 +4,34 @@
         {{-- Section Header + Category Summary --}}
         <div class="grid lg:grid-cols-12 gap-8 items-end mb-12">
             <div class="lg:col-span-7">
-                <span class="alis">
-                    <svg aria-hidden="true" class="w-3.5 h-3.5"><use href="#i-centang-biru"></use></svg>
-                    Katalog Undangan Digital Multi-Kategori
-                </span>
-                <h2 class="ow-h2 mt-3">
-                    <span class="t-bold">Semua Acara,</span> dari <span class="t-script">Pernikahan</span> hingga <span class="t-bold">Halal Bihalal &amp; Khitan</span>
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-pink-200 shadow-sm text-xs font-bold text-ink mb-3">
+                    <span class="text-brand font-extrabold uppercase tracking-wider text-[11px]">Katalog Desain</span>
+                    <span class="text-ink/20">•</span>
+                    <span class="text-ink2 font-medium">95+ Pilihan Tema Siap Pakai</span>
+                </div>
+                <h2 class="font-serif text-2xl sm:text-4xl font-bold text-ink tracking-tight">
+                    Desain Eksklusif untuk <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand via-accent to-pink-600 font-extrabold">Setiap Momen Bahagia</span>
                 </h2>
-                <p class="mt-3 text-ink2 text-base leading-relaxed max-w-2xl">
-                    Pilih kategori acara kalian di bawah ini. Setiap undangan dilengkapi link nama tamu, musik latar, hitung mundur, peta lokasi, serta buku tamu &amp; konfirmasi kehadiran online.
+                <p class="mt-3 text-ink2 text-sm sm:text-base leading-relaxed max-w-2xl">
+                    Pilih tema favorit Anda berdasarkan kategori acara atau tingkat paket. Setiap undangan sudah dilengkapi tautan nama tamu WhatsApp, musik latar, hitung mundur, peta navigasi, dan buku tamu online.
                 </p>
             </div>
 
             {{-- Category Quick Stats --}}
             <div class="lg:col-span-5 grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-                <div class="bg-white/90 border border-ink/10 rounded-2xl p-3.5 shadow-sm">
+                <div class="bg-white/90 border border-pink-100 rounded-2xl p-3.5 shadow-sm hover:border-brand/30 transition">
                     <b class="block font-serif text-2xl font-bold text-brand leading-none">💍 Wedding</b>
-                    <span class="text-xs font-bold text-ink mt-1 block">Pernikahan</span>
+                    <span class="text-xs font-bold text-ink mt-1.5 block">Pernikahan</span>
                     <span class="text-[11px] text-ink3">Adat &amp; Modern 3D</span>
                 </div>
-                <div class="bg-white/90 border border-ink/10 rounded-2xl p-3.5 shadow-sm">
+                <div class="bg-white/90 border border-pink-100 rounded-2xl p-3.5 shadow-sm hover:border-brand/30 transition">
                     <b class="block font-serif text-2xl font-bold text-brand leading-none">🕌 Khitan &amp; HBH</b>
-                    <span class="text-xs font-bold text-ink mt-1 block">Khitan &amp; Halal Bihalal</span>
-                    <span class="text-[11px] text-ink3">Islami &amp; Silaturahmi</span>
+                    <span class="text-xs font-bold text-ink mt-1.5 block">Khitan &amp; Halal Bihalal</span>
+                    <span class="text-[11px] text-ink3">Islami &amp; Syar'i</span>
                 </div>
-                <div class="bg-white/90 border border-ink/10 rounded-2xl p-3.5 shadow-sm col-span-2 sm:col-span-1">
-                    <b class="block font-serif text-2xl font-bold text-brand leading-none">🎉 Ultah &amp; Syukuran</b>
-                    <span class="text-xs font-bold text-ink mt-1 block">Aqiqah &amp; Milad</span>
+                <div class="bg-white/90 border border-pink-100 rounded-2xl p-3.5 shadow-sm col-span-2 sm:col-span-1 hover:border-brand/30 transition">
+                    <b class="block font-serif text-2xl font-bold text-brand leading-none">🎉 Ultah &amp; Aqiqah</b>
+                    <span class="text-xs font-bold text-ink mt-1.5 block">Milad &amp; Syukuran</span>
                     <span class="text-[11px] text-ink3">Ceria &amp; Doa Bersama</span>
                 </div>
             </div>
@@ -104,7 +105,7 @@
                 <article data-category="{{ $t['category'] }}" data-tier="{{ $cardTier }}" class="theme-card sel {{ $isCustom ? 'border-2 border-purple-400 bg-gradient-to-b from-white to-purple-50/50' : ($loop->iteration % 2 === 0 ? 'sel--merah' : 'sel--motif') }} !p-4 flex flex-col justify-between group transition duration-300 hover:-translate-y-1">
                     <div>
                         <figure class="relative aspect-[16/11] rounded-[18px] overflow-hidden bg-sunk shadow-sm cursor-pointer group/fig"
-                                onclick="{{ !empty($t['live_url']) ? "window.open('{$t['live_url']}', '_blank')" : ($isCustom ? "selectPackageCustomRequest()" : "openThemePreviewModal('" . \Illuminate\Support\Str::slug($t['name']) . "')") }}">
+                                onclick="{{ $isCustom ? "selectPackageCustomRequest()" : "openThemePreviewModal('" . ($t['template_key'] ?? $t['key'] ?? \Illuminate\Support\Str::slug($t['name'])) . "')" }}">
                             <img src="{{ $t['img'] }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="{{ $t['name'] }}" loading="lazy">
                             <div class="absolute inset-0 bg-gradient-to-t from-[#120a0c]/85 via-transparent to-transparent"></div>
                             
@@ -133,7 +134,7 @@
                             @endif
                         </figure>
 
-                        <div class="mt-4 px-1 cursor-pointer" onclick="{{ $isCustom ? 'selectPackageCustomRequest()' : "openThemePreviewModal('" . \Illuminate\Support\Str::slug($t['name']) . "')" }}">
+                        <div class="mt-4 px-1 cursor-pointer" onclick="{{ $isCustom ? 'selectPackageCustomRequest()' : "openThemePreviewModal('" . ($t['template_key'] ?? $t['key'] ?? \Illuminate\Support\Str::slug($t['name'])) . "')" }}">
                             <div class="flex items-center justify-between gap-2">
                                 <h3 class="font-serif text-2xl font-bold text-ink leading-tight group-hover:text-brand transition">{{ $t['name'] }}</h3>
                                 <svg aria-hidden="true" class="w-4 h-4 shrink-0"><use href="#i-centang-biru"></use></svg>
@@ -159,7 +160,7 @@
                             </button>
                         @else
                             <button type="button"
-                                    onclick="{{ !empty($t['live_url']) ? "window.open('{$t['live_url']}', '_blank')" : "openThemePreviewModal('" . \Illuminate\Support\Str::slug($t['name']) . "')" }}"
+                                    onclick="{{ $isCustom ? "selectPackageCustomRequest()" : "openThemePreviewModal('" . ($t['template_key'] ?? $t['key'] ?? \Illuminate\Support\Str::slug($t['name'])) . "')" }}"
                                     class="px-3.5 py-1.5 rounded-full bg-white text-ink text-xs font-bold border border-ink/15 hover:border-brand hover:text-brand transition flex items-center gap-1.5 shadow-sm">
                                 <span>👁️</span> Lihat Preview
                             </button>

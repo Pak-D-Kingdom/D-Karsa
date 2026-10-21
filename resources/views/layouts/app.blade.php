@@ -75,82 +75,101 @@
         .ow-h1, .ow-h2 {
             font-family: var(--font-serif);
             font-weight: 700;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.025em;
             color: var(--ink);
             text-wrap: balance;
         }
-        .ow-h1 { font-size: clamp(2.4rem, 4.6vw, 4.1rem); line-height: 1.1; }
-        .ow-h2 { font-size: clamp(1.95rem, 3.8vw, 3.1rem); line-height: 1.15; }
+        .ow-h1 { font-size: clamp(2.3rem, 4.4vw, 3.8rem); line-height: 1.15; }
+        .ow-h2 { font-size: clamp(1.85rem, 3.6vw, 2.9rem); line-height: 1.2; }
         .t-script {
-            font-family: var(--font-script);
-            font-weight: 400;
-            color: var(--brand);
-            letter-spacing: 0.02em;
-            font-size: 1.25em;
-            line-height: 0.95;
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-weight: 700;
+            background: linear-gradient(135deg, #f63854 0%, #d91b48 60%, #991b1b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             display: inline-block;
-            padding: 0.02em 0.12em 0.08em 0.04em;
+            padding: 0 0.1em;
         }
         .t-bold {
             font-family: var(--font-sans);
             font-weight: 800;
-            letter-spacing: -0.025em;
-            font-size: 0.88em;
+            letter-spacing: -0.02em;
+            color: var(--ink);
         }
 
-        /* Eyebrow Pill (.alis) */
+        /* D'Karsa Modern Gradient & Heading Utilities */
+        .dk-gradient-text {
+            background: linear-gradient(135deg, #f63854 0%, #e02a49 50%, #991b1b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Modern Eyebrow Pill (.alis) */
         .alis {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.4rem 0.95rem;
+            padding: 0.45rem 1.1rem;
             border-radius: 999px;
             font-size: 0.72rem;
             font-weight: 800;
-            letter-spacing: 0.14em;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
             color: #b81f3d;
-            background: var(--accent-soft);
+            background: linear-gradient(135deg, #fff0f3, #ffe8ec);
+            border: 1px solid rgba(246, 56, 84, 0.2);
+            box-shadow: 0 2px 8px -2px rgba(246, 56, 84, 0.12);
         }
 
-        /* Our-Wedding Buttons (.tbl) */
+        /* Modern D'Karsa Buttons (.tbl) */
         .tbl {
             display: inline-flex;
             align-items: center;
-            gap: 0.85rem;
+            gap: 0.75rem;
             white-space: nowrap;
             height: 3.25rem;
-            padding: 0 0.45rem 0 1.4rem;
+            padding: 0 1.5rem;
             border-radius: 999px;
             font-weight: 700;
             font-size: 0.95rem;
-            letter-spacing: -0.005em;
-            transition: transform 0.5s var(--ease), background-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
+            letter-spacing: -0.01em;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer;
         }
         .tbl:active { transform: scale(0.98); }
         .tbl__ikon {
-            width: 2.4rem;
-            height: 2.4rem;
+            width: 2rem;
+            height: 2rem;
             border-radius: 999px;
             display: grid;
             place-items: center;
-            transition: transform 0.6s var(--ease);
+            transition: transform 0.3s ease;
         }
-        .tbl:hover .tbl__ikon { transform: translate(2px, -1px) scale(1.05); }
+        .tbl:hover .tbl__ikon { transform: translateX(3px); }
         .tbl--utama {
-            background: var(--cta);
+            background: linear-gradient(135deg, #f63854 0%, #e02a49 60%, #b81835 100%);
             color: #fff;
-            box-shadow: 0 16px 30px -14px rgba(224, 42, 73, 0.55);
+            box-shadow: 0 12px 28px -8px rgba(230, 40, 70, 0.5);
+            border: 1px solid rgba(255,255,255,0.2);
         }
-        .tbl--utama .tbl__ikon { background: #fff; color: var(--cta); }
+        .tbl--utama:hover {
+            box-shadow: 0 16px 34px -8px rgba(230, 40, 70, 0.65);
+            transform: translateY(-2px);
+        }
+        .tbl--utama .tbl__ikon { background: rgba(255,255,255,0.2); color: #fff; }
         .tbl--kedua {
             color: var(--ink);
             background: #fff;
-            box-shadow: inset 0 0 0 1px var(--line-2);
-            padding-right: 1.4rem;
+            border: 1.5px solid rgba(27, 20, 22, 0.12);
+            box-shadow: 0 4px 14px -4px rgba(27, 20, 22, 0.06);
         }
-        .tbl--kedua:hover { box-shadow: inset 0 0 0 1px var(--ink); }
+        .tbl--kedua:hover {
+            border-color: var(--brand);
+            color: var(--brand);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -6px rgba(246, 56, 84, 0.2);
+        }
 
         /* Sections & Kawung Motif */
         .sec--blush {

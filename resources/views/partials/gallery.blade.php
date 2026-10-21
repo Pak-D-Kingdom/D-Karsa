@@ -2,18 +2,21 @@
 <section id="portofolio" class="py-20 md:py-28 sec--blush overflow-hidden">
     <div class="max-w-[1200px] mx-auto px-5 md:px-8 flex flex-wrap items-end justify-between gap-6 mb-10">
         <div>
-            <span class="alis">
-                <svg aria-hidden="true" class="w-3.5 h-3.5"><use href="#i-centang-biru"></use></svg>
-                Portofolio &amp; Ulasan Klien D'Karsa
-            </span>
-            <h2 class="ow-h2 mt-3">
-                Klien <span class="t-script">Paling Puas</span> <span class="t-bold">di Setiap Acara</span>
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-pink-200 shadow-sm text-xs font-bold text-ink mb-3">
+                <span class="text-brand font-extrabold uppercase tracking-wider text-[11px]">Portofolio Klien</span>
+                <span class="text-ink/20">•</span>
+                <span class="text-ink2 font-medium">Ulasan Nyata dari Pengguna</span>
+            </div>
+            <h2 class="font-serif text-2xl sm:text-4xl font-bold text-ink tracking-tight">
+                Momen Bahagia yang <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand via-accent to-pink-600 font-extrabold">Telah Terwujud</span>
             </h2>
-            <p class="mt-2 text-ink2 text-base">Hasil karya undangan digital untuk Pernikahan, Halal Bihalal, Khitanan, Aqiqah, Ulang Tahun, dan Syukuran bersama D'Karsa.</p>
+            <p class="mt-2 text-ink2 text-sm sm:text-base max-w-2xl leading-relaxed">
+                Hasil karya undangan digital untuk Pernikahan, Halal Bihalal, Khitanan, Aqiqah, Ulang Tahun, dan Syukuran bersama D'Karsa.
+            </p>
         </div>
         <div class="flex items-center gap-3">
             <button type="button" onclick="document.getElementById('galleryMarquee').classList.toggle('dijeda')"
-                    class="w-11 h-11 rounded-full bg-white grid place-items-center shadow-sm border border-ink/15 hover:border-ink transition"
+                    class="w-11 h-11 rounded-full bg-white grid place-items-center shadow-sm border border-ink/15 hover:border-brand text-ink hover:text-brand transition"
                     title="Jeda / Putar portofolio">
                 ⏸
             </button>

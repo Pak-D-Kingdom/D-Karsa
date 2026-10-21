@@ -3,9 +3,13 @@
     <div class="max-w-[1200px] mx-auto px-5 md:px-8">
         {{-- Header: D'Karsa Studio & Layanan Terima Beres --}}
         <div class="max-w-2xl mb-12">
-            <span class="alis">D'Karsa Studio &amp; Layanan Terima Beres</span>
-            <h2 class="ow-h2 mt-3">
-                Bebas <span class="t-script">berkreasi sendiri,</span> atau <span class="t-bold">terima beres</span>
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-pink-200 shadow-sm text-xs font-bold text-ink mb-3">
+                <span class="text-brand font-extrabold uppercase tracking-wider text-[11px]">D'Karsa Studio &amp; Layanan</span>
+                <span class="text-ink/20">•</span>
+                <span class="text-ink2 font-medium">Kustomisasi Fleksibel</span>
+            </div>
+            <h2 class="font-serif text-2xl sm:text-4xl font-bold text-ink tracking-tight">
+                Bebas <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand via-accent to-pink-600 font-extrabold">Berkreasi Sendiri</span> atau <span class="text-ink font-bold">Terima Beres</span>
             </h2>
             <p class="mt-3 text-ink2 text-base leading-relaxed">
                 Fleksibel sepenuhnya. Anda bisa menyunting sendiri undangan kapan pun dari HP/laptop, atau serahkan seluruh pembuatan kepada tim desainer D'Karsa sampai siap disebarkan.
@@ -96,9 +100,13 @@
         {{-- Sebar ke Tamu Tanpa Batas (Split Block like #tamu on our-wedding.link) --}}
         <div class="mt-16 grid lg:grid-cols-12 gap-8 items-center sel sel--merah !p-7 md:!p-11">
             <div class="lg:col-span-7 space-y-4">
-                <span class="alis">Manajemen Tamu Undangan</span>
-                <h3 class="ow-h2">
-                    Sebar ke tamu <span class="t-script">tanpa batas</span> lewat WhatsApp
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-pink-200 shadow-sm text-xs font-bold text-ink mb-1">
+                    <span class="text-brand font-extrabold uppercase tracking-wider text-[11px]">Manajemen Tamu</span>
+                    <span class="text-ink/20">•</span>
+                    <span class="text-ink2 font-medium">WhatsApp Generator</span>
+                </div>
+                <h3 class="font-serif text-2xl sm:text-3xl font-bold text-ink tracking-tight">
+                    Sebarkan Undangan <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand to-accent font-extrabold">Tanpa Batas Tamu</span> via WhatsApp
                 </h3>
                 <p class="text-ink2 text-sm md:text-base leading-relaxed">
                     Bagikan undangan ke tamu sebanyak apa pun lewat WhatsApp, link personal, atau QR Code. Nama setiap tamu tampil otomatis di sampul undangan secara eksklusif.
@@ -204,9 +212,13 @@
         {{-- Buku Tamu Digital Section (#buku-tamu from our-wedding.link) --}}
         <div id="buku-tamu" class="mt-20 pt-16 border-t border-ink/10">
             <div class="text-center max-w-2xl mx-auto mb-12">
-                <span class="alis">Buku Tamu Digital QR Code</span>
-                <h2 class="ow-h2 mt-3">
-                    Hari H <span class="t-script">tanpa antre,</span> semua <span class="t-bold">tercatat otomatis</span>
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-pink-200 shadow-sm text-xs font-bold text-ink mb-3">
+                    <span class="text-brand font-extrabold uppercase tracking-wider text-[11px]">Buku Tamu Digital</span>
+                    <span class="text-ink/20">•</span>
+                    <span class="text-ink2 font-medium">QR Code Check-in</span>
+                </div>
+                <h2 class="font-serif text-2xl sm:text-4xl font-bold text-ink tracking-tight">
+                    Hari H <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand to-accent font-extrabold">Tanpa Antre</span>, Semua Tercatat Otomatis
                 </h2>
                 <p class="mt-3 text-ink2 text-base">
                     Aplikasi penerima tamu, layar sapa di gedung, struk souvenir, hingga laporan kehadiran Excel yang tersambung langsung dengan undangan D'Karsa.

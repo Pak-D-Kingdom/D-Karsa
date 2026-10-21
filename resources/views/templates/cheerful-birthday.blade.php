@@ -340,7 +340,7 @@
                                 <b class="text-sm font-mono text-party-dark block">{{ $couple->bank_account_1 }}</b>
                                 <span class="text-xs text-party-muted">a.n. {{ $couple->bank_holder_1 ?? $personName }}</span>
                             </div>
-                            <button type="button" onclick="copyToClipboard('{{ $couple->bank_account_1 }}', 'Nomor rekening berhasil disalin!') class="px-3 py-1.5 rounded-xl bg-party-blue text-white text-xs font-bold hover:bg-blue-600 transition">
+                            <button type="button" onclick="copyToClipboard('{{ $couple->bank_account_1 }}', 'Nomor rekening berhasil disalin!')" class="px-3 py-1.5 rounded-xl bg-party-blue text-white text-xs font-bold hover:bg-blue-600 transition">
                                 Salin
                             </button>
                         </div>

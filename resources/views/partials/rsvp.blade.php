@@ -3,12 +3,16 @@
     <div class="max-w-[1200px] mx-auto px-5 md:px-8">
         {{-- Pricing Header --}}
         <div class="text-center max-w-2xl mx-auto mb-14">
-            <span class="alis">Paket Undangan D'Karsa</span>
-            <h2 class="ow-h2 mt-3">
-                Harga <span class="t-script">bersahabat,</span> fitur dan desain <span class="t-bold">paling lengkap!</span>
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-pink-200 shadow-sm text-xs font-bold text-ink mb-3">
+                <span class="text-brand font-extrabold uppercase tracking-wider text-[11px]">Pilihan Paket D'Karsa</span>
+                <span class="text-ink/20">•</span>
+                <span class="text-ink2 font-medium">Transparan Tanpa Biaya Tersembunyi</span>
+            </div>
+            <h2 class="font-serif text-2xl sm:text-4xl font-bold text-ink tracking-tight">
+                Paket Investasi <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand to-accent font-extrabold">Terjangkau</span> dengan Fitur Terlengkap
             </h2>
             <p class="mt-3 text-ink2 text-base">
-                Pilih paket sesuai kebutuhan acara Anda. Bisa pesan terima beres (dibuatkan tim D'Karsa) atau susun mandiri, aktif selamanya tanpa biaya bulanan.
+                Pilih paket sesuai kebutuhan acara Anda. Aktif selamanya tanpa biaya bulanan, dilengkapi pembayaran otomatis instan via Midtrans.
             </p>
         </div>
 
@@ -266,15 +270,16 @@
         {{-- SELF-SERVICE BUILDER SPOTLIGHT & REVIEWS (#pesan) --}}
         <div id="pesan" class="mt-24 pt-16 border-t border-ink/10">
             <div class="text-center max-w-2xl mx-auto mb-12">
-                <span class="alis">
-                    <svg aria-hidden="true" class="w-3.5 h-3.5"><use href="#i-centang-biru"></use></svg>
-                    Self-Service Builder &amp; Ulasan Klien
-                </span>
-                <h2 class="ow-h2 mt-3">
-                    Rancang &amp; buat <span class="t-script">undangan impianmu</span> <span class="t-bold">secara mandiri</span>
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-pink-200 shadow-sm text-xs font-bold text-ink mb-3">
+                    <span class="text-brand font-extrabold uppercase tracking-wider text-[11px]">D'Karsa Builder</span>
+                    <span class="text-ink/20">•</span>
+                    <span class="text-ink2 font-medium">Mudah &amp; Cepat</span>
+                </div>
+                <h2 class="font-serif text-2xl sm:text-4xl font-bold text-ink tracking-tight">
+                    Rancang &amp; Buat <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand to-accent font-extrabold">Undangan Impian Anda</span> Secara Mandiri
                 </h2>
                 <p class="mt-3 text-ink2 text-base">
-                    Gunakan builder mandiri D'Karsa untuk membuat undangan digital cantik Anda hanya dalam hitungan menit, atau simak ulasan hangat dan pengalaman dari mereka yang telah merayakannya bersama kami.
+                    Gunakan builder mandiri D'Karsa untuk membuat undangan digital cantik Anda hanya dalam hitungan menit, langsung aktif otomatis setelah pembayaran.
                 </p>
             </div>
 

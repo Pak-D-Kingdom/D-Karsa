@@ -406,13 +406,16 @@ class TemplateManager
         }
 
         // Specific template keyword matching
-        if (str_contains($raw, 'cheerful') || str_contains($raw, 'fun minimalist')) {
+        if (str_contains($raw, 'cheerful') || str_contains($raw, 'confetti') || str_contains($raw, 'fun minimalist')) {
             return 'cheerful-birthday';
         }
-        if (str_contains($raw, 'little prince') || str_contains($raw, 'nordic')) {
+        if (str_contains($raw, 'golden') || str_contains($raw, 'luxury birthday') || str_contains($raw, 'milad')) {
+            return 'golden-birthday';
+        }
+        if (str_contains($raw, 'little prince') || str_contains($raw, 'prince') || str_contains($raw, 'nordic')) {
             return 'little-prince';
         }
-        if (str_contains($raw, 'royal tasmiyah') || str_contains($raw, 'sultan')) {
+        if (str_contains($raw, 'royal tasmiyah') || str_contains($raw, 'tasmiyah') || str_contains($raw, 'sultan')) {
             return 'royal-tasmiyah';
         }
         if (str_contains($raw, 'green mosque') || str_contains($raw, 'syiar') || (str_contains($raw, 'pengajian') && !str_contains($raw, 'rumah'))) {
@@ -421,13 +424,13 @@ class TemplateManager
         if (str_contains($raw, 'walimatus safar') || str_contains($raw, 'safar') || str_contains($raw, 'haji') || str_contains($raw, 'umrah')) {
             return 'walimatus-safar';
         }
-        if (str_contains($raw, 'modern graduate')) {
+        if (str_contains($raw, 'modern graduate') || str_contains($raw, 'graduate') || str_contains($raw, 'modern-graduate')) {
             return 'modern-graduate';
         }
         if (str_contains($raw, 'scholar luxury') || str_contains($raw, 'valedictorian') || str_contains($raw, 'ivy')) {
             return 'scholar-luxury';
         }
-        if (str_contains($raw, 'clean seminar') || str_contains($raw, 'workshop')) {
+        if (str_contains($raw, 'clean seminar') || str_contains($raw, 'clean tech') || str_contains($raw, 'seminar') || str_contains($raw, 'workshop') || str_contains($raw, 'clean-seminar')) {
             return 'clean-seminar';
         }
         if (str_contains($raw, 'reuni') || str_contains($raw, 'alumni')) {

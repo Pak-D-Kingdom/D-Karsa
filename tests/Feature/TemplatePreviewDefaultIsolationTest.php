@@ -63,6 +63,124 @@ class TemplatePreviewDefaultIsolationTest extends TestCase
     }
 
     /**
+     * Test Cheerful Confetti Birthday renders playful party defaults
+     */
+    public function test_cheerful_birthday_demo_renders_authentic_defaults(): void
+    {
+        $response = $this->get('/demo/cheerful-birthday');
+
+        $response->assertStatus(200);
+        $response->assertSee('Arkan');
+        $response->assertSee('Muhammad Arkan Pratama');
+        $response->assertSee('Ulang Tahun ke-7');
+        $response->assertDontSee('Jessica Olivia');
+        $response->assertDontSee('Amanda Putri');
+    }
+
+    /**
+     * Test Golden Luxury Birthday renders dark gold VIP defaults
+     */
+    public function test_golden_birthday_demo_renders_authentic_defaults(): void
+    {
+        $response = $this->get('/demo/golden-birthday');
+
+        $response->assertStatus(200);
+        $response->assertSee('Jessica Olivia');
+        $response->assertSee('VIP Birthday Invitation');
+        $response->assertDontSee('Muhammad Arkan Pratama');
+    }
+
+    /**
+     * Test Modern Graduate Editorial renders academic graduation defaults
+     */
+    public function test_modern_graduate_demo_renders_authentic_defaults(): void
+    {
+        $response = $this->get('/demo/modern-graduate');
+
+        $response->assertStatus(200);
+        $response->assertSee('Faris');
+        $response->assertSee('Faris Al-Ghifari, S.T.');
+        $response->assertSee('Cum Laude');
+        $response->assertDontSee('LỄ THÀNH HÔN');
+        $response->assertDontSee('Akad Nikah');
+    }
+
+    /**
+     * Test Clean Tech Seminar & Workshop renders tech conference defaults
+     */
+    public function test_clean_seminar_demo_renders_authentic_defaults(): void
+    {
+        $response = $this->get('/demo/clean-seminar');
+
+        $response->assertStatus(200);
+        $response->assertSee('Indonesia AI Summit 2026');
+        $response->assertSee('Dr. Aris Sudarsono');
+        $response->assertSee('Keynote Speaker');
+        $response->assertDontSee('LỄ THÀNH HÔN');
+        $response->assertDontSee('Pengantin');
+    }
+
+    /**
+     * Test Green Mosque Syiar renders authentic Islamic tabligh akbar defaults
+     */
+    public function test_green_mosque_demo_renders_authentic_defaults(): void
+    {
+        $response = $this->get('/demo/green-mosque');
+
+        $response->assertStatus(200);
+        $response->assertSee('K.H. Ahmad Syarifuddin');
+        $response->assertSee('TABLIGH AKBAR');
+        $response->assertDontSee('Ketupat');
+        $response->assertDontSee('Bpk. H. Rahmat');
+    }
+
+    /**
+     * Test Little Prince Nordic Aqiqah renders authentic Nordic defaults
+     */
+    public function test_little_prince_demo_renders_authentic_defaults(): void
+    {
+        $response = $this->get('/demo/little-prince');
+
+        $response->assertStatus(200);
+        $response->assertSee('Muhammad Rayyan Al-Fatih');
+        $response->assertSee('Fajar Ramadhan');
+        $response->assertDontSee('Walimatul Khitan');
+        $response->assertDontSee('Dania Azkadina');
+    }
+
+    /**
+     * Test Royal Tasmiyah Sultan renders authentic luxury sultan defaults
+     */
+    public function test_royal_tasmiyah_demo_renders_authentic_defaults(): void
+    {
+        $response = $this->get('/demo/royal-tasmiyah');
+
+        $response->assertStatus(200);
+        $response->assertSee('Daniswara');
+        $response->assertSee('Danang Wibowo');
+        $response->assertDontSee('Dania Azkadina');
+    }
+
+    /**
+     * Test TemplateManager resolves distinct template keys correctly
+     */
+    public function test_template_manager_resolves_distinct_keys(): void
+    {
+        $this->assertEquals('cheerful-birthday', \App\Services\TemplateManager::resolveKey('Cheerful Confetti Birthday'));
+        $this->assertEquals('golden-birthday', \App\Services\TemplateManager::resolveKey('Golden Luxury Birthday'));
+        $this->assertEquals('golden-birthday', \App\Services\TemplateManager::resolveKey('Golden Luxury Birthday / Milad'));
+        $this->assertEquals('modern-graduate', \App\Services\TemplateManager::resolveKey('Modern Graduate Editorial'));
+        $this->assertEquals('clean-seminar', \App\Services\TemplateManager::resolveKey('Clean Tech Seminar & Workshop'));
+        $this->assertEquals('green-mosque', \App\Services\TemplateManager::resolveKey('Green Mosque Syiar & Tabligh Akbar'));
+        $this->assertEquals('green-mosque', \App\Services\TemplateManager::resolveKey('Green Mosque Syiar'));
+        $this->assertEquals('little-prince', \App\Services\TemplateManager::resolveKey('Little Prince Nordic Aqiqah'));
+        $this->assertEquals('little-prince', \App\Services\TemplateManager::resolveKey('Little Prince Nordic'));
+        $this->assertEquals('royal-tasmiyah', \App\Services\TemplateManager::resolveKey('Royal Tasmiyah & Aqiqah Sultan'));
+        $this->assertEquals('royal-tasmiyah', \App\Services\TemplateManager::resolveKey('Royal Tasmiyah Sultan'));
+        $this->assertEquals('chibi-red', \App\Services\TemplateManager::resolveKey('Chibi Red Oriental'));
+    }
+
+    /**
      * Test strictly ZERO occurrences of the word 'Chungdoi' across all views
      */
     public function test_zero_occurrences_of_forbidden_words(): void
