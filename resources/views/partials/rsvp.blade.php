@@ -276,9 +276,9 @@
                 </p>
             </div>
 
-            <div class="grid lg:grid-cols-12 gap-8 items-start">
+            <div class="grid lg:grid-cols-12 gap-8 items-start w-full min-w-0">
                 {{-- Self-Service Invitation Creator Showcase Card --}}
-                <div class="lg:col-span-7 bg-white rounded-3xl border border-stone-200/90 shadow-sm p-6 sm:p-9">
+                <div class="lg:col-span-7 bg-white rounded-3xl border border-stone-200/90 shadow-sm p-4 sm:p-6 md:p-9 min-w-0">
                     <div class="flex items-center gap-3 mb-6">
                         <span class="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 grid place-items-center text-lg font-bold">
                             ✨
@@ -351,7 +351,7 @@
                 </div>
 
                 {{-- Customer Reviews / Testimonials Feed --}}
-                <div class="lg:col-span-5">
+                <div class="lg:col-span-5 w-full min-w-0">
                     @include('partials.wishes')
                 </div>
             </div>

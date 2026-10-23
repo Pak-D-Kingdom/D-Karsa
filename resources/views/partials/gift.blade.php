@@ -135,11 +135,11 @@
 
         {{-- Closing CTA Banner --}}
         <div class="mt-16 rounded-3xl overflow-hidden grid lg:grid-cols-12 border border-orange-200 shadow-xl bg-gradient-to-br from-white via-orange-50/60 to-amber-100/40 relative">
-            <div class="lg:col-span-7 p-8 md:p-14 flex flex-col justify-center space-y-5 relative z-10">
-                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white border border-orange-200 shadow-xs text-xs font-bold text-ink w-max">
-                    <span class="text-orange-600 font-extrabold uppercase tracking-wider text-[11px]">Mulai Sekarang</span>
-                    <span class="text-stone-300">•</span>
-                    <span class="text-ink2 font-medium">Konsultasi Gratis Tanpa Komitmen</span>
+            <div class="lg:col-span-7 p-5 sm:p-8 md:p-14 flex flex-col justify-center space-y-4 sm:space-y-5 relative z-10 min-w-0">
+                <div class="inline-flex flex-wrap items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-xl bg-white border border-orange-200 shadow-xs text-xs font-bold text-ink max-w-full">
+                    <span class="text-orange-600 font-extrabold uppercase tracking-wider text-[10px] sm:text-[11px] shrink-0">Mulai Sekarang</span>
+                    <span class="text-stone-300 hidden sm:inline">•</span>
+                    <span class="text-ink2 font-medium text-[11px] sm:text-xs">Konsultasi Gratis Tanpa Komitmen</span>
                 </div>
                 <h3 class="font-serif text-2xl sm:text-4xl font-bold text-ink tracking-tight leading-tight">
                     Siap Membagikan Kebahagiaan <br class="hidden sm:inline">
@@ -148,12 +148,12 @@
                 <p class="text-ink2 text-sm sm:text-base max-w-[50ch] leading-relaxed">
                     Pilih desain favorit Anda sekarang, bagikan detail momen spesial, dan miliki undangan online berkelas yang siap sebar dalam hitungan menit.
                 </p>
-                <div class="flex flex-wrap gap-3 pt-2">
-                    <a href="{{ route('invitation.create') }}" class="px-6 py-3.5 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-extrabold text-sm shadow-md shadow-orange-500/25 hover:shadow-lg hover:shadow-orange-500/35 transition flex items-center gap-2">
+                <div class="flex flex-wrap gap-2.5 sm:gap-3 pt-2">
+                    <a href="{{ route('invitation.create') }}" class="px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-extrabold text-xs sm:text-sm shadow-md shadow-orange-500/25 hover:shadow-lg hover:shadow-orange-500/35 transition flex items-center gap-2">
                         <span>Buat Undangan Sekarang</span>
                         <span>→</span>
                     </a>
-                    <a href="#desain" class="px-6 py-3.5 rounded-xl bg-white hover:bg-stone-50 text-ink border border-stone-200 font-bold text-sm transition">
+                    <a href="#desain" class="px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl bg-white hover:bg-stone-50 text-ink border border-stone-200 font-bold text-xs sm:text-sm transition">
                         Lihat Katalog Desain
                     </a>
                 </div>

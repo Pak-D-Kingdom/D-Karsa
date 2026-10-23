@@ -1,5 +1,5 @@
 <!-- partials/wishes.blade.php (Ulasan & Testimoni Pelanggan D'Karsa) -->
-<div id="wishes" class="sel sel--motif !p-7 md:!p-9">
+<div id="wishes" class="sel sel--motif !p-4 sm:!p-7 md:!p-9 w-full min-w-0">
     <div class="flex items-center gap-3 mb-6">
         <span class="poin__ikon">
             <svg aria-hidden="true" class="w-5 h-5"><use href="#i-chats-circle"></use></svg>
@@ -16,7 +16,7 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('invitation.wish') }}" class="space-y-3.5 bg-blush/80 rounded-2xl p-5 border border-brand/15">
+    <form method="POST" action="{{ route('invitation.wish') }}" class="space-y-3.5 bg-blush/80 rounded-2xl p-3.5 sm:p-5 border border-brand/15">
         @csrf
         <input name="name" required placeholder="Nama Anda / Nama Pasangan" value="{{ old('name') }}"
                class="w-full rounded-xl border border-ink/15 px-4 py-3 bg-white text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-brand transition">

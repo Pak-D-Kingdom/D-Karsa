@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth lp-html">
+<html lang="id" class="scroll-smooth lp-html overflow-x-hidden">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <meta name="theme-color" content="#fffcfc">
     <title>@yield('title', 'Undangan Pernikahan')</title>
     <meta name="description" content="@yield('meta_description', 'Undangan pernikahan digital')">
@@ -63,11 +63,16 @@
             --ease: cubic-bezier(0.32, 0.72, 0, 1);
             --kawung: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cg fill='none' stroke='%23ea580c' stroke-width='.9'%3E%3Cellipse cx='22' cy='11' rx='5.5' ry='9'/%3E%3Cellipse cx='22' cy='33' rx='5.5' ry='9'/%3E%3Cellipse cx='11' cy='22' rx='9' ry='5.5'/%3E%3Cellipse cx='33' cy='22' rx='9' ry='5.5'/%3E%3Ccircle cx='22' cy='22' r='1.6'/%3E%3Ccircle r='2'/%3E%3Ccircle cx='44' r='2'/%3E%3Ccircle cy='44' r='2'/%3E%3Ccircle cx='44' cy='44' r='2'/%3E%3C/g%3E%3C/svg%3E");
         }
+        html, body {
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
         body {
             background: var(--bg);
             color: var(--ink);
             font-family: var(--font-sans);
-            overflow-x: clip;
+            overflow-x: hidden;
+            width: 100%;
         }
         body.lock { overflow: hidden; }
 
