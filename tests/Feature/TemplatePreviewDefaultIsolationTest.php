@@ -297,7 +297,43 @@ class TemplatePreviewDefaultIsolationTest extends TestCase
         $this->assertEquals('little-prince', \App\Services\TemplateManager::resolveKey('Little Prince Nordic'));
         $this->assertEquals('royal-tasmiyah', \App\Services\TemplateManager::resolveKey('Royal Tasmiyah & Aqiqah Sultan'));
         $this->assertEquals('royal-tasmiyah', \App\Services\TemplateManager::resolveKey('Royal Tasmiyah Sultan'));
+        $this->assertEquals('walimatul-khitan-sahaja', \App\Services\TemplateManager::resolveKey('Walimatul Khitan Sahaja Berkah'));
+        $this->assertEquals('walimatul-khitan-sahaja', \App\Services\TemplateManager::resolveKey('Walimatul Khitan Sahaja'));
+        $this->assertEquals('walimatul-khitan', \App\Services\TemplateManager::resolveKey('Walimatul Khitan Berkah Sholeh'));
         $this->assertEquals('chibi-red', \App\Services\TemplateManager::resolveKey('Chibi Red Oriental'));
+    }
+
+    /**
+     * Test Walimatul Khitan Sahaja (Basic Tier Khitan) renders authentic defaults
+     */
+    public function test_walimatul_khitan_sahaja_demo_renders_authentic_defaults(): void
+    {
+        $response = $this->get('/demo/walimatul-khitan-sahaja');
+
+        $response->assertStatus(200);
+        $response->assertSee('Ahmad Fatih');
+        $response->assertSee('Tasyakuran Walimatul Khitan');
+        $response->assertSee('Tasyakuran &amp; Doa Khitan', false);
+        $response->assertSee('1310018899221');
+        $response->assertSee('Hendra Pratama');
+        $response->assertSee('Rina Wijaya');
+    }
+
+    /**
+     * Test catalog contains a dedicated Basic tier Khitan template
+     */
+    public function test_catalog_contains_khitan_basic_template(): void
+    {
+        $themes = \App\Services\TemplateManager::getCatalogThemes();
+        $basicKhitanThemes = array_filter($themes, function ($t) {
+            return ($t['tier'] ?? '') === 'basic' && ($t['category'] ?? '') === 'khitanan';
+        });
+
+        $this->assertNotEmpty($basicKhitanThemes, 'Catalog must contain at least one Basic tier template for Khitanan.');
+        $khitanBasic = reset($basicKhitanThemes);
+        $this->assertEquals('walimatul-khitan-sahaja', $khitanBasic['key']);
+        $this->assertEquals('Rp50.000', $khitanBasic['price']);
+        $this->assertEquals('basic', $khitanBasic['tier']);
     }
 
     /**

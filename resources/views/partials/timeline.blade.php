@@ -1,257 +1,271 @@
-<!-- partials/timeline.blade.php (Fitur Unggulan, D'Karsa Studio & Buku Tamu Digital) -->
-<section id="fitur" class="py-20 md:py-28 motif motif--kiri">
-    <div class="max-w-[1200px] mx-auto px-5 md:px-8">
-        {{-- Header: D'Karsa Studio & Layanan Terima Beres --}}
-        <div class="max-w-2xl mb-12">
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-pink-200 shadow-sm text-xs font-bold text-ink mb-3">
-                <span class="text-brand font-extrabold uppercase tracking-wider text-[11px]">D'Karsa Studio &amp; Layanan</span>
-                <span class="text-ink/20">•</span>
-                <span class="text-ink2 font-medium">Kustomisasi Fleksibel</span>
+<!-- partials/timeline.blade.php (Fitur Pintar, Cara Kerja & Buku Tamu Digital D'Karsa) -->
+<section id="fitur" class="py-20 md:py-28 bg-white relative overflow-hidden">
+    {{-- Decorative Background Grid --}}
+    <div aria-hidden="true" class="absolute inset-0 bg-[radial-gradient(#fed7aa_1px,transparent_1px)] [background-size:24px_24px] opacity-40 pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        {{-- Section Header --}}
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-orange-50 border border-orange-200 text-xs font-bold text-orange-800 mb-3 shadow-2xs">
+                <span class="w-2 h-2 rounded-full bg-orange-500 animate-ping"></span>
+                <span>TEKNOLOGI &amp; FITUR UNGGULAN D'KARSA</span>
             </div>
-            <h2 class="font-serif text-2xl sm:text-4xl font-bold text-ink tracking-tight">
-                Bebas <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand via-accent to-pink-600 font-extrabold">Berkreasi Sendiri</span> atau <span class="text-ink font-bold">Terima Beres</span>
+            <h2 class="font-serif text-2xl sm:text-4xl lg:text-[2.75rem] font-bold text-ink tracking-tight leading-tight">
+                Dirancang untuk Kemudahan Anda, <br class="hidden sm:inline">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 font-extrabold">Memukau Setiap Tamu Undangan</span>
             </h2>
-            <p class="mt-3 text-ink2 text-base leading-relaxed">
-                Fleksibel sepenuhnya. Anda bisa menyunting sendiri undangan kapan pun dari HP/laptop, atau serahkan seluruh pembuatan kepada tim desainer D'Karsa sampai siap disebarkan.
+            <p class="mt-4 text-ink2 text-base sm:text-lg leading-relaxed">
+                Nikmati fitur terlengkap tanpa batasan. Dari pembuatan super cepat, personalisasi nama tamu tanpa batas, hingga integrasi buku tamu QR Code di lokasi acara.
             </p>
         </div>
 
-        {{-- 2 Main Service Mode Cards --}}
-        <div class="grid md:grid-cols-2 gap-6">
-            {{-- Mode 01: Self-Service Studio --}}
-            <article class="sel sel--motif flex flex-col justify-between p-7 md:p-8">
+        {{-- 6 Modern D'Karsa Feature Cards --}}
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            {{-- Feature 1: Instant Activation --}}
+            <div class="p-7 rounded-2xl bg-[#fffdfb] border border-orange-200/80 shadow-sm hover:shadow-xl hover:border-orange-400 hover:-translate-y-1 transition duration-300 flex flex-col justify-between group">
                 <div>
-                    <div class="flex items-center justify-between gap-4">
-                        <span class="font-serif text-3xl font-semibold text-brand leading-none">01</span>
-                        <span class="text-[11px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full bg-accent-soft text-accent">D'Karsa Studio</span>
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 text-white grid place-items-center text-xl shadow-md shadow-orange-500/20 mb-5 group-hover:scale-110 transition duration-300">
+                        ⚡
                     </div>
-                    <h3 class="font-serif text-3xl font-semibold text-ink mt-4">Kustom Mandiri Ala Canva</h3>
-                    <p class="text-sm text-ink2 mt-1">Atur sendiri tata letak, foto, musik latar, dan kalimat undangan</p>
-
-                    <div class="mt-5 pt-5 border-t border-ink/10 space-y-3 text-sm text-ink2">
-                        <div class="flex items-start gap-3">
-                            <span class="poin__ikon !w-9 !h-9">✨</span>
-                            <div>
-                                <b class="block text-ink">Drag &amp; Drop Elemen Siap Pakai</b>
-                                <span class="text-xs text-ink3">RSVP, amplop digital, hitung mundur, cerita cinta, dan galeri tinggal pasang.</span>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <span class="poin__ikon !w-9 !h-9">🔄</span>
-                            <div>
-                                <b class="block text-ink">Edit Tanpa Batas Kapan Saja</b>
-                                <span class="text-xs text-ink3">Ubah jadwal, lokasi, atau foto bahkan setelah undangan aktif.</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mt-7 flex flex-wrap gap-3">
-                    <a href="{{ route('invitation.create') }}" class="tbl tbl--kedua !h-11 !text-sm">
-                        <span>Mulai Buat Sendiri</span>
-                        <span class="tbl__ikon !w-8 !h-8">
-                            <svg aria-hidden="true" class="w-3.5 h-3.5"><use href="#i-arrow-up-right"></use></svg>
-                        </span>
-                    </a>
-                </div>
-            </article>
-
-            {{-- Mode 02: Terima Beres by D'Karsa Team (Highlighted) --}}
-            <article class="sel sel--merah flex flex-col justify-between p-7 md:p-8" style="box-shadow: 0 0 0 2px var(--brand), var(--shadow);">
-                <div>
-                    <div class="flex items-center justify-between gap-4">
-                        <span class="font-serif text-3xl font-semibold text-brand leading-none">02</span>
-                        <span class="text-[11px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full bg-[#c81e3a] text-white">Paling Diminati</span>
-                    </div>
-                    <h3 class="font-serif text-3xl font-semibold text-ink mt-4">Layanan Terima Beres</h3>
-                    <p class="text-sm text-ink2 mt-1">Cocok untuk pasangan sibuk — kirim data via WhatsApp, langsung jadi!</p>
-
-                    <div class="mt-5 pt-5 border-t border-ink/10 space-y-3 text-sm text-ink2">
-                        <div class="flex items-start gap-3">
-                            <span class="poin__ikon !w-9 !h-9">⚡</span>
-                            <div>
-                                <b class="block text-ink">Pengerjaan Ekspres Hitungan Jam</b>
-                                <span class="text-xs text-ink3">Tim D'Karsa merapikan foto, memasukkan lokasi Maps, &amp; menyusun acara.</span>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <span class="poin__ikon !w-9 !h-9">
-                                <svg aria-hidden="true" class="w-4 h-4"><use href="#i-check-circle"></use></svg>
-                            </span>
-                            <div>
-                                <b class="block text-ink">Gratis Revisi &amp; Panduan Sebar Tamu</b>
-                                <span class="text-xs text-ink3">Didampingi tim support sampai hari H acara pernikahan selesai.</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mt-7 flex flex-wrap gap-3">
-                    <a href="{{ route('invitation.create') }}" class="tbl tbl--utama !h-11 !text-sm">
-                        <span>Pesan Undangan Sekarang</span>
-                        <span class="tbl__ikon !w-8 !h-8">
-                            <svg aria-hidden="true" class="w-3.5 h-3.5"><use href="#i-arrow-up-right"></use></svg>
-                        </span>
-                    </a>
-                </div>
-            </article>
-        </div>
-
-        {{-- Sebar ke Tamu Tanpa Batas (Split Block like #tamu on our-wedding.link) --}}
-        <div class="mt-16 grid lg:grid-cols-12 gap-8 items-center sel sel--merah !p-7 md:!p-11">
-            <div class="lg:col-span-7 space-y-4">
-                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-pink-200 shadow-sm text-xs font-bold text-ink mb-1">
-                    <span class="text-brand font-extrabold uppercase tracking-wider text-[11px]">Manajemen Tamu</span>
-                    <span class="text-ink/20">•</span>
-                    <span class="text-ink2 font-medium">WhatsApp Generator</span>
-                </div>
-                <h3 class="font-serif text-2xl sm:text-3xl font-bold text-ink tracking-tight">
-                    Sebarkan Undangan <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand to-accent font-extrabold">Tanpa Batas Tamu</span> via WhatsApp
-                </h3>
-                <p class="text-ink2 text-sm md:text-base leading-relaxed">
-                    Bagikan undangan ke tamu sebanyak apa pun lewat WhatsApp, link personal, atau QR Code. Nama setiap tamu tampil otomatis di sampul undangan secara eksklusif.
-                </p>
-                <div class="grid sm:grid-cols-2 gap-4 pt-2">
-                    <div class="bg-white/90 rounded-2xl p-4 border border-ink/10">
-                        <b class="text-sm font-bold text-ink block">✓ Link Nama Tamu Otomatis</b>
-                        <span class="text-xs text-ink2 mt-1 block">Contoh: <code>d-karsa.id/laras-bima?to=Bpk+Hartono</code></span>
-                    </div>
-                    <div class="bg-white/90 rounded-2xl p-4 border border-ink/10">
-                        <b class="text-sm font-bold text-ink block">✓ Import Tamu dari Excel</b>
-                        <span class="text-xs text-ink2 mt-1 block">Unggah ratusan nama tamu sekaligus &amp; kirim pesan WA otomatis.</span>
-                    </div>
-                </div>
-            </div>
-
-            {{-- WhatsApp Chat Preview Card (.kp-wa from our-wedding.link) --}}
-            <div class="lg:col-span-5">
-                <div class="bg-white rounded-3xl p-6 shadow-xl border border-ink/10 relative">
-                    <div class="flex items-center justify-between border-b border-ink/10 pb-3 mb-4">
-                        <div class="flex items-center gap-2.5">
-                            <span class="w-9 h-9 rounded-full bg-[#25d366]/15 text-[#128c7e] grid place-items-center font-bold text-sm">WA</span>
-                            <div>
-                                <b class="text-xs font-extrabold uppercase tracking-wider text-[#128c7e] block">Preview Pesan WhatsApp</b>
-                                <span class="text-xs text-ink3">Otomatis menyertakan nama tamu</span>
-                            </div>
-                        </div>
-                        <span class="text-[11px] font-semibold text-ink3">09.12 ✓✓</span>
-                    </div>
-                    <p class="text-xs md:text-sm text-ink2 leading-relaxed">
-                        Kepada Yth. <b class="text-ink">Bpk. Hartono &amp; Keluarga</b>,<br>
-                        Tanpa mengurangi rasa hormat, kami mengundang Bapak/Ibu untuk hadir di acara pernikahan kami:
+                    <h3 class="font-bold text-lg text-ink">Aktivasi Instan &amp; Otomatis</h3>
+                    <p class="text-sm text-ink2 mt-2 leading-relaxed">
+                        Terintegrasi dengan payment gateway Midtrans. Undangan langsung aktif detik itu juga setelah pembayaran QRIS atau Virtual Account selesai.
                     </p>
-                    <div class="mt-3 p-3 rounded-2xl bg-blush border border-brand/20">
-                        <span class="text-xs font-extrabold text-accent block">d-karsa.id/laras-bima?to=Bpk-Hartono</span>
-                        <span class="text-[11px] text-ink3">Undangan Digital Resmi • Klik untuk membuka</span>
+                </div>
+                <div class="mt-6 pt-4 border-t border-orange-100 flex items-center gap-1.5 text-xs font-extrabold text-orange-600">
+                    <span>Otomatis 24/7 Tanpa Menunggu</span>
+                </div>
+            </div>
+
+            {{-- Feature 2: Unlimited WhatsApp Generator --}}
+            <div class="p-7 rounded-2xl bg-[#fffdfb] border border-orange-200/80 shadow-sm hover:shadow-xl hover:border-orange-400 hover:-translate-y-1 transition duration-300 flex flex-col justify-between group">
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white grid place-items-center text-xl shadow-md shadow-emerald-500/20 mb-5 group-hover:scale-110 transition duration-300">
+                        💌
                     </div>
+                    <h3 class="font-bold text-lg text-ink">Kirim Nama Tamu Sepuasnya</h3>
+                    <p class="text-sm text-ink2 mt-2 leading-relaxed">
+                        Generate ribuan link personal tamu secara instan. Setiap tamu akan melihat namanya tertera eksklusif pada amplop dan sampul undangan.
+                    </p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-orange-100 flex items-center gap-1.5 text-xs font-extrabold text-emerald-700">
+                    <span>Tanpa Batasan Jumlah Tamu</span>
+                </div>
+            </div>
+
+            {{-- Feature 3: Digital Envelope & QRIS --}}
+            <div class="p-7 rounded-2xl bg-[#fffdfb] border border-orange-200/80 shadow-sm hover:shadow-xl hover:border-orange-400 hover:-translate-y-1 transition duration-300 flex flex-col justify-between group">
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 text-white grid place-items-center text-xl shadow-md shadow-orange-500/20 mb-5 group-hover:scale-110 transition duration-300">
+                        💳
+                    </div>
+                    <h3 class="font-bold text-lg text-ink">Amplop Digital &amp; QRIS Kado</h3>
+                    <p class="text-sm text-ink2 mt-2 leading-relaxed">
+                        Tamu yang berhalangan hadir dapat mengirimkan tanda kasih dan kado secara mudah melalui scan QRIS atau transfer rekening bank resmi Anda.
+                    </p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-orange-100 flex items-center gap-1.5 text-xs font-extrabold text-orange-600">
+                    <span>100% Masuk ke Rekening Anda</span>
+                </div>
+            </div>
+
+            {{-- Feature 4: Interactive RSVP & Wishes --}}
+            <div class="p-7 rounded-2xl bg-[#fffdfb] border border-orange-200/80 shadow-sm hover:shadow-xl hover:border-orange-400 hover:-translate-y-1 transition duration-300 flex flex-col justify-between group">
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white grid place-items-center text-xl shadow-md shadow-blue-500/20 mb-5 group-hover:scale-110 transition duration-300">
+                        💬
+                    </div>
+                    <h3 class="font-bold text-lg text-ink">Konfirmasi RSVP &amp; Doa Restu</h3>
+                    <p class="text-sm text-ink2 mt-2 leading-relaxed">
+                        Pantau jumlah tamu hadir secara real-time untuk efisiensi catering. Tamu juga dapat menyampaikan untaian doa dan ucapan langsung di undangan.
+                    </p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-orange-100 flex items-center gap-1.5 text-xs font-extrabold text-blue-700">
+                    <span>Rekap Data Real-Time</span>
+                </div>
+            </div>
+
+            {{-- Feature 5: Precision Google Maps Navigation --}}
+            <div class="p-7 rounded-2xl bg-[#fffdfb] border border-orange-200/80 shadow-sm hover:shadow-xl hover:border-orange-400 hover:-translate-y-1 transition duration-300 flex flex-col justify-between group">
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-red-500 to-orange-600 text-white grid place-items-center text-xl shadow-md shadow-red-500/20 mb-5 group-hover:scale-110 transition duration-300">
+                        📍
+                    </div>
+                    <h3 class="font-bold text-lg text-ink">Navigasi Peta Rute Presisi</h3>
+                    <p class="text-sm text-ink2 mt-2 leading-relaxed">
+                        Tamu tidak akan tersesat. Tombol navigasi otomatis membuka rute tercepat via Google Maps langsung ke titik koordinat gedung atau rumah Anda.
+                    </p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-orange-100 flex items-center gap-1.5 text-xs font-extrabold text-orange-600">
+                    <span>1-Klik Buka Google Maps</span>
+                </div>
+            </div>
+
+            {{-- Feature 6: QR Code Check-in System --}}
+            <div class="p-7 rounded-2xl bg-[#fffdfb] border border-orange-200/80 shadow-sm hover:shadow-xl hover:border-orange-400 hover:-translate-y-1 transition duration-300 flex flex-col justify-between group">
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-600 text-white grid place-items-center text-xl shadow-md shadow-purple-500/20 mb-5 group-hover:scale-110 transition duration-300">
+                        📱
+                    </div>
+                    <h3 class="font-bold text-lg text-ink">QR Code Check-in Meja Tamu</h3>
+                    <p class="text-sm text-ink2 mt-2 leading-relaxed">
+                        Sistem penerima tamu modern: scan QR Code tiap tamu di pintu masuk gedung dalam hitungan detik. Penukaran souvenir dan meja VIP tercatat rapi.
+                    </p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-orange-100 flex items-center gap-1.5 text-xs font-extrabold text-purple-700">
+                    <span>Bebas Antrean di Hari H</span>
                 </div>
             </div>
         </div>
 
-        {{-- 6-Card Bento Grid (.bento from our-wedding.link) --}}
-        <div class="grid md:grid-cols-3 gap-4 mt-8">
-            <div class="sel sel--merah flex items-start gap-3.5 !p-5">
-                <span class="poin__ikon">
-                    <svg aria-hidden="true" class="w-5 h-5"><use href="#i-check-circle"></use></svg>
-                </span>
-                <div>
-                    <h4 class="font-bold text-sm text-ink">Aktif Selamanya</h4>
-                    <p class="text-xs text-ink2 mt-0.5">Tidak ada batas waktu aktif. Kenangan undangan digital bisa dibuka kapan pun.</p>
+        {{-- Section ID #cara-kerja: 2 Pilihan Cara Pembuatan --}}
+        <div id="cara-kerja" class="mt-24 pt-16 border-t border-orange-100">
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-orange-50 border border-orange-200 text-xs font-bold text-orange-800 mb-3">
+                    <span>FLEKSIBEL SEPENUHNYA</span>
                 </div>
-            </div>
-            <div class="sel sel--motif flex items-start gap-3.5 !p-5">
-                <span class="poin__ikon">
-                    <svg aria-hidden="true" class="w-5 h-5"><use href="#i-gift"></use></svg>
-                </span>
-                <div>
-                    <h4 class="font-bold text-sm text-ink">Amplop Digital &amp; QRIS</h4>
-                    <p class="text-xs text-ink2 mt-0.5">Tamu bisa kirim tanda kasih langsung ke rekening BCA, Mandiri, atau e-Wallet kalian.</p>
-                </div>
-            </div>
-            <div class="sel flex items-start gap-3.5 !p-5">
-                <span class="poin__ikon">⏰</span>
-                <div>
-                    <h4 class="font-bold text-sm text-ink">Zona Waktu Otomatis</h4>
-                    <p class="text-xs text-ink2 mt-0.5">Mendukung tampilan waktu akurat untuk seluruh tamu.</p>
-                    <div class="flex items-center gap-1.5 mt-1.5">
-                        <span class="font-serif text-xs px-2.5 py-0.5 rounded-full bg-ink text-white">WIB</span>
-                        <span class="font-serif text-xs px-2.5 py-0.5 rounded-full border border-ink/20 text-ink2">WITA</span>
-                        <span class="font-serif text-xs px-2.5 py-0.5 rounded-full border border-ink/20 text-ink2">WIT</span>
-                    </div>
-                </div>
-            </div>
-            <div class="sel flex items-start gap-3.5 !p-5">
-                <span class="poin__ikon">
-                    <svg aria-hidden="true" class="w-5 h-5"><use href="#i-map-pin"></use></svg>
-                </span>
-                <div>
-                    <h4 class="font-bold text-sm text-ink">Navigasi Google Maps</h4>
-                    <p class="text-xs text-ink2 mt-0.5">Tombol lokasi langsung membuka petunjuk arah akurat ke gedung acara.</p>
-                </div>
-            </div>
-            <div class="sel sel--motif flex items-start gap-3.5 !p-5">
-                <span class="poin__ikon">
-                    <svg aria-hidden="true" class="w-5 h-5"><use href="#i-music-notes"></use></svg>
-                </span>
-                <div>
-                    <h4 class="font-bold text-sm text-ink">Musik Latar &amp; Lagu Kustom</h4>
-                    <p class="text-xs text-ink2 mt-0.5">Pilih dari daftar lagu romantis atau unggah lagu favorit kalian sendiri (.mp3).</p>
-                </div>
-            </div>
-            <div class="sel sel--merah flex items-start gap-3.5 !p-5">
-                <span class="poin__ikon">
-                    <svg aria-hidden="true" class="w-5 h-5"><use href="#i-chats-circle"></use></svg>
-                </span>
-                <div>
-                    <h4 class="font-bold text-sm text-ink">RSVP &amp; Doa Real-Time</h4>
-                    <p class="text-xs text-ink2 mt-0.5">Pantau jumlah tamu yang hadir dan baca doa restu langsung dari dasbor.</p>
-                </div>
-            </div>
-        </div>
-
-        {{-- Buku Tamu Digital Section (#buku-tamu from our-wedding.link) --}}
-        <div id="buku-tamu" class="mt-20 pt-16 border-t border-ink/10">
-            <div class="text-center max-w-2xl mx-auto mb-12">
-                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-pink-200 shadow-sm text-xs font-bold text-ink mb-3">
-                    <span class="text-brand font-extrabold uppercase tracking-wider text-[11px]">Buku Tamu Digital</span>
-                    <span class="text-ink/20">•</span>
-                    <span class="text-ink2 font-medium">QR Code Check-in</span>
-                </div>
-                <h2 class="font-serif text-2xl sm:text-4xl font-bold text-ink tracking-tight">
-                    Hari H <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand to-accent font-extrabold">Tanpa Antre</span>, Semua Tercatat Otomatis
-                </h2>
+                <h3 class="font-serif text-2xl sm:text-4xl font-bold text-ink tracking-tight">
+                    Dua Cara Praktis Membuat Undangan di D'Karsa
+                </h3>
                 <p class="mt-3 text-ink2 text-base">
-                    Aplikasi penerima tamu, layar sapa di gedung, struk souvenir, hingga laporan kehadiran Excel yang tersambung langsung dengan undangan D'Karsa.
+                    Pilih sesuai preferensi Anda: edit mandiri dalam hitungan menit, atau serahkan semua kepada tim profesional kami.
                 </p>
             </div>
 
-            <ol class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 list-none m-0 p-0">
-                <li class="sel !p-5">
-                    <span class="font-serif text-2xl font-bold text-brand">01</span>
-                    <b class="block text-sm font-bold text-ink mt-2">Tamu Tiba Membawa QR</b>
-                    <span class="text-xs text-ink2 mt-1 block">QR Code otomatis tersedia di dalam undangan tiap tamu.</span>
-                </li>
-                <li class="sel sel--motif !p-5">
-                    <span class="font-serif text-2xl font-bold text-brand">02</span>
-                    <b class="block text-sm font-bold text-ink mt-2">Kru Memindai QR</b>
-                    <span class="text-xs text-ink2 mt-1 block">Scan cepat kurang dari 2 detik lewat HP/tablet penerima tamu.</span>
-                </li>
-                <li class="sel sel--merah !p-5">
-                    <span class="font-serif text-2xl font-bold text-brand">03</span>
-                    <b class="block text-sm font-bold text-ink mt-2">Tampil di Layar Sapa</b>
-                    <span class="text-xs text-ink2 mt-1 block">Nama tamu muncul elegan di monitor pintu masuk venue.</span>
-                </li>
-                <li class="sel !p-5">
-                    <span class="font-serif text-2xl font-bold text-brand">04</span>
-                    <b class="block text-sm font-bold text-ink mt-2">Souvenir &amp; Meja VIP</b>
-                    <span class="text-xs text-ink2 mt-1 block">Nomor meja dan penukaran souvenir langsung tercatat rapi.</span>
-                </li>
-                <li class="sel sel--motif !p-5">
-                    <span class="font-serif text-2xl font-bold text-brand">05</span>
-                    <b class="block text-sm font-bold text-ink mt-2">Rekap Laporan Excel</b>
-                    <span class="text-xs text-ink2 mt-1 block">Unduh daftar seluruh tamu hadir &amp; nominal amplop selesai acara.</span>
-                </li>
-            </ol>
+            <div class="grid md:grid-cols-2 gap-8 items-stretch">
+                
+                {{-- Opsi 1: D'Karsa Studio (Mandiri) --}}
+                <div class="p-8 rounded-3xl bg-white border border-stone-200 shadow-sm hover:border-orange-300 transition duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-lg bg-orange-100 text-orange-800 font-extrabold text-xs uppercase tracking-wider">
+                                Mode Mandiri (Self-Service)
+                            </span>
+                            <span class="text-xs font-semibold text-ink3">Selesai 5-10 Menit</span>
+                        </div>
+                        <h4 class="font-serif text-2xl font-bold text-ink">D'Karsa Self-Maker</h4>
+                        <p class="text-sm text-ink2 mt-2 leading-relaxed">
+                            Formulir intuitif yang memandu Anda mengisi data mempelai, jadwal acara, upload foto, dan memilih lagu latar sendiri.
+                        </p>
+
+                        <ul class="mt-6 space-y-3 text-sm text-ink2">
+                            <li class="flex items-center gap-2.5">
+                                <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 grid place-items-center text-xs font-bold">✓</span>
+                                <span>Preview langsung di layar smartphone saat mengisi form</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 grid place-items-center text-xs font-bold">✓</span>
+                                <span>Bebas revisi dan ubah data kapan saja tanpa biaya</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 grid place-items-center text-xs font-bold">✓</span>
+                                <span>Aktivasi instan otomatis setelah checkout Midtrans</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-stone-100">
+                        <a href="{{ route('invitation.create') }}" class="w-full py-3.5 px-6 rounded-xl bg-stone-900 hover:bg-orange-600 text-white font-extrabold text-sm transition flex items-center justify-center gap-2">
+                            <span>Mulai Buat Sendiri Sekarang</span>
+                            <span>→</span>
+                        </a>
+                    </div>
+                </div>
+
+                {{-- Opsi 2: Layanan Terima Beres (Highlight) --}}
+                <div class="p-8 rounded-3xl bg-gradient-to-br from-orange-500 via-amber-500 to-orange-600 text-white shadow-xl shadow-orange-500/20 flex flex-col justify-between relative overflow-hidden">
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-lg bg-white/20 backdrop-blur-md text-white font-black text-xs uppercase tracking-wider border border-white/30">
+                                ★ Paling Banyak Dipilih
+                            </span>
+                            <span class="text-xs font-bold text-white/90">Bebas Repot</span>
+                        </div>
+                        <h4 class="font-serif text-2xl font-bold text-white">Layanan Terima Beres</h4>
+                        <p class="text-sm text-white/90 mt-2 leading-relaxed">
+                            Cukup kirimkan teks acara dan foto melalui WhatsApp. Desainer kami yang akan merapikan dan menyiapkan undangan sampai siap Anda sebar.
+                        </p>
+
+                        <ul class="mt-6 space-y-3 text-sm text-white/95">
+                            <li class="flex items-center gap-2.5">
+                                <span class="w-5 h-5 rounded-full bg-white text-orange-600 grid place-items-center text-xs font-black">✓</span>
+                                <span>Didampingi tim desainer berpengalaman sampai hari H</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <span class="w-5 h-5 rounded-full bg-white text-orange-600 grid place-items-center text-xs font-black">✓</span>
+                                <span>Pengerjaan ekspres hitungan jam siap disebarkan</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <span class="w-5 h-5 rounded-full bg-white text-orange-600 grid place-items-center text-xs font-black">✓</span>
+                                <span>Gratis konsultasi tema kustom dan panduan broadcast WA</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-white/20 relative z-10">
+                        <a href="https://wa.me/6281234567890?text=Halo%20Admin%20D'Karsa,%20saya%20ingin%20memesan%20undangan%20digital%20layanan%20Terima%20Beres"
+                           target="_blank" rel="noopener"
+                           class="w-full py-3.5 px-6 rounded-xl bg-white hover:bg-orange-50 text-orange-600 font-extrabold text-sm shadow-md transition flex items-center justify-center gap-2">
+                            <span>Pesan via WhatsApp (Terima Beres)</span>
+                            <span>→</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        {{-- Section ID #buku-tamu: Sistem Check-in Tamu Modern --}}
+        <div id="buku-tamu" class="mt-24 pt-16 border-t border-orange-100">
+            <div class="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-[#1c1512] to-[#2b1f1a] text-white shadow-2xl relative overflow-hidden">
+                <div class="grid lg:grid-cols-12 gap-8 items-center relative z-10">
+                    <div class="lg:col-span-7 space-y-4">
+                        <span class="inline-block px-3 py-1 rounded-lg bg-orange-500/20 text-orange-400 border border-orange-500/30 text-xs font-extrabold uppercase tracking-wider">
+                            Fitur Eksklusif Buku Tamu Digital
+                        </span>
+                        <h3 class="font-serif text-2xl sm:text-4xl font-bold text-white tracking-tight">
+                            Buku Tamu QR Code Cepat, Registrasi Tanpa Antrean
+                        </h3>
+                        <p class="text-stone-300 text-sm sm:text-base leading-relaxed">
+                            Tamu Anda cukup menunjukkan QR Code pribadi yang ada di undangannya. Petugas resepsionis memindai menggunakan smartphone dan daftar hadir langsung tersimpan rapi.
+                        </p>
+                        <div class="grid sm:grid-cols-3 gap-3 pt-2">
+                            <div class="p-3 rounded-xl bg-white/10 border border-white/10">
+                                <b class="block text-sm font-bold text-white">&lt; 2 Detik</b>
+                                <span class="text-xs text-stone-300">Scan QR Super Cepat</span>
+                            </div>
+                            <div class="p-3 rounded-xl bg-white/10 border border-white/10">
+                                <b class="block text-sm font-bold text-white">Layar Sapa</b>
+                                <span class="text-xs text-stone-300">Nama Tampil di Monitor</span>
+                            </div>
+                            <div class="p-3 rounded-xl bg-white/10 border border-white/10">
+                                <b class="block text-sm font-bold text-white">Ekspor Excel</b>
+                                <span class="text-xs text-stone-300">Rekap Tamu Siap Unduh</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 flex justify-center">
+                        <div class="w-full max-w-sm p-6 rounded-2xl bg-white text-ink text-center shadow-xl space-y-4">
+                            <div class="w-12 h-12 rounded-2xl bg-orange-100 text-orange-600 grid place-items-center mx-auto text-xl font-bold">
+                                📱
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-base text-ink">Buku Tamu Digital D'Karsa</h5>
+                                <p class="text-xs text-ink3 mt-1">Dukung acara formal, pernikahan, &amp; temu kangen</p>
+                            </div>
+                            <div class="p-3 rounded-xl bg-stone-50 border border-stone-200 text-xs font-mono text-orange-700">
+                                [SCAN QR] Tamu: Bpk. Bambang • Hadir (Meja VIP 04)
+                            </div>
+                            <a href="{{ route('invitation.create') }}" class="block w-full py-2.5 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-extrabold text-xs transition">
+                                Aktifkan Fitur Buku Tamu →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </section>

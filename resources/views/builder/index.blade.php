@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id" class="scroll-smooth overflow-x-hidden">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Buat Undangan Digital Sendiri | D'Karsa Builder</title>
     <meta name="description" content="Buat undangan pernikahan, khitanan, dan acara digital secara mandiri, cepat, dan mudah dengan D'Karsa.">
     <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
@@ -180,33 +180,42 @@
         .theme-custom-vip .theme-card { background-color: #26163f; border-color: #7e22ce; color: #f3e8ff; }
         .theme-custom-vip .theme-accent { color: #c084fc; }
         .theme-custom-vip .theme-border { border-color: #7e22ce; }
+
+        /* Strict mobile-friendly overflow protection */
+        html, body {
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between antialiased">
+<body class="min-h-screen flex flex-col justify-between antialiased overflow-x-hidden w-full max-w-full">
 
     {{-- TOP NAVBAR --}}
-    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-ink/10 py-3.5 px-4 sm:px-8 shadow-sm">
-        <div class="max-w-5xl mx-auto flex items-center justify-between gap-3">
-            <a href="{{ route('invitation.index') }}" class="flex items-center gap-2.5 group shrink-0">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo D'Karsa" class="w-10 h-10 rounded-full object-cover shadow-md border border-amber-300/80 group-hover:scale-105 transition">
-                <div>
-                    <b class="text-sm sm:text-base font-serif font-bold text-ink group-hover:text-brand transition block leading-tight">D'Karsa</b>
-                    <span class="text-[10px] uppercase font-bold tracking-widest text-ink3 block">Invitation Builder</span>
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-ink/10 py-2.5 sm:py-3.5 px-3 sm:px-8 shadow-sm">
+        <div class="max-w-5xl mx-auto flex items-center justify-between gap-2 sm:gap-3">
+            <a href="{{ route('invitation.index') }}" class="flex items-center gap-2 sm:gap-2.5 group shrink-0 min-w-0" title="Kembali ke Beranda D'Karsa">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo D'Karsa" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover shadow-md border border-amber-300/80 group-hover:scale-105 transition shrink-0">
+                <div class="min-w-0">
+                    <b class="text-xs sm:text-base font-serif font-bold text-ink group-hover:text-brand transition block leading-tight truncate">D'Karsa</b>
+                    <span class="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider sm:tracking-widest text-ink3 block truncate">
+                        <span class="hidden sm:inline">Invitation </span>Builder
+                    </span>
                 </div>
             </a>
 
-            {{-- Top Bar Quick Actions: Template Selector, Preview, Reset, and Home --}}
-            <div class="flex items-center gap-2">
-                <button type="button" onclick="openTemplateModal()" class="px-3.5 py-1.5 rounded-full text-xs font-bold text-ink hover:text-brand bg-sunk/80 hover:bg-sunk transition flex items-center gap-1.5 border border-ink/15 shadow-sm">
-                    <span>🎨</span> <span class="hidden sm:inline">Pilih</span> <span>Template</span>
+            {{-- Top Bar Quick Actions: Template Selector, Reset, Preview, and Home --}}
+            <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                <button type="button" onclick="openTemplateModal()" class="px-2.5 sm:px-3.5 py-1.5 rounded-full text-xs font-bold text-ink hover:text-brand bg-sunk/80 hover:bg-sunk transition flex items-center gap-1 sm:gap-1.5 border border-ink/15 shadow-sm" title="Pilih Template Desain">
+                    <span>🎨</span> <span class="hidden md:inline">Pilih</span> <span>Template</span>
                 </button>
-                <button type="button" onclick="resetFormToTemplateDefaults()" class="px-3 py-1.5 rounded-full text-xs font-bold text-ink2 hover:text-rose-600 bg-sunk/80 hover:bg-rose-50 transition flex items-center gap-1 border border-ink/15 shadow-sm" title="Kembalikan semua isian ke data bawaan template">
-                    <span>🔄</span> <span class="hidden sm:inline">Reset</span> <span>Default</span>
+                <button type="button" onclick="resetFormToTemplateDefaults()" class="hidden sm:flex px-3 py-1.5 rounded-full text-xs font-bold text-ink2 hover:text-rose-600 bg-sunk/80 hover:bg-rose-50 transition items-center gap-1 border border-ink/15 shadow-sm" title="Kembalikan semua isian ke data bawaan template">
+                    <span>🔄</span> <span class="hidden md:inline">Reset</span> <span>Default</span>
                 </button>
-                <button type="button" onclick="openPreviewModal()" class="px-4 py-1.5 rounded-full text-xs font-bold text-white bg-brand hover:bg-accent transition flex items-center gap-1.5 shadow-md shadow-brand/20">
+                {{-- Preview button: hidden on mobile device view because floating Live Preview button is already active at the bottom right --}}
+                <button type="button" onclick="openPreviewModal()" class="hidden sm:flex px-4 py-1.5 rounded-full text-xs font-bold text-white bg-brand hover:bg-accent transition items-center gap-1.5 shadow-md shadow-brand/20" title="Buka Live Preview">
                     <span>👁️</span> <span>Preview</span>
                 </button>
-                <a href="{{ route('invitation.index') }}" class="px-3 py-1.5 rounded-full text-xs font-bold text-ink3 hover:text-ink hover:bg-sunk transition flex items-center gap-1 border border-ink/10">
+                <a href="{{ route('invitation.index') }}" class="px-2.5 sm:px-3 py-1.5 rounded-full text-xs font-bold text-ink3 hover:text-ink hover:bg-sunk transition flex items-center gap-1 border border-ink/10" title="Kembali ke Beranda">
                     <span>←</span> <span class="hidden md:inline">Beranda</span>
                 </a>
             </div>
@@ -484,21 +493,21 @@
         @endphp
 
         @if($selectedTheme || $selectedPackage)
-            <div class="mb-6 p-4 rounded-2xl bg-brand/10 border border-brand/20 flex flex-wrap items-center justify-between gap-3 shadow-sm">
-                <div class="flex items-center gap-3">
-                    <span class="text-2xl">✨</span>
-                    <div>
-                        <b class="text-xs font-bold text-ink block">Pilihan Desain / Paket Terpilih</b>
-                        <span class="text-xs text-brand font-semibold">
+            <div class="mb-6 p-3.5 sm:p-4 rounded-2xl bg-brand/10 border border-brand/20 flex flex-wrap items-center justify-between gap-3 shadow-sm">
+                <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                    <span class="text-xl sm:text-2xl shrink-0">✨</span>
+                    <div class="min-w-0">
+                        <b class="text-xs font-bold text-ink block leading-tight truncate">Pilihan Desain / Paket Terpilih</b>
+                        <span class="text-xs text-brand font-semibold block truncate">
                             Tema: {{ $selectedTheme }} • {{ $selectedPackage }}
                         </span>
                     </div>
                 </div>
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 shrink-0">
                     <button type="button" onclick="openTemplateModal()" class="px-3 py-1 rounded-full text-xs font-bold bg-white text-ink hover:text-brand border border-ink/15 shadow-sm transition">
                         Ganti Desain
                     </button>
-                    <button type="button" onclick="openPreviewModal()" class="px-3 py-1 rounded-full text-xs font-bold bg-brand text-white hover:bg-accent shadow-sm transition">
+                    <button type="button" onclick="openPreviewModal()" class="hidden sm:inline-flex px-3 py-1 rounded-full text-xs font-bold bg-brand text-white hover:bg-accent shadow-sm transition">
                         Preview
                     </button>
                 </div>
@@ -1491,7 +1500,7 @@
     <!-- ========================================================
          MODAL LIVE PREVIEW (Smartphone Frame - Matching Screenshot 2)
     ======================================================== -->
-    <div id="livePreviewModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md p-2 sm:p-4 md:p-6 flex flex-col items-center justify-center">
+    <div id="livePreviewModal" class="fixed inset-0 z-[60] hidden bg-black/80 backdrop-blur-md p-2 sm:p-4 md:p-6 flex-col items-center justify-center overflow-y-auto" style="display: none;" onclick="if(event.target === this) closePreviewModal();">
         <!-- Floating Preview Top Bar -->
         <div class="w-full max-w-xl mx-auto mb-3 flex items-center justify-between gap-2 px-2 text-white">
             <div class="flex items-center gap-2">
@@ -1560,7 +1569,7 @@
 
             <!-- Scrollable Screen Area with Live Template Iframe -->
             <div id="previewScreenScroll" class="relative w-full rounded-[36px] overflow-hidden flex-1 bg-white shadow-inner">
-                <iframe id="builderLivePreviewIframe" src="/demo/chibi-red?preview=1" class="w-full h-full border-0 rounded-[36px]" allow="autoplay"></iframe>
+                <iframe id="builderLivePreviewIframe" src="/demo/{{ $currentTemplate['template_key'] ?? $currentTemplate['key'] ?? 'chibi-red' }}?preview=1" class="w-full h-full border-0 rounded-[36px]" allow="autoplay"></iframe>
             </div>
 
             <!-- Home indicator bar -->
@@ -3222,6 +3231,7 @@
             if (s.includes('javanese') || s.includes('keraton') || s.includes('jawa') || (s.includes('royal') && !s.includes('tasmiyah')) || s.includes('adat')) return 'javanese-royal';
             if (s.includes('chibi') || s.includes('oriental') || s.includes('chinese')) return 'chibi-red';
             if (s.includes('wildflower') || s.includes('rose') || s.includes('pink')) return 'wildflower-pink';
+            if (s.includes('sahaja') || s.includes('khitan-sahaja')) return 'walimatul-khitan-sahaja';
             if (s.includes('walimatul') || s.includes('khitan') || s.includes('sunat')) return 'walimatul-khitan';
             if (s.includes('green mosque') || s.includes('mosque') || s.includes('syiar')) return 'green-mosque';
             if (s.includes('walimatus safar') || s.includes('safar') || s.includes('haji') || s.includes('umrah')) return 'walimatus-safar';
@@ -3459,6 +3469,15 @@
             const themeToUse = customThemeName || currentSelectedTheme;
             const canonicalKey = customKey || getCanonicalTemplateKey(themeToUse);
 
+            // 1. Immediately display the modal element
+            const modal = document.getElementById('livePreviewModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+
             const iframe = document.getElementById('builderLivePreviewIframe');
             const label = document.getElementById('prevCurrentThemeLabel');
             const btnFs = document.getElementById('btnBuilderFullscreenDemo');
@@ -3479,14 +3498,19 @@
                     };
                 }
             } else {
-                updateLivePreviewContent(true);
+                try {
+                    updateLivePreviewContent(true);
+                } catch(e) {
+                    console.error('Error updating live preview content:', e);
+                }
                 if (btnUseThis) btnUseThis.classList.add('hidden');
-            }
-
-            const modal = document.getElementById('livePreviewModal');
-            if (modal) {
-                modal.classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
+                try {
+                    if (typeof sendLatestPreviewDataToIframe === 'function') {
+                        setTimeout(sendLatestPreviewDataToIframe, 120);
+                    }
+                } catch(e) {
+                    console.error('Error dispatching preview data to iframe:', e);
+                }
             }
         }
 
@@ -3496,6 +3520,8 @@
             const modal = document.getElementById('livePreviewModal');
             if (modal) {
                 modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                modal.style.display = 'none';
                 document.body.style.overflow = '';
             }
         }
@@ -3580,6 +3606,98 @@
             }
         }
 
+        // Helper: format parent honorifics
+        function formatParentsHelper(father, mother) {
+            father = (father || '').trim();
+            mother = (mother || '').trim();
+            if (!father && !mother) return '';
+            const fPref = father ? (father.match(/^(bpk|bapak|ayah|alm|almarhum|dr|drs|ir|prof|h\.)/i) ? father : 'Bpk. ' + father) : '';
+            const mPref = mother ? (mother.match(/^(ibu|bunda|mama|umi|almh|almarhumah|dra|dr|ir|prof|hj\.)/i) ? mother : 'Ibu ' + mother) : '';
+            if (fPref && mPref) return fPref + ' & ' + mPref;
+            return fPref || mPref;
+        }
+
+        // Live sync parent names to preview iframe
+        function syncParentsToPreview() {
+            if (isCleanDemoMode) return;
+
+            const gf = document.querySelector('input[name="groom_father"]')?.value?.trim() || '';
+            const gm = document.querySelector('input[name="groom_mother"]')?.value?.trim() || '';
+            const bf = document.querySelector('input[name="bride_father"]')?.value?.trim() || '';
+            const bm = document.querySelector('input[name="bride_mother"]')?.value?.trim() || '';
+
+            const gp = formatParentsHelper(gf, gm);
+            const bp = formatParentsHelper(bf, bm);
+
+            const iframe = document.getElementById('builderLivePreviewIframe');
+            if (iframe && iframe.contentWindow) {
+                try {
+                    iframe.contentWindow.postMessage({
+                        type: 'UPDATE_PREVIEW_PARENTS',
+                        groomParents: gp,
+                        brideParents: bp,
+                        formatted: gp || bp,
+                        resetDefault: (!gp && !bp)
+                    }, '*');
+                } catch(e) {}
+            }
+        }
+
+        // Top-level function: send all latest photos, gallery, events, parents to preview iframe
+        function sendLatestPreviewDataToIframe() {
+            if (isCleanDemoMode) return;
+            const iframe = document.getElementById('builderLivePreviewIframe');
+            if (!iframe || !iframe.contentWindow) return;
+
+            try {
+                const groomBase64 = document.getElementById('groomPhotoBase64')?.value || sessionStorage.getItem('dkarsa_preview_groom_photo');
+                if (groomBase64) {
+                    iframe.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_PHOTO', target: 'groom', photoUrl: groomBase64, dataUrl: groomBase64 }, '*');
+                }
+                const brideBase64 = document.getElementById('bridePhotoBase64')?.value || sessionStorage.getItem('dkarsa_preview_bride_photo');
+                if (brideBase64) {
+                    iframe.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_PHOTO', target: 'bride', photoUrl: brideBase64, dataUrl: brideBase64 }, '*');
+                }
+                const coverBase64 = document.getElementById('coverPhotoBase64')?.value || sessionStorage.getItem('dkarsa_preview_cover_photo');
+                if (coverBase64) {
+                    iframe.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_PHOTO', target: 'cover', photoUrl: coverBase64, dataUrl: coverBase64 }, '*');
+                }
+                let galleryBase64 = document.getElementById('galleryPhotosBase64')?.value;
+                if (!galleryBase64) {
+                    galleryBase64 = sessionStorage.getItem('dkarsa_preview_gallery_photos');
+                }
+                if (galleryBase64) {
+                    try {
+                        const parsedGal = typeof galleryBase64 === 'string' ? JSON.parse(galleryBase64) : galleryBase64;
+                        if (Array.isArray(parsedGal) && parsedGal.length > 0) {
+                            iframe.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_GALLERY', images: parsedGal, photos: parsedGal }, '*');
+                        }
+                    } catch(e) {}
+                }
+            } catch(e) {}
+
+            try {
+                if (typeof syncEventsToFormAndPreview === 'function') syncEventsToFormAndPreview();
+                if (typeof syncParentsToPreview === 'function') syncParentsToPreview();
+            } catch(e) {}
+        }
+
+        // Close preview or template modal on Escape key
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const liveModal = document.getElementById('livePreviewModal');
+                if (liveModal && liveModal.style.display !== 'none' && !liveModal.classList.contains('hidden')) {
+                    closePreviewModal();
+                    return;
+                }
+                const tmplModal = document.getElementById('templateModal');
+                if (tmplModal && tmplModal.style.display !== 'none' && !tmplModal.classList.contains('hidden')) {
+                    closeTemplateModal();
+                    return;
+                }
+            }
+        });
+
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
             ['eventHeadingInput', 'quoteInput', 'event1TitleInput', 'event2TitleInput'].forEach(id => {
@@ -3603,39 +3721,6 @@
                 }
             } catch(e) {}
 
-            function sendLatestPreviewDataToIframe() {
-                if (isCleanDemoMode) return;
-                const iframe = document.getElementById('builderLivePreviewIframe');
-                if (!iframe || !iframe.contentWindow) return;
-
-                try {
-                    const groomBase64 = document.getElementById('groomPhotoBase64')?.value;
-                    if (groomBase64) {
-                        iframe.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_PHOTO', target: 'groom', photoUrl: groomBase64, dataUrl: groomBase64 }, '*');
-                    }
-                    const brideBase64 = document.getElementById('bridePhotoBase64')?.value;
-                    if (brideBase64) {
-                        iframe.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_PHOTO', target: 'bride', photoUrl: brideBase64, dataUrl: brideBase64 }, '*');
-                    }
-                    const coverBase64 = document.getElementById('coverPhotoBase64')?.value;
-                    if (coverBase64) {
-                        iframe.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_PHOTO', target: 'cover', photoUrl: coverBase64, dataUrl: coverBase64 }, '*');
-                    }
-                    const galleryBase64 = document.getElementById('galleryPhotosBase64')?.value;
-                    if (galleryBase64) {
-                        try {
-                            const parsedGal = JSON.parse(galleryBase64);
-                            if (Array.isArray(parsedGal) && parsedGal.length > 0) {
-                                iframe.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_GALLERY', images: parsedGal, photos: parsedGal }, '*');
-                            }
-                        } catch(e) {}
-                    }
-                } catch(e) {}
-
-                syncEventsToFormAndPreview();
-                syncParentsToPreview();
-            }
-
             // Setup iframe load listener and handshake listener to post latest photos, gallery, and dynamic events
             const iframe = document.getElementById('builderLivePreviewIframe');
             if (iframe) {
@@ -3647,39 +3732,6 @@
                     sendLatestPreviewDataToIframe();
                 }
             });
-
-            function formatParentsHelper(father, mother) {
-                father = (father || '').trim();
-                mother = (mother || '').trim();
-                if (!father && !mother) return '';
-                const fPref = father ? (father.match(/^(bpk|bapak|ayah|alm|almarhum|dr|drs|ir|prof|h\.)/i) ? father : 'Bpk. ' + father) : '';
-                const mPref = mother ? (mother.match(/^(ibu|bunda|mama|umi|almh|almarhumah|dra|dr|ir|prof|hj\.)/i) ? mother : 'Ibu ' + mother) : '';
-                if (fPref && mPref) return fPref + ' & ' + mPref;
-                return fPref || mPref;
-            }
-
-            function syncParentsToPreview() {
-                if (isCleanDemoMode) return;
-
-                const gf = document.querySelector('input[name="groom_father"]')?.value?.trim() || '';
-                const gm = document.querySelector('input[name="groom_mother"]')?.value?.trim() || '';
-                const bf = document.querySelector('input[name="bride_father"]')?.value?.trim() || '';
-                const bm = document.querySelector('input[name="bride_mother"]')?.value?.trim() || '';
-
-                const gp = formatParentsHelper(gf, gm);
-                const bp = formatParentsHelper(bf, bm);
-
-                const iframe = document.getElementById('builderLivePreviewIframe');
-                if (iframe && iframe.contentWindow) {
-                    iframe.contentWindow.postMessage({
-                        type: 'UPDATE_PREVIEW_PARENTS',
-                        groomParents: gp,
-                        brideParents: bp,
-                        formatted: gp || bp,
-                        resetDefault: (!gp && !bp)
-                    }, '*');
-                }
-            }
 
             // Bind real-time input listeners to parents fields without prefilling old stale test data
             ['groom_father', 'groom_mother', 'bride_father', 'bride_mother'].forEach(field => {

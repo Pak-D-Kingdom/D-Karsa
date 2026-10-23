@@ -599,6 +599,35 @@
                 wishTitle: 'Doa & Ucapan Selamat Khitan',
                 audioSrc: '{{ asset("audio/islamic-melody.wav") }}'
             },
+            'walimatul-khitan-sahaja': {
+                name: 'Walimatul Khitan Sahaja Berkah',
+                category: 'Khitanan',
+                subCat: 'Tasyakuran walimatul khitan',
+                catKey: 'khitanan',
+                badge: '✂️ Khitanan • Basic Sahaja',
+                packageVal: 'Paket Basic - Rp50.000',
+                desc: 'Undangan tasyakuran walimatul khitan bersih, hangat & islami bernuansa Sage Green & Emas dengan doa anak sholeh, rute acara & amplop tali asih.',
+                coverBadge: 'WALIMATUL KHITAN',
+                coverSubtitle: 'Tasyakuran Walimatul Khitan Putra Tercinta',
+                coverTitle: 'Ahmad Fatih Al-Farisi',
+                coverDate: 'Ahad, 24 Mei 2026',
+                coverImg: 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=700',
+                quoteIcon: '✂️',
+                quoteTitle: 'Doa Walimatul Khitan',
+                quoteBody: '"Semoga Allah memberkahi khitanan putra kami, menjadikannya anak yang sholeh, cerdas, berbakti kepada kedua orang tua dan bermanfaat bagi sesama."',
+                profileBadge: 'Jagoan Sholeh yang Dikhitan',
+                profileName: 'Ahmad Fatih Al-Farisi',
+                profileDesc: 'Putra Tercinta dari Bpk. Hendra Pratama & Ibu Rina Wijaya',
+                locationName: 'Kediaman Keluarga Besar, Bandung',
+                events: [
+                    { title: 'Tasyakuran & Doa Khitan', time: '09:00 - 11:30 WIB', date: 'Ahad, 24 Mei 2026', place: 'Kediaman Keluarga Besar' },
+                    { title: 'Walimah & Ramah Tamah', time: '11:30 - 14:30 WIB', date: 'Ahad, 24 Mei 2026', place: 'Kediaman Keluarga Besar' }
+                ],
+                giftTitle: 'Tali Asih / Kado Khitanan',
+                giftDesc: 'Doa restu Anda merupakan karunia terindah bagi jagoan kami. Bagi yang ingin mengirimkan tali asih:',
+                wishTitle: 'Doa & Ucapan Selamat Khitan',
+                audioSrc: '{{ asset("audio/islamic-melody.wav") }}'
+            },
             'little-prince-safari-khitan': {
                 name: 'Little Prince Safari Khitan',
                 category: 'Aqiqah',
@@ -1188,8 +1217,9 @@
             ],
             'aqiqah': [
                 { slug: 'little-prince', name: 'Little Prince Nordic', tag: 'Aqiqah Bayi Nordic Basic', icon: '👶', iconBg: 'bg-sky-100 text-sky-800', demoUrl: '/demo/little-prince' },
+                { slug: 'walimatul-khitan-sahaja', name: 'Walimatul Khitan Sahaja', tag: 'Khitanan Sahaja Basic', icon: '✂️', iconBg: 'bg-emerald-100 text-emerald-800', demoUrl: '/demo/walimatul-khitan-sahaja' },
                 { slug: 'sweet-baby-pastel-aqiqah', name: 'Sweet Baby Pastel', tag: 'Aqiqah Bayi & Tasmiyah', icon: '🍼', iconBg: 'bg-pink-100 text-pink-700', demoUrl: '/demo/baby-aqiqah' },
-                { slug: 'walimatul-khitan-berkah-sholeh', name: 'Walimatul Khitan Berkah', tag: 'Khitanan Islami Sholeh', icon: '✂️', iconBg: 'bg-blue-100 text-blue-700', demoUrl: '/demo/walimatul-khitan' },
+                { slug: 'walimatul-khitan-berkah-sholeh', name: 'Walimatul Khitan Berkah', tag: 'Khitanan Islami Sholeh', icon: '🕌', iconBg: 'bg-blue-100 text-blue-700', demoUrl: '/demo/walimatul-khitan' },
                 { slug: 'royal-tasmiyah', name: 'Royal Tasmiyah Sultan', tag: 'Tasmiyah & Aqiqah Mewah', icon: '👑', iconBg: 'bg-emerald-100 text-emerald-800', demoUrl: '/demo/royal-tasmiyah' }
             ],
             'wisuda': [
@@ -1257,6 +1287,8 @@
             'green-mosque-syiar-tabligh-akbar': '/demo/green-mosque',
             'walimatus-safar': '/demo/walimatus-safar',
             'walimatus-safar-mubarok': '/demo/walimatus-safar',
+            'walimatul-khitan-sahaja': '/demo/walimatul-khitan-sahaja',
+            'khitan-sahaja': '/demo/walimatul-khitan-sahaja',
             'walimatul-khitan-berkah-sholeh': '/demo/walimatul-khitan',
             'walimatul-khitan': '/demo/walimatul-khitan',
             'little-prince': '/demo/little-prince',
@@ -1324,7 +1356,8 @@
                                  ((activeSlug.includes('halal') || activeSlug.includes('ketupat')) && item.slug === 'ketupat-raya-silaturahmi') ||
                                  ((activeSlug.includes('little-prince') || activeSlug.includes('prince') || activeSlug.includes('nordic')) && item.slug === 'little-prince') ||
                                  ((activeSlug.includes('royal-tasmiyah') || activeSlug.includes('tasmiyah') || activeSlug.includes('sultan')) && item.slug === 'royal-tasmiyah') ||
-                                 ((activeSlug.includes('walimatul-khitan') || activeSlug.includes('khitan') || activeSlug.includes('sunat')) && item.slug === 'walimatul-khitan-berkah-sholeh') ||
+                                 (activeSlug.includes('sahaja') && item.slug === 'walimatul-khitan-sahaja') ||
+                                 (!activeSlug.includes('sahaja') && (activeSlug.includes('walimatul-khitan') || activeSlug.includes('khitan') || activeSlug.includes('sunat')) && item.slug === 'walimatul-khitan-berkah-sholeh') ||
                                  ((activeSlug.includes('baby') || activeSlug.includes('pastel')) && item.slug === 'sweet-baby-pastel-aqiqah'));
                 const activeStyle = isActive 
                     ? 'border-brand bg-brand/5 ring-2 ring-brand/30 shadow-md font-bold' 
@@ -1358,6 +1391,7 @@
             else if (rawSlug.includes('ketupat') || rawSlug.includes('halal')) matchedSlug = 'ketupat-raya-silaturahmi';
             else if (rawSlug.includes('little-prince') || rawSlug.includes('prince') || rawSlug.includes('nordic')) matchedSlug = 'little-prince';
             else if (rawSlug.includes('royal-tasmiyah') || rawSlug.includes('tasmiyah') || rawSlug.includes('sultan')) matchedSlug = 'royal-tasmiyah';
+            else if (rawSlug.includes('sahaja') || rawSlug.includes('khitan-sahaja')) matchedSlug = 'walimatul-khitan-sahaja';
             else if (rawSlug.includes('khitan') || rawSlug.includes('sunat')) matchedSlug = 'walimatul-khitan-berkah-sholeh';
             else if (rawSlug.includes('rumah-baru') || rawSlug.includes('syukuran')) matchedSlug = 'tasyakuran-doa-rumah-baru';
             else if (rawSlug.includes('tahlil') || rawSlug.includes('doa-bersama')) matchedSlug = 'doa-bersama-tahlilan-khusyuk';
@@ -1392,6 +1426,8 @@
                     targetUrl = '/demo/little-prince';
                 } else if (matchedSlug.includes('royal-tasmiyah') || matchedSlug.includes('tasmiyah') || matchedSlug.includes('sultan')) {
                     targetUrl = '/demo/royal-tasmiyah';
+                } else if (matchedSlug.includes('sahaja')) {
+                    targetUrl = '/demo/walimatul-khitan-sahaja';
                 } else if (matchedSlug.includes('khitan') || matchedSlug.includes('sunat')) {
                     targetUrl = '/demo/walimatul-khitan';
                 } else if (matchedSlug.includes('rumah-baru') || matchedSlug.includes('syukuran')) {

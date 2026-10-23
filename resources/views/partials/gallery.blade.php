@@ -1,26 +1,28 @@
 <!-- partials/gallery.blade.php (Portofolio Klien D'Karsa Multi-Kategori) -->
-<section id="portofolio" class="py-20 md:py-28 sec--blush overflow-hidden">
-    <div class="max-w-[1200px] mx-auto px-5 md:px-8 flex flex-wrap items-end justify-between gap-6 mb-10">
+<section id="portofolio" class="py-20 md:py-28 bg-white overflow-hidden border-b border-orange-100/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-end justify-between gap-6 mb-10">
         <div>
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-pink-200 shadow-sm text-xs font-bold text-ink mb-3">
-                <span class="text-brand font-extrabold uppercase tracking-wider text-[11px]">Portofolio Klien</span>
-                <span class="text-ink/20">•</span>
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-orange-50 border border-orange-200 text-xs font-bold text-orange-800 mb-3">
+                <span class="text-orange-600 font-extrabold uppercase tracking-wider text-[11px]">Kisah &amp; Karya Klien</span>
+                <span class="text-orange-300">•</span>
                 <span class="text-ink2 font-medium">Ulasan Nyata dari Pengguna</span>
             </div>
-            <h2 class="font-serif text-2xl sm:text-4xl font-bold text-ink tracking-tight">
-                Momen Bahagia yang <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand via-accent to-pink-600 font-extrabold">Telah Terwujud</span>
+            <h2 class="font-serif text-2xl sm:text-4xl lg:text-[2.75rem] font-bold text-ink tracking-tight leading-tight">
+                Momen Bahagia yang <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 font-extrabold">Telah Terwujud</span>
             </h2>
-            <p class="mt-2 text-ink2 text-sm sm:text-base max-w-2xl leading-relaxed">
-                Hasil karya undangan digital untuk Pernikahan, Halal Bihalal, Khitanan, Aqiqah, Ulang Tahun, dan Syukuran bersama D'Karsa.
+            <p class="mt-2 text-ink2 text-base max-w-2xl leading-relaxed">
+                Koleksi karya undangan digital untuk Pernikahan, Halal Bihalal, Khitanan, Aqiqah, Ulang Tahun, dan Wisuda bersama D'Karsa.
             </p>
         </div>
         <div class="flex items-center gap-3">
             <button type="button" onclick="document.getElementById('galleryMarquee').classList.toggle('dijeda')"
-                    class="w-11 h-11 rounded-full bg-white grid place-items-center shadow-sm border border-ink/15 hover:border-brand text-ink hover:text-brand transition"
+                    class="w-11 h-11 rounded-xl bg-stone-100 grid place-items-center shadow-xs border border-stone-200 hover:border-orange-400 text-ink hover:text-orange-600 transition"
                     title="Jeda / Putar portofolio">
                 ⏸
             </button>
-            <a href="{{ route('invitation.create') }}" class="tbl tbl--kedua !h-11 !text-sm">Pesan Undangan Sekarang</a>
+            <a href="{{ route('invitation.create') }}" class="px-5 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-extrabold text-xs sm:text-sm shadow-sm transition">
+                Buat Undangan Saya →
+            </a>
         </div>
     </div>
 

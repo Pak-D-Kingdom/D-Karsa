@@ -68,6 +68,7 @@ class TemplatePreviewImageSyncTest extends TestCase
             'javanese-royal',
             'baby-aqiqah',
             'walimatul-khitan',
+            'walimatul-khitan-sahaja',
             'golden-birthday',
             'kids-birthday',
             'tahlilan-khusyuk',
@@ -126,6 +127,7 @@ class TemplatePreviewImageSyncTest extends TestCase
             $this->assertStringContainsString('previewGroomPhotoImg', $rendered, "Template {$themeKey} is missing groom/primary photo element ID.");
             if ($themeKey !== 'tahlilan-khusyuk') {
                 $this->assertStringContainsString('previewGalleryGrid', $rendered, "Template {$themeKey} is missing previewGalleryGrid ID.");
+                $this->assertStringContainsString('UPDATE_PREVIEW_GALLERY', $rendered, "Template {$themeKey} is missing UPDATE_PREVIEW_GALLERY listener.");
             }
         }
     }
@@ -164,6 +166,7 @@ class TemplatePreviewImageSyncTest extends TestCase
             'javanese-royal',
             'baby-aqiqah',
             'walimatul-khitan',
+            'walimatul-khitan-sahaja',
             'golden-birthday',
             'kids-birthday',
             'tahlilan-khusyuk',

@@ -29,7 +29,7 @@
                                 <svg aria-hidden="true" class="w-3 h-3"><use href="#i-arrow-up-right"></use></svg>
                             </span>
                         </button>
-                        <button type="button" onclick="closeThemePreview()" class="w-8 sm:w-9 h-8 sm:h-9 rounded-full bg-white text-ink hover:text-brand hover:bg-rose-50 border border-ink/15 grid place-items-center transition text-base sm:text-lg font-bold shadow-sm shrink-0" title="Tutup Preview">
+                        <button type="button" onclick="closeThemePreview()" class="w-8 sm:w-9 h-8 sm:h-9 rounded-full bg-white text-ink hover:text-brand hover:bg-orange-50 border border-ink/15 grid place-items-center transition text-base sm:text-lg font-bold shadow-sm shrink-0" title="Tutup Preview">
                             ✕
                         </button>
                     </div>

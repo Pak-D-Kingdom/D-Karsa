@@ -23,16 +23,16 @@
                     },
                     colors: {
                         cream: '#fffcfc',
-                        blush: '#fdf3f4',
-                        sunk: '#faf1f2',
+                        blush: '#fff8f3',
+                        sunk: '#fef3ec',
                         ink: '#1b1416',
                         ink2: '#55474b',
                         ink3: '#75686c',
-                        brand: '#f63854',
-                        accent: '#cf2445',
-                        cta: '#e02a49',
-                        'accent-soft': '#fde4e8',
-                        gold: '#f63854',
+                        brand: '#f97316',
+                        accent: '#ea580c',
+                        cta: '#f97316',
+                        'accent-soft': '#ffedd5',
+                        gold: '#f59e0b',
                         sage: '#8FA98B',
                     }
                 }
@@ -42,26 +42,26 @@
     <style>
         :root {
             --bg: #fffcfc;
-            --bg-blush: #fdf3f4;
-            --bg-sunk: #faf1f2;
+            --bg-blush: #fff8f3;
+            --bg-sunk: #fef3ec;
             --surface: #ffffff;
             --ink: #1b1416;
             --ink-2: #55474b;
             --ink-3: #75686c;
             --line: rgba(27, 20, 22, 0.09);
             --line-2: rgba(27, 20, 22, 0.16);
-            --brand: #f63854;
-            --accent: #cf2445;
-            --cta: #e02a49;
-            --accent-soft: #fde4e8;
-            --shadow: 0 30px 60px -32px rgba(120, 30, 50, 0.28), 0 8px 24px -16px rgba(27, 20, 22, 0.18);
-            --shadow-s: 0 14px 30px -18px rgba(120, 30, 50, 0.3);
+            --brand: #f97316;
+            --accent: #ea580c;
+            --cta: #f97316;
+            --accent-soft: #ffedd5;
+            --shadow: 0 30px 60px -32px rgba(234, 88, 12, 0.28), 0 8px 24px -16px rgba(27, 20, 22, 0.18);
+            --shadow-s: 0 14px 30px -18px rgba(234, 88, 12, 0.25);
             --font-serif: "Playfair Display", Georgia, serif;
             --font-script: "Alex Brush", cursive;
             --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
             --r-card: 1.5rem;
             --ease: cubic-bezier(0.32, 0.72, 0, 1);
-            --kawung: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cg fill='none' stroke='%23c4385a' stroke-width='.9'%3E%3Cellipse cx='22' cy='11' rx='5.5' ry='9'/%3E%3Cellipse cx='22' cy='33' rx='5.5' ry='9'/%3E%3Cellipse cx='11' cy='22' rx='9' ry='5.5'/%3E%3Cellipse cx='33' cy='22' rx='9' ry='5.5'/%3E%3Ccircle cx='22' cy='22' r='1.6'/%3E%3Ccircle r='2'/%3E%3Ccircle cx='44' r='2'/%3E%3Ccircle cy='44' r='2'/%3E%3Ccircle cx='44' cy='44' r='2'/%3E%3C/g%3E%3C/svg%3E");
+            --kawung: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cg fill='none' stroke='%23ea580c' stroke-width='.9'%3E%3Cellipse cx='22' cy='11' rx='5.5' ry='9'/%3E%3Cellipse cx='22' cy='33' rx='5.5' ry='9'/%3E%3Cellipse cx='11' cy='22' rx='9' ry='5.5'/%3E%3Cellipse cx='33' cy='22' rx='9' ry='5.5'/%3E%3Ccircle cx='22' cy='22' r='1.6'/%3E%3Ccircle r='2'/%3E%3Ccircle cx='44' r='2'/%3E%3Ccircle cy='44' r='2'/%3E%3Ccircle cx='44' cy='44' r='2'/%3E%3C/g%3E%3C/svg%3E");
         }
         body {
             background: var(--bg);
@@ -72,20 +72,20 @@
         body.lock { overflow: hidden; }
 
         /* D'Karsa Signature Typography */
-        .ow-h1, .ow-h2 {
+        .dk-h1, .dk-h2, .ow-h1, .ow-h2 {
             font-family: var(--font-serif);
             font-weight: 700;
             letter-spacing: -0.025em;
             color: var(--ink);
             text-wrap: balance;
         }
-        .ow-h1 { font-size: clamp(2.3rem, 4.4vw, 3.8rem); line-height: 1.15; }
-        .ow-h2 { font-size: clamp(1.85rem, 3.6vw, 2.9rem); line-height: 1.2; }
+        .dk-h1, .ow-h1 { font-size: clamp(2.3rem, 4.4vw, 3.8rem); line-height: 1.15; }
+        .dk-h2, .ow-h2 { font-size: clamp(1.85rem, 3.6vw, 2.9rem); line-height: 1.2; }
         .t-script {
             font-family: var(--font-serif);
             font-style: italic;
             font-weight: 700;
-            background: linear-gradient(135deg, #f63854 0%, #d91b48 60%, #991b1b 100%);
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 60%, #c2410c 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             display: inline-block;
@@ -100,7 +100,7 @@
 
         /* D'Karsa Modern Gradient & Heading Utilities */
         .dk-gradient-text {
-            background: linear-gradient(135deg, #f63854 0%, #e02a49 50%, #991b1b 100%);
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #c2410c 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -116,10 +116,10 @@
             font-weight: 800;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            color: #b81f3d;
-            background: linear-gradient(135deg, #fff0f3, #ffe8ec);
-            border: 1px solid rgba(246, 56, 84, 0.2);
-            box-shadow: 0 2px 8px -2px rgba(246, 56, 84, 0.12);
+            color: #c2410c;
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+            border: 1px solid rgba(249, 115, 22, 0.25);
+            box-shadow: 0 2px 8px -2px rgba(249, 115, 22, 0.15);
         }
 
         /* Modern D'Karsa Buttons (.tbl) */
@@ -148,16 +148,16 @@
         }
         .tbl:hover .tbl__ikon { transform: translateX(3px); }
         .tbl--utama {
-            background: linear-gradient(135deg, #f63854 0%, #e02a49 60%, #b81835 100%);
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 60%, #c2410c 100%);
             color: #fff;
-            box-shadow: 0 12px 28px -8px rgba(230, 40, 70, 0.5);
-            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 12px 28px -8px rgba(234, 88, 12, 0.45);
+            border: 1px solid rgba(255,255,255,0.25);
         }
         .tbl--utama:hover {
-            box-shadow: 0 16px 34px -8px rgba(230, 40, 70, 0.65);
+            box-shadow: 0 16px 34px -8px rgba(234, 88, 12, 0.6);
             transform: translateY(-2px);
         }
-        .tbl--utama .tbl__ikon { background: rgba(255,255,255,0.2); color: #fff; }
+        .tbl--utama .tbl__ikon { background: rgba(255,255,255,0.25); color: #fff; }
         .tbl--kedua {
             color: var(--ink);
             background: #fff;
@@ -168,7 +168,7 @@
             border-color: var(--brand);
             color: var(--brand);
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px -6px rgba(246, 56, 84, 0.2);
+            box-shadow: 0 8px 20px -6px rgba(249, 115, 22, 0.2);
         }
 
         /* Sections & Kawung Motif */
@@ -226,7 +226,7 @@
             isolation: isolate;
         }
         .sel--merah {
-            background: linear-gradient(155deg, #fff, #fdedf0);
+            background: linear-gradient(155deg, #fff, #fff4ed);
         }
         .sel--motif::before {
             content: "";
@@ -258,7 +258,7 @@
             background: linear-gradient(150deg, rgba(255,255,255,0.95), rgba(255,255,255,0.45));
             -webkit-backdrop-filter: blur(16px) saturate(1.8);
             backdrop-filter: blur(16px) saturate(1.8);
-            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.95), 0 0 0 1px rgba(196,150,160,0.3), 0 46px 80px -42px rgba(150,40,70,0.5), 0 16px 34px -22px rgba(27,20,22,0.28);
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.95), 0 0 0 1px rgba(251, 146, 60, 0.3), 0 46px 80px -42px rgba(234, 88, 12, 0.4), 0 16px 34px -22px rgba(27,20,22,0.28);
         }
 
         /* Marquee Gallery */
@@ -296,7 +296,7 @@
             transform: translateY(-4px);
         }
         .paket--saran {
-            background: linear-gradient(160deg, #fff 35%, #fdedf0);
+            background: linear-gradient(160deg, #fff 35%, #fff4ed);
             box-shadow: 0 0 0 2px var(--brand), var(--shadow);
         }
 
@@ -393,7 +393,7 @@
     @stack('head')
 </head>
 <body class="antialiased" id="top">
-    {{-- SVG Sprites from our-wedding.link --}}
+    {{-- SVG Icon Sprites --}}
     <svg width="0" height="0" aria-hidden="true" style="position:absolute">
         <symbol id="i-arrow-up-right" viewBox="0 0 256 256" fill="currentColor">
             <path d="M198,64V168a6,6,0,0,1-12,0V78.48L68.24,196.24a6,6,0,0,1-8.48-8.48L177.52,70H88a6,6,0,0,1,0-12H192A6,6,0,0,1,198,64Z"></path>
