@@ -1,4 +1,4 @@
-<!-- partials/timeline.blade.php (Fitur Pintar, Cara Kerja & Buku Tamu Digital D'Karsa) -->
+<!-- partials/timeline.blade.php (Fitur Pintar & Cara Kerja D'Karsa) -->
 <section id="fitur" class="py-20 md:py-28 bg-white relative overflow-hidden">
     {{-- Decorative Background Grid --}}
     <div aria-hidden="true" class="absolute inset-0 bg-[radial-gradient(#fed7aa_1px,transparent_1px)] [background-size:24px_24px] opacity-40 pointer-events-none"></div>
@@ -16,7 +16,7 @@
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 font-extrabold">Memukau Setiap Tamu Undangan</span>
             </h2>
             <p class="mt-4 text-ink2 text-base sm:text-lg leading-relaxed">
-                Nikmati fitur terlengkap tanpa batasan. Dari pembuatan super cepat, personalisasi nama tamu tanpa batas, hingga integrasi buku tamu QR Code di lokasi acara.
+                Nikmati fitur terlengkap tanpa batasan. Dari pembuatan super cepat, personalisasi nama tamu tanpa batas, hingga buku tamu ucapan &amp; konfirmasi kehadiran real-time.
             </p>
         </div>
 
@@ -103,19 +103,19 @@
                 </div>
             </div>
 
-            {{-- Feature 6: QR Code Check-in System --}}
+            {{-- Feature 6: Background Music & Photo Gallery --}}
             <div class="p-7 rounded-2xl bg-[#fffdfb] border border-orange-200/80 shadow-sm hover:shadow-xl hover:border-orange-400 hover:-translate-y-1 transition duration-300 flex flex-col justify-between group">
                 <div>
                     <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-600 text-white grid place-items-center text-xl shadow-md shadow-purple-500/20 mb-5 group-hover:scale-110 transition duration-300">
-                        📱
+                        🎵
                     </div>
-                    <h3 class="font-bold text-lg text-ink">QR Code Check-in Meja Tamu</h3>
+                    <h3 class="font-bold text-lg text-ink">Musik Latar &amp; Galeri Foto</h3>
                     <p class="text-sm text-ink2 mt-2 leading-relaxed">
-                        Sistem penerima tamu modern: scan QR Code tiap tamu di pintu masuk gedung dalam hitungan detik. Penukaran souvenir dan meja VIP tercatat rapi.
+                        Bangun suasana syahdu dengan pemutar musik latar otomatis dan galeri foto interaktif prewedding atau momen bahagia resolusi tinggi.
                     </p>
                 </div>
                 <div class="mt-6 pt-4 border-t border-orange-100 flex items-center gap-1.5 text-xs font-extrabold text-purple-700">
-                    <span>Bebas Antrean di Hari H</span>
+                    <span>Autoplay Audio &amp; Lightbox Foto</span>
                 </div>
             </div>
         </div>
@@ -211,57 +211,6 @@
                             <span>Pesan via WhatsApp (Terima Beres)</span>
                             <span>→</span>
                         </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        {{-- Section ID #buku-tamu: Sistem Check-in Tamu Modern --}}
-        <div id="buku-tamu" class="mt-24 pt-16 border-t border-orange-100">
-            <div class="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-[#1c1512] to-[#2b1f1a] text-white shadow-2xl relative overflow-hidden">
-                <div class="grid lg:grid-cols-12 gap-8 items-center relative z-10">
-                    <div class="lg:col-span-7 space-y-4">
-                        <span class="inline-block px-3 py-1 rounded-lg bg-orange-500/20 text-orange-400 border border-orange-500/30 text-xs font-extrabold uppercase tracking-wider">
-                            Fitur Eksklusif Buku Tamu Digital
-                        </span>
-                        <h3 class="font-serif text-2xl sm:text-4xl font-bold text-white tracking-tight">
-                            Buku Tamu QR Code Cepat, Registrasi Tanpa Antrean
-                        </h3>
-                        <p class="text-stone-300 text-sm sm:text-base leading-relaxed">
-                            Tamu Anda cukup menunjukkan QR Code pribadi yang ada di undangannya. Petugas resepsionis memindai menggunakan smartphone dan daftar hadir langsung tersimpan rapi.
-                        </p>
-                        <div class="grid sm:grid-cols-3 gap-3 pt-2">
-                            <div class="p-3 rounded-xl bg-white/10 border border-white/10">
-                                <b class="block text-sm font-bold text-white">&lt; 2 Detik</b>
-                                <span class="text-xs text-stone-300">Scan QR Super Cepat</span>
-                            </div>
-                            <div class="p-3 rounded-xl bg-white/10 border border-white/10">
-                                <b class="block text-sm font-bold text-white">Layar Sapa</b>
-                                <span class="text-xs text-stone-300">Nama Tampil di Monitor</span>
-                            </div>
-                            <div class="p-3 rounded-xl bg-white/10 border border-white/10">
-                                <b class="block text-sm font-bold text-white">Ekspor Excel</b>
-                                <span class="text-xs text-stone-300">Rekap Tamu Siap Unduh</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="lg:col-span-5 flex justify-center">
-                        <div class="w-full max-w-sm p-6 rounded-2xl bg-white text-ink text-center shadow-xl space-y-4">
-                            <div class="w-12 h-12 rounded-2xl bg-orange-100 text-orange-600 grid place-items-center mx-auto text-xl font-bold">
-                                📱
-                            </div>
-                            <div>
-                                <h5 class="font-bold text-base text-ink">Buku Tamu Digital D'Karsa</h5>
-                                <p class="text-xs text-ink3 mt-1">Dukung acara formal, pernikahan, &amp; temu kangen</p>
-                            </div>
-                            <div class="p-3 rounded-xl bg-stone-50 border border-stone-200 text-xs font-mono text-orange-700">
-                                [SCAN QR] Tamu: Bpk. Bambang • Hadir (Meja VIP 04)
-                            </div>
-                            <a href="{{ route('invitation.create') }}" class="block w-full py-2.5 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-extrabold text-xs transition">
-                                Aktifkan Fitur Buku Tamu →
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>

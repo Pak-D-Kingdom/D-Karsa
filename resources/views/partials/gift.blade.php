@@ -59,11 +59,11 @@
 
                 <details class="faq-item p-1">
                     <summary>
-                        <span>Apa itu Buku Tamu Digital QR Code?</span>
+                        <span>Bagaimana cara kerja Buku Tamu &amp; RSVP Online?</span>
                         <svg aria-hidden="true" class="w-4 h-4 text-orange-600"><use href="#i-caret-down"></use></svg>
                     </summary>
                     <div class="px-5 pb-4 text-sm text-ink2 leading-relaxed border-t border-stone-100 pt-3">
-                        Sistem penerima tamu modern: petugas memindai QR Code tamu di meja depan, nama tamu muncul di layar sapa gedung, penukaran souvenir tercatat, dan rekap kehadiran langsung siap diunduh dalam format Excel.
+                        Setiap tamu yang membuka tautan undangan dapat langsung mengisi konfirmasi kehadiran (Hadir/Tidak Hadir) dan mengirimkan untaian ucapan serta doa restu secara online yang otomatis tampil di halaman undangan.
                     </div>
                 </details>
 

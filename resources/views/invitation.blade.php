@@ -5,7 +5,7 @@
 @endsection
 
 @section('meta_description')
-    D'Karsa — Website undangan pernikahan digital, buku tamu QR Code, dan layanan pembuatan undangan pernikahan online terima beres &amp; kustom.
+    D'Karsa — Website undangan pernikahan digital, amplop digital QRIS, buku tamu ucapan online, dan layanan pembuatan undangan pernikahan online terima beres &amp; kustom.
 @endsection
 
 @section('content')

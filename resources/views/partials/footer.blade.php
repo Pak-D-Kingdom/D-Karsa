@@ -11,7 +11,7 @@
                     </div>
                 </a>
                 <p class="text-xs text-stone-400 leading-relaxed">
-                    Platform ekosistem undangan digital multi-acara modern di Indonesia: Pernikahan, Aqiqah, Khitanan, Ulang Tahun, Wisuda, dan Syukuran. Dilengkapi manajemen tamu dan buku tamu QR Code.
+                    Platform ekosistem undangan digital multi-acara modern di Indonesia: Pernikahan, Aqiqah, Khitanan, Ulang Tahun, Wisuda, dan Syukuran. Dilengkapi manajemen tamu dan buku tamu ucapan online.
                 </p>
                 <div class="pt-1">
                     <span class="inline-block px-3 py-1 rounded-lg bg-white/10 text-orange-400 text-[11px] font-bold">
@@ -26,7 +26,6 @@
                     <li><a href="#desain" class="hover:text-white transition">Katalog Desain Undangan</a></li>
                     <li><a href="#fitur" class="hover:text-white transition">Fitur Pintar D'Karsa</a></li>
                     <li><a href="#cara-kerja" class="hover:text-white transition">Pilihan Cara Kerja</a></li>
-                    <li><a href="#buku-tamu" class="hover:text-white transition">Buku Tamu Digital QR</a></li>
                     <li><a href="#harga" class="hover:text-white transition">Daftar Paket Harga</a></li>
                 </ul>
             </div>

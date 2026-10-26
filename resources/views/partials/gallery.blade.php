@@ -73,7 +73,7 @@
                 'category' => '🎉 Reuni & Syukuran',
                 'client' => 'Alumni SMAN 1 Angkatan 2015',
                 'theme' => 'Reuni Akbar Temu Kangen',
-                'quote' => 'Sangat membantu rekap peserta reuni akbar. Buku tamu QR Code di pintu masuk bikin registrasi tanpa antre sama sekali.',
+                'quote' => 'Sangat membantu rekap peserta reuni akbar. Fitur RSVP online dan sebar link WhatsApp bikin konfirmasi kehadiran alumni selesai dengan cepat.',
                 'date' => 'Desember 2025',
             ],
         ];
