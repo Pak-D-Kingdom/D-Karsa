@@ -96,8 +96,8 @@
     <!-- ========================================================
          COVER SCREEN (MODERN EDITORIAL MONOGRAPH)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 transition-all duration-1000 ease-in-out">
-        <div class="relative w-full max-w-sm bg-white rounded-3xl p-7 text-center shadow-2xl border border-grad-border overflow-hidden">
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-black/90 p-3 sm:p-4 transition-all duration-1000 ease-in-out">
+        <div class="relative w-full max-w-sm bg-white rounded-3xl p-5 sm:p-7 text-center shadow-2xl border border-grad-border overflow-hidden my-auto">
             
             <div class="space-y-4">
                 <span class="inline-block px-3.5 py-1 rounded-full bg-grad-bluelight text-grad-blue text-[11px] font-bold tracking-wider uppercase border border-blue-200">
@@ -129,7 +129,7 @@
                 </div>
 
                 <!-- Buka Undangan Button -->
-                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-grad-ink hover:bg-grad-blue text-white font-medium text-xs tracking-wider uppercase shadow-md transition flex items-center justify-center gap-2">
+                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-grad-ink hover:bg-grad-blue text-white font-medium text-xs tracking-wider uppercase shadow-md transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
                     <span>🎓</span> <span>Buka Lembaran Wisuda</span> <span>✨</span>
                 </button>
             </div>

@@ -147,9 +147,9 @@
     <!-- ========================================================
          INTERACTIVE ENVELOPE COVER SCREEN
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-stone-900/90 backdrop-blur-md p-4 transition-all duration-1000 ease-in-out">
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-stone-900/90 backdrop-blur-md p-3 sm:p-4 transition-all duration-1000 ease-in-out">
         <div id="previewCoverBg" class="absolute inset-0 bg-cover bg-center opacity-25 pointer-events-none" style="background-image: url('{{ $coverImg }}');"></div>
-        <div class="relative w-full max-w-sm bg-sahaja-base rounded-3xl p-6 sm:p-8 text-center shadow-2xl border-2 border-sahaja-green/20 overflow-hidden">
+        <div class="relative w-full max-w-sm bg-sahaja-base rounded-3xl p-6 sm:p-5 sm:p-8 text-center shadow-2xl border-2 border-sahaja-green/20 overflow-hidden my-auto">
             
             <!-- Islamic Arch Motif Badge -->
             <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-sahaja-greenlight text-sahaja-green border border-sahaja-green/30 mb-3">
@@ -180,7 +180,7 @@
                 <p class="font-bold text-sahaja-greendark text-sm">{{ $guestName }}</p>
             </div>
 
-            <button type="button" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-sahaja-green hover:bg-sahaja-greendark text-white text-xs font-bold uppercase tracking-wider shadow-lg hover:shadow-xl transition duration-300 flex items-center justify-center gap-2 transform hover:-translate-y-0.5">
+            <button type="button" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-sahaja-green hover:bg-sahaja-greendark text-white text-xs font-bold uppercase tracking-wider shadow-lg hover:shadow-xl transition duration-300 flex items-center justify-center gap-2 transform hover:-translate-y-0.5 relative z-20 pointer-events-auto cursor-pointer">
                 <span>Buka Undangan</span>
                 <span class="text-sm">✉️</span>
             </button>

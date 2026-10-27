@@ -203,62 +203,65 @@
     <!-- ========================================================
          COVER SCREEN (Chibi Red Style Envelope)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-b from-[#6b020e] via-[#850014] to-[#400008] text-white p-4 transition-all duration-700 ease-in-out">
-        
-        <!-- Background Glow & Circular Oriental Motif -->
-        <div id="previewCoverBg" class="absolute inset-0 bg-cover bg-center opacity-25 mix-blend-overlay" style="background-image: url('{{ $coverImg }}');"></div>
-        <div class="absolute w-[450px] h-[450px] rounded-full border border-oriental-gold/30 opacity-40 animate-pulse pointer-events-none"></div>
-        <div class="absolute w-[520px] h-[520px] rounded-full border border-oriental-gold/15 pointer-events-none"></div>
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col bg-gradient-to-b from-[#6b020e] via-[#850014] to-[#400008] text-white p-3 sm:p-4 transition-all duration-700 ease-in-out">
+        <div class="min-h-full flex flex-col justify-center items-center my-auto py-2 sm:py-3 w-full">
+            <!-- Background Glow & Circular Oriental Motif -->
+            <div id="previewCoverBg" class="fixed inset-0 bg-cover bg-center opacity-25 mix-blend-overlay pointer-events-none" style="background-image: url('{{ $coverImg }}');"></div>
+            <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] rounded-full border border-oriental-gold/30 opacity-40 animate-pulse pointer-events-none"></div>
+            <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] rounded-full border border-oriental-gold/15 pointer-events-none"></div>
 
-        <!-- Center Envelope Content Card -->
-        <div class="relative z-10 w-full max-w-md bg-gradient-to-b from-[#8f0016]/95 to-[#5a000e]/95 border-2 border-oriental-gold/70 rounded-[36px] p-8 sm:p-10 text-center shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-sm">
-            
-            <!-- Song Hỷ (Double Happiness 囍) Oriental Emblem -->
-            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-tr from-[#69000f] to-[#aa0f24] border-2 border-oriental-gold flex items-center justify-center shadow-lg">
-                <span class="font-chinese text-3xl font-bold text-oriental-gold leading-none">囍</span>
-            </div>
-
-            <p class="font-cinzel text-xs tracking-[0.25em] text-oriental-gold uppercase mb-1 font-semibold">
-                {{ $couple->event_heading ?? "WALIMATUL 'URSY" }}
-            </p>
-            <p class="text-xs text-white/80 tracking-widest uppercase mb-4">The Wedding Celebration of</p>
-
-            <!-- Couple Names -->
-            <div class="my-5">
-                <h1 class="font-script text-5xl sm:text-6xl text-oriental-lightgold drop-shadow-md leading-tight">
-                    {{ $couple->groom_name }}
-                </h1>
-                <div class="font-cinzel text-xl text-oriental-gold my-1 tracking-widest">&amp;</div>
-                <h1 class="font-script text-5xl sm:text-6xl text-oriental-lightgold drop-shadow-md leading-tight">
-                    {{ $couple->bride_name }}
-                </h1>
-            </div>
-
-            <div class="w-24 h-[1px] bg-oriental-gold/40 mx-auto my-4"></div>
-
-            <p class="font-serif text-sm text-white/90 mb-6 tracking-wide">
-                {{ $weddingDateFormatted }}
-            </p>
-
-            <!-- Guest Tag Card -->
-            <div class="p-3.5 rounded-2xl bg-black/40 border border-oriental-gold/30 text-xs mb-7">
-                <p class="text-[11px] text-white/70 uppercase tracking-widest">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
-                <p class="font-bold text-base text-oriental-lightgold mt-1">{{ $guest->name ?? 'Tamu Undangan' }}</p>
-                <p class="text-[10px] text-white/60 italic mt-0.5">*Mohon maaf bila ada kesalahan penulisan nama/gelar</p>
-            </div>
-
-            <!-- "Buka Undangan" Seal Button (Mở Thiệp Style) -->
-            <button type="button" onclick="openInvitation()" class="pulse-btn w-full py-3.5 px-6 rounded-full bg-gradient-to-r from-oriental-gold via-[#edd292] to-oriental-gold text-oriental-darkred font-cinzel text-xs font-extrabold uppercase tracking-widest shadow-xl hover:brightness-110 active:scale-95 transition flex items-center justify-center gap-2">
-                <span>✉️</span> Buka Undangan
-            </button>
-
-            @if(!empty($isDemo))
-                <div class="mt-4">
-                    <span class="inline-block px-3 py-1 rounded-full text-[10px] font-bold bg-white/20 text-white/90 border border-white/20">
-                        ✨ Mode Demo Template: Chibi Red Oriental
-                    </span>
+            <!-- Center Envelope Content Card -->
+            <div class="relative z-10 w-full max-w-sm sm:max-w-md bg-gradient-to-b from-[#8f0016]/95 to-[#5a000e]/95 border-2 border-oriental-gold/70 rounded-[32px] sm:rounded-[36px] p-5 sm:p-8 text-center shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-sm my-auto">
+                
+                <!-- Song Hỷ (Double Happiness 囍) Oriental Emblem -->
+                <div class="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-2.5 sm:mb-3 rounded-full bg-gradient-to-tr from-[#69000f] to-[#aa0f24] border-2 border-oriental-gold flex items-center justify-center shadow-lg">
+                    <span class="font-chinese text-2xl sm:text-3xl font-bold text-oriental-gold leading-none">囍</span>
                 </div>
-            @endif
+
+                <p class="font-cinzel text-[11px] sm:text-xs tracking-[0.25em] text-oriental-gold uppercase mb-0.5 font-semibold">
+                    {{ $couple->event_heading ?? "WALIMATUL 'URSY" }}
+                </p>
+                <p class="text-[10px] sm:text-xs text-white/80 tracking-widest uppercase mb-2 sm:mb-3">The Wedding Celebration of</p>
+
+                <!-- Couple Names -->
+                <div class="my-2.5 sm:my-4">
+                    <h1 class="font-script text-4xl sm:text-5xl text-oriental-lightgold drop-shadow-md leading-tight">
+                        {{ $couple->groom_name }}
+                    </h1>
+                    <div class="font-cinzel text-lg sm:text-xl text-oriental-gold my-0.5 sm:my-1 tracking-widest">&amp;</div>
+                    <h1 class="font-script text-4xl sm:text-5xl text-oriental-lightgold drop-shadow-md leading-tight">
+                        {{ $couple->bride_name }}
+                    </h1>
+                </div>
+
+                <div class="w-20 sm:w-24 h-[1px] bg-oriental-gold/40 mx-auto my-2.5 sm:my-3"></div>
+
+                <p class="font-serif text-xs sm:text-sm text-white/90 mb-3 sm:mb-5 tracking-wide">
+                    {{ $weddingDateFormatted }}
+                </p>
+
+                <!-- Guest Tag Card -->
+                <div class="p-2.5 sm:p-3.5 rounded-2xl bg-black/40 border border-oriental-gold/30 text-xs mb-4 sm:mb-6">
+                    <p class="text-[10px] sm:text-[11px] text-white/70 uppercase tracking-widest">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
+                    <p class="font-bold text-sm sm:text-base text-oriental-lightgold mt-0.5 sm:mt-1">{{ $guest->name ?? 'Tamu Undangan' }}</p>
+                    <p class="text-[9.5px] sm:text-[10px] text-white/60 italic mt-0.5">*Mohon maaf bila ada kesalahan penulisan nama/gelar</p>
+                </div>
+
+                <!-- "Buka Undangan" Seal Button (Mở Thiệp Style) -->
+                <div class="pt-1">
+                    <button type="button" onclick="openInvitation()" class="pulse-btn w-full py-3 sm:py-3.5 px-6 rounded-full bg-gradient-to-r from-oriental-gold via-[#edd292] to-oriental-gold text-oriental-darkred font-cinzel text-xs font-extrabold uppercase tracking-widest shadow-xl hover:brightness-110 active:scale-95 transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto">
+                        <span>✉️</span> Buka Undangan
+                    </button>
+                </div>
+
+                @if(!empty($isDemo))
+                    <div class="mt-3">
+                        <span class="inline-block px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-bold bg-white/20 text-white/90 border border-white/20">
+                            ✨ Mode Demo Template: Chibi Red Oriental
+                        </span>
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
 

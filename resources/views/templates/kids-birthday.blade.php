@@ -139,9 +139,9 @@
     <!-- ========================================================
          COVER SCREEN (Playful Surprise Gift Box Modal)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-b from-[#FFF2B2] via-[#FFD6E0] to-[#E2F7F5] p-4 transition-all duration-700 ease-in-out">
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-gradient-to-b from-[#FFF2B2] via-[#FFD6E0] to-[#E2F7F5] p-3 sm:p-4 transition-all duration-700 ease-in-out">
         <div id="previewCoverBg" class="absolute inset-0 bg-cover bg-center opacity-15 pointer-events-none" style="background-image: url('{{ $coverImg }}');"></div>
-        <div class="relative w-full max-w-sm bg-white rounded-3xl p-7 text-center shadow-2xl border-4 border-candy-yellow overflow-hidden">
+        <div class="relative w-full max-w-sm bg-white rounded-3xl p-5 sm:p-7 text-center shadow-2xl border-4 border-candy-yellow overflow-hidden my-auto">
             
             <!-- Floating Balloons Header -->
             <div class="flex justify-center items-center gap-2 mb-3 animate-balloon-slow">
@@ -181,7 +181,7 @@
             </div>
 
             <!-- Buka Undangan Action -->
-            <button type="button" onclick="openInvitation()" class="mt-6 w-full py-4 rounded-2xl bg-gradient-to-r from-candy-pink to-candy-orange hover:brightness-105 text-white font-fredoka text-sm font-bold uppercase tracking-wider shadow-lg transform transition active:scale-95 flex items-center justify-center gap-2">
+            <button type="button" onclick="openInvitation()" class="mt-6 w-full py-4 rounded-2xl bg-gradient-to-r from-candy-pink to-candy-orange hover:brightness-105 text-white font-fredoka text-sm font-bold uppercase tracking-wider shadow-lg transform transition active:scale-95 flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
                 <span>🎁</span> BUKA KOTAK PESTA!
             </button>
         </div>

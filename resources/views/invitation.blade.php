@@ -58,42 +58,184 @@
 
         let currentSelectedCategory = 'semua';
         let currentSelectedTier = 'semua';
+        const CATALOG_PAGE_SIZE = 9;
+        let currentCatalogPage = 1;
+        let currentCatalogSearchQuery = '';
 
         const catalogCategoryAliases = {
             'semua': ['semua'],
-            'pernikahan': ['pernikahan', 'wedding'],
-            'tahlilan': ['tahlilan', 'doa bersama'],
-            'halalbihalal': ['halalbihalal', 'halal bihalal'],
-            'khitanan': ['khitanan', 'khitan', 'sunat'],
-            'aqiqah': ['aqiqah', 'tasmiyah', 'baby'],
+            'pernikahan': ['pernikahan', 'wedding', 'pawiwahan', 'akad', 'resepsi'],
+            'tahlilan': ['tahlilan', 'doa bersama', 'khusyuk', 'kirim doa'],
+            'halalbihalal': ['halalbihalal', 'halal bihalal', 'silaturahmi', 'lebaran', 'syawalan'],
+            'khitanan': ['khitanan', 'khitan', 'sunat', 'walimatul khitan'],
+            'aqiqah': ['aqiqah', 'tasmiyah', 'baby', 'kelahiran'],
             'ultah': ['ultah', 'ulang tahun', 'birthday', 'milad'],
-            'wisuda': ['wisuda', 'graduate', 'graduation', 'sarjana'],
-            'formal': ['formal', 'acara formal', 'seminar', 'workshop', 'corporate', 'reuni'],
-            'syukuran': ['syukuran', 'selamatan', 'rumah baru']
+            'wisuda': ['wisuda', 'graduate', 'graduation', 'sarjana', 'kelulusan'],
+            'formal': ['formal', 'acara formal', 'seminar', 'workshop', 'corporate', 'reuni', 'grand opening'],
+            'syukuran': ['syukuran', 'selamatan', 'rumah baru', 'tasyakuran']
         };
 
         function applyCatalogFilters() {
             const selCat = (currentSelectedCategory || 'semua').toLowerCase();
             const allowedKeywords = catalogCategoryAliases[selCat] || [selCat];
+            const search = (currentCatalogSearchQuery || '').trim().toLowerCase();
 
-            document.querySelectorAll('#catalogGrid .theme-card').forEach(card => {
+            const allCards = Array.from(document.querySelectorAll('#catalogGrid .theme-card'));
+            if (!allCards.length) return;
+
+            const matchingCards = [];
+
+            allCards.forEach(card => {
                 const cardCat = (card.dataset.category || '').toLowerCase();
-                const cardTier = card.dataset.tier || '';
+                const cardTier = (card.dataset.tier || '').toLowerCase();
+                const cardName = (card.dataset.name || '').toLowerCase();
+                const cardTags = (card.dataset.tags || '').toLowerCase();
 
                 const matchCat = (selCat === 'semua' || cardCat === 'semua' || cardCat === selCat || allowedKeywords.some(kw => cardCat.includes(kw)));
                 const matchTier = (currentSelectedTier === 'semua' || cardTier === currentSelectedTier);
+                const matchSearch = (!search || cardName.includes(search) || cardTags.includes(search) || cardCat.includes(search) || cardTier.includes(search));
 
-                if (matchCat && matchTier) {
-                    card.classList.remove('hidden');
+                if (matchCat && matchTier && matchSearch) {
+                    matchingCards.push(card);
                 } else {
                     card.classList.add('hidden');
                 }
             });
+
+            const totalMatches = matchingCards.length;
+            const maxVisible = currentCatalogPage * CATALOG_PAGE_SIZE;
+            let visibleCount = 0;
+
+            matchingCards.forEach((card, index) => {
+                if (index < maxVisible) {
+                    card.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            // Update Real-time Counters
+            const countVisibleEl = document.getElementById('catalogCountVisible');
+            const countTotalEl = document.getElementById('catalogCountTotal');
+            const countVisibleTextEl = document.getElementById('catalogVisibleCountText');
+            const countTotalTextEl = document.getElementById('catalogTotalCountText');
+
+            if (countVisibleEl) countVisibleEl.textContent = visibleCount;
+            if (countTotalEl) countTotalEl.textContent = totalMatches;
+            if (countVisibleTextEl) countVisibleTextEl.textContent = visibleCount;
+            if (countTotalTextEl) countTotalTextEl.textContent = totalMatches;
+
+            // Empty State
+            const emptyState = document.getElementById('catalogEmptyState');
+            if (emptyState) {
+                if (totalMatches === 0) {
+                    emptyState.classList.remove('hidden');
+                } else {
+                    emptyState.classList.add('hidden');
+                }
+            }
+
+            // Load More vs All Loaded Indicator
+            const loadMoreSection = document.getElementById('catalogLoadMoreSection');
+            const loadMoreRemaining = document.getElementById('catalogLoadMoreRemaining');
+            const allLoadedBadge = document.getElementById('catalogAllLoadedBadge');
+            const allLoadedText = document.getElementById('catalogAllLoadedText');
+
+            if (totalMatches === 0) {
+                if (loadMoreSection) loadMoreSection.classList.add('hidden');
+                if (allLoadedBadge) allLoadedBadge.classList.add('hidden');
+            } else if (visibleCount < totalMatches) {
+                if (loadMoreSection) loadMoreSection.classList.remove('hidden');
+                if (loadMoreRemaining) {
+                    const remaining = totalMatches - visibleCount;
+                    const nextBatch = Math.min(CATALOG_PAGE_SIZE, remaining);
+                    loadMoreRemaining.textContent = `+${nextBatch} Lagi`;
+                }
+                if (allLoadedBadge) allLoadedBadge.classList.add('hidden');
+            } else {
+                if (loadMoreSection) loadMoreSection.classList.add('hidden');
+                if (allLoadedBadge) {
+                    allLoadedBadge.classList.remove('hidden');
+                    if (allLoadedText) {
+                        allLoadedText.textContent = `Seluruh ${totalMatches} pilihan desain telah ditampilkan`;
+                    }
+                }
+            }
+
+            // Search Clear Button & Reset Filter Button
+            const searchClearBtn = document.getElementById('catalogSearchClearBtn');
+            if (searchClearBtn) {
+                if (search.length > 0) {
+                    searchClearBtn.classList.remove('hidden');
+                } else {
+                    searchClearBtn.classList.add('hidden');
+                }
+            }
+
+            const resetFilterBtn = document.getElementById('catalogResetFilterBtn');
+            if (resetFilterBtn) {
+                const isFiltered = (currentSelectedCategory !== 'semua' || currentSelectedTier !== 'semua' || search.length > 0);
+                if (isFiltered) {
+                    resetFilterBtn.classList.remove('hidden');
+                    resetFilterBtn.classList.add('inline-flex');
+                } else {
+                    resetFilterBtn.classList.add('hidden');
+                    resetFilterBtn.classList.remove('inline-flex');
+                }
+            }
+        }
+
+        // Muat Lebih Banyak Desain (Load More)
+        function loadMoreCatalogThemes() {
+            currentCatalogPage++;
+            applyCatalogFilters();
+        }
+
+        // Live Search Input handler
+        function onCatalogSearchChange(query) {
+            currentCatalogSearchQuery = query || '';
+            currentCatalogPage = 1;
+            applyCatalogFilters();
+        }
+
+        // Clear Search
+        function clearCatalogSearch() {
+            const input = document.getElementById('catalogSearchInput');
+            if (input) input.value = '';
+            currentCatalogSearchQuery = '';
+            currentCatalogPage = 1;
+            applyCatalogFilters();
+        }
+
+        // Reset Semua Filter & Pencarian
+        function resetAllCatalogFilters() {
+            currentSelectedCategory = 'semua';
+            currentSelectedTier = 'semua';
+            currentCatalogSearchQuery = '';
+            currentCatalogPage = 1;
+
+            const searchInput = document.getElementById('catalogSearchInput');
+            if (searchInput) searchInput.value = '';
+
+            document.querySelectorAll('#themeFilters .chip').forEach(c => c.classList.remove('aktif'));
+            const defaultCatChip = document.querySelector('#themeFilters .chip');
+            if (defaultCatChip) defaultCatChip.classList.add('aktif');
+
+            document.querySelectorAll('#tierFilters .chip').forEach(c => c.classList.remove('aktif'));
+            const defaultTierChip = document.getElementById('chipTier_semua');
+            if (defaultTierChip) defaultTierChip.classList.add('aktif');
+
+            const banner = document.getElementById('catalogTierBanner');
+            if (banner) banner.classList.add('hidden');
+
+            applyCatalogFilters();
         }
 
         // Filter Katalog Desain Berdasarkan Kategori Acara
         function filterThemes(category, btn) {
             currentSelectedCategory = category;
+            currentCatalogPage = 1;
             document.querySelectorAll('#themeFilters .chip').forEach(c => c.classList.remove('aktif'));
             if (btn) btn.classList.add('aktif');
             applyCatalogFilters();
@@ -102,6 +244,7 @@
         // Filter Katalog Desain Berdasarkan Tingkat Paket (Basic, Premium, Eksklusif, Kustom)
         function filterCatalogByTier(tier, packageName) {
             currentSelectedTier = tier;
+            currentCatalogPage = 1;
 
             // Update status chip aktif di tier filters
             document.querySelectorAll('#tierFilters .chip').forEach(c => c.classList.remove('aktif'));
@@ -122,7 +265,7 @@
                     if (tier === 'basic') {
                         if (badgeEl) { badgeEl.textContent = 'Paket Basic (Rp50.000)'; badgeEl.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-emerald-600 text-white'; }
                         titleEl.textContent = 'Koleksi Desain Paket Basic (Rp50.000)';
-                        descEl.textContent = 'Pilihan desain standar, bersih & esensial dengan harga paling murah/hemat. Silakan klik "Pilih & Buat" pada desain yang Anda inginkan!';
+                        descEl.textContent = 'Pilihan desain standar, bersih & esensial dengan harga paling murah/hemat. Silakan klik "Pilih Desain" pada tema yang Anda inginkan!';
                     } else if (tier === 'premium') {
                         if (badgeEl) { badgeEl.textContent = 'Paket Premium (Rp110.000)'; badgeEl.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-blue-600 text-white'; }
                         titleEl.textContent = 'Koleksi Desain Paket Premium (Rp110.000)';
@@ -1269,6 +1412,10 @@
 
         // Direct Map of Canonical Slugs to Demo Routes
         const demoUrlMap = {
+            'botanical-emerald': '/demo/botanical-emerald',
+            'botanical': '/demo/botanical-emerald',
+            'pawiwahan': '/demo/botanical-emerald',
+            'jawa-geometris': '/demo/botanical-emerald',
             'chibi-red': '/demo/chibi-red',
             'wildflower-pink': '/demo/wildflower-pink',
             '3d-javanese-royal': '/demo/javanese-royal',
@@ -1544,5 +1691,12 @@
         document.getElementById('themePreviewModal')?.addEventListener('click', (e) => {
             if (e.target.id === 'themePreviewModal') closeThemePreview();
         });
+
+        // Inisialisasi awal katalog desain (paginasi 9 kartu per batch & counter)
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => { applyCatalogFilters(); });
+        } else {
+            applyCatalogFilters();
+        }
     </script>
 @endpush

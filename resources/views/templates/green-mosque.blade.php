@@ -114,8 +114,8 @@
     <!-- ========================================================
          COVER SCREEN (GREEN MOSQUE DOME ARCH)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 transition-all duration-1000 ease-in-out">
-        <div class="relative w-full max-w-sm bg-gradient-to-b from-mosque-card via-mosque-deep to-mosque-darker rounded-[36px] p-7 text-center shadow-2xl border-2 border-mosque-gold/80 overflow-hidden">
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-black/90 p-3 sm:p-4 transition-all duration-1000 ease-in-out">
+        <div class="relative w-full max-w-sm bg-gradient-to-b from-mosque-card via-mosque-deep to-mosque-darker rounded-[36px] p-5 sm:p-7 text-center shadow-2xl border-2 border-mosque-gold/80 overflow-hidden my-auto">
             
             <div class="lantern-pulse mx-auto text-3xl mb-1 text-mosque-gold">
                 🕌
@@ -151,7 +151,7 @@
                 </div>
 
                 <!-- Buka Undangan Button -->
-                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-mosque-gold to-[#C59B4B] hover:brightness-110 text-mosque-darker font-serif font-bold text-xs uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-2">
+                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-mosque-gold to-[#C59B4B] hover:brightness-110 text-mosque-darker font-serif font-bold text-xs uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
                     <span>🤲</span> <span>Buka Lembaran Silaturahmi</span> <span>🌿</span>
                 </button>
             </div>

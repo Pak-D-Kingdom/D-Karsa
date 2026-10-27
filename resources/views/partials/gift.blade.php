@@ -73,7 +73,7 @@
                         <svg aria-hidden="true" class="w-4 h-4 text-orange-600"><use href="#i-caret-down"></use></svg>
                     </summary>
                     <div class="px-5 pb-4 text-sm text-ink2 leading-relaxed border-t border-stone-100 pt-3">
-                        Pembayaran sangat praktis dan otomatis via Midtrans (scan QRIS GoPay/ShopeePay/BCA Mobile, Virtual Account semua bank) atau transfer langsung ke rekening resmi PT D'Karsa Digital Indonesia.
+                        Pembayaran sangat praktis dan otomatis menggunakan scan QRIS (GoPay, ShopeePay, OVO, DANA, BCA Mobile) maupun Virtual Account resmi (BCA, Mandiri, BNI, BRI) yang langsung terverifikasi instan tanpa perlu konfirmasi manual.
                     </div>
                 </details>
             </div>
@@ -82,54 +82,120 @@
         {{-- Official Payment Channels --}}
         <div class="mt-20 pt-16 border-t border-orange-100">
             <div class="text-center max-w-2xl mx-auto mb-10">
-                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800 mb-3">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                    <span>100% AMAN &amp; TERVERIFIKASI RESMI</span>
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800 mb-3 shadow-2xs">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>100% AMAN, OTOMATIS &amp; TERVERIFIKASI RESMI</span>
                 </div>
                 <h3 class="font-serif text-2xl sm:text-3xl font-bold text-ink tracking-tight">
-                    Metode Pembayaran <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 font-extrabold">Resmi D'Karsa</span>
+                    Metode Pembayaran <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 font-extrabold">Praktis &amp; Otomatis</span>
                 </h3>
                 <p class="mt-2 text-ink2 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
-                    Mendukung pembayaran instan otomatis via Midtrans Gateway serta transfer manual ke rekening bank resmi perusahaan.
+                    Pembayaran Anda terverifikasi secara instan 24/7. Undangan langsung aktif otomatis detik itu juga tanpa perlu kirim bukti transfer manual.
                 </p>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-                {{-- Bank Card 1 --}}
-                <div class="p-7 rounded-3xl bg-white border border-stone-200 shadow-sm flex flex-col justify-between">
+            <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                {{-- Payment Channel 1: QRIS & Dompet Digital --}}
+                <div class="p-6 sm:p-7 rounded-3xl bg-white border border-stone-200/90 shadow-sm hover:shadow-md hover:border-orange-300 transition duration-300 flex flex-col justify-between">
                     <div>
-                        <div class="flex items-center justify-between">
-                            <span class="text-2xl">💳</span>
-                            <span class="text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-md bg-blue-100 text-blue-800">BANK BCA • RESMI</span>
+                        <div class="flex items-center justify-between gap-2 mb-4">
+                            <span class="text-2xl">📱</span>
+                            <span class="text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full bg-orange-100 text-orange-800">
+                                Scan &amp; Auto Aktif
+                            </span>
                         </div>
-                        <p class="font-serif text-3xl font-bold text-ink tracking-wider mt-5" id="rek1">1234 5678 90</p>
-                        <p class="text-sm font-semibold text-ink2 mt-1">a.n. PT D'Karsa Digital Indonesia</p>
+                        <h4 class="font-bold text-lg sm:text-xl text-ink">QRIS &amp; Dompet Digital</h4>
+                        <p class="text-xs sm:text-sm text-ink2 mt-2 leading-relaxed">
+                            Cukup scan satu barcode QRIS resmi dari smartphone Anda. Mendukung pembayaran dari semua aplikasi mobile banking dan dompet digital di Indonesia.
+                        </p>
+
+                        {{-- Badges Saluran E-Wallet / QRIS --}}
+                        <div class="flex flex-wrap gap-1.5 sm:gap-2 mt-5">
+                            <span class="px-2.5 py-1 rounded-lg bg-orange-50 border border-orange-200/80 text-[11px] font-extrabold text-orange-800">
+                                ✦ QRIS Nasional
+                            </span>
+                            <span class="px-2.5 py-1 rounded-lg bg-stone-100 text-[11px] font-bold text-ink">
+                                GoPay
+                            </span>
+                            <span class="px-2.5 py-1 rounded-lg bg-stone-100 text-[11px] font-bold text-ink">
+                                ShopeePay
+                            </span>
+                            <span class="px-2.5 py-1 rounded-lg bg-stone-100 text-[11px] font-bold text-ink">
+                                OVO
+                            </span>
+                            <span class="px-2.5 py-1 rounded-lg bg-stone-100 text-[11px] font-bold text-ink">
+                                DANA
+                            </span>
+                            <span class="px-2.5 py-1 rounded-lg bg-stone-100 text-[11px] font-bold text-ink">
+                                BCA Mobile / Livin'
+                            </span>
+                        </div>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-stone-100 flex items-center justify-between">
-                        <span class="text-xs text-ink3">Aktivasi otomatis tanpa biaya admin</span>
-                        <button type="button" onclick="copyText('1234567890')" class="px-3.5 py-1.5 rounded-lg bg-orange-100 hover:bg-orange-200 text-orange-800 text-xs font-bold transition">
-                            Salin Rekening
-                        </button>
+
+                    <div class="mt-6 pt-4 border-t border-stone-100 flex items-center justify-between text-xs text-ink3">
+                        <span class="flex items-center gap-1.5 text-emerald-700 font-bold">
+                            <span>✓</span> Verifikasi &lt; 3 Detik
+                        </span>
+                        <span class="text-stone-400 text-[11px]">Bebas Biaya Admin</span>
                     </div>
                 </div>
 
-                {{-- Bank Card 2 --}}
-                <div class="p-7 rounded-3xl bg-white border border-stone-200 shadow-sm flex flex-col justify-between">
+                {{-- Payment Channel 2: Virtual Account Multi-Bank --}}
+                <div class="p-6 sm:p-7 rounded-3xl bg-white border border-stone-200/90 shadow-sm hover:shadow-md hover:border-orange-300 transition duration-300 flex flex-col justify-between">
                     <div>
-                        <div class="flex items-center justify-between">
+                        <div class="flex items-center justify-between gap-2 mb-4">
                             <span class="text-2xl">🏦</span>
-                            <span class="text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-md bg-orange-100 text-orange-800">BANK MANDIRI / QRIS</span>
+                            <span class="text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full bg-blue-100 text-blue-800">
+                                Multi-Bank Resmi
+                            </span>
                         </div>
-                        <p class="font-serif text-3xl font-bold text-ink tracking-wider mt-5" id="rek2">0987 6543 21</p>
-                        <p class="text-sm font-semibold text-ink2 mt-1">a.n. PT D'Karsa Digital Indonesia</p>
+                        <h4 class="font-bold text-lg sm:text-xl text-ink">Virtual Account (VA)</h4>
+                        <p class="text-xs sm:text-sm text-ink2 mt-2 leading-relaxed">
+                            Sistem secara otomatis membuat nomor Virtual Account unik khusus pesanan Anda. Transfer via ATM, m-Banking, atau internet banking tanpa jeda.
+                        </p>
+
+                        {{-- Badges Bank Virtual Account --}}
+                        <div class="flex flex-wrap gap-1.5 sm:gap-2 mt-5">
+                            <span class="px-2.5 py-1 rounded-lg bg-blue-50 border border-blue-200/80 text-[11px] font-extrabold text-blue-800">
+                                BCA Virtual Account
+                            </span>
+                            <span class="px-2.5 py-1 rounded-lg bg-stone-100 text-[11px] font-bold text-ink">
+                                Mandiri Bill
+                            </span>
+                            <span class="px-2.5 py-1 rounded-lg bg-stone-100 text-[11px] font-bold text-ink">
+                                BNI VA
+                            </span>
+                            <span class="px-2.5 py-1 rounded-lg bg-stone-100 text-[11px] font-bold text-ink">
+                                BRI BRIVA
+                            </span>
+                            <span class="px-2.5 py-1 rounded-lg bg-stone-100 text-[11px] font-bold text-ink">
+                                Permata VA
+                            </span>
+                        </div>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-stone-100 flex items-center justify-between">
-                        <span class="text-xs text-ink3">Mendukung semua Bank &amp; QRIS e-Wallet</span>
-                        <button type="button" onclick="copyText('0987654321')" class="px-3.5 py-1.5 rounded-lg bg-orange-100 hover:bg-orange-200 text-orange-800 text-xs font-bold transition">
-                            Salin Rekening
-                        </button>
+
+                    <div class="mt-6 pt-4 border-t border-stone-100 flex items-center justify-between text-xs text-ink3">
+                        <span class="flex items-center gap-1.5 text-blue-700 font-bold">
+                            <span>✓</span> Kode Unik Per Transaksi
+                        </span>
+                        <span class="text-stone-400 text-[11px]">Sistem Otomatis 24/7</span>
                     </div>
                 </div>
+            </div>
+
+            {{-- Trust & Safety Mini Strip --}}
+            <div class="mt-6 max-w-4xl mx-auto flex flex-wrap items-center justify-center gap-4 sm:gap-8 py-3 px-4 rounded-2xl bg-orange-50/60 border border-orange-200/70 text-xs text-ink2">
+                <span class="flex items-center gap-1.5 font-bold">
+                    <span class="text-emerald-600">🛡️</span> Terlisensi Resmi Bank Indonesia &amp; Standar QRIS
+                </span>
+                <span class="hidden sm:inline text-orange-200">•</span>
+                <span class="flex items-center gap-1.5 font-bold">
+                    <span class="text-orange-600">⚡</span> Undangan Otomatis Aktif Tanpa Antre
+                </span>
+                <span class="hidden sm:inline text-orange-200">•</span>
+                <span class="flex items-center gap-1.5 font-bold">
+                    <span class="text-blue-600">🔒</span> Enkripsi Transaksi Aman 256-Bit
+                </span>
             </div>
         </div>
 

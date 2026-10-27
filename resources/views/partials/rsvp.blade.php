@@ -13,7 +13,7 @@
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 font-extrabold">Fitur Lengkap Aktif Selamanya</span>
             </h2>
             <p class="mt-3 text-ink2 text-base">
-                Pilih paket yang paling sesuai dengan kebutuhan acara Anda. Tanpa biaya langganan bulanan, pembayaran otomatis dan aman via Midtrans.
+                Pilih paket yang paling sesuai dengan kebutuhan acara Anda. Tanpa biaya langganan bulanan, pembayaran otomatis, praktis, dan 100% aman.
             </p>
         </div>
 

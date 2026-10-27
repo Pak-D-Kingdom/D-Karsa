@@ -105,8 +105,8 @@
     <!-- ========================================================
          COVER SCREEN (DELEGATE ACCREDITATION PASS)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/90 p-4 transition-all duration-1000 ease-in-out">
-        <div class="relative w-full max-w-sm bg-white rounded-3xl p-7 text-center shadow-2xl border-2 border-tech-border overflow-hidden">
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-slate-950/90 p-3 sm:p-4 transition-all duration-1000 ease-in-out">
+        <div class="relative w-full max-w-sm bg-white rounded-3xl p-5 sm:p-7 text-center shadow-2xl border-2 border-tech-border overflow-hidden my-auto">
             
             <div class="space-y-4">
                 <div class="flex items-center justify-between pb-2 border-b border-tech-border text-[9px] font-mono tracking-widest text-tech-muted uppercase">
@@ -139,7 +139,7 @@
                 </div>
 
                 <!-- Buka Undangan Button -->
-                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-tech-blue hover:bg-sky-600 text-white font-mono font-bold text-xs uppercase tracking-wider shadow-md transition flex items-center justify-center gap-2">
+                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-tech-blue hover:bg-sky-600 text-white font-mono font-bold text-xs uppercase tracking-wider shadow-md transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
                     <span>📊</span> <span>Buka Akses Seminar Pass</span> <span>&rarr;</span>
                 </button>
             </div>

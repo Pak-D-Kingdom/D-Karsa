@@ -136,57 +136,60 @@
     <!-- ========================================================
          COVER SCREEN (Wildflower Arched Window with Wax Seal)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-b from-[#fbf5f4] via-[#f7e6e9] to-[#edd0d6] text-blush-900 p-4 transition-all duration-700 ease-in-out">
-        
-        <!-- Center Arched Frame -->
-        <div class="relative z-10 w-full max-w-sm bg-white/95 border-2 border-blush-200 rounded-[44px] arch-window p-7 sm:p-9 text-center shadow-2xl backdrop-blur-md">
-            
-            <!-- Delicate Botanical Wreath SVG Header -->
-            <div class="w-16 h-16 mx-auto mb-3 flex items-center justify-center text-blush-500">
-                <svg viewBox="0 0 100 100" class="w-full h-full fill-current">
-                    <path d="M50 15 C30 15 15 30 15 50 C15 70 30 85 50 85 C70 85 85 70 85 50 C85 30 70 15 50 15 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="4 3"/>
-                    <circle cx="50" cy="50" r="28" fill="none" stroke="#c59b27" stroke-width="1"/>
-                    <path d="M50 25 C52 35 60 40 70 42 C60 44 52 50 50 60 C48 50 40 44 30 42 C40 40 48 35 50 25 Z" fill="#b23b53" opacity="0.3"/>
-                </svg>
-            </div>
-
-            <p class="font-garamond text-xs tracking-[0.25em] text-botanical-sage uppercase font-bold">
-                {{ $couple->event_heading ?? "THE WEDDING CELEBRATION" }}
-            </p>
-            <p class="text-[10px] text-neutral-500 tracking-widest uppercase mt-0.5 mb-4">You're Cordially Invited</p>
-
-            <!-- Arched Photo Preview Window -->
-            <div class="w-44 h-56 mx-auto rounded-t-full rounded-b-2xl overflow-hidden border-2 border-blush-200 shadow-inner mb-4 relative bg-blush-100">
-                <img id="previewCoverPhotoImg" src="{{ $coverImg }}" alt="Cover" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-blush-900/40 via-transparent to-transparent"></div>
-            </div>
-
-            <!-- Couple Names -->
-            <h1 class="font-script text-4xl sm:text-5xl text-blush-800 leading-tight">
-                {{ $couple->groom_name }} &amp; {{ $couple->bride_name }}
-            </h1>
-            <p class="font-garamond text-sm text-neutral-600 mt-2 font-medium tracking-wide">
-                {{ $weddingDateFormatted }}
-            </p>
-
-            <!-- Guest Tag Card -->
-            <div class="mt-5 p-3 rounded-2xl bg-blush-50 border border-blush-200 text-xs">
-                <span class="text-[10px] uppercase font-bold tracking-wider text-botanical-sage block">Kepada Yth.</span>
-                <b class="text-sm text-blush-900 block mt-0.5">{{ $guest->name ?? 'Tamu Undangan' }}</b>
-            </div>
-
-            <!-- Wax Seal Pulsing Button ("Save Our Date") -->
-            <button type="button" onclick="openInvitation()" class="wax-seal-btn mt-6 w-full py-3.5 px-6 rounded-full bg-gradient-to-r from-botanical-wax to-blush-600 text-white font-garamond text-sm font-bold uppercase tracking-widest shadow-lg hover:brightness-110 active:scale-95 transition flex items-center justify-center gap-2">
-                <span>💌</span> Buka Undangan
-            </button>
-
-            @if(!empty($isDemo))
-                <div class="mt-3">
-                    <span class="inline-block px-3 py-0.5 rounded-full text-[9px] font-bold bg-blush-100 text-blush-700">
-                        Demo Template: Wildflower Pink
-                    </span>
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col bg-gradient-to-b from-[#fbf5f4] via-[#f7e6e9] to-[#edd0d6] text-blush-900 p-3 sm:p-4 transition-all duration-700 ease-in-out">
+        <div class="min-h-full flex flex-col justify-center items-center my-auto py-2 sm:py-3 w-full">
+            <!-- Center Arched Frame -->
+            <div class="relative z-10 w-full max-w-sm bg-white/95 border-2 border-blush-200 rounded-[38px] sm:rounded-[44px] arch-window p-5 sm:p-8 text-center shadow-2xl backdrop-blur-md my-auto">
+                
+                <!-- Delicate Botanical Wreath SVG Header -->
+                <div class="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-2 sm:mb-3 flex items-center justify-center text-blush-500">
+                    <svg viewBox="0 0 100 100" class="w-full h-full fill-current">
+                        <path d="M50 15 C30 15 15 30 15 50 C15 70 30 85 50 85 C70 85 85 70 85 50 C85 30 70 15 50 15 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="4 3"/>
+                        <circle cx="50" cy="50" r="28" fill="none" stroke="#c59b27" stroke-width="1"/>
+                        <path d="M50 25 C52 35 60 40 70 42 C60 44 52 50 50 60 C48 50 40 44 30 42 C40 40 48 35 50 25 Z" fill="#b23b53" opacity="0.3"/>
+                    </svg>
                 </div>
-            @endif
+
+                <p class="font-garamond text-[11px] sm:text-xs tracking-[0.25em] text-botanical-sage uppercase font-bold">
+                    {{ $couple->event_heading ?? "THE WEDDING CELEBRATION" }}
+                </p>
+                <p class="text-[9px] sm:text-[10px] text-neutral-500 tracking-widest uppercase mt-0.5 mb-2 sm:mb-3">You're Cordially Invited</p>
+
+                <!-- Arched Photo Preview Window -->
+                <div class="w-36 h-40 sm:w-44 sm:h-52 max-h-[25vh] mx-auto rounded-t-full rounded-b-2xl overflow-hidden border-2 border-blush-200 shadow-inner mb-3 sm:mb-4 relative bg-blush-100">
+                    <img id="previewCoverPhotoImg" src="{{ $coverImg }}" alt="Cover" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-blush-900/40 via-transparent to-transparent pointer-events-none"></div>
+                </div>
+
+                <!-- Couple Names -->
+                <h1 class="font-script text-3xl sm:text-5xl text-blush-800 leading-tight">
+                    {{ $couple->groom_name }} &amp; {{ $couple->bride_name }}
+                </h1>
+                <p class="font-garamond text-xs sm:text-sm text-neutral-600 mt-1 sm:mt-2 font-medium tracking-wide">
+                    {{ $weddingDateFormatted }}
+                </p>
+
+                <!-- Guest Tag Card -->
+                <div class="mt-3 sm:mt-4 p-2.5 sm:p-3 rounded-2xl bg-blush-50 border border-blush-200 text-xs">
+                    <span class="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider text-botanical-sage block">Kepada Yth.</span>
+                    <b class="text-xs sm:text-sm text-blush-900 block mt-0.5">{{ $guest->name ?? 'Tamu Undangan' }}</b>
+                </div>
+
+                <!-- Wax Seal Pulsing Button ("Save Our Date") -->
+                <div class="pt-2">
+                    <button type="button" onclick="openInvitation()" class="wax-seal-btn w-full py-3 sm:py-3.5 px-6 rounded-full bg-gradient-to-r from-botanical-wax to-blush-600 text-white font-garamond text-xs sm:text-sm font-bold uppercase tracking-widest shadow-lg hover:brightness-110 active:scale-95 transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto">
+                        <span>💌</span> Buka Undangan
+                    </button>
+                </div>
+
+                @if(!empty($isDemo))
+                    <div class="mt-2.5">
+                        <span class="inline-block px-3 py-0.5 rounded-full text-[9px] font-bold bg-blush-100 text-blush-700">
+                            Demo Template: Wildflower Pink
+                        </span>
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
 

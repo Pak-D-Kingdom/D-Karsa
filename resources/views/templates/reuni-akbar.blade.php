@@ -104,8 +104,8 @@
     <!-- ========================================================
          COVER SCREEN (ALUMNI GALA VIP ACCESS PASS)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 transition-all duration-1000 ease-in-out">
-        <div class="relative w-full max-w-sm bg-gradient-to-b from-reuni-card via-reuni-navy to-black rounded-3xl p-7 text-center shadow-2xl border-2 border-reuni-blue/60 overflow-hidden">
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-black/95 p-3 sm:p-4 transition-all duration-1000 ease-in-out">
+        <div class="relative w-full max-w-sm bg-gradient-to-b from-reuni-card via-reuni-navy to-black rounded-3xl p-5 sm:p-7 text-center shadow-2xl border-2 border-reuni-blue/60 overflow-hidden my-auto">
             
             <div class="space-y-4">
                 <span class="inline-block px-3.5 py-1 rounded-full bg-reuni-blue/20 text-reuni-bluebright text-[10px] font-syne font-bold tracking-[0.2em] uppercase border border-reuni-blue/40">
@@ -137,7 +137,7 @@
                 </div>
 
                 <!-- Buka Undangan Button -->
-                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-reuni-blue to-blue-700 hover:from-reuni-bluebright hover:to-reuni-blue text-white font-syne font-bold text-xs uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-2">
+                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-reuni-blue to-blue-700 hover:from-reuni-bluebright hover:to-reuni-blue text-white font-syne font-bold text-xs uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
                     <span>🥂</span> <span>Buka Akses Gala Reuni</span> <span>&rarr;</span>
                 </button>
             </div>

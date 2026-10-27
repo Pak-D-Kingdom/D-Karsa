@@ -131,11 +131,11 @@
     <!-- ========================================================
          ACADEMIC DIPLOMA SCROLL COVER SCREEN
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 transition-all duration-1000 ease-in-out">
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-black/95 p-3 sm:p-4 transition-all duration-1000 ease-in-out">
         <div class="absolute inset-0 opacity-20 pointer-events-none">
             <img id="previewCoverPhotoImg" src="{{ $coverImg }}" alt="Cover Wisuda" class="w-full h-full object-cover">
         </div>
-        <div class="relative w-full max-w-sm bg-academy-navy rounded-2xl p-7 text-center shadow-2xl diploma-border overflow-hidden">
+        <div class="relative w-full max-w-sm bg-academy-navy rounded-2xl p-5 sm:p-7 text-center shadow-2xl diploma-border overflow-hidden my-auto">
             
             <!-- Top University Ribbon -->
             <div class="flex items-center justify-between pb-3 border-b border-academy-gold/30 text-[9px] font-cinzel tracking-[0.25em] text-academy-gold uppercase">
@@ -180,7 +180,7 @@
             </div>
 
             <!-- Buka Undangan Action -->
-            <button type="button" onclick="openInvitation()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-academy-gold to-[#B38F24] hover:brightness-110 text-academy-navy font-cinzel text-xs font-bold uppercase tracking-[0.25em] shadow-lg transition flex items-center justify-center gap-2">
+            <button type="button" onclick="openInvitation()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-academy-gold to-[#B38F24] hover:brightness-110 text-academy-navy font-cinzel text-xs font-bold uppercase tracking-[0.25em] shadow-lg transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
                 <span>📜</span> BUKA DOKUMEN KELULUSAN
             </button>
         </div>

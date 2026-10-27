@@ -128,69 +128,73 @@
     <!-- ========================================================
          COVER SCREEN (Kinfolk Magazine Editorial Aesthetic)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-[#1C201D] text-white p-3 sm:p-4 overflow-y-auto transition-all duration-1000 ease-in-out">
-        <div class="relative w-full max-w-sm max-h-[96vh] bg-[#FAF7F2] text-kinfolk-ink rounded-none p-5 sm:p-7 shadow-2xl hairline-border flex flex-col justify-between my-auto">
-            
-            <!-- Top Editorial Header Bar -->
-            <div class="flex items-center justify-between pb-2 border-b border-kinfolk-border text-[9px] tracking-[0.25em] uppercase text-kinfolk-muted font-medium">
-                <span>VOL. 01 — THE UNION</span>
-                <span>{{ $targetDate->format('Y') }}</span>
-            </div>
-
-            <!-- Monogram Seal & Event Subtitle -->
-            <div class="my-2.5 text-center">
-                <div class="inline-flex items-center justify-center w-11 h-11 rounded-full monogram-circle mb-1.5 shadow-inner">
-                    <span class="font-editorial text-lg italic font-semibold text-kinfolk-sage">
-                        {{ $groomInitial }}@if($hasBride)&amp;{{ $brideInitial }}@endif
-                    </span>
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-[#1C201D] text-white p-2.5 sm:p-4 transition-all duration-700 ease-in-out flex flex-col">
+        <div class="min-h-full flex flex-col justify-center items-center my-auto py-2 sm:py-3 w-full">
+            <div class="relative w-full max-w-sm bg-[#FAF7F2] text-kinfolk-ink rounded-none p-4 sm:p-6 shadow-2xl hairline-border flex flex-col justify-between my-auto">
+                
+                <!-- Top Editorial Header Bar -->
+                <div class="flex items-center justify-between pb-2 border-b border-kinfolk-border text-[9px] tracking-[0.25em] uppercase text-kinfolk-muted font-medium">
+                    <span>VOL. 01 — THE UNION</span>
+                    <span>{{ $targetDate->format('Y') }}</span>
                 </div>
-                <p class="font-editorial text-[10px] italic tracking-[0.2em] text-kinfolk-sage uppercase font-medium">
-                    {{ $couple->event_heading ?? ($isNonWedding ? 'Official Invitation' : 'The Wedding Celebration') }}
-                </p>
-            </div>
 
-            <!-- Cover Photo with Asymmetric Frame -->
-            <div class="relative my-2">
-                <div class="w-full h-36 sm:h-44 overflow-hidden bg-kinfolk-sand relative group">
-                    <img id="previewCoverPhotoImg" src="{{ $coverImg }}" alt="Cover Couple" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 filter contrast-[1.02]">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
-                    <span class="absolute bottom-2 left-3 text-[9px] tracking-[0.18em] uppercase text-white/95 font-light">
-                        {{ $weddingDateFormatted }}
-                    </span>
+                <!-- Monogram Seal & Event Subtitle -->
+                <div class="my-2 sm:my-2.5 text-center">
+                    <div class="inline-flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-full monogram-circle mb-1 shadow-inner">
+                        <span class="font-editorial text-lg italic font-semibold text-kinfolk-sage">
+                            {{ $groomInitial }}@if($hasBride)&amp;{{ $brideInitial }}@endif
+                        </span>
+                    </div>
+                    <p class="font-editorial text-[9px] sm:text-[10px] italic tracking-[0.2em] text-kinfolk-sage uppercase font-medium">
+                        {{ $couple->event_heading ?? ($isNonWedding ? 'Official Invitation' : 'The Wedding Celebration') }}
+                    </p>
                 </div>
-                <!-- Fine Line Corner Decors -->
-                <div class="absolute -top-1 -left-1 w-2.5 h-2.5 border-t-2 border-l-2 border-kinfolk-sage"></div>
-                <div class="absolute -bottom-1 -right-1 w-2.5 h-2.5 border-b-2 border-r-2 border-kinfolk-sage"></div>
-            </div>
 
-            <!-- Names in High-Contrast Typography -->
-            <div class="text-center my-2">
-                <h1 class="font-italiana text-2xl sm:text-3xl text-kinfolk-ink tracking-wide leading-tight">
-                    {{ $couple->groom_name }}
-                    @if($hasBride)
-                        <span class="inline-block font-editorial italic text-xl text-kinfolk-gold mx-1">&amp;</span>
-                        {{ $couple->bride_name }}
+                <!-- Cover Photo with Asymmetric Frame -->
+                <div class="relative my-1.5 sm:my-2">
+                    <div class="w-full h-30 sm:h-38 max-h-[26vh] overflow-hidden bg-kinfolk-sand relative group">
+                        <img id="previewCoverPhotoImg" src="{{ $coverImg }}" alt="Cover Couple" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 filter contrast-[1.02]">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none"></div>
+                        <span class="absolute bottom-2 left-2.5 text-[8.5px] sm:text-[9px] tracking-[0.18em] uppercase text-white/95 font-light">
+                            {{ $weddingDateFormatted }}
+                        </span>
+                    </div>
+                    <!-- Fine Line Corner Decors -->
+                    <div class="absolute -top-1 -left-1 w-2.5 h-2.5 border-t-2 border-l-2 border-kinfolk-sage pointer-events-none"></div>
+                    <div class="absolute -bottom-1 -right-1 w-2.5 h-2.5 border-b-2 border-r-2 border-kinfolk-sage pointer-events-none"></div>
+                </div>
+
+                <!-- Names in High-Contrast Typography -->
+                <div class="text-center my-1.5 sm:my-2">
+                    <h1 class="font-italiana text-2xl sm:text-3xl text-kinfolk-ink tracking-wide leading-tight">
+                        {{ $couple->groom_name }}
+                        @if($hasBride)
+                            <span class="inline-block font-editorial italic text-xl text-kinfolk-gold mx-1">&amp;</span>
+                            {{ $couple->bride_name }}
+                        @endif
+                    </h1>
+                    <p class="font-editorial text-[11px] sm:text-xs text-kinfolk-muted italic mt-0.5 sm:mt-1 line-clamp-2">
+                        "Two souls, one poetic symphony of love and quiet grace."
+                    </p>
+                </div>
+
+                <!-- Guest Personalized Greeting Card -->
+                <div class="p-2 sm:p-2.5 bg-kinfolk-sand/60 border border-kinfolk-border text-center my-1.5 sm:my-2">
+                    <span class="text-[7.5px] sm:text-[8px] uppercase tracking-[0.2em] text-kinfolk-muted block mb-0.5 font-semibold">Special Invitation For:</span>
+                    <p class="font-italiana text-sm sm:text-base text-kinfolk-ink font-bold">{{ $guest->name ?? 'Tamu Terhormat' }}</p>
+                    @if(!empty($guest->seat_table))
+                        <span class="inline-block mt-0.5 text-[8.5px] sm:text-[9px] text-kinfolk-sage font-medium tracking-wider">Reserved: {{ $guest->seat_table }}</span>
                     @endif
-                </h1>
-                <p class="font-editorial text-xs text-kinfolk-muted italic mt-1 line-clamp-2">
-                    "Two souls, one poetic symphony of love and quiet grace."
-                </p>
-            </div>
+                </div>
 
-            <!-- Guest Personalized Greeting Card -->
-            <div class="p-2.5 sm:p-3 bg-kinfolk-sand/60 border border-kinfolk-border text-center my-2">
-                <span class="text-[8px] uppercase tracking-[0.2em] text-kinfolk-muted block mb-0.5 font-semibold">Special Invitation For:</span>
-                <p class="font-italiana text-sm sm:text-base text-kinfolk-ink font-bold">{{ $guest->name ?? 'Tamu Terhormat' }}</p>
-                @if(!empty($guest->seat_table))
-                    <span class="inline-block mt-0.5 text-[9px] text-kinfolk-sage font-medium tracking-wider">Reserved: {{ $guest->seat_table }}</span>
-                @endif
+                <!-- Open Invitation Action Button -->
+                <div class="relative z-20 pt-1">
+                    <button type="button" onclick="openInvitation()" class="w-full py-3 px-5 bg-kinfolk-sage hover:bg-kinfolk-sagedark text-white text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.25em] transition-all duration-300 shadow-md flex items-center justify-center gap-2.5 group cursor-pointer active:scale-98 pointer-events-auto">
+                        <span>Buka Undangan</span>
+                        <span class="transform transition-transform duration-300 group-hover:translate-x-1">→</span>
+                    </button>
+                </div>
             </div>
-
-            <!-- Open Invitation Action Button -->
-            <button type="button" onclick="openInvitation()" class="w-full py-3 px-5 bg-kinfolk-sage hover:bg-kinfolk-sagedark text-white text-[11px] font-semibold uppercase tracking-[0.25em] transition-all duration-300 shadow-md flex items-center justify-center gap-2.5 group cursor-pointer active:scale-98">
-                <span>Buka Undangan</span>
-                <span class="transform transition-transform duration-300 group-hover:translate-x-1">→</span>
-            </button>
         </div>
     </div>
 

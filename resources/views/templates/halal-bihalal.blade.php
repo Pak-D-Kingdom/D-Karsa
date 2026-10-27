@@ -125,8 +125,8 @@
     <!-- ========================================================
          KETUPAT RAYA SILATURAHMI COVER SCREEN
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 transition-all duration-1000 ease-in-out">
-        <div class="relative w-full max-w-sm bg-raya-emerald rounded-3xl p-7 text-center shadow-2xl border-2 border-raya-gold/50 overflow-hidden">
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-black/95 p-3 sm:p-4 transition-all duration-1000 ease-in-out">
+        <div class="relative w-full max-w-sm bg-raya-emerald rounded-3xl p-5 sm:p-7 text-center shadow-2xl border-2 border-raya-gold/50 overflow-hidden my-auto">
             
             <!-- Hanging Lanterns Icon -->
             <div class="flex justify-center gap-4 text-3xl mb-3 animate-lantern">
@@ -165,7 +165,7 @@
             </div>
 
             <!-- Open Invitation Action -->
-            <button type="button" onclick="openInvitation()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-raya-gold to-[#A07C1C] hover:brightness-110 text-raya-deep font-cinzel text-xs font-bold uppercase tracking-[0.25em] shadow-lg transition flex items-center justify-center gap-2">
+            <button type="button" onclick="openInvitation()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-raya-gold to-[#A07C1C] hover:brightness-110 text-raya-deep font-cinzel text-xs font-bold uppercase tracking-[0.25em] shadow-lg transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
                 <span>🕌</span> BUKA GERBANG SILATURAHMI
             </button>
         </div>

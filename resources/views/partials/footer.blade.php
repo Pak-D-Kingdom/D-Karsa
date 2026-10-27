@@ -51,7 +51,7 @@
                 </ul>
                 <div class="mt-6 p-3.5 rounded-xl bg-white/5 border border-white/10 text-xs text-stone-400">
                     <b class="text-white block mb-0.5">Metode Pembayaran:</b>
-                    <span>QRIS, BCA, Mandiri, Virtual Account via Midtrans</span>
+                    <span>QRIS, BCA, Mandiri, BNI, BRI, Virtual Account &amp; E-Wallet</span>
                 </div>
             </div>
         </div>

@@ -85,6 +85,9 @@ class TemplatePreviewImageSyncTest extends TestCase
             'scholar-luxury',
             'clean-seminar',
             'reuni-akbar',
+            'botanical-emerald',
+            'floral-midnight-navy',
+            'rustic-coral-peach',
         ];
 
         foreach ($templates as $themeKey) {
@@ -183,6 +186,9 @@ class TemplatePreviewImageSyncTest extends TestCase
             'scholar-luxury',
             'clean-seminar',
             'reuni-akbar',
+            'botanical-emerald',
+            'floral-midnight-navy',
+            'rustic-coral-peach',
         ];
 
         foreach ($templates as $themeKey) {

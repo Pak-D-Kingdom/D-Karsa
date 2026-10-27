@@ -125,9 +125,9 @@
     <!-- ========================================================
          NURSERY CLOUD & STARLIGHT COVER SCREEN
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-b from-[#EBF4F0] via-[#F4EFE6] to-[#E8F1F5] p-4 transition-all duration-700 ease-in-out">
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-gradient-to-b from-[#EBF4F0] via-[#F4EFE6] to-[#E8F1F5] p-3 sm:p-4 transition-all duration-700 ease-in-out">
         <div id="previewCoverBg" class="absolute inset-0 bg-cover bg-center opacity-15 mix-blend-overlay pointer-events-none" style="background-image: url('{{ $coverImg }}');"></div>
-        <div class="relative w-full max-w-sm bg-white rounded-3xl p-7 text-center shadow-2xl border-2 border-nursery-mint/30 overflow-hidden">
+        <div class="relative w-full max-w-sm bg-white rounded-3xl p-5 sm:p-7 text-center shadow-2xl border-2 border-nursery-mint/30 overflow-hidden my-auto">
             
             <!-- Floating Crescent Moon & Star -->
             <div class="w-16 h-16 mx-auto mb-3 rounded-full bg-nursery-softmint flex items-center justify-center text-3xl animate-float-cloud">
@@ -165,7 +165,7 @@
             </div>
 
             <!-- Open Invitation Action -->
-            <button type="button" onclick="openInvitation()" class="mt-6 w-full py-3.5 rounded-2xl bg-nursery-mint hover:bg-[#5B8071] text-white font-quick text-xs font-bold uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-2">
+            <button type="button" onclick="openInvitation()" class="mt-6 w-full py-3.5 rounded-2xl bg-nursery-mint hover:bg-[#5B8071] text-white font-quick text-xs font-bold uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
                 <span>🌙</span> BUKA UNDANGAN AQIQAH
             </button>
         </div>

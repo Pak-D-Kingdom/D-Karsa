@@ -143,72 +143,75 @@
     <!-- ========================================================
          COVER SCREEN (3D Gunungan Wayang Kulit & Royal Gold)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-b from-[#140e0a] via-[#1b130d] to-[#0c0805] text-keraton-cream p-4 transition-all duration-700 ease-in-out">
-        
-        <div id="previewCoverBg" class="absolute inset-0 bg-cover bg-center opacity-20 mix-blend-luminosity" style="background-image: url('{{ $coverImg }}');"></div>
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col bg-gradient-to-b from-[#140e0a] via-[#1b130d] to-[#0c0805] text-keraton-cream p-3 sm:p-4 transition-all duration-700 ease-in-out">
+        <div class="min-h-full flex flex-col justify-center items-center my-auto py-2 sm:py-3 w-full">
+            <div id="previewCoverBg" class="fixed inset-0 bg-cover bg-center opacity-20 mix-blend-luminosity pointer-events-none" style="background-image: url('{{ $coverImg }}');"></div>
 
-        <!-- Center Royal Frame -->
-        <div class="relative z-10 w-full max-w-md bg-gradient-to-b from-[#221810]/95 to-[#150e09]/95 border-2 border-keraton-gold rounded-[38px] p-8 sm:p-10 text-center shadow-[0_25px_60px_rgba(0,0,0,0.9)] backdrop-blur-md">
-            
-            <!-- 3D Wayang Gunungan Silhouette SVG -->
-            <div class="w-24 h-32 mx-auto mb-2 gunungan-3d flex items-center justify-center text-keraton-gold">
-                <svg viewBox="0 0 100 130" class="w-full h-full fill-current">
-                    <!-- Gunungan Wayang Shape -->
-                    <path d="M50 5 Q70 30 85 65 Q95 90 90 115 L10 115 Q5 90 15 65 Q30 30 50 5 Z" fill="url(#goldGradient)" stroke="#f6e4a6" stroke-width="2"/>
-                    <!-- Ornamen Pohon Hayat & Pintu Gapura -->
-                    <rect x="42" y="85" width="16" height="30" rx="3" fill="#120d09" stroke="#d4af37" stroke-width="1.5"/>
-                    <circle cx="50" cy="50" r="14" fill="none" stroke="#f6e4a6" stroke-width="1.5"/>
-                    <path d="M50 20 L50 80 M35 50 L65 50" stroke="#f6e4a6" stroke-width="1.2"/>
-                    <defs>
-                        <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#d4af37" />
-                            <stop offset="50%" stop-color="#8c6d2d" />
-                            <stop offset="100%" stop-color="#f6e4a6" />
-                        </linearGradient>
-                    </defs>
-                </svg>
-            </div>
-
-            <p class="font-cinzel text-xs tracking-[0.3em] text-keraton-gold uppercase font-bold mt-2">
-                {{ $couple->event_heading ?? "SERAT ULEM PAHARGYAN" }}
-            </p>
-            <p class="text-[11px] text-keraton-lightgold/80 tracking-widest uppercase mt-1 mb-4">Dhauping Penganten</p>
-
-            <!-- Couple Names -->
-            <div class="my-5">
-                <h1 class="font-serif text-4xl sm:text-5xl font-bold text-white drop-shadow-md leading-tight">
-                    {{ $couple->groom_name }}
-                </h1>
-                <div class="font-cinzel text-xl text-keraton-gold my-1 tracking-widest">&amp;</div>
-                <h1 class="font-serif text-4xl sm:text-5xl font-bold text-white drop-shadow-md leading-tight">
-                    {{ $couple->bride_name }}
-                </h1>
-            </div>
-
-            <div class="w-20 h-0.5 bg-keraton-gold/50 mx-auto my-4"></div>
-
-            <p class="font-cinzel text-xs text-keraton-lightgold/90 mb-6 tracking-wider">
-                {{ $weddingDateFormatted }}
-            </p>
-
-            <!-- Guest Card -->
-            <div class="p-3.5 rounded-2xl bg-black/60 border border-keraton-gold/30 text-xs mb-7">
-                <span class="text-[10px] text-keraton-lightgold/70 uppercase tracking-widest block font-cinzel">Katur Dhumateng Panjenenganipun:</span>
-                <b class="text-base text-white block mt-1 font-serif">{{ $guest->name ?? 'Bapak / Ibu / Saudara/i' }}</b>
-            </div>
-
-            <!-- "Buka Serat Ulem" Royal Button -->
-            <button type="button" onclick="openInvitation()" class="royal-pulse-btn w-full py-3.5 px-6 rounded-full bg-gradient-to-r from-keraton-gold via-keraton-lightgold to-keraton-gold text-keraton-dark font-cinzel text-xs font-black uppercase tracking-widest shadow-2xl hover:brightness-110 active:scale-95 transition flex items-center justify-center gap-2">
-                <span>📜</span> Buka Serat Ulem
-            </button>
-
-            @if(!empty($isDemo))
-                <div class="mt-4">
-                    <span class="inline-block px-3 py-1 rounded-full text-[10px] font-bold bg-keraton-gold/20 text-keraton-lightgold border border-keraton-gold/30 font-cinzel">
-                        👑 Mode Demo: 3D Javanese Royal Keraton
-                    </span>
+            <!-- Center Royal Frame -->
+            <div class="relative z-10 w-full max-w-sm sm:max-w-md bg-gradient-to-b from-[#221810]/95 to-[#150e09]/95 border-2 border-keraton-gold rounded-[32px] sm:rounded-[38px] p-5 sm:p-8 text-center shadow-[0_25px_60px_rgba(0,0,0,0.9)] backdrop-blur-md my-auto">
+                
+                <!-- 3D Wayang Gunungan Silhouette SVG -->
+                <div class="w-16 h-22 sm:w-20 sm:h-28 mx-auto mb-1.5 gunungan-3d flex items-center justify-center text-keraton-gold">
+                    <svg viewBox="0 0 100 130" class="w-full h-full fill-current">
+                        <!-- Gunungan Wayang Shape -->
+                        <path d="M50 5 Q70 30 85 65 Q95 90 90 115 L10 115 Q5 90 15 65 Q30 30 50 5 Z" fill="url(#goldGradient)" stroke="#f6e4a6" stroke-width="2"/>
+                        <!-- Ornamen Pohon Hayat & Pintu Gapura -->
+                        <rect x="42" y="85" width="16" height="30" rx="3" fill="#120d09" stroke="#d4af37" stroke-width="1.5"/>
+                        <circle cx="50" cy="50" r="14" fill="none" stroke="#f6e4a6" stroke-width="1.5"/>
+                        <path d="M50 20 L50 80 M35 50 L65 50" stroke="#f6e4a6" stroke-width="1.2"/>
+                        <defs>
+                            <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#d4af37" />
+                                <stop offset="50%" stop-color="#8c6d2d" />
+                                <stop offset="100%" stop-color="#f6e4a6" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
                 </div>
-            @endif
+
+                <p class="font-cinzel text-[11px] sm:text-xs tracking-[0.3em] text-keraton-gold uppercase font-bold mt-1">
+                    {{ $couple->event_heading ?? "SERAT ULEM PAHARGYAN" }}
+                </p>
+                <p class="text-[10px] sm:text-[11px] text-keraton-lightgold/80 tracking-widest uppercase mt-0.5 mb-2.5 sm:mb-3">Dhauping Penganten</p>
+
+                <!-- Couple Names -->
+                <div class="my-2.5 sm:my-4">
+                    <h1 class="font-serif text-3xl sm:text-5xl font-bold text-white drop-shadow-md leading-tight">
+                        {{ $couple->groom_name }}
+                    </h1>
+                    <div class="font-cinzel text-lg sm:text-xl text-keraton-gold my-0.5 sm:my-1 tracking-widest">&amp;</div>
+                    <h1 class="font-serif text-3xl sm:text-5xl font-bold text-white drop-shadow-md leading-tight">
+                        {{ $couple->bride_name }}
+                    </h1>
+                </div>
+
+                <div class="w-16 sm:w-20 h-0.5 bg-keraton-gold/50 mx-auto my-2.5 sm:my-3"></div>
+
+                <p class="font-cinzel text-[11px] sm:text-xs text-keraton-lightgold/90 mb-3 sm:mb-5 tracking-wider">
+                    {{ $weddingDateFormatted }}
+                </p>
+
+                <!-- Guest Card -->
+                <div class="p-2.5 sm:p-3.5 rounded-2xl bg-black/60 border border-keraton-gold/30 text-xs mb-4 sm:mb-6">
+                    <span class="text-[9.5px] sm:text-[10px] text-keraton-lightgold/70 uppercase tracking-widest block font-cinzel">Katur Dhumateng Panjenenganipun:</span>
+                    <b class="text-sm sm:text-base text-white block mt-0.5 sm:mt-1 font-serif">{{ $guest->name ?? 'Bapak / Ibu / Saudara/i' }}</b>
+                </div>
+
+                <!-- "Buka Serat Ulem" Royal Button -->
+                <div class="pt-1">
+                    <button type="button" onclick="openInvitation()" class="royal-pulse-btn w-full py-3 sm:py-3.5 px-6 rounded-full bg-gradient-to-r from-keraton-gold via-keraton-lightgold to-keraton-gold text-keraton-dark font-cinzel text-xs font-black uppercase tracking-widest shadow-2xl hover:brightness-110 active:scale-95 transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto">
+                        <span>📜</span> Buka Serat Ulem
+                    </button>
+                </div>
+
+                @if(!empty($isDemo))
+                    <div class="mt-3">
+                        <span class="inline-block px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-bold bg-white/20 text-white/90 border border-white/20">
+                            ✨ Mode Demo Template: Keraton Jawa Royal
+                        </span>
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
 

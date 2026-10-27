@@ -776,9 +776,13 @@
                 {{-- Tanggal Pernikahan / Acara Utama --}}
                 <div class="grid sm:grid-cols-2 gap-4">
                     <div class="space-y-1.5">
-                        <label class="block text-xs font-bold uppercase tracking-wider text-ink2">Tanggal Hari-H Acara *</label>
-                        <input type="date" name="wedding_date" value="{{ old('wedding_date') }}" required
+                        <div class="flex items-center justify-between">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-ink2">Tanggal Hari-H Acara *</label>
+                            <span class="text-[10px] font-semibold text-brand bg-brand/10 px-2 py-0.5 rounded-full">Tanggal Utama</span>
+                        </div>
+                        <input type="date" name="wedding_date" id="weddingDateInput" value="{{ old('wedding_date') }}" required
                                class="w-full rounded-2xl border border-ink/20 px-4 py-3 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                        <p class="text-[10px] text-ink3">Tanggal ini otomatis menjadi patokan hitung mundur dan mengisi seluruh jadwal acara.</p>
                     </div>
 
                     {{-- URL Slug Kustom --}}
@@ -1029,6 +1033,31 @@
                 {{-- Hidden dynamic inputs container for standard form submission --}}
                 <div id="hiddenEventsInputsContainer"></div>
 
+                {{-- Penyatuan Tanggal: Seluruh Acara Otomatis Sama dengan Tanggal Hari-H --}}
+                <div class="p-4 rounded-3xl bg-brand/5 border border-brand/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-2xl bg-brand text-white grid place-items-center text-base shrink-0 shadow-sm shadow-brand/20">
+                            📅
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <p class="text-xs font-bold text-ink">Tanggal Rangkaian Acara</p>
+                                <span id="eventDateSyncBadge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100/80 text-emerald-800 border border-emerald-300 flex items-center gap-1">
+                                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                                    Disatukan dengan Hari-H
+                                </span>
+                            </div>
+                            <p class="text-[11px] text-ink2 mt-0.5" id="eventDateSyncSummary">
+                                Seluruh acara berlangsung di hari yang sama: <strong class="text-brand font-bold" id="linkedWeddingDateDisplay">Belum dipilih di Langkah 1</strong>
+                            </p>
+                        </div>
+                    </div>
+                    <label class="inline-flex items-center gap-2 cursor-pointer select-none bg-white px-3.5 py-2 rounded-2xl border border-ink/15 shadow-xs shrink-0 hover:border-brand/30 transition">
+                        <input type="checkbox" id="syncEventsDateCheckbox" class="rounded border-ink/30 text-brand focus:ring-brand cursor-pointer" checked onchange="handleSyncEventsDateToggle(this.checked)">
+                        <span class="text-xs font-bold text-ink2">Sama dengan Hari-H</span>
+                    </label>
+                </div>
+
                 {{-- Events List Container --}}
                 <div id="eventsListContainer" class="space-y-4">
                     {{-- Acara 1 --}}
@@ -1052,10 +1081,13 @@
                                        placeholder="Contoh: Akad Nikah / Doa Bersama"
                                        class="event-title-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
                             </div>
-                            <div class="space-y-1">
-                                <label class="block text-xs font-semibold text-ink2">Tanggal Acara</label>
-                                <input type="date" name="event_1_date" value="{{ old('event_1_date') }}"
-                                       class="event-date-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                            <div class="space-y-1 event-date-col">
+                                <div class="flex items-center justify-between">
+                                    <label class="block text-xs font-semibold text-ink2">Tanggal Acara</label>
+                                    <span class="event-date-status-tag text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">Sama dgn Hari-H</span>
+                                </div>
+                                <input type="date" name="event_1_date" id="event1DateInput" value="{{ old('event_1_date') }}"
+                                       class="event-date-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand transition-all">
                             </div>
                             <div class="space-y-1">
                                 <label class="block text-xs font-semibold text-ink2">Waktu (Mulai - Selesai)</label>
@@ -1111,10 +1143,13 @@
                                        placeholder="Contoh: Resepsi Pernikahan / Ramah Tamah"
                                        class="event-title-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
                             </div>
-                            <div class="space-y-1">
-                                <label class="block text-xs font-semibold text-ink2">Tanggal Acara</label>
-                                <input type="date" name="event_2_date" value="{{ old('event_2_date') }}"
-                                       class="event-date-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                            <div class="space-y-1 event-date-col">
+                                <div class="flex items-center justify-between">
+                                    <label class="block text-xs font-semibold text-ink2">Tanggal Acara</label>
+                                    <span class="event-date-status-tag text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">Sama dgn Hari-H</span>
+                                </div>
+                                <input type="date" name="event_2_date" id="event2DateInput" value="{{ old('event_2_date') }}"
+                                       class="event-date-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand transition-all">
                             </div>
                             <div class="space-y-1">
                                 <label class="block text-xs font-semibold text-ink2">Waktu (Mulai - Selesai)</label>
@@ -1500,80 +1535,82 @@
     <!-- ========================================================
          MODAL LIVE PREVIEW (Smartphone Frame - Matching Screenshot 2)
     ======================================================== -->
-    <div id="livePreviewModal" class="fixed inset-0 z-[60] hidden bg-black/80 backdrop-blur-md p-2 sm:p-4 md:p-6 flex-col items-center justify-center overflow-y-auto" style="display: none;" onclick="if(event.target === this) closePreviewModal();">
-        <!-- Floating Preview Top Bar -->
-        <div class="w-full max-w-xl mx-auto mb-3 flex items-center justify-between gap-2 px-2 text-white">
-            <div class="flex items-center gap-2">
-                <span class="w-8 h-8 rounded-full bg-white/10 grid place-items-center text-sm">📱</span>
-                <div>
-                    <b class="text-xs sm:text-sm font-bold block leading-tight">Live Smartphone Preview</b>
-                    <span id="prevCurrentThemeLabel" class="text-[10px] text-white/70 block">Tema: {{ $selectedTheme }}</span>
+    <div id="livePreviewModal" class="fixed inset-0 z-[60] hidden bg-black/80 backdrop-blur-md p-2 sm:p-4 overflow-y-auto overscroll-contain flex flex-col items-center justify-center" style="display: none;" onclick="if(event.target === this) closePreviewModal();">
+        <div class="min-h-full flex flex-col items-center justify-center my-auto w-full max-w-xl py-2">
+            <!-- Floating Preview Top Bar -->
+            <div class="w-full max-w-xl mx-auto mb-3 flex items-center justify-between gap-2 px-2 text-white">
+                <div class="flex items-center gap-2">
+                    <span class="w-8 h-8 rounded-full bg-white/10 grid place-items-center text-sm">📱</span>
+                    <div>
+                        <b class="text-xs sm:text-sm font-bold block leading-tight">Live Smartphone Preview</b>
+                        <span id="prevCurrentThemeLabel" class="text-[10px] text-white/70 block">Tema: {{ $selectedTheme }}</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 flex-wrap justify-end">
+                    <!-- Use this template button (shown when previewing specific template demo) -->
+                    <button type="button" id="btnUseTemplateFromPreview" class="hidden px-3.5 py-1.5 rounded-full text-xs font-bold bg-brand hover:bg-accent text-white transition shadow flex items-center gap-1">
+                        <span>✓</span> <span>Gunakan Template Ini</span>
+                    </button>
+
+                    <!-- Fullscreen Live Demo button -->
+                    <a id="btnBuilderFullscreenDemo" href="/demo/chibi-red" target="_blank" class="px-3 py-1.5 rounded-full text-xs font-bold bg-white text-ink hover:bg-neutral-100 transition shadow flex items-center gap-1">
+                        <span>🌐</span> <span class="hidden sm:inline">Layar Penuh ↗</span>
+                    </a>
+
+                    <!-- Reset to template default data -->
+                    <button type="button" onclick="resetFormToTemplateDefaults()" class="px-3 py-1.5 rounded-full text-xs font-bold bg-white/15 hover:bg-rose-500 text-white transition border border-white/20 flex items-center gap-1" title="Kembalikan isian form & foto ke data bawaan template">
+                        <span>🔄</span> <span class="hidden sm:inline">Reset Default</span>
+                    </button>
+
+                    <!-- Device Width Toggle (Proportional Mobile Viewports) -->
+                    <div class="bg-white/10 rounded-full p-0.5 border border-white/20 flex items-center text-[11px] font-bold">
+                        <button type="button" id="btnDeviceMobile" onclick="setPreviewDevice(360)" class="px-2.5 py-1 rounded-full bg-brand text-white transition">
+                            📱 360px
+                        </button>
+                        <button type="button" id="btnDeviceWide" onclick="setPreviewDevice(390)" class="px-2.5 py-1 rounded-full text-white/70 hover:text-white transition">
+                            📱 390px
+                        </button>
+                    </div>
+
+                    <button type="button" onclick="openTemplateModalFromPreview()" class="px-3 py-1.5 rounded-full text-xs font-bold bg-white/15 hover:bg-white/25 text-white transition border border-white/20 flex items-center gap-1">
+                        <span>🎨</span> <span class="hidden sm:inline">Ganti Desain</span>
+                    </button>
+
+                    <button type="button" onclick="closePreviewModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/25 text-white transition grid place-items-center font-bold text-sm">
+                        ✕
+                    </button>
                 </div>
             </div>
 
-            <div class="flex items-center gap-2 flex-wrap justify-end">
-                <!-- Use this template button (shown when previewing specific template demo) -->
-                <button type="button" id="btnUseTemplateFromPreview" class="hidden px-3.5 py-1.5 rounded-full text-xs font-bold bg-brand hover:bg-accent text-white transition shadow flex items-center gap-1">
-                    <span>✓</span> <span>Gunakan Template Ini</span>
-                </button>
+            <!-- Interactive Guest Name Simulator for Preview (Melihat tampilan perorangan langsung di HP) -->
+            <div id="previewGuestBar" class="w-full max-w-[360px] mx-auto mb-2 px-1 flex items-center gap-2 transition-all duration-300">
+                <div class="relative flex-1">
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs">👤</span>
+                    <input type="text" id="previewGuestNameTestInput" placeholder="Tes nama tamu perorangan (mis: Ustadz Mansur / dr. Sarah)"
+                           class="w-full pl-8 pr-3 py-1.5 rounded-full bg-white/20 text-white placeholder-white/70 text-xs font-semibold focus:outline-none focus:bg-white focus:text-ink focus:placeholder-ink3 transition border border-white/30 shadow-inner"
+                           oninput="onPreviewGuestNameChange(this.value)">
+                </div>
+                <span class="text-[10px] text-white/90 bg-white/15 px-2.5 py-1 rounded-full border border-white/25 whitespace-nowrap font-medium" title="Ketik nama untuk melihat langsung di cover pembuka">
+                    Tes Tamu Cover
+                </span>
+            </div>
 
-                <!-- Fullscreen Live Demo button -->
-                <a id="btnBuilderFullscreenDemo" href="/demo/chibi-red" target="_blank" class="px-3 py-1.5 rounded-full text-xs font-bold bg-white text-ink hover:bg-neutral-100 transition shadow flex items-center gap-1">
-                    <span>🌐</span> <span class="hidden sm:inline">Layar Penuh ↗</span>
-                </a>
-
-                <!-- Reset to template default data -->
-                <button type="button" onclick="resetFormToTemplateDefaults()" class="px-3 py-1.5 rounded-full text-xs font-bold bg-white/15 hover:bg-rose-500 text-white transition border border-white/20 flex items-center gap-1" title="Kembalikan isian form & foto ke data bawaan template">
-                    <span>🔄</span> <span class="hidden sm:inline">Reset Default</span>
-                </button>
-
-                <!-- Device Width Toggle -->
-                <div class="bg-white/10 rounded-full p-0.5 border border-white/20 flex items-center text-[11px] font-bold">
-                    <button type="button" id="btnDeviceMobile" onclick="setPreviewDevice(380)" class="px-2.5 py-1 rounded-full bg-brand text-white transition">
-                        📱 380px
-                    </button>
-                    <button type="button" id="btnDeviceWide" onclick="setPreviewDevice(480)" class="px-2.5 py-1 rounded-full text-white/70 hover:text-white transition">
-                        📲 480px
-                    </button>
+            <!-- Realistic Smartphone Chassis with Live Template Iframe -->
+            <div id="phoneChassis" class="relative transition-all duration-300 w-full max-w-[360px] bg-[#1a181b] rounded-[44px] sm:rounded-[48px] p-2 sm:p-2.5 shadow-2xl border-4 border-neutral-700/80 ring-1 ring-white/15 flex flex-col h-[min(88vh,740px)] min-h-[500px]">
+                <!-- Dynamic Island / Camera Notch -->
+                <div class="w-24 h-3.5 sm:h-4 bg-black rounded-full mx-auto mb-1.5 sm:mb-2 flex items-center justify-end px-3 shrink-0 shadow-inner">
+                    <span class="w-2 h-2 rounded-full bg-neutral-900 border border-neutral-700 block"></span>
                 </div>
 
-                <button type="button" onclick="openTemplateModalFromPreview()" class="px-3 py-1.5 rounded-full text-xs font-bold bg-white/15 hover:bg-white/25 text-white transition border border-white/20 flex items-center gap-1">
-                    <span>🎨</span> <span class="hidden sm:inline">Ganti Desain</span>
-                </button>
+                <!-- Scrollable Screen Area with Live Template Iframe -->
+                <div id="previewScreenScroll" class="relative w-full rounded-[32px] sm:rounded-[36px] overflow-hidden flex-1 bg-white shadow-inner">
+                    <iframe id="builderLivePreviewIframe" src="/demo/{{ $currentTemplate['template_key'] ?? $currentTemplate['key'] ?? 'chibi-red' }}?preview=1" class="w-full h-full border-0 rounded-[32px] sm:rounded-[36px] block" allow="autoplay"></iframe>
+                </div>
 
-                <button type="button" onclick="closePreviewModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/25 text-white transition grid place-items-center font-bold text-sm">
-                    ✕
-                </button>
+                <!-- Home indicator bar -->
+                <div class="w-28 h-1 bg-neutral-600 rounded-full mx-auto mt-1.5 sm:mt-2 shrink-0"></div>
             </div>
-        </div>
-
-        <!-- Interactive Guest Name Simulator for Preview (Melihat tampilan perorangan langsung di HP) -->
-        <div class="w-full max-w-[380px] mx-auto mb-2 px-1 flex items-center gap-2">
-            <div class="relative flex-1">
-                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs">👤</span>
-                <input type="text" id="previewGuestNameTestInput" placeholder="Tes nama tamu perorangan (mis: Ustadz Mansur / dr. Sarah)"
-                       class="w-full pl-8 pr-3 py-1.5 rounded-full bg-white/20 text-white placeholder-white/70 text-xs font-semibold focus:outline-none focus:bg-white focus:text-ink focus:placeholder-ink3 transition border border-white/30 shadow-inner"
-                       oninput="onPreviewGuestNameChange(this.value)">
-            </div>
-            <span class="text-[10px] text-white/90 bg-white/15 px-2.5 py-1 rounded-full border border-white/25 whitespace-nowrap font-medium" title="Ketik nama untuk melihat langsung di cover pembuka">
-                Tes Tamu Cover
-            </span>
-        </div>
-
-        <!-- Realistic Smartphone Chassis with Live Template Iframe -->
-        <div id="phoneChassis" class="relative transition-all duration-300 w-full max-w-[380px] bg-[#1a181b] rounded-[48px] p-2.5 shadow-2xl border-4 border-neutral-700/80 ring-1 ring-white/15 flex flex-col h-[86vh]">
-            <!-- Dynamic Island / Camera Notch -->
-            <div class="w-24 h-4 bg-black rounded-full mx-auto mb-2 flex items-center justify-end px-3 shrink-0 shadow-inner">
-                <span class="w-2 h-2 rounded-full bg-neutral-900 border border-neutral-700 block"></span>
-            </div>
-
-            <!-- Scrollable Screen Area with Live Template Iframe -->
-            <div id="previewScreenScroll" class="relative w-full rounded-[36px] overflow-hidden flex-1 bg-white shadow-inner">
-                <iframe id="builderLivePreviewIframe" src="/demo/{{ $currentTemplate['template_key'] ?? $currentTemplate['key'] ?? 'chibi-red' }}?preview=1" class="w-full h-full border-0 rounded-[36px]" allow="autoplay"></iframe>
-            </div>
-
-            <!-- Home indicator bar -->
-            <div class="w-28 h-1 bg-neutral-600 rounded-full mx-auto mt-2 shrink-0"></div>
         </div>
     </div>
 
@@ -2704,6 +2741,98 @@
         }
 
         // ========================================================
+        // SMART DATE HARMONIZATION (PENYATUAN TANGGAL HARI-H & ACARA)
+        // ========================================================
+        function formatIndonesianDateStr(dateStr) {
+            if (!dateStr) return '';
+            try {
+                const parts = dateStr.split('-');
+                if (parts.length === 3) {
+                    const d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+                    return d.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+                }
+            } catch(e) {}
+            return dateStr;
+        }
+
+        function handleSyncEventsDateToggle(isSynced) {
+            const weddingDateInput = document.getElementById('weddingDateInput') || document.querySelector('input[name="wedding_date"]');
+            const weddingDateVal = weddingDateInput?.value || '';
+
+            const badge = document.getElementById('eventDateSyncBadge');
+            const summary = document.getElementById('eventDateSyncSummary');
+
+            if (isSynced) {
+                if (badge) {
+                    badge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100/80 text-emerald-800 border border-emerald-300 flex items-center gap-1';
+                    badge.innerHTML = '<span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Disatukan dengan Hari-H';
+                }
+                if (summary) {
+                    const formatted = weddingDateVal ? formatIndonesianDateStr(weddingDateVal) : 'Belum dipilih di Langkah 1';
+                    summary.innerHTML = `Seluruh acara berlangsung di hari yang sama: <strong class="text-brand font-bold" id="linkedWeddingDateDisplay">${formatted}</strong>`;
+                }
+
+                // Apply to all existing event cards
+                document.querySelectorAll('.event-card-item').forEach(card => {
+                    const dateInput = card.querySelector('.event-date-input');
+                    const statusTag = card.querySelector('.event-date-status-tag');
+                    if (dateInput) {
+                        if (weddingDateVal) dateInput.value = weddingDateVal;
+                        dateInput.readOnly = true;
+                        dateInput.classList.add('bg-sunk/60', 'cursor-not-allowed', 'border-dashed');
+                    }
+                    if (statusTag) {
+                        statusTag.textContent = 'Sama dgn Hari-H';
+                        statusTag.className = 'event-date-status-tag text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200';
+                    }
+                });
+            } else {
+                if (badge) {
+                    badge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100/80 text-amber-800 border border-amber-300 flex items-center gap-1';
+                    badge.innerHTML = '<span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-600"></span> Mode Tanggal Berbeda';
+                }
+                if (summary) {
+                    summary.innerHTML = 'Mode Tanggal Berbeda: Anda dapat mengatur tanggal spesifik untuk masing-masing acara di bawah ini.';
+                }
+
+                // Unlock inputs
+                document.querySelectorAll('.event-card-item').forEach(card => {
+                    const dateInput = card.querySelector('.event-date-input');
+                    const statusTag = card.querySelector('.event-date-status-tag');
+                    if (dateInput) {
+                        dateInput.readOnly = false;
+                        dateInput.classList.remove('bg-sunk/60', 'cursor-not-allowed', 'border-dashed');
+                    }
+                    if (statusTag) {
+                        statusTag.textContent = 'Beda Hari';
+                        statusTag.className = 'event-date-status-tag text-[10px] font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200';
+                    }
+                });
+            }
+
+            syncEventsToFormAndPreview();
+        }
+
+        function syncWeddingDateToEvents() {
+            const weddingDateInput = document.getElementById('weddingDateInput') || document.querySelector('input[name="wedding_date"]');
+            const weddingDateVal = weddingDateInput?.value || '';
+            const checkbox = document.getElementById('syncEventsDateCheckbox');
+            const isSynced = checkbox ? checkbox.checked : true;
+
+            const displayDateEl = document.getElementById('linkedWeddingDateDisplay');
+            if (displayDateEl) {
+                displayDateEl.textContent = weddingDateVal ? formatIndonesianDateStr(weddingDateVal) : 'Belum dipilih di Langkah 1';
+            }
+
+            if (isSynced && weddingDateVal) {
+                document.querySelectorAll('.event-card-item .event-date-input').forEach(input => {
+                    input.value = weddingDateVal;
+                });
+                syncEventsToFormAndPreview();
+            }
+        }
+
+        // ========================================================
         // DYNAMIC EVENTS MANAGEMENT (RANGKAIAN ACARA)
         // ========================================================
         function reindexEventCards() {
@@ -2752,8 +2881,9 @@
             const currentCount = container.querySelectorAll('.event-card-item').length;
             const nextIndex = currentCount + 1;
 
+            const isSynced = document.getElementById('syncEventsDateCheckbox')?.checked ?? true;
             const weddingDateVal = document.querySelector('input[name="wedding_date"]')?.value || '';
-            const evDate = data.date || weddingDateVal;
+            const evDate = isSynced ? weddingDateVal : (data.date || weddingDateVal);
             const evTitle = data.title || (nextIndex === 2 ? 'Resepsi Pernikahan' : `Rangkaian Acara ${nextIndex}`);
             const evStart = data.start_time || (nextIndex === 1 ? '08:00 WIB' : (nextIndex === 2 ? '11:00 WIB' : '19:00 WIB'));
             const evEnd = data.end_time || (nextIndex === 1 ? '10:00 WIB' : (nextIndex === 2 ? '14:00 WIB' : '21:00 WIB'));
@@ -2784,15 +2914,23 @@
                         <input type="text" value="${evTitle}" placeholder="Contoh: Resepsi / Ramah Tamah / Syukuran"
                                class="event-title-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
                     </div>
-                    <div class="space-y-1">
-                        <label class="block text-xs font-semibold text-ink2">Tanggal Acara</label>
-                        <input type="date" value="${evDate}"
-                               class="event-date-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                    <div class="space-y-1 event-date-col">
+                        <div class="flex items-center justify-between">
+                            <label class="block text-xs font-semibold text-ink2">Tanggal Acara</label>
+                            <span class="event-date-status-tag text-[10px] font-semibold ${isSynced ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : 'text-amber-700 bg-amber-50 border-amber-200'} px-2 py-0.5 rounded-md border">${isSynced ? 'Sama dgn Hari-H' : 'Beda Hari'}</span>
+                        </div>
+                        <input type="date" value="${evDate}" ${isSynced ? 'readonly' : ''}
+                               class="event-date-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand transition-all ${isSynced ? 'bg-sunk/60 cursor-not-allowed border-dashed' : ''}">
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-semibold text-ink2">Waktu (Mulai - Selesai)</label>
                         <div class="flex items-center gap-1">
                             <input type="text" value="${evStart}" placeholder="11:00 WIB" class="event-start-input w-1/2 rounded-2xl border border-ink/20 px-2 py-2.5 text-xs text-center font-semibold">
+                            <span>-</span>
+                            <input type="text" value="${evEnd}" placeholder="14:00 / Selesai" class="event-end-input w-1/2 rounded-2xl border border-ink/20 px-2 py-2.5 text-xs text-center font-semibold">
+                        </div>
+                    </div>
+                </div>
                             <span>-</span>
                             <input type="text" value="${evEnd}" placeholder="14:00 / Selesai" class="event-end-input w-1/2 rounded-2xl border border-ink/20 px-2 py-2.5 text-xs text-center font-semibold">
                         </div>
@@ -2859,9 +2997,12 @@
 
             const eventsList = [];
 
+            const weddingDateVal = document.querySelector('input[name="wedding_date"]')?.value || '';
+
             cards.forEach((card, idx) => {
                 const title = card.querySelector('.event-title-input')?.value || '';
-                const date = card.querySelector('.event-date-input')?.value || '';
+                const rawDate = card.querySelector('.event-date-input')?.value || '';
+                const effectiveDate = rawDate || weddingDateVal;
                 const start = card.querySelector('.event-start-input')?.value || '';
                 const end = card.querySelector('.event-end-input')?.value || '';
                 const venue = card.querySelector('.event-venue-input')?.value || '';
@@ -2870,7 +3011,7 @@
 
                 eventsList.push({
                     title: title || `Acara ${idx + 1}`,
-                    date: date,
+                    date: effectiveDate,
                     start_time: start,
                     end_time: end,
                     venue_name: venue,
@@ -2883,7 +3024,7 @@
                 if (hiddenContainer) {
                     hiddenContainer.innerHTML += `
                         <input type="hidden" name="events[${idx}][title]" value="${title.replace(/"/g, '&quot;')}">
-                        <input type="hidden" name="events[${idx}][date]" value="${date}">
+                        <input type="hidden" name="events[${idx}][date]" value="${effectiveDate}">
                         <input type="hidden" name="events[${idx}][start_time]" value="${start.replace(/"/g, '&quot;')}">
                         <input type="hidden" name="events[${idx}][end_time]" value="${end.replace(/"/g, '&quot;')}">
                         <input type="hidden" name="events[${idx}][venue_name]" value="${venue.replace(/"/g, '&quot;')}">
@@ -2898,16 +3039,22 @@
                 const ev1 = eventsList[0];
                 const ev1TitleEl = document.getElementById('event1TitleInput');
                 if (ev1TitleEl && ev1TitleEl !== cards[0].querySelector('.event-title-input')) ev1TitleEl.value = ev1.title;
+                const ev1DateEl = document.getElementById('event1DateInput');
+                if (ev1DateEl && ev1DateEl !== cards[0].querySelector('.event-date-input')) ev1DateEl.value = ev1.date;
             }
             if (eventsList.length > 1) {
                 const ev2 = eventsList[1];
                 const ev2TitleEl = document.getElementById('event2TitleInput');
                 if (ev2TitleEl && ev2TitleEl !== cards[1].querySelector('.event-title-input')) ev2TitleEl.value = ev2.title;
+                const ev2DateEl = document.getElementById('event2DateInput');
+                if (ev2DateEl && ev2DateEl !== cards[1].querySelector('.event-date-input')) ev2DateEl.value = ev2.date;
             } else {
                 const ev2TitleEl = document.getElementById('event2TitleInput');
                 if (ev2TitleEl && !cards[1]) ev2TitleEl.value = '';
                 const ev2VenueEl = document.getElementById('event2VenueInput');
                 if (ev2VenueEl && !cards[1]) ev2VenueEl.value = '';
+                const ev2DateEl = document.getElementById('event2DateInput');
+                if (ev2DateEl && !cards[1]) ev2DateEl.value = '';
             }
 
             // PostMessage to live preview iframe for real-time instant rendering
@@ -3101,7 +3248,7 @@
 
         // Select a template
         function selectTemplate(tmplName, autoClose = true) {
-            const tmpl = allTemplatesData.find(t => t.name === tmplName);
+            const tmpl = allTemplatesData.find(t => t.name === tmplName || t.key === tmplName || t.template_key === tmplName);
             if (!tmpl) return;
 
             currentSelectedTheme = tmpl.name;
@@ -3224,6 +3371,8 @@
             if (s.includes('scholar') || s.includes('valedictorian') || s.includes('ivy')) return 'scholar-luxury';
             if (s.includes('wisuda') || s.includes('sarjana') || s.includes('kelulusan')) return 'wisuda-sarjana';
             if (s.includes('reuni') || s.includes('alumni')) return 'reuni-akbar';
+            if (s.includes('floral midnight') || s.includes('midnight navy') || s.includes('floral-midnight') || s.includes('nocturne') || s.includes('komunitas')) return 'floral-midnight-navy';
+            if (s.includes('rustic') || s.includes('coral') || s.includes('peach') || s.includes('sweet 17')) return 'rustic-coral-peach';
             if (s.includes('corporate') || s.includes('formal') || s.includes('opening')) return 'formal-corporate';
             if (s.includes('batak') || s.includes('ulos') || s.includes('gorga')) return 'batak-heritage';
             if (s.includes('royal tasmiyah') || s.includes('tasmiyah') || s.includes('sultan')) return 'royal-tasmiyah';
@@ -3231,6 +3380,7 @@
             if (s.includes('javanese') || s.includes('keraton') || s.includes('jawa') || (s.includes('royal') && !s.includes('tasmiyah')) || s.includes('adat')) return 'javanese-royal';
             if (s.includes('chibi') || s.includes('oriental') || s.includes('chinese')) return 'chibi-red';
             if (s.includes('wildflower') || s.includes('rose') || s.includes('pink')) return 'wildflower-pink';
+            if (s.includes('pawiwahan') || s.includes('geometris') || s.includes('botanical') || s.includes('emerald') || s.includes('arya') || s.includes('rania')) return 'botanical-emerald';
             if (s.includes('sahaja') || s.includes('khitan-sahaja')) return 'walimatul-khitan-sahaja';
             if (s.includes('walimatul') || s.includes('khitan') || s.includes('sunat')) return 'walimatul-khitan';
             if (s.includes('green mosque') || s.includes('mosque') || s.includes('syiar')) return 'green-mosque';
@@ -3469,6 +3619,9 @@
             const themeToUse = customThemeName || currentSelectedTheme;
             const canonicalKey = customKey || getCanonicalTemplateKey(themeToUse);
 
+            // Enforce consistent proportional smartphone container
+            setPreviewDevice(currentPreviewDeviceWidth || 360);
+
             // 1. Immediately display the modal element
             const modal = document.getElementById('livePreviewModal');
             if (modal) {
@@ -3575,6 +3728,7 @@
             });
             const dateInput = document.querySelector('input[name="wedding_date"]');
             if (dateInput) dateInput.value = '';
+            syncWeddingDateToEvents();
 
             const guestTestInp = document.getElementById('previewGuestNameTestInput');
             if (guestTestInp) guestTestInp.value = '';
@@ -3584,16 +3738,22 @@
             updateLivePreviewContent(true);
         }
 
-        // Device toggle inside Preview Modal (380px vs 480px)
+        // Device toggle inside Preview Modal (360px vs 390px)
+        let currentPreviewDeviceWidth = 360;
         function setPreviewDevice(width) {
+            currentPreviewDeviceWidth = width;
             const chassis = document.getElementById('phoneChassis');
+            const guestBar = document.getElementById('previewGuestBar');
             const btnMob = document.getElementById('btnDeviceMobile');
             const btnWide = document.getElementById('btnDeviceWide');
 
             if (chassis) {
                 chassis.style.maxWidth = width + 'px';
             }
-            if (width === 380) {
+            if (guestBar) {
+                guestBar.style.maxWidth = width + 'px';
+            }
+            if (width === 360) {
                 btnMob?.classList.add('bg-brand', 'text-white');
                 btnMob?.classList.remove('text-white/70');
                 btnWide?.classList.remove('bg-brand', 'text-white');
@@ -3763,6 +3923,34 @@
             const initialCat = @json($selectedCat) || 'Pernikahan';
             const initialSubCat = @json($selectedSubCat) || '';
             onSelectCategoryChapter(initialCat, initialSubCat);
+
+            // Bind smart wedding_date listener for auto-syncing to all event cards
+            const weddingDateInput = document.getElementById('weddingDateInput') || document.querySelector('input[name="wedding_date"]');
+            if (weddingDateInput) {
+                weddingDateInput.addEventListener('input', () => {
+                    syncWeddingDateToEvents();
+                    updateLivePreviewContent(false);
+                });
+                weddingDateInput.addEventListener('change', () => {
+                    syncWeddingDateToEvents();
+                    updateLivePreviewContent(false);
+                });
+            }
+
+            // Detect if previously submitted old values had divergent dates
+            const oldEv1Date = @json(old('event_1_date'));
+            const oldEv2Date = @json(old('event_2_date'));
+            const oldWeddingDate = @json(old('wedding_date'));
+            const syncCheckbox = document.getElementById('syncEventsDateCheckbox');
+
+            if (oldWeddingDate && ((oldEv1Date && oldEv1Date !== oldWeddingDate) || (oldEv2Date && oldEv2Date !== oldWeddingDate))) {
+                if (syncCheckbox) syncCheckbox.checked = false;
+                handleSyncEventsDateToggle(false);
+            } else {
+                if (syncCheckbox) syncCheckbox.checked = true;
+                handleSyncEventsDateToggle(true);
+                syncWeddingDateToEvents();
+            }
 
             // Connect form live-binding listeners
             const form = document.getElementById('invitationBuilderForm');

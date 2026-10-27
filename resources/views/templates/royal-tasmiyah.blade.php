@@ -125,8 +125,8 @@
     <!-- ========================================================
          COVER SCREEN (ROYAL GOLD EMBOSSED ARCH)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 transition-all duration-1000 ease-in-out">
-        <div class="relative w-full max-w-sm bg-gradient-to-b from-royal-card via-royal-emerald to-royal-dark rounded-3xl p-7 text-center shadow-2xl border-2 border-royal-gold animate-gold-glow overflow-hidden">
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-black/95 p-3 sm:p-4 transition-all duration-1000 ease-in-out">
+        <div class="relative w-full max-w-sm bg-gradient-to-b from-royal-card via-royal-emerald to-royal-dark rounded-3xl p-5 sm:p-7 text-center shadow-2xl border-2 border-royal-gold animate-gold-glow overflow-hidden my-auto">
             
             <!-- Suspended Golden Lantern Icon -->
             <div class="lantern-sway mx-auto w-10 text-3xl mb-1 text-royal-gold">
@@ -163,7 +163,7 @@
                 </div>
 
                 <!-- Tombol Buka Undangan -->
-                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-royal-gold to-[#B8972E] hover:from-royal-goldbright hover:to-royal-gold text-royal-dark font-cinzel font-bold text-xs tracking-wider uppercase shadow-xl hover:scale-[1.02] active:scale-[0.98] transition flex items-center justify-center gap-2">
+                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-royal-gold to-[#B8972E] hover:from-royal-goldbright hover:to-royal-gold text-royal-dark font-cinzel font-bold text-xs tracking-wider uppercase shadow-xl hover:scale-[1.02] active:scale-[0.98] transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
                     <span>✨</span> <span>Buka Lembaran Titah Kerajaan</span> <span>👑</span>
                 </button>
             </div>

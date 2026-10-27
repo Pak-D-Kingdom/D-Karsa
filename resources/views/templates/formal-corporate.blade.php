@@ -113,8 +113,8 @@
     <!-- ========================================================
          EXECUTIVE DELEGATE PASS COVER SCREEN
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 transition-all duration-1000 ease-in-out">
-        <div class="relative w-full max-w-sm lanyard-pass rounded-2xl p-7 text-center shadow-2xl overflow-hidden">
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-black/95 p-3 sm:p-4 transition-all duration-1000 ease-in-out">
+        <div class="relative w-full max-w-sm lanyard-pass rounded-2xl p-5 sm:p-7 text-center shadow-2xl overflow-hidden my-auto">
             
             <!-- Security Header Bar -->
             <div class="flex items-center justify-between pb-3 border-b border-white/10 text-[9px] font-mono tracking-[0.25em] text-slate-400 uppercase">
@@ -158,7 +158,7 @@
             </div>
 
             <!-- Access Portal Button -->
-            <button type="button" onclick="openInvitation()" class="w-full py-3.5 rounded-xl bg-exec-cobalt hover:bg-blue-600 text-white font-syne text-xs font-bold uppercase tracking-[0.25em] shadow-lg transition flex items-center justify-center gap-2">
+            <button type="button" onclick="openInvitation()" class="w-full py-3.5 rounded-xl bg-exec-cobalt hover:bg-blue-600 text-white font-syne text-xs font-bold uppercase tracking-[0.25em] shadow-lg transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
                 <span>✦</span> BUKA DOKUMEN RESMI
             </button>
         </div>

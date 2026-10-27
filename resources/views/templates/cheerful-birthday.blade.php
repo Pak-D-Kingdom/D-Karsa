@@ -111,8 +111,8 @@
     <!-- ========================================================
          COVER SCREEN (POP-UP PARTY ENVELOPE)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-b from-[#FFF0F0] via-[#FFF9ED] to-[#E8F8F5] p-4 transition-all duration-1000 ease-in-out">
-        <div class="relative w-full max-w-sm bg-white rounded-3xl p-6 sm:p-8 text-center shadow-2xl border-4 border-party-coral/30 overflow-hidden">
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-gradient-to-b from-[#FFF0F0] via-[#FFF9ED] to-[#E8F8F5] p-3 sm:p-4 transition-all duration-1000 ease-in-out">
+        <div class="relative w-full max-w-sm bg-white rounded-3xl p-6 sm:p-5 sm:p-8 text-center shadow-2xl border-4 border-party-coral/30 overflow-hidden my-auto">
             
             <!-- Confetti Background Elements -->
             <div class="confetti-dot absolute top-4 left-4 w-4 h-4 rounded-full bg-party-coral/40"></div>
@@ -150,7 +150,7 @@
                 </div>
 
                 <!-- Tombol Buka Undangan -->
-                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-party-coral hover:bg-party-coral/90 text-white font-fredoka font-bold text-sm shadow-lg shadow-party-coral/30 hover:scale-[1.02] active:scale-[0.98] transition flex items-center justify-center gap-2">
+                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-party-coral hover:bg-party-coral/90 text-white font-fredoka font-bold text-sm shadow-lg shadow-party-coral/30 hover:scale-[1.02] active:scale-[0.98] transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
                     <span>🎁</span> <span>Buka Undangan Pesta</span> <span>✨</span>
                 </button>
             </div>

@@ -115,9 +115,9 @@
     <!-- ========================================================
          SURAH YASIN & TAHLIL BOOK COVER SCREEN
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 transition-all duration-1000 ease-in-out">
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-black/95 p-3 sm:p-4 transition-all duration-1000 ease-in-out">
         <div id="previewCoverBg" class="absolute inset-0 bg-cover bg-center opacity-15 pointer-events-none" style="background-image: url('{{ $coverImg }}');"></div>
-        <div class="relative w-full max-w-sm bg-serene-forest rounded-3xl p-7 text-center shadow-2xl antique-frame overflow-hidden">
+        <div class="relative w-full max-w-sm bg-serene-forest rounded-3xl p-5 sm:p-7 text-center shadow-2xl antique-frame overflow-hidden my-auto">
             
             <!-- Candle & Moon Emblem -->
             <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-serene-card border border-serene-gold/50 flex items-center justify-center text-2xl shadow-inner">
@@ -154,7 +154,7 @@
             </div>
 
             <!-- Open Document Action -->
-            <button type="button" onclick="openInvitation()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-serene-gold to-[#9A7D3C] hover:brightness-110 text-serene-forest font-sans text-xs font-bold uppercase tracking-[0.25em] shadow-lg transition flex items-center justify-center gap-2">
+            <button type="button" onclick="openInvitation()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-serene-gold to-[#9A7D3C] hover:brightness-110 text-serene-forest font-sans text-xs font-bold uppercase tracking-[0.25em] shadow-lg transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
                 <span>🕯️</span> BUKA LEMBAR DOA KHUSYUK
             </button>
         </div>

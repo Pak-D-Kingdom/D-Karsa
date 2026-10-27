@@ -123,8 +123,8 @@
     <!-- ========================================================
          WARM TERRACOTTA HOUSE BLESSING COVER SCREEN
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-[#2B231F] p-4 transition-all duration-1000 ease-in-out">
-        <div class="relative w-full max-w-sm bg-[#FAF8F5] text-home-ink rounded-3xl p-7 text-center shadow-2xl border-2 border-home-terracotta/40 overflow-hidden">
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-[#2B231F] p-3 sm:p-4 transition-all duration-1000 ease-in-out">
+        <div class="relative w-full max-w-sm bg-[#FAF8F5] text-home-ink rounded-3xl p-5 sm:p-7 text-center shadow-2xl border-2 border-home-terracotta/40 overflow-hidden my-auto">
             
             <!-- House Key Emblem -->
             <div class="w-16 h-16 mx-auto mb-3 rounded-full bg-home-terracotta/15 flex items-center justify-center text-3xl animate-key">
@@ -166,7 +166,7 @@
             </div>
 
             <!-- Buka Pintu Action -->
-            <button type="button" onclick="openInvitation()" class="w-full py-3.5 rounded-2xl bg-home-terracotta hover:bg-home-clay text-white font-sans text-xs font-bold uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-2">
+            <button type="button" onclick="openInvitation()" class="w-full py-3.5 rounded-2xl bg-home-terracotta hover:bg-home-clay text-white font-sans text-xs font-bold uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
                 <span>🗝️</span> BUKA PINTU KEDIAMAN KAMI
             </button>
         </div>

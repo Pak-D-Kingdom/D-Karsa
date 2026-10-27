@@ -110,8 +110,8 @@
     <!-- ========================================================
          COVER SCREEN (WARM NORDIC EMBRACE)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-b from-[#F5EFE6] via-[#FAF6F0] to-[#EAE0D5] p-4 transition-all duration-1000 ease-in-out">
-        <div class="relative w-full max-w-sm bg-white rounded-[32px] p-7 text-center shadow-xl border border-nordic-border overflow-hidden">
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-gradient-to-b from-[#F5EFE6] via-[#FAF6F0] to-[#EAE0D5] p-3 sm:p-4 transition-all duration-1000 ease-in-out">
+        <div class="relative w-full max-w-sm bg-white rounded-[32px] p-5 sm:p-7 text-center shadow-xl border border-nordic-border overflow-hidden my-auto">
             
             <div class="space-y-4">
                 <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-nordic-amber/10 text-nordic-amber text-[11px] font-bold tracking-wider uppercase">
@@ -143,7 +143,7 @@
                 </div>
 
                 <!-- Buka Undangan Button -->
-                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-nordic-amber hover:bg-amber-700 text-white font-medium text-xs shadow-md transition flex items-center justify-center gap-2">
+                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-nordic-amber hover:bg-amber-700 text-white font-medium text-xs shadow-md transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
                     <span>💌</span> <span>Buka Undangan Tasyakuran</span> <span>🌿</span>
                 </button>
             </div>

@@ -113,8 +113,8 @@
     <!-- ========================================================
          COVER SCREEN (IVY LEAGUE COMMENCEMENT SEAL)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 transition-all duration-1000 ease-in-out">
-        <div class="relative w-full max-w-sm bg-gradient-to-b from-ivy-card via-ivy-navy to-ivy-dark rounded-3xl p-7 text-center shadow-2xl border-2 border-ivy-gold animate-medal overflow-hidden">
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-black/95 p-3 sm:p-4 transition-all duration-1000 ease-in-out">
+        <div class="relative w-full max-w-sm bg-gradient-to-b from-ivy-card via-ivy-navy to-ivy-dark rounded-3xl p-5 sm:p-7 text-center shadow-2xl border-2 border-ivy-gold animate-medal overflow-hidden my-auto">
             
             <div class="mx-auto text-3xl mb-1 text-ivy-gold">
                 🏆
@@ -150,7 +150,7 @@
                 </div>
 
                 <!-- Buka Undangan Button -->
-                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-ivy-gold to-[#B8972E] hover:from-ivy-goldbright hover:to-ivy-gold text-ivy-dark font-cinzel font-bold text-xs uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-2">
+                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-ivy-gold to-[#B8972E] hover:from-ivy-goldbright hover:to-ivy-gold text-ivy-dark font-cinzel font-bold text-xs uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
                     <span>🎖️</span> <span>Buka Lembaran Kehormatan</span> <span>📜</span>
                 </button>
             </div>

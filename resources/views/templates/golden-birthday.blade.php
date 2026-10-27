@@ -133,14 +133,14 @@
     <!-- ========================================================
          VIP PASS COVER SCREEN (Modern Luxury Nightclub & Gatsby)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 transition-all duration-1000 ease-in-out">
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-black/95 p-3 sm:p-4 transition-all duration-1000 ease-in-out">
         <div id="previewCoverBg" class="absolute inset-0 bg-cover bg-center opacity-20 pointer-events-none" style="background-image: url('{{ $coverImg }}');"></div>
         
         <!-- Background Ambient Bokeh -->
         <div class="bokeh-dot w-48 h-48 top-12 left-8" style="animation-delay: 0s;"></div>
         <div class="bokeh-dot w-64 h-64 bottom-16 right-6" style="animation-delay: 2.5s;"></div>
 
-        <div class="relative w-full max-w-sm vip-ticket rounded-2xl p-7 text-center shadow-2xl overflow-hidden backdrop-blur-md">
+        <div class="relative w-full max-w-sm vip-ticket rounded-2xl p-5 sm:p-7 text-center shadow-2xl overflow-hidden backdrop-blur-md my-auto">
             
             <!-- Metallic Ticket Ribbon -->
             <div class="flex items-center justify-between pb-3.5 border-b border-white/10 text-[9px] font-mono tracking-[0.25em] text-noir-gold/80 uppercase">
@@ -185,7 +185,7 @@
             </div>
 
             <!-- Unlock Invitation Action -->
-            <button type="button" onclick="openInvitation()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-noir-gold via-[#FFE57F] to-noir-gold text-noir-base font-syne text-xs font-black uppercase tracking-[0.25em] shadow-lg hover:brightness-110 transition flex items-center justify-center gap-2">
+            <button type="button" onclick="openInvitation()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-noir-gold via-[#FFE57F] to-noir-gold text-noir-base font-syne text-xs font-black uppercase tracking-[0.25em] shadow-lg hover:brightness-110 transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
                 <span>✦</span> BUKA UNDANGAN VIP
             </button>
         </div>

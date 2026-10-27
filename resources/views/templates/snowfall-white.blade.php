@@ -152,70 +152,76 @@
     <!-- ========================================================
          COVER SCREEN (SnowFall Minimalist White Editorial)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950 text-white p-3 sm:p-4 overflow-y-auto transition-all duration-1000 ease-in-out">
-        <div class="relative w-full max-w-sm max-h-[96vh] bg-white text-snow-dark p-6 sm:p-7 shadow-2xl platinum-border flex flex-col justify-between my-auto relative overflow-hidden">
-            
-            <!-- Soft Crystalline Glow Backdrop -->
-            <div class="absolute -top-16 -right-16 w-40 h-40 bg-sky-100/60 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute -bottom-16 -left-16 w-40 h-40 bg-slate-100/60 rounded-full blur-3xl pointer-events-none"></div>
-
-            <!-- Top Editorial Header Bar -->
-            <div class="flex items-center justify-between pb-2.5 border-b border-snow-silver text-[9px] tracking-[0.3em] uppercase text-snow-muted font-medium font-montserrat">
-                <span>HAUTE COUTURE • VOL. VII</span>
-                <span>{{ $targetDate->format('Y') }}</span>
-            </div>
-
-            <!-- Monogram Seal & Event Subtitle -->
-            <div class="my-3 text-center">
-                <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-snow-ice border border-snow-silver mb-1.5 shadow-sm">
-                    <span class="font-cormorant text-xl italic font-semibold text-snow-charcoal">
-                        {{ $groomInitial }}@if($hasBride)&amp;{{ $brideInitial }}@endif
-                    </span>
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-slate-950 text-white p-2.5 sm:p-4 transition-all duration-700 ease-in-out flex flex-col">
+        <div class="min-h-full flex flex-col justify-center items-center my-auto py-2 sm:py-3 w-full">
+            <div class="relative w-full max-w-sm bg-white text-snow-dark p-4 sm:p-6 shadow-2xl platinum-border flex flex-col justify-between my-auto">
+                
+                <!-- Soft Crystalline Glow Backdrop (Contained inside absolute mask) -->
+                <div class="absolute inset-0 overflow-hidden pointer-events-none rounded-[inherit]">
+                    <div class="absolute -top-16 -right-16 w-40 h-40 bg-sky-100/60 rounded-full blur-3xl"></div>
+                    <div class="absolute -bottom-16 -left-16 w-40 h-40 bg-slate-100/60 rounded-full blur-3xl"></div>
                 </div>
-                <p class="font-montserrat text-[9px] tracking-[0.25em] text-snow-slate uppercase font-semibold">
-                    {{ $couple->event_heading ?? ($isNonWedding ? 'Official Invitation' : 'The Wedding Celebration') }}
-                </p>
-            </div>
 
-            <!-- Cover Photo with Crisp Platinum Frame -->
-            <div class="relative my-2">
-                <div class="w-full h-38 sm:h-44 overflow-hidden bg-snow-frost relative group border border-snow-silver/60">
-                    <img id="previewCoverPhotoImg" src="{{ $coverImg }}" alt="Cover Couple" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 filter contrast-[1.02] brightness-[0.98]">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
-                    <span class="absolute bottom-2.5 left-3 text-[9px] font-montserrat tracking-[0.2em] uppercase text-white font-medium">
-                        {{ $weddingDateFormatted }}
-                    </span>
+                <!-- Top Editorial Header Bar -->
+                <div class="relative z-10 flex items-center justify-between pb-2 border-b border-snow-silver text-[9px] tracking-[0.25em] uppercase text-snow-muted font-medium font-montserrat">
+                    <span>HAUTE COUTURE • VOL. VII</span>
+                    <span>{{ $targetDate->format('Y') }}</span>
                 </div>
-            </div>
 
-            <!-- Names in High-Fashion Cormorant Serif -->
-            <div class="text-center my-2">
-                <h1 class="font-cormorant text-3xl sm:text-4xl text-snow-dark tracking-tight leading-tight font-light">
-                    {{ $couple->groom_name }}
-                    @if($hasBride)
-                        <span class="inline-block font-cormorant italic text-2xl text-snow-muted mx-1">&amp;</span>
-                        {{ $couple->bride_name }}
+                <!-- Monogram Seal & Event Subtitle -->
+                <div class="relative z-10 my-1.5 sm:my-2.5 text-center">
+                    <div class="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-snow-ice border border-snow-silver mb-1 shadow-sm">
+                        <span class="font-cormorant text-lg sm:text-xl italic font-semibold text-snow-charcoal">
+                            {{ $groomInitial }}@if($hasBride)&amp;{{ $brideInitial }}@endif
+                        </span>
+                    </div>
+                    <p class="font-montserrat text-[8.5px] sm:text-[9px] tracking-[0.25em] text-snow-slate uppercase font-semibold">
+                        {{ $couple->event_heading ?? ($isNonWedding ? 'Official Invitation' : 'The Wedding Celebration') }}
+                    </p>
+                </div>
+
+                <!-- Cover Photo with Crisp Platinum Frame -->
+                <div class="relative z-10 my-1.5 sm:my-2">
+                    <div class="w-full h-30 sm:h-40 max-h-[26vh] overflow-hidden bg-snow-frost relative group border border-snow-silver/60">
+                        <img id="previewCoverPhotoImg" src="{{ $coverImg }}" alt="Cover Couple" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 filter contrast-[1.02] brightness-[0.98]">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none"></div>
+                        <span class="absolute bottom-2 left-2.5 text-[8.5px] sm:text-[9px] font-montserrat tracking-[0.2em] uppercase text-white font-medium">
+                            {{ $weddingDateFormatted }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Names in High-Fashion Cormorant Serif -->
+                <div class="relative z-10 text-center my-1.5 sm:my-2">
+                    <h1 class="font-cormorant text-2xl sm:text-3xl text-snow-dark tracking-tight leading-tight font-light">
+                        {{ $couple->groom_name }}
+                        @if($hasBride)
+                            <span class="inline-block font-cormorant italic text-xl sm:text-2xl text-snow-muted mx-1">&amp;</span>
+                            {{ $couple->bride_name }}
+                        @endif
+                    </h1>
+                    <p class="font-cormorant italic text-[11px] sm:text-xs text-snow-muted mt-0.5 sm:mt-1">
+                        "Like gentle snow falling upon winter silence, our hearts unite in grace."
+                    </p>
+                </div>
+
+                <!-- Guest Personalized Greeting Card -->
+                <div class="relative z-10 p-2.5 sm:p-3 bg-snow-ice/90 border border-snow-silver text-center my-1.5 sm:my-2">
+                    <span class="text-[7.5px] sm:text-[8px] font-montserrat uppercase tracking-[0.25em] text-snow-muted block mb-0.5 font-bold">Special Invitation For:</span>
+                    <p class="font-cormorant text-sm sm:text-base text-snow-dark font-semibold">{{ $guest->name ?? 'Tamu Terhormat' }}</p>
+                    @if(!empty($guest->seat_table))
+                        <span class="inline-block mt-0.5 text-[8.5px] sm:text-[9px] font-montserrat text-snow-slate font-medium tracking-wider">Table: {{ $guest->seat_table }}</span>
                     @endif
-                </h1>
-                <p class="font-cormorant italic text-xs text-snow-muted mt-1">
-                    "Like gentle snow falling upon winter silence, our hearts unite in grace."
-                </p>
-            </div>
+                </div>
 
-            <!-- Guest Personalized Greeting Card -->
-            <div class="p-3 bg-snow-ice/90 border border-snow-silver text-center my-2.5">
-                <span class="text-[8px] font-montserrat uppercase tracking-[0.25em] text-snow-muted block mb-0.5 font-bold">Special Invitation For:</span>
-                <p class="font-cormorant text-base text-snow-dark font-semibold">{{ $guest->name ?? 'Tamu Terhormat' }}</p>
-                @if(!empty($guest->seat_table))
-                    <span class="inline-block mt-0.5 text-[9px] font-montserrat text-snow-slate font-medium tracking-wider">Table: {{ $guest->seat_table }}</span>
-                @endif
+                <!-- Open Invitation Action Button -->
+                <div class="relative z-20 pt-1">
+                    <button type="button" onclick="openInvitation()" class="w-full py-3 sm:py-3.5 px-5 sm:px-6 bg-snow-dark hover:bg-slate-800 text-white text-[10px] sm:text-xs font-montserrat font-semibold uppercase tracking-[0.25em] transition-all duration-300 shadow-md flex items-center justify-center gap-2 group cursor-pointer active:scale-98 pointer-events-auto">
+                        <span>Buka Undangan</span>
+                        <span class="transform transition-transform duration-300 group-hover:translate-x-1.5">→</span>
+                    </button>
+                </div>
             </div>
-
-            <!-- Open Invitation Action Button -->
-            <button type="button" onclick="openInvitation()" class="w-full py-3.5 px-6 bg-snow-dark hover:bg-slate-800 text-white text-[10px] font-montserrat font-semibold uppercase tracking-[0.3em] transition-all duration-300 shadow-md flex items-center justify-center gap-2 group cursor-pointer active:scale-98">
-                <span>Buka Undangan</span>
-                <span class="transform transition-transform duration-300 group-hover:translate-x-1.5">→</span>
-            </button>
         </div>
     </div>
 
@@ -658,6 +664,7 @@
 
             const cover = document.getElementById('coverScreen');
             if (cover) {
+                cover.style.pointerEvents = 'none';
                 cover.style.opacity = '0';
                 cover.style.transform = 'translateY(-100%)';
                 setTimeout(() => {

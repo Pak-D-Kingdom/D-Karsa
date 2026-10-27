@@ -31,7 +31,7 @@
                     </div>
                     <h3 class="font-bold text-lg text-ink">Aktivasi Instan &amp; Otomatis</h3>
                     <p class="text-sm text-ink2 mt-2 leading-relaxed">
-                        Terintegrasi dengan payment gateway Midtrans. Undangan langsung aktif detik itu juga setelah pembayaran QRIS atau Virtual Account selesai.
+                        Terintegrasi dengan sistem pembayaran instan. Undangan langsung aktif detik itu juga setelah pembayaran QRIS atau Virtual Account selesai.
                     </p>
                 </div>
                 <div class="mt-6 pt-4 border-t border-orange-100 flex items-center gap-1.5 text-xs font-extrabold text-orange-600">
@@ -161,7 +161,7 @@
                             </li>
                             <li class="flex items-center gap-2.5">
                                 <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 grid place-items-center text-xs font-bold">✓</span>
-                                <span>Aktivasi instan otomatis setelah checkout Midtrans</span>
+                                <span>Aktivasi instan otomatis setelah pembayaran berhasil</span>
                             </li>
                         </ul>
                     </div>
