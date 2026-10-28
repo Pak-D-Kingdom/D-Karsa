@@ -1330,6 +1330,226 @@
             audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
         };
 
+        themePreviews['floral-midnight-navy'] = {
+            name: 'Floral Midnight Navy - Acara Komunitas',
+            category: 'Acara Formal',
+            subCat: 'Acara komunitas',
+            catKey: 'formal',
+            badge: '🌿 Nocturne Flora • Premium Komunitas',
+            packageVal: 'Paket Premium - Rp110.000',
+            desc: 'Desain gala & malam keakraban komunitas eksklusif bernuansa floral midnight navy & emas: amplop digital interaktif, sambutan presidium, rundown protokoler, RSVP jamuan gala dinner & donasi filantropi.',
+            coverBadge: 'NOCTURNE FLORA GALA',
+            coverSubtitle: 'Malam Keakraban & Mahakarya Komunitas',
+            coverTitle: 'Komunitas Ekosistem Kreatif Nusantara',
+            coverDate: 'Sabtu, 24 Oktober 2026',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCdPljVOXr26UE8Ms4t7EAbv758xspjsN5NTZ42zOpq1UvndGHDlpT0hfYK8MbSQY6_iLQSb00sqTp4emTwyd3PJfa3tgVw_FrRi1i_gxtZ11LzVN4x0H-b5UYOjZ1tIxY7QDVUQvxQZdwKyJiSzM3FjIiTJ2mozHDTvWmKEOLWeHb5oPKeQ1P0-smKM6JqIONrmPRW4oicEjbJtCFnrVmNOXTqB8tKd4Wg74Ysla2tZmnsW9V8zp4rhQ',
+            quoteIcon: '🌿',
+            quoteTitle: 'Harmoni Dedikasi Nusantara',
+            quoteBody: '"Kala malam menyulam keheningan, dedaunan inovasi mekar dalam harmoni. Bersama kita merayakan karya, dedikasi, serta jalinan erat yang melahirkan dampak bagi peradaban nusantara."',
+            profileBadge: 'Presidium Kehormatan',
+            profileName: 'Raden Mas Suryo Wicaksono, M.B.A.',
+            profileDesc: 'Ketua Umum Presidium KEKN • Dress Code: Midnight Navy & Gold',
+            locationName: 'The Glasshouse Grand Sanctuary, The Langham Surabaya',
+            events: [
+                { title: 'Registrasi Tamu, Red Carpet & Welcoming Cocktail', time: '18:00 - 19:00 WIB', date: 'Sabtu, 24 Oktober 2026', place: 'Grand Foyer Level 4' },
+                { title: 'Gala Dinner & Mahakarya Komunitas Award', time: '19:30 - 22:00 WIB', date: 'Sabtu, 24 Oktober 2026', place: 'The Glasshouse Grand Sanctuary' }
+            ],
+            giftTitle: '🌿 Filantropi & Tali Asih Komunitas',
+            giftDesc: 'Partisipasi dan donasi filantropi untuk kelancaran program keakraban & riset komunitas:',
+            wishTitle: 'Untaian Doa & Aspirasi Mitra',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['rustic-coral-peach'] = {
+            name: 'Rustic Coral & Peach - Sweet 17th Birthday',
+            category: 'Ulang Tahun',
+            subCat: 'Sweet seventeen',
+            catKey: 'ultah',
+            badge: '🎂 Sweet 17 • Rustic Coral & Peach',
+            packageVal: 'Paket Premium - Rp110.000',
+            desc: 'Desain perayaan sweet seventeen / milad bernuansa rustic coral, soft peach & warm terracotta: arched portrait cover, 4-capsule countdown timer, agenda dinner, polaroid memories gallery, RSVP interactive & kado digital.',
+            coverBadge: 'SWEET 17 MILESTONE',
+            coverSubtitle: 'A Chapter Begins with Joy & Gratitude',
+            coverTitle: 'Clarissa Aurelia Putri (Turning 17)',
+            coverDate: 'Sabtu, 18 Juli 2026',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCl-58-aEOJBWynlMYOA7IdVehsRB3f9J6PFL-BvQbbtZIfWuOAys0DysZwqpqIA3S8TB-ZOIIKySBw2uPbyQrjOnoc49Buz2G-lFL_7ptJiySDdXJ7PlEHNLHAIDD8lRdHqSNUbfq2RWS_vSiOBK8_kWG-8C1BNvQDbr1toqz9GUUFCh_umM9i7vhVtrgW4S2DAoX4EaaUKI9cv4GcAPmKVK6WedYKYC9Eqtynoe7x7M5Wvw-LVVqr',
+            quoteIcon: '🍑',
+            quoteTitle: 'Chapter Seventeen',
+            quoteBody: '"A chapter begins, full of dreams, laughter, and endless gratitude. Merayakan 17 tahun penuh cinta dan kebahagiaan bersama orang-orang tersayang."',
+            profileBadge: 'The Birthday Star',
+            profileName: 'Clarissa Aurelia Putri',
+            profileDesc: 'Putri tercinta Bpk. Hendra & Ibu Maya • Dress Code: Terracotta & Coral Charm',
+            locationName: 'The Glass House Garden Cafe & Bistro, Surabaya',
+            events: [
+                { title: 'Welcoming & Polaroid Photo Session', time: '17:30 - 18:30 WIB', date: 'Sabtu, 18 Juli 2026', place: 'Garden Foyer' },
+                { title: 'Sweet 17 Party, Tiup Lilin & Dinner Banquet', time: '18:30 - 21:30 WIB', date: 'Sabtu, 18 Juli 2026', place: 'Main Dining Hall & Glasshouse' }
+            ],
+            giftTitle: '🍑 Kado Ulang Tahun & Tali Kasih',
+            giftDesc: 'Kehadiran dan senyum sahabat adalah kado terindah bagi Clarissa:',
+            wishTitle: 'Untaian Doa & Pesan Sahabat',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['arctic-frost'] = {
+            name: 'Korporat Profesional Arctic Frost - Sweet 17th Birthday',
+            category: 'Ulang Tahun',
+            subCat: 'Sweet seventeen',
+            catKey: 'ultah',
+            badge: '❄️ Sweet 17 • Arctic Frost Gala',
+            packageVal: 'Paket Premium - Rp110.000',
+            desc: 'Desain perayaan ulang tahun / sweet seventeen eksekutif bertema Arctic Frost Gala: sampul amplop digital protokol VIP, segel lilin perak monogram, profil frosted architecture, countdown timer glacial, timeline agenda korporat, retrospeksi galeri, RSVP VIP & kado digital.',
+            coverBadge: 'THE 17TH ANNUAL GALA',
+            coverSubtitle: 'A Glacial Journey to the Future',
+            coverTitle: 'Adrian Pradipta Utama (Turning 17)',
+            coverDate: 'Sabtu, 24 Oktober 2026',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBJ8VRzqgHLqjfaecEXxl_mqq2r5mo2T_pkyJQkpcYycDu2T4QqzjiF8ENab-zz8klUlMzMvOs5IsZu-qUy1ScQ8YcUxmNfUU3cO2Gb_6CLnK9t90fgbfBfjQgnsDVF0cfVbz90HF4sYqMDGIW2MOjP6OmS34tz8QstMKKZGR3kyxGXfUQKXF0GcmLFuYcldfg8XChTGmcl2RPdo7SJaoskAyQfFAM3CmnxQh5w7FyMASCV8m9RaexH4w',
+            quoteIcon: '❄️',
+            quoteTitle: 'Visi & Kedewasaan',
+            quoteBody: '"Merayakan kedewasaan, integritas visi, dan babak baru kepemimpinan dalam suasana keanggunan Arctic Frost."',
+            profileBadge: 'The Honored Host',
+            profileName: 'Adrian Pradipta Utama',
+            profileDesc: 'Putra Bpk. Hendra Pratama & Ibu Maya Kusuma • Dress Code: Glacial Blue & Silver',
+            locationName: 'The Grand Glacial Ballroom, SCBD Surabaya',
+            events: [
+                { title: 'Red Carpet, Photo Wall & Cocktail Reception', time: '18:30 - 19:30 WIB', date: 'Sabtu, 24 Oktober 2026', place: 'Grand Foyer Level 4' },
+                { title: 'Keynote, Birthday Toast & Gala Dinner', time: '19:30 - 22:00 WIB', date: 'Sabtu, 24 Oktober 2026', place: 'The Grand Glacial Ballroom' }
+            ],
+            giftTitle: '❄️ Kado Eksklusif & Tanda Kasih',
+            giftDesc: 'Kehadiran Anda dalam perayaan gala ke-17 adalah kehormatan bagi kami:',
+            wishTitle: 'Untaian Doa & Pesan Sahabat',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['editorial-cherry-blossom'] = {
+            name: 'Editorial Cherry Blossom - Sweet Seventeen',
+            category: 'Ulang Tahun',
+            subCat: 'Sweet seventeen',
+            catKey: 'ultah',
+            badge: '🌸 Sweet 17 • Cherry Blossom',
+            packageVal: 'Paket Premium - Rp110.000',
+            desc: 'Desain majalah editorial perayaan Sweet 17 bernuansa Sakura Reverie: palet blush rouge cherry, kartu amplop digital haute couture, countdown mekar musim semi, lookbook galeri eksklusif, RSVP terintegrasi & kado digital.',
+            coverBadge: 'SAKURA REVERIE XVII',
+            coverSubtitle: 'Celebrating 17 Blossoming Years',
+            coverTitle: 'Valerie Chloe (Turning 17)',
+            coverDate: 'Sabtu, 15 November 2025',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDJhtrSUcdvHwhkHrBrClKMrW5a8kpnKOnlh-6q-0hx9sEyhBV9GOT_8sDq3n04GcWPXbnQ8A9f432QivdnFhH96RmmhwfhahULsBf0O2savDB2VAFE5qiAcNfM6CXTOO-ipu8s0qMJqxaWJPruQkbFN2BRVFEA5DHO7DqujCeVzTiQHVAUcO9MjJyyHUQdkkVdcUjVa4bLFXm_EDbgsmOv5AVsYC6QxoqwBNWf-u_f',
+            quoteIcon: '🌸',
+            quoteTitle: 'Bloom of Youth',
+            quoteBody: '"Like cherry blossoms in spring, seventeen arrives with grace, dreams, and radiant beginnings."',
+            profileBadge: 'The Debutante',
+            profileName: 'Valerie Chloe',
+            profileDesc: 'Putri tercinta Keluarga Besar Handoko • Dress Code: Sakura Pink & Haute Couture',
+            locationName: 'The St. Regis Grand Ballroom, Jakarta',
+            events: [
+                { title: 'Cocktail & Red Carpet Welcome', time: '18:30 - 19:30 WIB', date: 'Sabtu, 15 November 2025', place: 'Ballroom Foyer' },
+                { title: 'Sweet Seventeen Gala & Dinner', time: '19:30 - 22:00 WIB', date: 'Sabtu, 15 November 2025', place: 'Grand Ballroom' }
+            ],
+            giftTitle: '🌸 Kado Ulang Tahun & Tali Kasih',
+            giftDesc: 'Kehadiran dan senyum hangat sahabat adalah kado terindah bagi Valerie:',
+            wishTitle: 'Untaian Doa & Harapan Sahabat',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['orange-energy'] = {
+            name: 'Elegan Klasik Orange Energy - Sweet Seventeen',
+            category: 'Ulang Tahun',
+            subCat: 'Sweet seventeen',
+            catKey: 'ultah',
+            badge: '✨ Sweet 17 • Orange Energy',
+            packageVal: 'Paket Premium - Rp110.000',
+            desc: 'Kemegahan perayaan sweet seventeen bertema Aura Soleil XVII: nuansa terracotta & warm gold glamour, amplop digital segel wax seal, countdown jam pesta, galeri golden hour, panduan dress code & kado digital.',
+            coverBadge: 'AURA SOLEIL XVII',
+            coverSubtitle: 'A Radiant Twilight Welcoming Seventeen Suns',
+            coverTitle: 'Clarissa Aurelia (Turning 17)',
+            coverDate: 'Sabtu, 28 Oktober 2025',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBqyWfjlXiyQzbIj4wDK6La3Dsgmaab3t9hoCW0K9c0M4VGiiqAYB_l1InauHWNKEiVOFqfh0Gqc5JDDPbsKp2NflMaV01FLo99nmIFXDweDjITeCxMLKsS0mR-nA4W2rJKU2nd2SoZd8MRfjI2pKrOqs6H9PPeSqQYbK4x4W97NxYeIIzL1GWp1RfMkpCmvTc2jKRsYMiSpvnDU5dvSNrMnyGb3UFERSqZfLCCPb53nH4B-aE8hAa_tQ',
+            quoteIcon: '✨',
+            quoteTitle: 'Golden Radiance',
+            quoteBody: '"Di fajar usia ketujuh belas ini, seberkas tawa dan pelita persahabatan adalah anugerah terindah."',
+            profileBadge: 'The Debutante',
+            profileName: 'Clarissa Aurelia',
+            profileDesc: 'Putri tercinta Bpk. Robert & Ibu Maria • Dress Code: Sunset Orange & Champagne',
+            locationName: 'The Grand Ballroom, Hotel Mulia Senayan Jakarta',
+            events: [
+                { title: 'Sunset Welcoming & Canapé', time: '18:30 - 19:30 WIB', date: 'Sabtu, 28 Oktober 2025', place: 'Ballroom Foyer' },
+                { title: 'Aura Soleil Gala & Candle Celebration', time: '19:30 - 22:30 WIB', date: 'Sabtu, 28 Oktober 2025', place: 'The Grand Ballroom' }
+            ],
+            giftTitle: '✨ Tanda Kasih & Hadiah Digital',
+            giftDesc: 'Doa restu Anda adalah anugerah terbesar bagi kami:',
+            wishTitle: 'Untaian Doa & Pesan Sahabat',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['rustic-purple-dream'] = {
+            name: 'Rustic Purple Dream - Ulang Tahun Remaja',
+            category: 'Ulang Tahun',
+            subCat: 'Ulang tahun remaja',
+            catKey: 'ultah',
+            badge: '💜 Ultah Remaja • Rustic Purple',
+            packageVal: 'Paket Premium - Rp110.000',
+            desc: 'Desain perayaan ulang tahun remaja bernuansa lavender, sage botanic & kertas kraft rustic: sampul amplop segel lilin inisial, countdown hari bahagia, panduan dress code rustic, galeri momen ceria & RSVP.',
+            coverBadge: 'SPECIAL MILESTONE • SWEET 17',
+            coverSubtitle: 'The Sweet Seventeen of Aurellia Keisha',
+            coverTitle: 'Aurellia Keisha Putri (Turning 17)',
+            coverDate: 'Sabtu, 24 Mei 2025',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDUX3W9wcx9qK6OeMxJ_-QWLWl7-ECMAH1p5ONi2MAbP5dw4k0F7qbBK-oWrw8eKQIl-zcl2x2-B1sHgvmwJ1JZEqtk6HT4CRHYJ9Anwp5IHwfZnXxvgTvN1UBhkdS1Zi5tLLpZLHceb7jUSp4WSZklz4ZrhN3zyuAUXAlVHtQqM4xd2N24mW2JIru3hQPW-PjV1xcb2qUNuSyaSzJsgsabSIvuVV2Ol0xvKeVrzANATdZUHWfPxUmrJg',
+            quoteIcon: '💜',
+            quoteTitle: 'Taman Kehidupan',
+            quoteBody: '"Tujuh belas tahun penuh anugerah dan cinta. Setiap detik adalah kelopak bunga yang mekar di taman kehidupan."',
+            profileBadge: 'The Birthday Girl',
+            profileName: 'Aurellia Keisha Putri',
+            profileDesc: 'Putri kedua Keluarga Besar Bpk. & Ibu Keisha • Dress Code: Touch of Lavender / Rustic Earth',
+            locationName: 'The Lavender Rustic Greenhouse & Garden, Jakarta',
+            events: [
+                { title: 'Sunset Gathering & Garden Party', time: '16:30 - 18:00 WIB', date: 'Sabtu, 24 Mei 2025', place: 'Greenhouse Garden' },
+                { title: 'Dinner Reception & Cake Ceremony', time: '18:30 - 20:00 WIB', date: 'Sabtu, 24 Mei 2025', place: 'Lavender Pavilion' }
+            ],
+            giftTitle: '💜 Tanda Kasih & Kado Digital',
+            giftDesc: 'Doa restu Anda merupakan kado terindah bagi kami:',
+            wishTitle: 'Untaian Doa & Harapan Sahabat',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['botanical-emerald'] = {
+            name: 'Pawiwahan Adat Jawa Geometris',
+            category: 'Pernikahan',
+            subCat: 'Pernikahan adat Jawa, Sunda, Minang, dan lainnya',
+            catKey: 'pernikahan',
+            badge: '👑 Adat Jawa • Geometris Keraton',
+            packageVal: 'Paket Premium - Rp110.000',
+            desc: 'Desain sakral adat Jawa bergaya geometris kontemporer: ornamen Gunungan & Kawung, serat ulem panggih, alunan Ladrang Wilujeng, dan amplop digital kersaning rahayu.',
+            coverBadge: 'SERAT ULEM PAWIWAHAN AGENG',
+            coverSubtitle: 'Miwiti Lampahing Katresnan',
+            coverTitle: 'Arya & Rania',
+            coverDate: 'Sabtu, 25 Oktober 2025',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBLZUvfr0iFuEWva6_hLE8cc4TfljTBNR7QQBSEHnmgI1iye2T-gnXeYfFTP7u0Dj-8jxZhi3341gmMy3O40kydQi6ZM8_g5XZNelWUJJMZWnRMOoHoKBbc0frCovnxgiKZwMNwxnDy_WVYDPe2EjPFAIshBkn27CA6rFLZgskjXBhHKr256NUsVu_Zh8hus45z_mBJreVmTyBnfAXauHh-PT4DmeteFuhgrBtYywasDgAQmsM7_ppW5g',
+            quoteIcon: '👑',
+            quoteTitle: 'QS. Ar-Rum: 21',
+            quoteBody: '"Dan di antara tanda-tanda kebesaran-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang."',
+            profileBadge: 'Mempelai Pengantin',
+            profileName: 'Raden Mas Arya & Raden Ajeng Rania',
+            profileDesc: 'Putra Bpk. K.R.T. Hendro Purnomo & Putri Bpk. Ir. H. Bambang Wicaksono',
+            locationName: 'Grand Ballroom Sasana Kencana Surabaya',
+            events: [
+                { title: 'Upacara Ijab Qobul & Panggih Penganten', time: '08:00 - 10:30 WIB', date: 'Sabtu, 25 Oktober 2025', place: 'Pendopo Sasana Kencana' },
+                { title: 'Resepsi Ageng & Pahargyan', time: '11:00 - 14:00 WIB', date: 'Sabtu, 25 Oktober 2025', place: 'Grand Ballroom Sasana Kencana' }
+            ],
+            giftTitle: 'Kersaning Rahayu & Tanda Tresna',
+            giftDesc: 'Doa restu panjenengan sami karunia ingkang ageng tumraping kawula sarimbit:',
+            wishTitle: 'Untaian Doa & Berkah Pangestu',
+            audioSrc: '{{ asset("audio/wedding-melody.wav") }}'
+        };
+
+        // Extra alias mapping
+        themePreviews['floral-midnight'] = themePreviews['floral-midnight-navy'];
+        themePreviews['rustic-coral'] = themePreviews['rustic-coral-peach'];
+        themePreviews['korporat-profesional'] = themePreviews['formal-corporate'];
+        themePreviews['corporate-profesional'] = themePreviews['formal-corporate'];
+        themePreviews['executive-corporate'] = themePreviews['formal-corporate'];
+        themePreviews['botanical'] = themePreviews['botanical-emerald'];
+        themePreviews['pawiwahan'] = themePreviews['botanical-emerald'];
+        themePreviews['jawa-geometris'] = themePreviews['botanical-emerald'];
+
         const audioTracks = {
             'pernikahan': '{{ asset("audio/wedding-melody.wav") }}',
             'tahlilan': '{{ asset("audio/islamic-melody.wav") }}',
@@ -1346,6 +1566,7 @@
             'pernikahan': [
                 { slug: 'chibi-red', name: 'Chibi Red Oriental', tag: 'Oriental Red & 3D', icon: '囍', iconBg: 'bg-red-100 text-red-700', demoUrl: '/demo/chibi-red' },
                 { slug: 'wildflower-pink', name: 'Wildflower Pink', tag: 'Kubah Lengkung & Lilin', icon: '🌸', iconBg: 'bg-pink-100 text-pink-700', demoUrl: '/demo/wildflower-pink' },
+                { slug: 'botanical-emerald', name: 'Pawiwahan Adat Jawa', tag: 'Gunungan Geometris Keraton', icon: '👑', iconBg: 'bg-amber-100 text-amber-800', demoUrl: '/demo/botanical-emerald' },
                 { slug: '3d-javanese-royal', name: '3D Javanese Royal', tag: 'Keraton Gunungan 3D', icon: '👑', iconBg: 'bg-amber-100 text-amber-800', demoUrl: '/demo/javanese-royal' },
                 { slug: 'simple-minimalist-floral', name: 'Minimalist Floral', tag: 'Clean Editorial Modern', icon: '🌿', iconBg: 'bg-emerald-100 text-emerald-800', demoUrl: '/demo/minimalist-floral' },
                 { slug: 'snowfall-minimalist-white', name: 'SnowFall Minimalist', tag: 'Pure White Snowfall', icon: '❄️', iconBg: 'bg-sky-100 text-sky-800', demoUrl: '/demo/snowfall-white' },
@@ -1373,12 +1594,18 @@
             'ulang-tahun': [
                 { slug: 'cheerful-birthday', name: 'Cheerful Confetti Birthday', tag: 'Pesta Ceria Fun Minimalist', icon: '🎉', iconBg: 'bg-orange-100 text-orange-800', demoUrl: '/demo/cheerful-birthday' },
                 { slug: 'kids-birthday-party-balon-ceria', name: 'Kids Birthday Balon Ceria', tag: 'Pesta Ceria Anak & Games', icon: '🎈', iconBg: 'bg-pink-100 text-pink-700', demoUrl: '/demo/kids-birthday' },
-                { slug: 'golden-luxury-birthday-milad', name: 'Golden Luxury Birthday', tag: 'Sweet 17th & Milad', icon: '🎂', iconBg: 'bg-yellow-100 text-yellow-800', demoUrl: '/demo/golden-birthday' }
+                { slug: 'golden-luxury-birthday-milad', name: 'Golden Luxury Birthday', tag: 'Sweet 17th & Milad', icon: '🎂', iconBg: 'bg-yellow-100 text-yellow-800', demoUrl: '/demo/golden-birthday' },
+                { slug: 'rustic-coral-peach', name: 'Rustic Coral & Peach', tag: 'Sweet 17th Terracotta & Peach', icon: '🍑', iconBg: 'bg-rose-100 text-rose-800', demoUrl: '/demo/rustic-coral-peach' },
+                { slug: 'arctic-frost', name: 'Korporat Profesional Arctic Frost', tag: 'Sweet 17th Glacial VIP', icon: '❄️', iconBg: 'bg-sky-100 text-sky-800', demoUrl: '/demo/arctic-frost' },
+                { slug: 'editorial-cherry-blossom', name: 'Editorial Cherry Blossom', tag: 'Sweet 17th Sakura Reverie', icon: '🌸', iconBg: 'bg-pink-100 text-pink-800', demoUrl: '/demo/editorial-cherry-blossom' },
+                { slug: 'orange-energy', name: 'Elegan Klasik Orange Energy', tag: 'Sweet 17th Aura Soleil', icon: '✨', iconBg: 'bg-amber-100 text-amber-800', demoUrl: '/demo/orange-energy' },
+                { slug: 'rustic-purple-dream', name: 'Rustic Purple Dream', tag: 'Ultah Remaja Lavender', icon: '💜', iconBg: 'bg-purple-100 text-purple-800', demoUrl: '/demo/rustic-purple-dream' }
             ],
             'acara-formal': [
                 { slug: 'clean-seminar', name: 'Clean Tech Seminar & Workshop', tag: 'Simposium & Konferensi Basic', icon: '🎙️', iconBg: 'bg-sky-100 text-sky-800', demoUrl: '/demo/clean-seminar' },
                 { slug: 'reuni-akbar', name: 'Reuni Akbar Sapphire Silver', tag: 'Gala Dinner Alumni Navy', icon: '🥂', iconBg: 'bg-blue-100 text-blue-800', demoUrl: '/demo/reuni-akbar' },
-                { slug: 'executive-corporate-grand-opening', name: 'Executive Corporate', tag: 'Grand Opening & Bisnis', icon: '🏢', iconBg: 'bg-indigo-100 text-indigo-800', demoUrl: '/demo/formal-corporate' }
+                { slug: 'floral-midnight-navy', name: 'Floral Midnight Navy', tag: 'Acara Komunitas Eksklusif', icon: '🌿', iconBg: 'bg-emerald-100 text-emerald-800', demoUrl: '/demo/floral-midnight-navy' },
+                { slug: 'formal-corporate', name: 'Korporat Profesional & Grand Opening', tag: 'Grand Opening & Bisnis VIP', icon: '🏢', iconBg: 'bg-indigo-100 text-indigo-800', demoUrl: '/demo/formal-corporate' }
             ]
         };
 
@@ -1401,10 +1628,10 @@
             if (cat === 'wisuda' || catKey === 'wisuda' || s.includes('wisuda') || s.includes('sarjana') || s.includes('graduate') || sub.includes('wisuda') || sub.includes('sarjana')) {
                 return 'wisuda';
             }
-            if (cat.includes('ulang tahun') || catKey === 'ultah' || s.includes('cheerful') || s.includes('confetti') || s.includes('birthday') || s.includes('milad') || s.includes('ultah') || s.includes('ulang')) {
+            if (cat.includes('ulang') || catKey === 'ultah' || s.includes('cheerful') || s.includes('confetti') || s.includes('birthday') || s.includes('milad') || s.includes('ultah') || s.includes('ulang') || s.includes('rustic') || s.includes('coral') || s.includes('peach') || s.includes('arctic') || s.includes('frost') || s.includes('cherry') || s.includes('sakura') || s.includes('orange') || s.includes('soleil') || s.includes('purple') || s.includes('lavender')) {
                 return 'ulang-tahun';
             }
-            if (cat.includes('formal') || catKey === 'formal' || s.includes('seminar') || s.includes('workshop') || s.includes('corporate') || s.includes('reuni')) {
+            if (cat.includes('formal') || catKey === 'formal' || catKey === 'acara-formal' || s.includes('seminar') || s.includes('workshop') || s.includes('corporate') || s.includes('korporat') || s.includes('reuni') || s.includes('floral-midnight') || s.includes('midnight-navy') || s.includes('nocturne') || s.includes('komunitas')) {
                 return 'acara-formal';
             }
             return 'pernikahan';
@@ -1462,13 +1689,27 @@
             'kids-birthday': '/demo/kids-birthday',
             'golden-luxury-birthday-milad': '/demo/golden-birthday',
             'golden-birthday': '/demo/golden-birthday',
+            'rustic-coral-peach': '/demo/rustic-coral-peach',
+            'rustic-coral': '/demo/rustic-coral-peach',
+            'arctic-frost': '/demo/arctic-frost',
+            'editorial-cherry-blossom': '/demo/editorial-cherry-blossom',
+            'cherry-blossom': '/demo/editorial-cherry-blossom',
+            'sakura-reverie': '/demo/editorial-cherry-blossom',
+            'orange-energy': '/demo/orange-energy',
+            'aura-soleil': '/demo/orange-energy',
+            'rustic-purple-dream': '/demo/rustic-purple-dream',
+            'purple-dream': '/demo/rustic-purple-dream',
             'clean-seminar': '/demo/clean-seminar',
             'clean-tech-seminar-workshop': '/demo/clean-seminar',
             'clean-tech-seminar': '/demo/clean-seminar',
             'reuni-akbar-temu-kangen': '/demo/reuni-akbar',
             'reuni-akbar': '/demo/reuni-akbar',
+            'floral-midnight-navy': '/demo/floral-midnight-navy',
+            'floral-midnight': '/demo/floral-midnight-navy',
             'executive-corporate-grand-opening': '/demo/formal-corporate',
             'formal-corporate': '/demo/formal-corporate',
+            'korporat-profesional': '/demo/formal-corporate',
+            'corporate-profesional': '/demo/formal-corporate',
         };
 
         function renderCategorySelectorGrid(activeSlug, catKey) {
@@ -1491,6 +1732,14 @@
             const list = categoryTemplates[catKey] || categoryTemplates['pernikahan'];
             grid.innerHTML = list.map(item => {
                 const isActive = (item.slug === activeSlug || 
+                                 (item.slug === 'formal-corporate' && (activeSlug === 'executive-corporate-grand-opening' || activeSlug.includes('corporate') || activeSlug.includes('korporat'))) ||
+                                 (item.slug === 'floral-midnight-navy' && (activeSlug.includes('floral-midnight') || activeSlug.includes('midnight-navy') || activeSlug.includes('nocturne'))) ||
+                                 (item.slug === 'editorial-cherry-blossom' && (activeSlug.includes('cherry') || activeSlug.includes('sakura'))) ||
+                                 (item.slug === 'orange-energy' && (activeSlug.includes('orange') || activeSlug.includes('soleil'))) ||
+                                 (item.slug === 'rustic-purple-dream' && (activeSlug.includes('purple') || activeSlug.includes('lavender'))) ||
+                                 (item.slug === 'rustic-coral-peach' && (activeSlug.includes('rustic') || activeSlug.includes('coral') || activeSlug.includes('peach'))) ||
+                                 (item.slug === 'arctic-frost' && (activeSlug.includes('arctic') || activeSlug.includes('frost') || activeSlug.includes('glacial'))) ||
+                                 (item.slug === 'botanical-emerald' && (activeSlug.includes('botanical') || activeSlug.includes('pawiwahan'))) ||
                                  (activeSlug.includes('chibi') && item.slug === 'chibi-red') || 
                                  ((activeSlug.includes('wildflower') || activeSlug.includes('rose')) && item.slug === 'wildflower-pink') ||
                                  (activeSlug.includes('javanese') && item.slug === '3d-javanese-royal') ||
@@ -1527,31 +1776,71 @@
             
             // Map legacy / alternative slugs to canonical themePreviews keys
             let matchedSlug = rawSlug;
-            if (rawSlug.includes('chibi') || rawSlug.includes('oriental')) matchedSlug = 'chibi-red';
-            else if (rawSlug.includes('wildflower') || rawSlug.includes('rose-romance') || rawSlug.includes('elegant-rose')) matchedSlug = 'wildflower-pink';
-            else if (rawSlug.includes('javanese') || rawSlug.includes('keraton')) matchedSlug = '3d-javanese-royal';
-            else if (rawSlug.includes('minimalist') && !rawSlug.includes('snow')) matchedSlug = 'simple-minimalist-floral';
-            else if (rawSlug.includes('snowfall') || rawSlug.includes('snow')) matchedSlug = 'snowfall-minimalist-white';
-            else if (rawSlug.includes('batak')) matchedSlug = 'batak-istimewa-heritage';
-            else if (rawSlug.includes('mosque') || rawSlug.includes('syiar')) matchedSlug = 'green-mosque';
-            else if (rawSlug.includes('walimatus-safar') || rawSlug.includes('safar') || rawSlug.includes('ka\'bah') || rawSlug.includes('kiswah')) matchedSlug = 'walimatus-safar';
-            else if (rawSlug.includes('ketupat') || rawSlug.includes('halal')) matchedSlug = 'ketupat-raya-silaturahmi';
-            else if (rawSlug.includes('little-prince') || rawSlug.includes('prince') || rawSlug.includes('nordic')) matchedSlug = 'little-prince';
-            else if (rawSlug.includes('royal-tasmiyah') || rawSlug.includes('tasmiyah') || rawSlug.includes('sultan')) matchedSlug = 'royal-tasmiyah';
-            else if (rawSlug.includes('sahaja') || rawSlug.includes('khitan-sahaja')) matchedSlug = 'walimatul-khitan-sahaja';
-            else if (rawSlug.includes('khitan') || rawSlug.includes('sunat')) matchedSlug = 'walimatul-khitan-berkah-sholeh';
-            else if (rawSlug.includes('rumah-baru') || rawSlug.includes('syukuran')) matchedSlug = 'tasyakuran-doa-rumah-baru';
-            else if (rawSlug.includes('tahlil') || rawSlug.includes('doa-bersama')) matchedSlug = 'doa-bersama-tahlilan-khusyuk';
-            else if (rawSlug.includes('graduate') || rawSlug.includes('modern-graduate')) matchedSlug = 'modern-graduate';
-            else if (rawSlug.includes('scholar') || rawSlug.includes('valedictorian') || rawSlug.includes('ivy')) matchedSlug = 'scholar-luxury';
-            else if (rawSlug.includes('wisuda') || rawSlug.includes('sarjana') || rawSlug.includes('kelulusan')) matchedSlug = 'wisuda-sarjana-prestasi-emas';
-            else if (rawSlug.includes('cheerful') || rawSlug.includes('confetti')) matchedSlug = 'cheerful-birthday';
-            else if (rawSlug.includes('kid') || rawSlug.includes('anak') || rawSlug.includes('balon')) matchedSlug = 'kids-birthday-party-balon-ceria';
-            else if (rawSlug.includes('golden') || rawSlug.includes('birthday') || rawSlug.includes('milad') || rawSlug.includes('ultah') || rawSlug.includes('ulang')) matchedSlug = 'golden-birthday';
-            else if (rawSlug.includes('seminar') || rawSlug.includes('workshop') || rawSlug.includes('clean-seminar') || rawSlug.includes('clean-tech')) matchedSlug = 'clean-seminar';
-            else if (rawSlug.includes('reuni') || rawSlug.includes('alumni')) matchedSlug = 'reuni-akbar';
-            else if (rawSlug.includes('baby') || rawSlug.includes('pastel') || rawSlug.includes('aqiqah')) matchedSlug = 'sweet-baby-pastel-aqiqah';
-            else if (rawSlug.includes('corporate') || rawSlug.includes('formal') || rawSlug.includes('opening')) matchedSlug = 'executive-corporate-grand-opening';
+            if (rawSlug.includes('cherry') || rawSlug.includes('sakura')) {
+                matchedSlug = 'editorial-cherry-blossom';
+            } else if (rawSlug.includes('orange') || rawSlug.includes('soleil')) {
+                matchedSlug = 'orange-energy';
+            } else if (rawSlug.includes('purple') || rawSlug.includes('lavender')) {
+                matchedSlug = 'rustic-purple-dream';
+            } else if (rawSlug.includes('floral-midnight') || rawSlug.includes('midnight-navy') || rawSlug.includes('nocturne') || (rawSlug.includes('floral') && rawSlug.includes('navy')) || (rawSlug.includes('komunitas') && !rawSlug.includes('chibi'))) {
+                matchedSlug = 'floral-midnight-navy';
+            } else if (rawSlug.includes('rustic') || rawSlug.includes('coral') || rawSlug.includes('peach')) {
+                matchedSlug = 'rustic-coral-peach';
+            } else if (rawSlug.includes('arctic') || rawSlug.includes('frost') || rawSlug.includes('glacial')) {
+                matchedSlug = 'arctic-frost';
+            } else if (rawSlug.includes('botanical') || rawSlug.includes('pawiwahan') || (rawSlug.includes('jawa') && rawSlug.includes('geometris'))) {
+                matchedSlug = 'botanical-emerald';
+            } else if (rawSlug.includes('chibi') || rawSlug.includes('oriental')) {
+                matchedSlug = 'chibi-red';
+            } else if (rawSlug.includes('wildflower') || rawSlug.includes('rose-romance') || rawSlug.includes('elegant-rose')) {
+                matchedSlug = 'wildflower-pink';
+            } else if (rawSlug.includes('javanese') || rawSlug.includes('keraton')) {
+                matchedSlug = '3d-javanese-royal';
+            } else if (rawSlug.includes('minimalist') && !rawSlug.includes('snow')) {
+                matchedSlug = 'simple-minimalist-floral';
+            } else if (rawSlug.includes('snowfall') || rawSlug.includes('snow')) {
+                matchedSlug = 'snowfall-minimalist-white';
+            } else if (rawSlug.includes('batak')) {
+                matchedSlug = 'batak-istimewa-heritage';
+            } else if (rawSlug.includes('mosque') || rawSlug.includes('syiar')) {
+                matchedSlug = 'green-mosque';
+            } else if (rawSlug.includes('walimatus-safar') || rawSlug.includes('safar') || rawSlug.includes('ka\'bah') || rawSlug.includes('kiswah')) {
+                matchedSlug = 'walimatus-safar';
+            } else if (rawSlug.includes('ketupat') || rawSlug.includes('halal')) {
+                matchedSlug = 'ketupat-raya-silaturahmi';
+            } else if (rawSlug.includes('little-prince') || rawSlug.includes('prince') || rawSlug.includes('nordic')) {
+                matchedSlug = 'little-prince';
+            } else if (rawSlug.includes('royal-tasmiyah') || rawSlug.includes('tasmiyah') || rawSlug.includes('sultan')) {
+                matchedSlug = 'royal-tasmiyah';
+            } else if (rawSlug.includes('sahaja') || rawSlug.includes('khitan-sahaja')) {
+                matchedSlug = 'walimatul-khitan-sahaja';
+            } else if (rawSlug.includes('khitan') || rawSlug.includes('sunat')) {
+                matchedSlug = 'walimatul-khitan-berkah-sholeh';
+            } else if (rawSlug.includes('rumah-baru') || rawSlug.includes('syukuran')) {
+                matchedSlug = 'tasyakuran-doa-rumah-baru';
+            } else if (rawSlug.includes('tahlil') || rawSlug.includes('doa-bersama')) {
+                matchedSlug = 'doa-bersama-tahlilan-khusyuk';
+            } else if (rawSlug.includes('graduate') || rawSlug.includes('modern-graduate')) {
+                matchedSlug = 'modern-graduate';
+            } else if (rawSlug.includes('scholar') || rawSlug.includes('valedictorian') || rawSlug.includes('ivy')) {
+                matchedSlug = 'scholar-luxury';
+            } else if (rawSlug.includes('wisuda') || rawSlug.includes('sarjana') || rawSlug.includes('kelulusan')) {
+                matchedSlug = 'wisuda-sarjana-prestasi-emas';
+            } else if (rawSlug.includes('cheerful') || rawSlug.includes('confetti')) {
+                matchedSlug = 'cheerful-birthday';
+            } else if (rawSlug.includes('kid') || rawSlug.includes('anak') || rawSlug.includes('balon')) {
+                matchedSlug = 'kids-birthday-party-balon-ceria';
+            } else if (rawSlug.includes('golden') || rawSlug.includes('birthday') || rawSlug.includes('milad') || rawSlug.includes('ultah') || rawSlug.includes('ulang')) {
+                matchedSlug = 'golden-birthday';
+            } else if (rawSlug.includes('seminar') || rawSlug.includes('workshop') || rawSlug.includes('clean-seminar') || rawSlug.includes('clean-tech')) {
+                matchedSlug = 'clean-seminar';
+            } else if (rawSlug.includes('reuni') || rawSlug.includes('alumni')) {
+                matchedSlug = 'reuni-akbar';
+            } else if (rawSlug.includes('baby') || rawSlug.includes('pastel') || rawSlug.includes('aqiqah')) {
+                matchedSlug = 'sweet-baby-pastel-aqiqah';
+            } else if (rawSlug.includes('corporate') || rawSlug.includes('korporat') || rawSlug.includes('formal') || rawSlug.includes('opening')) {
+                matchedSlug = 'formal-corporate';
+            }
 
             const theme = themePreviews[matchedSlug] || themePreviews[rawSlug] || themePreviews['chibi-red'];
             currentCategoryKey = detectCategoryKey(matchedSlug, theme);
@@ -1567,6 +1856,14 @@
                 const foundItem = catList.find(item => item.slug === matchedSlug || item.slug === rawSlug);
                 if (foundItem && foundItem.demoUrl) {
                     targetUrl = foundItem.demoUrl;
+                } else if (matchedSlug.includes('floral-midnight') || matchedSlug.includes('midnight-navy') || matchedSlug.includes('nocturne')) {
+                    targetUrl = '/demo/floral-midnight-navy';
+                } else if (matchedSlug.includes('rustic') || matchedSlug.includes('coral') || matchedSlug.includes('peach')) {
+                    targetUrl = '/demo/rustic-coral-peach';
+                } else if (matchedSlug.includes('arctic') || matchedSlug.includes('frost')) {
+                    targetUrl = '/demo/arctic-frost';
+                } else if (matchedSlug.includes('botanical') || matchedSlug.includes('pawiwahan')) {
+                    targetUrl = '/demo/botanical-emerald';
                 } else if (matchedSlug.includes('kid') || matchedSlug.includes('anak') || matchedSlug.includes('balon')) {
                     targetUrl = '/demo/kids-birthday';
                 } else if (matchedSlug.includes('little-prince') || matchedSlug.includes('prince') || matchedSlug.includes('nordic')) {
@@ -1588,11 +1885,11 @@
                 } else if (currentCategoryKey === 'wisuda' || matchedSlug.includes('wisuda') || matchedSlug.includes('sarjana') || matchedSlug.includes('graduate')) {
                     targetUrl = '/demo/modern-graduate';
                 } else if (currentCategoryKey === 'ulang-tahun' || matchedSlug.includes('birthday') || matchedSlug.includes('milad') || matchedSlug.includes('ultah') || matchedSlug.includes('ulang')) {
-                    targetUrl = '/demo/cheerful-birthday';
+                    targetUrl = '/demo/golden-birthday';
                 } else if (currentCategoryKey === 'aqiqah' || matchedSlug.includes('baby') || matchedSlug.includes('pastel') || matchedSlug.includes('aqiqah')) {
                     targetUrl = '/demo/baby-aqiqah';
-                } else if (currentCategoryKey === 'acara-formal' || matchedSlug.includes('corporate') || matchedSlug.includes('formal') || matchedSlug.includes('reuni') || matchedSlug.includes('seminar')) {
-                    targetUrl = '/demo/clean-seminar';
+                } else if (currentCategoryKey === 'acara-formal' || matchedSlug.includes('corporate') || matchedSlug.includes('korporat') || matchedSlug.includes('formal') || matchedSlug.includes('reuni') || matchedSlug.includes('seminar')) {
+                    targetUrl = '/demo/formal-corporate';
                 } else if (currentCategoryKey === 'keagamaan') {
                     targetUrl = '/demo/tahlilan-khusyuk';
                 } else {

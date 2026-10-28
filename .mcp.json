@@ -4,9 +4,9 @@
             "command": "php",
             "args": [
                 "artisan",
-               '
                
-               ' "boost:mcp"
+               
+                "boost:mcp"
             ]
         }
     }

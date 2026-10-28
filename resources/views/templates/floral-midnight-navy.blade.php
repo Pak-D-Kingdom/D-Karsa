@@ -171,7 +171,7 @@
         $quote = $couple->quote ?? $couple->event_quote ?? '“Kala malam menyulam keheningan, dedaunan inovasi mekar dalam harmoni. Bersama kita merayakan karya, dedikasi, serta jalinan erat yang melahirkan dampak bagi peradaban nusantara.”';
         $venueName = $couple->venue_name ?? 'The Glasshouse Grand Sanctuary';
         $venueAddress = $couple->venue_address ?? 'The Langham Ballroom, Surabaya, Jawa Timur';
-        $mapsUrl = $couple->google_maps_url ?? 'https://maps.google.com';
+        $mapsUrl = !empty($couple->google_maps_url) ? $couple->google_maps_url : (!empty($couple->maps_url) ? $couple->maps_url : ('https://maps.google.com/?q=' . urlencode(($venueName ?? '') . ' ' . ($venueAddress ?? ''))));
         $guestName = $guest->name ?? request('guest_name') ?? 'Dr. Adrian Pratama, M.Sc. & Rekanan';
 
         $bankName = $couple->bank_name_1 ?? $couple->bank_name ?? 'Bank Mandiri';
@@ -609,82 +609,53 @@
             </section>
 
             <!-- ========================================================
-                 SECTION 5: LOKASI & PETA VENUE
+                 SECTION 5: LOKASI & VENUE KEHORMATAN
                  ======================================================== -->
-            <section class="relative max-w-[1200px] mx-auto px-3 sm:px-6 py-6 sm:py-10 w-full" id="venue-section">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 items-center">
-                    <!-- Venue Description & Details -->
-                    <div class="lg:col-span-6 flex flex-col gap-3">
-                        <div>
-                            <div class="flex items-center gap-1.5 text-primary mb-1">
-                                <span class="material-symbols-outlined text-[18px]">pin_drop</span>
-                                <span class="text-[10px] sm:text-xs font-bold uppercase tracking-widest">Venue &amp; Navigasi Kehormatan</span>
-                            </div>
-                            <h2 class="font-headline text-xl sm:text-2xl md:text-3xl text-on-surface font-semibold">
-                                {{ $venueName }}
-                            </h2>
-                            <p class="text-xs sm:text-sm text-primary font-medium mt-0.5">{{ $venueAddress }}</p>
+            <section class="relative max-w-[860px] mx-auto px-3 sm:px-6 py-6 sm:py-8 w-full" id="venue-section">
+                <div class="bg-surface-container/70 rounded-3xl p-5 sm:p-7 md:p-8 shadow-2xl border border-primary/20 flex flex-col gap-4">
+                    <div>
+                        <div class="flex items-center gap-1.5 text-primary mb-1">
+                            <span class="material-symbols-outlined text-[18px]">pin_drop</span>
+                            <span class="text-[10px] sm:text-xs font-bold uppercase tracking-widest">Venue &amp; Navigasi Kehormatan</span>
                         </div>
+                        <h2 id="previewVenueName" class="font-headline text-xl sm:text-2xl md:text-3xl text-on-surface font-semibold">
+                            {{ $venueName }}
+                        </h2>
+                        <p id="previewVenueAddress" class="text-xs sm:text-sm text-primary font-medium mt-1">{{ $venueAddress }}</p>
+                    </div>
 
-                        <p class="text-xs sm:text-sm text-on-surface-variant leading-relaxed">
-                            Terletak di kawasan megah Jawa Timur, memadukan arsitektur langit-langit kaca berkilau dengan tata botani malam bernuansa flora midnight navy dan ornamen emas neoklasik yang anggun.
-                        </p>
+                    <p class="text-xs sm:text-sm text-on-surface-variant leading-relaxed">
+                        Terletak di kawasan megah Jawa Timur, memadukan arsitektur langit-langit kaca berkilau dengan tata botani malam bernuansa flora midnight navy dan ornamen emas neoklasik yang anggun.
+                    </p>
 
-                        <!-- Access Highlights -->
-                        <div class="space-y-2">
-                            <div class="flex items-start gap-2 bg-surface-container/70 p-2.5 rounded-lg border border-primary/10">
-                                <span class="material-symbols-outlined text-primary text-[18px] mt-0.5">local_parking</span>
-                                <div>
-                                    <span class="text-xs font-semibold text-on-surface">Layanan Valet Gratis VIP</span>
-                                    <p class="text-[11px] text-on-surface-variant">Tersedia di Lobby Utama dengan menunjukkan kartu undangan digital ini.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-2 bg-surface-container/70 p-2.5 rounded-lg border border-primary/10">
-                                <span class="material-symbols-outlined text-primary text-[18px] mt-0.5">elevator</span>
-                                <div>
-                                    <span class="text-xs font-semibold text-on-surface">Akses Lift Pribadi Ballroom</span>
-                                    <p class="text-[11px] text-on-surface-variant">Lantai 3 (The Glasshouse Mezzanine). Meja registrasi VIP terletak tepat di sisi barat selasar.</p>
-                                </div>
+                    <!-- Access Highlights -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        <div class="flex items-start gap-2 bg-surface-container-high/60 p-3 rounded-xl border border-primary/10">
+                            <span class="material-symbols-outlined text-primary text-[18px] mt-0.5">local_parking</span>
+                            <div>
+                                <span class="text-xs font-semibold text-on-surface">Layanan Valet Gratis VIP</span>
+                                <p class="text-[11px] text-on-surface-variant">Tersedia di Lobby Utama dengan menunjukkan kartu undangan digital ini.</p>
                             </div>
                         </div>
-
-                        <!-- Venue Action Buttons -->
-                        <div class="flex flex-wrap items-center gap-2 pt-1">
-                            <a class="px-4 sm:px-5 py-2 rounded-full bg-primary text-on-primary text-xs font-bold shadow-md hover:brightness-110 transition-all flex items-center gap-1.5" href="{{ $mapsUrl }}" rel="noopener noreferrer" target="_blank">
-                                <span class="material-symbols-outlined text-[16px]">directions</span>
-                                <span>Buka Google Maps</span>
-                            </a>
-                            <button class="px-4 sm:px-5 py-2 rounded-full bg-surface-container-high text-on-surface hover:text-primary text-xs font-semibold transition-all flex items-center gap-1.5 border border-primary/20 cursor-pointer" onclick="alert('Jadwal Nocturne Botanical Gala telah disiapkan untuk kalender Anda: {{ $eventDateFormatted }} ({{ $eventTimeFormatted }}).')" type="button">
-                                <span class="material-symbols-outlined text-[16px]">calendar_add_on</span>
-                                <span>Simpan ke Kalender</span>
-                            </button>
+                        <div class="flex items-start gap-2 bg-surface-container-high/60 p-3 rounded-xl border border-primary/10">
+                            <span class="material-symbols-outlined text-primary text-[18px] mt-0.5">elevator</span>
+                            <div>
+                                <span class="text-xs font-semibold text-on-surface">Akses Lift Pribadi Ballroom</span>
+                                <p class="text-[11px] text-on-surface-variant">Lantai 3 (The Glasshouse Mezzanine). Meja registrasi VIP terletak tepat di sisi barat selasar.</p>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Stylized Dark Map Preview Card -->
-                    <div class="lg:col-span-6">
-                        <div class="relative rounded-2xl overflow-hidden bg-surface-container shadow-2xl p-1.5 border border-primary/20">
-                            <div class="w-full h-60 sm:h-72 rounded-xl bg-cover bg-center relative" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBoR5xVuie3iUS0bcistMaU5OlyT8lda59Ny40_SJqQsi1S79GmCeREn6wzkOlw0RsXorgUv_Qf1GkUdheknd9c10xFtLQBytHtooFF1bERUvWjvp90GppU7SECyqjf51bwknjqPEutUQTuW20ur5U-I1lEnQxyh0rabOxGkA8KKQEQ9DkwQ5f3J5GeT63rc2U9qrEnXpgWs6koQRhrsp43urMGcyv1qqUMaw-6z73yaAcXzOLsvUN26w')">
-                                <div class="absolute inset-0 bg-surface-container-lowest/60 backdrop-blur-[2px]"></div>
-                                
-                                <!-- Floating Pin Marker -->
-                                <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                                    <div class="relative flex flex-col items-center animate-bounce">
-                                        <div class="bg-primary text-on-primary px-3 py-1 rounded-full shadow-2xl flex items-center gap-1 text-[10px] uppercase font-bold">
-                                            <span class="material-symbols-outlined text-[14px]">hotel</span>
-                                            <span>{{ $venueName }}</span>
-                                        </div>
-                                        <div class="w-2.5 h-2.5 bg-primary rotate-45 -mt-1 shadow-md"></div>
-                                    </div>
-                                </div>
-
-                                <!-- Coordinate Badges -->
-                                <div class="absolute bottom-2.5 left-2.5 bg-surface-container-lowest/90 backdrop-blur-md px-2.5 py-1 rounded text-[10px] text-on-surface-variant flex items-center gap-1.5 shadow border border-primary/20">
-                                    <span class="w-2 h-2 rounded-full bg-primary"></span>
-                                    <span>Jawa Timur, Indonesia</span>
-                                </div>
-                            </div>
-                        </div>
+                    <!-- Direct Google Maps Action Button -->
+                    <div class="flex flex-wrap items-center gap-3 pt-2">
+                        <a class="px-6 py-3 rounded-full bg-primary hover:brightness-110 text-on-primary text-xs sm:text-sm font-bold shadow-lg hover:shadow-primary/30 transition-all flex items-center gap-2 cursor-pointer" href="{{ $mapsUrl }}" rel="noopener noreferrer" target="_blank">
+                            <span class="material-symbols-outlined text-[18px]">directions</span>
+                            <span>Buka Petunjuk Arah (Google Maps)</span>
+                        </a>
+                        <button class="px-5 py-3 rounded-full bg-surface-container-high text-on-surface hover:text-primary text-xs font-semibold transition-all flex items-center gap-1.5 border border-primary/20 cursor-pointer" onclick="alert('Jadwal Nocturne Botanical Gala telah disiapkan untuk kalender Anda: {{ $eventDateFormatted }} ({{ $eventTimeFormatted }}).')" type="button">
+                            <span class="material-symbols-outlined text-[16px]">calendar_add_on</span>
+                            <span>Simpan ke Kalender</span>
+                        </button>
                     </div>
                 </div>
             </section>

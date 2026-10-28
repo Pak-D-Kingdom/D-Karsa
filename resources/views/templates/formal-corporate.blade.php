@@ -127,7 +127,7 @@
                 <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-exec-cobalt/20 border border-exec-cobalt/40 mb-3 shadow-inner overflow-hidden">
                     <img id="previewGroomPhotoImg" src="{{ $corpLogo }}" alt="{{ $corpName }}" class="w-full h-full object-cover">
                 </div>
-                <span class="inline-block px-3 py-1 rounded-full text-[9px] font-mono font-bold tracking-[0.25em] uppercase bg-exec-cobalt/15 text-exec-cobaltbright border border-exec-cobalt/30">
+                <span id="previewHeadingCover" class="inline-block px-3 py-1 rounded-full text-[9px] font-mono font-bold tracking-[0.25em] uppercase bg-exec-cobalt/15 text-exec-cobaltbright border border-exec-cobalt/30">
                     {{ $couple->event_heading ?? "ANNUAL STRATEGIC SUMMIT" }}
                 </span>
             </div>
@@ -140,13 +140,13 @@
 
             <!-- Host Institution -->
             <div class="my-3">
-                <h1 class="font-syne text-xl sm:text-2xl font-extrabold text-white tracking-wide leading-tight">
+                <h1 id="previewGroomNameCover" class="font-syne text-xl sm:text-2xl font-extrabold text-white tracking-wide leading-tight">
                     {{ $corpName }}
                 </h1>
-                <p class="font-mono text-xs text-exec-cobaltbright mt-1 tracking-widest uppercase">
+                <p id="previewSubCategoryBadge" class="font-mono text-xs text-exec-cobaltbright mt-1 tracking-widest uppercase">
                     {{ $couple->sub_category ?? 'Grand Opening & Gala Dinner' }}
                 </p>
-                <p class="text-[11px] text-slate-300 font-sans mt-2">
+                <p id="previewEventDateCover" class="text-[11px] text-slate-300 font-sans mt-2">
                     📅 {{ $eventDateFormatted }}
                 </p>
             </div>
@@ -154,7 +154,7 @@
             <!-- Delegate Card -->
             <div class="my-4 p-3.5 rounded-xl bg-exec-cardlight/70 border border-white/10 text-center">
                 <span class="text-[9px] font-mono uppercase tracking-[0.25em] text-slate-400 block">OFFICIAL DELEGATE PASS:</span>
-                <p class="font-syne text-sm font-bold text-white mt-0.5">{{ $guest->name ?? 'Pimpinan Delegasi / Mitra Strategis' }}</p>
+                <p id="previewGuestNameCover" class="font-syne text-sm font-bold text-white mt-0.5">{{ $guest->name ?? 'Pimpinan Delegasi / Mitra Strategis' }}</p>
             </div>
 
             <!-- Access Portal Button -->
@@ -171,21 +171,21 @@
 
         <!-- Top Header Masthead -->
         <header class="pt-16 pb-12 px-6 text-center bg-gradient-to-b from-exec-card to-exec-slate border-b border-exec-border relative">
-            <span class="inline-block px-3.5 py-1 rounded-full text-[9px] font-mono uppercase tracking-[0.3em] bg-exec-cobalt/20 text-exec-cobaltbright border border-exec-cobalt/30 mb-3 font-semibold">
+            <span id="previewEventHeading" class="inline-block px-3.5 py-1 rounded-full text-[9px] font-mono uppercase tracking-[0.3em] bg-exec-cobalt/20 text-exec-cobaltbright border border-exec-cobalt/30 mb-3 font-semibold">
                 {{ $couple->event_heading ?? "EXECUTIVE GALA & SUMMIT" }}
             </span>
             <div class="relative w-20 h-20 mx-auto my-3 rounded-2xl overflow-hidden border border-exec-cobalt/40 shadow-lg bg-exec-card">
                 <img id="previewGroomPhotoImg2" src="{{ $corpLogo }}" alt="{{ $corpName }}" class="w-full h-full object-cover">
             </div>
-            <h1 class="font-syne text-2xl sm:text-3xl font-black text-white tracking-wide my-2 leading-tight">
+            <h1 id="previewGroomName" class="font-syne text-2xl sm:text-3xl font-black text-white tracking-wide my-2 leading-tight">
                 {{ $corpName }}
             </h1>
-            <p class="text-xs font-mono text-slate-400 tracking-wider">
+            <p id="previewEventDateTime" class="text-xs font-mono text-slate-400 tracking-wider">
                 {{ $eventDateFormatted }} • {{ $eventTimeFormatted }}
             </p>
             <div class="mt-4 flex items-center justify-center gap-2 text-xs text-exec-cobaltbright font-mono">
                 <span>📍</span>
-                <span>{{ $couple->venue_name ?? 'Grand Ballroom, The Ritz-Carlton' }}</span>
+                <span id="previewVenueName">{{ $couple->venue_name ?? 'Grand Ballroom, The Ritz-Carlton' }}</span>
             </div>
         </header>
 
@@ -193,7 +193,7 @@
         <section class="py-12 px-6 border-b border-exec-border text-center">
             <div class="p-6 rounded-2xl bg-exec-card border border-white/10 shadow-lg">
                 <span class="text-[9px] font-mono uppercase tracking-[0.25em] text-exec-cobaltbright font-bold block mb-2">PENGANTAR RESMI DIREKSI</span>
-                <p class="font-sans text-xs sm:text-sm text-slate-300 italic leading-relaxed">
+                <p id="previewQuote" class="font-sans text-xs sm:text-sm text-slate-300 italic leading-relaxed">
                     "{{ $couple->quote ?? 'Kolaborasi dan inovasi berkelanjutan adalah kunci utama dalam membangun ekosistem bisnis yang berdaya saing global. Merupakan kehormatan bagi kami untuk menyambut kehadiran Bapak/Ibu sekalian.' }}"
                 </p>
 
@@ -258,43 +258,56 @@
                 <h2 class="font-syne text-2xl font-bold text-white mt-1">Agenda Acara &amp; Timeline 🏛️</h2>
             </div>
 
-            <div class="space-y-4 max-w-sm mx-auto">
-                <div class="p-5 rounded-2xl bg-exec-card border border-white/10">
-                    <div class="flex items-center justify-between text-exec-cobaltbright text-xs font-mono mb-1">
-                        <span>SESI I • REGISTRASI &amp; NETWORKING</span>
-                        <span>08:30 - 09:30 WIB</span>
-                    </div>
-                    <h3 class="font-syne text-base font-bold text-white">VIP Delegate Check-in &amp; Coffee Reception</h3>
-                    <p class="text-xs text-slate-400 mt-1">Pemeriksaan tanda kepesertaan delegasi, welcome drink, dan interaksi networking antar eksekutif.</p>
-                </div>
+            @php
+                $activeEvents = collect($couple->events ?? []);
+                if ($activeEvents->isEmpty()) {
+                    $activeEvents = collect([
+                        (object)[
+                            'title' => 'VIP Delegate Check-in & Coffee Reception',
+                            'start_time' => '08:30 WIB',
+                            'end_time' => '09:30 WIB',
+                            'venue_name' => 'SESI I • REGISTRASI & NETWORKING',
+                            'address' => 'Pemeriksaan tanda kepesertaan delegasi, welcome drink, dan interaksi networking antar eksekutif.'
+                        ],
+                        (object)[
+                            'title' => 'Keynote Speech & Ribbon Cutting Ceremony',
+                            'start_time' => '09:30 WIB',
+                            'end_time' => '11:30 WIB',
+                            'venue_name' => 'SESI II • KEYNOTE & LAUNCHING',
+                            'address' => 'Sambutan jajaran pimpinan kementerian/lembaga, pemutaran video roadmap strategis, dan seremoni peresmian.'
+                        ],
+                        (object)[
+                            'title' => 'Executive Luncheon & Entertainment',
+                            'start_time' => '12:00 WIB',
+                            'end_time' => '14:30 WIB',
+                            'venue_name' => 'SESI III • GALA DINNER',
+                            'address' => 'Santap siang eksklusif, hiburan orkestra simfoni, dan penandatanganan nota kesepahaman (MoU).'
+                        ]
+                    ]);
+                }
+            @endphp
 
-                <div class="p-5 rounded-2xl bg-exec-card border border-exec-cobalt/50 shadow-md">
-                    <div class="flex items-center justify-between text-exec-cobaltbright text-xs font-mono mb-1">
-                        <span>SESI II • KEYNOTE &amp; LAUNCHING</span>
-                        <span>09:30 - 11:30 WIB</span>
+            <div id="itineraryContainer" class="space-y-4 max-w-sm mx-auto">
+                @foreach($activeEvents as $idx => $ev)
+                    <div class="p-5 rounded-2xl bg-exec-card {{ $idx === 1 ? 'border border-exec-cobalt/50 shadow-md' : 'border border-white/10' }}">
+                        <div class="flex items-center justify-between text-exec-cobaltbright text-xs font-mono mb-1">
+                            <span>{{ !empty($ev->venue_name) ? strtoupper($ev->venue_name) : ('SESI ' . ($idx + 1)) }}</span>
+                            <span>{{ $ev->start_time ?? '' }} {{ !empty($ev->end_time) ? ' - ' . $ev->end_time : '' }}</span>
+                        </div>
+                        <h3 class="font-syne text-base font-bold text-white">{{ $ev->title ?? ('Agenda ' . ($idx + 1)) }}</h3>
+                        <p class="text-xs text-slate-300 mt-1">{{ $ev->address ?? $ev->description ?? 'Rangkaian agenda resmi perhelatan eksekutif.' }}</p>
                     </div>
-                    <h3 class="font-syne text-base font-bold text-white">Keynote Speech &amp; Ribbon Cutting Ceremony</h3>
-                    <p class="text-xs text-slate-300 mt-1">Sambutan jajaran pimpinan kementerian/lembaga, pemutaran video roadmap strategis, dan seremoni peresmian.</p>
-                </div>
-
-                <div class="p-5 rounded-2xl bg-exec-card border border-white/10">
-                    <div class="flex items-center justify-between text-exec-cobaltbright text-xs font-mono mb-1">
-                        <span>SESI III • GALA DINNER</span>
-                        <span>12:00 - 14:30 WIB</span>
-                    </div>
-                    <h3 class="font-syne text-base font-bold text-white">Executive Luncheon &amp; Entertainment</h3>
-                    <p class="text-xs text-slate-400 mt-1">Santap siang eksklusif, hiburan orkestra simfoni, dan penandatanganan nota kesepahaman (MoU).</p>
-                </div>
+                @endforeach
             </div>
 
             <!-- Venue Details & Maps Button -->
             <div class="max-w-sm mx-auto mt-8 p-6 rounded-2xl bg-exec-card border border-white/10 text-center">
                 <span class="text-[9px] font-mono uppercase tracking-[0.2em] text-exec-cobaltbright block mb-1">LOKASI &amp; VENUE RESMI</span>
-                <h3 class="font-syne text-lg font-bold text-white">{{ $couple->venue_name ?? 'Grand Ballroom, The Ritz-Carlton' }}</h3>
-                <p class="text-xs text-slate-400 mt-1 leading-relaxed">{{ $couple->venue_address ?? 'Mega Kuningan Barat No. 1, Jakarta Selatan' }}</p>
+                <h3 id="previewVenueNameMain" class="font-syne text-lg font-bold text-white">{{ $couple->venue_name ?? 'Grand Ballroom, The Ritz-Carlton' }}</h3>
+                <p id="previewVenueAddress" class="text-xs text-slate-400 mt-1 leading-relaxed">{{ $couple->venue_address ?? 'Mega Kuningan Barat No. 1, Jakarta Selatan' }}</p>
                 
                 @php
-                    $mapLink = !empty($couple->maps_url) ? $couple->maps_url : ('https://maps.google.com/?q=' . urlencode(($couple->venue_name ?? '') . ' ' . ($couple->venue_address ?? '')));
+                    $mapLink = !empty($couple->google_maps_url) ? $couple->google_maps_url : (!empty($couple->maps_url) ? $couple->maps_url : ('https://maps.google.com/?q=' . urlencode(($couple->venue_name ?? '') . ' ' . ($couple->venue_address ?? ''))));
                 @endphp
                 <div class="mt-4">
                     <a href="{{ $mapLink }}" target="_blank" class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-exec-cobalt hover:bg-blue-600 text-white text-xs font-syne font-bold uppercase tracking-wider shadow transition">
@@ -603,6 +616,29 @@
             });
         }
 
+        function renderDynamicEvents(events) {
+            const container = document.getElementById('itineraryContainer');
+            if (!container || !Array.isArray(events) || events.length === 0) return;
+            container.innerHTML = '';
+            events.forEach((ev, idx) => {
+                const item = document.createElement('div');
+                item.className = 'p-5 rounded-2xl bg-exec-card ' + (idx === 1 ? 'border border-exec-cobalt/50 shadow-md' : 'border border-white/10');
+                const sessionLabel = ev.venue_name ? ev.venue_name.toUpperCase() : ('SESI ' + (idx + 1));
+                const timeStr = (ev.start_time || '') + (ev.end_time ? ' - ' + ev.end_time : '');
+                const titleStr = ev.title || ('Agenda ' + (idx + 1));
+                const descStr = ev.address || ev.description || 'Rangkaian agenda resmi perhelatan eksekutif.';
+                item.innerHTML = `
+                    <div class="flex items-center justify-between text-exec-cobaltbright text-xs font-mono mb-1">
+                        <span>${sessionLabel}</span>
+                        <span>${timeStr}</span>
+                    </div>
+                    <h3 class="font-syne text-base font-bold text-white">${titleStr}</h3>
+                    <p class="text-xs text-slate-300 mt-1">${descStr}</p>
+                `;
+                container.appendChild(item);
+            });
+        }
+
         const defaultCoverImg = "{{ $coverImg }}";
         const defaultCorpLogo = "{{ $corpLogo }}";
 
@@ -639,6 +675,10 @@
                 if (Array.isArray(photos)) {
                     renderDynamicGallery(photos);
                 }
+            } else if (data.type === 'UPDATE_PREVIEW_EVENTS') {
+                if (Array.isArray(data.events)) {
+                    renderDynamicEvents(data.events);
+                }
             } else if (data.type === 'UPDATE_PREVIEW_PARENTS') {
                 const containerEl = document.getElementById('previewParentsContainer');
                 const parentsEl = document.getElementById('previewParentsNames');
@@ -646,6 +686,34 @@
                 if (parentsEl && formatted) {
                     parentsEl.textContent = formatted;
                     if (containerEl) containerEl.classList.remove('hidden');
+                }
+            } else if (data.type === 'UPDATE_PREVIEW_FIELD') {
+                const field = data.field;
+                const value = data.value;
+                if (field === 'groom_name') {
+                    const e1 = document.getElementById('previewGroomNameCover');
+                    const e2 = document.getElementById('previewGroomName');
+                    if (e1) e1.textContent = value;
+                    if (e2) e2.textContent = value;
+                } else if (field === 'event_heading') {
+                    const e1 = document.getElementById('previewHeadingCover');
+                    const e2 = document.getElementById('previewEventHeading');
+                    if (e1) e1.textContent = value;
+                    if (e2) e2.textContent = value;
+                } else if (field === 'quote') {
+                    const e = document.getElementById('previewQuote');
+                    if (e) e.textContent = '"' + value + '"';
+                } else if (field === 'venue_name') {
+                    const e1 = document.getElementById('previewVenueName');
+                    const e2 = document.getElementById('previewVenueNameMain');
+                    if (e1) e1.textContent = value;
+                    if (e2) e2.textContent = value;
+                } else if (field === 'guest_name' || field === 'to') {
+                    const e = document.getElementById('previewGuestNameCover');
+                    if (e) e.textContent = value;
+                } else if (field === 'sub_category') {
+                    const e = document.getElementById('previewSubCategoryBadge');
+                    if (e) e.textContent = value;
                 }
             }
         });

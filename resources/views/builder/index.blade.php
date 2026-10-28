@@ -2648,6 +2648,18 @@
                 prevSub.textContent = subCatVal;
             }
 
+            // Real-time postMessage to iframe for instantaneous sync
+            const previewIframe = document.getElementById('builderLivePreviewIframe');
+            if (previewIframe && previewIframe.contentWindow) {
+                try {
+                    previewIframe.contentWindow.postMessage({
+                        type: 'UPDATE_PREVIEW_FIELD',
+                        field: 'sub_category',
+                        value: subCatVal
+                    }, '*');
+                } catch (e) {}
+            }
+
             if (typeof updateLivePreviewContent === 'function') {
                 updateLivePreviewContent();
             }
@@ -3372,6 +3384,10 @@
             if (s.includes('wisuda') || s.includes('sarjana') || s.includes('kelulusan')) return 'wisuda-sarjana';
             if (s.includes('reuni') || s.includes('alumni')) return 'reuni-akbar';
             if (s.includes('floral midnight') || s.includes('midnight navy') || s.includes('floral-midnight') || s.includes('nocturne') || s.includes('komunitas')) return 'floral-midnight-navy';
+            if (s.includes('arctic') || s.includes('frost') || s.includes('adrian') || s.includes('glacial')) return 'arctic-frost';
+            if (s.includes('cherry blossom') || s.includes('sakura reverie') || s.includes('editorial cherry') || s.includes('valerie')) return 'editorial-cherry-blossom';
+            if (s.includes('orange energy') || s.includes('aura soleil') || s.includes('elegan klasik orange')) return 'orange-energy';
+            if (s.includes('purple dream') || s.includes('rustic purple') || s.includes('aurellia keisha') || s.includes('lavender')) return 'rustic-purple-dream';
             if (s.includes('rustic') || s.includes('coral') || s.includes('peach') || s.includes('sweet 17')) return 'rustic-coral-peach';
             if (s.includes('corporate') || s.includes('formal') || s.includes('opening')) return 'formal-corporate';
             if (s.includes('batak') || s.includes('ulos') || s.includes('gorga')) return 'batak-heritage';
@@ -3839,6 +3855,15 @@
             try {
                 if (typeof syncEventsToFormAndPreview === 'function') syncEventsToFormAndPreview();
                 if (typeof syncParentsToPreview === 'function') syncParentsToPreview();
+
+                const subCatVal = document.getElementById('hiddenSubCategoryInput')?.value || '';
+                if (subCatVal) {
+                    iframe.contentWindow.postMessage({
+                        type: 'UPDATE_PREVIEW_FIELD',
+                        field: 'sub_category',
+                        value: subCatVal
+                    }, '*');
+                }
             } catch(e) {}
         }
 

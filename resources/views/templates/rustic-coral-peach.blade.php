@@ -153,11 +153,12 @@
         $eventTimeFormatted = !empty($couple->wedding_time) ? substr($couple->wedding_time, 0, 5) . ' WIB' : '18:00 – 21:30 WIB';
 
         $parentsInfo = $couple->groom_birth_order ?? \App\Services\TemplateManager::formatParentNames($couple->groom_father ?? null, $couple->groom_mother ?? null, 'Putri tercinta dari Bpk. Hendra & Ibu Maya');
-        $heading = $couple->event_heading ?? 'Sweet 17 Milestone';
+        $subCategoryBadge = !empty($couple->sub_category) ? $couple->sub_category : 'Sweet 17 Milestone';
+        $heading = (!empty($couple->event_heading) && $couple->event_heading !== 'Sweet 17 Milestone') ? $couple->event_heading : $subCategoryBadge;
         $quote = $couple->quote ?? $couple->event_quote ?? '“A chapter begins, full of dreams, laughter, and endless gratitude. Merayakan 17 tahun penuh cinta dan kebahagiaan bersama orang-orang tersayang.”';
         $venueName = $couple->venue_name ?? 'The Glass House Garden Cafe & Bistro';
         $venueAddress = $couple->venue_address ?? 'Jl. Cempaka Putih No. 17, Gubeng, Surabaya, Jawa Timur';
-        $mapsUrl = $couple->google_maps_url ?? 'https://maps.google.com/?q=The+Glass+House+Garden+Cafe';
+        $mapsUrl = !empty($couple->google_maps_url) ? $couple->google_maps_url : (!empty($couple->maps_url) ? $couple->maps_url : ('https://maps.google.com/?q=' . urlencode(($venueName ?? '') . ' ' . ($venueAddress ?? ''))));
         $guestName = $guest->name ?? request('guest_name') ?? 'Tamu Undangan Terkasih';
 
         $bankName1 = $couple->bank_name_1 ?? $couple->bank_name ?? 'Bank BCA';
@@ -202,7 +203,7 @@
                 <div class="flex items-center gap-2 mb-1.5 animate-float">
                     <span class="w-6 h-[1px] bg-outline-variant"></span>
                     <span class="material-symbols-outlined text-primary text-[18px]">spa</span>
-                    <span class="text-[10px] sm:text-xs uppercase tracking-widest text-tertiary font-bold font-body">{{ $heading }}</span>
+                    <span id="previewSubCategoryBadge" class="text-[10px] sm:text-xs uppercase tracking-widest text-tertiary font-bold font-body">{{ $heading }}</span>
                     <span class="material-symbols-outlined text-primary text-[18px]">spa</span>
                     <span class="w-6 h-[1px] bg-outline-variant"></span>
                 </div>
@@ -286,7 +287,7 @@
                         <div class="flex items-center gap-2 mb-2.5">
                             <span class="w-7 h-[1px] bg-outline-variant"></span>
                             <span class="material-symbols-outlined text-primary text-[18px]">spa</span>
-                            <span class="text-xs uppercase tracking-widest text-tertiary font-bold">{{ $heading }}</span>
+                            <span id="previewSubCategoryBadgeMain" class="text-xs uppercase tracking-widest text-tertiary font-bold">{{ $heading }}</span>
                             <span class="material-symbols-outlined text-primary text-[18px]">spa</span>
                             <span class="w-7 h-[1px] bg-outline-variant"></span>
                         </div>
@@ -297,7 +298,7 @@
                             <div class="absolute inset-0 bg-gradient-to-t from-surface-variant/70 via-transparent to-black/10 pointer-events-none"></div>
                             <div class="absolute bottom-2.5 right-2.5 bg-surface-bright/95 backdrop-blur-md px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1.5 border border-outline-variant/30">
                                 <span class="material-symbols-outlined text-primary text-[14px]">celebration</span>
-                                <span class="text-[10px] text-on-surface font-semibold">17th Birthday</span>
+                                <span id="previewSubCategoryPill" class="text-[10px] text-on-surface font-semibold">{{ $subCategoryBadge }}</span>
                             </div>
                         </div>
 
@@ -371,93 +372,106 @@
                             <h3 class="font-headline text-xl text-primary font-semibold">Waktu &amp; Rangkaian Acara</h3>
                         </div>
 
-                        <!-- Session Card -->
-                        <div class="bg-surface-container-low rounded-2xl p-4 shadow-sm space-y-3 border border-outline-variant/30">
-                            <div class="flex items-start gap-3">
-                                <div class="w-11 h-11 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container shrink-0 mt-0.5">
-                                    <span class="material-symbols-outlined text-[22px]">nightlife</span>
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <span class="inline-block px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed text-[10px] font-semibold mb-1">
-                                        Utama • Birthday Dinner
-                                    </span>
-                                    <h4 class="font-headline text-base text-on-surface truncate font-semibold">Sweet 17 Party &amp; Dinner</h4>
-                                    <p class="text-xs text-on-surface-variant mt-0.5 flex items-center gap-1.5">
-                                        <span class="material-symbols-outlined text-[16px] text-tertiary">event</span>
-                                        <span id="previewEventDate">{{ $eventDateFormatted }}</span>
-                                    </p>
-                                    <p class="text-xs text-on-surface-variant flex items-center gap-1.5 mt-0.5">
-                                        <span class="material-symbols-outlined text-[16px] text-tertiary">schedule</span>
-                                        <span id="previewEventTime">{{ $eventTimeFormatted }}</span>
-                                    </p>
-                                </div>
-                            </div>
+                        @php
+                            $activeEvents = collect($couple->events ?? []);
+                            if ($activeEvents->isEmpty()) {
+                                $activeEvents = collect([
+                                    (object)[
+                                        'title' => 'Sweet 17 Party & Dinner',
+                                        'date' => $eventDateFormatted,
+                                        'start_time' => $eventTimeFormatted,
+                                        'end_time' => '',
+                                        'venue_name' => 'Utama • Birthday Dinner',
+                                        'address' => $venueName . ', ' . $venueAddress,
+                                    ]
+                                ]);
+                            }
+                        @endphp
 
-                            <!-- Dress Code Specifier -->
-                            <div class="bg-surface-bright rounded-xl p-3 space-y-1.5 border border-outline-variant/20">
-                                <div class="flex items-center gap-1.5">
-                                    <span class="material-symbols-outlined text-primary text-[16px]">checkroom</span>
-                                    <span class="text-[11px] text-on-surface font-semibold uppercase">Dress Code Tamu Undangan</span>
+                        <div id="itineraryContainer" class="space-y-3">
+                            @foreach($activeEvents as $idx => $ev)
+                                <div class="bg-surface-container-low rounded-2xl p-4 shadow-sm space-y-3 border border-outline-variant/30">
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-11 h-11 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container shrink-0 mt-0.5">
+                                            <span class="material-symbols-outlined text-[22px]">{{ $idx === 0 ? 'nightlife' : 'cake' }}</span>
+                                        </div>
+                                        <div class="flex-1 min-w-0">
+                                            <span class="inline-block px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed text-[10px] font-semibold mb-1">
+                                                {{ $ev->venue_name ?? ($idx === 0 ? 'Utama • Birthday Dinner' : ('Sesi ' . ($idx + 1))) }}
+                                            </span>
+                                            <h4 class="font-headline text-base text-on-surface truncate font-semibold">
+                                                {{ $ev->title ?? 'Rangkaian Acara Ulang Tahun' }}
+                                            </h4>
+                                            <p class="text-xs text-on-surface-variant mt-0.5 flex items-center gap-1.5">
+                                                <span class="material-symbols-outlined text-[16px] text-tertiary">event</span>
+                                                <span class="previewEventDate">{{ !empty($ev->date) ? (str_contains($ev->date, '-') ? \Carbon\Carbon::parse($ev->date)->locale('id')->isoFormat('dddd, D MMMM Y') : $ev->date) : $eventDateFormatted }}</span>
+                                            </p>
+                                            <p class="text-xs text-on-surface-variant flex items-center gap-1.5 mt-0.5">
+                                                <span class="material-symbols-outlined text-[16px] text-tertiary">schedule</span>
+                                                <span class="previewEventTime">{{ $ev->start_time ?? $eventTimeFormatted }} {{ !empty($ev->end_time) ? '– ' . $ev->end_time : '' }}</span>
+                                            </p>
+                                            @if(!empty($ev->address))
+                                                <p class="text-xs text-on-surface-variant mt-1 leading-relaxed">
+                                                    {{ $ev->address }}
+                                                </p>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    @if($idx === 0)
+                                        <!-- Dress Code Specifier -->
+                                        <div class="bg-surface-bright rounded-xl p-3 space-y-1.5 border border-outline-variant/20">
+                                            <div class="flex items-center gap-1.5">
+                                                <span class="material-symbols-outlined text-primary text-[16px]">checkroom</span>
+                                                <span class="text-[11px] text-on-surface font-semibold uppercase">Dress Code Tamu Undangan</span>
+                                            </div>
+                                            <p class="text-xs text-on-surface-variant">
+                                                Rustic Pastel / Nuansa Coral, Soft Peach, Terracotta &amp; Warm Earthy Cream.
+                                            </p>
+                                            <!-- Palette Swatch Badges -->
+                                            <div class="flex items-center flex-wrap gap-2 pt-1">
+                                                <div class="flex items-center gap-1 bg-surface-container px-2 py-0.5 rounded-full text-[10px]">
+                                                    <span class="w-3.5 h-3.5 rounded-full bg-primary shadow-inner"></span>
+                                                    <span class="text-on-surface">Terracotta</span>
+                                                </div>
+                                                <div class="flex items-center gap-1 bg-surface-container px-2 py-0.5 rounded-full text-[10px]">
+                                                    <span class="w-3.5 h-3.5 rounded-full bg-primary-fixed-dim shadow-inner"></span>
+                                                    <span class="text-on-surface">Peach</span>
+                                                </div>
+                                                <div class="flex items-center gap-1 bg-surface-container px-2 py-0.5 rounded-full text-[10px]">
+                                                    <span class="w-3.5 h-3.5 rounded-full bg-secondary-fixed shadow-inner"></span>
+                                                    <span class="text-on-surface">Sage</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
-                                <p class="text-xs text-on-surface-variant">
-                                    Rustic Pastel / Nuansa Coral, Soft Peach, Terracotta &amp; Warm Earthy Cream.
-                                </p>
-                                <!-- Palette Swatch Badges -->
-                                <div class="flex items-center flex-wrap gap-2 pt-1">
-                                    <div class="flex items-center gap-1 bg-surface-container px-2 py-0.5 rounded-full text-[10px]">
-                                        <span class="w-3.5 h-3.5 rounded-full bg-primary shadow-inner"></span>
-                                        <span class="text-on-surface">Terracotta</span>
-                                    </div>
-                                    <div class="flex items-center gap-1 bg-surface-container px-2 py-0.5 rounded-full text-[10px]">
-                                        <span class="w-3.5 h-3.5 rounded-full bg-primary-fixed-dim shadow-inner"></span>
-                                        <span class="text-on-surface">Peach</span>
-                                    </div>
-                                    <div class="flex items-center gap-1 bg-surface-container px-2 py-0.5 rounded-full text-[10px]">
-                                        <span class="w-3.5 h-3.5 rounded-full bg-secondary-fixed shadow-inner"></span>
-                                        <span class="text-on-surface">Sage</span>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </section>
 
                     <!-- Venue & Maps Section -->
                     <section class="px-4 my-4" id="venue-section">
-                        <div class="bg-surface-container rounded-2xl p-4 sm:p-5 shadow-sm space-y-3 border border-outline-variant/30">
+                        <div class="bg-surface-container rounded-2xl p-4 sm:p-5 shadow-sm space-y-3.5 border border-outline-variant/30">
                             <div class="flex items-center gap-2.5">
-                                <div class="w-9 h-9 rounded-full bg-primary-fixed flex items-center justify-center text-primary shrink-0">
-                                    <span class="material-symbols-outlined text-[20px]">location_on</span>
+                                <div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary shrink-0">
+                                    <span class="material-symbols-outlined text-[22px]">location_on</span>
                                 </div>
                                 <div class="min-w-0 flex-1">
                                     <h3 id="previewVenueName" class="font-headline text-base text-on-surface font-semibold truncate">{{ $venueName }}</h3>
-                                    <p class="text-[11px] text-tertiary">Jawa Timur, Indonesia</p>
+                                    <p class="text-[11px] text-tertiary">Lokasi &amp; Venue Acara</p>
                                 </div>
                             </div>
                             <p id="previewVenueAddress" class="text-xs text-on-surface-variant leading-relaxed">
                                 {{ $venueAddress }}
                             </p>
 
-                            <!-- Map Pipeline Component -->
-                            <div class="w-full h-36 rounded-xl bg-cover bg-center shadow-inner relative overflow-hidden border border-outline-variant/20"
-                                 style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCZMxcjmzebwWddA4oHtFZnVZ8sH7m_PpmMEKoNY5bchWRnZkJelG3oktvO3D-dCe74V3NV73Ghh3lPC9_8bbbkMZpuZdDRiLpm1hr7DzildAY36_gL8i5y4Rwjnvd6AmtOcg8ujUbNf9BPs0KwpRKuMO9k6Avafy0CstilV2i6E89Z8M5gQniLgX8If0HBveTzfpN1HXqf33SnUaQuIR3-BFGcmOXUCpOctNfjrFGfritaf7Mqh2T-')">
-                                <div class="absolute inset-0 bg-primary/10 pointer-events-none"></div>
-                                <div class="absolute bottom-2 left-2 bg-surface/90 backdrop-blur-sm px-2 py-0.5 rounded-lg flex items-center gap-1">
-                                    <span class="material-symbols-outlined text-primary text-[14px]">pin_drop</span>
-                                    <span class="text-[10px] text-on-surface font-semibold">Taman Utama Bistro</span>
-                                </div>
-                            </div>
-
-                            <!-- Action Buttons for Navigation -->
-                            <div class="grid grid-cols-2 gap-2.5 pt-1">
-                                <a class="h-10 rounded-full bg-primary text-on-primary flex items-center justify-center gap-1.5 text-xs uppercase tracking-wider font-semibold shadow-sm active:scale-95 transition-transform"
+                            <!-- Direct Google Maps Action Button -->
+                            <div class="pt-1">
+                                <a class="w-full h-11 rounded-full bg-primary text-on-primary flex items-center justify-center gap-2 text-xs uppercase tracking-wider font-semibold shadow-md hover:brightness-105 active:scale-95 transition-all cursor-pointer"
                                    href="{{ $mapsUrl }}" target="_blank" rel="noopener noreferrer">
-                                    <span class="material-symbols-outlined text-[16px]">map</span>
-                                    <span>Buka Maps</span>
-                                </a>
-                                <a class="h-10 rounded-full bg-surface-container-high text-on-surface flex items-center justify-center gap-1.5 text-xs uppercase tracking-wider font-semibold hover:bg-surface-variant active:scale-95 transition-transform border border-outline-variant/30"
-                                   href="{{ $mapsUrl }}" target="_blank" rel="noopener noreferrer">
-                                    <span class="material-symbols-outlined text-[16px]">near_me</span>
-                                    <span>Petunjuk Arah</span>
+                                    <span class="material-symbols-outlined text-[18px]">directions</span>
+                                    <span>Buka Petunjuk Arah (Google Maps)</span>
                                 </a>
                             </div>
                         </div>
@@ -1051,6 +1065,76 @@
             });
         }
 
+        function renderDynamicEvents(events) {
+            const container = document.getElementById('itineraryContainer');
+            if (!container || !Array.isArray(events) || events.length === 0) return;
+            container.innerHTML = '';
+            events.forEach((ev, idx) => {
+                const item = document.createElement('div');
+                item.className = 'bg-surface-container-low rounded-2xl p-4 shadow-sm space-y-3 border border-outline-variant/30';
+                const sessionLabel = ev.venue_name || (idx === 0 ? 'Utama • Birthday Dinner' : ('Sesi ' + (idx + 1)));
+                const titleStr = ev.title || 'Rangkaian Acara Ulang Tahun';
+                const dateStr = ev.date || '{{ $eventDateFormatted }}';
+                const timeStr = (ev.start_time || '{{ $eventTimeFormatted }}') + (ev.end_time ? ' – ' + ev.end_time : '');
+                const addrStr = ev.address ? `<p class="text-xs text-on-surface-variant mt-1 leading-relaxed">${ev.address}</p>` : '';
+
+                let dressCodeHtml = '';
+                if (idx === 0) {
+                    dressCodeHtml = `
+                    <div class="bg-surface-bright rounded-xl p-3 space-y-1.5 border border-outline-variant/20">
+                        <div class="flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-primary text-[16px]">checkroom</span>
+                            <span class="text-[11px] text-on-surface font-semibold uppercase">Dress Code Tamu Undangan</span>
+                        </div>
+                        <p class="text-xs text-on-surface-variant">
+                            Rustic Pastel / Nuansa Coral, Soft Peach, Terracotta &amp; Warm Earthy Cream.
+                        </p>
+                        <div class="flex items-center flex-wrap gap-2 pt-1">
+                            <div class="flex items-center gap-1 bg-surface-container px-2 py-0.5 rounded-full text-[10px]">
+                                <span class="w-3.5 h-3.5 rounded-full bg-primary shadow-inner"></span>
+                                <span class="text-on-surface">Terracotta</span>
+                            </div>
+                            <div class="flex items-center gap-1 bg-surface-container px-2 py-0.5 rounded-full text-[10px]">
+                                <span class="w-3.5 h-3.5 rounded-full bg-primary-fixed-dim shadow-inner"></span>
+                                <span class="text-on-surface">Peach</span>
+                            </div>
+                            <div class="flex items-center gap-1 bg-surface-container px-2 py-0.5 rounded-full text-[10px]">
+                                <span class="w-3.5 h-3.5 rounded-full bg-secondary-fixed shadow-inner"></span>
+                                <span class="text-on-surface">Sage</span>
+                            </div>
+                        </div>
+                    </div>`;
+                }
+
+                item.innerHTML = `
+                    <div class="flex items-start gap-3">
+                        <div class="w-11 h-11 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container shrink-0 mt-0.5">
+                            <span class="material-symbols-outlined text-[22px]">${idx === 0 ? 'nightlife' : 'cake'}</span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <span class="inline-block px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed text-[10px] font-semibold mb-1">
+                                ${sessionLabel}
+                            </span>
+                            <h4 class="font-headline text-base text-on-surface truncate font-semibold">
+                                ${titleStr}
+                            </h4>
+                            <p class="text-xs text-on-surface-variant mt-0.5 flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px] text-tertiary">event</span>
+                                <span class="previewEventDate">${dateStr}</span>
+                            </p>
+                            <p class="text-xs text-on-surface-variant flex items-center gap-1.5 mt-0.5">
+                                <span class="material-symbols-outlined text-[16px] text-tertiary">schedule</span>
+                                <span class="previewEventTime">${timeStr}</span>
+                            </p>
+                            ${addrStr}
+                        </div>
+                    </div>
+                    ${dressCodeHtml}
+                `;
+                container.appendChild(item);
+            });
+        }
+
         const defaultCoverImg = "{{ $coverImg }}";
         const defaultProfileImg = "{{ $profileImg }}";
 
@@ -1075,7 +1159,7 @@
                 if (target === 'cover') {
                     const coverEl = document.getElementById('previewCoverPhotoImg');
                     if (coverEl) coverEl.src = defaultCoverImg;
-                } else if (target === 'groom' || target === 'bride' || target === 'star' || target === 'person') {
+                } else if ((target === 'groom' || target === 'bride' || target === 'star' || target === 'person') && photoUrl) {
                     const profileEl = document.getElementById('previewGroomPhotoImg');
                     if (profileEl) profileEl.src = defaultProfileImg;
                 }
@@ -1083,6 +1167,16 @@
                 const photos = data.photos || data.images;
                 if (Array.isArray(photos)) {
                     renderDynamicGallery(photos);
+                }
+            } else if (data.type === 'UPDATE_PREVIEW_EVENTS') {
+                if (Array.isArray(data.events)) {
+                    renderDynamicEvents(data.events);
+                }
+            } else if (data.type === 'UPDATE_PREVIEW_PARENTS') {
+                const pEl = document.getElementById('previewParents');
+                const formatted = data.formatted || data.groomParents;
+                if (pEl && formatted) {
+                    pEl.textContent = formatted;
                 }
             } else if (data.type === 'UPDATE_PREVIEW_FIELD') {
                 const field = data.field;
@@ -1110,6 +1204,13 @@
                 } else if (field === 'venue_address') {
                     const aEl = document.getElementById('previewVenueAddress');
                     if (aEl) aEl.textContent = value;
+                } else if (field === 'sub_category') {
+                    const sEl = document.getElementById('previewSubCategoryBadge');
+                    const sMain = document.getElementById('previewSubCategoryBadgeMain');
+                    const sPill = document.getElementById('previewSubCategoryPill');
+                    if (sEl) sEl.textContent = value;
+                    if (sMain) sMain.textContent = value;
+                    if (sPill) sPill.textContent = value;
                 }
             }
         });

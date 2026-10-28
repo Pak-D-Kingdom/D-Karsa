@@ -503,9 +503,12 @@ class InvitationController extends Controller
         if ($request->filled('event_heading')) $overrides['event_heading'] = $request->query('event_heading');
         if ($request->filled('category')) $overrides['category'] = $request->query('category');
         if ($request->filled('sub_category')) $overrides['sub_category'] = $request->query('sub_category');
-        if ($request->filled('cover_photo')) $overrides['cover_photo'] = $request->query('cover_photo');
-        if ($request->filled('groom_photo')) $overrides['groom_photo'] = $request->query('groom_photo');
-        if ($request->filled('bride_photo')) $overrides['bride_photo'] = $request->query('bride_photo');
+        if ($request->filled('cover_photo')) $overrides['cover_photo'] = $request->input('cover_photo');
+        if ($request->filled('cover_photo_base64')) $overrides['cover_photo'] = $request->input('cover_photo_base64');
+        if ($request->filled('groom_photo')) $overrides['groom_photo'] = $request->input('groom_photo');
+        if ($request->filled('groom_photo_base64')) $overrides['groom_photo'] = $request->input('groom_photo_base64');
+        if ($request->filled('bride_photo')) $overrides['bride_photo'] = $request->input('bride_photo');
+        if ($request->filled('bride_photo_base64')) $overrides['bride_photo'] = $request->input('bride_photo_base64');
 
         // Bank and Gift parameters with full cross-key compatibility
         $bName1 = $request->query('bank_name_1') ?: $request->query('bank_name');
@@ -615,14 +618,38 @@ class InvitationController extends Controller
             }
         }
 
-        // Custom galleries override if provided via JSON array
+        // Custom galleries override if provided via JSON array or base64
         if ($request->filled('galleries_json')) {
-            $rawGalleries = json_decode($request->query('galleries_json'), true);
+            $rawGalleries = json_decode($request->input('galleries_json'), true);
             if (is_array($rawGalleries) && count($rawGalleries) > 0) {
                 $galList = [];
                 foreach ($rawGalleries as $i => $gImg) {
                     $galList[] = (object)[
-                        'image' => $gImg,
+                        'image' => is_array($gImg) ? ($gImg['image'] ?? '') : (is_object($gImg) ? ($gImg->image ?? '') : $gImg),
+                        'sort_order' => $i + 1,
+                    ];
+                }
+                $overrides['galleries'] = collect($galList);
+            }
+        } elseif ($request->filled('gallery_photos_base64')) {
+            $rawGalleries = json_decode($request->input('gallery_photos_base64'), true);
+            if (is_array($rawGalleries) && count($rawGalleries) > 0) {
+                $galList = [];
+                foreach ($rawGalleries as $i => $gImg) {
+                    $galList[] = (object)[
+                        'image' => is_array($gImg) ? ($gImg['image'] ?? '') : (is_object($gImg) ? ($gImg->image ?? '') : $gImg),
+                        'sort_order' => $i + 1,
+                    ];
+                }
+                $overrides['galleries'] = collect($galList);
+            }
+        } elseif ($request->filled('galleries')) {
+            $rawGalleries = is_array($request->input('galleries')) ? $request->input('galleries') : json_decode($request->input('galleries'), true);
+            if (is_array($rawGalleries) && count($rawGalleries) > 0) {
+                $galList = [];
+                foreach ($rawGalleries as $i => $gImg) {
+                    $galList[] = (object)[
+                        'image' => is_array($gImg) ? ($gImg['image'] ?? '') : (is_object($gImg) ? ($gImg->image ?? '') : $gImg),
                         'sort_order' => $i + 1,
                     ];
                 }

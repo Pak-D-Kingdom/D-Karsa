@@ -88,6 +88,7 @@ class TemplatePreviewImageSyncTest extends TestCase
             'botanical-emerald',
             'floral-midnight-navy',
             'rustic-coral-peach',
+            'arctic-frost',
         ];
 
         foreach ($templates as $themeKey) {
@@ -189,6 +190,7 @@ class TemplatePreviewImageSyncTest extends TestCase
             'botanical-emerald',
             'floral-midnight-navy',
             'rustic-coral-peach',
+            'arctic-frost',
         ];
 
         foreach ($templates as $themeKey) {
