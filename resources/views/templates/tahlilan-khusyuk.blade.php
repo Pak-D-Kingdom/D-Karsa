@@ -79,9 +79,13 @@
         .toast-active {
             animation: toastFade 2.8s ease forwards;
         }
+        /* Hide scrollbars for app-like clean mobile experience */
+        ::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
-<body class="sacred-bg text-slate-200 font-sans antialiased selection:bg-serene-gold selection:text-serene-forest">
+<body class="sacred-bg text-slate-200 font-sans antialiased selection:bg-serene-gold selection:text-serene-forest overflow-hidden">
 
     @php
         $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo, 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?w=1200');
@@ -94,6 +98,36 @@
 
         $deceasedName = $couple->groom_name ?? 'Almarhum H. Ahmad Dahlan bin H. Abdullah';
         $thParents = \App\Services\TemplateManager::formatParentNames($couple->groom_father ?? null, $couple->groom_mother ?? null, $couple->groom_parents ?? 'Keluarga Besar Almarhum & Seluruh Anak Cucu');
+
+        $activeEvents = collect($couple->events ?? []);
+        if ($activeEvents->isEmpty()) {
+            $activeEvents = collect([
+                (object)[
+                    'title' => 'Sholat Isya Berjamaah & Pembacaan Surah Yasin',
+                    'date' => $eventDateFormatted,
+                    'start_time' => '19:30',
+                    'end_time' => '20:15',
+                    'venue_name' => 'Kediaman Keluarga Almarhum',
+                    'address' => 'Diawali sholat Isya berjamaah dilanjutkan pembacaan Surah Yasin secara khusyuk dipimpin ustadz.',
+                ],
+                (object)[
+                    'title' => 'Pembacaan Tahlil, Tahmid & Doa Arwah',
+                    'date' => $eventDateFormatted,
+                    'start_time' => '20:15',
+                    'end_time' => '21:00',
+                    'venue_name' => 'Kediaman Keluarga Almarhum',
+                    'address' => 'Lantunan dzikir tahlil, pembacaan doa khusus arwah almarhum/almarhumah serta tausiyah haul.',
+                ],
+                (object)[
+                    'title' => 'Ramah Tamah & Santap Hidangan Bersama',
+                    'date' => $eventDateFormatted,
+                    'start_time' => '21:00',
+                    'end_time' => 'Selesai',
+                    'venue_name' => 'Kediaman Keluarga Almarhum',
+                    'address' => 'Menikmati jamuan makan malam dan ramah tamah bersama para jamaah serta keluarga besar.',
+                ],
+            ]);
+        }
     @endphp
 
     <!-- Background Audio -->
@@ -113,50 +147,64 @@
     </div>
 
     <!-- ========================================================
-         SURAH YASIN & TAHLIL BOOK COVER SCREEN
+         SURAH YASIN & TAHLIL BOOK COVER SCREEN (Edge-to-Edge Full Screen)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-black/95 p-3 sm:p-4 transition-all duration-1000 ease-in-out">
-        <div id="previewCoverBg" class="absolute inset-0 bg-cover bg-center opacity-15 pointer-events-none" style="background-image: url('{{ $coverImg }}');"></div>
-        <div class="relative w-full max-w-sm bg-serene-forest rounded-3xl p-5 sm:p-7 text-center shadow-2xl antique-frame overflow-hidden my-auto">
-            
-            <!-- Candle & Moon Emblem -->
-            <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-serene-card border border-serene-gold/50 flex items-center justify-center text-2xl shadow-inner">
-                🕯️
-            </div>
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-[#0F172A] sacred-bg flex flex-col justify-between items-center px-3.5 py-2.5 sm:py-4 transition-all duration-700 ease-in-out text-slate-200 select-none">
+        <!-- Ambient Serene Glows (Clipped) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div id="previewCoverBg" class="absolute inset-0 bg-cover bg-center opacity-15" style="background-image: url('{{ $coverImg }}');"></div>
+            <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-serene-gold/15 blur-3xl"></div>
+            <div class="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-slate-900/40 blur-3xl"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/85"></div>
+        </div>
 
-            <!-- Inna Lillahi Calligraphy -->
-            <p class="font-amiri text-lg text-serene-goldbright font-bold mb-1">إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ</p>
-            <span class="inline-block px-3.5 py-1 rounded-full text-[9px] font-sans font-bold uppercase tracking-[0.2em] bg-serene-gold/15 text-serene-gold border border-serene-gold/30 mb-3">
-                {{ $couple->event_heading ?? "DOA BERSAMA & TAHLILAN" }}
-            </span>
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
+            <!-- Header -->
+            <header class="w-full flex flex-col items-center text-center shrink-0">
+                <div class="w-8 h-8 mx-auto mb-1 rounded-full bg-serene-card border border-serene-gold/50 flex items-center justify-center text-base shadow-inner">
+                    🕯️
+                </div>
+                <p class="font-amiri text-base text-serene-goldbright font-bold mb-0.5">إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ</p>
+                <span id="previewHeadingCover" class="inline-block px-2.5 py-0.5 rounded-full text-[8.5px] font-sans font-bold uppercase tracking-[0.2em] bg-serene-gold/15 text-serene-gold border border-serene-gold/30">
+                    {{ $couple->event_heading ?? "DOA BERSAMA & TAHLILAN" }}
+                </span>
+            </header>
 
-            <!-- Deceased Photo Frame -->
-            <div class="relative w-44 h-48 mx-auto rounded-xl overflow-hidden border-2 border-serene-gold/60 shadow-xl my-3 bg-serene-deep">
-                <img id="previewGroomPhotoImg" src="{{ $personImg }}" alt="{{ $deceasedName }}" class="w-full h-full object-cover filter contrast-[1.02]">
-                <div class="absolute inset-0 bg-gradient-to-t from-serene-forest/80 via-transparent to-transparent"></div>
-            </div>
+            <!-- Center Showcase -->
+            <section class="w-full my-auto py-0.5 flex flex-col items-center text-center">
+                <!-- Deceased Photo Frame -->
+                <div class="relative w-20 h-24 mx-auto rounded-xl overflow-hidden border border-serene-gold/60 shadow-lg my-1 bg-serene-deep shrink-0">
+                    <img id="previewGroomPhotoImg" src="{{ $personImg }}" alt="{{ $deceasedName }}" class="w-full h-full object-cover filter contrast-[1.02]">
+                    <div class="absolute inset-0 bg-gradient-to-t from-serene-forest/80 via-transparent to-transparent"></div>
+                </div>
 
-            <!-- In Memoriam Name -->
-            <div class="my-3">
-                <p class="text-[10px] uppercase tracking-[0.25em] text-slate-400 font-sans">MENGENANG KEPULANGAN:</p>
-                <h1 class="font-serif text-2xl font-bold text-white tracking-wide mt-1">
-                    {{ $deceasedName }}
-                </h1>
-                <p class="text-xs text-serene-goldbright font-sans font-medium mt-1">
-                    📅 {{ $eventDateFormatted }}
+                <!-- In Memoriam Name -->
+                <div class="mt-0.5 mb-0.5 w-full">
+                    <p class="text-[9px] uppercase tracking-[0.2em] text-slate-400 font-sans">MENGENANG KEPULANGAN:</p>
+                    <h1 id="previewDeceasedNameCover" class="font-serif text-lg sm:text-xl font-bold text-white tracking-wide mt-0.5 truncate">
+                        {{ $deceasedName }}
+                    </h1>
+                    <p class="text-[9.5px] text-serene-goldbright font-sans font-medium mt-0.5">
+                        📅 {{ $eventDateFormatted }}
+                    </p>
+                </div>
+
+                <!-- Guest Card -->
+                <div class="w-full py-1 px-3 rounded-xl bg-serene-card/90 backdrop-blur-md border border-serene-gold/30 text-center shadow-md mt-0.5">
+                    <span class="text-[7.5px] uppercase tracking-[0.2em] text-slate-400 block font-medium">KEPADA YTH:</span>
+                    <b id="previewGuestNameCover" class="text-xs font-sans font-bold text-white block mt-0.5 truncate">{{ $guest->name ?? 'Bapak / Ibu / Jamaah' }}</b>
+                </div>
+            </section>
+
+            <!-- Bottom Button -->
+            <footer class="w-full pt-1 flex flex-col items-center gap-0.5 shrink-0">
+                <button id="open-invitation-btn" type="button" onclick="openInvitation()" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-serene-gold to-[#9A7D3C] hover:brightness-110 active:scale-[0.98] text-serene-forest font-sans text-xs font-bold uppercase tracking-[0.2em] shadow-lg transition flex items-center justify-center gap-1.5 relative z-20 pointer-events-auto cursor-pointer">
+                    <span>🕯️</span> <span>BUKA LEMBAR DOA KHUSYUK</span> <span>&rarr;</span>
+                </button>
+                <p class="text-[8.5px] font-sans text-slate-400 flex items-center gap-1">
+                    <span class="text-serene-gold">♫</span> Lantunan Doa diputar saat dibuka
                 </p>
-            </div>
-
-            <!-- Guest Card -->
-            <div class="my-4 p-3 rounded-2xl bg-serene-card/80 border border-serene-gold/30 text-center">
-                <span class="text-[9px] uppercase tracking-[0.2em] text-slate-400 block">KEPADA YTH:</span>
-                <b class="text-sm font-sans font-bold text-white block mt-0.5">{{ $guest->name ?? 'Bapak / Ibu / Jamaah' }}</b>
-            </div>
-
-            <!-- Open Document Action -->
-            <button type="button" onclick="openInvitation()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-serene-gold to-[#9A7D3C] hover:brightness-110 text-serene-forest font-sans text-xs font-bold uppercase tracking-[0.25em] shadow-lg transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
-                <span>🕯️</span> BUKA LEMBAR DOA KHUSYUK
-            </button>
+            </footer>
         </div>
     </div>
 
@@ -257,33 +305,22 @@
                 <h2 class="font-serif text-2xl font-bold text-white mt-1">Susunan Acara Tahlilan 🕯️</h2>
             </div>
 
-            <div class="space-y-4 max-w-sm mx-auto">
-                <div class="p-5 rounded-2xl bg-serene-card border border-serene-gold/30">
-                    <div class="flex items-center justify-between text-serene-gold text-xs font-sans mb-1">
-                        <span>SESI I • SHOLAT &amp; YASIN</span>
-                        <span>19:30 - 20:15 WIB</span>
+            <div id="itineraryContainer" class="space-y-4 max-w-sm mx-auto">
+                @foreach($activeEvents as $index => $event)
+                    <div class="p-5 rounded-2xl bg-serene-card border border-serene-gold/30">
+                        <div class="flex items-center justify-between text-serene-gold text-xs font-sans mb-1">
+                            <span class="uppercase tracking-wider">{{ $event->title ?? 'Sesi Acara' }}</span>
+                            <span>{{ !empty($event->start_time) ? substr($event->start_time, 0, 5) : '19:30' }}{{ !empty($event->end_time) ? ' - ' . (str_contains(strtolower($event->end_time), 'selesai') ? 'Selesai' : substr($event->end_time, 0, 5) . ' WIB') : ' WIB' }}</span>
+                        </div>
+                        <h3 class="font-serif text-base font-bold text-white">{{ $event->title ?? 'Agenda Tahlilan' }}</h3>
+                        @if(!empty($event->venue_name))
+                            <p class="text-xs text-serene-goldbright mt-1 font-medium">{{ $event->venue_name }}</p>
+                        @endif
+                        @if(!empty($event->address))
+                            <p class="text-xs text-slate-300 mt-1 leading-relaxed">{{ $event->address }}</p>
+                        @endif
                     </div>
-                    <h3 class="font-serif text-base font-bold text-white">Sholat Isya Berjamaah &amp; Pembacaan Surah Yasin</h3>
-                    <p class="text-xs text-slate-300 mt-1">Diawali sholat Isya berjamaah dilanjutkan pembacaan Surah Yasin secara khusyuk dipimpin ustadz.</p>
-                </div>
-
-                <div class="p-5 rounded-2xl bg-serene-card border border-serene-gold/50 shadow-md">
-                    <div class="flex items-center justify-between text-serene-gold text-xs font-sans mb-1">
-                        <span>SESI II • TAHLIL &amp; DOA</span>
-                        <span>20:15 - 21:00 WIB</span>
-                    </div>
-                    <h3 class="font-serif text-base font-bold text-white">Pembacaan Tahlil, Tahmid &amp; Doa Arwah</h3>
-                    <p class="text-xs text-slate-300 mt-1">Lantunan dzikir tahlil, pembacaan doa khusus arwah almarhum/almarhumah serta tausiyah haul.</p>
-                </div>
-
-                <div class="p-5 rounded-2xl bg-serene-card border border-serene-gold/30">
-                    <div class="flex items-center justify-between text-serene-gold text-xs font-sans mb-1">
-                        <span>SESI III • JAMUAN</span>
-                        <span>21:00 WIB - Selesai</span>
-                    </div>
-                    <h3 class="font-serif text-base font-bold text-white">Ramah Tamah &amp; Santap Hidangan Bersama</h3>
-                    <p class="text-xs text-slate-300 mt-1">Menikmati jamuan makan malam dan ramah tamah bersama para jamaah serta keluarga besar.</p>
-                </div>
+                @endforeach
             </div>
 
             <!-- Venue Details & Maps Button -->
@@ -438,13 +475,19 @@
         function openInvitation() {
             const cover = document.getElementById('coverScreen');
             if (cover) {
+                cover.style.pointerEvents = 'none';
                 cover.style.opacity = '0';
                 cover.style.transform = 'translateY(-100%)';
-                setTimeout(() => cover.classList.add('hidden'), 1000);
+                setTimeout(() => {
+                    cover.classList.add('hidden');
+                    cover.style.display = 'none';
+                    document.body.classList.remove('overflow-hidden');
+                }, 700);
             }
             if (audioBtn) audioBtn.classList.remove('hidden');
             toggleAudio();
         }
+        window.openInvitation = openInvitation;
 
         function copyToClipboard(text, msg) {
             navigator.clipboard.writeText(text).then(() => {
@@ -541,6 +584,31 @@
             });
         }
 
+        // Dynamic Events Renderer for Live Preview
+        function renderDynamicEvents(events) {
+            const container = document.getElementById('itineraryContainer');
+            if (!container || !Array.isArray(events) || events.length === 0) return;
+
+            container.innerHTML = events.map(ev => {
+                const title = ev.title || 'Sesi Acara';
+                const startTime = ev.start_time ? ev.start_time.substring(0, 5) : '19:30';
+                const endTime = ev.end_time ? ' - ' + (ev.end_time.toLowerCase().includes('selesai') ? 'Selesai' : ev.end_time.substring(0, 5) + ' WIB') : ' WIB';
+                const venue = ev.venue_name ? `<p class="text-xs text-serene-goldbright mt-1 font-medium">${ev.venue_name}</p>` : '';
+                const addr = ev.address ? `<p class="text-xs text-slate-300 mt-1 leading-relaxed">${ev.address}</p>` : '';
+                return `
+                    <div class="p-5 rounded-2xl bg-serene-card border border-serene-gold/30">
+                        <div class="flex items-center justify-between text-serene-gold text-xs font-sans mb-1">
+                            <span class="uppercase tracking-wider">${title}</span>
+                            <span>${startTime}${endTime}</span>
+                        </div>
+                        <h3 class="font-serif text-base font-bold text-white">${title}</h3>
+                        ${venue}
+                        ${addr}
+                    </div>
+                `;
+            }).join('');
+        }
+
         // Default template assets & texts for live preview reset
         const defaultPersonPhoto = "{{ $personImg }}";
         const defaultCoverPhoto = "{{ $coverImg }}";
@@ -578,6 +646,8 @@
                         pEl.textContent = defaultFamilyParents;
                     }
                 }
+            } else if (event.data.type === 'UPDATE_PREVIEW_EVENTS' && Array.isArray(event.data.events)) {
+                renderDynamicEvents(event.data.events);
             }
         });
 

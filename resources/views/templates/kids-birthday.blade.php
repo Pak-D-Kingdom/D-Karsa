@@ -98,9 +98,13 @@
         .toast-active {
             animation: toastPop 2.8s ease forwards;
         }
+        /* Hide scrollbars for app-like clean mobile experience */
+        ::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
-<body class="confetti-pattern text-candy-ink font-sans antialiased selection:bg-candy-yellow selection:text-candy-ink">
+<body class="confetti-pattern text-candy-ink font-sans antialiased selection:bg-candy-yellow selection:text-candy-ink overflow-hidden">
 
     @php
         $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo, 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=1200');
@@ -137,53 +141,66 @@
     </div>
 
     <!-- ========================================================
-         COVER SCREEN (Playful Surprise Gift Box Modal)
+         COVER SCREEN (Playful Surprise Gift Box Modal - Edge-to-Edge)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-gradient-to-b from-[#FFF2B2] via-[#FFD6E0] to-[#E2F7F5] p-3 sm:p-4 transition-all duration-700 ease-in-out">
-        <div id="previewCoverBg" class="absolute inset-0 bg-cover bg-center opacity-15 pointer-events-none" style="background-image: url('{{ $coverImg }}');"></div>
-        <div class="relative w-full max-w-sm bg-white rounded-3xl p-5 sm:p-7 text-center shadow-2xl border-4 border-candy-yellow overflow-hidden my-auto">
-            
-            <!-- Floating Balloons Header -->
-            <div class="flex justify-center items-center gap-2 mb-3 animate-balloon-slow">
-                <span class="text-3xl">🎈</span>
-                <span class="text-3xl">🎂</span>
-                <span class="text-3xl">🎉</span>
-            </div>
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-gradient-to-b from-[#FFF2B2] via-[#FFD6E0] to-[#E2F7F5] confetti-pattern flex flex-col justify-between items-center px-3.5 py-2.5 sm:py-4 transition-all duration-700 ease-in-out text-candy-ink select-none">
+        <!-- Ambient Balloons & Confetti (Clipped) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div id="previewCoverBg" class="absolute inset-0 bg-cover bg-center opacity-10" style="background-image: url('{{ $coverImg }}');"></div>
+            <div class="confetti-dot absolute top-4 left-4 w-4 h-4 rounded-full bg-candy-pink/40"></div>
+            <div class="confetti-dot absolute top-8 right-6 w-3 h-3 rounded-full bg-candy-yellow/60"></div>
+            <div class="confetti-dot absolute bottom-8 left-8 w-3 h-3 rounded-full bg-candy-teal/50"></div>
+        </div>
 
-            <!-- Party Heading Badge -->
-            <span class="inline-block px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider bg-candy-yellow text-candy-ink shadow-sm font-fredoka mb-2">
-                {{ $couple->event_heading ?? "KIDS BIRTHDAY PARTY" }}
-            </span>
-            <p class="text-xs text-candy-pink font-bold font-fredoka uppercase tracking-wider mb-4">
-                {{ $couple->sub_category ?? 'Ayo Datang & Seru-Seruan Bareng!' }}
-            </p>
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
+            <!-- Header -->
+            <header class="w-full flex flex-col items-center text-center shrink-0">
+                <div class="flex justify-center items-center gap-2 mb-1 animate-balloon-slow">
+                    <span class="text-2xl">🎈</span>
+                    <span class="text-2xl">🎂</span>
+                    <span class="text-2xl">🎉</span>
+                </div>
+                <span id="previewHeadingCover" class="inline-block px-3 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider bg-candy-yellow text-candy-ink shadow-xs font-fredoka">
+                    {{ $couple->event_heading ?? "KIDS BIRTHDAY PARTY" }}
+                </span>
+            </header>
 
-            <!-- Kid Photo in Playful Arched Frame -->
-            <div class="relative w-44 h-44 mx-auto rounded-full overflow-hidden border-4 border-candy-pink p-1 bg-white shadow-xl mb-4">
-                <img id="previewKidPhotoCoverImg" src="{{ $kidImg }}" alt="{{ $kidName }}" class="w-full h-full object-cover rounded-full">
-            </div>
+            <!-- Center Showcase -->
+            <section class="w-full my-auto py-0.5 flex flex-col items-center text-center">
+                <!-- Kid Photo in Playful Arched Frame -->
+                <div class="relative w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full overflow-hidden border-3 border-candy-pink p-1 bg-white shadow-lg my-1 shrink-0">
+                    <img id="previewKidPhotoCoverImg" src="{{ $kidImg }}" alt="{{ $kidName }}" class="w-full h-full object-cover rounded-full">
+                </div>
 
-            <!-- Kid's Name & Celebration -->
-            <h1 class="font-fredoka text-3xl font-extrabold text-candy-ink leading-tight">
-                {{ $kidName }}
-            </h1>
-            <p class="text-sm font-fredoka font-semibold text-candy-purple mt-1">
-                Merayakan Ulang Tahun Penuh Ceria 🎪
-            </p>
-            <p class="text-xs text-slate-500 font-medium mt-1">
-                📅 {{ $eventDateFormatted }}
-            </p>
+                <!-- Kid's Name & Celebration -->
+                <div class="mt-0.5 mb-0.5 w-full">
+                    <h1 id="previewKidNameCover" class="font-fredoka text-xl sm:text-2xl font-extrabold text-candy-ink leading-tight truncate">
+                        {{ $kidName }}
+                    </h1>
+                    <p class="text-xs font-fredoka font-semibold text-candy-purple mt-0.5">
+                        Merayakan Ulang Tahun Penuh Ceria 🎪
+                    </p>
+                    <p class="text-[9.5px] text-slate-500 font-medium mt-0.5">
+                        📅 {{ $eventDateFormatted }}
+                    </p>
+                </div>
 
-            <!-- Guest Invitation Card -->
-            <div class="mt-4 p-3.5 rounded-2xl bg-candy-yellowlight border-2 border-dashed border-candy-yellow text-center">
-                <span class="text-[10px] font-fredoka uppercase tracking-widest text-candy-orange font-bold block">Undangan Spesial Untuk Sahabat:</span>
-                <b class="text-base font-fredoka text-candy-ink block mt-0.5">{{ $guest->name ?? 'Teman Cilik Tersayang' }}</b>
-            </div>
+                <!-- Guest Invitation Card -->
+                <div class="w-full py-1 px-3 rounded-xl bg-candy-yellowlight/90 backdrop-blur-md border border-dashed border-candy-yellow text-center shadow-xs mt-0.5">
+                    <span class="text-[7.5px] font-fredoka uppercase tracking-widest text-candy-orange font-bold block">UNDANGAN SPESIAL UNTUK SAHABAT:</span>
+                    <b id="previewGuestNameCover" class="text-xs font-fredoka text-candy-ink block mt-0.5 truncate">{{ $guest->name ?? 'Teman Cilik Tersayang' }}</b>
+                </div>
+            </section>
 
-            <!-- Buka Undangan Action -->
-            <button type="button" onclick="openInvitation()" class="mt-6 w-full py-4 rounded-2xl bg-gradient-to-r from-candy-pink to-candy-orange hover:brightness-105 text-white font-fredoka text-sm font-bold uppercase tracking-wider shadow-lg transform transition active:scale-95 flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
-                <span>🎁</span> BUKA KOTAK PESTA!
-            </button>
+            <!-- Bottom Button -->
+            <footer class="w-full pt-1 flex flex-col items-center gap-0.5 shrink-0">
+                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-candy-pink to-candy-orange hover:brightness-105 active:scale-[0.98] text-white font-fredoka text-xs font-bold uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-1.5 relative z-20 pointer-events-auto cursor-pointer">
+                    <span>🎁</span> <span>BUKA KOTAK PESTA!</span> <span>&rarr;</span>
+                </button>
+                <p class="text-[8.5px] font-sans text-slate-500 flex items-center gap-1">
+                    <span class="text-candy-pink">♫</span> Musik Pesta Ceria diputar saat dibuka
+                </p>
+            </footer>
         </div>
     </div>
 
@@ -563,13 +580,19 @@
         function openInvitation() {
             const cover = document.getElementById('coverScreen');
             if (cover) {
+                cover.style.pointerEvents = 'none';
                 cover.style.opacity = '0';
                 cover.style.transform = 'translateY(-100%)';
-                setTimeout(() => cover.classList.add('hidden'), 700);
+                setTimeout(() => {
+                    cover.classList.add('hidden');
+                    cover.style.display = 'none';
+                    document.body.classList.remove('overflow-hidden');
+                }, 700);
             }
             if (audioBtn) audioBtn.classList.remove('hidden');
             toggleAudio();
         }
+        window.openInvitation = openInvitation;
 
         function copyToClipboard(text, msg) {
             navigator.clipboard.writeText(text).then(() => {

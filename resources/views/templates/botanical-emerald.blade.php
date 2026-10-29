@@ -189,7 +189,7 @@
         $bankAcc2 = $couple->bank_account_2 ?? '1370 0192 8472 1';
         $bankHolder2 = $couple->bank_holder_2 ?? 'Raden Ajeng Rania Paramitha';
 
-        $guestDisplayName = $guestName ?? request('to') ?? 'Tamu Kehormatan & Keluarga';
+        $guestDisplayName = $guest->name ?? $guestName ?? request('to') ?? 'Tamu Kehormatan & Keluarga';
 
         $fallbackGalleries = [
             'https://lh3.googleusercontent.com/aida-public/AB6AXuBLZUvfr0iFuEWva6_hLE8cc4TfljTBNR7QQBSEHnmgI1iye2T-gnXeYfFTP7u0Dj-8jxZhi3341gmMy3O40kydQi6ZM8_g5XZNelWUJJMZWnRMOoHoKBbc0frCovnxgiKZwMNwxnDy_WVYDPe2EjPFAIshBkn27CA6rFLZgskjXBhHKr256NUsVu_Zh8hus45z_mBJreVmTyBnfAXauHh-PT4DmeteFuhgrBtYywasDgAQmsM7_ppW5g',
@@ -213,7 +213,7 @@
     <!-- ========================================== -->
     <!-- 1. LUXURY DIGITAL ENVELOPE / OPENING COVER -->
     <!-- ========================================== -->
-    <div id="envelopeScreen" class="fixed inset-0 z-50 bg-surface flex flex-col items-center justify-center overflow-y-auto overscroll-contain envelope-open-transition selection:bg-primary-fixed selection:text-on-primary-fixed p-3 sm:p-5">
+    <div id="envelopeScreen" class="fixed inset-0 z-50 bg-[#FBF9F5] flex flex-col justify-between items-center px-3.5 py-2.5 sm:py-4 overflow-y-auto overscroll-contain envelope-open-transition selection:bg-primary-fixed selection:text-on-primary-fixed">
         <!-- Ambient Melati Floating Motifs (Background Inline Vectors) -->
         <div class="fixed inset-0 pointer-events-none overflow-hidden opacity-25 select-none -z-10">
             <svg class="absolute -top-12 -left-12 w-80 h-80 text-primary-container/20 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 200 200">
@@ -234,120 +234,65 @@
             </svg>
         </div>
 
-        <div class="w-full max-w-sm sm:max-w-md flex flex-col items-center justify-center my-auto py-2">
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
             <!-- Top Status Bar: Cultural Badge & Compact Audio Pill -->
-            <header class="w-full flex items-center justify-between mb-2.5 px-1 gap-2">
+            <header class="w-full flex items-center justify-between mb-1 px-1 gap-2 shrink-0">
                 <div class="inline-flex items-center gap-1.5 bg-surface-container-lowest/90 backdrop-blur-md px-2.5 py-1 rounded-full border border-primary/15 shadow-xs shrink-0">
                     <span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span>
-                    <span class="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-widest font-semibold whitespace-nowrap">Surat Serat Ulem</span>
+                    <span class="font-label-sm text-[9.5px] text-on-surface-variant uppercase tracking-widest font-semibold whitespace-nowrap">Surat Serat Ulem</span>
                 </div>
-                <!-- Music Status Pill (Compact & Truncated) -->
-                <button class="inline-flex items-center gap-1.5 bg-surface-container-lowest/90 backdrop-blur-md px-2.5 py-1 rounded-full border border-primary/15 shadow-xs hover:shadow-sm transition-all active:scale-95 overflow-hidden max-w-[170px]" id="envelopeMusicToggleBtn" onclick="toggleAudio()" type="button" title="Gending Pawiwahan">
-                    <span class="material-symbols-outlined text-primary text-[14px] shrink-0" id="envelopeMusicIcon">volume_up</span>
-                    <span class="font-label-sm text-[10px] text-on-surface-variant tracking-wider truncate whitespace-nowrap">
-                        Gending Wilujeng
-                    </span>
-                    <span class="flex items-end gap-0.5 h-2.5 shrink-0">
-                        <span class="w-0.5 h-2 bg-primary-container animate-[pulse_1s_infinite]"></span>
-                        <span class="w-0.5 h-2.5 bg-primary-container animate-[pulse_1.4s_infinite]"></span>
-                    </span>
-                </button>
+                <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-fixed/25 text-primary shadow-xs">
+                    <span class="material-symbols-outlined text-xs">spa</span>
+                    <span id="previewHeadingCover" class="font-label-sm text-[9px] tracking-[0.2em] uppercase font-bold">{{ $couple->event_heading ?? 'Pawiwahan Adat Jawa' }}</span>
+                </div>
             </header>
 
-            <!-- Main Luxury Digital Envelope Card -->
-            <div class="w-full relative transition-transform duration-500 ease-out" id="envelopeWrapper">
-                <!-- Royal Card Shell -->
-                <div class="relative bg-surface-container-lowest/95 backdrop-blur-md rounded-[28px] sm:rounded-[32px] border border-primary/20 shadow-2xl overflow-hidden p-4 sm:p-6 text-center flex flex-col items-center">
-                    <!-- Ornamental Corner Filigrees -->
-                    <div class="absolute top-3 left-3 text-primary-container/30 pointer-events-none select-none">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 32 32">
-                            <path d="M0,0 L32,0 M0,0 L0,32" stroke-width="1.25"></path>
-                            <circle cx="8" cy="8" r="4" stroke-width="0.75"></circle>
-                        </svg>
-                    </div>
-                    <div class="absolute top-3 right-3 text-primary-container/30 pointer-events-none select-none">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 32 32">
-                            <path d="M32,0 L0,0 M32,0 L32,32" stroke-width="1.25"></path>
-                            <circle cx="24" cy="8" r="4" stroke-width="0.75"></circle>
-                        </svg>
-                    </div>
-                    <div class="absolute bottom-3 left-3 text-primary-container/30 pointer-events-none select-none">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 32 32">
-                            <path d="M0,32 L32,32 M0,32 L0,0" stroke-width="1.25"></path>
-                            <circle cx="8" cy="24" r="4" stroke-width="0.75"></circle>
-                        </svg>
-                    </div>
-                    <div class="absolute bottom-3 right-3 text-primary-container/30 pointer-events-none select-none">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 32 32">
-                            <path d="M32,32 L0,32 M32,32 L32,0" stroke-width="1.25"></path>
-                            <circle cx="24" cy="24" r="4" stroke-width="0.75"></circle>
-                        </svg>
-                    </div>
+            <!-- Center Showcase -->
+            <section class="w-full my-auto py-0.5 flex flex-col items-center text-center">
+                <!-- The Couple Portrait Card Inside An Arched Royal Frame -->
+                <div class="relative w-20 h-24 rounded-t-full rounded-b-xl overflow-hidden border-2 border-primary/30 shadow-md my-1 bg-surface-container-high shrink-0">
+                    <div class="absolute inset-0 rounded-t-full rounded-b-xl shadow-inner z-10 pointer-events-none bg-gradient-to-b from-primary/10 via-transparent to-black/30"></div>
+                    <img id="previewCoverPhotoImg" class="w-full h-full object-cover object-top" alt="{{ $groomNickname }} &amp; {{ $brideNickname }}" src="{{ $coverImg }}" />
+                </div>
 
-                    <!-- Sacred Cultural Heading Pill -->
-                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-fixed/25 text-primary mb-1.5 shadow-xs">
-                        <span class="material-symbols-outlined text-xs">spa</span>
-                        <span class="font-label-sm text-[10px] tracking-[0.2em] uppercase font-bold">{{ $couple->event_heading ?? 'Pawiwahan Adat Jawa' }}</span>
-                        <span class="material-symbols-outlined text-xs">spa</span>
-                    </div>
-
-                    <!-- Archival Subtitle -->
-                    <p class="font-headline-md text-xs sm:text-sm italic text-secondary mb-0.5">
+                <!-- Main Names -->
+                <div class="mt-0.5 mb-0.5 w-full">
+                    <p class="font-headline-md text-[11px] italic text-secondary mb-0.5">
                         Kersaning Hyang Widhi
                     </p>
-
-                    <!-- Main Names in Playfair Display -->
-                    <h1 class="font-display-md text-2xl sm:text-3xl text-on-surface tracking-tight leading-tight my-1">
+                    <h1 id="previewNamesCover" class="font-display-md text-xl sm:text-2xl text-on-surface tracking-tight leading-tight truncate">
                         {{ $groomNickname }} <span class="text-primary font-display-md font-normal italic">&amp;</span> {{ $brideNickname }}
                     </h1>
-
-                    <!-- The Couple Portrait Card Inside An Arched Royal Frame -->
-                    <div class="relative w-20 h-24 sm:w-24 sm:h-28 rounded-t-full rounded-b-xl overflow-hidden border-2 border-primary/30 shadow-md my-2 bg-surface-container-high transition-transform duration-300 hover:scale-105 shrink-0">
-                        <div class="absolute inset-0 rounded-t-full rounded-b-xl shadow-inner z-10 pointer-events-none bg-gradient-to-b from-primary/10 via-transparent to-black/30"></div>
-                        <img id="previewCoverPhotoImg" class="w-full h-full object-cover object-top" alt="{{ $groomNickname }} &amp; {{ $brideNickname }}" src="{{ $coverImg }}" />
-                    </div>
-
-                    <!-- Date & Venue City -->
-                    <p class="font-label-sm text-[10.5px] text-on-surface-variant uppercase tracking-wider mb-2 font-medium">
+                    <p class="font-label-sm text-[9.5px] text-on-surface-variant uppercase tracking-wider mt-0.5 font-medium">
                         {{ $weddingDateFormatted }} • <span id="coverVenueCity">{{ $couple->venue_city ?? 'Jawa Timur' }}</span>
                     </p>
-
-                    <!-- Recipient Guest Card Box (Luxury Calligraphy Card) -->
-                    <div class="w-full bg-surface rounded-xl px-3.5 py-2.5 border border-primary/15 shadow-xs mb-3 text-center">
-                        <p class="font-label-sm text-[9.5px] text-secondary uppercase tracking-[0.16em] mb-0.5">
-                            Kepada Yth. Bapak / Ibu / Saudara / i:
-                        </p>
-                        <h2 class="font-headline-md text-sm sm:text-base text-on-surface font-semibold tracking-tight truncate py-0.5" id="guestNameDisplay">
-                            {{ $guestDisplayName }}
-                        </h2>
-                        <div class="inline-flex items-center gap-1 text-on-surface-variant font-label-sm text-[9px] mt-0.5">
-                            <span class="material-symbols-outlined text-primary text-[11px]">verified</span>
-                            <span>Tamu Kehormatan Adat</span>
-                        </div>
-                    </div>
-
-                    <!-- Primary Call to Action Button: Buka Undangan -->
-                    <div class="w-full flex flex-col items-center">
-                        <button id="btnOpenInvitation" class="w-full py-2.5 sm:py-3 px-5 bg-inverse-surface hover:bg-secondary text-surface-container-lowest rounded-full shadow-lg transition-all duration-300 flex items-center justify-center gap-2 group active:scale-95 relative overflow-hidden" onclick="openInvitationHandler()" type="button">
-                            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-primary-container/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                            <span class="material-symbols-outlined text-primary-fixed-dim text-lg transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                                mark_email_read
-                            </span>
-                            <span class="font-title-lg text-xs sm:text-sm tracking-widest uppercase font-semibold text-white">
-                                Buka Undangan
-                            </span>
-                            <span class="material-symbols-outlined text-primary-fixed-dim text-lg transition-transform duration-300 group-hover:translate-x-1">
-                                arrow_forward
-                            </span>
-                        </button>
-                        <!-- Sub-caption & Gending Direction -->
-                        <div class="flex items-center gap-1.5 mt-2 text-on-surface-variant font-label-sm text-[9.5px]">
-                            <span class="material-symbols-outlined text-primary text-[13px]">music_note</span>
-                            <span>Sentuh tombol untuk membuka surat &amp; memutar gending</span>
-                        </div>
-                    </div>
                 </div>
-            </div>
+
+                <!-- Recipient Guest Card Box -->
+                <div class="w-full bg-surface-container-lowest/90 backdrop-blur-md rounded-xl px-3 py-1.5 border border-primary/15 shadow-xs mt-0.5 text-center">
+                    <p class="font-label-sm text-[8px] text-secondary uppercase tracking-[0.16em]">
+                        Kepada Yth. Bapak / Ibu / Saudara / i:
+                    </p>
+                    <h2 class="font-headline-md text-xs sm:text-sm text-on-surface font-semibold tracking-tight truncate py-0.5" id="guestNameDisplay">
+                        {{ $guestDisplayName }}
+                    </h2>
+                </div>
+            </section>
+
+            <!-- Primary Call to Action Button: Buka Undangan -->
+            <footer class="w-full pt-1 flex flex-col items-center gap-1 shrink-0">
+                <button id="btnOpenInvitation" class="w-full py-2.5 px-5 bg-inverse-surface hover:bg-secondary text-surface-container-lowest rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center gap-2 group active:scale-95 relative overflow-hidden pointer-events-auto cursor-pointer" onclick="openInvitationHandler()" type="button">
+                    <span class="material-symbols-outlined text-primary-fixed-dim text-base">mark_email_read</span>
+                    <span class="font-title-lg text-xs tracking-widest uppercase font-semibold text-white">Buka Undangan</span>
+                    <span class="material-symbols-outlined text-primary-fixed-dim text-base">&rarr;</span>
+                </button>
+                <div class="flex items-center gap-1.5 text-on-surface-variant font-label-sm text-[9px]">
+                    <span class="material-symbols-outlined text-primary text-[11px]">music_note</span>
+                    <span>Sentuh tombol untuk membuka surat &amp; memutar gending</span>
+                </div>
+            </footer>
+        </div>
+    </div>
         </div>
     </div>
 

@@ -68,9 +68,13 @@
         .toast-active {
             animation: toastSlide 2.8s ease forwards;
         }
+        /* Hide scrollbars for app-like clean mobile experience */
+        ::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
-<body class="bg-[#FFFDF9] text-party-dark font-sans antialiased selection:bg-party-coral selection:text-white relative overflow-x-hidden">
+<body class="bg-[#FFFDF9] text-party-dark font-sans antialiased selection:bg-party-coral selection:text-white relative overflow-hidden">
 
     @php
         $coverImg = \App\Services\TemplateManager::resolvePhotoUrl(
@@ -109,51 +113,61 @@
     </div>
 
     <!-- ========================================================
-         COVER SCREEN (POP-UP PARTY ENVELOPE)
+         COVER SCREEN: POP-UP PARTY ENVELOPE (Edge-to-Edge Full Screen)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-gradient-to-b from-[#FFF0F0] via-[#FFF9ED] to-[#E8F8F5] p-3 sm:p-4 transition-all duration-1000 ease-in-out">
-        <div class="relative w-full max-w-sm bg-white rounded-3xl p-6 sm:p-5 sm:p-8 text-center shadow-2xl border-4 border-party-coral/30 overflow-hidden my-auto">
-            
-            <!-- Confetti Background Elements -->
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-gradient-to-b from-[#FFF0F0] via-[#FFF9ED] to-[#E8F8F5] flex flex-col justify-between items-center px-3.5 py-2.5 sm:py-4 transition-all duration-700 ease-in-out text-party-dark select-none">
+        <!-- Confetti Background Elements (Clipped) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
             <div class="confetti-dot absolute top-4 left-4 w-4 h-4 rounded-full bg-party-coral/40"></div>
             <div class="confetti-dot absolute top-8 right-6 w-3 h-3 rounded-full bg-party-yellow/60" style="animation-delay: 1s;"></div>
             <div class="confetti-dot absolute bottom-8 left-8 w-3 h-3 rounded-full bg-party-teal/50" style="animation-delay: 2s;"></div>
             <div class="confetti-dot absolute bottom-12 right-6 w-4 h-4 rounded-full bg-party-blue/40" style="animation-delay: 1.5s;"></div>
+        </div>
 
-            <div class="space-y-4">
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-party-coral/10 text-party-coral text-xs font-fredoka font-semibold uppercase tracking-wider">
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
+            <!-- Header -->
+            <header class="w-full flex flex-col items-center text-center shrink-0">
+                <span id="previewHeadingCover" class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-party-coral/10 text-party-coral text-[9px] font-fredoka font-semibold uppercase tracking-wider mb-0.5">
                     🎉 Special Birthday Invitation
                 </span>
+            </header>
 
+            <!-- Center Showcase -->
+            <section class="w-full my-auto py-0.5 flex flex-col items-center text-center">
                 <!-- Avatar Profile -->
-                <div class="relative w-28 h-28 mx-auto rounded-full p-1.5 bg-gradient-to-tr from-party-coral via-party-yellow to-party-teal shadow-lg">
+                <div class="relative w-20 h-20 mx-auto rounded-full p-1 bg-gradient-to-tr from-party-coral via-party-yellow to-party-teal shadow-md my-1 shrink-0">
                     <div class="w-full h-full rounded-full overflow-hidden bg-party-bg">
                         <img id="previewCoverPhotoImg" src="{{ $coverImg }}" alt="Cover Party" class="w-full h-full object-cover">
                     </div>
-                    <span class="absolute -bottom-1 -right-1 text-2xl">🎂</span>
+                    <span class="absolute -bottom-1 -right-1 text-xl">🎂</span>
                 </div>
 
-                <div>
-                    <h1 class="font-fredoka text-2xl sm:text-3xl font-bold text-party-dark">
+                <!-- Celebrant Name & Subtitle -->
+                <div class="mt-0.5 mb-0.5 w-full">
+                    <h1 id="previewPersonNameCover" class="font-fredoka text-xl sm:text-2xl font-bold text-party-dark truncate">
                         {{ $personName }}
                     </h1>
-                    <p class="text-xs font-semibold text-party-coral mt-1">
+                    <p class="text-[9.5px] font-semibold text-party-coral mt-0.5">
                         {{ $orderInfo }}
                     </p>
                 </div>
 
                 <!-- Kepada Yth Tamu -->
-                <div class="p-4 rounded-2xl bg-[#FFF9ED] border border-party-yellow/40 space-y-1">
-                    <span class="text-[11px] font-medium text-party-muted block">Kepada Sahabat Tersayang:</span>
-                    <b class="text-sm font-bold text-party-dark block font-fredoka">{{ $guest->name ?? 'Teman & Sahabat' }}</b>
-                    <span class="text-[10px] text-party-muted block">Kamu diundang ke pesta seru ini!</span>
+                <div class="w-full py-1 px-3 rounded-xl bg-white/90 backdrop-blur-md border border-party-yellow/40 text-center shadow-xs mt-0.5">
+                    <span class="text-[7.5px] font-medium text-party-muted block uppercase tracking-wider">KEPADA SAHABAT TERSAYANG:</span>
+                    <b id="previewGuestNameCover" class="text-xs font-bold text-party-dark block font-fredoka mt-0.5 truncate">{{ $guest->name ?? 'Teman & Sahabat' }}</b>
                 </div>
+            </section>
 
-                <!-- Tombol Buka Undangan -->
-                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-party-coral hover:bg-party-coral/90 text-white font-fredoka font-bold text-sm shadow-lg shadow-party-coral/30 hover:scale-[1.02] active:scale-[0.98] transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
-                    <span>🎁</span> <span>Buka Undangan Pesta</span> <span>✨</span>
+            <!-- Bottom Button -->
+            <footer class="w-full pt-1 flex flex-col items-center gap-0.5 shrink-0">
+                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-2.5 px-4 rounded-xl bg-party-coral hover:bg-party-coral/90 active:scale-[0.98] text-white font-fredoka font-bold text-xs shadow-md transition flex items-center justify-center gap-1.5 relative z-20 pointer-events-auto cursor-pointer">
+                    <span>🎁</span> <span>Buka Undangan Pesta</span> <span>&rarr;</span>
                 </button>
-            </div>
+                <p class="text-[8.5px] font-sans text-party-muted flex items-center gap-1">
+                    <span>🎈</span> Musik Pesta Ceria diputar saat dibuka
+                </p>
+            </footer>
         </div>
     </div>
 
@@ -447,9 +461,14 @@
         function openInvitation() {
             const cover = document.getElementById('coverScreen');
             if (cover) {
-                cover.style.opacity = '0';
                 cover.style.pointerEvents = 'none';
-                setTimeout(() => { cover.classList.add('hidden'); }, 1000);
+                cover.style.opacity = '0';
+                cover.style.transform = 'translateY(-100%)';
+                setTimeout(() => {
+                    cover.classList.add('hidden');
+                    cover.style.display = 'none';
+                    document.body.classList.remove('overflow-hidden');
+                }, 700);
             }
             const floatingBtn = document.getElementById('audioFloatingBtn');
             if (floatingBtn) floatingBtn.classList.remove('hidden');
@@ -461,6 +480,7 @@
                 });
             }
         }
+        window.openInvitation = openInvitation;
 
         function toggleAudio() {
             const audio = document.getElementById('invitationAudio');

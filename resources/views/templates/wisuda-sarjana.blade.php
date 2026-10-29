@@ -85,9 +85,14 @@
         .toast-active {
             animation: toastFade 2.8s ease forwards;
         }
+
+        /* Hide scrollbars for app-like clean mobile experience */
+        ::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
-<body class="bg-academy-deep text-slate-200 font-sans antialiased selection:bg-academy-gold selection:text-academy-navy">
+<body class="bg-academy-deep text-slate-200 font-sans antialiased selection:bg-academy-gold selection:text-academy-navy overflow-hidden">
 
     @php
         $coverImg = \App\Services\TemplateManager::resolvePhotoUrl(
@@ -129,60 +134,69 @@
     </div>
 
     <!-- ========================================================
-         ACADEMIC DIPLOMA SCROLL COVER SCREEN
+         ACADEMIC DIPLOMA SCROLL COVER SCREEN (Full Screen Mobile)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-black/95 p-3 sm:p-4 transition-all duration-1000 ease-in-out">
-        <div class="absolute inset-0 opacity-20 pointer-events-none">
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-academy-deep flex flex-col justify-between items-center px-3.5 py-3 sm:py-5 transition-all duration-700 ease-in-out text-slate-200 select-none">
+        <div class="absolute inset-0 opacity-15 pointer-events-none">
             <img id="previewCoverPhotoImg" src="{{ $coverImg }}" alt="Cover Wisuda" class="w-full h-full object-cover">
         </div>
-        <div class="relative w-full max-w-sm bg-academy-navy rounded-2xl p-5 sm:p-7 text-center shadow-2xl diploma-border overflow-hidden my-auto">
-            
-            <!-- Top University Ribbon -->
-            <div class="flex items-center justify-between pb-3 border-b border-academy-gold/30 text-[9px] font-cinzel tracking-[0.25em] text-academy-gold uppercase">
-                <span>COMMENCEMENT</span>
-                <span>CLASS OF {{ $targetDate->format('Y') }}</span>
-            </div>
+        <!-- Ambient Academy Glows (Clipped to prevent unwanted scrollbars) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-academy-gold/15 blur-3xl"></div>
+            <div class="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-blue-900/30 blur-3xl"></div>
+        </div>
 
-            <!-- Graduation Crest -->
-            <div class="my-5 text-center">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full crest-circle mb-3">
-                    <span class="text-2xl">🎓</span>
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
+            <!-- Header Bar: Commencement Ribbon & Crest -->
+            <header class="w-full flex flex-col items-center shrink-0">
+                <div class="w-full flex items-center justify-between pb-1.5 border-b border-academy-gold/30 text-[8.5px] font-cinzel tracking-[0.25em] text-academy-gold uppercase">
+                    <span>COMMENCEMENT</span>
+                    <span>CLASS OF {{ $targetDate->format('Y') }}</span>
                 </div>
-                <p class="font-cinzel text-xs font-bold tracking-[0.2em] text-academy-goldbright uppercase">
-                    {{ $couple->event_heading ?? "GRADUATION CEREMONY" }}
+                <div class="mt-1 flex flex-col items-center text-center">
+                    <span id="previewHeadingCover" class="inline-block px-2.5 py-0.5 rounded-full text-[8.5px] font-cinzel font-bold tracking-[0.2em] uppercase bg-academy-gold/15 text-academy-gold border border-academy-gold/30">
+                        {{ $couple->event_heading ?? "GRADUATION CEREMONY" }}
+                    </span>
+                </div>
+            </header>
+
+            <!-- Center Showcase (Portrait, Graduate Name, Guest Card) -->
+            <section class="w-full my-auto py-1 flex flex-col items-center text-center">
+                <!-- Graduate Portrait -->
+                <div class="relative w-20 h-24 mx-auto rounded-xl overflow-hidden border-2 border-academy-gold/60 shadow-xl my-1 shrink-0">
+                    <img id="previewGroomPhotoImg" src="{{ $gradImg }}" alt="{{ $gradName }}" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-academy-navy/70 via-transparent to-transparent pointer-events-none"></div>
+                </div>
+
+                <!-- Graduate Title -->
+                <div class="mt-0.5 mb-0.5 w-full">
+                    <h1 id="previewGroomNameCover" class="font-cinzel text-base sm:text-lg font-black gold-leaf tracking-wide leading-tight truncate">
+                        {{ $gradName }}
+                    </h1>
+                    <p class="font-garamond text-xs text-slate-300 italic mt-0.5">
+                        {{ $couple->sub_category ?? 'Fakultas Ilmu Komputer & Teknologi Informasi' }}
+                    </p>
+                    <p class="text-[9px] text-academy-gold font-sans font-semibold mt-0.5">
+                        📅 {{ $eventDateFormatted }}
+                    </p>
+                </div>
+
+                <!-- Guest Card -->
+                <div class="w-full py-1 px-3 rounded-xl bg-academy-navy/90 backdrop-blur-md border border-academy-gold/30 text-center shadow-md mt-0.5">
+                    <span class="text-[7.5px] font-cinzel uppercase tracking-[0.2em] text-slate-400 block font-semibold">KEPADA YTH:</span>
+                    <p id="previewGuestNameCover" class="font-sans text-xs sm:text-sm font-bold text-white mt-0.5 truncate">{{ $guest->name ?? 'Bapak / Ibu / Saudara/i' }}</p>
+                </div>
+            </section>
+
+            <!-- Footer: Buka Undangan Action -->
+            <footer class="w-full pt-1 flex flex-col items-center gap-1 shrink-0">
+                <button id="open-invitation-btn" type="button" onclick="openInvitation()" class="w-full py-2.5 sm:py-3 px-5 rounded-xl bg-gradient-to-r from-academy-gold to-[#B38F24] hover:brightness-110 active:scale-[0.98] text-academy-navy font-cinzel text-xs font-bold uppercase tracking-[0.22em] shadow-[0_8px_20px_rgba(212,175,55,0.4)] transition flex items-center justify-center gap-2 cursor-pointer pointer-events-auto">
+                    <span>📜</span> <span>BUKA DOKUMEN KELULUSAN</span> <span>&rarr;</span>
+                </button>
+                <p class="text-[9px] font-sans text-slate-400 flex items-center gap-1">
+                    <span class="text-academy-gold">♫</span> Musik kehormatan diputar saat dibuka
                 </p>
-                <p class="text-[10px] text-slate-400 font-garamond italic mt-0.5">Syukuran Kelulusan &amp; Gelar Akademik</p>
-            </div>
-
-            <!-- Graduate Portrait -->
-            <div class="relative w-44 h-44 mx-auto rounded-xl overflow-hidden border-2 border-academy-gold/60 shadow-xl my-4">
-                <img id="previewGroomPhotoImg" src="{{ $gradImg }}" alt="{{ $gradName }}" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-academy-navy/70 via-transparent to-transparent"></div>
-            </div>
-
-            <!-- Graduate Title -->
-            <div class="my-3">
-                <h1 class="font-cinzel text-xl sm:text-2xl font-black gold-leaf tracking-wide leading-tight">
-                    {{ $gradName }}
-                </h1>
-                <p class="font-garamond text-xs text-slate-300 italic mt-1">
-                    {{ $couple->sub_category ?? 'Fakultas Ilmu Komputer & Teknologi Informasi' }}
-                </p>
-                <p class="text-[11px] text-academy-gold font-sans font-semibold mt-2">
-                    📅 {{ $eventDateFormatted }}
-                </p>
-            </div>
-
-            <!-- Guest Card -->
-            <div class="my-4 p-3.5 rounded-xl bg-academy-navylight/80 border border-academy-gold/30 text-center">
-                <span class="text-[9px] font-cinzel uppercase tracking-[0.2em] text-slate-400 block">KEPADA YTH:</span>
-                <p class="font-sans text-sm font-bold text-white mt-0.5">{{ $guest->name ?? 'Bapak / Ibu / Saudara/i' }}</p>
-            </div>
-
-            <!-- Buka Undangan Action -->
-            <button type="button" onclick="openInvitation()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-academy-gold to-[#B38F24] hover:brightness-110 text-academy-navy font-cinzel text-xs font-bold uppercase tracking-[0.25em] shadow-lg transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
-                <span>📜</span> BUKA DOKUMEN KELULUSAN
-            </button>
+            </footer>
         </div>
     </div>
 
@@ -537,13 +551,19 @@
         function openInvitation() {
             const cover = document.getElementById('coverScreen');
             if (cover) {
+                cover.style.pointerEvents = 'none';
                 cover.style.opacity = '0';
                 cover.style.transform = 'translateY(-100%)';
-                setTimeout(() => cover.classList.add('hidden'), 1000);
+                setTimeout(() => {
+                    cover.classList.add('hidden');
+                    cover.style.display = 'none';
+                    document.body.classList.remove('overflow-hidden');
+                }, 700);
             }
             if (audioBtn) audioBtn.classList.remove('hidden');
             toggleAudio();
         }
+        window.openInvitation = openInvitation;
 
         function copyToClipboard(text, msg) {
             navigator.clipboard.writeText(text).then(() => {

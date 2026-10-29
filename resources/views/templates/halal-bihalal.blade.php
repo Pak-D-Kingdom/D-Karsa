@@ -84,9 +84,13 @@
         .toast-active {
             animation: toastFade 2.8s ease forwards;
         }
+        /* Hide scrollbars for app-like clean mobile experience */
+        ::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
-<body class="ketupat-pattern text-slate-200 font-sans antialiased selection:bg-raya-gold selection:text-raya-deep">
+<body class="ketupat-pattern text-slate-200 font-sans antialiased selection:bg-raya-gold selection:text-raya-deep overflow-hidden">
 
     @php
         $coverImg = \App\Services\TemplateManager::resolvePhotoUrl(
@@ -104,6 +108,28 @@
         $eventTimeFormatted = !empty($couple->wedding_time) ? substr($couple->wedding_time, 0, 5) . ' WIB' : '10:00 WIB';
 
         $hostName = $couple->groom_name ?? 'Keluarga Besar Bani H. Abdullah';
+
+        $activeEvents = collect($couple->events ?? []);
+        if ($activeEvents->isEmpty()) {
+            $activeEvents = collect([
+                (object)[
+                    'title' => 'Kalam Ilahi & Tausiyah Ukhuwah',
+                    'date' => $eventDateFormatted,
+                    'start_time' => '10:00',
+                    'end_time' => '11:00',
+                    'venue_name' => 'Kediaman Keluarga Besar',
+                    'address' => "Pembacaan ayat suci Al-Qur'an, sambutan perwakilan keluarga, tausiyah hikmah silaturahmi & doa bersama.",
+                ],
+                (object)[
+                    'title' => 'Saling Bermaafan & Santap Jamuan Lebaran',
+                    'date' => $eventDateFormatted,
+                    'start_time' => '11:00',
+                    'end_time' => '14:00',
+                    'venue_name' => 'Kediaman Keluarga Besar',
+                    'address' => 'Prosesi musafahah saling memaafkan, menikmati ketupat sayur, opor ayam, rendang, serta foto bersama.',
+                ],
+            ]);
+        }
     @endphp
 
     <!-- Background Audio -->
@@ -123,51 +149,65 @@
     </div>
 
     <!-- ========================================================
-         KETUPAT RAYA SILATURAHMI COVER SCREEN
+         KETUPAT RAYA SILATURAHMI COVER SCREEN (Edge-to-Edge Full Screen)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-black/95 p-3 sm:p-4 transition-all duration-1000 ease-in-out">
-        <div class="relative w-full max-w-sm bg-raya-emerald rounded-3xl p-5 sm:p-7 text-center shadow-2xl border-2 border-raya-gold/50 overflow-hidden my-auto">
-            
-            <!-- Hanging Lanterns Icon -->
-            <div class="flex justify-center gap-4 text-3xl mb-3 animate-lantern">
-                <span>🏮</span>
-                <span>✨</span>
-                <span>🏮</span>
-            </div>
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-[#064E3B] ketupat-pattern flex flex-col justify-between items-center px-3.5 py-2.5 sm:py-4 transition-all duration-700 ease-in-out text-slate-200 select-none">
+        <!-- Ambient Glow Orbs (Clipped) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-raya-gold/15 blur-3xl"></div>
+            <div class="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-emerald-950/40 blur-3xl"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/75"></div>
+        </div>
 
-            <!-- Arabic Eid Calligraphy -->
-            <p class="font-amiri text-lg text-raya-goldbright font-bold mb-1">تَقَبَّلَ اللَّهُ مِنَّا وَمِنْكُمْ</p>
-            <span class="inline-block px-3.5 py-1 rounded-full text-[9px] font-cinzel font-bold uppercase tracking-[0.25em] bg-raya-gold/15 text-raya-gold border border-raya-gold/40 mb-3">
-                {{ $couple->event_heading ?? "SILATURAHMI & HALAL BIHALAL" }}
-            </span>
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
+            <!-- Top Header -->
+            <header class="w-full flex flex-col items-center text-center shrink-0">
+                <div class="flex justify-center gap-3 text-2xl mb-1 animate-lantern">
+                    <span>🏮</span>
+                    <span>✨</span>
+                    <span>🏮</span>
+                </div>
+                <p class="font-amiri text-base text-raya-goldbright font-bold mb-0.5">تَقَبَّلَ اللَّهُ مِنَّا وَمِنْكُمْ</p>
+                <span id="previewHeadingCover" class="inline-block px-2.5 py-0.5 rounded-full text-[8.5px] font-cinzel font-bold uppercase tracking-[0.2em] bg-raya-gold/15 text-raya-gold border border-raya-gold/40">
+                    {{ $couple->event_heading ?? "SILATURAHMI & HALAL BIHALAL" }}
+                </span>
+            </header>
 
-            <!-- Family / Host Photo Frame -->
-            <div class="relative w-48 h-48 mx-auto rounded-2xl overflow-hidden border-2 border-raya-gold shadow-2xl my-3 bg-raya-deep">
-                <img id="previewCoverPhotoImg" src="{{ $coverImg }}" alt="Cover Halal Bihalal" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-raya-deep/80 via-transparent to-transparent"></div>
-            </div>
+            <!-- Center Showcase -->
+            <section class="w-full my-auto py-0.5 flex flex-col items-center text-center">
+                <!-- Family / Host Photo Frame -->
+                <div class="relative w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-2xl overflow-hidden border-2 border-raya-gold shadow-lg my-1 bg-raya-deep shrink-0">
+                    <img id="previewCoverPhotoImg" src="{{ $coverImg }}" alt="Cover Halal Bihalal" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-raya-deep/80 via-transparent to-transparent"></div>
+                </div>
 
-            <!-- Host's Name & Greetings -->
-            <div class="my-3">
-                <p class="text-[10px] font-cinzel tracking-[0.25em] uppercase text-slate-300">MINAL AIDIN WAL FAIZIN</p>
-                <h1 class="font-serif text-2xl font-bold gold-shimmer tracking-wide mt-1">
-                    {{ $hostName }}
-                </h1>
-                <p class="text-xs text-raya-goldbright font-sans font-medium mt-1">
-                    📅 {{ $eventDateFormatted }}
+                <!-- Host Name & Greetings -->
+                <div class="mt-0.5 mb-0.5 w-full">
+                    <p class="text-[9px] font-cinzel tracking-[0.2em] uppercase text-slate-300">MINAL AIDIN WAL FAIZIN</p>
+                    <h1 id="previewHostNameCover" class="font-serif text-lg sm:text-xl font-bold gold-shimmer tracking-wide mt-0.5 truncate">
+                        {{ $hostName }}
+                    </h1>
+                    <p class="text-[9.5px] text-raya-goldbright font-sans font-medium mt-0.5">
+                        📅 {{ $eventDateFormatted }}
+                    </p>
+                </div>
+
+                <!-- Guest Card -->
+                <div class="w-full py-1 px-3 rounded-xl bg-raya-card/90 backdrop-blur-md border border-raya-gold/30 text-center shadow-md mt-0.5">
+                    <span class="text-[7.5px] font-cinzel uppercase tracking-[0.2em] text-slate-300 block font-medium">KEPADA YTH:</span>
+                    <b id="previewGuestNameCover" class="text-xs font-sans font-bold text-white block mt-0.5 truncate">{{ $guest->name ?? 'Bapak / Ibu / Keluarga' }}</b>
+                </div>
+            </section>
+
+            <!-- Bottom Action Button -->
+            <footer class="w-full pt-1 flex flex-col items-center gap-0.5 shrink-0">
+                <button id="open-invitation-btn" type="button" onclick="openInvitation()" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-raya-gold to-[#A07C1C] hover:brightness-110 active:scale-[0.98] text-raya-deep font-cinzel text-xs font-bold uppercase tracking-[0.2em] shadow-lg transition flex items-center justify-center gap-1.5 relative z-20 pointer-events-auto cursor-pointer">
+                    <span>🕌</span> <span>BUKA GERBANG SILATURAHMI</span> <span>&rarr;</span>
+                </button>
+                <p class="text-[8.5px] font-sans text-slate-300 flex items-center gap-1">
+                    <span class="text-raya-gold">♫</span> Musik Takbiran & Sholawat diputar saat dibuka
                 </p>
-            </div>
-
-            <!-- Guest Card -->
-            <div class="my-4 p-3 rounded-2xl bg-raya-card/80 border border-raya-gold/30 text-center">
-                <span class="text-[9px] font-cinzel uppercase tracking-[0.2em] text-slate-300 block">KEPADA YTH:</span>
-                <b class="text-sm font-sans font-bold text-white block mt-0.5">{{ $guest->name ?? 'Bapak / Ibu / Keluarga' }}</b>
-            </div>
-
-            <!-- Open Invitation Action -->
-            <button type="button" onclick="openInvitation()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-raya-gold to-[#A07C1C] hover:brightness-110 text-raya-deep font-cinzel text-xs font-bold uppercase tracking-[0.25em] shadow-lg transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
-                <span>🕌</span> BUKA GERBANG SILATURAHMI
-            </button>
+            </footer>
         </div>
     </div>
 
@@ -270,24 +310,22 @@
                 <h2 class="font-serif text-2xl font-bold text-white mt-1">Susunan Acara Halal Bihalal 🕌</h2>
             </div>
 
-            <div class="space-y-4 max-w-sm mx-auto">
-                <div class="p-5 rounded-2xl bg-raya-card border border-raya-gold/30">
-                    <div class="flex items-center justify-between text-raya-gold text-xs font-cinzel mb-1">
-                        <span>SESI I • PEMBUKAAN &amp; TAUSIYAH</span>
-                        <span>10:00 - 11:00 WIB</span>
+            <div id="itineraryContainer" class="space-y-4 max-w-sm mx-auto">
+                @foreach($activeEvents as $index => $event)
+                    <div class="p-5 rounded-2xl bg-raya-card border border-raya-gold/30">
+                        <div class="flex items-center justify-between text-raya-gold text-xs font-cinzel mb-1">
+                            <span class="uppercase tracking-wider">{{ $event->title ?? 'Sesi Acara' }}</span>
+                            <span>{{ !empty($event->start_time) ? substr($event->start_time, 0, 5) : '10:00' }}{{ !empty($event->end_time) ? ' - ' . (str_contains(strtolower($event->end_time), 'selesai') ? 'Selesai' : substr($event->end_time, 0, 5) . ' WIB') : ' WIB' }}</span>
+                        </div>
+                        <h3 class="font-serif text-base font-bold text-white">{{ $event->title ?? 'Agenda Silaturahmi' }}</h3>
+                        @if(!empty($event->venue_name))
+                            <p class="text-xs text-raya-goldlight mt-1 font-medium">{{ $event->venue_name }}</p>
+                        @endif
+                        @if(!empty($event->address))
+                            <p class="text-xs text-slate-300 mt-1 leading-relaxed">{{ $event->address }}</p>
+                        @endif
                     </div>
-                    <h3 class="font-serif text-base font-bold text-white">Kalam Ilahi &amp; Tausiyah Ukhuwah</h3>
-                    <p class="text-xs text-slate-300 mt-1">Pembacaan ayat suci Al-Qur'an, sambutan perwakilan keluarga, tausiyah hikmah silaturahmi &amp; doa bersama.</p>
-                </div>
-
-                <div class="p-5 rounded-2xl bg-raya-card border border-raya-gold/50 shadow-md">
-                    <div class="flex items-center justify-between text-raya-gold text-xs font-cinzel mb-1">
-                        <span>SESI II • RAMAH TAMAH</span>
-                        <span>11:00 - 14:00 WIB</span>
-                    </div>
-                    <h3 class="font-serif text-base font-bold text-white">Saling Bermaafan &amp; Santap Jamuan Lebaran</h3>
-                    <p class="text-xs text-slate-300 mt-1">Prosesi musafahah saling memaafkan, menikmati ketupat sayur, opor ayam, rendang, serta foto bersama.</p>
-                </div>
+                @endforeach
             </div>
 
             <!-- Venue Details & Maps Button -->
@@ -485,13 +523,19 @@
         function openInvitation() {
             const cover = document.getElementById('coverScreen');
             if (cover) {
+                cover.style.pointerEvents = 'none';
                 cover.style.opacity = '0';
                 cover.style.transform = 'translateY(-100%)';
-                setTimeout(() => cover.classList.add('hidden'), 1000);
+                setTimeout(() => {
+                    cover.classList.add('hidden');
+                    cover.style.display = 'none';
+                    document.body.classList.remove('overflow-hidden');
+                }, 700);
             }
             if (audioBtn) audioBtn.classList.remove('hidden');
             toggleAudio();
         }
+        window.openInvitation = openInvitation;
 
         function copyToClipboard(text, msg) {
             navigator.clipboard.writeText(text).then(() => {
@@ -606,6 +650,30 @@
             });
         }
 
+        function renderDynamicEvents(events) {
+            const container = document.getElementById('itineraryContainer');
+            if (!container || !Array.isArray(events) || events.length === 0) return;
+
+            container.innerHTML = events.map(ev => {
+                const title = ev.title || 'Sesi Acara';
+                const startTime = ev.start_time ? ev.start_time.substring(0, 5) : '10:00';
+                const endTime = ev.end_time ? ' - ' + (ev.end_time.toLowerCase().includes('selesai') ? 'Selesai' : ev.end_time.substring(0, 5) + ' WIB') : ' WIB';
+                const venue = ev.venue_name ? `<p class="text-xs text-raya-goldlight mt-1 font-medium">${ev.venue_name}</p>` : '';
+                const addr = ev.address ? `<p class="text-xs text-slate-300 mt-1 leading-relaxed">${ev.address}</p>` : '';
+                return `
+                    <div class="p-5 rounded-2xl bg-raya-card border border-raya-gold/30">
+                        <div class="flex items-center justify-between text-raya-gold text-xs font-cinzel mb-1">
+                            <span class="uppercase tracking-wider">${title}</span>
+                            <span>${startTime}${endTime}</span>
+                        </div>
+                        <h3 class="font-serif text-base font-bold text-white">${title}</h3>
+                        ${venue}
+                        ${addr}
+                    </div>
+                `;
+            }).join('');
+        }
+
         const defaultCoverImg = "{{ $coverImg }}";
         const defaultHostImg = "{{ $hostImg }}";
 
@@ -637,6 +705,11 @@
                 const photos = data.photos || data.images;
                 if (Array.isArray(photos)) {
                     renderDynamicGallery(photos);
+                }
+            } else if (data.type === 'UPDATE_PREVIEW_EVENTS') {
+                const events = data.events;
+                if (Array.isArray(events)) {
+                    renderDynamicEvents(events);
                 }
             } else if (data.type === 'UPDATE_PREVIEW_PARENTS') {
                 const containerEl = document.getElementById('previewParentsContainer');

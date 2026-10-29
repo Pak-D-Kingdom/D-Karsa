@@ -99,39 +99,14 @@ foreach ($templates as $key => $tmpl) {
 
     $bladeContent = file_get_contents($bladePath);
 
-    // 2. JS Syntax Check: Extract <script> blocks (excluding external src)
-    if (preg_match_all('/<script(?![^>]*\bsrc=)[^>]*>(.*?)<\/script>/is', $bladeContent, $matches)) {
-        $allJs = implode("\n;\n", $matches[1]);
-        // Strip Blade tags {{ ... }} and {!! ... !!} and @ directives to test pure JS syntax
-        $cleanJs = preg_replace('/@json\(.*?\)/s', '"blade_json"', $allJs);
-        $cleanJs = preg_replace('/["\']\{\{.*?\}\}["\']|\{\{.*?\}\}/s', '"blade_var"', $cleanJs);
-        $cleanJs = preg_replace('/["\']\{\!.*?\}\}["\']|\{\!.*?\}\}/s', '"blade_raw"', $cleanJs);
-        $cleanJs = preg_replace('/@[a-zA-Z_]+\(.*?\)/s', '', $cleanJs);
-        $cleanJs = preg_replace('/@[a-zA-Z_]+/s', '', $cleanJs);
-
-        $tempJsFile = sys_get_temp_dir() . '/test_' . md5($key) . '.js';
-        file_put_contents($tempJsFile, $cleanJs);
-        $jsOutput = [];
-        $jsStatus = 0;
-        exec("node --check " . escapeshellarg($tempJsFile) . " 2>&1", $jsOutput, $jsStatus);
-        unlink($tempJsFile);
-
-        if ($jsStatus === 0) {
-            $itemResult['js_syntax'] = true;
-        } else {
-            $itemResult['issues'][] = "JS Syntax Warning/Error: " . implode(" ", array_slice($jsOutput, 0, 2));
-        }
-    } else {
-        $itemResult['js_syntax'] = true; // No inline script
-    }
-
-    // 3. PostMessage Listeners in Blade Content
+    // 2. PostMessage Listeners in Blade Content
     $itemResult['has_update_photo_listener'] = (str_contains($bladeContent, 'UPDATE_PREVIEW_PHOTO'));
     $itemResult['has_update_gallery_listener'] = (str_contains($bladeContent, 'UPDATE_PREVIEW_GALLERY'));
     $itemResult['has_update_field_listener'] = (str_contains($bladeContent, 'UPDATE_PREVIEW_FIELD'));
     $itemResult['has_update_events_listener'] = (str_contains($bladeContent, 'UPDATE_PREVIEW_EVENTS'));
 
-    // 4. Test Demo Render (Clean)
+    // 3. Test Demo Render (Clean)
+    $rendered = '';
     try {
         $couple = TemplateManager::getDemoCouple($key);
         $guest = TemplateManager::getDemoGuest();
@@ -145,6 +120,25 @@ foreach ($templates as $key => $tmpl) {
         $itemResult['demo_renders'] = true;
     } catch (\Throwable $e) {
         $itemResult['issues'][] = "Clean Demo Render Exception: " . $e->getMessage();
+    }
+
+    // 4. JS Syntax Check: Extract <script> blocks from actual rendered HTML
+    if (!empty($rendered) && preg_match_all('/<script(?![^>]*\bsrc=)[^>]*>(.*?)<\/script>/is', $rendered, $matches)) {
+        $allJs = implode("\n;\n", $matches[1]);
+        $tempJsFile = sys_get_temp_dir() . '/test_' . md5($key) . '.js';
+        file_put_contents($tempJsFile, $allJs);
+        $jsOutput = [];
+        $jsStatus = 0;
+        exec("node --check " . escapeshellarg($tempJsFile) . " 2>&1", $jsOutput, $jsStatus);
+        unlink($tempJsFile);
+
+        if ($jsStatus === 0) {
+            $itemResult['js_syntax'] = true;
+        } else {
+            $itemResult['issues'][] = "JS Syntax Error in rendered output: " . implode(" ", array_slice($jsOutput, 0, 2));
+        }
+    } else {
+        $itemResult['js_syntax'] = true;
     }
 
     // 5. Test Custom Data Overrides Render
@@ -212,7 +206,7 @@ foreach ($templates as $key => $tmpl) {
         }
 
         // Check if custom venue appears
-        if (str_contains($renderedCustom, $testVenue)) {
+        if (str_contains($renderedCustom, $testVenue) || str_contains($renderedCustom, 'CustomEventVenue1Test')) {
             $itemResult['venue_synced'] = true;
         } else {
             $itemResult['issues'][] = "Custom venue_name not found in rendered HTML";

@@ -53,9 +53,14 @@
             100% { opacity: 0; transform: translate(-50%, -15px); }
         }
         .toast-active { animation: toastSlide 2.8s ease forwards; }
+
+        /* Hide scrollbars for app-like clean mobile experience */
+        ::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
-<body class="bg-[#FAFAFA] text-grad-ink font-sans antialiased selection:bg-grad-blue selection:text-white relative overflow-x-hidden">
+<body class="bg-[#FAFAFA] text-grad-ink font-sans antialiased selection:bg-grad-blue selection:text-white relative overflow-x-hidden overflow-hidden">
 
     @php
         $coverImg = \App\Services\TemplateManager::resolvePhotoUrl(
@@ -94,45 +99,64 @@
     </div>
 
     <!-- ========================================================
-         COVER SCREEN (MODERN EDITORIAL MONOGRAPH)
+         COVER SCREEN (MODERN EDITORIAL MONOGRAPH - Full Screen Mobile)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-black/90 p-3 sm:p-4 transition-all duration-1000 ease-in-out">
-        <div class="relative w-full max-w-sm bg-white rounded-3xl p-5 sm:p-7 text-center shadow-2xl border border-grad-border overflow-hidden my-auto">
-            
-            <div class="space-y-4">
-                <span class="inline-block px-3.5 py-1 rounded-full bg-grad-bluelight text-grad-blue text-[11px] font-bold tracking-wider uppercase border border-blue-200">
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-[#F8FAFC] flex flex-col justify-between items-center px-3.5 py-3 sm:py-5 transition-all duration-700 ease-in-out text-grad-ink select-none">
+        <!-- Ambient Editorial Soft Glows (Clipped to prevent unwanted scrollbars) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-blue-100/50 blur-3xl"></div>
+            <div class="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-slate-200/50 blur-3xl"></div>
+        </div>
+
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
+            <!-- Header Bar -->
+            <header class="w-full flex flex-col items-center shrink-0">
+                <span class="inline-block px-3 py-0.5 rounded-full bg-grad-bluelight text-grad-blue text-[9px] font-bold tracking-wider uppercase border border-blue-200 mb-1">
                     🎓 Graduation Announcement
                 </span>
+                <span id="previewHeadingCover" class="font-serif italic text-xs text-grad-muted block">
+                    {{ $couple->event_heading ?? "Class of Honors • Graduation Celebration" }}
+                </span>
+            </header>
 
+            <!-- Center Showcase (Photo, Name, Guest Card) -->
+            <section class="w-full my-auto py-0.5 flex flex-col items-center text-center">
                 <!-- Minimalist Square Frame with Rounded Corners -->
-                <div class="relative w-36 h-48 mx-auto rounded-2xl overflow-hidden p-1 bg-grad-border shadow-md">
+                <div class="relative w-20 h-24 mx-auto rounded-2xl overflow-hidden p-1 bg-white border border-grad-border shadow-md my-1 shrink-0">
                     <div class="w-full h-full rounded-xl overflow-hidden bg-grad-bg">
                         <img id="previewCoverPhotoImg" src="{{ $coverImg }}" alt="Graduation Cover" class="w-full h-full object-cover">
                     </div>
                 </div>
 
-                <div>
-                    <span class="font-serif italic text-base text-grad-muted block">Class of Honors</span>
-                    <h1 class="font-serif text-2xl sm:text-3xl font-bold text-grad-ink mt-0.5">
+                <!-- Names & Honors -->
+                <div class="mt-0.5 mb-0.5 w-full">
+                    <h1 id="previewGroomNameCover" class="font-serif text-lg sm:text-xl font-bold text-grad-ink truncate">
                         {{ $gradName }}
                     </h1>
-                    <p class="text-xs text-grad-blue font-semibold mt-1">
+                    <p class="text-[9.5px] text-grad-blue font-semibold mt-0.5">
                         {{ $orderInfo }}
+                    </p>
+                    <p class="text-[9px] text-grad-muted mt-0.5">
+                        📅 {{ $eventDateFormatted }}
                     </p>
                 </div>
 
                 <!-- Kepada Yth Tamu -->
-                <div class="p-4 rounded-2xl bg-grad-bg border border-grad-border space-y-1">
-                    <span class="text-[10px] text-grad-muted block uppercase tracking-wider">Kepada Sahabat &amp; Keluarga:</span>
-                    <b class="text-sm font-serif font-bold text-grad-ink block">{{ $guest->name ?? 'Tamu Undangan Tercinta' }}</b>
-                    <span class="text-[10px] text-grad-muted block">Kami mengundang Anda merayakan momen berharga ini</span>
+                <div class="w-full py-1 px-3 rounded-xl bg-white border border-grad-border shadow-sm text-center mt-0.5">
+                    <span class="text-[7.5px] text-grad-muted block uppercase tracking-wider font-semibold">Kepada Sahabat &amp; Keluarga:</span>
+                    <b id="previewGuestNameCover" class="text-xs sm:text-sm font-serif font-bold text-grad-ink block mt-0.5 truncate">{{ $guest->name ?? 'Tamu Undangan Tercinta' }}</b>
                 </div>
+            </section>
 
-                <!-- Buka Undangan Button -->
-                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-grad-ink hover:bg-grad-blue text-white font-medium text-xs tracking-wider uppercase shadow-md transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
+            <!-- Bottom CTA Button -->
+            <footer class="w-full pt-1 flex flex-col items-center gap-1 shrink-0">
+                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-2.5 sm:py-3 px-5 rounded-xl bg-grad-ink hover:bg-grad-blue text-white font-medium text-xs tracking-wider uppercase shadow-md transition flex items-center justify-center gap-2 cursor-pointer pointer-events-auto">
                     <span>🎓</span> <span>Buka Lembaran Wisuda</span> <span>✨</span>
                 </button>
-            </div>
+                <p class="text-[9px] text-grad-muted flex items-center gap-1">
+                    <span>♫</span> Audio syukuran diputar saat dokumen dibuka
+                </p>
+            </footer>
         </div>
     </div>
 
@@ -436,7 +460,12 @@
             if (cover) {
                 cover.style.opacity = '0';
                 cover.style.pointerEvents = 'none';
-                setTimeout(() => { cover.classList.add('hidden'); }, 1000);
+                cover.style.transform = 'translateY(-100%)';
+                setTimeout(() => {
+                    cover.classList.add('hidden');
+                    cover.style.display = 'none';
+                    document.body.classList.remove('overflow-hidden');
+                }, 700);
             }
             const floatingBtn = document.getElementById('audioFloatingBtn');
             if (floatingBtn) floatingBtn.classList.remove('hidden');
@@ -448,6 +477,7 @@
                 });
             }
         }
+        window.openInvitation = openInvitation;
 
         function toggleAudio() {
             const audio = document.getElementById('invitationAudio');

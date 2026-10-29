@@ -191,123 +191,78 @@
     <!-- ========================================================
          COVER SCREEN: SAMPUL AMPLOP INTERAKTIF
          ======================================================== -->
-    <div id="invitation-cover" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-background flex flex-col items-center justify-between px-4 py-6 transition-all duration-700 ease-in-out select-none">
-        <!-- Ambient orbs -->
-        <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-surface-container blur-3xl opacity-60 pointer-events-none"></div>
-        <div class="absolute top-1/2 -right-24 w-80 h-80 rounded-full bg-secondary-container blur-3xl opacity-30 pointer-events-none"></div>
-        <div class="absolute -bottom-20 left-1/4 w-80 h-80 rounded-full bg-surface-container-high blur-3xl opacity-70 pointer-events-none"></div>
+    <div id="invitation-cover" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-background flex flex-col items-center justify-between px-3.5 py-2.5 sm:py-4 transition-all duration-700 ease-in-out select-none">
+        <!-- Ambient orbs (Clipped) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-surface-container blur-3xl opacity-60"></div>
+            <div class="absolute top-1/2 -right-24 w-80 h-80 rounded-full bg-secondary-container blur-3xl opacity-30"></div>
+            <div class="absolute -bottom-20 left-1/4 w-80 h-80 rounded-full bg-surface-container-high blur-3xl opacity-70"></div>
+        </div>
 
-        <div class="relative z-10 flex flex-col items-center w-full max-w-md mx-auto pt-2">
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
             <!-- Top Banner -->
-            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-surface-container-high/80 text-primary shadow-sm backdrop-blur-sm mb-2">
-                <span class="material-symbols-outlined text-[15px] text-tertiary">local_florist</span>
-                <span id="previewSubCategoryCover" class="text-xs uppercase tracking-widest text-primary font-bold">{{ $subCategoryBadge }}</span>
-                <span class="material-symbols-outlined text-[15px] text-tertiary">local_florist</span>
-            </div>
-
-            <!-- Title & Celebrant -->
-            <div class="text-center my-2">
-                <p class="font-serif text-lg text-secondary italic tracking-wider">
+            <header class="w-full flex flex-col items-center text-center shrink-0">
+                <div class="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high/80 text-primary shadow-sm backdrop-blur-sm mb-0.5">
+                    <span class="material-symbols-outlined text-[12px] text-tertiary">local_florist</span>
+                    <span id="previewSubCategoryCover" class="text-[9.5px] uppercase tracking-widest text-primary font-bold">{{ $subCategoryBadge }}</span>
+                    <span class="material-symbols-outlined text-[12px] text-tertiary">local_florist</span>
+                </div>
+                <p class="font-serif text-[11px] text-secondary italic tracking-wider">
                     The Sweet Seventeen of
                 </p>
-                <h1 id="previewGroomNameCover" class="font-serif text-3xl sm:text-4xl text-primary tracking-tight font-semibold mt-1 drop-shadow-sm">
-                    {{ $celebrantName }}
-                </h1>
-                <div class="flex items-center justify-center space-x-3 mt-1.5 text-on-surface-variant">
-                    <span class="w-8 h-px bg-outline-variant/60"></span>
-                    <span class="text-xs uppercase tracking-widest text-secondary font-bold">{{ $eventDateFormatted }}</span>
-                    <span class="w-8 h-px bg-outline-variant/60"></span>
-                </div>
-            </div>
+            </header>
 
-            <!-- Kraft Envelope Suite Card -->
-            <div class="w-full my-3">
-                <div class="relative rounded-2xl bg-surface-container-lowest p-3 shadow-xl overflow-hidden border border-outline-variant/30">
-                    <!-- Cover Photo Banner -->
-                    <div class="relative w-full h-36 rounded-xl overflow-hidden shadow-inner">
-                        <img id="previewCoverPhotoImg" alt="Cover Photo" class="w-full h-full object-cover object-center transform scale-105" src="{{ $coverImg }}"/>
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-primary/10"></div>
-                        <div class="absolute bottom-2 left-3 right-3 flex items-center justify-between text-on-primary">
-                            <span class="text-xs tracking-wider font-medium opacity-90 flex items-center gap-1 text-white">
-                                <span class="material-symbols-outlined text-[14px]">spa</span> Rustic Purple Dream
-                            </span>
-                            <span class="text-[10px] bg-primary/80 backdrop-blur-md px-2 py-0.5 rounded-full tracking-wider uppercase text-white font-bold">
-                                Chapter 17
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- Folded Envelope Kraft Construction -->
-                    <div class="relative mt-3 pt-2 pb-1 px-1 flex flex-col items-center">
-                        <div class="relative w-full bg-secondary-container/90 rounded-xl p-4 shadow-md text-on-secondary-container flex flex-col items-center border border-outline-variant/30">
-                            <div class="w-full flex justify-between items-center pb-2">
-                                <span class="material-symbols-outlined text-secondary text-sm">all_inclusive</span>
-                                <span class="text-[10px] tracking-widest uppercase text-secondary font-bold">Exclusive Invitation</span>
-                                <span class="material-symbols-outlined text-secondary text-sm">all_inclusive</span>
-                            </div>
-
-                            <!-- Letter peek card -->
-                            <div class="w-full bg-surface-container-lowest rounded-lg p-2.5 shadow-sm flex items-center justify-between space-x-3 my-1 border border-outline-variant/20">
-                                <div class="flex items-center space-x-2.5 min-w-0">
-                                    <div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary flex-shrink-0">
-                                        <span class="material-symbols-outlined text-[18px]">mark_email_unread</span>
-                                    </div>
-                                    <div class="truncate">
-                                        <p class="text-[11px] text-primary font-bold tracking-wide uppercase truncate">Intimate Celebration</p>
-                                        <p class="text-xs text-on-surface-variant truncate">{{ $venueName }}</p>
-                                    </div>
-                                </div>
-                                <span class="font-serif text-secondary text-base font-bold">17th</span>
-                            </div>
-
-                            <!-- Wax Seal Emblem Target -->
-                            <div class="relative -mb-6 mt-3 group cursor-pointer" id="waxSealRing">
-                                <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-secondary to-secondary-fixed shadow-md flex items-center justify-center transform active:scale-95 transition-transform duration-300">
-                                    <div class="w-11 h-11 rounded-full bg-secondary-fixed flex items-center justify-center shadow-inner">
-                                        <span class="font-serif text-lg text-on-secondary-container italic font-bold">A</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            <!-- Center Showcase (Photo, Name, Guest Card) -->
+            <section class="w-full my-auto py-0.5 flex flex-col items-center text-center">
+                <!-- Cover Photo Banner -->
+                <div class="relative w-full h-24 rounded-xl overflow-hidden shadow-md border border-outline-variant/30 my-0.5 shrink-0">
+                    <img id="previewCoverPhotoImg" alt="Cover Photo" class="w-full h-full object-cover object-center" src="{{ $coverImg }}"/>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-primary/10"></div>
+                    <div class="absolute bottom-1 left-2.5 right-2.5 flex items-center justify-between text-on-primary">
+                        <span class="text-[9px] tracking-wider font-medium opacity-90 flex items-center gap-1 text-white">
+                            <span class="material-symbols-outlined text-[11px]">spa</span> Rustic Purple Dream
+                        </span>
+                        <span class="text-[8.5px] bg-primary/80 backdrop-blur-md px-2 py-0.5 rounded-full tracking-wider uppercase text-white font-bold">
+                            Chapter 17
+                        </span>
                     </div>
                 </div>
-            </div>
 
-            <!-- Recipient Tag Card -->
-            <div class="w-full bg-surface-container-low rounded-xl p-4 shadow-sm text-center space-y-1.5 mt-2 border border-outline-variant/30">
-                <p class="text-xs uppercase tracking-wider text-on-surface-variant font-medium">
-                    Kepada Yth. Bapak/Ibu/Saudara/i:
-                </p>
-                <div class="bg-surface-container-lowest rounded-lg py-2.5 px-4 shadow-inner flex flex-col items-center justify-center border border-outline-variant/20">
-                    <h2 id="previewGuestNameCover" class="font-serif text-2xl text-primary font-semibold tracking-tight">
+                <!-- Celebrant Name & Date -->
+                <div class="mt-0.5 mb-0.5 w-full">
+                    <h1 id="previewGroomNameCover" class="font-serif text-xl sm:text-2xl text-primary tracking-tight font-semibold truncate drop-shadow-sm">
+                        {{ $celebrantName }}
+                    </h1>
+                    <p class="text-[9.5px] uppercase tracking-widest text-secondary font-bold mt-0.5">
+                        {{ $eventDateFormatted }}
+                    </p>
+                </div>
+
+                <!-- Recipient Tag Card -->
+                <div class="w-full bg-surface-container-lowest/90 backdrop-blur-md rounded-xl p-2 shadow-sm text-center mt-0.5 border border-outline-variant/30">
+                    <span class="text-[8px] uppercase tracking-wider text-on-surface-variant font-medium block">
+                        Kepada Yth. Bapak/Ibu/Saudara/i:
+                    </span>
+                    <p id="previewGuestNameCover" class="font-serif text-base sm:text-lg text-primary font-semibold tracking-tight truncate mt-0.5">
                         {{ $guestName }}
-                    </h2>
-                    <p class="text-[10px] text-secondary tracking-normal mt-0.5">di Tempat</p>
+                    </p>
+                    <span class="text-[9.5px] text-secondary tracking-normal italic">di Tempat</span>
                 </div>
-                <p class="text-[11px] text-on-surface-variant italic leading-relaxed pt-1">
-                    *Merupakan suatu kehormatan atas kehadiran Anda di hari bahagia ini.
-                </p>
-            </div>
+            </section>
 
             <!-- CTA Button -->
-            <div class="w-full flex flex-col items-center space-y-2.5 pt-3">
-                <button id="btnOpenInvitation" type="button" class="w-full py-3.5 px-6 rounded-xl bg-primary hover:bg-primary-container text-on-primary text-xs uppercase font-bold tracking-wider shadow-lg active:scale-95 transition-all flex items-center justify-center space-x-2">
-                    <span class="material-symbols-outlined text-[20px]">drafts</span>
+            <footer class="w-full flex flex-col items-center gap-0.5 pt-0.5 shrink-0">
+                <button id="btnOpenInvitation" type="button" class="w-full py-2.5 px-4 rounded-xl bg-primary hover:bg-primary-container text-on-primary text-xs uppercase font-bold tracking-wider shadow-lg active:scale-95 transition-all flex items-center justify-center space-x-2 cursor-pointer pointer-events-auto">
+                    <span class="material-symbols-outlined text-[16px]">drafts</span>
                     <span>Buka Undangan</span>
-                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                    <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
                 </button>
 
-                <div class="flex items-center space-x-2 text-on-surface-variant bg-surface-container/70 px-3 py-1.5 rounded-full text-xs">
-                    <span class="material-symbols-outlined text-[15px] text-primary animate-pulse">volume_up</span>
-                    <span class="text-[11px]">Dilengkapi musik latar romantis</span>
+                <div class="flex items-center space-x-1.5 text-on-surface-variant text-[9px]">
+                    <span class="material-symbols-outlined text-[12px] text-primary">volume_up</span>
+                    <span>Musik latar otomatis diputar</span>
                 </div>
-            </div>
-
-            <!-- Footer note -->
-            <div class="text-center pt-3 pb-2 space-y-0.5">
-                <p class="font-serif text-sm text-secondary italic">Dengan Penuh Kasih & Rasa Syukur</p>
-                <p class="text-[10px] text-on-surface-variant uppercase tracking-widest font-semibold">{{ $familyLine }}</p>
-            </div>
+            </footer>
         </div>
     </div>
 

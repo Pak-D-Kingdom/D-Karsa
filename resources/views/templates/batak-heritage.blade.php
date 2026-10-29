@@ -107,9 +107,14 @@
         .toast-active {
             animation: toastFade 2.8s ease forwards;
         }
+
+        /* Hide scrollbars for app-like clean mobile experience */
+        ::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
-<body class="gorga-bg text-slate-200 font-sans antialiased selection:bg-batak-gold selection:text-batak-black">
+<body class="gorga-bg text-slate-200 font-sans antialiased selection:bg-batak-gold selection:text-batak-black overflow-hidden">
 
     @php
         $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo, 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=1200&q=80&auto=format&fit=crop');
@@ -125,6 +130,28 @@
         $brideName = $couple->bride_name ?? 'Grace Boru Simanjuntak';
         $groomFull = $couple->groom_fullname ?? $groomName;
         $brideFull = $couple->bride_fullname ?? $brideName;
+
+        $activeEvents = collect($couple->events ?? []);
+        if ($activeEvents->isEmpty()) {
+            $activeEvents = collect([
+                (object)[
+                    'title' => 'Pemberkatan Nikah Kudus',
+                    'date' => $weddingDateFormatted,
+                    'start_time' => '09:00',
+                    'end_time' => '11:00',
+                    'venue_name' => 'Gereja HKBP Sudirman Medan',
+                    'address' => 'Ibadah sakramen pernikahan kudus, pengucapan janji setia di hadapan Tuhan dan jemaat.',
+                ],
+                (object)[
+                    'title' => 'Pesta Unjuk & Mangulosi',
+                    'date' => $weddingDateFormatted,
+                    'start_time' => '11:30',
+                    'end_time' => '17:30',
+                    'venue_name' => 'Wisma Taman Sari Indah / Grand Ballroom',
+                    'address' => 'Pasu-pasu raja, pembagian jambar juhut & jambar hepeng, prosesi Mangulosi oleh Hula-hula, serta manortor bersama diiringi Gondang Sabangunan.',
+                ],
+            ]);
+        }
     @endphp
 
     <!-- Background Audio -->
@@ -144,57 +171,77 @@
     </div>
 
     <!-- ========================================================
-         BATAK GORGA HERITAGE COVER SCREEN
+         BATAK GORGA HERITAGE COVER SCREEN (Full Screen Mobile Cover)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-black/95 p-3 sm:p-4 transition-all duration-1000 ease-in-out">
-        <div class="relative w-full max-w-sm bg-batak-maroon rounded-3xl p-5 sm:p-7 text-center shadow-2xl gorga-border overflow-hidden my-auto">
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-batak-darkmaroon gorga-bg flex flex-col justify-between items-center px-3 py-2 sm:py-4 transition-all duration-700 ease-in-out text-slate-200 select-none">
+        <!-- Ambient Batak Shimmer Glows (Clipped to prevent unwanted scrollbars) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-batak-gold/15 blur-3xl"></div>
+            <div class="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-batak-wine/30 blur-3xl"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-batak-black/75 via-transparent to-batak-black/85"></div>
+        </div>
+
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
             
-            <!-- Ulos Accent Ribbon Top -->
-            <div class="ulos-ribbon absolute top-0 left-0 right-0"></div>
+            <!-- TOP BAR: Ulos Ribbon, Emblem & Horas Jala Gabe -->
+            <header class="w-full flex flex-col items-center shrink-0">
+                <div class="ulos-ribbon mb-1.5 shadow-sm"></div>
 
-            <!-- Gorga Batak Emblem -->
-            <div class="w-16 h-16 mx-auto mb-3 mt-1 rounded-2xl bg-batak-darkmaroon border border-batak-gold/60 flex items-center justify-center shadow-inner text-2xl">
-                🏛️
-            </div>
-
-            <p class="font-cinzel text-xs font-bold text-batak-goldlight tracking-[0.25em] uppercase">HORAS JALA GABE</p>
-            <span class="inline-block px-3.5 py-1 rounded-full text-[9px] font-cinzel font-bold uppercase tracking-[0.25em] bg-batak-gold/15 text-batak-gold border border-batak-gold/40 my-2">
-                {{ $couple->event_heading ?? "THE BATAK HERITAGE WEDDING" }}
-            </span>
-
-            <!-- Couple Cover Image Frame -->
-            <div class="relative w-48 h-56 mx-auto rounded-2xl overflow-hidden border-2 border-batak-gold shadow-2xl my-3 bg-batak-black">
-                <img id="previewCoverPhotoImg" src="{{ $coverImg }}" alt="Cover Batak Wedding" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-batak-darkmaroon/80 via-transparent to-transparent"></div>
-                <div class="absolute bottom-2.5 inset-x-0 text-center">
-                    <span class="text-[9px] font-cinzel text-batak-goldlight uppercase tracking-widest px-3 py-1 bg-black/50 rounded-full">
-                        ULAON UNJUK &amp; PAMASUMASUON
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-8 h-8 rounded-xl bg-batak-darkmaroon border border-batak-gold/60 flex items-center justify-center shadow-md text-base mb-0.5">
+                        🏛️
+                    </div>
+                    <p class="font-cinzel text-[9px] font-bold text-batak-goldlight tracking-[0.25em] uppercase">
+                        HORAS JALA GABE
+                    </p>
+                    <span id="previewHeadingCover" class="inline-block px-2.5 py-0.5 rounded-full text-[8px] font-cinzel font-bold uppercase tracking-[0.2em] bg-batak-gold/15 text-batak-gold border border-batak-gold/40 mt-0.5">
+                        {{ $couple->event_heading ?? "THE BATAK HERITAGE WEDDING" }}
                     </span>
                 </div>
-            </div>
+            </header>
 
-            <!-- Bride & Groom Names -->
-            <div class="my-3">
-                <h1 class="font-serif text-2xl sm:text-3xl font-bold gold-shimmer tracking-wide leading-tight">
-                    {{ $groomName }}
-                    <span class="block text-xl text-batak-gold my-0.5">&amp;</span>
-                    {{ $brideName }}
-                </h1>
-                <p class="text-xs text-slate-300 font-sans mt-2">
-                    📅 {{ $weddingDateFormatted }}
+            <!-- CENTER SECTION: Couple Cover Picture & Sacred Names -->
+            <section class="w-full my-auto py-0.5 flex flex-col items-center text-center">
+                <!-- Panoramic/Portrait Cover Image Frame -->
+                <div class="relative w-full max-w-[210px] h-24 sm:h-28 rounded-2xl overflow-hidden border-2 border-batak-gold shadow-xl my-1 bg-batak-black shrink-0">
+                    <img id="previewCoverPhotoImg" src="{{ $coverImg }}" alt="Cover Batak Wedding" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-batak-darkmaroon/85 via-transparent to-transparent pointer-events-none"></div>
+                    <div class="absolute bottom-1 inset-x-0 text-center">
+                        <span class="text-[7.5px] font-cinzel text-batak-goldlight uppercase tracking-widest px-2 py-0.5 bg-black/60 rounded-full border border-batak-gold/30">
+                            ULAON UNJUK &amp; PAMASUMASUON
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Bride & Groom Sacred Names -->
+                <div class="mt-0.5 mb-0.5 w-full">
+                    <h1 id="previewNamesCover" class="font-serif text-base sm:text-lg font-bold gold-shimmer tracking-wide leading-tight truncate">
+                        {{ $groomName }} <span class="text-batak-gold font-normal">&amp;</span> {{ $brideName }}
+                    </h1>
+                    <p id="previewDateCover" class="text-[9px] text-slate-300 font-sans mt-0.5">
+                        📅 {{ $weddingDateFormatted }}
+                    </p>
+                </div>
+
+                <!-- Guest Pass with Batak Kinship Honor (Dihonhon Tu Angkanina) -->
+                <div class="w-full py-1 px-3 rounded-xl bg-batak-darkmaroon/90 backdrop-blur-md border border-batak-gold/40 text-center shadow-md mt-0.5">
+                    <span class="text-[7px] font-cinzel uppercase tracking-[0.2em] text-batak-gold/90 block font-semibold">DIHONHON TU ANGKANINA:</span>
+                    <b id="previewGuestNameCover" class="text-xs font-sans font-bold text-white block mt-0.5 truncate">
+                        {{ $guest->name ?? 'Dongan Tubu, Boru, Bere & Tamu Na Sangap' }}
+                    </b>
+                </div>
+            </section>
+
+            <!-- BOTTOM SECTION: Full-width CTA Button -->
+            <footer class="w-full pt-1 flex flex-col items-center gap-0.5 shrink-0">
+                <button id="open-invitation-btn" type="button" onclick="openInvitation()" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-batak-gold via-[#edd292] to-batak-gold hover:brightness-110 active:scale-[0.98] text-batak-black font-cinzel text-[11px] font-black uppercase tracking-[0.2em] shadow-[0_6px_16px_rgba(212,175,55,0.4)] transition flex items-center justify-center gap-1.5 relative z-20 pointer-events-auto cursor-pointer">
+                    <span>🧣</span> <span>BUKA UNDANGAN ADAT BATAK</span> <span>&rarr;</span>
+                </button>
+                <p class="text-[8.5px] font-sans text-slate-400 flex items-center gap-1">
+                    <span class="text-batak-gold">♫</span> Musik Gondang Sabangunan diputar saat dibuka
                 </p>
-            </div>
-
-            <!-- Guest Pass with Batak Kinship Honor -->
-            <div class="my-4 p-3 rounded-2xl bg-batak-darkmaroon/80 border border-batak-gold/30 text-center">
-                <span class="text-[9px] font-cinzel uppercase tracking-[0.2em] text-batak-gold/90 block">DIHONHON TU ANGKANINA:</span>
-                <b class="text-sm font-sans font-bold text-white block mt-0.5">{{ $guest->name ?? 'Dongan Tubu, Boru, Bere & Tamu Na Sangap' }}</b>
-            </div>
-
-            <!-- Buka Undangan Action -->
-            <button type="button" onclick="openInvitation()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-batak-gold to-batak-goldmuted hover:brightness-110 text-batak-black font-cinzel text-xs font-bold uppercase tracking-[0.25em] shadow-lg transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
-                <span>🧣</span> BUKA UNDANGAN ADAT BATAK
-            </button>
+                <div class="ulos-ribbon mt-0.5 shadow-sm"></div>
+            </footer>
         </div>
     </div>
 
@@ -345,28 +392,22 @@
                 <h2 class="font-serif text-2xl font-bold text-white mt-1">Rangkaian Acara Adat 🧣</h2>
             </div>
 
-            <div class="space-y-4 max-w-sm mx-auto">
-                <!-- Sesi 1: Pamasumasuon -->
-                <div class="p-5 rounded-2xl bg-batak-cardlight border border-batak-gold/30">
-                    <div class="flex items-center justify-between text-batak-gold text-xs font-cinzel mb-1">
-                        <span>PAMASUMASUON • GEREJA</span>
-                        <span>09:00 - 11:00 WIB</span>
+            <div id="itineraryContainer" class="space-y-4 max-w-sm mx-auto">
+                @foreach($activeEvents as $index => $event)
+                    <div class="p-5 rounded-2xl bg-batak-cardlight border border-batak-gold/30">
+                        <div class="flex items-center justify-between text-batak-gold text-xs font-cinzel mb-1">
+                            <span class="uppercase tracking-wider">{{ $event->title ?? 'Sesi Acara' }}</span>
+                            <span>{{ !empty($event->start_time) ? substr($event->start_time, 0, 5) : '09:00' }}{{ !empty($event->end_time) ? ' - ' . substr($event->end_time, 0, 5) : '' }} WIB</span>
+                        </div>
+                        <h3 class="font-serif text-base font-bold text-white">{{ $event->title ?? 'Acara Pernikahan' }}</h3>
+                        @if(!empty($event->venue_name))
+                            <p class="text-xs text-batak-goldlight mt-1 font-medium">{{ $event->venue_name }}</p>
+                        @endif
+                        @if(!empty($event->address))
+                            <p class="text-xs text-slate-300 mt-1 leading-relaxed">{{ $event->address }}</p>
+                        @endif
                     </div>
-                    <h3 class="font-serif text-base font-bold text-white">Pemberkatan Nikah Kudus</h3>
-                    <p class="text-xs text-batak-goldlight mt-1">Gereja HKBP Sudirman Medan</p>
-                    <p class="text-xs text-slate-300 mt-1">Ibadah sakramen pernikahan kudus, pengucapan janji setia di hadapan Tuhan dan jemaat.</p>
-                </div>
-
-                <!-- Sesi 2: Ulaon Unjuk -->
-                <div class="p-5 rounded-2xl bg-batak-cardlight border border-batak-gold/50 shadow-md">
-                    <div class="flex items-center justify-between text-batak-gold text-xs font-cinzel mb-1">
-                        <span>ULAON UNJUK • ADAT BATAK</span>
-                        <span>11:30 - 17:30 WIB</span>
-                    </div>
-                    <h3 class="font-serif text-base font-bold text-white">Pesta Unjuk &amp; Mangulosi</h3>
-                    <p class="text-xs text-batak-goldlight mt-1">Wisma Taman Sari Indah / Grand Ballroom</p>
-                    <p class="text-xs text-slate-300 mt-1">Pasu-pasu raja, pembagian jambar juhut &amp; jambar hepeng, prosesi Mangulosi oleh Hula-hula, serta manortor bersama diiringi Gondang Sabangunan.</p>
-                </div>
+                @endforeach
             </div>
 
             <!-- Venue Details & Maps Button -->
@@ -561,13 +602,19 @@
         function openInvitation() {
             const cover = document.getElementById('coverScreen');
             if (cover) {
+                cover.style.pointerEvents = 'none';
                 cover.style.opacity = '0';
                 cover.style.transform = 'translateY(-100%)';
-                setTimeout(() => cover.classList.add('hidden'), 1000);
+                setTimeout(() => {
+                    cover.classList.add('hidden');
+                    cover.style.display = 'none';
+                    document.body.classList.remove('overflow-hidden');
+                }, 700);
             }
             if (audioBtn) audioBtn.classList.remove('hidden');
             toggleAudio();
         }
+        window.openInvitation = openInvitation;
 
         function copyToClipboard(text, msg) {
             navigator.clipboard.writeText(text).then(() => {
@@ -682,6 +729,30 @@
             });
         }
 
+        function renderDynamicEvents(events) {
+            const container = document.getElementById('itineraryContainer');
+            if (!container || !Array.isArray(events) || events.length === 0) return;
+
+            container.innerHTML = events.map(ev => {
+                const title = ev.title || 'Sesi Acara';
+                const startTime = ev.start_time ? ev.start_time.substring(0, 5) : '09:00';
+                const endTime = ev.end_time ? ' - ' + ev.end_time.substring(0, 5) : '';
+                const venue = ev.venue_name ? `<p class="text-xs text-batak-goldlight mt-1 font-medium">${ev.venue_name}</p>` : '';
+                const addr = ev.address ? `<p class="text-xs text-slate-300 mt-1 leading-relaxed">${ev.address}</p>` : '';
+                return `
+                    <div class="p-5 rounded-2xl bg-batak-cardlight border border-batak-gold/30">
+                        <div class="flex items-center justify-between text-batak-gold text-xs font-cinzel mb-1">
+                            <span class="uppercase tracking-wider">${title}</span>
+                            <span>${startTime}${endTime} WIB</span>
+                        </div>
+                        <h3 class="font-serif text-base font-bold text-white">${title}</h3>
+                        ${venue}
+                        ${addr}
+                    </div>
+                `;
+            }).join('');
+        }
+
         window.addEventListener('message', function(event) {
             if (!event.data) return;
             if (event.data.type === 'UPDATE_PREVIEW_PHOTO') {
@@ -708,6 +779,8 @@
                 }
             } else if (event.data.type === 'UPDATE_PREVIEW_GALLERY' && Array.isArray(event.data.images)) {
                 renderDynamicGallery(event.data.images);
+            } else if (event.data.type === 'UPDATE_PREVIEW_EVENTS' && Array.isArray(event.data.events)) {
+                renderDynamicEvents(event.data.events);
             } else if (event.data.type === 'RESET_PREVIEW_GALLERY') {
                 window.location.reload();
             } else if (event.data.type === 'UPDATE_PREVIEW_PARENTS') {
@@ -718,6 +791,23 @@
                 if (event.data.brideParents) {
                     const el = document.getElementById('previewBatakBrideParentsText');
                     if (el) el.textContent = event.data.brideParents;
+                }
+            } else if (event.data.type === 'UPDATE_PREVIEW_FIELD') {
+                const field = event.data.field;
+                const value = event.data.value;
+                if (field === 'event_heading') {
+                    const el = document.getElementById('previewHeadingCover');
+                    if (el) el.textContent = value;
+                } else if (field === 'groom_name' || field === 'bride_name') {
+                    const el = document.getElementById('previewNamesCover');
+                    if (el) {
+                        const gName = field === 'groom_name' ? value : '{{ $groomName }}';
+                        const bName = field === 'bride_name' ? value : '{{ $brideName }}';
+                        el.innerHTML = `${gName} <span class="text-batak-gold font-normal">&amp;</span> ${bName}`;
+                    }
+                } else if (field === 'guest_name' || field === 'to') {
+                    const el = document.getElementById('previewGuestNameCover');
+                    if (el) el.textContent = value;
                 }
             }
         });

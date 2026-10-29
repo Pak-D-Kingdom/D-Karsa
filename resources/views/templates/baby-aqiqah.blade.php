@@ -84,9 +84,13 @@
         .toast-active {
             animation: toastSlide 2.8s ease forwards;
         }
+        /* Hide scrollbars for app-like clean mobile experience */
+        ::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
-<body class="starlight-pattern text-nursery-ink font-sans antialiased selection:bg-nursery-mint selection:text-white">
+<body class="starlight-pattern text-nursery-ink font-sans antialiased selection:bg-nursery-mint selection:text-white overflow-hidden">
 
     @php
         $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo, 'https://images.unsplash.com/photo-1519689680058-324335c77eba?w=1200');
@@ -123,51 +127,64 @@
     </div>
 
     <!-- ========================================================
-         NURSERY CLOUD & STARLIGHT COVER SCREEN
+         NURSERY CLOUD & STARLIGHT COVER SCREEN (Edge-to-Edge Full Screen)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-gradient-to-b from-[#EBF4F0] via-[#F4EFE6] to-[#E8F1F5] p-3 sm:p-4 transition-all duration-700 ease-in-out">
-        <div id="previewCoverBg" class="absolute inset-0 bg-cover bg-center opacity-15 mix-blend-overlay pointer-events-none" style="background-image: url('{{ $coverImg }}');"></div>
-        <div class="relative w-full max-w-sm bg-white rounded-3xl p-5 sm:p-7 text-center shadow-2xl border-2 border-nursery-mint/30 overflow-hidden my-auto">
-            
-            <!-- Floating Crescent Moon & Star -->
-            <div class="w-16 h-16 mx-auto mb-3 rounded-full bg-nursery-softmint flex items-center justify-center text-3xl animate-float-cloud">
-                🌙
-            </div>
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-gradient-to-b from-[#EBF4F0] via-[#F4EFE6] to-[#E8F1F5] starlight-pattern flex flex-col justify-between items-center px-3.5 py-2.5 sm:py-4 transition-all duration-700 ease-in-out text-nursery-ink select-none">
+        <!-- Ambient Nursery Glows (Clipped) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div id="previewCoverBg" class="absolute inset-0 bg-cover bg-center opacity-10 mix-blend-overlay" style="background-image: url('{{ $coverImg }}');"></div>
+            <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-nursery-mint/15 blur-3xl"></div>
+            <div class="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-nursery-gold/15 blur-3xl"></div>
+        </div>
 
-            <!-- Arabic Bismillah Calligraphy -->
-            <p class="font-serif text-lg text-nursery-mint font-bold mb-1">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
-            <span class="inline-block px-3.5 py-1 rounded-full text-[10px] font-quick font-bold uppercase tracking-wider bg-nursery-goldlight text-nursery-gold border border-nursery-gold/30 mb-3">
-                {{ $couple->event_heading ?? "TASYAKURAN AQIQAH & TASMIYAH" }}
-            </span>
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
+            <!-- Header -->
+            <header class="w-full flex flex-col items-center text-center shrink-0">
+                <div class="w-8 h-8 mx-auto mb-1 rounded-full bg-nursery-softmint flex items-center justify-center text-lg animate-float-cloud">
+                    🌙
+                </div>
+                <p class="font-serif text-base text-nursery-mint font-bold mb-0.5">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+                <span id="previewHeadingCover" class="inline-block px-2.5 py-0.5 rounded-full text-[8.5px] font-quick font-bold uppercase tracking-wider bg-nursery-goldlight text-nursery-gold border border-nursery-gold/30">
+                    {{ $couple->event_heading ?? "TASYAKURAN AQIQAH & TASMIYAH" }}
+                </span>
+            </header>
 
-            <!-- Baby Photo in Cloud Beaded Frame -->
-            <div class="relative w-44 h-44 mx-auto rounded-full overflow-hidden border-4 border-nursery-mint/40 p-1 bg-white shadow-xl my-3">
-                <img id="previewBabyPhotoCoverImg" src="{{ $babyImg }}" alt="{{ $babyName }}" class="w-full h-full object-cover rounded-full">
-            </div>
+            <!-- Center Showcase -->
+            <section class="w-full my-auto py-0.5 flex flex-col items-center text-center">
+                <!-- Baby Photo in Cloud Beaded Frame -->
+                <div class="relative w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-full overflow-hidden border-3 border-nursery-mint/50 p-1 bg-white shadow-lg my-1 shrink-0">
+                    <img id="previewBabyPhotoCoverImg" src="{{ $babyImg }}" alt="{{ $babyName }}" class="w-full h-full object-cover rounded-full">
+                </div>
 
-            <!-- Baby's Name -->
-            <div class="my-3">
-                <h1 class="font-serif text-2xl sm:text-3xl font-bold text-nursery-ink leading-tight">
-                    {{ $babyName }}
-                </h1>
-                <p class="text-xs text-nursery-mint font-quick font-bold uppercase tracking-wider mt-1">
-                    Buah Hati Tercinta
+                <!-- Baby's Name -->
+                <div class="mt-0.5 mb-0.5 w-full">
+                    <h1 id="previewBabyNameCover" class="font-serif text-lg sm:text-xl font-bold text-nursery-ink leading-tight truncate">
+                        {{ $babyName }}
+                    </h1>
+                    <p class="text-[9.5px] text-nursery-mint font-quick font-bold uppercase tracking-wider mt-0.5">
+                        Buah Hati Tercinta
+                    </p>
+                    <p class="text-[9.5px] text-slate-500 font-medium mt-0.5">
+                        📅 {{ $eventDateFormatted }}
+                    </p>
+                </div>
+
+                <!-- Guest Card -->
+                <div class="w-full py-1 px-3 rounded-xl bg-white/90 backdrop-blur-md border border-nursery-mint/30 text-center shadow-xs mt-0.5">
+                    <span class="text-[7.5px] font-quick uppercase tracking-wider text-nursery-mint font-bold block">UNDANGAN KEPADA YTH:</span>
+                    <b id="previewGuestNameCover" class="text-xs font-serif text-nursery-ink block mt-0.5 truncate">{{ $guest->name ?? 'Bapak / Ibu / Saudara/i' }}</b>
+                </div>
+            </section>
+
+            <!-- Bottom Button -->
+            <footer class="w-full pt-1 flex flex-col items-center gap-0.5 shrink-0">
+                <button id="open-invitation-btn" type="button" onclick="openInvitation()" class="w-full py-2.5 px-4 rounded-xl bg-nursery-mint hover:bg-[#5B8071] active:scale-[0.98] text-white font-quick text-xs font-bold uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-1.5 relative z-20 pointer-events-auto cursor-pointer">
+                    <span>🌙</span> <span>BUKA UNDANGAN AQIQAH</span> <span>&rarr;</span>
+                </button>
+                <p class="text-[8.5px] font-sans text-slate-500 flex items-center gap-1">
+                    <span class="text-nursery-mint">♫</span> Musik pengantar tidur & doa diputar saat dibuka
                 </p>
-                <p class="text-xs text-slate-500 font-medium mt-1">
-                    📅 {{ $eventDateFormatted }}
-                </p>
-            </div>
-
-            <!-- Guest Card -->
-            <div class="mt-4 p-3 rounded-2xl bg-nursery-softmint/60 border border-nursery-mint/30 text-center">
-                <span class="text-[9px] font-quick uppercase tracking-wider text-nursery-mint font-bold block">UNDANGAN KEPADA YTH:</span>
-                <b class="text-sm font-serif text-nursery-ink block mt-0.5">{{ $guest->name ?? 'Bapak / Ibu / Saudara/i' }}</b>
-            </div>
-
-            <!-- Open Invitation Action -->
-            <button type="button" onclick="openInvitation()" class="mt-6 w-full py-3.5 rounded-2xl bg-nursery-mint hover:bg-[#5B8071] text-white font-quick text-xs font-bold uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
-                <span>🌙</span> BUKA UNDANGAN AQIQAH
-            </button>
+            </footer>
         </div>
     </div>
 
@@ -599,13 +616,19 @@
         function openInvitation() {
             const cover = document.getElementById('coverScreen');
             if (cover) {
+                cover.style.pointerEvents = 'none';
                 cover.style.opacity = '0';
                 cover.style.transform = 'translateY(-100%)';
-                setTimeout(() => cover.classList.add('hidden'), 700);
+                setTimeout(() => {
+                    cover.classList.add('hidden');
+                    cover.style.display = 'none';
+                    document.body.classList.remove('overflow-hidden');
+                }, 700);
             }
             if (audioBtn) audioBtn.classList.remove('hidden');
             toggleAudio();
         }
+        window.openInvitation = openInvitation;
 
         function copyToClipboard(text, msg) {
             navigator.clipboard.writeText(text).then(() => {

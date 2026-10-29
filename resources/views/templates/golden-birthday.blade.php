@@ -92,9 +92,14 @@
         .toast-active {
             animation: toastSlide 2.8s ease forwards;
         }
+
+        /* Hide scrollbars for app-like clean mobile experience */
+        ::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
-<body class="bg-noir-base text-slate-200 font-sans antialiased selection:bg-noir-gold selection:text-noir-base">
+<body class="bg-noir-base text-slate-200 font-sans antialiased selection:bg-noir-gold selection:text-noir-base overflow-hidden">
 
     @php
         $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo, 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=1200');
@@ -133,61 +138,69 @@
     <!-- ========================================================
          VIP PASS COVER SCREEN (Modern Luxury Nightclub & Gatsby)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-black/95 p-3 sm:p-4 transition-all duration-1000 ease-in-out">
-        <div id="previewCoverBg" class="absolute inset-0 bg-cover bg-center opacity-20 pointer-events-none" style="background-image: url('{{ $coverImg }}');"></div>
-        
-        <!-- Background Ambient Bokeh -->
-        <div class="bokeh-dot w-48 h-48 top-12 left-8" style="animation-delay: 0s;"></div>
-        <div class="bokeh-dot w-64 h-64 bottom-16 right-6" style="animation-delay: 2.5s;"></div>
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-noir-base flex flex-col justify-between items-center px-3.5 py-3 sm:py-5 transition-all duration-700 ease-in-out text-slate-200 select-none">
+        <!-- Ambient Luxury Glows (Clipped) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div id="previewCoverBg" class="absolute inset-0 bg-cover bg-center opacity-15" style="background-image: url('{{ $coverImg }}');"></div>
+            <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-noir-gold/15 blur-3xl"></div>
+            <div class="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-noir-goldbright/10 blur-3xl"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-noir-base/85 via-noir-deep/60 to-noir-base/90"></div>
+        </div>
 
-        <div class="relative w-full max-w-sm vip-ticket rounded-2xl p-5 sm:p-7 text-center shadow-2xl overflow-hidden backdrop-blur-md my-auto">
-            
-            <!-- Metallic Ticket Ribbon -->
-            <div class="flex items-center justify-between pb-3.5 border-b border-white/10 text-[9px] font-mono tracking-[0.25em] text-noir-gold/80 uppercase">
-                <span>VIP PASS #{{ rand(1000, 9999) }}</span>
-                <span>EXCLUSIVE ACCESS</span>
-            </div>
-
-            <!-- Spotlight Monogram -->
-            <div class="my-5 text-center">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-tr from-noir-cardlight to-noir-deep border border-noir-gold/50 shadow-inner mb-3">
-                    <span class="text-2xl">🍸</span>
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
+            <!-- Header Bar: Ticket Ribbon & Monogram -->
+            <header class="w-full flex flex-col items-center shrink-0">
+                <div class="w-full flex items-center justify-between pb-1.5 border-b border-white/10 text-[8.5px] font-mono tracking-[0.2em] text-noir-gold/80 uppercase">
+                    <span>VIP PASS #{{ rand(1000, 9999) }}</span>
+                    <span>EXCLUSIVE ACCESS</span>
                 </div>
-                <span class="inline-block px-3 py-1 rounded-full text-[9px] font-mono font-bold tracking-[0.25em] uppercase bg-noir-gold/10 text-noir-gold border border-noir-gold/30">
-                    {{ $couple->event_heading ?? "A GOLDEN SOIRÉE" }}
-                </span>
-            </div>
+                <div class="mt-1 flex flex-col items-center text-center">
+                    <span id="previewHeadingCover" class="inline-block px-2.5 py-0.5 rounded-full text-[8.5px] font-mono font-bold tracking-[0.2em] uppercase bg-noir-gold/15 text-noir-gold border border-noir-gold/30">
+                        {{ $couple->event_heading ?? "A GOLDEN SOIRÉE" }}
+                    </span>
+                </div>
+            </header>
 
-            <!-- Celebrant Photo Frame -->
-            <div class="relative w-44 h-44 mx-auto rounded-full overflow-hidden border-2 border-noir-gold shadow-2xl my-4">
-                <img id="previewCelebrantPhotoCoverImg" src="{{ $celebrantImg }}" alt="{{ $celebrantName }}" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-            </div>
+            <!-- Center Showcase (Celebrant Photo, Name, Guest Card) -->
+            <section class="w-full my-auto py-1 flex flex-col items-center text-center">
+                <!-- Celebrant Photo Frame -->
+                <div class="relative w-24 h-24 sm:w-28 sm:h-28 mx-auto rounded-full overflow-hidden border-2 border-noir-gold shadow-2xl my-1 shrink-0">
+                    <img id="previewCelebrantPhotoCoverImg" src="{{ $celebrantImg }}" alt="{{ $celebrantName }}" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
+                </div>
 
-            <!-- Event Headings -->
-            <div class="my-3">
-                <p class="text-[10px] tracking-[0.3em] uppercase text-slate-400 font-mono">CELEBRATING THE BIRTHDAY OF</p>
-                <h1 class="font-cinzel text-2xl sm:text-3xl font-extrabold gold-shimmer tracking-wider mt-1">
-                    {{ $celebrantName }}
-                </h1>
-                <p class="text-xs text-noir-champagne font-mono mt-1 tracking-widest">
-                    {{ $eventDateFormatted }}
+                <!-- Event Headings -->
+                <div class="mt-1 mb-0.5 w-full">
+                    <p class="text-[9px] tracking-[0.25em] uppercase text-slate-400 font-mono">CELEBRATING THE BIRTHDAY OF</p>
+                    <h1 id="previewGroomNameCover" class="font-cinzel text-xl sm:text-2xl font-extrabold gold-shimmer tracking-wider mt-0.5 truncate">
+                        {{ $celebrantName }}
+                    </h1>
+                    <p class="text-[9.5px] text-noir-champagne font-mono mt-0.5 tracking-wider">
+                        📅 {{ $eventDateFormatted }}
+                    </p>
+                </div>
+
+                <!-- Guest Invitation Admit One Card -->
+                <div class="w-full py-1.5 px-3 rounded-xl bg-noir-card/90 backdrop-blur-md border border-noir-gold/30 text-center shadow-md mt-1">
+                    <span class="text-[7.5px] font-mono uppercase tracking-[0.2em] text-slate-400 block font-semibold">ADMIT ONE VIP:</span>
+                    <p id="previewGuestNameCover" class="font-syne text-xs sm:text-sm font-bold text-white mt-0.5 truncate">
+                        {{ $guest->name ?? 'Tamu Spesial' }}
+                    </p>
+                    @if(!empty($guest->seat_table))
+                        <span class="inline-block mt-0.5 text-[8.5px] text-noir-gold font-mono">TABLE: {{ $guest->seat_table }}</span>
+                    @endif
+                </div>
+            </section>
+
+            <!-- Footer: Unlock Invitation Action -->
+            <footer class="w-full pt-1 flex flex-col items-center gap-1 shrink-0">
+                <button id="open-invitation-btn" type="button" onclick="openInvitation()" class="w-full py-2.5 sm:py-3 px-5 rounded-xl bg-gradient-to-r from-noir-gold via-[#FFE57F] to-noir-gold text-noir-base font-syne text-xs font-black uppercase tracking-[0.22em] shadow-[0_8px_20px_rgba(244,196,48,0.4)] hover:brightness-110 active:scale-[0.98] transition flex items-center justify-center gap-2 cursor-pointer pointer-events-auto">
+                    <span>✦</span> <span>BUKA UNDANGAN VIP</span> <span>&rarr;</span>
+                </button>
+                <p class="text-[9px] font-mono text-slate-400 flex items-center gap-1">
+                    <span class="text-noir-gold">♫</span> Musik perayaan diputar saat dibuka
                 </p>
-            </div>
-
-            <!-- Guest Invitation Admit One Card -->
-            <div class="my-5 p-3.5 rounded-xl bg-noir-cardlight/70 border border-white/10 text-center">
-                <span class="text-[9px] font-mono uppercase tracking-[0.25em] text-slate-400 block">ADMIT ONE VIP:</span>
-                <p class="font-syne text-sm font-bold text-white mt-0.5">{{ $guest->name ?? 'Tamu Spesial' }}</p>
-                @if(!empty($guest->seat_table))
-                    <span class="inline-block mt-0.5 text-[10px] text-noir-gold font-mono">TABLE: {{ $guest->seat_table }}</span>
-                @endif
-            </div>
-
-            <!-- Unlock Invitation Action -->
-            <button type="button" onclick="openInvitation()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-noir-gold via-[#FFE57F] to-noir-gold text-noir-base font-syne text-xs font-black uppercase tracking-[0.25em] shadow-lg hover:brightness-110 transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
-                <span>✦</span> BUKA UNDANGAN VIP
-            </button>
+            </footer>
         </div>
     </div>
 
@@ -565,13 +578,19 @@
         function openInvitation() {
             const cover = document.getElementById('coverScreen');
             if (cover) {
+                cover.style.pointerEvents = 'none';
                 cover.style.opacity = '0';
                 cover.style.transform = 'translateY(-100%)';
-                setTimeout(() => cover.classList.add('hidden'), 1000);
+                setTimeout(() => {
+                    cover.classList.add('hidden');
+                    cover.style.display = 'none';
+                    document.body.classList.remove('overflow-hidden');
+                }, 700);
             }
             if (audioBtn) audioBtn.classList.remove('hidden');
             toggleAudio();
         }
+        window.openInvitation = openInvitation;
 
         function copyToClipboard(text, msg) {
             navigator.clipboard.writeText(text).then(() => {

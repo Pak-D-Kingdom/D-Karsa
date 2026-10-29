@@ -111,9 +111,13 @@
             color: #d4af37;
             font-size: 14px;
         }
+        /* Hide scrollbars for app-like clean mobile experience */
+        ::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
-<body class="bg-black text-keraton-cream font-sans antialiased selection:bg-keraton-gold selection:text-black">
+<body class="batik-bg text-keraton-cream font-sans antialiased selection:bg-keraton-gold selection:text-black overflow-hidden">
 
     @php
         $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo, 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=1200');
@@ -141,21 +145,24 @@
     <div id="ambientGoldDust" class="fixed inset-0 pointer-events-none overflow-hidden z-30"></div>
 
     <!-- ========================================================
-         COVER SCREEN (3D Gunungan Wayang Kulit & Royal Gold)
+         COVER SCREEN (3D Gunungan Wayang Kulit - Edge-to-Edge Full Screen)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col bg-gradient-to-b from-[#140e0a] via-[#1b130d] to-[#0c0805] text-keraton-cream p-3 sm:p-4 transition-all duration-700 ease-in-out">
-        <div class="min-h-full flex flex-col justify-center items-center my-auto py-2 sm:py-3 w-full">
-            <div id="previewCoverBg" class="fixed inset-0 bg-cover bg-center opacity-20 mix-blend-luminosity pointer-events-none" style="background-image: url('{{ $coverImg }}');"></div>
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col justify-between items-center bg-[#140e0a] batik-bg text-keraton-cream px-3.5 py-2.5 sm:py-4 transition-all duration-700 ease-in-out select-none">
+        <!-- Ambient Royal Glows (Clipped) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div id="previewCoverBg" class="absolute inset-0 bg-cover bg-center opacity-15 mix-blend-luminosity" style="background-image: url('{{ $coverImg }}');"></div>
+            <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-keraton-gold/15 blur-3xl"></div>
+            <div class="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-amber-950/30 blur-3xl"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-black/75 via-transparent to-black/85"></div>
+        </div>
 
-            <!-- Center Royal Frame -->
-            <div class="relative z-10 w-full max-w-sm sm:max-w-md bg-gradient-to-b from-[#221810]/95 to-[#150e09]/95 border-2 border-keraton-gold rounded-[32px] sm:rounded-[38px] p-5 sm:p-8 text-center shadow-[0_25px_60px_rgba(0,0,0,0.9)] backdrop-blur-md my-auto">
-                
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
+            <!-- Header -->
+            <header class="w-full flex flex-col items-center text-center shrink-0">
                 <!-- 3D Wayang Gunungan Silhouette SVG -->
-                <div class="w-16 h-22 sm:w-20 sm:h-28 mx-auto mb-1.5 gunungan-3d flex items-center justify-center text-keraton-gold">
+                <div class="w-12 h-16 sm:w-14 sm:h-18 mx-auto mb-0.5 gunungan-3d flex items-center justify-center text-keraton-gold">
                     <svg viewBox="0 0 100 130" class="w-full h-full fill-current">
-                        <!-- Gunungan Wayang Shape -->
                         <path d="M50 5 Q70 30 85 65 Q95 90 90 115 L10 115 Q5 90 15 65 Q30 30 50 5 Z" fill="url(#goldGradient)" stroke="#f6e4a6" stroke-width="2"/>
-                        <!-- Ornamen Pohon Hayat & Pintu Gapura -->
                         <rect x="42" y="85" width="16" height="30" rx="3" fill="#120d09" stroke="#d4af37" stroke-width="1.5"/>
                         <circle cx="50" cy="50" r="14" fill="none" stroke="#f6e4a6" stroke-width="1.5"/>
                         <path d="M50 20 L50 80 M35 50 L65 50" stroke="#f6e4a6" stroke-width="1.2"/>
@@ -169,49 +176,40 @@
                     </svg>
                 </div>
 
-                <p class="font-cinzel text-[11px] sm:text-xs tracking-[0.3em] text-keraton-gold uppercase font-bold mt-1">
+                <p id="previewHeadingCover" class="font-cinzel text-[9px] tracking-[0.25em] text-keraton-gold uppercase font-bold">
                     {{ $couple->event_heading ?? "SERAT ULEM PAHARGYAN" }}
                 </p>
-                <p class="text-[10px] sm:text-[11px] text-keraton-lightgold/80 tracking-widest uppercase mt-0.5 mb-2.5 sm:mb-3">Dhauping Penganten</p>
+                <p class="text-[8px] text-keraton-lightgold/80 tracking-widest uppercase mt-0.5">DHAUPING PENGANTEN</p>
+            </header>
 
+            <!-- Center Showcase -->
+            <section class="w-full my-auto py-0.5 flex flex-col items-center text-center">
                 <!-- Couple Names -->
-                <div class="my-2.5 sm:my-4">
-                    <h1 class="font-serif text-3xl sm:text-5xl font-bold text-white drop-shadow-md leading-tight">
-                        {{ $couple->groom_name }}
+                <div class="mt-0.5 mb-0.5 w-full">
+                    <h1 id="previewNamesCover" class="font-serif text-xl sm:text-2xl font-bold text-white drop-shadow-md leading-tight truncate">
+                        {{ $couple->groom_name }} <span class="text-keraton-gold font-normal">&amp;</span> {{ $couple->bride_name }}
                     </h1>
-                    <div class="font-cinzel text-lg sm:text-xl text-keraton-gold my-0.5 sm:my-1 tracking-widest">&amp;</div>
-                    <h1 class="font-serif text-3xl sm:text-5xl font-bold text-white drop-shadow-md leading-tight">
-                        {{ $couple->bride_name }}
-                    </h1>
+                    <p class="font-cinzel text-[9.5px] text-keraton-lightgold/90 mt-0.5 tracking-wider">
+                        📅 {{ $weddingDateFormatted }}
+                    </p>
                 </div>
-
-                <div class="w-16 sm:w-20 h-0.5 bg-keraton-gold/50 mx-auto my-2.5 sm:my-3"></div>
-
-                <p class="font-cinzel text-[11px] sm:text-xs text-keraton-lightgold/90 mb-3 sm:mb-5 tracking-wider">
-                    {{ $weddingDateFormatted }}
-                </p>
 
                 <!-- Guest Card -->
-                <div class="p-2.5 sm:p-3.5 rounded-2xl bg-black/60 border border-keraton-gold/30 text-xs mb-4 sm:mb-6">
-                    <span class="text-[9.5px] sm:text-[10px] text-keraton-lightgold/70 uppercase tracking-widest block font-cinzel">Katur Dhumateng Panjenenganipun:</span>
-                    <b class="text-sm sm:text-base text-white block mt-0.5 sm:mt-1 font-serif">{{ $guest->name ?? 'Bapak / Ibu / Saudara/i' }}</b>
+                <div class="w-full py-1 px-3 rounded-xl bg-black/75 backdrop-blur-md border border-keraton-gold/30 text-center shadow-md mt-0.5">
+                    <span class="text-[7.5px] text-keraton-lightgold/70 uppercase tracking-widest block font-cinzel">KATUR DHUMATENG PANJENENGANIPUN:</span>
+                    <b id="previewGuestNameCover" class="text-xs sm:text-sm text-white block mt-0.5 font-serif truncate">{{ $guest->name ?? 'Bapak / Ibu / Saudara/i' }}</b>
                 </div>
+            </section>
 
-                <!-- "Buka Serat Ulem" Royal Button -->
-                <div class="pt-1">
-                    <button type="button" onclick="openInvitation()" class="royal-pulse-btn w-full py-3 sm:py-3.5 px-6 rounded-full bg-gradient-to-r from-keraton-gold via-keraton-lightgold to-keraton-gold text-keraton-dark font-cinzel text-xs font-black uppercase tracking-widest shadow-2xl hover:brightness-110 active:scale-95 transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto">
-                        <span>📜</span> Buka Serat Ulem
-                    </button>
-                </div>
-
-                @if(!empty($isDemo))
-                    <div class="mt-3">
-                        <span class="inline-block px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-bold bg-white/20 text-white/90 border border-white/20">
-                            ✨ Mode Demo Template: Keraton Jawa Royal
-                        </span>
-                    </div>
-                @endif
-            </div>
+            <!-- Bottom Button -->
+            <footer class="w-full pt-1 flex flex-col items-center gap-0.5 shrink-0">
+                <button type="button" onclick="openInvitation()" class="royal-pulse-btn w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-keraton-gold via-keraton-lightgold to-keraton-gold active:scale-[0.98] text-keraton-dark font-cinzel text-xs font-black uppercase tracking-wider shadow-2xl transition flex items-center justify-center gap-1.5 relative z-20 pointer-events-auto cursor-pointer">
+                    <span>📜</span> <span>BUKA SERAT ULEM</span> <span>&rarr;</span>
+                </button>
+                <p class="text-[8.5px] font-sans text-keraton-lightgold/70 flex items-center gap-1">
+                    <span class="text-keraton-gold">♫</span> Gending Wilujeng diputar saat dibuka
+                </p>
+            </footer>
         </div>
     </div>
 
@@ -555,10 +553,16 @@
     <script>
         function openInvitation() {
             const cover = document.getElementById('coverScreen');
-            cover.classList.add('opacity-0', 'pointer-events-none');
-            setTimeout(() => {
-                cover.classList.add('hidden');
-            }, 700);
+            if (cover) {
+                cover.style.pointerEvents = 'none';
+                cover.style.opacity = '0';
+                cover.style.transform = 'translateY(-100%)';
+                setTimeout(() => {
+                    cover.classList.add('hidden');
+                    cover.style.display = 'none';
+                    document.body.classList.remove('overflow-hidden');
+                }, 700);
+            }
 
             const audio = document.getElementById('invitationAudio');
             const floatingBtn = document.getElementById('audioFloatingBtn');
@@ -572,6 +576,7 @@
 
             initGoldDust();
         }
+        window.openInvitation = openInvitation;
 
         function toggleAudio() {
             const audio = document.getElementById('invitationAudio');

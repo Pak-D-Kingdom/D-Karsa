@@ -171,9 +171,13 @@
 
         /* Smooth scroll */
         html { scroll-behavior: smooth; }
+        /* Hide scrollbars for app-like clean mobile experience */
+        ::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
-<body class="bg-[#2d0006] text-neutral-800 font-sans antialiased selection:bg-oriental-gold selection:text-oriental-darkred">
+<body class="oriental-pattern text-neutral-800 font-sans antialiased selection:bg-oriental-gold selection:text-oriental-darkred overflow-hidden">
 
     @php
         $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo, 'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?w=1200&q=80&auto=format&fit=crop');
@@ -201,68 +205,61 @@
     <div id="ambientContainer" class="fixed inset-0 pointer-events-none overflow-hidden z-30"></div>
 
     <!-- ========================================================
-         COVER SCREEN (Chibi Red Style Envelope)
+         COVER SCREEN (Chibi Red Oriental - Edge-to-Edge Full Screen)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col bg-gradient-to-b from-[#6b020e] via-[#850014] to-[#400008] text-white p-3 sm:p-4 transition-all duration-700 ease-in-out">
-        <div class="min-h-full flex flex-col justify-center items-center my-auto py-2 sm:py-3 w-full">
-            <!-- Background Glow & Circular Oriental Motif -->
-            <div id="previewCoverBg" class="fixed inset-0 bg-cover bg-center opacity-25 mix-blend-overlay pointer-events-none" style="background-image: url('{{ $coverImg }}');"></div>
-            <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] rounded-full border border-oriental-gold/30 opacity-40 animate-pulse pointer-events-none"></div>
-            <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] rounded-full border border-oriental-gold/15 pointer-events-none"></div>
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col justify-between items-center bg-gradient-to-b from-[#6b020e] via-[#850014] to-[#400008] text-white px-3.5 py-2.5 sm:py-4 transition-all duration-700 ease-in-out select-none">
+        <!-- Ambient Oriental Glows (Clipped) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div id="previewCoverBg" class="absolute inset-0 bg-cover bg-center opacity-20 mix-blend-overlay" style="background-image: url('{{ $coverImg }}');"></div>
+            <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-oriental-gold/15 blur-3xl"></div>
+            <div class="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-red-950/40 blur-3xl"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/75"></div>
+        </div>
 
-            <!-- Center Envelope Content Card -->
-            <div class="relative z-10 w-full max-w-sm sm:max-w-md bg-gradient-to-b from-[#8f0016]/95 to-[#5a000e]/95 border-2 border-oriental-gold/70 rounded-[32px] sm:rounded-[36px] p-5 sm:p-8 text-center shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-sm my-auto">
-                
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
+            <!-- Header -->
+            <header class="w-full flex flex-col items-center text-center shrink-0">
                 <!-- Song Hỷ (Double Happiness 囍) Oriental Emblem -->
-                <div class="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-2.5 sm:mb-3 rounded-full bg-gradient-to-tr from-[#69000f] to-[#aa0f24] border-2 border-oriental-gold flex items-center justify-center shadow-lg">
-                    <span class="font-chinese text-2xl sm:text-3xl font-bold text-oriental-gold leading-none">囍</span>
+                <div class="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-1 rounded-full bg-gradient-to-tr from-[#69000f] to-[#aa0f24] border-2 border-oriental-gold flex items-center justify-center shadow-lg">
+                    <span class="font-chinese text-xl sm:text-2xl font-bold text-oriental-gold leading-none">囍</span>
                 </div>
 
-                <p class="font-cinzel text-[11px] sm:text-xs tracking-[0.25em] text-oriental-gold uppercase mb-0.5 font-semibold">
+                <p id="previewHeadingCover" class="font-cinzel text-[9.5px] tracking-[0.25em] text-oriental-gold uppercase mb-0.5 font-semibold">
                     {{ $couple->event_heading ?? "WALIMATUL 'URSY" }}
                 </p>
-                <p class="text-[10px] sm:text-xs text-white/80 tracking-widest uppercase mb-2 sm:mb-3">The Wedding Celebration of</p>
+                <p class="text-[8.5px] text-white/80 tracking-widest uppercase mt-0.5">THE WEDDING CELEBRATION OF</p>
+            </header>
 
+            <!-- Center Showcase -->
+            <section class="w-full my-auto py-0.5 flex flex-col items-center text-center">
                 <!-- Couple Names -->
-                <div class="my-2.5 sm:my-4">
-                    <h1 class="font-script text-4xl sm:text-5xl text-oriental-lightgold drop-shadow-md leading-tight">
-                        {{ $couple->groom_name }}
+                <div class="mt-0.5 mb-0.5 w-full">
+                    <h1 id="previewNamesCover" class="font-script text-3xl sm:text-4xl text-oriental-lightgold drop-shadow-md leading-tight truncate">
+                        {{ $couple->groom_name }} <span class="font-cinzel text-lg text-oriental-gold font-normal">&amp;</span> {{ $couple->bride_name }}
                     </h1>
-                    <div class="font-cinzel text-lg sm:text-xl text-oriental-gold my-0.5 sm:my-1 tracking-widest">&amp;</div>
-                    <h1 class="font-script text-4xl sm:text-5xl text-oriental-lightgold drop-shadow-md leading-tight">
-                        {{ $couple->bride_name }}
-                    </h1>
+                    <p class="font-serif text-xs text-white/90 mt-0.5 tracking-wide">
+                        📅 {{ $weddingDateFormatted }}
+                    </p>
                 </div>
-
-                <div class="w-20 sm:w-24 h-[1px] bg-oriental-gold/40 mx-auto my-2.5 sm:my-3"></div>
-
-                <p class="font-serif text-xs sm:text-sm text-white/90 mb-3 sm:mb-5 tracking-wide">
-                    {{ $weddingDateFormatted }}
-                </p>
 
                 <!-- Guest Tag Card -->
-                <div class="p-2.5 sm:p-3.5 rounded-2xl bg-black/40 border border-oriental-gold/30 text-xs mb-4 sm:mb-6">
-                    <p class="text-[10px] sm:text-[11px] text-white/70 uppercase tracking-widest">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
-                    <p class="font-bold text-sm sm:text-base text-oriental-lightgold mt-0.5 sm:mt-1">{{ $guest->name ?? 'Tamu Undangan' }}</p>
-                    <p class="text-[9.5px] sm:text-[10px] text-white/60 italic mt-0.5">*Mohon maaf bila ada kesalahan penulisan nama/gelar</p>
+                <div class="w-full py-1 px-3 rounded-xl bg-black/60 backdrop-blur-md border border-oriental-gold/30 text-center shadow-xs mt-0.5">
+                    <p class="text-[7.5px] text-white/70 uppercase tracking-widest block font-medium">KEPADA YTH. BAPAK/IBU/SAUDARA/I:</p>
+                    <b id="previewGuestNameCover" class="font-bold text-xs sm:text-sm text-oriental-lightgold block mt-0.5 truncate">{{ $guest->name ?? 'Tamu Undangan' }}</b>
                 </div>
+            </section>
 
-                <!-- "Buka Undangan" Seal Button (Mở Thiệp Style) -->
-                <div class="pt-1">
-                    <button type="button" onclick="openInvitation()" class="pulse-btn w-full py-3 sm:py-3.5 px-6 rounded-full bg-gradient-to-r from-oriental-gold via-[#edd292] to-oriental-gold text-oriental-darkred font-cinzel text-xs font-extrabold uppercase tracking-widest shadow-xl hover:brightness-110 active:scale-95 transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto">
-                        <span>✉️</span> Buka Undangan
-                    </button>
-                </div>
-
-                @if(!empty($isDemo))
-                    <div class="mt-3">
-                        <span class="inline-block px-3 py-1 rounded-full text-[9px] sm:text-[10px] font-bold bg-white/20 text-white/90 border border-white/20">
-                            ✨ Mode Demo Template: Chibi Red Oriental
-                        </span>
-                    </div>
-                @endif
-            </div>
+            <!-- Bottom Button -->
+            <footer class="w-full pt-1 flex flex-col items-center gap-0.5 shrink-0">
+                <button type="button" onclick="openInvitation()" class="pulse-btn w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-oriental-gold via-[#edd292] to-oriental-gold active:scale-[0.98] text-oriental-darkred font-cinzel text-xs font-extrabold uppercase tracking-wider shadow-xl transition flex items-center justify-center gap-1.5 relative z-20 pointer-events-auto cursor-pointer">
+                    <span>✉️</span> <span>BUKA UNDANGAN</span> <span>&rarr;</span>
+                </button>
+                <p class="text-[8.5px] font-sans text-white/70 flex items-center gap-1">
+                    <span class="text-oriental-gold">♫</span> Musik latar pernikahan oriental diputar saat dibuka
+                </p>
+            </footer>
         </div>
+    </div>
     </div>
 
     <!-- ========================================================
@@ -672,10 +669,16 @@
         let isAudioPlaying = false;
         function openInvitation() {
             const cover = document.getElementById('coverScreen');
-            cover.classList.add('opacity-0', 'pointer-events-none');
-            setTimeout(() => {
-                cover.classList.add('hidden');
-            }, 700);
+            if (cover) {
+                cover.style.pointerEvents = 'none';
+                cover.style.opacity = '0';
+                cover.style.transform = 'translateY(-100%)';
+                setTimeout(() => {
+                    cover.classList.add('hidden');
+                    cover.style.display = 'none';
+                    document.body.classList.remove('overflow-hidden');
+                }, 700);
+            }
 
             // Play music automatically
             const audio = document.getElementById('invitationAudio');
@@ -693,6 +696,7 @@
             // Spawn ambient confetti
             initAmbientConfetti();
         }
+        window.openInvitation = openInvitation;
 
         function toggleAudio() {
             const audio = document.getElementById('invitationAudio');

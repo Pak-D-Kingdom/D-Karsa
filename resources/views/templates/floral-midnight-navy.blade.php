@@ -249,9 +249,11 @@
          COVER SCREEN: INTERACTIVE DIGITAL ENVELOPE (Tampilan Awal Eksklusif)
          ======================================================== -->
     <div class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-background flex flex-col items-center justify-center px-2 sm:px-6 py-3 sm:py-6 transition-all duration-700 ease-in-out" id="envelope-cover">
-        <!-- Atmospheric Ambient Glows -->
-        <div class="absolute w-[380px] sm:w-[600px] h-[380px] sm:h-[600px] -top-20 sm:-top-32 -left-20 sm:-left-32 bg-primary/10 rounded-full blur-[90px] sm:blur-[140px] pointer-events-none"></div>
-        <div class="absolute w-[340px] sm:w-[500px] h-[340px] sm:h-[500px] -bottom-16 sm:-bottom-24 -right-16 sm:-right-24 bg-tertiary-container/15 rounded-full blur-[100px] sm:blur-[160px] pointer-events-none"></div>
+        <!-- Atmospheric Ambient Glows (Clipped) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute w-[380px] sm:w-[600px] h-[380px] sm:h-[600px] -top-20 sm:-top-32 -left-20 sm:-left-32 bg-primary/10 rounded-full blur-[90px] sm:blur-[140px]"></div>
+            <div class="absolute w-[340px] sm:w-[500px] h-[340px] sm:h-[500px] -bottom-16 sm:-bottom-24 -right-16 sm:-right-24 bg-tertiary-container/15 rounded-full blur-[100px] sm:blur-[160px]"></div>
+        </div>
 
         <div class="min-h-full flex flex-col justify-center items-center my-auto py-2 sm:py-3 w-full">
             <!-- Envelope Container Assembly -->
@@ -307,56 +309,38 @@
                         </div>
 
                         <!-- Inside Card Slot (Formal VIP Letter) -->
-                        <div class="relative z-10 -mt-1.5 bg-gradient-to-b from-surface-container to-surface-container-low rounded-xl p-3 sm:p-5 md:p-8 shadow-2xl flex flex-col items-center text-center border border-primary/20" id="invitation-card-preview">
-                            <div class="inline-flex items-center gap-1 bg-surface-container-highest/80 px-2.5 py-0.5 rounded-full shadow-sm mb-1.5 border border-primary/20">
-                                <span class="material-symbols-outlined text-primary text-[13px]">verified</span>
-                                <span class="text-[8px] sm:text-[10px] uppercase text-primary tracking-widest font-bold">Surat Undangan Resmi • Gala Kepresisian</span>
-                            </div>
+                        <div class="relative z-10 -mt-1 bg-gradient-to-b from-surface-container to-surface-container-low rounded-xl p-2.5 sm:p-4 shadow-xl flex flex-col items-center text-center border border-primary/20" id="invitation-card-preview">
+                            <span class="text-[8px] sm:text-[9px] uppercase text-primary tracking-widest font-bold">
+                                Surat Undangan Resmi • Gala Kepresisian
+                            </span>
 
-                            <p class="text-[10px] sm:text-xs text-on-surface-variant uppercase tracking-wider mb-0.5">
+                            <p class="text-[9px] sm:text-[10px] text-on-surface-variant uppercase tracking-wider mt-0.5">
                                 Kepada Yth. Bapak / Ibu / Rekan Komunitas:
                             </p>
 
-                            <h2 id="previewGuestNameCover" class="font-headline text-base sm:text-2xl md:text-3xl text-on-surface font-semibold tracking-tight text-balance max-w-xl my-0.5">
+                            <h2 id="previewGuestNameCover" class="font-headline text-base sm:text-lg text-on-surface font-semibold tracking-tight truncate max-w-full my-0.5">
                                 {{ $guestName }}
                             </h2>
 
-                            <div class="my-1.5 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary-container text-on-primary-container text-[9px] sm:text-[10px] font-bold uppercase tracking-wider shadow-md">
-                                <span class="material-symbols-outlined text-[13px]">military_tech</span>
-                                <span>Tamu Kehormatan &amp; Dewan Presidium</span>
-                            </div>
-
-                            <p class="text-[11px] sm:text-xs text-on-surface-variant max-w-xl leading-relaxed mt-0.5 line-clamp-2 sm:line-clamp-none">
-                                Tanpa mengurangi rasa hormat, Dewan Presidium mengundang Anda untuk hadir dalam Perayaan Tahunan &amp; Malam Penghargaan Komunitas:
-                                <span id="previewHeadingCover" class="text-on-surface font-medium italic"> {{ $heading }}</span>.
+                            <p class="text-[10px] text-on-surface-variant leading-relaxed line-clamp-1 max-w-sm">
+                                <span id="previewHeadingCover" class="text-on-surface font-medium italic">{{ $heading }}</span>
                             </p>
 
-                            <!-- Invitation Card Meta Quick-Row (Horizontal 3 Columns for Compact Mobile Height) -->
-                            <div class="grid grid-cols-3 gap-1.5 sm:gap-2 w-full max-w-xl my-2">
-                                <div class="bg-surface-container-high/60 backdrop-blur-sm rounded-lg p-1.5 sm:p-2.5 flex flex-col items-center border border-primary/10">
-                                    <span class="material-symbols-outlined text-primary text-[16px] mb-0.5">event</span>
-                                    <span class="text-[8px] sm:text-[9px] text-on-surface-variant uppercase tracking-wider">Waktu</span>
-                                    <span class="text-[10px] sm:text-xs font-semibold text-on-surface mt-0.5 truncate max-w-full">{{ $eventDateFormatted }}</span>
-                                </div>
-                                <div class="bg-surface-container-high/60 backdrop-blur-sm rounded-lg p-1.5 sm:p-2.5 flex flex-col items-center border border-primary/10">
-                                    <span class="material-symbols-outlined text-primary text-[16px] mb-0.5">schedule</span>
-                                    <span class="text-[8px] sm:text-[9px] text-on-surface-variant uppercase tracking-wider">Mulai</span>
-                                    <span class="text-[10px] sm:text-xs font-semibold text-on-surface mt-0.5">{{ $eventTimeFormatted }}</span>
-                                </div>
-                                <div class="bg-surface-container-high/60 backdrop-blur-sm rounded-lg p-1.5 sm:p-2.5 flex flex-col items-center border border-primary/10">
-                                    <span class="material-symbols-outlined text-primary text-[16px] mb-0.5">location_on</span>
-                                    <span class="text-[8px] sm:text-[9px] text-on-surface-variant uppercase tracking-wider">Tempat</span>
-                                    <span class="text-[10px] sm:text-xs font-semibold text-on-surface mt-0.5 truncate max-w-full" title="{{ $venueName }}">{{ $venueName }}</span>
-                                </div>
+                            <!-- Invitation Card Meta Quick-Row -->
+                            <div class="flex items-center justify-center gap-3 text-[10px] text-on-surface-variant my-1">
+                                <span>📅 {{ $eventDateFormatted }}</span>
+                                <span>•</span>
+                                <span>🏛️ {{ $venueName }}</span>
                             </div>
 
                             <!-- Primary CTA Button to Open & Scroll -->
-                            <div class="flex flex-col sm:flex-row items-center gap-2 mt-1 w-full sm:w-auto">
-                                <button type="button" id="open-invitation-btn" onclick="triggerOpenEnvelope()" class="w-full sm:w-auto px-5 sm:px-8 py-2.5 sm:py-3 rounded-full bg-gradient-to-r from-primary-container via-primary to-primary-container text-on-primary text-[11px] sm:text-xs tracking-wider uppercase font-bold shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 cursor-pointer relative z-30 pointer-events-auto">
+                            <div class="flex flex-col items-center gap-1 mt-1 w-full max-w-xs">
+                                <button type="button" id="open-invitation-btn" onclick="triggerOpenEnvelope()" class="w-full py-2.5 px-5 rounded-full bg-gradient-to-r from-primary-container via-primary to-primary-container text-on-primary text-xs tracking-wider uppercase font-bold shadow-[0_0_15px_rgba(212,175,55,0.35)] hover:shadow-[0_0_25px_rgba(212,175,55,0.5)] active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 cursor-pointer relative z-30 pointer-events-auto">
                                     <span>Buka Surat Undangan</span>
-                                    <span class="material-symbols-outlined text-[16px]">arrow_downward</span>
+                                    <span class="material-symbols-outlined text-[15px]">arrow_downward</span>
                                 </button>
                             </div>
+                        </div>
 
                             <p class="text-[9px] sm:text-[10px] text-on-surface-variant/80 mt-2">
                                 Tekan tombol untuk membuka lembar protokoler, jadwal acara lengkap, serta reservasi meja.

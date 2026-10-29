@@ -62,9 +62,14 @@
             100% { opacity: 0; transform: translate(-50%, -15px); }
         }
         .toast-active { animation: toastSlide 2.8s ease forwards; }
+
+        /* Hide scrollbars for app-like clean mobile experience */
+        ::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
-<body class="tech-grid text-tech-slate font-sans antialiased selection:bg-tech-blue selection:text-white relative overflow-x-hidden">
+<body class="tech-grid text-tech-slate font-sans antialiased selection:bg-tech-blue selection:text-white relative overflow-x-hidden overflow-hidden">
 
     @php
         $coverImg = \App\Services\TemplateManager::resolvePhotoUrl(
@@ -103,46 +108,67 @@
     </div>
 
     <!-- ========================================================
-         COVER SCREEN (DELEGATE ACCREDITATION PASS)
+         COVER SCREEN (DELEGATE ACCREDITATION PASS - Full Screen Mobile)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-slate-950/90 p-3 sm:p-4 transition-all duration-1000 ease-in-out">
-        <div class="relative w-full max-w-sm bg-white rounded-3xl p-5 sm:p-7 text-center shadow-2xl border-2 border-tech-border overflow-hidden my-auto">
-            
-            <div class="space-y-4">
-                <div class="flex items-center justify-between pb-2 border-b border-tech-border text-[9px] font-mono tracking-widest text-tech-muted uppercase">
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-[#0F172A] flex flex-col justify-between items-center px-3.5 py-3 sm:py-5 transition-all duration-700 ease-in-out text-slate-200 select-none">
+        <!-- Ambient Tech Glows (Clipped to prevent unwanted scrollbars) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-blue-600/20 blur-3xl"></div>
+            <div class="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-cyan-600/15 blur-3xl"></div>
+        </div>
+
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
+            <!-- Header Bar -->
+            <header class="w-full flex flex-col items-center shrink-0">
+                <div class="w-full flex items-center justify-between pb-1.5 border-b border-white/10 text-[8.5px] font-mono tracking-widest text-slate-400 uppercase">
                     <span>SEMINAR &amp; WORKSHOP</span>
                     <span>PASS: #SEM-{{ strtoupper(substr(md5($eventHost), 0, 4)) }}</span>
                 </div>
+                <div class="mt-1 flex flex-col items-center text-center">
+                    <span id="previewHeadingCover" class="inline-block px-2.5 py-0.5 rounded-full text-[8.5px] font-mono font-bold tracking-[0.2em] uppercase bg-tech-blue/20 text-sky-400 border border-tech-blue/40">
+                        {{ $couple->event_heading ?? "PROFESSIONAL EXECUTIVE WORKSHOP" }}
+                    </span>
+                </div>
+            </header>
 
+            <!-- Center Showcase (Photo, Host, Date, Guest Pass) -->
+            <section class="w-full my-auto py-0.5 flex flex-col items-center text-center">
                 <!-- Cover Picture Frame -->
-                <div class="relative w-36 h-44 mx-auto rounded-2xl overflow-hidden p-1 bg-tech-bluelight border border-tech-blue/30 shadow-md">
-                    <div class="w-full h-full rounded-xl overflow-hidden bg-tech-bg">
+                <div class="relative w-20 h-24 mx-auto rounded-2xl overflow-hidden p-1 bg-slate-800/80 border border-tech-blue/40 shadow-xl my-1 shrink-0">
+                    <div class="w-full h-full rounded-xl overflow-hidden bg-slate-900">
                         <img id="previewCoverPhotoImg" src="{{ $coverImg }}" alt="Seminar Cover" class="w-full h-full object-cover">
                     </div>
                 </div>
 
-                <div>
-                    <span class="font-mono text-xs text-tech-blue tracking-wider uppercase block font-semibold">Official Invitation</span>
-                    <h1 class="font-mono text-xl sm:text-2xl font-bold text-tech-slate mt-0.5">
+                <!-- Host & Order -->
+                <div class="mt-0.5 mb-0.5 w-full">
+                    <h1 id="previewGroomNameCover" class="font-mono text-base sm:text-lg font-bold text-white truncate">
                         {{ $eventHost }}
                     </h1>
-                    <p class="text-xs text-tech-muted mt-0.5">
+                    <p class="text-[9.5px] text-sky-400 font-mono mt-0.5">
                         {{ $orderInfo }}
+                    </p>
+                    <p class="text-[9px] text-slate-400 font-mono mt-0.5">
+                        📅 {{ $eventDateFormatted }}
                     </p>
                 </div>
 
                 <!-- Kepada Yth Peserta Delegasi -->
-                <div class="p-4 rounded-2xl bg-tech-bg border border-tech-border space-y-1">
-                    <span class="text-[10px] font-mono text-tech-muted block uppercase tracking-wider">Undangan Resmi Delegasi:</span>
-                    <b class="text-sm font-mono font-bold text-tech-slate block">{{ $guest->name ?? 'Mitra Delegasi / Peserta' }}</b>
-                    <span class="text-[10px] text-tech-muted block">Akses resmi sesi workshop &amp; seminar</span>
+                <div class="w-full py-1 px-3 rounded-xl bg-slate-800/90 backdrop-blur-md border border-white/10 shadow-sm text-center mt-0.5">
+                    <span class="text-[7.5px] font-mono text-slate-400 block uppercase tracking-wider font-semibold">Undangan Resmi Delegasi:</span>
+                    <b id="previewGuestNameCover" class="text-xs sm:text-sm font-mono font-bold text-white block mt-0.5 truncate">{{ $guest->name ?? 'Mitra Delegasi / Peserta' }}</b>
                 </div>
+            </section>
 
-                <!-- Buka Undangan Button -->
-                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-tech-blue hover:bg-sky-600 text-white font-mono font-bold text-xs uppercase tracking-wider shadow-md transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
+            <!-- Bottom CTA Button -->
+            <footer class="w-full pt-1 flex flex-col items-center gap-1 shrink-0">
+                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-2.5 sm:py-3 px-5 rounded-xl bg-tech-blue hover:bg-sky-600 text-white font-mono font-bold text-xs uppercase tracking-wider shadow-[0_8px_20px_rgba(37,99,235,0.4)] transition flex items-center justify-center gap-2 cursor-pointer pointer-events-auto">
                     <span>📊</span> <span>Buka Akses Seminar Pass</span> <span>&rarr;</span>
                 </button>
-            </div>
+                <p class="text-[9px] font-mono text-slate-400 flex items-center gap-1">
+                    <span class="text-sky-400">♫</span> Audio latar diputar saat dokumen dibuka
+                </p>
+            </footer>
         </div>
     </div>
 
@@ -446,7 +472,12 @@
             if (cover) {
                 cover.style.opacity = '0';
                 cover.style.pointerEvents = 'none';
-                setTimeout(() => { cover.classList.add('hidden'); }, 1000);
+                cover.style.transform = 'translateY(-100%)';
+                setTimeout(() => {
+                    cover.classList.add('hidden');
+                    cover.style.display = 'none';
+                    document.body.classList.remove('overflow-hidden');
+                }, 700);
             }
             const floatingBtn = document.getElementById('audioFloatingBtn');
             if (floatingBtn) floatingBtn.classList.remove('hidden');
@@ -458,6 +489,7 @@
                 });
             }
         }
+        window.openInvitation = openInvitation;
 
         function toggleAudio() {
             const audio = document.getElementById('invitationAudio');

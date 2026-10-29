@@ -81,9 +81,13 @@
         .toast-active {
             animation: toastFade 2.8s ease forwards;
         }
+        /* Hide scrollbars for app-like clean mobile experience */
+        ::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
-<body class="andalusian-bg text-slate-200 font-sans antialiased selection:bg-prince-gold selection:text-prince-sapphire">
+<body class="andalusian-bg text-slate-200 font-sans antialiased selection:bg-prince-gold selection:text-prince-sapphire overflow-hidden">
 
     @php
         $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo, 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=1200');
@@ -120,49 +124,64 @@
     </div>
 
     <!-- ========================================================
-         ANDALUSIAN MIHRAB ARCHWAY COVER SCREEN
+         ANDALUSIAN MIHRAB ARCHWAY COVER SCREEN (Edge-to-Edge Full Screen)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-black/95 p-3 sm:p-4 transition-all duration-1000 ease-in-out">
-        <div id="previewCoverBg" class="absolute inset-0 bg-cover bg-center opacity-20 pointer-events-none" style="background-image: url('{{ $coverImg }}');"></div>
-        <div class="relative w-full max-w-sm bg-prince-sapphire rounded-3xl p-5 sm:p-7 text-center shadow-2xl border-2 border-prince-gold/50 overflow-hidden my-auto">
-            
-            <!-- 8-Point Islamic Star Insignia -->
-            <div class="w-14 h-14 mx-auto mb-3 rounded-2xl bg-prince-card border border-prince-gold/50 flex items-center justify-center text-2xl shadow-inner">
-                ۞
-            </div>
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-[#0B1528] andalusian-bg flex flex-col justify-between items-center px-3.5 py-2.5 sm:py-4 transition-all duration-700 ease-in-out text-slate-200 select-none">
+        <!-- Ambient Royal Sapphire Glows (Clipped) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div id="previewCoverBg" class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('{{ $coverImg }}');"></div>
+            <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-prince-gold/15 blur-3xl"></div>
+            <div class="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-blue-950/40 blur-3xl"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/85"></div>
+        </div>
 
-            <p class="font-amiri text-lg text-prince-goldbright font-bold mb-1">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
-            <span class="inline-block px-3.5 py-1 rounded-full text-[9px] font-cinzel font-bold uppercase tracking-[0.25em] bg-prince-gold/15 text-prince-gold border border-prince-gold/40 mb-3">
-                {{ $couple->event_heading ?? "WALIMATUL KHITAN" }}
-            </span>
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
+            <!-- Header -->
+            <header class="w-full flex flex-col items-center text-center shrink-0">
+                <div class="w-8 h-8 mx-auto mb-1 rounded-xl bg-prince-card border border-prince-gold/50 flex items-center justify-center text-base shadow-inner text-prince-gold">
+                    ۞
+                </div>
+                <p class="font-amiri text-base text-prince-goldbright font-bold mb-0.5">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+                <span id="previewHeadingCover" class="inline-block px-2.5 py-0.5 rounded-full text-[8.5px] font-cinzel font-bold uppercase tracking-[0.2em] bg-prince-gold/15 text-prince-gold border border-prince-gold/40">
+                    {{ $couple->event_heading ?? "WALIMATUL KHITAN" }}
+                </span>
+            </header>
 
-            <!-- Young Prince Photo in Arched Mihrab Frame -->
-            <div class="relative w-44 h-52 mx-auto mihrab-arch overflow-hidden border-2 border-prince-gold shadow-2xl my-3 bg-prince-deep">
-                <img id="previewBoyPhotoCoverImg" src="{{ $boyImg }}" alt="{{ $boyName }}" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-prince-sapphire/80 via-transparent to-transparent"></div>
-            </div>
+            <!-- Center Showcase -->
+            <section class="w-full my-auto py-0.5 flex flex-col items-center text-center">
+                <!-- Young Prince Photo in Arched Mihrab Frame -->
+                <div class="relative w-20 h-24 mx-auto mihrab-arch overflow-hidden border-2 border-prince-gold shadow-xl my-1 bg-prince-deep shrink-0">
+                    <img id="previewBoyPhotoCoverImg" src="{{ $boyImg }}" alt="{{ $boyName }}" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-prince-sapphire/80 via-transparent to-transparent"></div>
+                </div>
 
-            <!-- Boy's Name -->
-            <div class="my-3">
-                <p class="text-[10px] font-cinzel tracking-[0.25em] uppercase text-slate-300">TASYAKURAN KHITANAN PUTRA KAMI</p>
-                <h1 class="font-cinzel text-2xl sm:text-3xl font-extrabold gold-shimmer tracking-wider mt-1">
-                    {{ $boyName }}
-                </h1>
-                <p class="text-xs text-prince-goldbright font-sans font-medium mt-1">
-                    📅 {{ $eventDateFormatted }}
+                <!-- Boy's Name -->
+                <div class="mt-0.5 mb-0.5 w-full">
+                    <p class="text-[9px] font-cinzel tracking-[0.2em] uppercase text-slate-300">TASYAKURAN KHITANAN PUTRA KAMI</p>
+                    <h1 id="previewBoyNameCover" class="font-cinzel text-lg sm:text-xl font-extrabold gold-shimmer tracking-wider mt-0.5 truncate">
+                        {{ $boyName }}
+                    </h1>
+                    <p class="text-[9.5px] text-prince-goldbright font-sans font-medium mt-0.5">
+                        📅 {{ $eventDateFormatted }}
+                    </p>
+                </div>
+
+                <!-- Guest Invitation Card -->
+                <div class="w-full py-1 px-3 rounded-xl bg-prince-card/90 backdrop-blur-md border border-prince-gold/30 text-center shadow-md mt-0.5">
+                    <span class="text-[7.5px] font-cinzel uppercase tracking-[0.2em] text-slate-400 block font-medium">KEPADA YTH:</span>
+                    <b id="previewGuestNameCover" class="text-xs font-sans font-bold text-white block mt-0.5 truncate">{{ $guest->name ?? 'Bapak / Ibu / Saudara/i' }}</b>
+                </div>
+            </section>
+
+            <!-- Bottom Button -->
+            <footer class="w-full pt-1 flex flex-col items-center gap-0.5 shrink-0">
+                <button id="open-invitation-btn" type="button" onclick="openInvitation()" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-prince-gold to-prince-goldmuted hover:brightness-110 active:scale-[0.98] text-prince-sapphire font-cinzel text-xs font-bold uppercase tracking-[0.2em] shadow-lg transition flex items-center justify-center gap-1.5 relative z-20 pointer-events-auto cursor-pointer">
+                    <span>🕌</span> <span>BUKA UNDANGAN KHITAN</span> <span>&rarr;</span>
+                </button>
+                <p class="text-[8.5px] font-sans text-slate-400 flex items-center gap-1">
+                    <span class="text-prince-gold">♫</span> Musik Qasidah & Marawis diputar saat dibuka
                 </p>
-            </div>
-
-            <!-- Guest Invitation Card -->
-            <div class="my-4 p-3 rounded-2xl bg-prince-card/80 border border-prince-gold/30 text-center">
-                <span class="text-[9px] font-cinzel uppercase tracking-[0.2em] text-slate-400 block">KEPADA YTH:</span>
-                <b class="text-sm font-sans font-bold text-white block mt-0.5">{{ $guest->name ?? 'Bapak / Ibu / Saudara/i' }}</b>
-            </div>
-
-            <!-- Buka Undangan Action -->
-            <button type="button" onclick="openInvitation()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-prince-gold to-prince-goldmuted hover:brightness-110 text-prince-sapphire font-cinzel text-xs font-bold uppercase tracking-[0.25em] shadow-lg transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
-                <span>🕌</span> BUKA UNDANGAN KHITAN
-            </button>
+            </footer>
         </div>
     </div>
 
@@ -561,13 +580,19 @@
         function openInvitation() {
             const cover = document.getElementById('coverScreen');
             if (cover) {
+                cover.style.pointerEvents = 'none';
                 cover.style.opacity = '0';
                 cover.style.transform = 'translateY(-100%)';
-                setTimeout(() => cover.classList.add('hidden'), 1000);
+                setTimeout(() => {
+                    cover.classList.add('hidden');
+                    cover.style.display = 'none';
+                    document.body.classList.remove('overflow-hidden');
+                }, 700);
             }
             if (audioBtn) audioBtn.classList.remove('hidden');
             toggleAudio();
         }
+        window.openInvitation = openInvitation;
 
         function copyToClipboard(text, msg) {
             navigator.clipboard.writeText(text).then(() => {

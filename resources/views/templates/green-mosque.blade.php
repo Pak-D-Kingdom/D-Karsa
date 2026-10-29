@@ -71,9 +71,13 @@
             100% { opacity: 0; transform: translate(-50%, -15px); }
         }
         .toast-active { animation: toastSlide 2.8s ease forwards; }
+        /* Hide scrollbars for app-like clean mobile experience */
+        ::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
-<body class="mosque-pattern text-mosque-text font-sans antialiased selection:bg-mosque-gold selection:text-mosque-darker relative overflow-x-hidden">
+<body class="mosque-pattern text-mosque-text font-sans antialiased selection:bg-mosque-gold selection:text-mosque-darker relative overflow-hidden">
 
     @php
         $coverImg = \App\Services\TemplateManager::resolvePhotoUrl(
@@ -112,49 +116,63 @@
     </div>
 
     <!-- ========================================================
-         COVER SCREEN (GREEN MOSQUE DOME ARCH)
+         COVER SCREEN: GREEN MOSQUE DOME (Edge-to-Edge Full Screen)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-black/90 p-3 sm:p-4 transition-all duration-1000 ease-in-out">
-        <div class="relative w-full max-w-sm bg-gradient-to-b from-mosque-card via-mosque-deep to-mosque-darker rounded-[36px] p-5 sm:p-7 text-center shadow-2xl border-2 border-mosque-gold/80 overflow-hidden my-auto">
-            
-            <div class="lantern-pulse mx-auto text-3xl mb-1 text-mosque-gold">
-                🕌
-            </div>
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-[#064E3B] mosque-pattern flex flex-col justify-between items-center px-3.5 py-2.5 sm:py-4 transition-all duration-700 ease-in-out text-mosque-text select-none">
+        <!-- Ambient Green Shimmer Glows (Clipped) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-mosque-gold/15 blur-3xl"></div>
+            <div class="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-emerald-950/40 blur-3xl"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/75"></div>
+        </div>
 
-            <div class="space-y-4">
-                <span class="inline-block px-3.5 py-1 rounded-full bg-mosque-gold/20 text-mosque-goldbright text-[10px] font-bold tracking-wider uppercase border border-mosque-gold/40">
-                    🌿 Undangan Majelis &amp; Syiar Islam
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
+            <!-- Header -->
+            <header class="w-full flex flex-col items-center text-center shrink-0">
+                <div class="lantern-pulse text-2xl mb-1 text-mosque-gold">
+                    🕌
+                </div>
+                <span id="previewHeadingCover" class="inline-block px-2.5 py-0.5 rounded-full bg-mosque-gold/20 text-mosque-goldbright text-[8.5px] font-bold tracking-wider uppercase border border-mosque-gold/40">
+                    {{ $couple->event_heading ?? "🌿 Undangan Majelis & Syiar Islam" }}
                 </span>
+                <span class="font-amiri text-sm text-mosque-gold block mt-1">السَّلاَمُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ</span>
+            </header>
 
+            <!-- Center Showcase -->
+            <section class="w-full my-auto py-0.5 flex flex-col items-center text-center">
                 <!-- Islamic Archway Dome Photo Frame -->
-                <div class="relative w-36 h-48 mx-auto rounded-t-full rounded-b-2xl overflow-hidden p-1.5 bg-gradient-to-b from-mosque-gold via-mosque-border to-mosque-card shadow-2xl">
-                    <div class="w-full h-full rounded-t-full rounded-b-xl overflow-hidden bg-mosque-darker">
+                <div class="relative w-20 h-24 mx-auto rounded-t-full rounded-b-xl overflow-hidden p-1 bg-gradient-to-b from-mosque-gold via-mosque-border to-mosque-card shadow-xl my-1 shrink-0">
+                    <div class="w-full h-full rounded-t-full rounded-b-lg overflow-hidden bg-mosque-darker">
                         <img id="previewCoverPhotoImg" src="{{ $coverImg }}" alt="Cover Mosque" class="w-full h-full object-cover">
                     </div>
                 </div>
 
-                <div>
-                    <span class="font-amiri text-lg text-mosque-gold block">السَّلاَمُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ</span>
-                    <h1 class="font-serif text-xl sm:text-2xl font-bold text-white mt-1">
+                <!-- Host Name & Subtitle -->
+                <div class="mt-0.5 mb-0.5 w-full">
+                    <h1 id="previewHostNameCover" class="font-serif text-lg sm:text-xl font-bold text-white tracking-wide truncate">
                         {{ $hostName }}
                     </h1>
-                    <p class="text-xs text-mosque-muted mt-0.5">
+                    <p class="text-[9.5px] text-mosque-muted mt-0.5">
                         {{ $orderInfo }}
                     </p>
                 </div>
 
                 <!-- Kepada Yth Tamu Jamaah -->
-                <div class="p-4 rounded-2xl bg-mosque-darker/80 border border-mosque-gold/30 space-y-1">
-                    <span class="text-[10px] text-mosque-muted block uppercase tracking-wider">Kepada Yth. Bapak/Ibu/Jamaah:</span>
-                    <b class="text-sm font-serif font-bold text-mosque-goldbright block">{{ $guest->name ?? 'Jamaah Tercinta' }}</b>
-                    <span class="text-[10px] text-mosque-muted block">Kehadiran &amp; silaturahmi Anda adalah kebahagiaan kami</span>
+                <div class="w-full py-1 px-3 rounded-xl bg-mosque-darker/90 backdrop-blur-md border border-mosque-gold/30 text-center shadow-md mt-0.5">
+                    <span class="text-[7.5px] text-mosque-muted uppercase tracking-wider block font-medium">KEPADA YTH. BAPAK/IBU/JAMAAH:</span>
+                    <b id="previewGuestNameCover" class="text-xs font-serif font-bold text-mosque-goldbright block mt-0.5 truncate">{{ $guest->name ?? 'Jamaah Tercinta' }}</b>
                 </div>
+            </section>
 
-                <!-- Buka Undangan Button -->
-                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-mosque-gold to-[#C59B4B] hover:brightness-110 text-mosque-darker font-serif font-bold text-xs uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
-                    <span>🤲</span> <span>Buka Lembaran Silaturahmi</span> <span>🌿</span>
+            <!-- Bottom Button -->
+            <footer class="w-full pt-1 flex flex-col items-center gap-0.5 shrink-0">
+                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-mosque-gold to-[#C59B4B] hover:brightness-110 active:scale-[0.98] text-mosque-darker font-serif font-bold text-xs uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-1.5 relative z-20 pointer-events-auto cursor-pointer">
+                    <span>🤲</span> <span>Buka Lembaran Silaturahmi</span> <span>&rarr;</span>
                 </button>
-            </div>
+                <p class="text-[8.5px] font-sans text-mosque-muted flex items-center gap-1">
+                    <span class="text-mosque-gold">♫</span> Audio Sholawat & Doa diputar saat dibuka
+                </p>
+            </footer>
         </div>
     </div>
 
@@ -462,9 +480,14 @@
         function openInvitation() {
             const cover = document.getElementById('coverScreen');
             if (cover) {
-                cover.style.opacity = '0';
                 cover.style.pointerEvents = 'none';
-                setTimeout(() => { cover.classList.add('hidden'); }, 1000);
+                cover.style.opacity = '0';
+                cover.style.transform = 'translateY(-100%)';
+                setTimeout(() => {
+                    cover.classList.add('hidden');
+                    cover.style.display = 'none';
+                    document.body.classList.remove('overflow-hidden');
+                }, 700);
             }
             const floatingBtn = document.getElementById('audioFloatingBtn');
             if (floatingBtn) floatingBtn.classList.remove('hidden');
@@ -476,6 +499,7 @@
                 });
             }
         }
+        window.openInvitation = openInvitation;
 
         function toggleAudio() {
             const audio = document.getElementById('invitationAudio');

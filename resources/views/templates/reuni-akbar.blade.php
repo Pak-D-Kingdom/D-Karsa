@@ -61,9 +61,14 @@
             100% { opacity: 0; transform: translate(-50%, -15px); }
         }
         .toast-active { animation: toastSlide 2.8s ease forwards; }
+
+        /* Hide scrollbars for app-like clean mobile experience */
+        ::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
-<body class="reuni-bg text-reuni-text font-sans antialiased selection:bg-reuni-blue selection:text-white relative overflow-x-hidden">
+<body class="reuni-bg text-reuni-text font-sans antialiased selection:bg-reuni-blue selection:text-white relative overflow-x-hidden overflow-hidden">
 
     @php
         $coverImg = \App\Services\TemplateManager::resolvePhotoUrl(
@@ -102,45 +107,64 @@
     </div>
 
     <!-- ========================================================
-         COVER SCREEN (ALUMNI GALA VIP ACCESS PASS)
+         COVER SCREEN (ALUMNI GALA VIP ACCESS PASS - Full Screen Mobile)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-black/95 p-3 sm:p-4 transition-all duration-1000 ease-in-out">
-        <div class="relative w-full max-w-sm bg-gradient-to-b from-reuni-card via-reuni-navy to-black rounded-3xl p-5 sm:p-7 text-center shadow-2xl border-2 border-reuni-blue/60 overflow-hidden my-auto">
-            
-            <div class="space-y-4">
-                <span class="inline-block px-3.5 py-1 rounded-full bg-reuni-blue/20 text-reuni-bluebright text-[10px] font-syne font-bold tracking-[0.2em] uppercase border border-reuni-blue/40">
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-[#0F172A] reuni-bg flex flex-col justify-between items-center px-3.5 py-3 sm:py-5 transition-all duration-700 ease-in-out text-slate-200 select-none">
+        <!-- Ambient Reuni Glows (Clipped to prevent unwanted scrollbars) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-blue-600/20 blur-3xl"></div>
+            <div class="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-sky-600/15 blur-3xl"></div>
+        </div>
+
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
+            <!-- Header Bar -->
+            <header class="w-full flex flex-col items-center shrink-0">
+                <span class="inline-block px-3.5 py-1 rounded-full bg-reuni-blue/20 text-reuni-bluebright text-[9px] font-syne font-bold tracking-[0.2em] uppercase border border-reuni-blue/40 mb-1">
                     🥂 Gala Reuni Akbar &amp; Temu Kangen
                 </span>
+                <span id="previewHeadingCover" class="font-syne text-xs text-reuni-bluebright tracking-wider uppercase block">
+                    {{ $couple->event_heading ?? "GRAND REUNION & ALUMNI GALA DINNER" }}
+                </span>
+            </header>
 
+            <!-- Center Showcase (Photo, Group, Date, Guest Pass) -->
+            <section class="w-full my-auto py-0.5 flex flex-col items-center text-center">
                 <!-- Polaroid Style Memory Frame -->
-                <div class="relative w-40 h-44 mx-auto rounded-2xl overflow-hidden p-1.5 bg-gradient-to-b from-reuni-blue/40 to-reuni-card shadow-2xl">
+                <div class="relative w-20 h-24 mx-auto rounded-2xl overflow-hidden p-1 bg-gradient-to-b from-reuni-blue/40 to-reuni-card shadow-2xl my-1 shrink-0">
                     <div class="w-full h-full rounded-xl overflow-hidden bg-black">
                         <img id="previewCoverPhotoImg" src="{{ $coverImg }}" alt="Cover Reuni" class="w-full h-full object-cover">
                     </div>
                 </div>
 
-                <div>
-                    <span class="font-syne text-xs text-reuni-bluebright tracking-wider uppercase block">Memories &amp; Brotherhood</span>
-                    <h1 class="font-syne text-xl sm:text-2xl font-bold text-white mt-1">
+                <!-- Group Name & Order -->
+                <div class="mt-0.5 mb-0.5 w-full">
+                    <h1 id="previewGroomNameCover" class="font-syne text-base sm:text-lg font-bold text-white truncate">
                         {{ $alumniGroup }}
                     </h1>
-                    <p class="text-xs text-reuni-silver/80 mt-0.5">
+                    <p class="text-[9.5px] text-reuni-silver/80 mt-0.5">
                         {{ $orderInfo }}
+                    </p>
+                    <p class="text-[9px] text-slate-400 font-mono mt-0.5">
+                        📅 {{ $eventDateFormatted }}
                     </p>
                 </div>
 
                 <!-- Kepada Yth Alumni / Tamu -->
-                <div class="p-4 rounded-2xl bg-black/80 border border-reuni-blue/30 space-y-1">
-                    <span class="text-[10px] font-syne text-reuni-bluebright uppercase tracking-wider block">Undangan Resmi Alumni:</span>
-                    <b class="text-sm font-syne font-bold text-white block">{{ $guest->name ?? 'Sahabat Alumni' }}</b>
-                    <span class="text-[10px] text-reuni-silver/70 block">Momen indah bernostalgia dan mempererat jejaring</span>
+                <div class="w-full py-1 px-3 rounded-xl bg-slate-900/90 backdrop-blur-md border border-reuni-blue/30 shadow-sm text-center mt-0.5">
+                    <span class="text-[7.5px] font-syne text-reuni-bluebright uppercase tracking-wider block font-semibold">Undangan Resmi Alumni:</span>
+                    <b id="previewGuestNameCover" class="text-xs sm:text-sm font-syne font-bold text-white block mt-0.5 truncate">{{ $guest->name ?? 'Sahabat Alumni' }}</b>
                 </div>
+            </section>
 
-                <!-- Buka Undangan Button -->
-                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-reuni-blue to-blue-700 hover:from-reuni-bluebright hover:to-reuni-blue text-white font-syne font-bold text-xs uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
+            <!-- Bottom CTA Button -->
+            <footer class="w-full pt-1 flex flex-col items-center gap-1 shrink-0">
+                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-2.5 sm:py-3 px-5 rounded-xl bg-gradient-to-r from-reuni-blue to-blue-700 hover:from-reuni-bluebright hover:to-reuni-blue text-white font-syne font-bold text-xs uppercase tracking-wider shadow-[0_8px_20px_rgba(37,99,235,0.4)] transition flex items-center justify-center gap-2 cursor-pointer pointer-events-auto">
                     <span>🥂</span> <span>Buka Akses Gala Reuni</span> <span>&rarr;</span>
                 </button>
-            </div>
+                <p class="text-[9px] text-slate-400 flex items-center gap-1">
+                    <span class="text-reuni-bluebright">♫</span> Audio nostalgia diputar saat dokumen dibuka
+                </p>
+            </footer>
         </div>
     </div>
 
@@ -456,7 +480,12 @@
             if (cover) {
                 cover.style.opacity = '0';
                 cover.style.pointerEvents = 'none';
-                setTimeout(() => { cover.classList.add('hidden'); }, 1000);
+                cover.style.transform = 'translateY(-100%)';
+                setTimeout(() => {
+                    cover.classList.add('hidden');
+                    cover.style.display = 'none';
+                    document.body.classList.remove('overflow-hidden');
+                }, 700);
             }
             const floatingBtn = document.getElementById('audioFloatingBtn');
             if (floatingBtn) floatingBtn.classList.remove('hidden');
@@ -468,6 +497,7 @@
                 });
             }
         }
+        window.openInvitation = openInvitation;
 
         function toggleAudio() {
             const audio = document.getElementById('invitationAudio');

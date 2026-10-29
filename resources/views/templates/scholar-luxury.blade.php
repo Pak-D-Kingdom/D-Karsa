@@ -70,9 +70,14 @@
             100% { opacity: 0; transform: translate(-50%, -15px); }
         }
         .toast-active { animation: toastSlide 2.8s ease forwards; }
+
+        /* Hide scrollbars for app-like clean mobile experience */
+        ::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
-<body class="ivy-mesh text-ivy-text font-sans antialiased selection:bg-ivy-gold selection:text-ivy-dark relative overflow-x-hidden">
+<body class="ivy-mesh text-ivy-text font-sans antialiased selection:bg-ivy-gold selection:text-ivy-dark relative overflow-x-hidden overflow-hidden">
 
     @php
         $coverImg = \App\Services\TemplateManager::resolvePhotoUrl(
@@ -111,49 +116,64 @@
     </div>
 
     <!-- ========================================================
-         COVER SCREEN (IVY LEAGUE COMMENCEMENT SEAL)
+         COVER SCREEN (IVY LEAGUE COMMENCEMENT SEAL - Full Screen Mobile)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-black/95 p-3 sm:p-4 transition-all duration-1000 ease-in-out">
-        <div class="relative w-full max-w-sm bg-gradient-to-b from-ivy-card via-ivy-navy to-ivy-dark rounded-3xl p-5 sm:p-7 text-center shadow-2xl border-2 border-ivy-gold animate-medal overflow-hidden my-auto">
-            
-            <div class="mx-auto text-3xl mb-1 text-ivy-gold">
-                🏆
-            </div>
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-ivy-dark ivy-mesh flex flex-col justify-between items-center px-3.5 py-3 sm:py-5 transition-all duration-700 ease-in-out text-slate-200 select-none">
+        <!-- Ambient Ivy League Glows (Clipped to prevent unwanted scrollbars) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-ivy-gold/15 blur-3xl"></div>
+            <div class="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-ivy-navy/50 blur-3xl"></div>
+        </div>
 
-            <div class="space-y-4">
-                <span class="inline-block px-3.5 py-1 rounded-full bg-ivy-gold/20 text-ivy-goldbright text-[10px] font-cinzel font-bold tracking-[0.2em] uppercase border border-ivy-gold/40">
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
+            <!-- Header Bar -->
+            <header class="w-full flex flex-col items-center shrink-0">
+                <span class="inline-block px-3 py-0.5 rounded-full bg-ivy-gold/20 text-ivy-goldbright text-[9px] font-cinzel font-bold tracking-[0.2em] uppercase border border-ivy-gold/40 mb-1">
                     🎖️ Magna Cum Laude Honors
                 </span>
+                <span id="previewHeadingCover" class="font-cinzel text-xs text-ivy-gold tracking-[0.2em] uppercase block">
+                    {{ $couple->event_heading ?? "Academic Distinction & Commencement" }}
+                </span>
+            </header>
 
+            <!-- Center Showcase (Photo, Name, Guest Card) -->
+            <section class="w-full my-auto py-0.5 flex flex-col items-center text-center">
                 <!-- Crest Framed Portrait -->
-                <div class="relative w-36 h-48 mx-auto rounded-2xl overflow-hidden p-1.5 bg-gradient-to-b from-ivy-gold via-ivy-border to-ivy-card shadow-2xl">
+                <div class="relative w-20 h-24 mx-auto rounded-2xl overflow-hidden p-1 bg-gradient-to-b from-ivy-gold via-ivy-border to-ivy-card shadow-2xl my-1 shrink-0">
                     <div class="w-full h-full rounded-xl overflow-hidden bg-ivy-dark">
                         <img id="previewCoverPhotoImg" src="{{ $coverImg }}" alt="Cover Honors" class="w-full h-full object-cover">
                     </div>
                 </div>
 
-                <div>
-                    <span class="font-cinzel text-xs text-ivy-gold tracking-[0.2em] uppercase block">Academic Distinction</span>
-                    <h1 class="font-cinzel text-xl sm:text-2xl font-bold text-white mt-1">
+                <!-- Names & Honors -->
+                <div class="mt-0.5 mb-0.5 w-full">
+                    <h1 id="previewGroomNameCover" class="font-cinzel text-lg sm:text-xl font-bold text-white truncate">
                         {{ $gradName }}
                     </h1>
-                    <p class="text-xs text-ivy-goldbright font-semibold mt-0.5">
+                    <p class="text-[9.5px] text-ivy-goldbright font-semibold mt-0.5">
                         {{ $orderInfo }}
+                    </p>
+                    <p class="text-[9px] text-ivy-silver mt-0.5">
+                        📅 {{ $eventDateFormatted }}
                     </p>
                 </div>
 
                 <!-- Kepada Yth Tamu Kehormatan -->
-                <div class="p-4 rounded-2xl bg-ivy-dark/80 border border-ivy-gold/40 space-y-1">
-                    <span class="text-[10px] font-cinzel text-ivy-gold uppercase tracking-wider block">Undangan Kehormatan:</span>
-                    <b class="text-sm font-cinzel font-bold text-white block">{{ $guest->name ?? 'Tamu Kehormatan' }}</b>
-                    <span class="text-[10px] text-ivy-silver block">Merupakan kebanggaan atas kehadiran Bapak/Ibu</span>
+                <div class="w-full py-1 px-3 rounded-xl bg-ivy-card/90 backdrop-blur-md border border-ivy-gold/40 shadow-sm text-center mt-0.5">
+                    <span class="text-[7.5px] font-cinzel text-ivy-gold uppercase tracking-wider block font-semibold">Undangan Kehormatan:</span>
+                    <b id="previewGuestNameCover" class="text-xs sm:text-sm font-cinzel font-bold text-white block mt-0.5 truncate">{{ $guest->name ?? 'Tamu Kehormatan' }}</b>
                 </div>
+            </section>
 
-                <!-- Buka Undangan Button -->
-                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-ivy-gold to-[#B8972E] hover:from-ivy-goldbright hover:to-ivy-gold text-ivy-dark font-cinzel font-bold text-xs uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
+            <!-- Bottom CTA Button -->
+            <footer class="w-full pt-1 flex flex-col items-center gap-1 shrink-0">
+                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-2.5 sm:py-3 px-5 rounded-xl bg-gradient-to-r from-ivy-gold to-[#B8972E] hover:from-ivy-goldbright hover:to-ivy-gold text-ivy-dark font-cinzel font-bold text-xs uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-2 cursor-pointer pointer-events-auto">
                     <span>🎖️</span> <span>Buka Lembaran Kehormatan</span> <span>📜</span>
                 </button>
-            </div>
+                <p class="text-[9px] text-ivy-silver flex items-center gap-1">
+                    <span class="text-ivy-gold">♫</span> Hymne kelulusan diputar saat dokumen dibuka
+                </p>
+            </footer>
         </div>
     </div>
 
@@ -457,7 +477,12 @@
             if (cover) {
                 cover.style.opacity = '0';
                 cover.style.pointerEvents = 'none';
-                setTimeout(() => { cover.classList.add('hidden'); }, 1000);
+                cover.style.transform = 'translateY(-100%)';
+                setTimeout(() => {
+                    cover.classList.add('hidden');
+                    cover.style.display = 'none';
+                    document.body.classList.remove('overflow-hidden');
+                }, 700);
             }
             const floatingBtn = document.getElementById('audioFloatingBtn');
             if (floatingBtn) floatingBtn.classList.remove('hidden');
@@ -469,6 +494,7 @@
                 });
             }
         }
+        window.openInvitation = openInvitation;
 
         function toggleAudio() {
             const audio = document.getElementById('invitationAudio');

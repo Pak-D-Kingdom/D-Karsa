@@ -81,9 +81,13 @@
         .toast-active {
             animation: toastFade 2.8s ease forwards;
         }
+        /* Hide scrollbars for app-like clean mobile experience */
+        ::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
-<body class="sahaja-pattern text-sahaja-ink font-sans antialiased selection:bg-sahaja-green selection:text-white relative overflow-x-hidden">
+<body class="sahaja-pattern text-sahaja-ink font-sans antialiased selection:bg-sahaja-green selection:text-white relative overflow-hidden">
 
     @php
         $coverImg = \App\Services\TemplateManager::resolvePhotoUrl(
@@ -145,45 +149,63 @@
     </div>
 
     <!-- ========================================================
-         INTERACTIVE ENVELOPE COVER SCREEN
+         INTERACTIVE ENVELOPE COVER SCREEN (Edge-to-Edge Full Screen)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-stone-900/90 backdrop-blur-md p-3 sm:p-4 transition-all duration-1000 ease-in-out">
-        <div id="previewCoverBg" class="absolute inset-0 bg-cover bg-center opacity-25 pointer-events-none" style="background-image: url('{{ $coverImg }}');"></div>
-        <div class="relative w-full max-w-sm bg-sahaja-base rounded-3xl p-6 sm:p-5 sm:p-8 text-center shadow-2xl border-2 border-sahaja-green/20 overflow-hidden my-auto">
-            
-            <!-- Islamic Arch Motif Badge -->
-            <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-sahaja-greenlight text-sahaja-green border border-sahaja-green/30 mb-3">
-                <span>✂️</span>
-                <span>{{ $couple->event_heading ?? "WALIMATUL KHITAN" }}</span>
-            </div>
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-sahaja-base sahaja-pattern flex flex-col justify-between items-center px-3.5 py-2.5 sm:py-4 transition-all duration-700 ease-in-out text-sahaja-ink select-none">
+        <!-- Ambient Soft Shimmer Glows (Clipped) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div id="previewCoverBg" class="absolute inset-0 bg-cover bg-center opacity-10" style="background-image: url('{{ $coverImg }}');"></div>
+            <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-sahaja-green/10 blur-3xl"></div>
+            <div class="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-sahaja-ochre/15 blur-3xl"></div>
+        </div>
 
-            <!-- Bismillah Header -->
-            <p class="font-amiri text-lg text-sahaja-green font-bold mb-1">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
-            <p class="text-xs text-sahaja-muted font-medium mb-4">Undangan Tasyakuran & Walimatul Khitan</p>
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
+            <!-- Header -->
+            <header class="w-full flex flex-col items-center text-center shrink-0">
+                <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest bg-sahaja-greenlight text-sahaja-green border border-sahaja-green/30 mb-0.5">
+                    <span>✂️</span>
+                    <span id="previewHeadingCover">{{ $couple->event_heading ?? "WALIMATUL KHITAN" }}</span>
+                </div>
+                <p class="font-amiri text-base text-sahaja-green font-bold mb-0.5">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+                <p class="text-[10px] text-sahaja-muted font-medium">Undangan Tasyakuran &amp; Walimatul Khitan</p>
+            </header>
 
-            <!-- Young Hero Photo in Soft Arched Frame -->
-            <div class="relative w-40 h-48 mx-auto sahaja-arch overflow-hidden border-2 border-sahaja-green/40 shadow-xl my-2 bg-sahaja-cream">
-                <img id="previewCover" src="{{ $coverImg }}" class="w-full h-full object-cover" alt="{{ $boyName }}">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
-            </div>
+            <!-- Center Showcase -->
+            <section class="w-full my-auto py-0.5 flex flex-col items-center text-center">
+                <!-- Young Hero Photo in Soft Arched Frame -->
+                <div class="relative w-20 h-24 mx-auto sahaja-arch overflow-hidden border-2 border-sahaja-green/40 shadow-md my-1 bg-sahaja-cream shrink-0">
+                    <img id="previewCover" src="{{ $coverImg }}" class="w-full h-full object-cover" alt="{{ $boyName }}">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                </div>
 
-            <h1 class="font-serif text-2xl font-bold text-sahaja-greendark mt-3 mb-1">
-                {{ $boyName }}
-            </h1>
-            <p class="text-xs font-semibold text-sahaja-ochre mb-5">
-                {{ $boyOrder }}
-            </p>
+                <!-- Boy's Name -->
+                <div class="mt-0.5 mb-0.5 w-full">
+                    <h1 id="previewBoyNameCover" class="font-serif text-lg sm:text-xl font-bold text-sahaja-greendark truncate">
+                        {{ $boyName }}
+                    </h1>
+                    <p class="text-[9.5px] font-semibold text-sahaja-ochre mt-0.5">
+                        {{ $boyOrder }}
+                    </p>
+                </div>
 
-            <!-- Recipient Box -->
-            <div class="bg-white/80 rounded-2xl p-3 border border-sahaja-green/15 mb-6 text-xs shadow-xs">
-                <p class="text-[10px] uppercase tracking-wider text-sahaja-muted mb-0.5">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
-                <p class="font-bold text-sahaja-greendark text-sm">{{ $guestName }}</p>
-            </div>
+                <!-- Recipient Box -->
+                <div class="w-full bg-white/90 backdrop-blur-md rounded-xl p-2 border border-sahaja-green/20 shadow-xs text-center mt-0.5">
+                    <p class="text-[7.5px] uppercase tracking-wider text-sahaja-muted block font-medium">KEPADA YTH. BAPAK/IBU/SAUDARA/I:</p>
+                    <p id="previewGuestNameCover" class="font-bold text-sahaja-greendark text-xs truncate mt-0.5">{{ $guestName }}</p>
+                </div>
+            </section>
 
-            <button type="button" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-sahaja-green hover:bg-sahaja-greendark text-white text-xs font-bold uppercase tracking-wider shadow-lg hover:shadow-xl transition duration-300 flex items-center justify-center gap-2 transform hover:-translate-y-0.5 relative z-20 pointer-events-auto cursor-pointer">
-                <span>Buka Undangan</span>
-                <span class="text-sm">✉️</span>
-            </button>
+            <!-- Bottom Button -->
+            <footer class="w-full pt-1 flex flex-col items-center gap-0.5 shrink-0">
+                <button type="button" onclick="openInvitation()" class="w-full py-2.5 px-4 rounded-xl bg-sahaja-green hover:bg-sahaja-greendark active:scale-[0.98] text-white text-xs font-bold uppercase tracking-wider shadow-lg transition duration-300 flex items-center justify-center gap-1.5 relative z-20 pointer-events-auto cursor-pointer">
+                    <span>Buka Undangan</span>
+                    <span class="text-xs">✉️</span>
+                    <span>&rarr;</span>
+                </button>
+                <p class="text-[8.5px] font-sans text-sahaja-muted flex items-center gap-1">
+                    <span class="text-sahaja-green">♫</span> Musik latar islami diputar saat dibuka
+                </p>
+            </footer>
         </div>
     </div>
 
@@ -525,9 +547,14 @@
         function openInvitation() {
             const cover = document.getElementById('coverScreen');
             if (cover) {
-                cover.style.opacity = '0';
                 cover.style.pointerEvents = 'none';
-                setTimeout(() => cover.classList.add('hidden'), 900);
+                cover.style.opacity = '0';
+                cover.style.transform = 'translateY(-100%)';
+                setTimeout(() => {
+                    cover.classList.add('hidden');
+                    cover.style.display = 'none';
+                    document.body.classList.remove('overflow-hidden');
+                }, 700);
             }
 
             if (audioFloatingBtn) {
@@ -544,6 +571,7 @@
                 });
             }
         }
+        window.openInvitation = openInvitation;
 
         function toggleAudio() {
             if (!bgAudio) return;

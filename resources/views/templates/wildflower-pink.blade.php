@@ -104,9 +104,13 @@
         .polaroid-frame:hover {
             transform: translateY(-4px) rotate(1deg);
         }
+        /* Hide scrollbars for app-like clean mobile experience */
+        ::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
-<body class="bg-[#3a2026] text-neutral-800 font-sans antialiased selection:bg-blush-300 selection:text-blush-900">
+<body class="bg-[#fbf5f4] text-neutral-800 font-sans antialiased selection:bg-blush-300 selection:text-blush-900 overflow-hidden">
 
     @php
         $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo, 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=1200');
@@ -134,62 +138,65 @@
     <div id="ambientPetalsContainer" class="fixed inset-0 pointer-events-none overflow-hidden z-30"></div>
 
     <!-- ========================================================
-         COVER SCREEN (Wildflower Arched Window with Wax Seal)
+         COVER SCREEN (Wildflower Arched Window - Edge-to-Edge Full Screen)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col bg-gradient-to-b from-[#fbf5f4] via-[#f7e6e9] to-[#edd0d6] text-blush-900 p-3 sm:p-4 transition-all duration-700 ease-in-out">
-        <div class="min-h-full flex flex-col justify-center items-center my-auto py-2 sm:py-3 w-full">
-            <!-- Center Arched Frame -->
-            <div class="relative z-10 w-full max-w-sm bg-white/95 border-2 border-blush-200 rounded-[38px] sm:rounded-[44px] arch-window p-5 sm:p-8 text-center shadow-2xl backdrop-blur-md my-auto">
-                
-                <!-- Delicate Botanical Wreath SVG Header -->
-                <div class="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-2 sm:mb-3 flex items-center justify-center text-blush-500">
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col justify-between items-center bg-gradient-to-b from-[#fbf5f4] via-[#f7e6e9] to-[#edd0d6] text-blush-900 px-3.5 py-2.5 sm:py-4 transition-all duration-700 ease-in-out select-none">
+        <!-- Ambient Petal Shimmers (Clipped) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-blush-300/30 blur-3xl"></div>
+            <div class="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-rose-400/20 blur-3xl"></div>
+        </div>
+
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
+            <!-- Header -->
+            <header class="w-full flex flex-col items-center text-center shrink-0">
+                <div class="w-9 h-9 mx-auto mb-1 flex items-center justify-center text-blush-500">
                     <svg viewBox="0 0 100 100" class="w-full h-full fill-current">
                         <path d="M50 15 C30 15 15 30 15 50 C15 70 30 85 50 85 C70 85 85 70 85 50 C85 30 70 15 50 15 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="4 3"/>
                         <circle cx="50" cy="50" r="28" fill="none" stroke="#c59b27" stroke-width="1"/>
                         <path d="M50 25 C52 35 60 40 70 42 C60 44 52 50 50 60 C48 50 40 44 30 42 C40 40 48 35 50 25 Z" fill="#b23b53" opacity="0.3"/>
                     </svg>
                 </div>
-
-                <p class="font-garamond text-[11px] sm:text-xs tracking-[0.25em] text-botanical-sage uppercase font-bold">
+                <p id="previewHeadingCover" class="font-garamond text-[9.5px] tracking-[0.25em] text-botanical-sage uppercase font-bold">
                     {{ $couple->event_heading ?? "THE WEDDING CELEBRATION" }}
                 </p>
-                <p class="text-[9px] sm:text-[10px] text-neutral-500 tracking-widest uppercase mt-0.5 mb-2 sm:mb-3">You're Cordially Invited</p>
+                <p class="text-[8.5px] text-neutral-500 tracking-widest uppercase mt-0.5">You're Cordially Invited</p>
+            </header>
 
+            <!-- Center Showcase -->
+            <section class="w-full my-auto py-0.5 flex flex-col items-center text-center">
                 <!-- Arched Photo Preview Window -->
-                <div class="w-36 h-40 sm:w-44 sm:h-52 max-h-[25vh] mx-auto rounded-t-full rounded-b-2xl overflow-hidden border-2 border-blush-200 shadow-inner mb-3 sm:mb-4 relative bg-blush-100">
+                <div class="w-20 h-24 mx-auto rounded-t-full rounded-b-xl overflow-hidden border-2 border-blush-200 shadow-md my-1 relative bg-blush-100 shrink-0">
                     <img id="previewCoverPhotoImg" src="{{ $coverImg }}" alt="Cover" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-blush-900/40 via-transparent to-transparent pointer-events-none"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-blush-900/35 via-transparent to-transparent pointer-events-none"></div>
                 </div>
 
                 <!-- Couple Names -->
-                <h1 class="font-script text-3xl sm:text-5xl text-blush-800 leading-tight">
-                    {{ $couple->groom_name }} &amp; {{ $couple->bride_name }}
-                </h1>
-                <p class="font-garamond text-xs sm:text-sm text-neutral-600 mt-1 sm:mt-2 font-medium tracking-wide">
-                    {{ $weddingDateFormatted }}
-                </p>
+                <div class="mt-0.5 mb-0.5 w-full">
+                    <h1 id="previewNamesCover" class="font-script text-2xl sm:text-3xl text-blush-800 leading-tight truncate">
+                        {{ $couple->groom_name }} &amp; {{ $couple->bride_name }}
+                    </h1>
+                    <p class="font-garamond text-xs text-neutral-600 mt-0.5 font-medium tracking-wide">
+                        {{ $weddingDateFormatted }}
+                    </p>
+                </div>
 
                 <!-- Guest Tag Card -->
-                <div class="mt-3 sm:mt-4 p-2.5 sm:p-3 rounded-2xl bg-blush-50 border border-blush-200 text-xs">
-                    <span class="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider text-botanical-sage block">Kepada Yth.</span>
-                    <b class="text-xs sm:text-sm text-blush-900 block mt-0.5">{{ $guest->name ?? 'Tamu Undangan' }}</b>
+                <div class="w-full py-1 px-3 rounded-xl bg-white/90 backdrop-blur-md border border-blush-200 text-center shadow-xs mt-0.5">
+                    <span class="text-[7.5px] uppercase font-bold tracking-wider text-botanical-sage block">KEPADA YTH.</span>
+                    <b id="previewGuestNameCover" class="text-xs font-serif text-blush-900 block mt-0.5 truncate">{{ $guest->name ?? 'Tamu Undangan' }}</b>
                 </div>
+            </section>
 
-                <!-- Wax Seal Pulsing Button ("Save Our Date") -->
-                <div class="pt-2">
-                    <button type="button" onclick="openInvitation()" class="wax-seal-btn w-full py-3 sm:py-3.5 px-6 rounded-full bg-gradient-to-r from-botanical-wax to-blush-600 text-white font-garamond text-xs sm:text-sm font-bold uppercase tracking-widest shadow-lg hover:brightness-110 active:scale-95 transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto">
-                        <span>💌</span> Buka Undangan
-                    </button>
-                </div>
-
-                @if(!empty($isDemo))
-                    <div class="mt-2.5">
-                        <span class="inline-block px-3 py-0.5 rounded-full text-[9px] font-bold bg-blush-100 text-blush-700">
-                            Demo Template: Wildflower Pink
-                        </span>
-                    </div>
-                @endif
-            </div>
+            <!-- Bottom Button -->
+            <footer class="w-full pt-1 flex flex-col items-center gap-0.5 shrink-0">
+                <button type="button" onclick="openInvitation()" class="wax-seal-btn w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-botanical-wax to-blush-600 active:scale-[0.98] text-white font-garamond text-xs font-bold uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-1.5 relative z-20 pointer-events-auto cursor-pointer">
+                    <span>💌</span> <span>BUKA UNDANGAN</span> <span>&rarr;</span>
+                </button>
+                <p class="text-[8.5px] font-sans text-neutral-500 flex items-center gap-1">
+                    <span class="text-blush-600">♫</span> Musik latar romantis diputar saat dibuka
+                </p>
+            </footer>
         </div>
     </div>
 
@@ -530,10 +537,16 @@
         // 1. Open Invitation & Audio
         function openInvitation() {
             const cover = document.getElementById('coverScreen');
-            cover.classList.add('opacity-0', 'pointer-events-none');
-            setTimeout(() => {
-                cover.classList.add('hidden');
-            }, 700);
+            if (cover) {
+                cover.style.pointerEvents = 'none';
+                cover.style.opacity = '0';
+                cover.style.transform = 'translateY(-100%)';
+                setTimeout(() => {
+                    cover.classList.add('hidden');
+                    cover.style.display = 'none';
+                    document.body.classList.remove('overflow-hidden');
+                }, 700);
+            }
 
             const audio = document.getElementById('invitationAudio');
             const floatingBtn = document.getElementById('audioFloatingBtn');
@@ -547,6 +560,7 @@
 
             initFallingPetals();
         }
+        window.openInvitation = openInvitation;
 
         function toggleAudio() {
             const audio = document.getElementById('invitationAudio');

@@ -62,9 +62,13 @@
             100% { opacity: 0; transform: translate(-50%, -15px); }
         }
         .toast-active { animation: toastSlide 2.8s ease forwards; }
+        /* Hide scrollbars for app-like clean mobile experience */
+        ::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
-<body class="bg-[#FAF6F0] text-nordic-text font-sans antialiased selection:bg-nordic-amber selection:text-white relative overflow-x-hidden">
+<body class="bg-[#FAF6F0] text-nordic-text font-sans antialiased selection:bg-nordic-amber selection:text-white relative overflow-hidden">
 
     @php
         $coverImg = \App\Services\TemplateManager::resolvePhotoUrl(
@@ -108,45 +112,59 @@
     </div>
 
     <!-- ========================================================
-         COVER SCREEN (WARM NORDIC EMBRACE)
+         COVER SCREEN: WARM NORDIC EMBRACE (Edge-to-Edge Full Screen)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-gradient-to-b from-[#F5EFE6] via-[#FAF6F0] to-[#EAE0D5] p-3 sm:p-4 transition-all duration-1000 ease-in-out">
-        <div class="relative w-full max-w-sm bg-white rounded-[32px] p-5 sm:p-7 text-center shadow-xl border border-nordic-border overflow-hidden my-auto">
-            
-            <div class="space-y-4">
-                <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-nordic-amber/10 text-nordic-amber text-[11px] font-bold tracking-wider uppercase">
-                    ⭐ Tasyakuran Kelahiran &amp; Aqiqah
-                </span>
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-gradient-to-b from-[#F5EFE6] via-[#FAF6F0] to-[#EAE0D5] flex flex-col justify-between items-center px-3.5 py-2.5 sm:py-4 transition-all duration-700 ease-in-out text-nordic-text select-none">
+        <!-- Ambient Nordic Glows (Clipped) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-nordic-amber/10 blur-3xl"></div>
+            <div class="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-amber-900/10 blur-3xl"></div>
+        </div>
 
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
+            <!-- Header -->
+            <header class="w-full flex flex-col items-center text-center shrink-0">
+                <span id="previewHeadingCover" class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-nordic-amber/10 text-nordic-amber text-[9px] font-bold tracking-wider uppercase mb-0.5">
+                    {{ $couple->event_heading ?? "⭐ Tasyakuran Kelahiran & Aqiqah" }}
+                </span>
+                <span class="font-script text-xl text-nordic-amber block leading-tight">Welcome Little Angel</span>
+            </header>
+
+            <!-- Center Showcase -->
+            <section class="w-full my-auto py-0.5 flex flex-col items-center text-center">
                 <!-- Baby Portrait Frame (Nordic Arched Dome) -->
-                <div class="relative w-36 h-44 mx-auto rounded-t-full rounded-b-2xl overflow-hidden p-1 bg-gradient-to-b from-nordic-amber/30 to-nordic-border shadow-md">
-                    <div class="w-full h-full rounded-t-full rounded-b-xl overflow-hidden bg-nordic-bg">
+                <div class="relative w-20 h-24 mx-auto rounded-t-full rounded-b-xl overflow-hidden p-1 bg-gradient-to-b from-nordic-amber/30 to-nordic-border shadow-md my-1 shrink-0">
+                    <div class="w-full h-full rounded-t-full rounded-b-lg overflow-hidden bg-nordic-bg">
                         <img id="previewCoverPhotoImg" src="{{ $coverImg }}" alt="Baby Cover" class="w-full h-full object-cover">
                     </div>
                 </div>
 
-                <div>
-                    <span class="font-script text-2xl text-nordic-amber block leading-tight">Welcome Little Angel</span>
-                    <h1 class="font-serif text-2xl sm:text-3xl font-bold text-nordic-text mt-1">
+                <!-- Baby's Name & Subtitle -->
+                <div class="mt-0.5 mb-0.5 w-full">
+                    <h1 id="previewBabyNameCover" class="font-serif text-lg sm:text-xl font-bold text-nordic-text truncate">
                         {{ $babyName }}
                     </h1>
-                    <p class="text-xs text-nordic-muted mt-1">
+                    <p class="text-[9.5px] text-nordic-muted mt-0.5">
                         {{ $orderInfo }}
                     </p>
                 </div>
 
                 <!-- Kepada Yth Tamu -->
-                <div class="p-4 rounded-2xl bg-nordic-bg/80 border border-nordic-border space-y-1">
-                    <span class="text-[10px] text-nordic-muted block uppercase tracking-wider">Kepada Yth. Bapak/Ibu/Saudara/i:</span>
-                    <b class="text-sm font-serif font-bold text-nordic-text block">{{ $guest->name ?? 'Tamu Undangan Tercinta' }}</b>
-                    <span class="text-[10px] text-nordic-muted block">Mohon doa restu keberkahan sang buah hati</span>
+                <div class="w-full py-1 px-3 rounded-xl bg-white/90 backdrop-blur-md border border-nordic-border/70 text-center shadow-xs mt-0.5">
+                    <span class="text-[7.5px] text-nordic-muted uppercase tracking-wider block font-medium">KEPADA YTH. BAPAK/IBU/SAUDARA/I:</span>
+                    <b id="previewGuestNameCover" class="text-xs font-serif font-bold text-nordic-text block mt-0.5 truncate">{{ $guest->name ?? 'Tamu Undangan Tercinta' }}</b>
                 </div>
+            </section>
 
-                <!-- Buka Undangan Button -->
-                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-3.5 px-6 rounded-2xl bg-nordic-amber hover:bg-amber-700 text-white font-medium text-xs shadow-md transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
-                    <span>💌</span> <span>Buka Undangan Tasyakuran</span> <span>🌿</span>
+            <!-- Bottom Button -->
+            <footer class="w-full pt-1 flex flex-col items-center gap-0.5 shrink-0">
+                <button type="button" id="openInvitationBtn" onclick="openInvitation()" class="w-full py-2.5 px-4 rounded-xl bg-nordic-amber hover:bg-amber-700 active:scale-[0.98] text-white font-medium text-xs shadow-md transition flex items-center justify-center gap-1.5 relative z-20 pointer-events-auto cursor-pointer">
+                    <span>💌</span> <span>Buka Undangan Tasyakuran</span> <span>&rarr;</span>
                 </button>
-            </div>
+                <p class="text-[8.5px] font-sans text-nordic-muted flex items-center gap-1">
+                    <span class="text-nordic-amber">♫</span> Alunan Doa & Musik diputar saat dibuka
+                </p>
+            </footer>
         </div>
     </div>
 
@@ -483,9 +501,14 @@
         function openInvitation() {
             const cover = document.getElementById('coverScreen');
             if (cover) {
-                cover.style.opacity = '0';
                 cover.style.pointerEvents = 'none';
-                setTimeout(() => { cover.classList.add('hidden'); }, 1000);
+                cover.style.opacity = '0';
+                cover.style.transform = 'translateY(-100%)';
+                setTimeout(() => {
+                    cover.classList.add('hidden');
+                    cover.style.display = 'none';
+                    document.body.classList.remove('overflow-hidden');
+                }, 700);
             }
             const floatingBtn = document.getElementById('audioFloatingBtn');
             if (floatingBtn) floatingBtn.classList.remove('hidden');
@@ -497,6 +520,7 @@
                 });
             }
         }
+        window.openInvitation = openInvitation;
 
         function toggleAudio() {
             const audio = document.getElementById('invitationAudio');

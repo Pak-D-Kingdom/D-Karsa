@@ -190,100 +190,69 @@
     <!-- ========================================================
          COVER SCREEN: DIGITAL ENVELOPE (Tampilan Awal Amplop)
          ======================================================== -->
-    <div id="invitation-cover" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-surface flex flex-col items-center justify-between px-4 py-6 transition-all duration-700 ease-in-out select-none">
-        <!-- Ambient Warm Sunset Glow Background Orbs -->
-        <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-primary-container/20 blur-3xl pointer-events-none"></div>
-        <div class="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-secondary-fixed/25 blur-3xl pointer-events-none"></div>
+    <div id="invitation-cover" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-surface flex flex-col items-center justify-between px-3.5 py-2.5 sm:py-4 transition-all duration-700 ease-in-out select-none">
+        <!-- Ambient Warm Sunset Glow Background Orbs (Clipped) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-primary-container/20 blur-3xl"></div>
+            <div class="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-secondary-fixed/25 blur-3xl"></div>
+        </div>
 
-        <div class="relative z-10 flex flex-col items-center w-full max-w-md mx-auto pt-2">
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
             <!-- Header Crest -->
-            <header class="flex flex-col items-center text-center w-full mb-2">
-                <div class="flex items-center gap-2 mb-2">
-                    <span class="w-8 h-[1px] bg-secondary/40"></span>
-                    <span class="material-symbols-outlined text-secondary text-sm">sparkles</span>
-                    <span class="w-8 h-[1px] bg-secondary/40"></span>
+            <header class="flex flex-col items-center text-center w-full shrink-0">
+                <div class="flex items-center gap-2 mb-0.5">
+                    <span class="w-6 h-[1px] bg-secondary/40"></span>
+                    <span class="material-symbols-outlined text-secondary text-xs">sparkles</span>
+                    <span class="w-6 h-[1px] bg-secondary/40"></span>
                 </div>
-                <p id="previewSubCategoryCover" class="text-xs uppercase tracking-[0.28em] text-secondary font-semibold mb-2">
+                <p id="previewSubCategoryCover" class="text-[9.5px] uppercase tracking-[0.25em] text-secondary font-semibold">
                     {{ $subCategoryBadge }}
                 </p>
+            </header>
 
+            <!-- Center Showcase (Monogram, Name, Guest Card) -->
+            <section class="w-full my-auto py-0.5 flex flex-col items-center text-center">
                 <!-- Monogram / Cover Photo Badge -->
-                <div class="relative w-32 h-32 flex items-center justify-center p-2 mb-2 group">
-                    <div class="absolute inset-0 rounded-full bg-surface-container-high/60 shadow-lg backdrop-blur-sm"></div>
-                    <div class="relative w-28 h-28 rounded-full overflow-hidden bg-surface-container-lowest shadow-inner flex items-center justify-center border border-outline-variant/30">
+                <div class="relative w-20 h-20 flex items-center justify-center p-1 my-0.5 group">
+                    <div class="absolute inset-0 rounded-full bg-surface-container-high/60 shadow-md backdrop-blur-sm"></div>
+                    <div class="relative w-full h-full rounded-full overflow-hidden bg-surface-container-lowest shadow-inner flex items-center justify-center border border-outline-variant/30">
                         <img id="previewCoverPhotoImg" alt="Cover Photo" class="w-full h-full object-cover rounded-full" src="{{ $coverImg }}"/>
                     </div>
                 </div>
 
                 <!-- Debutante Name Title -->
-                <h1 id="previewGroomNameCover" class="font-serif text-3xl sm:text-4xl text-primary tracking-tight font-semibold mt-1">
-                    {{ $celebrantName }}
-                </h1>
-                <p id="previewQuoteCover" class="text-xs sm:text-sm text-on-surface-variant italic mt-1 max-w-xs">
-                    “{{ $quote }}”
-                </p>
-            </header>
+                <div class="mt-0.5 mb-0.5 w-full">
+                    <h1 id="previewGroomNameCover" class="font-serif text-xl sm:text-2xl text-primary tracking-tight font-semibold truncate">
+                        {{ $celebrantName }}
+                    </h1>
+                    <p id="previewQuoteCover" class="text-[11px] text-on-surface-variant italic mt-0.5 max-w-xs mx-auto line-clamp-1">
+                        “{{ $quote }}”
+                    </p>
+                </div>
 
-            <!-- Interactive Digital Luxury Envelope Card -->
-            <section class="w-full my-3 flex flex-col items-center">
-                <div class="w-full bg-surface-container-lowest/90 backdrop-blur-md rounded-2xl p-5 shadow-xl relative overflow-hidden flex flex-col items-center text-center border border-outline-variant/30">
-                    <div class="w-full flex justify-between items-center mb-3">
-                        <span class="text-xs uppercase tracking-widest text-secondary font-bold">VIP Invitation</span>
-                        <div class="flex items-center gap-1">
-                            <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
-                            <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
-                            <span class="w-1.5 h-1.5 rounded-full bg-secondary-container"></span>
-                        </div>
-                    </div>
-
-                    <div class="py-1 w-full flex flex-col items-center">
-                        <p class="text-xs text-on-surface-variant uppercase tracking-wider mb-1.5 font-medium">
-                            Kepada Yth. Bapak/Ibu/Saudara/i:
-                        </p>
-                        <!-- Guest Recipient Framed Plaque -->
-                        <div class="w-full bg-surface-container-low rounded-xl py-3 px-4 shadow-sm my-1 flex flex-col items-center border border-outline-variant/30">
-                            <div class="w-6 h-[1px] bg-secondary-container mb-1"></div>
-                            <h2 id="previewGuestNameCover" class="font-serif text-2xl text-on-surface font-semibold tracking-wide">
-                                {{ $guestName }}
-                            </h2>
-                            <div class="w-6 h-[1px] bg-secondary-container mt-1"></div>
-                            <span class="text-xs text-on-surface-variant font-medium mt-1">Di Tempat</span>
-                        </div>
-                        <p class="text-xs text-on-surface-variant mt-2 px-2 leading-relaxed">
-                            Merupakan suatu kehormatan dan kebahagiaan bagi kami atas kehadiran Anda untuk merayakan momen berharga ini.
-                        </p>
-                    </div>
-
-                    <!-- Golden Wax Seal button -->
-                    <div class="mt-3 mb-1 relative flex items-center justify-center">
-                        <button id="waxSealBtn" type="button" aria-label="Open with Wax Seal" class="w-14 h-14 rounded-full bg-gradient-to-br from-primary-container via-primary to-tertiary shadow-md flex items-center justify-center text-on-primary transition-transform active:scale-95 hover:scale-105 cursor-pointer">
-                            <div class="w-11 h-11 rounded-full bg-primary flex flex-col items-center justify-center p-1 shadow-inner">
-                                <span class="material-symbols-outlined text-secondary-container text-[11px] -mb-0.5">hotel_class</span>
-                                <span class="font-serif text-xs font-bold text-secondary-fixed leading-none">XVII</span>
-                            </div>
-                        </button>
-                    </div>
+                <!-- Guest Recipient Framed Plaque -->
+                <div class="w-full bg-surface-container-lowest/90 backdrop-blur-md rounded-xl p-2 shadow-md my-0.5 flex flex-col items-center text-center border border-outline-variant/30">
+                    <span class="text-[8px] text-on-surface-variant uppercase tracking-wider font-medium block">
+                        Kepada Yth. Bapak/Ibu/Saudara/i:
+                    </span>
+                    <h2 id="previewGuestNameCover" class="font-serif text-base sm:text-lg text-on-surface font-semibold tracking-wide truncate mt-0.5">
+                        {{ $guestName }}
+                    </h2>
+                    <span class="text-[9.5px] text-on-surface-variant font-medium italic">Di Tempat</span>
                 </div>
             </section>
 
             <!-- Primary CTA Button -->
-            <footer class="w-full flex flex-col items-center gap-3 mt-1 pb-2">
-                <button id="openInvitationBtn" type="button" class="w-full py-3.5 px-6 rounded-full bg-gradient-to-r from-primary-container via-primary to-tertiary text-on-primary shadow-lg flex items-center justify-center gap-2.5 transition-all duration-300 hover:shadow-xl active:scale-[0.98] font-semibold text-xs uppercase tracking-wider">
-                    <span class="material-symbols-outlined text-secondary-container">mark_email_read</span>
+            <footer class="w-full flex flex-col items-center gap-0.5 pt-0.5 shrink-0">
+                <button id="openInvitationBtn" type="button" class="w-full py-2.5 px-4 rounded-full bg-gradient-to-r from-primary-container via-primary to-tertiary text-on-primary shadow-lg flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-xl active:scale-[0.98] font-semibold text-xs uppercase tracking-wider cursor-pointer pointer-events-auto">
+                    <span class="material-symbols-outlined text-secondary-container text-base">mark_email_read</span>
                     <span>Buka Undangan</span>
                     <span class="material-symbols-outlined text-sm">arrow_forward</span>
                 </button>
 
-                <div class="flex items-center gap-2 bg-surface-container-high/80 px-4 py-1.5 rounded-full shadow-sm">
-                    <span class="material-symbols-outlined text-primary text-sm animate-spin" style="animation-duration: 4s;">music_note</span>
-                    <span class="text-[11px] text-on-surface-variant font-medium">Putar Musik Latar saat dibuka</span>
-                </div>
-
-                <!-- Date & Location glance -->
-                <div class="flex items-center justify-center gap-2 text-on-surface-variant opacity-80 mt-1 text-xs">
-                    <span class="tracking-widest uppercase font-semibold">{{ $eventDateFormatted }}</span>
-                    <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
-                    <span class="tracking-widest uppercase truncate max-w-[180px]">{{ $venueName }}</span>
+                <div class="flex items-center gap-1 text-[9px] text-on-surface-variant">
+                    <span class="material-symbols-outlined text-primary text-[12px] animate-spin" style="animation-duration: 4s;">music_note</span>
+                    <span>Putar Musik Latar saat dibuka</span>
                 </div>
             </footer>
         </div>

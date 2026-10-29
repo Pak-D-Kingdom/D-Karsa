@@ -82,9 +82,13 @@
         .toast-active {
             animation: toastFade 2.8s ease forwards;
         }
+        /* Hide scrollbars for app-like clean mobile experience */
+        ::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
-<body class="linen-bg text-home-ink font-sans antialiased selection:bg-home-terracotta selection:text-white">
+<body class="linen-bg text-home-ink font-sans antialiased selection:bg-home-terracotta selection:text-white overflow-hidden">
 
     @php
         $coverImg = \App\Services\TemplateManager::resolvePhotoUrl(
@@ -102,6 +106,36 @@
         $eventTimeFormatted = !empty($couple->wedding_time) ? substr($couple->wedding_time, 0, 5) . ' WIB' : '09:30 WIB';
 
         $hostName = $couple->groom_name ?? 'Keluarga Bpk. Hendra & Ibu Maya';
+
+        $activeEvents = collect($couple->events ?? []);
+        if ($activeEvents->isEmpty()) {
+            $activeEvents = collect([
+                (object)[
+                    'title' => "Khatam Qur'an & Pembacaan Surah Al-Baqarah",
+                    'date' => $eventDateFormatted,
+                    'start_time' => '09:30',
+                    'end_time' => '10:30',
+                    'venue_name' => 'Kediaman Baru Kami',
+                    'address' => "Lantunan ayat suci Al-Qur'an dan doa perlindungan untuk tempat tinggal baru.",
+                ],
+                (object)[
+                    'title' => 'Tausiyah Singkat & Potong Tumpeng',
+                    'date' => $eventDateFormatted,
+                    'start_time' => '10:30',
+                    'end_time' => '11:15',
+                    'venue_name' => 'Kediaman Baru Kami',
+                    'address' => 'Tausiyah keberkahan keluarga sakinah dan prosesi potong tumpeng slametan.',
+                ],
+                (object)[
+                    'title' => 'Santap Siang Prasmanan & Ramah Tamah',
+                    'date' => $eventDateFormatted,
+                    'start_time' => '11:15',
+                    'end_time' => 'Selesai',
+                    'venue_name' => 'Kediaman Baru Kami',
+                    'address' => 'Menikmati jamuan makan bersama tetangga, kerabat, dan sahabat dekat.',
+                ],
+            ]);
+        }
     @endphp
 
     <!-- Background Audio -->
@@ -121,54 +155,68 @@
     </div>
 
     <!-- ========================================================
-         WARM TERRACOTTA HOUSE BLESSING COVER SCREEN
+         WARM TERRACOTTA HOUSE BLESSING COVER SCREEN (Edge-to-Edge)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-[#2B231F] p-3 sm:p-4 transition-all duration-1000 ease-in-out">
-        <div class="relative w-full max-w-sm bg-[#FAF8F5] text-home-ink rounded-3xl p-5 sm:p-7 text-center shadow-2xl border-2 border-home-terracotta/40 overflow-hidden my-auto">
-            
-            <!-- House Key Emblem -->
-            <div class="w-16 h-16 mx-auto mb-3 rounded-full bg-home-terracotta/15 flex items-center justify-center text-3xl animate-key">
-                🗝️
-            </div>
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-[#FAF8F5] linen-bg flex flex-col justify-between items-center px-3.5 py-2.5 sm:py-4 transition-all duration-700 ease-in-out text-home-ink select-none">
+        <!-- Ambient Warm Glows (Clipped) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div id="previewCoverBg" class="absolute inset-0 bg-cover bg-center opacity-10" style="background-image: url('{{ $coverImg }}');"></div>
+            <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-home-terracotta/10 blur-3xl"></div>
+            <div class="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-amber-900/10 blur-3xl"></div>
+        </div>
 
-            <!-- Arabic Bismillah Calligraphy -->
-            <p class="font-amiri text-lg text-home-terracotta font-bold mb-1">بَيْتِي جَنَّتِي • بِّسْمِ ٱللَّهِ</p>
-            <span class="inline-block px-3.5 py-1 rounded-full text-[10px] font-sans font-bold uppercase tracking-wider bg-home-terracotta/10 text-home-terracotta border border-home-terracotta/30 mb-3">
-                {{ $couple->event_heading ?? "TASYAKURAN RUMAH BARU" }}
-            </span>
-
-            <!-- House Image Frame -->
-            <div class="relative w-full h-44 mx-auto rounded-2xl overflow-hidden border border-home-warmborder shadow-lg my-3 bg-white">
-                <img id="previewCoverPhotoImg" src="{{ $coverImg }}" alt="Rumah Baru" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
-                <span class="absolute bottom-2.5 left-3 text-[10px] text-white/90 font-medium tracking-wider">
-                    🏡 Kediaman Baru Penuh Berkah
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
+            <!-- Header -->
+            <header class="w-full flex flex-col items-center text-center shrink-0">
+                <div class="w-8 h-8 mx-auto mb-1 rounded-full bg-home-terracotta/15 flex items-center justify-center text-lg animate-key text-home-terracotta">
+                    🗝️
+                </div>
+                <p class="font-amiri text-base text-home-terracotta font-bold mb-0.5">بَيْتِي جَنَّتِي • بِّسْمِ ٱللَّهِ</p>
+                <span id="previewHeadingCover" class="inline-block px-2.5 py-0.5 rounded-full text-[8.5px] font-sans font-bold uppercase tracking-wider bg-home-terracotta/10 text-home-terracotta border border-home-terracotta/30">
+                    {{ $couple->event_heading ?? "TASYAKURAN RUMAH BARU" }}
                 </span>
-            </div>
+            </header>
 
-            <!-- Host's Name -->
-            <div class="my-3">
-                <h1 class="font-serif text-2xl font-bold text-home-ink leading-tight">
-                    {{ $hostName }}
-                </h1>
-                <p class="text-xs text-home-olive font-sans font-semibold mt-1">
-                    Doa Syukuran &amp; Potong Tumpeng
+            <!-- Center Showcase -->
+            <section class="w-full my-auto py-0.5 flex flex-col items-center text-center">
+                <!-- House Image Frame -->
+                <div class="relative w-full max-w-[210px] h-24 mx-auto rounded-2xl overflow-hidden border border-home-warmborder shadow-md my-1 bg-white shrink-0">
+                    <img id="previewCoverPhotoImg" src="{{ $coverImg }}" alt="Rumah Baru" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                    <span class="absolute bottom-1.5 left-2.5 text-[8.5px] text-white/95 font-medium tracking-wider">
+                        🏡 Kediaman Baru Penuh Berkah
+                    </span>
+                </div>
+
+                <!-- Host's Name -->
+                <div class="mt-0.5 mb-0.5 w-full">
+                    <h1 id="previewHostNameCover" class="font-serif text-lg sm:text-xl font-bold text-home-ink leading-tight truncate">
+                        {{ $hostName }}
+                    </h1>
+                    <p class="text-[9.5px] text-home-olive font-sans font-semibold mt-0.5">
+                        Doa Syukuran &amp; Potong Tumpeng
+                    </p>
+                    <p class="text-[9.5px] text-slate-500 font-medium mt-0.5">
+                        📅 {{ $eventDateFormatted }}
+                    </p>
+                </div>
+
+                <!-- Guest Invitation Card -->
+                <div class="w-full py-1 px-3 rounded-xl bg-white/90 backdrop-blur-md border border-home-warmborder text-center shadow-xs mt-0.5">
+                    <span class="text-[7.5px] uppercase tracking-wider text-slate-400 font-bold block">UNDANGAN KEPADA YTH:</span>
+                    <b id="previewGuestNameCover" class="text-xs font-serif text-home-ink block mt-0.5 truncate">{{ $guest->name ?? 'Bapak / Ibu / Tetangga & Kerabat' }}</b>
+                </div>
+            </section>
+
+            <!-- Bottom Button -->
+            <footer class="w-full pt-1 flex flex-col items-center gap-0.5 shrink-0">
+                <button type="button" onclick="openInvitation()" class="w-full py-2.5 px-4 rounded-xl bg-home-terracotta hover:bg-home-clay active:scale-[0.98] text-white font-sans text-xs font-bold uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-1.5 relative z-20 pointer-events-auto cursor-pointer">
+                    <span>🗝️</span> <span>BUKA PINTU KEDIAMAN KAMI</span> <span>&rarr;</span>
+                </button>
+                <p class="text-[8.5px] font-sans text-slate-500 flex items-center gap-1">
+                    <span class="text-home-terracotta">♫</span> Musik Pengiring Syukuran diputar saat dibuka
                 </p>
-                <p class="text-xs text-slate-500 font-medium mt-1">
-                    📅 {{ $eventDateFormatted }}
-                </p>
-            </div>
-
-            <!-- Guest Invitation Card -->
-            <div class="my-4 p-3 rounded-2xl bg-white border border-home-warmborder text-center shadow-sm">
-                <span class="text-[9px] uppercase tracking-wider text-slate-400 font-bold block">UNDANGAN KEPADA YTH:</span>
-                <b class="text-sm font-serif text-home-ink block mt-0.5">{{ $guest->name ?? 'Bapak / Ibu / Tetangga & Kerabat' }}</b>
-            </div>
-
-            <!-- Buka Pintu Action -->
-            <button type="button" onclick="openInvitation()" class="w-full py-3.5 rounded-2xl bg-home-terracotta hover:bg-home-clay text-white font-sans text-xs font-bold uppercase tracking-wider shadow-lg transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
-                <span>🗝️</span> BUKA PINTU KEDIAMAN KAMI
-            </button>
+            </footer>
         </div>
     </div>
 
@@ -270,39 +318,29 @@
                 <h2 class="font-serif text-2xl font-bold text-home-ink">Susunan Acara Tasyakuran 🏡</h2>
             </div>
 
-            <div class="space-y-3.5 max-w-sm mx-auto">
-                <div class="p-4 rounded-2xl bg-white border border-home-warmborder shadow-sm flex items-center gap-3.5">
-                    <div class="w-11 h-11 rounded-2xl bg-home-terracotta/15 flex items-center justify-center text-xl shrink-0">
-                        📖
+            <div id="itineraryContainer" class="space-y-3.5 max-w-sm mx-auto">
+                @php
+                    $sessionIcons = ['📖', '🍚', '🍲', '☕', '🤲'];
+                @endphp
+                @foreach($activeEvents as $index => $event)
+                    <div class="p-4 rounded-2xl bg-white border border-home-warmborder shadow-sm flex items-center gap-3.5">
+                        <div class="w-11 h-11 rounded-2xl bg-home-terracotta/15 flex items-center justify-center text-xl shrink-0">
+                            {{ $sessionIcons[$index % count($sessionIcons)] }}
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <span class="text-[10px] font-sans font-bold text-home-terracotta block">
+                                {{ !empty($event->start_time) ? substr($event->start_time, 0, 5) : '09:30' }}{{ !empty($event->end_time) ? ' - ' . (str_contains(strtolower($event->end_time), 'selesai') ? 'Selesai' : substr($event->end_time, 0, 5) . ' WIB') : ' WIB' }}
+                            </span>
+                            <h3 class="font-serif text-sm font-bold text-home-ink">{{ $event->title ?? 'Sesi Syukuran' }}</h3>
+                            @if(!empty($event->venue_name))
+                                <p class="text-xs text-home-olive font-medium">{{ $event->venue_name }}</p>
+                            @endif
+                            @if(!empty($event->address))
+                                <p class="text-xs text-slate-500 mt-0.5 leading-relaxed">{{ $event->address }}</p>
+                            @endif
+                        </div>
                     </div>
-                    <div>
-                        <span class="text-[10px] font-sans font-bold text-home-terracotta block">09:30 - 10:30 WIB</span>
-                        <h3 class="font-serif text-sm font-bold text-home-ink">Khatam Qur'an &amp; Pembacaan Surah Al-Baqarah</h3>
-                        <p class="text-xs text-slate-500">Lantunan ayat suci Al-Qur'an dan doa perlindungan untuk tempat tinggal baru.</p>
-                    </div>
-                </div>
-
-                <div class="p-4 rounded-2xl bg-white border border-home-terracotta/40 shadow-sm flex items-center gap-3.5">
-                    <div class="w-11 h-11 rounded-2xl bg-home-lightolive flex items-center justify-center text-xl shrink-0">
-                        🍚
-                    </div>
-                    <div>
-                        <span class="text-[10px] font-sans font-bold text-home-olive block">10:30 - 11:15 WIB</span>
-                        <h3 class="font-serif text-sm font-bold text-home-ink">Tausiyah Singkat &amp; Potong Tumpeng</h3>
-                        <p class="text-xs text-slate-500">Tausiyah keberkahan keluarga sakinah dan prosesi potong tumpeng slametan.</p>
-                    </div>
-                </div>
-
-                <div class="p-4 rounded-2xl bg-white border border-home-warmborder shadow-sm flex items-center gap-3.5">
-                    <div class="w-11 h-11 rounded-2xl bg-home-canvas flex items-center justify-center text-xl shrink-0">
-                        🍲
-                    </div>
-                    <div>
-                        <span class="text-[10px] font-sans font-bold text-slate-600 block">11:15 WIB - Selesai</span>
-                        <h3 class="font-serif text-sm font-bold text-home-ink">Santap Siang Prasmanan &amp; Ramah Tamah</h3>
-                        <p class="text-xs text-slate-500">Menikmati jamuan makan bersama tetangga, kerabat, dan sahabat dekat.</p>
-                    </div>
-                </div>
+                @endforeach
             </div>
 
             <!-- Venue Details & Maps Button -->
@@ -500,13 +538,19 @@
         function openInvitation() {
             const cover = document.getElementById('coverScreen');
             if (cover) {
+                cover.style.pointerEvents = 'none';
                 cover.style.opacity = '0';
                 cover.style.transform = 'translateY(-100%)';
-                setTimeout(() => cover.classList.add('hidden'), 700);
+                setTimeout(() => {
+                    cover.classList.add('hidden');
+                    cover.style.display = 'none';
+                    document.body.classList.remove('overflow-hidden');
+                }, 700);
             }
             if (audioBtn) audioBtn.classList.remove('hidden');
             toggleAudio();
         }
+        window.openInvitation = openInvitation;
 
         function copyToClipboard(text, msg) {
             navigator.clipboard.writeText(text).then(() => {
@@ -621,6 +665,36 @@
             });
         }
 
+        function renderDynamicEvents(events) {
+            const container = document.getElementById('itineraryContainer');
+            if (!container || !Array.isArray(events) || events.length === 0) return;
+
+            const icons = ['📖', '🍚', '🍲', '☕', '🤲'];
+            container.innerHTML = events.map((ev, idx) => {
+                const title = ev.title || 'Sesi Syukuran';
+                const startTime = ev.start_time ? ev.start_time.substring(0, 5) : '09:30';
+                const endTime = ev.end_time ? ' - ' + (ev.end_time.toLowerCase().includes('selesai') ? 'Selesai' : ev.end_time.substring(0, 5) + ' WIB') : ' WIB';
+                const icon = icons[idx % icons.length];
+                const venue = ev.venue_name ? `<p class="text-xs text-home-olive font-medium">${ev.venue_name}</p>` : '';
+                const addr = ev.address ? `<p class="text-xs text-slate-500 mt-0.5 leading-relaxed">${ev.address}</p>` : '';
+                return `
+                    <div class="p-4 rounded-2xl bg-white border border-home-warmborder shadow-sm flex items-center gap-3.5">
+                        <div class="w-11 h-11 rounded-2xl bg-home-terracotta/15 flex items-center justify-center text-xl shrink-0">
+                            ${icon}
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <span class="text-[10px] font-sans font-bold text-home-terracotta block">
+                                ${startTime}${endTime}
+                            </span>
+                            <h3 class="font-serif text-sm font-bold text-home-ink">${title}</h3>
+                            ${venue}
+                            ${addr}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
         const defaultCoverImg = "{{ $coverImg }}";
         const defaultHouseImg = "{{ $houseImg }}";
 
@@ -652,6 +726,11 @@
                 const photos = data.photos || data.images;
                 if (Array.isArray(photos)) {
                     renderDynamicGallery(photos);
+                }
+            } else if (data.type === 'UPDATE_PREVIEW_EVENTS') {
+                const events = data.events;
+                if (Array.isArray(events)) {
+                    renderDynamicEvents(events);
                 }
             } else if (data.type === 'UPDATE_PREVIEW_PARENTS') {
                 const containerEl = document.getElementById('previewParentsContainer');

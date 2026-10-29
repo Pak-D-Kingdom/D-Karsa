@@ -72,9 +72,14 @@
         .toast-active {
             animation: toastSlide 2.8s ease forwards;
         }
+
+        /* Hide scrollbars for app-like clean viewport */
+        ::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
-<body class="swiss-grid text-slate-200 font-sans antialiased selection:bg-exec-cobalt selection:text-white">
+<body class="swiss-grid text-slate-200 font-sans antialiased selection:bg-exec-cobalt selection:text-white overflow-hidden">
 
     @php
         $coverImg = \App\Services\TemplateManager::resolvePhotoUrl(
@@ -111,56 +116,79 @@
     </div>
 
     <!-- ========================================================
-         EXECUTIVE DELEGATE PASS COVER SCREEN
+         EXECUTIVE DELEGATE PASS COVER SCREEN (Full Screen Mobile Cover)
          ======================================================== -->
-    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain flex flex-col items-center justify-center bg-black/95 p-3 sm:p-4 transition-all duration-1000 ease-in-out">
-        <div class="relative w-full max-w-sm lanyard-pass rounded-2xl p-5 sm:p-7 text-center shadow-2xl overflow-hidden my-auto">
+    <div id="coverScreen" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-exec-slate swiss-grid flex flex-col justify-between items-center px-3.5 py-3 sm:py-5 transition-all duration-700 ease-in-out text-slate-200 select-none">
+        <!-- Ambient Executive Glows (Clipped) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-exec-cobalt/25 blur-3xl"></div>
+            <div class="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-exec-cobaltbright/15 blur-3xl"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-[#131D31]/80 via-transparent to-[#0B1120]/90"></div>
+        </div>
+
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
             
-            <!-- Security Header Bar -->
-            <div class="flex items-center justify-between pb-3 border-b border-white/10 text-[9px] font-mono tracking-[0.25em] text-slate-400 uppercase">
-                <span>SECURITY LEVEL: VIP</span>
-                <span>DOC REF: #{{ rand(10000, 99999) }}</span>
-            </div>
-
-            <!-- Monogram Emblem -->
-            <div class="my-5 text-center">
-                <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-exec-cobalt/20 border border-exec-cobalt/40 mb-3 shadow-inner overflow-hidden">
-                    <img id="previewGroomPhotoImg" src="{{ $corpLogo }}" alt="{{ $corpName }}" class="w-full h-full object-cover">
+            <!-- TOP BAR: Security Level & Doc Ref -->
+            <header class="w-full flex flex-col items-center shrink-0">
+                <div class="w-full flex items-center justify-between pb-1.5 border-b border-white/10 text-[8.5px] font-mono tracking-[0.2em] text-slate-400 uppercase">
+                    <span class="flex items-center gap-1.5 text-exec-cobaltbright font-bold">
+                        <span class="w-1.5 h-1.5 rounded-full bg-exec-cobaltbright animate-ping"></span>
+                        SECURITY LEVEL: VIP
+                    </span>
+                    <span>DOC REF: #{{ rand(10000, 99999) }}</span>
                 </div>
-                <span id="previewHeadingCover" class="inline-block px-3 py-1 rounded-full text-[9px] font-mono font-bold tracking-[0.25em] uppercase bg-exec-cobalt/15 text-exec-cobaltbright border border-exec-cobalt/30">
-                    {{ $couple->event_heading ?? "ANNUAL STRATEGIC SUMMIT" }}
-                </span>
-            </div>
 
-            <!-- Corporate Cover Image Frame -->
-            <div class="relative w-full h-44 mx-auto rounded-xl overflow-hidden border border-white/15 shadow-xl my-3 bg-exec-slate">
-                <img id="previewCoverPhotoImg" src="{{ $coverImg }}" alt="Corporate Event" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-exec-slate/80 via-transparent to-transparent"></div>
-            </div>
+                <!-- Logo & Heading Pill -->
+                <div class="mt-1.5 flex flex-col items-center text-center">
+                    <div class="w-10 h-10 rounded-xl bg-exec-cobalt/20 border border-exec-cobalt/40 p-0.5 mb-1 shadow-md shadow-exec-cobalt/20 overflow-hidden">
+                        <img id="previewGroomPhotoImg" src="{{ $corpLogo }}" alt="{{ $corpName }}" class="w-full h-full object-cover rounded-lg">
+                    </div>
+                    <span id="previewHeadingCover" class="inline-block px-2.5 py-0.5 rounded-full text-[8.5px] font-mono font-bold tracking-[0.2em] uppercase bg-exec-cobalt/15 text-exec-cobaltbright border border-exec-cobalt/30">
+                        {{ $couple->event_heading ?? "ANNUAL STRATEGIC SUMMIT" }}
+                    </span>
+                </div>
+            </header>
 
-            <!-- Host Institution -->
-            <div class="my-3">
-                <h1 id="previewGroomNameCover" class="font-syne text-xl sm:text-2xl font-extrabold text-white tracking-wide leading-tight">
-                    {{ $corpName }}
-                </h1>
-                <p id="previewSubCategoryBadge" class="font-mono text-xs text-exec-cobaltbright mt-1 tracking-widest uppercase">
-                    {{ $couple->sub_category ?? 'Grand Opening & Gala Dinner' }}
+            <!-- CENTER SECTION: Panoramic Cover Picture & Institution Details -->
+            <section class="w-full my-auto py-1 flex flex-col items-center text-center">
+                <!-- Panoramic Cover Image Frame -->
+                <div class="relative w-full h-24 sm:h-28 rounded-xl overflow-hidden border border-white/15 shadow-xl my-1 bg-exec-card shrink-0">
+                    <img id="previewCoverPhotoImg" src="{{ $coverImg }}" alt="Corporate Event" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-exec-slate/85 via-transparent to-transparent pointer-events-none"></div>
+                </div>
+
+                <!-- Host Institution Name & Details -->
+                <div class="mt-1 mb-0.5 w-full">
+                    <h1 id="previewGroomNameCover" class="font-syne text-base sm:text-lg font-black text-white tracking-wide leading-tight truncate">
+                        {{ $corpName }}
+                    </h1>
+                    <p id="previewSubCategoryBadge" class="font-mono text-[10px] text-exec-cobaltbright mt-0.5 tracking-wider uppercase font-semibold">
+                        {{ $couple->sub_category ?? 'Grand Opening & Gala Dinner' }}
+                    </p>
+                    <p id="previewEventDateCover" class="text-[9.5px] text-slate-300 font-sans mt-0.5">
+                        📅 {{ $eventDateFormatted }}
+                    </p>
+                </div>
+
+                <!-- Official Delegate Card (Kepada Yth) -->
+                <div class="w-full py-1.5 px-3 rounded-xl bg-exec-card/90 backdrop-blur-md border border-white/10 text-center shadow-md mt-1">
+                    <span class="text-[8px] font-mono uppercase tracking-[0.2em] text-slate-400 block font-semibold">OFFICIAL DELEGATE PASS:</span>
+                    <p id="previewGuestNameCover" class="font-syne text-xs sm:text-sm font-bold text-white mt-0.5 truncate">
+                        {{ $guest->name ?? 'Pimpinan Delegasi / Mitra Strategis' }}
+                    </p>
+                    <span class="inline-block text-[7.5px] font-mono text-exec-cobaltbright tracking-widest uppercase mt-0.5">Confirmed VIP Access</span>
+                </div>
+            </section>
+
+            <!-- BOTTOM SECTION: Full-width CTA Button -->
+            <footer class="w-full pt-1 flex flex-col items-center gap-1 shrink-0">
+                <button id="open-invitation-btn" type="button" onclick="openInvitation()" class="w-full py-2.5 sm:py-3 px-5 rounded-xl bg-exec-cobalt hover:bg-blue-600 active:scale-[0.98] text-white font-syne text-xs font-bold uppercase tracking-[0.22em] shadow-[0_10px_25px_-5px_rgba(37,99,235,0.6)] transition-all flex items-center justify-center gap-2 cursor-pointer pointer-events-auto">
+                    <span>✦</span> BUKA DOKUMEN RESMI <span>&rarr;</span>
+                </button>
+                <p class="text-[9px] font-mono text-slate-400 flex items-center gap-1">
+                    <span class="text-exec-cobaltbright">♫</span> Audio resmi diputar saat dokumen dibuka
                 </p>
-                <p id="previewEventDateCover" class="text-[11px] text-slate-300 font-sans mt-2">
-                    📅 {{ $eventDateFormatted }}
-                </p>
-            </div>
-
-            <!-- Delegate Card -->
-            <div class="my-4 p-3.5 rounded-xl bg-exec-cardlight/70 border border-white/10 text-center">
-                <span class="text-[9px] font-mono uppercase tracking-[0.25em] text-slate-400 block">OFFICIAL DELEGATE PASS:</span>
-                <p id="previewGuestNameCover" class="font-syne text-sm font-bold text-white mt-0.5">{{ $guest->name ?? 'Pimpinan Delegasi / Mitra Strategis' }}</p>
-            </div>
-
-            <!-- Access Portal Button -->
-            <button type="button" onclick="openInvitation()" class="w-full py-3.5 rounded-xl bg-exec-cobalt hover:bg-blue-600 text-white font-syne text-xs font-bold uppercase tracking-[0.25em] shadow-lg transition flex items-center justify-center gap-2 relative z-20 pointer-events-auto cursor-pointer">
-                <span>✦</span> BUKA DOKUMEN RESMI
-            </button>
+            </footer>
         </div>
     </div>
 
@@ -495,13 +523,19 @@
         function openInvitation() {
             const cover = document.getElementById('coverScreen');
             if (cover) {
+                cover.style.pointerEvents = 'none';
                 cover.style.opacity = '0';
                 cover.style.transform = 'translateY(-100%)';
-                setTimeout(() => cover.classList.add('hidden'), 1000);
+                setTimeout(() => {
+                    cover.classList.add('hidden');
+                    cover.style.display = 'none';
+                    document.body.classList.remove('overflow-hidden');
+                }, 700);
             }
             if (audioBtn) audioBtn.classList.remove('hidden');
             toggleAudio();
         }
+        window.openInvitation = openInvitation;
 
         function copyToClipboard(text, msg) {
             navigator.clipboard.writeText(text).then(() => {

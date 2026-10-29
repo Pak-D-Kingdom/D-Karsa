@@ -190,128 +190,84 @@
     <!-- ========================================================
          COVER SCREEN: DIGITAL ENVELOPE (Tampilan Awal Amplop)
          ======================================================== -->
-    <div id="invitation-cover" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-surface flex flex-col items-center justify-between px-4 py-6 transition-all duration-700 ease-in-out select-none">
-        <!-- Floating Petals Blur Decoration -->
+    <div id="invitation-cover" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-surface flex flex-col items-center justify-between px-3.5 py-2.5 sm:py-4 transition-all duration-700 ease-in-out select-none">
+        <!-- Floating Petals Blur Decoration (Clipped) -->
         <div class="absolute inset-0 pointer-events-none overflow-hidden z-0">
             <div class="absolute -top-6 left-8 w-12 h-12 rounded-full bg-secondary-container/25 blur-xl animate-pulse"></div>
             <div class="absolute top-1/4 right-3 w-16 h-16 rounded-full bg-primary/20 blur-2xl"></div>
             <div class="absolute bottom-1/3 left-2 w-20 h-20 rounded-full bg-surface-container-high/40 blur-2xl"></div>
         </div>
 
-        <div class="relative z-10 flex flex-col items-center w-full max-w-md mx-auto pt-2">
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
             <!-- 1. Top Editorial Issue Header -->
-            <header class="flex flex-col items-center text-center space-y-1 py-3 w-full">
-                <div class="inline-flex items-center space-x-2 px-3 py-1 bg-surface-container-low rounded-full">
+            <header class="flex flex-col items-center text-center space-y-0.5 py-0.5 w-full shrink-0">
+                <div class="inline-flex items-center space-x-1.5 px-2.5 py-0.5 bg-surface-container-low rounded-full">
                     <span class="w-1.5 h-1.5 rounded-full bg-primary animate-ping"></span>
-                    <p class="font-work text-[10px] tracking-widest text-on-surface-variant uppercase font-semibold">
+                    <p class="font-work text-[9px] tracking-widest text-on-surface-variant uppercase font-semibold">
                         ISSUE NO. 17 • SAKURA REVERIE EDITION
                     </p>
                 </div>
-                <div class="w-12 h-px bg-primary/20 my-1"></div>
-            </header>
-
-            <!-- 2. Centered Prominent Luxury Monogram / Cover Photo -->
-            <div class="relative my-3 flex items-center justify-center">
-                <div class="absolute inset-0 rounded-full bg-surface-container-high/60 blur-md scale-110"></div>
-                <div class="relative p-1.5 rounded-full bg-surface-container-lowest shadow-sm flex items-center justify-center">
-                    <div class="relative w-28 h-28 rounded-full overflow-hidden flex items-center justify-center bg-surface-container-low border border-outline-variant/30">
-                        <img id="previewCoverPhotoImg" alt="Cover Photo" class="w-full h-full object-cover rounded-full" src="{{ $coverImg }}"/>
-                    </div>
-                </div>
-                <!-- Japanese Hanko Style Stamp Badge -->
-                <div class="absolute -bottom-1 -right-2 bg-primary text-on-primary font-work text-[10px] px-2 py-0.5 rounded shadow-sm flex items-center space-x-0.5 font-bold">
-                    <span>XVII</span>
-                    <span class="text-[8px] opacity-75">印</span>
-                </div>
-            </div>
-
-            <!-- 3. Debutante Editorial Title Hierarchy -->
-            <div class="text-center my-3 px-2">
-                <p id="previewSubCategoryCover" class="font-work text-[11px] text-secondary uppercase tracking-[0.25em] mb-1 font-semibold">
+                <p id="previewSubCategoryCover" class="font-work text-[9.5px] text-secondary uppercase tracking-[0.22em] font-semibold">
                     {{ $subCategoryBadge }}
                 </p>
-                <h1 id="previewGroomNameCover" class="font-bodoni text-[36px] sm:text-[42px] text-on-surface tracking-tight leading-none mb-2 font-normal">
-                    {{ $celebrantName }}
-                </h1>
-                <p id="previewQuoteCover" class="font-garamond text-base text-on-surface-variant italic max-w-xs mx-auto">
-                    “{{ $quote }}”
-                </p>
-            </div>
+            </header>
 
-            <!-- 4. Luxury Digital Envelope Card -->
-            <div class="w-full bg-surface-container-lowest rounded-xl shadow-md p-5 my-3 relative overflow-hidden transition-all duration-300 border border-outline-variant/30">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="inline-flex items-center space-x-1.5 bg-surface-container-high px-2.5 py-1 rounded-full">
-                        <span class="material-symbols-outlined text-[13px] text-primary">spa</span>
-                        <span class="font-work text-[10px] text-primary tracking-widest uppercase font-semibold">VIP INVITATION</span>
+            <!-- 2. Centered Prominent Luxury Monogram / Cover Photo & Debutante Info -->
+            <section class="w-full my-auto py-0.5 flex flex-col items-center text-center">
+                <div class="relative my-0.5 flex items-center justify-center">
+                    <div class="absolute inset-0 rounded-full bg-surface-container-high/60 blur-md scale-105"></div>
+                    <div class="relative p-1 rounded-full bg-surface-container-lowest shadow-sm flex items-center justify-center">
+                        <div class="relative w-20 h-20 rounded-full overflow-hidden flex items-center justify-center bg-surface-container-low border border-outline-variant/30">
+                            <img id="previewCoverPhotoImg" alt="Cover Photo" class="w-full h-full object-cover rounded-full" src="{{ $coverImg }}"/>
+                        </div>
                     </div>
-                    <div class="flex items-center space-x-1 text-secondary">
-                        <span class="font-work text-[10px] tracking-widest uppercase font-medium">PRIVATE ACCESS</span>
+                    <!-- Japanese Hanko Style Stamp Badge -->
+                    <div class="absolute -bottom-0.5 -right-1 bg-primary text-on-primary font-work text-[8.5px] px-1.5 py-0.5 rounded shadow-sm flex items-center space-x-0.5 font-bold">
+                        <span>XVII</span>
+                        <span class="text-[7px] opacity-75">印</span>
                     </div>
                 </div>
 
-                <!-- Recipient Attention Section -->
-                <div class="bg-surface-container-low rounded-lg p-4 text-center my-2 relative">
-                    <p class="font-work text-on-surface-variant tracking-widest text-[10px] uppercase mb-1 font-medium">
+                <!-- Debutante Editorial Title Hierarchy -->
+                <div class="text-center my-0.5 px-2">
+                    <h1 id="previewGroomNameCover" class="font-bodoni text-xl sm:text-2xl text-on-surface tracking-tight leading-none mb-0.5 font-normal truncate">
+                        {{ $celebrantName }}
+                    </h1>
+                    <p id="previewQuoteCover" class="font-garamond text-[11px] text-on-surface-variant italic max-w-xs mx-auto line-clamp-1">
+                        “{{ $quote }}”
+                    </p>
+                </div>
+
+                <!-- Recipient Attention Section (Compact Digital Envelope) -->
+                <div class="w-full bg-surface-container-lowest/95 backdrop-blur-md rounded-xl shadow-md p-2 my-0.5 border border-outline-variant/30 text-center">
+                    <div class="flex items-center justify-between mb-0.5 pb-0.5 border-b border-surface-container-high text-[8px] font-work text-secondary uppercase tracking-widest">
+                        <span class="flex items-center gap-1 text-primary font-bold">
+                            <span class="material-symbols-outlined text-[10px]">spa</span> VIP INVITATION
+                        </span>
+                        <span>PRIVATE ACCESS</span>
+                    </div>
+                    <p class="font-work text-on-surface-variant tracking-wider text-[8px] uppercase font-medium">
                         KEPADA YTH. BAPAK / IBU / SAUDARA/I :
                     </p>
-                    <div class="py-1">
-                        <p id="previewGuestNameCover" class="font-bodoni text-2xl text-primary font-medium tracking-tight">
-                            {{ $guestName }}
-                        </p>
-                        <span class="inline-block mt-0.5 font-garamond text-sm text-secondary italic">
-                            Di Tempat
-                        </span>
-                    </div>
+                    <p id="previewGuestNameCover" class="font-bodoni text-base sm:text-lg text-primary font-semibold tracking-tight truncate mt-0.5">
+                        {{ $guestName }}
+                    </p>
+                    <span class="inline-block font-garamond text-[11px] text-secondary italic">Di Tempat</span>
                 </div>
+            </section>
 
-                <p class="font-garamond text-sm text-on-surface-variant text-center my-3 leading-relaxed px-1">
-                    Merupakan suatu kehormatan dan kebahagiaan bagi kami atas kehadiran Anda untuk merayakan mekarnya usia ketujuh belas yang penuh memori indah.
-                </p>
-
-                <!-- Wax Seal Monogram Accent Row -->
-                <div class="flex items-center justify-center space-x-3 my-2">
-                    <div class="w-8 h-px bg-surface-container-high"></div>
-                    <div class="w-8 h-8 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-bodoni text-[11px] shadow-sm font-bold">
-                        <span>XVII</span>
-                    </div>
-                    <div class="w-8 h-8 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center text-[12px]">
-                        <span class="material-symbols-outlined text-primary text-[14px]">local_florist</span>
-                    </div>
-                    <div class="w-8 h-px bg-surface-container-high"></div>
-                </div>
-            </div>
-
-            <!-- 5. Primary Call To Action Button -->
-            <div class="w-full flex flex-col items-center space-y-3 mt-1">
-                <button id="open-envelope-btn" type="button" class="w-full bg-primary hover:bg-primary-container text-on-primary py-3.5 px-6 rounded-full shadow-lg active:scale-95 transition transform duration-150 flex items-center justify-center space-x-2 font-work text-[12px] tracking-[0.2em] uppercase font-semibold">
-                    <span class="material-symbols-outlined text-lg">mail</span>
+            <!-- 3. Primary Call To Action Button -->
+            <footer class="w-full flex flex-col items-center gap-0.5 pt-0.5 shrink-0">
+                <button id="open-envelope-btn" type="button" class="w-full bg-primary hover:bg-primary-container text-on-primary py-2.5 px-4 rounded-full shadow-lg active:scale-95 transition transform duration-150 flex items-center justify-center space-x-2 font-work text-xs tracking-[0.2em] uppercase font-semibold cursor-pointer pointer-events-auto">
+                    <span class="material-symbols-outlined text-base">mail</span>
                     <span>BUKA UNDANGAN</span>
-                    <span class="material-symbols-outlined text-base">arrow_forward</span>
+                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
                 </button>
 
                 <!-- Music Autoplay Toggle Pill Badge -->
-                <div class="flex items-center space-x-2 bg-surface-container-high/80 px-3.5 py-1.5 rounded-full cursor-pointer transition hover:bg-surface-container-highest" id="music-indicator">
-                    <span class="material-symbols-outlined text-primary text-sm animate-bounce">graphic_eq</span>
-                    <span class="font-work text-[11px] text-on-surface-variant truncate">
-                        Putar Musik Latar Otomatis
-                    </span>
-                    <span class="w-2 h-2 rounded-full bg-primary"></span>
-                </div>
-            </div>
-
-            <!-- 6. Bottom Metadata & Location Summary -->
-            <footer class="mt-6 text-center space-y-1 w-full pb-2">
-                <div class="inline-flex items-center justify-center space-x-2 text-on-surface-variant">
-                    <span class="material-symbols-outlined text-sm text-primary">calendar_today</span>
-                    <p class="font-work tracking-widest text-[10px] uppercase font-semibold">
-                        {{ $eventDateFormatted }}
-                    </p>
-                </div>
-                <div>
-                    <p class="font-work text-[10px] text-secondary tracking-widest uppercase">
-                        {{ $venueName }}
-                    </p>
+                <div class="flex items-center space-x-1.5 text-on-surface-variant text-[9px] font-work" id="music-indicator">
+                    <span class="material-symbols-outlined text-primary text-[12px] animate-pulse">graphic_eq</span>
+                    <span>Musik latar otomatis diputar</span>
                 </div>
             </footer>
         </div>

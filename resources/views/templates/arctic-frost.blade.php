@@ -153,6 +153,9 @@
             : (!empty($couple->cover_photo) ? (str_starts_with($couple->cover_photo, 'http') ? $couple->cover_photo : asset('storage/' . $couple->cover_photo)) : $defaultProfileImg);
 
         $monogramImg = 'https://lh3.googleusercontent.com/aida/AEtjO1UJUpqe7kwI82f89rVPFjoRotQBuE_eWNA8ge2rR6ngoHA2SDA0duRl8K915fouABleQiZ7w_8N-E4OKALYtzlZkg3YOYZy8vOxRTDeAlzHC-5JcZyKVg627ruaVn2Q0j7NnvEfFy-ctnk7MHG5N2IMOdSgfMDAc3HeGpNs8_gE1vnh5diM_jpIhzHZaqyxNiL24PkLEn960vck7wj07glGCnJSLTpmRqH222Cvf7TmKXoPMCwMYRX2-Mo5';
+        $coverImg = !empty($couple->cover_photo)
+            ? (str_starts_with($couple->cover_photo, 'http') ? $couple->cover_photo : asset('storage/' . $couple->cover_photo))
+            : $monogramImg;
 
         $audioUrl = !empty($couple->music_url)
             ? (str_starts_with($couple->music_url, 'http') ? $couple->music_url : asset('audio/' . $couple->music_url))
@@ -247,110 +250,64 @@
     <!-- ========================================================
          COVER SCREEN: DIGITAL ENVELOPE (Tampilan Awal Eksklusif)
          ======================================================== -->
-    <div id="invitation-cover" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-surface flex flex-col items-center justify-between px-3 sm:px-4 py-4 sm:py-6 transition-all duration-700 ease-in-out select-none">
-        <!-- Ambient Glacial Shimmer Glows -->
-        <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-80 h-80 bg-primary-fixed/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute top-1/3 -right-20 w-64 h-64 bg-surface-container-highest/60 rounded-full blur-2xl pointer-events-none"></div>
-        <div class="absolute -bottom-20 -left-20 w-72 h-72 bg-primary-fixed/5 rounded-full blur-3xl pointer-events-none"></div>
+    <div id="invitation-cover" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-surface flex flex-col items-center justify-between px-3 sm:px-4 py-2.5 sm:py-4 transition-all duration-700 ease-in-out select-none">
+        <!-- Ambient Glacial Shimmer Glows (Clipped) -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-80 h-80 bg-primary-fixed/10 rounded-full blur-3xl"></div>
+            <div class="absolute top-1/3 -right-20 w-64 h-64 bg-surface-container-highest/60 rounded-full blur-2xl"></div>
+            <div class="absolute -bottom-20 -left-20 w-72 h-72 bg-primary-fixed/5 rounded-full blur-3xl"></div>
+        </div>
 
-        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-2">
+        <div class="min-h-full flex flex-col justify-between items-center my-auto w-full max-w-sm py-0.5 relative z-10">
             <!-- Header Milestone Hierarchy -->
-            <header class="relative z-10 w-full flex flex-col items-center text-center space-y-1 mb-2 max-w-sm shrink-0">
-                <div class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-surface-container-high/80 backdrop-blur-md shadow-sm border border-primary-fixed/20">
-                    <span class="material-symbols-outlined text-primary-fixed text-sm">ac_unit</span>
-                    <span class="text-[10px] sm:text-xs text-primary-fixed uppercase tracking-widest font-semibold">Executive Milestone Dossier</span>
+            <header class="relative z-10 w-full flex flex-col items-center text-center space-y-0.5 mb-0.5 max-w-sm shrink-0">
+                <div class="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high/80 backdrop-blur-md shadow-sm border border-primary-fixed/20">
+                    <span class="material-symbols-outlined text-primary-fixed text-xs">ac_unit</span>
+                    <span class="text-[9px] text-primary-fixed uppercase tracking-widest font-semibold">Executive Milestone Dossier</span>
                 </div>
-                <p class="text-[10.5px] text-secondary tracking-widest uppercase mt-1">
+                <p class="text-[9.5px] text-secondary tracking-widest uppercase mt-0.5">
                     {{ $heading }}
                 </p>
-                <h1 id="previewGroomNameCover" class="font-bodoni text-2xl sm:text-3xl text-primary tracking-tight font-medium mt-0.5">
+                <h1 id="previewGroomNameCover" class="font-bodoni text-xl sm:text-2xl text-primary tracking-tight font-medium truncate mt-0.5">
                     {{ $celebrantName }}
                 </h1>
-                <p class="text-[11px] text-on-surface-variant max-w-xs mt-0.5">
-                    A Milestone Anniversary of Vision, Leadership & Youth
-                </p>
             </header>
 
-            <!-- Interactive Luxury Envelope Construction -->
-            <div class="relative z-10 w-full max-w-sm flex flex-col items-center my-auto py-2">
-                <div class="w-full relative rounded-xl bg-surface-container-high/80 backdrop-blur-xl p-3 sm:p-4 shadow-2xl border border-primary-fixed/20" id="envelope-unit">
-                    <!-- Architectural Geometric Header Trim -->
-                    <div class="flex items-center justify-between pb-2 mb-3 border-b border-surface-variant/40">
-                        <div class="flex items-center space-x-1.5">
-                            <span class="w-1.5 h-1.5 rounded-full bg-primary-fixed animate-ping"></span>
-                            <span class="text-[9.5px] sm:text-[10px] text-primary-fixed tracking-widest uppercase font-semibold">Protocol No. 17-APG</span>
-                        </div>
-                        <div class="flex items-center space-x-1 text-secondary">
-                            <span class="material-symbols-outlined text-[15px] text-primary-fixed">verified</span>
-                            <span class="text-[9.5px] uppercase tracking-wider font-medium">Verified VIP</span>
-                        </div>
-                    </div>
-
-                    <!-- Upper Envelope Flap Graphic Simulation -->
-                    <div class="relative w-full rounded-lg bg-surface-container-highest/90 p-3 sm:p-4 flex flex-col items-center text-center overflow-hidden mb-3 shadow-inner border border-outline-variant/30">
-                        <div class="absolute inset-0 bg-gradient-to-b from-primary-fixed/10 via-transparent to-transparent pointer-events-none"></div>
-                        <!-- Silver Wax Monogram Seal -->
-                        <div class="relative w-16 h-16 sm:w-20 sm:h-20 mb-2 flex items-center justify-center rounded-full bg-surface-container-low p-1 shadow-lg group">
-                            <div class="absolute inset-0 rounded-full bg-primary-fixed/20 blur-sm"></div>
-                            <img id="previewCoverPhotoImg" alt="Arctic Frost Gala Monogram" class="relative z-10 w-full h-full object-cover rounded-full ring-1 ring-primary-fixed/40" src="{{ $monogramImg }}"/>
-                        </div>
-                        <span class="text-[9.5px] sm:text-[10px] text-secondary tracking-widest uppercase mb-0.5 font-medium">
-                            Official Seal • Glacial Tier
-                        </span>
-                        <span class="font-bodoni text-base sm:text-lg text-primary font-semibold">
-                            XVII Arctic Summit
-                        </span>
-                    </div>
-
-                    <!-- Dedicated Guest Name Card Badge -->
-                    <div class="w-full rounded-lg bg-surface-container-lowest/80 backdrop-blur-md p-3 flex flex-col space-y-1 text-left mb-3 shadow-sm border border-outline-variant/20">
-                        <div class="flex items-center space-x-1.5 text-on-surface-variant">
-                            <span class="material-symbols-outlined text-[15px] text-primary-fixed">badge</span>
-                            <span class="text-[10px] uppercase tracking-wider font-semibold">
-                                Kepada Yth. Tamu Terhormat:
-                            </span>
-                        </div>
-                        <div class="py-0.5">
-                            <h2 class="font-bodoni text-sm sm:text-base text-primary font-semibold truncate" id="previewGuestNameCover">
-                                {{ $guestName }}
-                            </h2>
-                            <span class="inline-block text-[9px] text-primary-fixed bg-surface-container-high px-2 py-0.5 rounded-full mt-1 border border-primary-fixed/20">
-                                Confirmed Delegation Access
-                            </span>
-                        </div>
-                        <p class="text-[10px] text-outline italic pt-0.5">
-                            Mohon maaf apabila ada kesalahan penulisan nama / gelar.
-                        </p>
-                    </div>
-
-                    <!-- Primary CTA Trigger "Buka Undangan" -->
-                    <button id="open-invitation-btn" type="button" onclick="openInvitation()" class="w-full relative flex items-center justify-center space-x-2 bg-primary-fixed hover:bg-primary-container text-on-primary-fixed py-3.5 px-4 rounded-lg text-xs font-semibold uppercase tracking-wider shadow-[0_10px_25px_-5px_rgba(95,251,214,0.35)] active:scale-95 transition-all duration-200 overflow-hidden cursor-pointer group pointer-events-auto">
-                        <span class="material-symbols-outlined text-[19px] transition-transform duration-300 group-hover:scale-110">drafts</span>
-                        <span class="font-bold">Buka Undangan</span>
-                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-                    </button>
-                    <p class="text-[10px] text-secondary text-center flex items-center justify-center gap-1 font-medium mt-2">
-                        <span class="material-symbols-outlined text-[14px] text-primary-fixed">volume_up</span>
-                        <span>Musik latar otomatis diputar</span>
-                    </p>
+            <!-- Center Showcase (Monogram & Guest Card) -->
+            <section class="relative z-10 w-full max-w-sm flex flex-col items-center my-auto py-0.5">
+                <!-- Silver Wax Monogram Seal -->
+                <div class="relative w-16 h-16 sm:w-18 sm:h-18 my-0.5 flex items-center justify-center rounded-full bg-surface-container-low p-1 shadow-lg group shrink-0">
+                    <div class="absolute inset-0 rounded-full bg-primary-fixed/20 blur-sm"></div>
+                    <img id="previewCoverPhotoImg" alt="Arctic Frost Gala Monogram" class="relative z-10 w-full h-full object-cover rounded-full ring-1 ring-primary-fixed/40" src="{{ $coverImg }}"/>
                 </div>
-            </div>
+                <span class="font-bodoni text-xs text-primary font-semibold mt-0.5">
+                    XVII Arctic Summit
+                </span>
 
-            <!-- Event Guidelines Footer -->
-            <footer class="relative z-10 w-full max-w-sm mt-2 flex flex-col items-center text-center space-y-1.5 shrink-0">
-                <div class="flex flex-wrap justify-center items-center gap-1.5">
-                    <span class="text-[9.5px] text-secondary bg-surface-container/60 px-2 py-0.5 rounded-full backdrop-blur-sm border border-outline-variant/30">
-                        Corporate Formal Attire
+                <!-- Dedicated Guest Name Card Badge -->
+                <div class="w-full rounded-xl bg-surface-container-lowest/90 backdrop-blur-md p-2 flex flex-col space-y-0.5 text-center my-0.5 shadow-sm border border-outline-variant/20">
+                    <span class="text-[8px] uppercase tracking-wider font-semibold text-on-surface-variant block">
+                        Kepada Yth. Tamu Terhormat:
                     </span>
-                    <span class="text-[9.5px] text-secondary bg-surface-container/60 px-2 py-0.5 rounded-full backdrop-blur-sm border border-outline-variant/30">
-                        Arctic Frost Palette
-                    </span>
-                    <span class="text-[9.5px] text-primary-fixed bg-surface-container/60 px-2 py-0.5 rounded-full backdrop-blur-sm border border-primary-fixed/30 font-medium">
-                        Strictly by RSVP
+                    <h2 class="font-bodoni text-base text-primary font-semibold truncate" id="previewGuestNameCover">
+                        {{ $guestName }}
+                    </h2>
+                    <span class="inline-block text-[7.5px] text-primary-fixed bg-surface-container-high px-2 py-0.5 rounded-full mx-auto border border-primary-fixed/20">
+                        Confirmed Delegation Access
                     </span>
                 </div>
-                <p class="text-[9.5px] text-outline tracking-wider uppercase">
-                    {{ strtoupper($venueName) }} • SURABAYA, JAWA TIMUR
+            </section>
+
+            <!-- Primary CTA Trigger "Buka Undangan" -->
+            <footer class="w-full flex flex-col items-center gap-0.5 pt-0.5 shrink-0">
+                <button id="open-invitation-btn" type="button" onclick="openInvitation()" class="w-full relative flex items-center justify-center space-x-2 bg-primary-fixed hover:bg-primary-container text-on-primary-fixed py-2.5 px-4 rounded-xl text-xs font-semibold uppercase tracking-wider shadow-[0_10px_25px_-5px_rgba(95,251,214,0.35)] active:scale-95 transition-all duration-200 overflow-hidden cursor-pointer group pointer-events-auto">
+                    <span class="material-symbols-outlined text-[16px]">drafts</span>
+                    <span class="font-bold">Buka Undangan</span>
+                    <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                </button>
+                <p class="text-[9px] text-secondary text-center flex items-center justify-center gap-1 font-medium">
+                    <span class="material-symbols-outlined text-[12px] text-primary-fixed">volume_up</span>
+                    <span>Musik latar otomatis diputar</span>
                 </p>
             </footer>
         </div>
@@ -496,6 +453,7 @@
                             <!-- Vertical Timeline Rail -->
                             <div class="absolute left-6 top-8 bottom-8 w-0.5 bg-surface-container-highest"></div>
 
+                            <div id="itineraryContainer" class="flex flex-col gap-4 relative z-10">
                             @foreach($activeEvents as $index => $event)
                                 <div class="relative flex items-start gap-3 pl-3">
                                     <div class="w-3.5 h-3.5 rounded-full {{ $index === 0 ? 'bg-primary-fixed shadow-md shadow-primary-fixed/40 ring-4 ring-surface-container-low' : 'bg-surface-container-highest ring-4 ring-surface-container-low' }} shrink-0 mt-1"></div>
@@ -512,6 +470,7 @@
                                     </div>
                                 </div>
                             @endforeach
+                            </div>
                         </div>
                     </section>
 
@@ -1018,6 +977,32 @@
             }).join('');
         }
 
+        // Dynamic Events Renderer for Live Preview
+        function renderDynamicEvents(events) {
+            const container = document.getElementById('itineraryContainer');
+            if (!container || !Array.isArray(events) || events.length === 0) return;
+            container.innerHTML = events.map((ev, index) => {
+                const title = ev.title || 'Sesi Acara';
+                const time = (ev.start_time || '18:30') + (ev.end_time ? ' — ' + ev.end_time : ' — Selesai');
+                const desc = ev.address || ev.venue_name || ev.description || '';
+                const isFirst = index === 0;
+                return `
+                    <div class="relative flex items-start gap-3 pl-3">
+                        <div class="w-3.5 h-3.5 rounded-full ${isFirst ? 'bg-primary-fixed shadow-md shadow-primary-fixed/40 ring-4 ring-surface-container-low' : 'bg-surface-container-highest ring-4 ring-surface-container-low'} shrink-0 mt-1"></div>
+                        <div class="flex flex-col min-w-0">
+                            <span class="text-[10px] ${isFirst ? 'text-primary-fixed' : 'text-secondary'} font-bold tracking-widest uppercase">
+                                ${time}
+                            </span>
+                            <h4 class="text-xs sm:text-sm text-on-surface font-semibold mt-0.5">
+                                ${title}
+                            </h4>
+                            ${desc ? `<p class="text-[11px] text-secondary mt-0.5 leading-relaxed">${desc}</p>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
         // 7. RSVP Submission
         function handleRSVPSubmit() {
             const nameInput = document.getElementById("guest-name");
@@ -1107,6 +1092,13 @@
                 const photos = data.photos || data.images;
                 if (Array.isArray(photos)) {
                     renderDynamicGallery(photos);
+                }
+            }
+
+            if (data.type === 'UPDATE_PREVIEW_EVENTS') {
+                const events = data.events;
+                if (Array.isArray(events)) {
+                    renderDynamicEvents(events);
                 }
             }
 

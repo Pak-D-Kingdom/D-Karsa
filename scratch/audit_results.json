@@ -96,15 +96,13 @@
         "cover_photo_synced": true,
         "groom_photo_synced": true,
         "gallery_synced": true,
-        "events_synced": false,
+        "events_synced": true,
         "venue_synced": true,
         "has_update_photo_listener": true,
         "has_update_gallery_listener": true,
         "has_update_field_listener": false,
-        "has_update_events_listener": false,
-        "issues": [
-            "Custom events not found in rendered HTML"
-        ]
+        "has_update_events_listener": true,
+        "issues": []
     },
     "minimalist-floral": {
         "key": "minimalist-floral",
@@ -161,15 +159,13 @@
         "cover_photo_synced": true,
         "groom_photo_synced": true,
         "gallery_synced": "N\/A (No gallery in design)",
-        "events_synced": false,
+        "events_synced": true,
         "venue_synced": true,
         "has_update_photo_listener": true,
         "has_update_gallery_listener": false,
         "has_update_field_listener": false,
-        "has_update_events_listener": false,
-        "issues": [
-            "Custom events not found in rendered HTML"
-        ]
+        "has_update_events_listener": true,
+        "issues": []
     },
     "wisuda-sarjana": {
         "key": "wisuda-sarjana",
@@ -268,15 +264,13 @@
         "cover_photo_synced": true,
         "groom_photo_synced": true,
         "gallery_synced": true,
-        "events_synced": false,
+        "events_synced": true,
         "venue_synced": true,
         "has_update_photo_listener": true,
         "has_update_gallery_listener": true,
         "has_update_field_listener": false,
-        "has_update_events_listener": false,
-        "issues": [
-            "Custom events not found in rendered HTML"
-        ]
+        "has_update_events_listener": true,
+        "issues": []
     },
     "walimatul-khitan": {
         "key": "walimatul-khitan",
@@ -306,22 +300,19 @@
         "blade": "templates.walimatul-khitan-sahaja",
         "blade_exists": true,
         "php_syntax": true,
-        "js_syntax": false,
+        "js_syntax": true,
         "demo_renders": true,
         "custom_renders": true,
         "cover_photo_synced": true,
         "groom_photo_synced": true,
         "gallery_synced": true,
         "events_synced": true,
-        "venue_synced": false,
+        "venue_synced": true,
         "has_update_photo_listener": true,
         "has_update_gallery_listener": true,
         "has_update_field_listener": false,
         "has_update_events_listener": false,
-        "issues": [
-            "JS Syntax Warning\/Error: C:\\Users\\FONDAE~1\\AppData\\Local\\Temp\\test_e9a971e272842235ba018b6e0670d304.js:146         const defaultGalleries = \"blade_json\"->map(function($g) { return is_object($g) ? ($g->image ?? '') : (is_array($g) ? ($g['image'] ?? '') : (string)$g); })->filter()->values()->all());",
-            "Custom venue_name not found in rendered HTML"
-        ]
+        "issues": []
     },
     "kids-birthday": {
         "key": "kids-birthday",
@@ -357,15 +348,13 @@
         "cover_photo_synced": true,
         "groom_photo_synced": true,
         "gallery_synced": true,
-        "events_synced": false,
+        "events_synced": true,
         "venue_synced": true,
         "has_update_photo_listener": true,
         "has_update_gallery_listener": true,
         "has_update_field_listener": false,
-        "has_update_events_listener": false,
-        "issues": [
-            "Custom events not found in rendered HTML"
-        ]
+        "has_update_events_listener": true,
+        "issues": []
     },
     "cheerful-birthday": {
         "key": "cheerful-birthday",
@@ -608,7 +597,7 @@
         "js_syntax": true,
         "demo_renders": true,
         "custom_renders": true,
-        "cover_photo_synced": false,
+        "cover_photo_synced": true,
         "groom_photo_synced": true,
         "gallery_synced": true,
         "events_synced": true,
@@ -616,10 +605,8 @@
         "has_update_photo_listener": true,
         "has_update_gallery_listener": true,
         "has_update_field_listener": true,
-        "has_update_events_listener": false,
-        "issues": [
-            "Custom cover_photo not found in rendered HTML"
-        ]
+        "has_update_events_listener": true,
+        "issues": []
     },
     "editorial-cherry-blossom": {
         "key": "editorial-cherry-blossom",
