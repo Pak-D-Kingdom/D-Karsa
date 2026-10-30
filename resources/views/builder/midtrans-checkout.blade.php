@@ -361,6 +361,7 @@
     </div>
 
     <script>
+        try { localStorage.removeItem('dkarsa_builder_draft_v1'); } catch(e) {}
         function payWithSnap() {
             @if(!empty($snapToken))
                 window.snap.pay('{{ $snapToken }}', {

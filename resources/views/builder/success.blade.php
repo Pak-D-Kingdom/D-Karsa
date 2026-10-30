@@ -366,6 +366,7 @@
     </div>
 
     <script>
+        try { localStorage.removeItem('dkarsa_builder_draft_v1'); } catch(e) {}
         const baseUrl = "{{ url('/undangan/' . $couple->slug) }}";
         const coupleTitle = @json($couple->category === 'Pernikahan' ? ($couple->groom_name . ' & ' . $couple->bride_name) : ($couple->groom_fullname ?: $couple->groom_name));
         const eventDate = @json(\Carbon\Carbon::parse($couple->wedding_date)->translatedFormat('l, d F Y'));

@@ -240,9 +240,20 @@
 
         {{-- Progress Bar & Stepper Tabs --}}
         <div class="bg-white rounded-3xl p-3 sm:p-5 shadow-sm border border-ink/10 mb-8">
-            <div class="flex items-center justify-between mb-3 text-xs font-bold text-ink2 px-1">
-                <span id="stepTitleDisplay">Langkah 1 dari 6: Kategori &amp; Info Utama</span>
-                <span id="stepPercentDisplay" class="text-brand font-bold">16% Selesai</span>
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3 text-xs font-bold text-ink2 px-1">
+                <div class="flex items-center gap-2">
+                    <span id="stepTitleDisplay">Langkah 1 dari 6: Kategori &amp; Info Utama</span>
+                    <span id="autoSaveIndicator" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 transition-all opacity-0">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span id="autoSaveText">Draf tersimpan otomatis</span>
+                    </span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button type="button" id="btnClearDraftManual" onclick="confirmResetDraft()" class="hidden text-[11px] text-ink3 hover:text-rose-600 font-semibold transition items-center gap-1" title="Hapus draf tersimpan dan reset formulir">
+                        <span>🗑️</span> <span>Bersihkan Draf</span>
+                    </button>
+                    <span id="stepPercentDisplay" class="text-brand font-bold">16% Selesai</span>
+                </div>
             </div>
             
             <div class="w-full h-2 rounded-full bg-sunk overflow-hidden mb-4">
@@ -267,6 +278,34 @@
                 </button>
                 <button type="button" onclick="goToStep(6)" id="stepBtn6" class="step-pill px-3 py-1.5 rounded-full text-xs font-bold border border-ink/15 transition flex items-center gap-1 shrink-0 text-ink2">
                     <span>6.</span> Galeri &amp; Kontak
+                </button>
+            </div>
+        </div>
+
+        {{-- DRAFT RECOVERY BANNER --}}
+        <div id="draftRecoveryBanner" class="hidden mb-6 p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50 border border-amber-300 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all">
+            <div class="flex items-start sm:items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-amber-500 text-white grid place-items-center text-xl shrink-0 shadow-sm">
+                    📝
+                </div>
+                <div>
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <b class="text-sm font-bold text-ink">Draf Pemesanan Sebelumnya Ditemukan</b>
+                        <span id="draftTimeAgoBadge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-200 text-amber-900 border border-amber-300">
+                            Tersimpan baru saja
+                        </span>
+                    </div>
+                    <p class="text-xs text-ink2 mt-0.5 leading-relaxed">
+                        Kami menemukan data formulir yang belum sempat Anda selesaikan. Ingin memulihkan data draf tersebut ke formulir?
+                    </p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 shrink-0 self-end sm:self-auto w-full sm:w-auto">
+                <button type="button" onclick="restoreDraftData()" class="flex-1 sm:flex-initial px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition flex items-center justify-center gap-1.5 cursor-pointer">
+                    <span>⚡ Pulihkan Draf</span>
+                </button>
+                <button type="button" onclick="discardDraftData()" class="px-3.5 py-2 rounded-full bg-white hover:bg-rose-50 text-ink2 hover:text-rose-600 font-bold text-xs border border-ink/20 shadow-sm transition flex items-center justify-center gap-1 cursor-pointer" title="Hapus draf lama dan mulai dari awal">
+                    <span>Buang</span>
                 </button>
             </div>
         </div>
@@ -1401,6 +1440,14 @@
     </footer>
 
     <!-- ========================================================
+         FLOATING NOTIFICATION TOAST
+    ======================================================== -->
+    <div id="dkarsaToastNotification" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 transform -translate-y-24 opacity-0 pointer-events-none transition-all duration-300 max-w-md w-11/12 sm:w-auto shadow-2xl rounded-2xl bg-ink text-white px-5 py-3.5 flex items-center gap-3 border border-white/10">
+        <span id="toastIcon" class="text-xl">✨</span>
+        <span id="toastMessage" class="text-xs sm:text-sm font-semibold text-white/95">Notifikasi</span>
+    </div>
+
+    <!-- ========================================================
          FLOATING ACTION BUTTON (Selalu Muncul di Pojok Kanan Bawah)
     ======================================================== -->
     <div id="floatingPreviewBtn" class="fixed bottom-5 right-5 z-40">
@@ -1687,6 +1734,7 @@
             if (currentStep < totalSteps) {
                 currentStep++;
                 updateStepUI();
+                if (typeof triggerAutoSave === 'function') triggerAutoSave();
             }
         }
 
@@ -1694,6 +1742,7 @@
             if (currentStep > 1) {
                 currentStep--;
                 updateStepUI();
+                if (typeof triggerAutoSave === 'function') triggerAutoSave();
             }
         }
 
@@ -1701,6 +1750,7 @@
             if (step >= 1 && step <= totalSteps) {
                 currentStep = step;
                 updateStepUI();
+                if (typeof triggerAutoSave === 'function') triggerAutoSave();
             }
         }
 
@@ -3883,6 +3933,282 @@
             }
         });
 
+        /* ========================================================
+           FITUR AUTO-SAVE DRAFT (LOCALSTORAGE)
+        ======================================================== */
+        const DRAFT_STORAGE_KEY = 'dkarsa_builder_draft_v1';
+        let autoSaveDebounceTimer = null;
+
+        function showBuilderToast(message, icon = '✨', duration = 3500) {
+            const toast = document.getElementById('dkarsaToastNotification');
+            const toastMsg = document.getElementById('toastMessage');
+            const toastIco = document.getElementById('toastIcon');
+            if (!toast || !toastMsg) return;
+            toastMsg.textContent = message;
+            if (toastIco) toastIco.textContent = icon;
+            toast.classList.remove('-translate-y-24', 'opacity-0', 'pointer-events-none');
+            toast.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+            clearTimeout(window._toastTimeout);
+            window._toastTimeout = setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
+                toast.classList.add('-translate-y-24', 'opacity-0', 'pointer-events-none');
+            }, duration);
+        }
+
+        function formatDraftTimeAgo(timestamp) {
+            if (!timestamp) return 'baru saja';
+            const diffMs = Date.now() - timestamp;
+            const diffSec = Math.floor(diffMs / 1000);
+            const diffMin = Math.floor(diffSec / 60);
+            const diffHour = Math.floor(diffMin / 60);
+            const diffDay = Math.floor(diffHour / 24);
+
+            if (diffSec < 60) return 'baru saja';
+            if (diffMin < 60) return `${diffMin} menit yang lalu`;
+            if (diffHour < 24) return `${diffHour} jam yang lalu`;
+            if (diffDay === 1) return 'kemarin';
+            return `${diffDay} hari yang lalu`;
+        }
+
+        function checkAndPromptSavedDraft() {
+            try {
+                const rawDraft = localStorage.getItem(DRAFT_STORAGE_KEY);
+                if (!rawDraft) return;
+                const draft = JSON.parse(rawDraft);
+                if (!draft || !draft.fields) return;
+
+                const f = draft.fields;
+                const hasMeaningfulData = !!(
+                    (f.groom_name && f.groom_name.trim().length > 1) ||
+                    (f.bride_name && f.bride_name.trim().length > 1) ||
+                    (f.customer_name && f.customer_name.trim().length > 1) ||
+                    (f.venue_name && f.venue_name.trim().length > 1) ||
+                    (f.quote && f.quote.trim().length > 5) ||
+                    (f.wedding_date && f.wedding_date.trim().length > 0)
+                );
+
+                if (hasMeaningfulData) {
+                    const banner = document.getElementById('draftRecoveryBanner');
+                    const badge = document.getElementById('draftTimeAgoBadge');
+                    const clearBtn = document.getElementById('btnClearDraftManual');
+                    if (badge) badge.textContent = `Tersimpan ${formatDraftTimeAgo(draft.saved_at)}`;
+                    if (banner) banner.classList.remove('hidden');
+                    if (clearBtn) clearBtn.classList.remove('hidden');
+                }
+            } catch (e) {
+                console.warn('Gagal membaca draf dari localStorage:', e);
+            }
+        }
+
+        function saveDraftToStorage() {
+            try {
+                const form = document.getElementById('invitationBuilderForm');
+                if (!form) return;
+
+                const fields = {};
+                form.querySelectorAll('input, textarea, select').forEach(el => {
+                    if (!el.name || el.type === 'file' || el.type === 'password' || el.type === 'submit' || el.type === 'button') return;
+                    if (el.name.startsWith('_') || el.name.includes('base64')) return;
+
+                    if (el.type === 'checkbox') {
+                        fields[el.name] = el.checked;
+                    } else if (el.type === 'radio') {
+                        if (el.checked) fields[el.name] = el.value;
+                    } else {
+                        fields[el.name] = el.value;
+                    }
+                });
+
+                const events = [];
+                document.querySelectorAll('.event-card-item').forEach(card => {
+                    events.push({
+                        title: card.querySelector('.event-title-input')?.value || '',
+                        date: card.querySelector('.event-date-input')?.value || '',
+                        start_time: card.querySelector('.event-start-input')?.value || '',
+                        end_time: card.querySelector('.event-end-input')?.value || '',
+                        venue_name: card.querySelector('.event-venue-input')?.value || '',
+                        address: card.querySelector('.event-address-input')?.value || '',
+                        maps_url: card.querySelector('.event-maps-input')?.value || ''
+                    });
+                });
+
+                const hasMeaningfulData = !!(
+                    (fields.groom_name && fields.groom_name.trim().length > 1) ||
+                    (fields.bride_name && fields.bride_name.trim().length > 1) ||
+                    (fields.customer_name && fields.customer_name.trim().length > 1) ||
+                    (fields.venue_name && fields.venue_name.trim().length > 1) ||
+                    (fields.quote && fields.quote.trim().length > 5) ||
+                    (fields.wedding_date && fields.wedding_date.trim().length > 0)
+                );
+
+                if (!hasMeaningfulData) return;
+
+                const payload = {
+                    saved_at: Date.now(),
+                    category: form.querySelector('input[name="category"]:checked')?.value || '',
+                    sub_category: document.getElementById('hiddenSubCategoryInput')?.value || '',
+                    selected_theme: document.getElementById('selectedThemeInput')?.value || '',
+                    selected_package: form.querySelector('input[name="selected_package"]:checked')?.value || '',
+                    current_step: currentStep || 1,
+                    fields: fields,
+                    events: events
+                };
+
+                localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(payload));
+
+                const ind = document.getElementById('autoSaveIndicator');
+                const txt = document.getElementById('autoSaveText');
+                const clearBtn = document.getElementById('btnClearDraftManual');
+                if (txt) {
+                    const now = new Date();
+                    const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    txt.textContent = `Draf tersimpan (${timeStr})`;
+                }
+                if (ind) ind.classList.remove('opacity-0');
+                if (clearBtn) clearBtn.classList.remove('hidden');
+            } catch (e) {
+                console.warn('Gagal menyimpan draf ke localStorage:', e);
+            }
+        }
+
+        function triggerAutoSave() {
+            const ind = document.getElementById('autoSaveIndicator');
+            const txt = document.getElementById('autoSaveText');
+            if (txt) txt.textContent = 'Menyimpan draf...';
+            if (ind) ind.classList.remove('opacity-0');
+
+            clearTimeout(autoSaveDebounceTimer);
+            autoSaveDebounceTimer = setTimeout(() => {
+                saveDraftToStorage();
+            }, 800);
+        }
+
+        function restoreDraftData() {
+            try {
+                const rawDraft = localStorage.getItem(DRAFT_STORAGE_KEY);
+                if (!rawDraft) return;
+                const draft = JSON.parse(rawDraft);
+                if (!draft) return;
+
+                const form = document.getElementById('invitationBuilderForm');
+                if (!form) return;
+
+                // 1. Pulihkan Bab Kategori & Sub-bab
+                if (draft.category && typeof onSelectCategoryChapter === 'function') {
+                    onSelectCategoryChapter(draft.category, draft.sub_category || null);
+                }
+
+                // 2. Pulihkan Template Theme
+                if (draft.selected_theme && typeof selectTemplate === 'function') {
+                    selectTemplate(draft.selected_theme, false);
+                }
+
+                // 3. Pulihkan Paket Terpilih
+                if (draft.selected_package) {
+                    const pkgR = form.querySelector(`input[name="selected_package"][value="${draft.selected_package}"]`);
+                    if (pkgR) {
+                        pkgR.checked = true;
+                        if (typeof onPackageSelect === 'function') onPackageSelect(draft.selected_package);
+                    }
+                }
+
+                // 4. Pulihkan field input dasar
+                if (draft.fields) {
+                    Object.keys(draft.fields).forEach(key => {
+                        const val = draft.fields[key];
+                        const el = form.querySelector(`[name="${key}"]`);
+                        if (el && el.type !== 'file' && el.type !== 'button' && el.type !== 'submit') {
+                            if (el.type === 'checkbox') {
+                                el.checked = !!val;
+                            } else if (el.type === 'radio') {
+                                const r = form.querySelector(`[name="${key}"][value="${val}"]`);
+                                if (r) r.checked = true;
+                            } else {
+                                el.value = val;
+                            }
+                            el.dispatchEvent(new Event('input', { bubbles: true }));
+                            el.dispatchEvent(new Event('change', { bubbles: true }));
+                        }
+                    });
+                }
+
+                // 5. Pulihkan Event Cards
+                if (draft.events && Array.isArray(draft.events) && draft.events.length > 0) {
+                    const container = document.getElementById('eventsListContainer');
+                    if (container) {
+                        while (container.querySelectorAll('.event-card-item').length < draft.events.length) {
+                            if (typeof addNewEventCard === 'function') addNewEventCard();
+                        }
+                        const cards = container.querySelectorAll('.event-card-item');
+                        draft.events.forEach((ev, idx) => {
+                            const card = cards[idx];
+                            if (card) {
+                                const t = card.querySelector('.event-title-input');
+                                const d = card.querySelector('.event-date-input');
+                                const s = card.querySelector('.event-start-input');
+                                const e = card.querySelector('.event-end-input');
+                                const v = card.querySelector('.event-venue-input');
+                                const a = card.querySelector('.event-address-input');
+                                const m = card.querySelector('.event-maps-input');
+                                if (t && ev.title) t.value = ev.title;
+                                if (d && ev.date) d.value = ev.date;
+                                if (s && ev.start_time) s.value = ev.start_time;
+                                if (e && ev.end_time) e.value = ev.end_time;
+                                if (v && ev.venue_name) v.value = ev.venue_name;
+                                if (a && ev.address) a.value = ev.address;
+                                if (m && ev.maps_url) m.value = ev.maps_url;
+                            }
+                        });
+                        if (typeof syncEventsToFormAndPreview === 'function') syncEventsToFormAndPreview();
+                    }
+                }
+
+                // 6. Sinkronisasi tampilan & live preview
+                if (typeof syncParentsToPreview === 'function') syncParentsToPreview();
+                if (typeof updateLivePreviewContent === 'function') updateLivePreviewContent(true);
+
+                // 7. Pindah ke langkah terakhir yang sedang diisi
+                if (draft.current_step && draft.current_step > 1 && typeof goToStep === 'function') {
+                    goToStep(draft.current_step);
+                }
+
+                // 8. Sembunyikan banner & beri feedback positif
+                const banner = document.getElementById('draftRecoveryBanner');
+                if (banner) banner.classList.add('hidden');
+
+                showBuilderToast('🎉 Draf berhasil dipulihkan! Semua data Anda telah kembali.', '✅');
+
+                // Update waktu auto-save
+                const ind = document.getElementById('autoSaveIndicator');
+                const txt = document.getElementById('autoSaveText');
+                if (txt) txt.textContent = 'Draf aktif dipulihkan';
+                if (ind) ind.classList.remove('opacity-0');
+            } catch (e) {
+                console.error('Error memulihkan draf:', e);
+                showBuilderToast('Gagal memulihkan draf.', '⚠️');
+            }
+        }
+
+        function discardDraftData() {
+            try {
+                localStorage.removeItem(DRAFT_STORAGE_KEY);
+                const banner = document.getElementById('draftRecoveryBanner');
+                const clearBtn = document.getElementById('btnClearDraftManual');
+                const ind = document.getElementById('autoSaveIndicator');
+                if (banner) banner.classList.add('hidden');
+                if (clearBtn) clearBtn.classList.add('hidden');
+                if (ind) ind.classList.add('opacity-0');
+                showBuilderToast('Draf tersimpan telah dihapus.', '🗑️');
+            } catch (e) {}
+        }
+
+        function confirmResetDraft() {
+            if (confirm('Apakah Anda yakin ingin menghapus draf tersimpan dan mengosongkan pengisian formulir?')) {
+                discardDraftData();
+                location.reload();
+            }
+        }
+
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
             ['eventHeadingInput', 'quoteInput', 'event1TitleInput', 'event2TitleInput'].forEach(id => {
@@ -3977,15 +4303,28 @@
                 syncWeddingDateToEvents();
             }
 
-            // Connect form live-binding listeners
+            // Connect form live-binding listeners & auto-save
             const form = document.getElementById('invitationBuilderForm');
             if (form) {
-                form.addEventListener('input', () => updateLivePreviewContent(false));
-                form.addEventListener('change', () => updateLivePreviewContent(false));
+                form.addEventListener('input', () => {
+                    updateLivePreviewContent(false);
+                    triggerAutoSave();
+                });
+                form.addEventListener('change', () => {
+                    updateLivePreviewContent(false);
+                    triggerAutoSave();
+                });
+                form.addEventListener('submit', () => {
+                    // Bersihkan draf begitu form disubmit
+                    try { localStorage.removeItem(DRAFT_STORAGE_KEY); } catch(e) {}
+                });
             }
 
             syncEventsToFormAndPreview();
             updateLivePreviewContent(true);
+
+            // Cek apakah ada draf tersimpan dari sesi sebelumnya
+            checkAndPromptSavedDraft();
         });
     </script>
 </body>
