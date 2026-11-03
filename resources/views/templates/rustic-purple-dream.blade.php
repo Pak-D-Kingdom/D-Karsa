@@ -463,26 +463,16 @@
                 </div>
 
                 <div id="previewGalleryGrid" class="grid grid-cols-2 gap-2.5">
-                    @if(isset($activeGalleries[0]))
-                    <div class="rounded-2xl overflow-hidden bg-surface-container-lowest p-2 shadow-sm flex flex-col border border-outline-variant/30">
-                        <img alt="Gallery 1" class="w-full aspect-[4/5] object-cover rounded-xl" src="{{ \App\Services\TemplateManager::resolvePhotoUrl($activeGalleries[0]->image ?? null, $coverImg) }}"/>
-                        <p class="text-xs text-secondary text-center mt-2 font-medium">{{ $activeGalleries[0]->caption ?? 'Bunga Lavender & Tawa' }}</p>
-                    </div>
-                    @endif
-
-                    @if(isset($activeGalleries[1]))
-                    <div class="rounded-2xl overflow-hidden bg-surface-container-lowest p-2 shadow-sm flex flex-col border border-outline-variant/30">
-                        <img alt="Gallery 2" class="w-full aspect-[4/5] object-cover rounded-xl" src="{{ \App\Services\TemplateManager::resolvePhotoUrl($activeGalleries[1]->image ?? null, $coverImg) }}"/>
-                        <p class="text-xs text-secondary text-center mt-2 font-medium">{{ $activeGalleries[1]->caption ?? 'Dekorasi Rustic Garden' }}</p>
-                    </div>
-                    @endif
-
-                    @if(isset($activeGalleries[2]))
-                    <div class="col-span-2 rounded-2xl overflow-hidden bg-surface-container-lowest p-2 shadow-sm flex flex-col border border-outline-variant/30">
-                        <img alt="Gallery 3" class="w-full aspect-[16/9] object-cover rounded-xl" src="{{ \App\Services\TemplateManager::resolvePhotoUrl($activeGalleries[2]->image ?? null, $coverImg) }}"/>
-                        <p class="text-xs text-secondary text-center mt-2 font-medium">{{ $activeGalleries[2]->caption ?? 'Harmoni Bunga Kering & Nuansa Hangat' }}</p>
-                    </div>
-                    @endif
+                    @foreach($activeGalleries as $idx => $gal)
+                        @php
+                            $imgUrl = \App\Services\TemplateManager::resolvePhotoUrl($gal->image ?? null, $coverImg);
+                            $isFeatured = ($idx % 5 === 2);
+                        @endphp
+                        <div class="{{ $isFeatured ? 'col-span-2 aspect-[16/9]' : 'aspect-[4/5]' }} rounded-2xl overflow-hidden bg-surface-container-lowest p-2 shadow-sm flex flex-col border border-outline-variant/30">
+                            <img alt="Gallery {{ $idx+1 }}" class="w-full h-full object-cover rounded-xl" src="{{ $imgUrl }}"/>
+                            <p class="text-xs text-secondary text-center mt-2 font-medium">{{ $gal->caption ?? ('Momen Indah • ' . ($idx + 1)) }}</p>
+                        </div>
+                    @endforeach
                 </div>
             </section>
 

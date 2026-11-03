@@ -295,7 +295,7 @@
                             Tersimpan baru saja
                         </span>
                     </div>
-                    <p class="text-xs text-ink2 mt-0.5 leading-relaxed">
+                    <p id="draftSavedSummaryText" class="text-xs text-ink2 mt-0.5 leading-relaxed">
                         Kami menemukan data formulir yang belum sempat Anda selesaikan. Ingin memulihkan data draf tersebut ke formulir?
                     </p>
                 </div>
@@ -516,14 +516,18 @@
             // Resolve initial template based on query parameters or category
             $currentTemplate = null;
             if ($selectedTheme) {
-                $currentTemplate = collect($allTemplates)->firstWhere('name', $selectedTheme);
-                if (!$currentTemplate) {
-                    $resolvedKey = \App\Services\TemplateManager::resolveKey($selectedTheme, $selectedCat);
-                    $currentTemplate = collect($allTemplates)->firstWhere('key', $resolvedKey);
+                $candidate = collect($allTemplates)->firstWhere('name', $selectedTheme);
+                if (!$candidate) {
+                    $resolvedKey = \App\Services\TemplateManager::resolveKey($selectedTheme, $selectedCat, $selectedSubCat);
+                    $candidate = collect($allTemplates)->firstWhere('key', $resolvedKey);
+                }
+                // Verify candidate matches the active category
+                if ($candidate && \App\Services\TemplateManager::matchesCategory($candidate, $selectedCat, $selectedSubCat)) {
+                    $currentTemplate = $candidate;
                 }
             }
             if (!$currentTemplate) {
-                $currentTemplate = collect($allTemplates)->firstWhere('category_label', $selectedCat) ?: $allTemplates[0];
+                $currentTemplate = \App\Services\TemplateManager::getDefaultThemeForCategory($selectedCat, $selectedSubCat) ?: $allTemplates[0];
             }
             $selectedTheme = $currentTemplate['name'];
             if (!$selectedPackage) {
@@ -532,21 +536,21 @@
         @endphp
 
         @if($selectedTheme || $selectedPackage)
-            <div class="mb-6 p-3.5 sm:p-4 rounded-2xl bg-brand/10 border border-brand/20 flex flex-wrap items-center justify-between gap-3 shadow-sm">
+            <div id="selectedThemeBanner" class="mb-6 p-3.5 sm:p-4 rounded-2xl bg-brand/10 border border-brand/20 flex flex-wrap items-center justify-between gap-3 shadow-sm">
                 <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
                     <span class="text-xl sm:text-2xl shrink-0">✨</span>
                     <div class="min-w-0">
                         <b class="text-xs font-bold text-ink block leading-tight truncate">Pilihan Desain / Paket Terpilih</b>
-                        <span class="text-xs text-brand font-semibold block truncate">
+                        <span id="selectedThemeBannerText" class="text-xs text-brand font-semibold block truncate">
                             Tema: {{ $selectedTheme }} • {{ $selectedPackage }}
                         </span>
                     </div>
                 </div>
                 <div class="flex items-center gap-2 shrink-0">
-                    <button type="button" onclick="openTemplateModal()" class="px-3 py-1 rounded-full text-xs font-bold bg-white text-ink hover:text-brand border border-ink/15 shadow-sm transition">
+                    <button type="button" onclick="openTemplateModal()" class="px-3 py-1 rounded-full text-xs font-bold bg-white text-ink hover:text-brand border border-ink/15 shadow-sm transition cursor-pointer">
                         Ganti Desain
                     </button>
-                    <button type="button" onclick="openPreviewModal()" class="hidden sm:inline-flex px-3 py-1 rounded-full text-xs font-bold bg-brand text-white hover:bg-accent shadow-sm transition">
+                    <button type="button" onclick="openPreviewModal()" class="hidden sm:inline-flex px-3 py-1 rounded-full text-xs font-bold bg-brand text-white hover:bg-accent shadow-sm transition cursor-pointer">
                         Preview
                     </button>
                 </div>
@@ -554,7 +558,7 @@
         @endif
 
         {{-- BUILDER FORM --}}
-        <form action="{{ route('invitation.store') }}" method="POST" enctype="multipart/form-data" id="invitationBuilderForm" class="bg-white rounded-3xl p-6 sm:p-8 shadow-md border border-brand/15">
+        <form action="{{ route('invitation.store') }}" method="POST" enctype="multipart/form-data" id="invitationBuilderForm" novalidate class="bg-white rounded-3xl p-6 sm:p-8 shadow-md border border-brand/15">
             @csrf
             <input type="hidden" name="selected_theme" id="selectedThemeInput" value="{{ $selectedTheme }}">
             <input type="hidden" name="sub_category" id="hiddenSubCategoryInput" value="{{ $selectedSubCat }}">
@@ -1336,22 +1340,71 @@
                     <p class="text-[10px] text-ink3">Musik akan diputar secara otomatis saat tamu menekan tombol "Buka Undangan".</p>
                 </div>
 
-                {{-- Upload Galeri Foto --}}
-                <div class="p-5 rounded-3xl bg-sunk/50 border border-ink/15 space-y-3">
-                    <div class="flex items-center justify-between">
+                {{-- Upload Galeri Foto (Multiple Upload, Incremental, Reorder & Management) --}}
+                <div class="p-5 rounded-3xl bg-sunk/50 border border-ink/15 space-y-3.5">
+                    <div class="flex items-center justify-between gap-2 flex-wrap">
                         <div>
                             <b id="galleryUploadLabel" class="text-xs font-bold uppercase tracking-wider text-ink block">{{ $currentGalConf['label'] }}</b>
                             <span id="galleryUploadSub" class="text-[11px] text-ink3">{{ $currentGalConf['sub'] }}</span>
                         </div>
-                        <button type="button" onclick="resetGalleryPhotos()" class="text-[11px] text-ink3 hover:text-brand font-semibold underline cursor-pointer">↺ Kosongkan Galeri</button>
+                        <div class="flex items-center gap-2">
+                            <span id="galleryCountBadge" class="hidden px-2.5 py-0.5 rounded-full text-[10.5px] font-bold bg-brand text-white shadow-xs">
+                                0 Foto Terpilih
+                            </span>
+                            <button type="button" id="btnClearGallery" onclick="confirmResetGallery()" class="hidden text-[11px] text-rose-600 hover:text-rose-700 font-semibold underline cursor-pointer">
+                                ↺ Kosongkan Galeri
+                            </button>
+                        </div>
                     </div>
 
-                    <input type="file" name="gallery_photos[]" multiple accept="image/*" onchange="previewGalleryFiles(this)"
-                           class="block w-full text-xs text-ink3 file:mr-3 file:py-2.5 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-brand file:text-white hover:file:bg-accent cursor-pointer">
-                    <p class="text-[10px] text-ink3 pt-1">Format JPG, PNG, atau WEBP (Maksimal 5 MB per foto). Bisa pilih beberapa foto sekaligus.</p>
-                    
+                    {{-- Drag & Drop Upload Dropzone --}}
+                    <div id="galleryDropzone"
+                         onclick="triggerGalleryFileInput()"
+                         ondragover="handleGalleryDragOver(event)"
+                         ondragleave="handleGalleryDragLeave(event)"
+                         ondrop="handleGalleryDrop(event)"
+                         class="relative rounded-2xl border-2 border-dashed border-brand/40 bg-white/80 hover:bg-brand/5 hover:border-brand transition p-5 sm:p-6 text-center cursor-pointer group shadow-2xs">
+                        
+                        <input type="file" id="galleryPhotosInput" name="gallery_photos[]" multiple accept="image/jpeg,image/png,image/webp" onchange="handleGalleryFilesInput(this, true)" class="sr-only">
+                        <input type="file" id="gallerySingleReplaceInput" accept="image/jpeg,image/png,image/webp" onchange="handleReplaceFileSelected(this)" class="sr-only">
+
+                        <div class="flex flex-col items-center justify-center gap-2 pointer-events-none">
+                            <div class="w-12 h-12 rounded-2xl bg-brand/10 text-brand flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                📸
+                            </div>
+                            <div>
+                                <p class="text-xs sm:text-sm font-bold text-ink group-hover:text-brand transition">
+                                    Pilih Beberapa Foto Sekaligus <span class="font-normal text-ink3 sm:inline hidden">• atau seret ke sini</span>
+                                </p>
+                                <p class="text-[10.5px] text-ink3 mt-0.5">
+                                    Format JPG, PNG, atau WEBP (Maksimal 5 MB per foto). Foto otomatis dioptimasi &amp; tajam.
+                                </p>
+                            </div>
+                            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-bold bg-brand text-white group-hover:bg-accent transition shadow-xs mt-1">
+                                <span>📁</span> <span>Buka File Foto</span>
+                            </span>
+                        </div>
+
+                        {{-- Processing Indicator Spinner --}}
+                        <div id="galleryProcessingIndicator" class="hidden absolute inset-0 bg-white/95 backdrop-blur-xs rounded-2xl flex flex-col items-center justify-center gap-2 z-20">
+                            <span class="animate-spin text-2xl">⏳</span>
+                            <span id="galleryProcessingText" class="text-xs font-bold text-brand">Mengoptimasi &amp; memproses foto...</span>
+                        </div>
+                    </div>
+
+                    {{-- Action Bar: Add More incrementally --}}
+                    <div id="galleryAddMoreContainer" class="hidden flex items-center justify-between gap-2 pt-1 border-t border-ink/10">
+                        <p class="text-[11px] text-ink3 font-medium flex items-center gap-1">
+                            <span>💡</span> <span>Gunakan tombol <b>◀</b> <b>▶</b> pada kartu untuk mengatur urutan susunan foto di undangan.</span>
+                        </p>
+                        <button type="button" onclick="triggerGalleryFileInput()" class="shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white text-brand border border-brand/30 hover:bg-brand hover:text-white shadow-xs transition flex items-center gap-1.5 cursor-pointer">
+                            <span>+</span>
+                            <span>Tambah Foto Lagi</span>
+                        </button>
+                    </div>
+
                     {{-- Gallery Preview Thumbnails Grid --}}
-                    <div id="galleryPreviews" class="grid grid-cols-3 sm:grid-cols-6 gap-2.5 pt-2">
+                    <div id="galleryPreviews" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 pt-1">
                         {{-- Injected dynamically --}}
                     </div>
                 </div>
@@ -1465,50 +1518,86 @@
         <div class="relative w-full max-w-5xl bg-white rounded-3xl shadow-2xl border border-ink/10 overflow-hidden flex flex-col max-h-[92vh] animate-in fade-in duration-200">
             <!-- Modal Header -->
             <div class="p-4 sm:p-6 border-b border-ink/10 flex items-center justify-between bg-white shrink-0">
-                <div class="flex items-center gap-3">
-                    <span class="w-10 h-10 rounded-2xl bg-brand/10 text-brand grid place-items-center text-lg font-bold">🎨</span>
-                    <div>
-                        <h3 class="font-serif text-lg sm:text-2xl font-bold text-ink">Pilih Template Undangan</h3>
-                        <p class="text-xs text-ink3 mt-0.5">Pilih template desain yang Anda sukai, sesuaikan dengan tema acara.</p>
+                <div class="flex items-center gap-3 min-w-0">
+                    <span id="modalActiveCategoryIcon" class="w-10 h-10 rounded-2xl bg-brand/10 text-brand grid place-items-center text-lg font-bold shrink-0">🎨</span>
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <h3 class="font-serif text-lg sm:text-2xl font-bold text-ink">Pilih Template Undangan</h3>
+                            <span id="modalActiveCategoryBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-brand/10 text-brand border border-brand/20">
+                                Kategori Aktif: {{ $categoryChapters[$selectedCat]['title'] ?? $selectedCat }}
+                            </span>
+                        </div>
+                        <p id="modalCategorySubtitle" class="text-xs text-ink3 mt-0.5 truncate">
+                            Menampilkan seluruh koleksi template khusus untuk kategori yang sedang aktif.
+                        </p>
                     </div>
                 </div>
-                <button type="button" onclick="closeTemplateModal()" class="w-9 h-9 rounded-full bg-sunk hover:bg-brand/10 text-ink2 hover:text-brand transition grid place-items-center text-lg font-bold">
+                <button type="button" onclick="closeTemplateModal()" class="w-9 h-9 rounded-full bg-sunk hover:bg-brand/10 text-ink2 hover:text-brand transition grid place-items-center text-lg font-bold shrink-0 cursor-pointer" title="Tutup Modal">
                     ✕
                 </button>
             </div>
 
-            <!-- Filter Controls -->
+            <!-- Filter Controls (Scoped to Active Category) -->
             <div class="px-4 sm:px-6 py-3 bg-sunk/40 border-b border-ink/10 space-y-2.5 shrink-0">
-                <!-- Category Filter Chips -->
-                <div class="flex items-center gap-1.5 overflow-x-auto pb-1" style="scrollbar-width: thin;">
-                    <span class="text-[11px] font-bold uppercase tracking-wider text-ink3 shrink-0 mr-1">Kategori:</span>
-                    <button type="button" onclick="filterModalCategory('semua', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-brand text-white shadow-sm">Semua Acara</button>
-                    <button type="button" onclick="filterModalCategory('pernikahan', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">💍 1. Pernikahan</button>
-                    <button type="button" onclick="filterModalCategory('ultah', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">🎂 2. Ulang Tahun</button>
-                    <button type="button" onclick="filterModalCategory('aqiqah', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">👶 3. Aqiqah & Kelahiran</button>
-                    <button type="button" onclick="filterModalCategory('keagamaan', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">🕌 4. Keagamaan</button>
-                    <button type="button" onclick="filterModalCategory('wisuda', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">🎓 5. Wisuda</button>
-                    <button type="button" onclick="filterModalCategory('acara-formal', this)" class="modal-cat-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-ink2 border border-ink/15 hover:border-brand">🏛️ 6. Acara Formal</button>
+                <!-- Search Box & Count -->
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
+                    <div class="relative flex-1">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-xs text-ink3">
+                            🔍
+                        </span>
+                        <input type="text"
+                               id="modalTemplateSearchInput"
+                               oninput="onModalSearchChange(this.value)"
+                               placeholder="Cari desain template di kategori ini..."
+                               class="w-full pl-8 pr-8 py-1.5 rounded-full text-xs bg-white border border-ink/15 text-ink placeholder:text-ink3 focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition">
+                        <button type="button"
+                                id="modalTemplateSearchClear"
+                                onclick="clearModalSearch()"
+                                class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-xs text-ink3 hover:text-ink cursor-pointer font-bold">
+                            ✕
+                        </button>
+                    </div>
+                    <div class="flex items-center justify-between sm:justify-end gap-2 text-[11px] text-ink2 shrink-0">
+                        <span class="inline-flex items-center gap-1.5 font-medium">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            Tersedia <b id="modalVisibleCount" class="text-brand font-extrabold">0</b> desain
+                        </span>
+                    </div>
                 </div>
 
-                <!-- Tier Filter Chips -->
-                <div class="flex items-center gap-1.5 overflow-x-auto pb-1" style="scrollbar-width: thin;">
-                    <span class="text-[11px] font-bold uppercase tracking-wider text-ink3 shrink-0 mr-1">Paket:</span>
-                    <button type="button" onclick="filterModalTier('semua', this)" class="modal-tier-chip px-3 py-1 rounded-full text-xs font-bold transition bg-ink text-white shadow-sm">Semua Paket</button>
-                    <button type="button" onclick="filterModalTier('basic', this)" class="modal-tier-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-emerald-800 border border-emerald-300 hover:bg-emerald-50">🟢 Basic (Rp50k)</button>
-                    <button type="button" onclick="filterModalTier('premium', this)" class="modal-tier-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-blue-800 border border-blue-300 hover:bg-blue-50">🔵 Premium (Rp110k)</button>
-                    <button type="button" onclick="filterModalTier('eksklusif', this)" class="modal-tier-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-rose-800 border border-rose-300 hover:bg-rose-50">🔴 Eksklusif (Rp180k)</button>
-                    <button type="button" onclick="filterModalTier('kustom', this)" class="modal-tier-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-purple-800 border border-purple-300 hover:bg-purple-50">✨ Kustom VIP (Rp280k)</button>
+                <!-- Tier Filter Chips (Basic, Premium, Eksklusif, Kustom) -->
+                <div class="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-ink3 shrink-0 mr-1">Tingkat Paket:</span>
+                    <button type="button" onclick="filterModalTier('semua', this)" class="modal-tier-chip px-3 py-1 rounded-full text-xs font-bold transition bg-ink text-white shadow-sm shrink-0 cursor-pointer">Semua Paket</button>
+                    <button type="button" onclick="filterModalTier('basic', this)" class="modal-tier-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-emerald-800 border border-emerald-300 hover:bg-emerald-50 shrink-0 cursor-pointer">🟢 Basic (Rp50k)</button>
+                    <button type="button" onclick="filterModalTier('premium', this)" class="modal-tier-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-blue-800 border border-blue-300 hover:bg-blue-50 shrink-0 cursor-pointer">🔵 Premium (Rp110k)</button>
+                    <button type="button" onclick="filterModalTier('eksklusif', this)" class="modal-tier-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-rose-800 border border-rose-300 hover:bg-rose-50 shrink-0 cursor-pointer">🔴 Eksklusif (Rp180k)</button>
+                    <button type="button" onclick="filterModalTier('kustom', this)" class="modal-tier-chip px-3 py-1 rounded-full text-xs font-bold transition bg-white text-purple-800 border border-purple-300 hover:bg-purple-50 shrink-0 cursor-pointer">✨ Kustom VIP</button>
                 </div>
             </div>
 
             <!-- Templates Grid Container -->
             <div class="p-4 sm:p-6 overflow-y-auto flex-1 bg-sunk/20" style="scrollbar-width: thin;">
+                <!-- Empty State when filter has no results -->
+                <div id="modalEmptyState" class="hidden text-center py-12 px-4 bg-white rounded-2xl border-2 border-dashed border-ink/15 my-4">
+                    <span class="text-3xl block mb-2">🔍</span>
+                    <h4 class="font-serif text-lg font-bold text-ink">Tidak Ada Desain yang Sesuai</h4>
+                    <p id="modalEmptyStateDesc" class="text-xs text-ink3 mt-1 max-w-md mx-auto">
+                        Tidak ditemukan template yang cocok dengan filter atau kata kunci pencarian Anda pada kategori ini.
+                    </p>
+                    <div class="mt-4 flex items-center justify-center gap-2">
+                        <button type="button" onclick="resetModalFilters()" class="px-4 py-2 rounded-xl text-xs font-bold bg-brand text-white shadow-sm hover:bg-accent transition cursor-pointer">
+                            ↺ Reset Filter Desain
+                        </button>
+                    </div>
+                </div>
+
                 <div id="modalTemplatesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                     @foreach($allTemplates as $tmpl)
                         <div class="modal-template-card group relative bg-white rounded-2xl border-2 transition-all duration-200 overflow-hidden shadow-sm hover:shadow-md flex flex-col justify-between {{ $selectedTheme === $tmpl['name'] ? 'border-brand ring-2 ring-brand/30' : 'border-ink/10' }}"
                              data-name="{{ $tmpl['name'] }}"
                              data-category="{{ $tmpl['category'] }}"
+                             data-subcat="{{ $tmpl['sub_category'] ?? '' }}"
                              data-tier="{{ $tmpl['tier'] }}"
                              data-price="{{ $tmpl['price'] }}"
                              data-package="{{ $tmpl['package_val'] }}"
@@ -1661,8 +1750,51 @@
         </div>
     </div>
 
+    <!-- ========================================================
+         MODAL LIGHTBOX PREVIEW FOTO GALERI
+    ======================================================== -->
+    <div id="galleryLightboxModal" class="fixed inset-0 z-[70] hidden bg-black/85 backdrop-blur-sm p-3 sm:p-6 flex items-center justify-center" onclick="if(event.target === this) closeGalleryLightbox();">
+        <div class="relative max-w-3xl w-full bg-white rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh] animate-in fade-in zoom-in-95 duration-200" onclick="event.stopPropagation()">
+            <div class="p-4 sm:p-5 border-b border-ink/10 flex items-center justify-between bg-white shrink-0">
+                <div class="flex items-center gap-2.5 min-w-0">
+                    <span class="w-8 h-8 rounded-full bg-brand/10 text-brand grid place-items-center text-sm font-bold shrink-0">🖼️</span>
+                    <div class="min-w-0">
+                        <h4 id="galleryLightboxTitle" class="font-serif text-sm sm:text-base font-bold text-ink truncate">Preview Foto Galeri</h4>
+                        <p id="galleryLightboxMeta" class="text-[11px] text-ink3 font-medium">Foto 1 dari 1</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeGalleryLightbox()" class="w-8 h-8 rounded-full bg-sunk hover:bg-brand/10 text-ink2 hover:text-brand font-bold transition grid place-items-center cursor-pointer text-sm" title="Tutup">
+                    ✕
+                </button>
+            </div>
+            
+            <div class="relative flex-1 bg-black/95 flex items-center justify-center p-3 min-h-[280px] sm:min-h-[420px] overflow-hidden select-none">
+                <img id="galleryLightboxImg" src="" alt="Preview Foto" class="max-w-full max-h-[65vh] object-contain rounded-xl shadow-lg transition-all duration-200">
+                
+                <!-- Nav Prev & Next -->
+                <button type="button" id="btnLightboxPrev" onclick="navGalleryLightbox(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 text-white backdrop-blur-md transition flex items-center justify-center text-2xl font-bold cursor-pointer shadow-md">
+                    ‹
+                </button>
+                <button type="button" id="btnLightboxNext" onclick="navGalleryLightbox(1)" class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 text-white backdrop-blur-md transition flex items-center justify-center text-2xl font-bold cursor-pointer shadow-md">
+                    ›
+                </button>
+            </div>
+
+            <div class="p-3 sm:p-4 bg-sunk/40 border-t border-ink/10 flex items-center justify-between gap-3 text-xs text-ink2 shrink-0">
+                <span id="galleryLightboxFilename" class="truncate text-[11px] font-mono text-ink3 max-w-[200px] sm:max-w-sm"></span>
+                <button type="button" onclick="closeGalleryLightbox()" class="px-4 py-1.5 rounded-full bg-brand text-white font-bold text-xs hover:bg-accent transition shadow-xs cursor-pointer">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
     {{-- INTERACTIVE JAVASCRIPT CONTROLS --}}
     <script>
+        window._isInitialLoading = true;
+        window._isRestoringDraft = false;
+        window._hasPendingDraftPrompt = false;
+
         let currentStep = 1;
         const totalSteps = 6;
 
@@ -1730,7 +1862,37 @@
             window.scrollTo({ top: 120, behavior: 'smooth' });
         }
 
+        function highlightInvalidInput(el) {
+            if (!el) return;
+            el.focus();
+            el.classList.add('border-rose-500', 'ring-2', 'ring-rose-200');
+            setTimeout(() => {
+                el.classList.remove('border-rose-500', 'ring-2', 'ring-rose-200');
+            }, 3000);
+        }
+
+        function validateCurrentStep() {
+            if (currentStep === 1) {
+                const weddingDate = document.getElementById('weddingDateInput') || document.querySelector('input[name="wedding_date"]');
+                if (!weddingDate || !weddingDate.value) {
+                    showBuilderToast('Mohon tentukan tanggal acara terlebih dahulu.', '⚠️');
+                    highlightInvalidInput(weddingDate);
+                    return false;
+                }
+            }
+            if (currentStep === 2) {
+                const groomName = document.getElementById('groomNameInput') || document.querySelector('input[name="groom_name"]');
+                if (!groomName || !groomName.value.trim()) {
+                    showBuilderToast('Mohon isi nama mempelai / tokoh utama terlebih dahulu.', '⚠️');
+                    highlightInvalidInput(groomName);
+                    return false;
+                }
+            }
+            return true;
+        }
+
         function nextStep() {
+            if (!validateCurrentStep()) return;
             if (currentStep < totalSteps) {
                 currentStep++;
                 updateStepUI();
@@ -2671,6 +2833,22 @@
 
             onSubCategoryChange(targetSub, false);
             updateCategoryTheme(catKey, targetSub);
+
+            // Automatically synchronize template if current template does not match the newly selected category
+            // JANGAN timpa template jika proses pemulihan draf sedang berlangsung!
+            if (!window._isRestoringDraft && typeof templateMatchesCategory === 'function' && Array.isArray(allTemplatesData)) {
+                const currentTmpl = allTemplatesData.find(t => t.name === currentSelectedTheme);
+                if (!currentTmpl || !templateMatchesCategory(currentTmpl, catKey, targetSub)) {
+                    const defaultTmpl = allTemplatesData.find(t => templateMatchesCategory(t, catKey, targetSub));
+                    if (defaultTmpl) {
+                        selectTemplate(defaultTmpl.name, false, false);
+                    }
+                }
+            }
+
+            if (!window._isRestoringDraft && typeof triggerAutoSave === 'function') {
+                triggerAutoSave();
+            }
         }
 
         function onSubCategoryChange(subCatVal, triggerThemeUpdate = true) {
@@ -2687,9 +2865,26 @@
                 badge.textContent = '✓ ' + subCatVal;
             }
 
+            const currentCat = document.querySelector('input[name="category"]:checked')?.value || 'Pernikahan';
+
             if (triggerThemeUpdate) {
-                const currentCat = document.querySelector('input[name="category"]:checked')?.value || 'Pernikahan';
                 updateCategoryTheme(currentCat, subCatVal);
+            }
+
+            // Automatically check if current template matches the changed sub-category (e.g. khitanan or seminar)
+            // JANGAN timpa template jika proses pemulihan draf sedang berlangsung!
+            if (!window._isRestoringDraft && typeof templateMatchesCategory === 'function' && Array.isArray(allTemplatesData)) {
+                const currentTmpl = allTemplatesData.find(t => t.name === currentSelectedTheme);
+                if (!currentTmpl || !templateMatchesCategory(currentTmpl, currentCat, subCatVal)) {
+                    const defaultTmpl = allTemplatesData.find(t => templateMatchesCategory(t, currentCat, subCatVal));
+                    if (defaultTmpl) {
+                        selectTemplate(defaultTmpl.name, false, false);
+                    }
+                }
+            }
+
+            if (!window._isRestoringDraft && typeof triggerAutoSave === 'function') {
+                triggerAutoSave();
             }
 
             // Update Live preview display if element exists
@@ -2724,6 +2919,10 @@
                 } else {
                     customBox.classList.add('hidden');
                 }
+            }
+
+            if (!window._isRestoringDraft && typeof triggerAutoSave === 'function') {
+                triggerAutoSave();
             }
         }
 
@@ -3132,84 +3331,441 @@
             updateLivePreviewContent(false);
         }
 
-        // Live Multiple Gallery Previews & Real-Time Sync
-        function previewGalleryFiles(input) {
-            const container = document.getElementById('galleryPreviews');
-            if (!container) return;
+        // ========================================================
+        // ADVANCED MULTIPLE GALLERY MANAGEMENT & REAL-TIME SYNC
+        // ========================================================
+        let builderGalleryItems = []; // Array of { id, file, dataUrl, name, size, caption }
+        let galleryReplaceTargetId = null;
+        let lightboxCurrentIndex = 0;
 
-            if (input.files && input.files.length > 0) {
-                const files = Array.from(input.files);
-                const maxBytes = 5 * 1024 * 1024; // 5 MB
-                const oversizedFiles = files.filter(f => f.size > maxBytes);
-                if (oversizedFiles.length > 0) {
-                    const fileDetails = oversizedFiles.map(f => `• ${f.name} (${(f.size / (1024 * 1024)).toFixed(1)} MB)`).join('\n');
-                    alert(`Ada foto galeri yang melebihi batas ukuran 5 MB:\n\n${fileDetails}\n\nMaksimal ukuran per file foto adalah 5 MB. Silakan pilih foto dengan ukuran yang lebih kecil atau kompres terlebih dahulu.`);
-                    input.value = '';
-                    return;
+        // Canvas compressor to keep high-res camera photos crisp yet lightweight (~150-250KB)
+        function optimizeImageFile(file, maxWidth = 1600, maxHeight = 1600, quality = 0.85) {
+            return new Promise((resolve, reject) => {
+                if (!file || !file.type || !file.type.startsWith('image/')) {
+                    return reject(new Error('File bukan gambar'));
                 }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        let width = img.width;
+                        let height = img.height;
 
-                container.innerHTML = '';
-                const dataUrls = [];
-                let loadedCount = 0;
-
-                files.forEach((file, index) => {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const dataUrl = e.target.result;
-                        dataUrls[index] = dataUrl;
-                        loadedCount++;
-
-                        const div = document.createElement('div');
-                        div.className = 'aspect-square rounded-xl bg-white border border-ink/15 overflow-hidden shadow-sm relative group';
-                        div.innerHTML = `<img src="${dataUrl}" class="w-full h-full object-cover">`;
-                        container.appendChild(div);
-
-                        if (loadedCount === files.length) {
-                            const validUrls = dataUrls.filter(Boolean);
-                            try {
-                                sessionStorage.setItem('dkarsa_preview_gallery_photos', JSON.stringify(validUrls));
-                            } catch(err) {
-                                console.warn('Storage quota warning for gallery photos', err);
-                            }
-
-                            // Store in hidden base64 input for persistent form submission
-                            const hiddenGal = document.getElementById('galleryPhotosBase64');
-                            if (hiddenGal) hiddenGal.value = JSON.stringify(validUrls);
-
-                            // Send postMessage to live preview iframe for instant visual update
-                            const iframe = document.getElementById('builderLivePreviewIframe');
-                            if (iframe && iframe.contentWindow) {
-                                iframe.contentWindow.postMessage({
-                                    type: 'UPDATE_PREVIEW_GALLERY',
-                                    images: validUrls,
-                                    photos: validUrls
-                                }, '*');
+                        if (width > maxWidth || height > maxHeight) {
+                            if (width / height > maxWidth / maxHeight) {
+                                height = Math.round((height * maxWidth) / width);
+                                width = maxWidth;
+                            } else {
+                                width = Math.round((width * maxHeight) / height);
+                                height = maxHeight;
                             }
                         }
+
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        if (!ctx) {
+                            return resolve(e.target.result);
+                        }
+
+                        ctx.imageSmoothingEnabled = true;
+                        ctx.imageSmoothingQuality = 'high';
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        const outType = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+                        const optimizedDataUrl = canvas.toDataURL(outType, quality);
+                        resolve(optimizedDataUrl);
                     };
-                    reader.readAsDataURL(file);
+                    img.onerror = () => resolve(e.target.result);
+                    img.src = e.target.result;
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function triggerGalleryFileInput() {
+            const input = document.getElementById('galleryPhotosInput');
+            if (input) {
+                input.value = '';
+                input.click();
+            }
+        }
+
+        function handleGalleryDragOver(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const dropzone = document.getElementById('galleryDropzone');
+            if (dropzone) dropzone.classList.add('border-brand', 'bg-brand/10');
+        }
+
+        function handleGalleryDragLeave(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const dropzone = document.getElementById('galleryDropzone');
+            if (dropzone) dropzone.classList.remove('border-brand', 'bg-brand/10');
+        }
+
+        function handleGalleryDrop(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const dropzone = document.getElementById('galleryDropzone');
+            if (dropzone) dropzone.classList.remove('border-brand', 'bg-brand/10');
+            if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                processNewGalleryFiles(Array.from(e.dataTransfer.files), true);
+            }
+        }
+
+        function handleGalleryFilesInput(input, append = true) {
+            if (!input || !input.files || input.files.length === 0) return;
+            const files = Array.from(input.files);
+            processNewGalleryFiles(files, append);
+        }
+
+        // Backward compatibility
+        function previewGalleryFiles(input) {
+            handleGalleryFilesInput(input, true);
+        }
+
+        async function processNewGalleryFiles(files, append = true) {
+            if (!files || files.length === 0) return;
+
+            const maxBytes = 5 * 1024 * 1024; // 5 MB
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+
+            const oversized = [];
+            const invalidTypes = [];
+            const validFiles = [];
+
+            files.forEach(f => {
+                if (f.size > maxBytes) {
+                    oversized.push(f);
+                } else if (!validTypes.includes(f.type.toLowerCase())) {
+                    invalidTypes.push(f);
+                } else {
+                    validFiles.push(f);
+                }
+            });
+
+            if (oversized.length > 0) {
+                const list = oversized.map(f => `• ${f.name} (${(f.size / (1024 * 1024)).toFixed(1)} MB)`).join('\n');
+                alert(`Beberapa foto melebihi batas 5 MB:\n\n${list}\n\nSilakan pilih foto dengan ukuran maksimal 5 MB.`);
+            }
+
+            if (invalidTypes.length > 0) {
+                const list = invalidTypes.map(f => `• ${f.name}`).join('\n');
+                alert(`Format file berikut tidak didukung:\n\n${list}\n\nGunakan format JPG, PNG, atau WEBP.`);
+            }
+
+            if (validFiles.length === 0) return;
+
+            const indicator = document.getElementById('galleryProcessingIndicator');
+            const indicatorText = document.getElementById('galleryProcessingText');
+            if (indicator) indicator.classList.remove('hidden');
+            if (indicatorText) indicatorText.textContent = `Mengoptimasi & memproses ${validFiles.length} foto...`;
+
+            try {
+                const newItems = [];
+                for (let i = 0; i < validFiles.length; i++) {
+                    const f = validFiles[i];
+                    if (indicatorText) indicatorText.textContent = `Mengoptimasi foto (${i + 1}/${validFiles.length})...`;
+                    const optimizedUrl = await optimizeImageFile(f, 1600, 1600, 0.85);
+                    newItems.push({
+                        id: 'gal_' + Date.now() + '_' + Math.random().toString(36).substr(2, 7),
+                        file: f,
+                        dataUrl: optimizedUrl,
+                        name: f.name,
+                        size: f.size,
+                        caption: ''
+                    });
+                }
+
+                if (append) {
+                    builderGalleryItems.push(...newItems);
+                } else {
+                    builderGalleryItems = newItems;
+                }
+
+                syncGalleryStateAndUI();
+                showBuilderToast(`Berhasil menambahkan ${newItems.length} foto ke galeri.`, '📸');
+            } catch (err) {
+                console.error('Error memproses foto galeri:', err);
+                showBuilderToast('Terjadi kendala saat memproses foto galeri.', '⚠️');
+            } finally {
+                if (indicator) indicator.classList.add('hidden');
+            }
+        }
+
+        function syncGalleryStateAndUI() {
+            const container = document.getElementById('galleryPreviews');
+            const countBadge = document.getElementById('galleryCountBadge');
+            const clearBtn = document.getElementById('btnClearGallery');
+            const addMore = document.getElementById('galleryAddMoreContainer');
+            const total = builderGalleryItems.length;
+
+            // 1. Update counter badge & buttons
+            if (countBadge) {
+                if (total > 0) {
+                    countBadge.textContent = `${total} Foto Terpilih`;
+                    countBadge.classList.remove('hidden');
+                } else {
+                    countBadge.classList.add('hidden');
+                }
+            }
+            if (clearBtn) {
+                if (total > 0) clearBtn.classList.remove('hidden');
+                else clearBtn.classList.add('hidden');
+            }
+            if (addMore) {
+                if (total > 0) addMore.classList.remove('hidden');
+                else addMore.classList.add('hidden');
+            }
+
+            // 2. Render thumbnail cards with full management controls
+            if (container) {
+                container.innerHTML = '';
+                builderGalleryItems.forEach((item, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'group relative aspect-square rounded-2xl bg-white border border-ink/15 overflow-hidden shadow-xs hover:shadow-md transition-all flex flex-col justify-between';
+
+                    card.innerHTML = `
+                        <!-- Order Badge Top-Left -->
+                        <div class="absolute top-2 left-2 z-10 flex items-center gap-1">
+                            <span class="px-2 py-0.5 rounded-md bg-black/75 backdrop-blur-xs text-white text-[10.5px] font-black tracking-wider shadow-xs select-none">
+                                #${index + 1}
+                            </span>
+                        </div>
+
+                        <!-- Quick Action Top-Right: Zoom & Delete -->
+                        <div class="absolute top-2 right-2 z-10 flex items-center gap-1 opacity-90 group-hover:opacity-100 transition">
+                            <button type="button" onclick="event.stopPropagation(); openGalleryLightbox('${item.id}');" class="w-7 h-7 rounded-full bg-white/90 hover:bg-brand text-ink hover:text-white transition grid place-items-center text-xs shadow-xs cursor-pointer" title="Perbesar Foto">
+                                🔍
+                            </button>
+                            <button type="button" onclick="event.stopPropagation(); deleteGalleryPhoto('${item.id}');" class="w-7 h-7 rounded-full bg-rose-50 hover:bg-rose-600 text-rose-600 hover:text-white transition grid place-items-center text-xs shadow-xs cursor-pointer" title="Hapus Foto">
+                                ✕
+                            </button>
+                        </div>
+
+                        <!-- Image Click to Preview Zoom -->
+                        <div class="w-full h-full cursor-pointer overflow-hidden" onclick="openGalleryLightbox('${item.id}')">
+                            <img src="${item.dataUrl}" alt="${item.name || 'Foto ' + (index + 1)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        </div>
+
+                        <!-- Bottom Control Bar: Move Left, Replace, Move Right -->
+                        <div class="absolute inset-x-0 bottom-0 p-1.5 bg-gradient-to-t from-black/85 via-black/50 to-transparent flex items-center justify-between gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                            <button type="button" onclick="event.stopPropagation(); moveGalleryPhoto('${item.id}', -1);" ${index === 0 ? 'disabled class="opacity-30 cursor-not-allowed text-white/50 w-6 h-6 flex items-center justify-center text-xs"' : 'class="text-white hover:text-accent w-6 h-6 flex items-center justify-center text-xs cursor-pointer transition font-bold"'} title="Pindahkan ke urutan sebelumnya">
+                                ◀
+                            </button>
+                            <button type="button" onclick="event.stopPropagation(); triggerReplaceGalleryPhoto('${item.id}');" class="px-2 py-0.5 rounded bg-white/20 hover:bg-white text-white hover:text-ink text-[10px] font-bold backdrop-blur-xs transition cursor-pointer flex items-center gap-1" title="Ganti foto ini dengan foto lain">
+                                <span>🔄</span> <span>Ganti</span>
+                            </button>
+                            <button type="button" onclick="event.stopPropagation(); moveGalleryPhoto('${item.id}', 1);" ${index === total - 1 ? 'disabled class="opacity-30 cursor-not-allowed text-white/50 w-6 h-6 flex items-center justify-center text-xs"' : 'class="text-white hover:text-accent w-6 h-6 flex items-center justify-center text-xs cursor-pointer transition font-bold"'} title="Pindahkan ke urutan berikutnya">
+                                ▶
+                            </button>
+                        </div>
+                    `;
+                    container.appendChild(card);
                 });
+            }
+
+            // 3. Sync dataUrls to form base64 and sessionStorage
+            const dataUrls = builderGalleryItems.map(item => item.dataUrl);
+            const hiddenGal = document.getElementById('galleryPhotosBase64');
+            if (hiddenGal) {
+                hiddenGal.value = dataUrls.length > 0 ? JSON.stringify(dataUrls) : '';
+            }
+
+            try {
+                if (dataUrls.length > 0) {
+                    sessionStorage.setItem('dkarsa_preview_gallery_photos', JSON.stringify(dataUrls));
+                } else {
+                    sessionStorage.removeItem('dkarsa_preview_gallery_photos');
+                }
+            } catch (e) {
+                console.warn('sessionStorage quota limit reached for gallery', e);
+            }
+
+            // 4. Update binary input.files via DataTransfer
+            try {
+                const dt = new DataTransfer();
+                builderGalleryItems.forEach(item => {
+                    if (item.file instanceof File) {
+                        dt.items.add(item.file);
+                    }
+                });
+                const fileInput = document.getElementById('galleryPhotosInput');
+                if (fileInput) fileInput.files = dt.files;
+            } catch (e) {}
+
+            // 5. Send postMessage to live preview iframe for instant visual update
+            const iframe = document.getElementById('builderLivePreviewIframe');
+            if (iframe && iframe.contentWindow) {
+                if (dataUrls.length > 0) {
+                    iframe.contentWindow.postMessage({
+                        type: 'UPDATE_PREVIEW_GALLERY',
+                        images: dataUrls,
+                        photos: dataUrls
+                    }, '*');
+                } else {
+                    iframe.contentWindow.postMessage({
+                        type: 'RESET_PREVIEW_GALLERY'
+                    }, '*');
+                }
+            }
+
+            // 6. Trigger auto-save draft
+            if (!window._isRestoringDraft && !window._isInitialLoading && typeof triggerAutoSave === 'function') {
+                triggerAutoSave();
+            }
+        }
+
+        function deleteGalleryPhoto(id) {
+            const index = builderGalleryItems.findIndex(i => i.id === id);
+            if (index === -1) return;
+            const deletedName = builderGalleryItems[index].name || `Foto #${index + 1}`;
+            builderGalleryItems.splice(index, 1);
+            syncGalleryStateAndUI();
+            showBuilderToast(`Foto "${deletedName}" berhasil dihapus dari galeri.`, '🗑️');
+        }
+
+        function moveGalleryPhoto(id, direction) {
+            const index = builderGalleryItems.findIndex(i => i.id === id);
+            if (index === -1) return;
+            const targetIndex = index + direction;
+            if (targetIndex < 0 || targetIndex >= builderGalleryItems.length) return;
+            const temp = builderGalleryItems[index];
+            builderGalleryItems[index] = builderGalleryItems[targetIndex];
+            builderGalleryItems[targetIndex] = temp;
+            syncGalleryStateAndUI();
+        }
+
+        function triggerReplaceGalleryPhoto(id) {
+            galleryReplaceTargetId = id;
+            const input = document.getElementById('gallerySingleReplaceInput');
+            if (input) {
+                input.value = '';
+                input.click();
+            }
+        }
+
+        async function handleReplaceFileSelected(input) {
+            if (!input || !input.files || input.files.length === 0 || !galleryReplaceTargetId) return;
+            const file = input.files[0];
+            const maxBytes = 5 * 1024 * 1024;
+            if (file.size > maxBytes) {
+                alert(`Foto ${file.name} melebihi batas 5 MB. Silakan pilih foto dengan ukuran lebih kecil.`);
+                return;
+            }
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+            if (!validTypes.includes(file.type.toLowerCase())) {
+                alert(`Format file ${file.name} tidak didukung. Gunakan JPG, PNG, atau WEBP.`);
+                return;
+            }
+
+            const targetIndex = builderGalleryItems.findIndex(i => i.id === galleryReplaceTargetId);
+            if (targetIndex === -1) return;
+
+            const indicator = document.getElementById('galleryProcessingIndicator');
+            if (indicator) indicator.classList.remove('hidden');
+
+            try {
+                const dataUrl = await optimizeImageFile(file, 1600, 1600, 0.85);
+                builderGalleryItems[targetIndex] = {
+                    id: galleryReplaceTargetId,
+                    file: file,
+                    dataUrl: dataUrl,
+                    name: file.name,
+                    size: file.size,
+                    caption: builderGalleryItems[targetIndex].caption || ''
+                };
+                syncGalleryStateAndUI();
+                showBuilderToast(`Foto #${targetIndex + 1} berhasil diperbarui.`, '✅');
+            } catch (err) {
+                console.error('Error replacing gallery photo:', err);
+                alert('Gagal memproses foto baru.');
+            } finally {
+                if (indicator) indicator.classList.add('hidden');
+                galleryReplaceTargetId = null;
+            }
+        }
+
+        function confirmResetGallery(promptUser = true) {
+            if (builderGalleryItems.length === 0) return;
+            if (promptUser && !confirm('Apakah Anda yakin ingin mengosongkan seluruh foto galeri?')) return;
+            builderGalleryItems = [];
+            syncGalleryStateAndUI();
+            if (promptUser) {
+                showBuilderToast('Seluruh foto galeri berhasil dikosongkan.', '↺');
             }
         }
 
         function resetGalleryPhotos() {
-            const input = document.querySelector('input[name="gallery_photos[]"]');
-            if (input) input.value = '';
-            const container = document.getElementById('galleryPreviews');
-            if (container) container.innerHTML = '';
-            const hiddenGal = document.getElementById('galleryPhotosBase64');
-            if (hiddenGal) hiddenGal.value = '';
+            confirmResetGallery(false);
+        }
 
-            try {
-                sessionStorage.removeItem('dkarsa_preview_gallery_photos');
-                localStorage.removeItem('dkarsa_preview_gallery_photos');
-            } catch(e) {}
+        // Lightbox Modal Controls
+        function openGalleryLightbox(idOrIndex) {
+            if (builderGalleryItems.length === 0) return;
+            let index = 0;
+            if (typeof idOrIndex === 'number') {
+                index = idOrIndex;
+            } else {
+                const foundIdx = builderGalleryItems.findIndex(i => i.id === idOrIndex);
+                if (foundIdx !== -1) index = foundIdx;
+            }
+            if (index < 0 || index >= builderGalleryItems.length) index = 0;
+            lightboxCurrentIndex = index;
+            renderGalleryLightbox();
+            const modal = document.getElementById('galleryLightboxModal');
+            if (modal) modal.classList.remove('hidden');
+            document.addEventListener('keydown', handleGalleryLightboxKeydown);
+        }
 
-            const iframe = document.getElementById('builderLivePreviewIframe');
-            if (iframe && iframe.contentWindow) {
-                iframe.contentWindow.postMessage({
-                    type: 'RESET_PREVIEW_GALLERY'
-                }, '*');
+        function renderGalleryLightbox() {
+            if (builderGalleryItems.length === 0) {
+                closeGalleryLightbox();
+                return;
+            }
+            const item = builderGalleryItems[lightboxCurrentIndex];
+            if (!item) return;
+
+            const img = document.getElementById('galleryLightboxImg');
+            const title = document.getElementById('galleryLightboxTitle');
+            const meta = document.getElementById('galleryLightboxMeta');
+            const fname = document.getElementById('galleryLightboxFilename');
+            const prevBtn = document.getElementById('btnLightboxPrev');
+            const nextBtn = document.getElementById('btnLightboxNext');
+
+            if (img) img.src = item.dataUrl;
+            if (title) title.textContent = item.name ? `Foto #${lightboxCurrentIndex + 1}: ${item.name}` : `Foto #${lightboxCurrentIndex + 1}`;
+            if (meta) meta.textContent = `Foto ${lightboxCurrentIndex + 1} dari ${builderGalleryItems.length}`;
+            if (fname) fname.textContent = item.name || `foto_galeri_${lightboxCurrentIndex + 1}.jpg`;
+
+            const hasMultiple = builderGalleryItems.length > 1;
+            if (prevBtn) prevBtn.style.display = hasMultiple ? 'flex' : 'none';
+            if (nextBtn) nextBtn.style.display = hasMultiple ? 'flex' : 'none';
+        }
+
+        function navGalleryLightbox(dir) {
+            if (builderGalleryItems.length <= 1) return;
+            lightboxCurrentIndex = (lightboxCurrentIndex + dir + builderGalleryItems.length) % builderGalleryItems.length;
+            renderGalleryLightbox();
+        }
+
+        function closeGalleryLightbox() {
+            const modal = document.getElementById('galleryLightboxModal');
+            if (modal) modal.classList.add('hidden');
+            document.removeEventListener('keydown', handleGalleryLightboxKeydown);
+        }
+
+        function handleGalleryLightboxKeydown(e) {
+            if (e.key === 'Escape') {
+                closeGalleryLightbox();
+            } else if (e.key === 'ArrowLeft') {
+                navGalleryLightbox(-1);
+            } else if (e.key === 'ArrowRight') {
+                navGalleryLightbox(1);
             }
         }
 
@@ -3218,16 +3774,145 @@
         // ========================================================
         const allTemplatesData = @json($allTemplates);
         let currentSelectedTheme = @json($selectedTheme) || 'Simple Minimalist Floral';
-        let modalActiveCategory = 'semua';
         let modalActiveTier = 'semua';
+        let modalSearchQuery = '';
 
-        // Open Template Selection Modal
+        // Dynamic category matching logic (identical to TemplateManager::matchesCategory)
+        function templateMatchesCategory(tmpl, category, subCategory = '') {
+            if (!tmpl) return false;
+            const cat = (category || '').toLowerCase().trim();
+            const sub = (subCategory || '').toLowerCase().trim();
+
+            const themeCat = (tmpl.category || '').toLowerCase().trim();
+            const themeLabel = (tmpl.category_label || '').toLowerCase().trim();
+            const themeEvent = (tmpl.event_cat || '').toLowerCase().trim();
+            const themeSub = (tmpl.sub_category || '').toLowerCase().trim();
+            const themeName = (tmpl.name || '').toLowerCase().trim();
+
+            // 1. Khitan / Khitanan
+            if (cat === 'khitan' || cat === 'khitanan' || cat.includes('khitan') || sub.includes('khitan')) {
+                return themeCat === 'khitanan' 
+                    || themeLabel === 'khitanan' 
+                    || themeSub.includes('khitan') 
+                    || themeName.includes('khitan');
+            }
+
+            // 2. Pernikahan / Wedding
+            if (cat === 'pernikahan' || cat === 'wedding') {
+                return themeCat === 'pernikahan' || themeLabel === 'pernikahan' || themeEvent === 'pernikahan';
+            }
+
+            // 3. Ulang Tahun / Birthday
+            if (cat === 'ulang tahun' || cat === 'ulang-tahun' || cat === 'ultah' || cat === 'birthday') {
+                return themeCat === 'ultah' || themeLabel === 'ulang tahun' || themeEvent === 'ulang tahun';
+            }
+
+            // 4. Wisuda / Kelulusan / Graduation
+            if (cat === 'wisuda' || cat === 'kelulusan' || cat === 'graduation') {
+                return themeCat === 'wisuda' || themeLabel === 'wisuda' || themeEvent === 'wisuda';
+            }
+
+            // 5. Seminar
+            if (cat === 'seminar' || sub.includes('seminar')) {
+                return themeSub.includes('seminar') || themeName.includes('seminar');
+            }
+
+            // 6. Acara Formal
+            if (cat === 'acara formal' || cat === 'acara-formal' || cat === 'formal') {
+                return themeCat === 'formal' || themeLabel === 'acara formal' || themeEvent === 'acara formal';
+            }
+
+            // 7. Aqiqah & Kelahiran
+            if (cat === 'aqiqah' || cat.includes('aqiqah') || cat.includes('kelahiran') || cat.includes('tasmiyah')) {
+                if (sub.includes('khitan')) {
+                    return themeCat === 'khitanan' || themeSub.includes('khitan') || themeName.includes('khitan');
+                }
+                return (themeCat === 'aqiqah' || themeLabel === 'aqiqah' || themeEvent === 'aqiqah')
+                    && !(themeCat === 'khitanan' && !themeName.includes('aqiqah'));
+            }
+
+            // 8. Keagamaan
+            if (cat === 'keagamaan') {
+                if (sub.includes('tahlil') || sub.includes('doa bersama')) {
+                    return themeSub.includes('tahlil') || themeCat === 'tahlilan';
+                }
+                if (sub.includes('halal') || sub.includes('silaturahmi')) {
+                    return themeSub.includes('halal') || themeCat === 'halalbihalal';
+                }
+                if (sub.includes('syukur') || sub.includes('rumah')) {
+                    return themeSub.includes('syukur') || themeCat === 'syukuran';
+                }
+                if (sub.includes('safar') || sub.includes('haji') || sub.includes('umrah')) {
+                    return themeSub.includes('safar');
+                }
+                return themeLabel === 'keagamaan' || themeEvent === 'keagamaan' || ['keagamaan', 'halalbihalal', 'syukuran', 'tahlilan'].includes(themeCat);
+            }
+
+            if (cat === 'halalbihalal' || cat === 'halal bihalal') {
+                return themeCat === 'halalbihalal' || themeSub.includes('halal');
+            }
+            if (cat === 'tahlilan' || cat === 'tahlil') {
+                return themeCat === 'tahlilan' || themeSub.includes('tahlil');
+            }
+            if (cat === 'syukuran') {
+                return themeCat === 'syukuran' || themeSub.includes('syukur');
+            }
+
+            return themeCat === cat || themeLabel === cat || themeEvent === cat;
+        }
+
+        // Helper untuk mendapatkan kategori & sub-kategori aktif dari formulir
+        function getCurrentFormCategory() {
+            const radio = document.querySelector('input[name="category"]:checked');
+            const cat = radio ? radio.value : 'Pernikahan';
+            const sub = document.getElementById('hiddenSubCategoryInput')?.value 
+                     || document.getElementById('subCategorySelect')?.value 
+                     || '';
+            return { category: cat, subCategory: sub };
+        }
+
+        // Open Template Selection Modal (Filtered strictly to active category)
         function openTemplateModal() {
             const modal = document.getElementById('templateModal');
-            if (modal) {
-                modal.classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
+            if (!modal) return;
+
+            const { category, subCategory } = getCurrentFormCategory();
+            const chapter = categoryChaptersData[category] || { title: category, icon: '🎨' };
+
+            // Update active category badge in modal header
+            const badgeEl = document.getElementById('modalActiveCategoryBadge');
+            if (badgeEl) {
+                let displayTitle = chapter.title || category;
+                if (subCategory && subCategory.toLowerCase().includes('khitan')) {
+                    displayTitle = 'Khitan & Tasyakuran';
+                } else if (subCategory && subCategory.toLowerCase().includes('seminar')) {
+                    displayTitle = 'Seminar & Lokakarya';
+                }
+                badgeEl.textContent = 'Kategori Aktif: ' + displayTitle;
             }
+            const iconEl = document.getElementById('modalActiveCategoryIcon');
+            if (iconEl && chapter.icon) {
+                iconEl.textContent = chapter.icon;
+            }
+
+            // Reset search query
+            modalSearchQuery = '';
+            const searchInput = document.getElementById('modalTemplateSearchInput');
+            if (searchInput) searchInput.value = '';
+            const clearBtn = document.getElementById('modalTemplateSearchClear');
+            if (clearBtn) clearBtn.classList.add('hidden');
+
+            // Reset tier filter to 'semua'
+            modalActiveTier = 'semua';
+            document.querySelectorAll('.modal-tier-chip').forEach((b, idx) => {
+                b.classList.remove('bg-ink', 'text-white', 'shadow-sm');
+                if (idx === 0) b.classList.add('bg-ink', 'text-white', 'shadow-sm');
+            });
+
+            applyModalFilters();
+
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
         }
 
         // Close Template Selection Modal
@@ -3239,20 +3924,6 @@
             }
         }
 
-        // Filter modal by Category
-        function filterModalCategory(cat, btn) {
-            modalActiveCategory = cat;
-            document.querySelectorAll('.modal-cat-chip').forEach(b => {
-                b.classList.remove('bg-brand', 'text-white', 'shadow-sm');
-                b.classList.add('bg-white', 'text-ink2');
-            });
-            if (btn) {
-                btn.classList.add('bg-brand', 'text-white', 'shadow-sm');
-                btn.classList.remove('bg-white', 'text-ink2');
-            }
-            applyModalFilters();
-        }
-
         // Filter modal by Tier
         function filterModalTier(tier, btn) {
             modalActiveTier = tier;
@@ -3261,99 +3932,115 @@
             });
             if (btn) {
                 btn.classList.add('bg-ink', 'text-white', 'shadow-sm');
+            } else {
+                const firstBtn = document.querySelector('.modal-tier-chip');
+                if (firstBtn) firstBtn.classList.add('bg-ink', 'text-white', 'shadow-sm');
             }
             applyModalFilters();
         }
 
-        // Apply both filters to cards in modal
+        // Live Search Input Handler
+        function onModalSearchChange(val) {
+            modalSearchQuery = (val || '').toLowerCase().trim();
+            const clearBtn = document.getElementById('modalTemplateSearchClear');
+            if (clearBtn) {
+                if (modalSearchQuery.length > 0) clearBtn.classList.remove('hidden');
+                else clearBtn.classList.add('hidden');
+            }
+            applyModalFilters();
+        }
+
+        function clearModalSearch() {
+            const input = document.getElementById('modalTemplateSearchInput');
+            if (input) input.value = '';
+            modalSearchQuery = '';
+            const clearBtn = document.getElementById('modalTemplateSearchClear');
+            if (clearBtn) clearBtn.classList.add('hidden');
+            applyModalFilters();
+        }
+
+        function resetModalFilters() {
+            clearModalSearch();
+            filterModalTier('semua');
+        }
+
+        // Apply category filter, tier filter, and search to cards in modal
         function applyModalFilters() {
+            const { category, subCategory } = getCurrentFormCategory();
             const cards = document.querySelectorAll('.modal-template-card');
-            const categoryGroups = {
-                'keagamaan': ['keagamaan', 'tahlilan', 'halalbihalal', 'syukuran'],
-                'aqiqah': ['aqiqah', 'khitanan'],
-                'acara-formal': ['acara-formal', 'formal'],
-                'formal': ['acara-formal', 'formal'],
-                'pernikahan': ['pernikahan'],
-                'ultah': ['ultah'],
-                'wisuda': ['wisuda']
-            };
+            let visibleCount = 0;
 
             cards.forEach(card => {
-                const cardCat = card.dataset.category || '';
-                const cardEventCat = (card.dataset.eventcat || '').toLowerCase();
+                const tmplName = card.dataset.name || '';
+                const tmplObj = allTemplatesData.find(t => t.name === tmplName);
+
+                // 1. Strict Category Matching: Must match current form category!
+                const matchCat = tmplObj ? templateMatchesCategory(tmplObj, category, subCategory) : false;
+
+                // 2. Tier Matching
                 const cardTier = card.dataset.tier || '';
-
-                let matchCat = false;
-                if (modalActiveCategory === 'semua' || cardCat === 'semua') {
-                    matchCat = true;
-                } else if (cardCat === modalActiveCategory) {
-                    matchCat = true;
-                } else if (categoryGroups[modalActiveCategory] && categoryGroups[modalActiveCategory].includes(cardCat)) {
-                    matchCat = true;
-                } else if (modalActiveCategory === 'acara-formal' && (cardCat === 'formal' || cardEventCat.includes('formal'))) {
-                    matchCat = true;
-                } else if (modalActiveCategory === 'keagamaan' && (cardEventCat.includes('keagamaan') || ['tahlilan', 'halalbihalal', 'syukuran', 'keagamaan'].includes(cardCat))) {
-                    matchCat = true;
-                } else if (modalActiveCategory === 'aqiqah' && (cardEventCat.includes('aqiqah') || ['aqiqah', 'khitanan'].includes(cardCat))) {
-                    matchCat = true;
-                }
-
                 const matchTier = (modalActiveTier === 'semua') || (cardTier === modalActiveTier);
 
-                if (matchCat && matchTier) {
+                // 3. Search Matching
+                let matchSearch = true;
+                if (modalSearchQuery.length > 0) {
+                    const haystack = (
+                        (tmplObj?.name || '') + ' ' + 
+                        (tmplObj?.desc || '') + ' ' + 
+                        (tmplObj?.badge || '') + ' ' + 
+                        (tmplObj?.sub_category || '')
+                    ).toLowerCase();
+                    matchSearch = haystack.includes(modalSearchQuery);
+                }
+
+                if (matchCat && matchTier && matchSearch) {
                     card.classList.remove('hidden');
+                    visibleCount++;
                 } else {
                     card.classList.add('hidden');
                 }
             });
+
+            // Update Counter
+            const countEl = document.getElementById('modalVisibleCount');
+            if (countEl) countEl.textContent = visibleCount;
+
+            // Show empty state if visibleCount is 0
+            const emptyState = document.getElementById('modalEmptyState');
+            if (emptyState) {
+                if (visibleCount === 0) {
+                    emptyState.classList.remove('hidden');
+                    const desc = document.getElementById('modalEmptyStateDesc');
+                    if (desc) {
+                        const chapter = categoryChaptersData[category] || { title: category };
+                        desc.textContent = `Tidak ditemukan template untuk kategori "${chapter.title || category}" dengan filter yang dipilih.`;
+                    }
+                } else {
+                    emptyState.classList.add('hidden');
+                }
+            }
         }
 
-        // Select a template
-        function selectTemplate(tmplName, autoClose = true) {
+        // Select a template (Ensuring category remains consistent and user data is never wiped)
+        function selectTemplate(tmplName, autoClose = true, checkCategoryConsistency = true) {
             const tmpl = allTemplatesData.find(t => t.name === tmplName || t.key === tmplName || t.template_key === tmplName);
             if (!tmpl) return;
 
             currentSelectedTheme = tmpl.name;
 
-            // If user hasn't uploaded files in current form session, ensure clean template default photos
-            const hasGroomFile = (document.getElementById('groomPhotoInput')?.files?.length > 0) || !!document.getElementById('groomPhotoBase64')?.value;
-            const hasBrideFile = (document.getElementById('bridePhotoInput')?.files?.length > 0) || !!document.getElementById('bridePhotoBase64')?.value;
-            const hasCoverFile = (document.getElementById('coverPhotoInput')?.files?.length > 0) || !!document.getElementById('coverPhotoBase64')?.value;
-
-            if (!hasGroomFile) {
-                sessionStorage.removeItem('dkarsa_preview_groom_photo');
-                localStorage.removeItem('dkarsa_preview_groom_photo');
-                const b64G = document.getElementById('groomPhotoBase64');
-                if (b64G) b64G.value = '';
-                const gImg = document.getElementById('groomPreviewImg');
-                if (gImg) gImg.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200';
-            }
-            if (!hasBrideFile) {
-                sessionStorage.removeItem('dkarsa_preview_bride_photo');
-                localStorage.removeItem('dkarsa_preview_bride_photo');
-                const b64B = document.getElementById('bridePhotoBase64');
-                if (b64B) b64B.value = '';
-                const bImg = document.getElementById('bridePreviewImg');
-                if (bImg) bImg.src = 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200';
-            }
-            if (!hasCoverFile) {
-                sessionStorage.removeItem('dkarsa_preview_cover_photo');
-                localStorage.removeItem('dkarsa_preview_cover_photo');
-                const b64C = document.getElementById('coverPhotoBase64');
-                if (b64C) b64C.value = '';
-                const cImg = document.getElementById('coverPreviewImg');
-                if (cImg) cImg.src = tmpl.default_cover || tmpl.img;
-            }
-
-            // Synchronize Category Chapter & Sub-chapter if defined
-            if (tmpl.category_label && typeof onSelectCategoryChapter === 'function') {
-                const targetSub = tmpl.sub_category || null;
-                onSelectCategoryChapter(tmpl.category_label, targetSub);
-            }
-
             // Update hidden input
             const themeInput = document.getElementById('selectedThemeInput');
-            if (themeInput) themeInput.value = tmpl.name;
+            if (themeInput) {
+                themeInput.value = tmpl.name;
+                themeInput.dispatchEvent(new Event('input', { bubbles: true }));
+                themeInput.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+
+            // Update Top Selected Theme Banner
+            const bannerText = document.getElementById('selectedThemeBannerText');
+            if (bannerText) {
+                bannerText.textContent = `Tema: ${tmpl.name} • ${tmpl.package_val || tmpl.package || 'Paket ' + tmpl.tier}`;
+            }
 
             // Update Active Template Card in Step 1
             const cardImg = document.getElementById('activeTemplateImg');
@@ -3413,6 +4100,12 @@
 
             if (autoClose) {
                 closeTemplateModal();
+                window._hasPendingDraftPrompt = false;
+            }
+
+            // Segera simpan ke draf jika bukan sedang dalam inisialisasi awal atau restorasi draf
+            if (!window._isInitialLoading && !window._isRestoringDraft && !window._hasPendingDraftPrompt && typeof saveDraftToStorage === 'function') {
+                saveDraftToStorage();
             }
         }
 
@@ -3762,12 +4455,7 @@
                 const base64Input = document.getElementById(type + 'PhotoBase64');
                 if (base64Input) base64Input.value = '';
             });
-            const galFileInput = document.getElementById('galleryPhotosInput');
-            if (galFileInput) galFileInput.value = '';
-            const galBase64 = document.getElementById('galleryPhotosBase64');
-            if (galBase64) galBase64.value = '';
-            const galContainer = document.getElementById('galleryPreviews');
-            if (galContainer) galContainer.innerHTML = '';
+            confirmResetGallery(false);
 
             // 3. Reset thumbnails to default template photos
             const tmpl = allTemplatesData.find(t => t.name === currentSelectedTheme) || allTemplatesData[0];
@@ -3975,23 +4663,38 @@
                 const rawDraft = localStorage.getItem(DRAFT_STORAGE_KEY);
                 if (!rawDraft) return;
                 const draft = JSON.parse(rawDraft);
-                if (!draft || !draft.fields) return;
+                if (!draft) return;
 
-                const f = draft.fields;
-                const hasMeaningfulData = !!(
-                    (f.groom_name && f.groom_name.trim().length > 1) ||
-                    (f.bride_name && f.bride_name.trim().length > 1) ||
-                    (f.customer_name && f.customer_name.trim().length > 1) ||
-                    (f.venue_name && f.venue_name.trim().length > 1) ||
-                    (f.quote && f.quote.trim().length > 5) ||
+                const f = draft.fields || {};
+                const hasTextData = !!(
+                    (f.groom_name && f.groom_name.trim().length > 0) ||
+                    (f.bride_name && f.bride_name.trim().length > 0) ||
+                    (f.customer_name && f.customer_name.trim().length > 0) ||
+                    (f.venue_name && f.venue_name.trim().length > 0) ||
+                    (f.quote && f.quote.trim().length > 0) ||
                     (f.wedding_date && f.wedding_date.trim().length > 0)
                 );
+                const hasCustomChoice = !!(
+                    (draft.selected_theme && draft.selected_theme.trim().length > 0) ||
+                    (draft.category && draft.category !== 'Pernikahan') ||
+                    (draft.sub_category && draft.sub_category.trim().length > 0)
+                );
 
-                if (hasMeaningfulData) {
+                if (hasTextData || hasCustomChoice) {
+                    window._hasPendingDraftPrompt = true;
                     const banner = document.getElementById('draftRecoveryBanner');
                     const badge = document.getElementById('draftTimeAgoBadge');
                     const clearBtn = document.getElementById('btnClearDraftManual');
+                    const summaryEl = document.getElementById('draftSavedSummaryText');
+
                     if (badge) badge.textContent = `Tersimpan ${formatDraftTimeAgo(draft.saved_at)}`;
+                    if (summaryEl) {
+                        const themeName = draft.selected_theme || draft.fields?.selected_theme || '';
+                        const catName = draft.category || '';
+                        if (themeName) {
+                            summaryEl.innerHTML = `Draf tersimpan: <b>Tema "${themeName}"</b> ${catName ? '• Kategori ' + catName : ''}. Klik <b>⚡ Pulihkan Draf</b> untuk melanjutkan dengan tema ini.`;
+                        }
+                    }
                     if (banner) banner.classList.remove('hidden');
                     if (clearBtn) clearBtn.classList.remove('hidden');
                 }
@@ -4002,6 +4705,9 @@
 
         function saveDraftToStorage() {
             try {
+                if (window._isInitialLoading || window._isRestoringDraft || window._hasPendingDraftPrompt) {
+                    return;
+                }
                 const form = document.getElementById('invitationBuilderForm');
                 if (!form) return;
 
@@ -4032,26 +4738,43 @@
                     });
                 });
 
-                const hasMeaningfulData = !!(
-                    (fields.groom_name && fields.groom_name.trim().length > 1) ||
-                    (fields.bride_name && fields.bride_name.trim().length > 1) ||
-                    (fields.customer_name && fields.customer_name.trim().length > 1) ||
-                    (fields.venue_name && fields.venue_name.trim().length > 1) ||
-                    (fields.quote && fields.quote.trim().length > 5) ||
+                const activeCat = form.querySelector('input[name="category"]:checked')?.value || 'Pernikahan';
+                const activeSubCat = document.getElementById('hiddenSubCategoryInput')?.value || '';
+                const activeTheme = currentSelectedTheme || document.getElementById('selectedThemeInput')?.value || '';
+                const activePkg = form.querySelector('input[name="selected_package"]:checked')?.value || '';
+
+                const hasTextData = !!(
+                    (fields.groom_name && fields.groom_name.trim().length > 0) ||
+                    (fields.bride_name && fields.bride_name.trim().length > 0) ||
+                    (fields.customer_name && fields.customer_name.trim().length > 0) ||
+                    (fields.venue_name && fields.venue_name.trim().length > 0) ||
+                    (fields.quote && fields.quote.trim().length > 0) ||
                     (fields.wedding_date && fields.wedding_date.trim().length > 0)
                 );
+                const hasCustomChoice = !!(
+                    (activeTheme && activeTheme.trim().length > 0) ||
+                    (activeCat && activeCat !== 'Pernikahan') ||
+                    (activeSubCat && activeSubCat.trim().length > 0)
+                );
 
-                if (!hasMeaningfulData) return;
+                const hasGalleryData = Array.isArray(builderGalleryItems) && builderGalleryItems.length > 0;
+
+                if (!hasTextData && !hasCustomChoice && !hasGalleryData) return;
 
                 const payload = {
                     saved_at: Date.now(),
-                    category: form.querySelector('input[name="category"]:checked')?.value || '',
-                    sub_category: document.getElementById('hiddenSubCategoryInput')?.value || '',
-                    selected_theme: document.getElementById('selectedThemeInput')?.value || '',
-                    selected_package: form.querySelector('input[name="selected_package"]:checked')?.value || '',
+                    category: activeCat,
+                    sub_category: activeSubCat,
+                    selected_theme: activeTheme,
+                    selected_package: activePkg,
                     current_step: currentStep || 1,
                     fields: fields,
-                    events: events
+                    events: events,
+                    gallery_photos: builderGalleryItems.map(i => ({
+                        dataUrl: i.dataUrl,
+                        name: i.name || '',
+                        caption: i.caption || ''
+                    }))
                 };
 
                 localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(payload));
@@ -4072,6 +4795,9 @@
         }
 
         function triggerAutoSave() {
+            if (window._isInitialLoading || window._isRestoringDraft || window._hasPendingDraftPrompt) {
+                return;
+            }
             const ind = document.getElementById('autoSaveIndicator');
             const txt = document.getElementById('autoSaveText');
             if (txt) txt.textContent = 'Menyimpan draf...';
@@ -4085,6 +4811,7 @@
 
         function restoreDraftData() {
             try {
+                window._hasPendingDraftPrompt = false;
                 const rawDraft = localStorage.getItem(DRAFT_STORAGE_KEY);
                 if (!rawDraft) return;
                 const draft = JSON.parse(rawDraft);
@@ -4093,17 +4820,15 @@
                 const form = document.getElementById('invitationBuilderForm');
                 if (!form) return;
 
+                // Kunci restorasi agar event change tidak menimpa kembali tema yang dipulihkan
+                window._isRestoringDraft = true;
+
                 // 1. Pulihkan Bab Kategori & Sub-bab
                 if (draft.category && typeof onSelectCategoryChapter === 'function') {
                     onSelectCategoryChapter(draft.category, draft.sub_category || null);
                 }
 
-                // 2. Pulihkan Template Theme
-                if (draft.selected_theme && typeof selectTemplate === 'function') {
-                    selectTemplate(draft.selected_theme, false);
-                }
-
-                // 3. Pulihkan Paket Terpilih
+                // 2. Pulihkan Paket Terpilih
                 if (draft.selected_package) {
                     const pkgR = form.querySelector(`input[name="selected_package"][value="${draft.selected_package}"]`);
                     if (pkgR) {
@@ -4112,9 +4837,12 @@
                     }
                 }
 
-                // 4. Pulihkan field input dasar
+                // 3. Pulihkan field input dasar (lewati category, sub_category, selected_theme, selected_package)
                 if (draft.fields) {
                     Object.keys(draft.fields).forEach(key => {
+                        if (['category', 'sub_category', 'selected_theme', 'selected_package'].includes(key)) {
+                            return;
+                        }
                         const val = draft.fields[key];
                         const el = form.querySelector(`[name="${key}"]`);
                         if (el && el.type !== 'file' && el.type !== 'button' && el.type !== 'submit') {
@@ -4132,7 +4860,7 @@
                     });
                 }
 
-                // 5. Pulihkan Event Cards
+                // 4. Pulihkan Event Cards
                 if (draft.events && Array.isArray(draft.events) && draft.events.length > 0) {
                     const container = document.getElementById('eventsListContainer');
                     if (container) {
@@ -4163,6 +4891,44 @@
                     }
                 }
 
+                // 5. PULIHKAN TEMA TEMPLATE SECARA EKSPLISIT SETELAH KATEGORI DAN FIELD TERPASANG
+                let themeToRestore = draft.selected_theme || draft.fields?.selected_theme;
+                const currentCat = draft.category || 'Pernikahan';
+                const currentSub = draft.sub_category || '';
+                if (themeToRestore && Array.isArray(allTemplatesData) && typeof templateMatchesCategory === 'function') {
+                    const tmplObj = allTemplatesData.find(t => t.name === themeToRestore);
+                    if (!tmplObj || !templateMatchesCategory(tmplObj, currentCat, currentSub)) {
+                        const fallbackTmpl = allTemplatesData.find(t => templateMatchesCategory(t, currentCat, currentSub));
+                        if (fallbackTmpl) {
+                            themeToRestore = fallbackTmpl.name;
+                        }
+                    }
+                }
+                if (themeToRestore && typeof selectTemplate === 'function') {
+                    selectTemplate(themeToRestore, false, false);
+                }
+
+                // 5b. Pulihkan Foto Galeri dari Draf
+                if (draft.gallery_photos && Array.isArray(draft.gallery_photos) && draft.gallery_photos.length > 0) {
+                    builderGalleryItems = draft.gallery_photos.map((item, idx) => {
+                        const dataUrl = typeof item === 'string' ? item : (item.dataUrl || item.image || '');
+                        const name = typeof item === 'object' && item.name ? item.name : `Foto Galeri #${idx + 1}`;
+                        const caption = typeof item === 'object' && item.caption ? item.caption : '';
+                        return {
+                            id: 'gal_restored_' + idx + '_' + Date.now(),
+                            file: null,
+                            dataUrl: dataUrl,
+                            name: name,
+                            size: 0,
+                            caption: caption
+                        };
+                    }).filter(item => !!item.dataUrl);
+                    syncGalleryStateAndUI();
+                }
+
+                // Buka kembali lock restorasi
+                window._isRestoringDraft = false;
+
                 // 6. Sinkronisasi tampilan & live preview
                 if (typeof syncParentsToPreview === 'function') syncParentsToPreview();
                 if (typeof updateLivePreviewContent === 'function') updateLivePreviewContent(true);
@@ -4176,20 +4942,26 @@
                 const banner = document.getElementById('draftRecoveryBanner');
                 if (banner) banner.classList.add('hidden');
 
-                showBuilderToast('🎉 Draf berhasil dipulihkan! Semua data Anda telah kembali.', '✅');
+                showBuilderToast(`🎉 Draf berhasil dipulihkan! Tema "${themeToRestore || 'Pilihan'}" aktif kembali.`, '✅');
 
-                // Update waktu auto-save
+                // Update waktu auto-save & persist state tersimpan
                 const ind = document.getElementById('autoSaveIndicator');
                 const txt = document.getElementById('autoSaveText');
                 if (txt) txt.textContent = 'Draf aktif dipulihkan';
                 if (ind) ind.classList.remove('opacity-0');
+
+                // Simpan draf konsisten
+                saveDraftToStorage();
             } catch (e) {
+                window._isRestoringDraft = false;
+                window._hasPendingDraftPrompt = false;
                 console.error('Error memulihkan draf:', e);
                 showBuilderToast('Gagal memulihkan draf.', '⚠️');
             }
         }
 
         function discardDraftData() {
+            window._hasPendingDraftPrompt = false;
             try {
                 localStorage.removeItem(DRAFT_STORAGE_KEY);
                 const banner = document.getElementById('draftRecoveryBanner');
@@ -4314,9 +5086,73 @@
                     updateLivePreviewContent(false);
                     triggerAutoSave();
                 });
-                form.addEventListener('submit', () => {
-                    // Bersihkan draf begitu form disubmit
-                    try { localStorage.removeItem(DRAFT_STORAGE_KEY); } catch(e) {}
+
+                // Prevent accidental submit on Enter key inside inputs on steps 1-5
+                form.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && e.target.tagName === 'INPUT' && e.target.type !== 'submit') {
+                        if (currentStep < totalSteps) {
+                            e.preventDefault();
+                            nextStep();
+                        }
+                    }
+                });
+
+                form.addEventListener('submit', (e) => {
+                    // Check Step 1 required fields
+                    const weddingDate = document.getElementById('weddingDateInput') || document.querySelector('input[name="wedding_date"]');
+                    if (!weddingDate || !weddingDate.value) {
+                        e.preventDefault();
+                        goToStep(1);
+                        showBuilderToast('Mohon tentukan tanggal acara terlebih dahulu.', '⚠️');
+                        highlightInvalidInput(weddingDate);
+                        return false;
+                    }
+
+                    // Check Step 2 required fields
+                    const groomName = document.getElementById('groomNameInput') || document.querySelector('input[name="groom_name"]');
+                    if (!groomName || !groomName.value.trim()) {
+                        e.preventDefault();
+                        goToStep(2);
+                        showBuilderToast('Mohon isi nama mempelai / tokoh utama terlebih dahulu.', '⚠️');
+                        highlightInvalidInput(groomName);
+                        return false;
+                    }
+
+                    // Check Step 6 required fields
+                    const customerName = document.getElementById('customerNameInput') || document.querySelector('input[name="customer_name"]');
+                    if (!customerName || !customerName.value.trim()) {
+                        e.preventDefault();
+                        goToStep(6);
+                        showBuilderToast('Mohon isi nama lengkap pemesan untuk verifikasi.', '⚠️');
+                        highlightInvalidInput(customerName);
+                        return false;
+                    }
+
+                    const customerPhone = document.getElementById('customerPhoneInput') || document.querySelector('input[name="customer_phone"]');
+                    if (!customerPhone || !customerPhone.value.trim()) {
+                        e.preventDefault();
+                        goToStep(6);
+                        showBuilderToast('Mohon isi nomor WhatsApp aktif pemesan.', '⚠️');
+                        highlightInvalidInput(customerPhone);
+                        return false;
+                    }
+
+                    // Sync all dynamic events to hidden inputs before submit
+                    syncEventsToFormAndPreview();
+
+                    // Bersihkan draf begitu form valid dan disubmit
+                    try { localStorage.removeItem(DRAFT_STORAGE_KEY); } catch(err) {}
+
+                    // Prevent double submission
+                    const submitBtn = document.getElementById('submitBtn');
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+                        submitBtn.innerHTML = `
+                            <span class="inline-block animate-spin mr-2">⏳</span>
+                            <span>Memproses Pesanan &amp; Mengarahkan ke Midtrans...</span>
+                        `;
+                    }
                 });
             }
 
@@ -4325,6 +5161,11 @@
 
             // Cek apakah ada draf tersimpan dari sesi sebelumnya
             checkAndPromptSavedDraft();
+
+            // Selesai inisialisasi awal. Izinkan auto-save untuk interaksi pengguna selanjutnya.
+            setTimeout(() => {
+                window._isInitialLoading = false;
+            }, 600);
         });
     </script>
 </body>

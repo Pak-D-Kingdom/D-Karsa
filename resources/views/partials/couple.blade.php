@@ -19,38 +19,38 @@
             </div>
 
             {{-- Category Quick Stats Counters --}}
-            <div class="lg:col-span-5 grid grid-cols-2 sm:grid-cols-3 gap-3">
-                <div class="bg-white border border-orange-100 rounded-2xl p-4 shadow-sm hover:border-orange-300 transition">
-                    <b class="block font-serif text-2xl font-bold text-orange-600 leading-none">💍 Wedding</b>
-                    <span class="text-xs font-bold text-ink mt-1.5 block">Pernikahan</span>
-                    <span class="text-[11px] text-ink3">Adat &amp; Modern 3D</span>
+            <div class="lg:col-span-5 grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3">
+                <div class="bg-white border border-orange-100 rounded-2xl p-3 sm:p-4 shadow-sm hover:border-orange-300 transition min-w-0">
+                    <b class="block font-serif text-lg sm:text-2xl font-bold text-orange-600 leading-none truncate">💍 Wedding</b>
+                    <span class="text-xs font-bold text-ink mt-1.5 block truncate">Pernikahan</span>
+                    <span class="text-[11px] text-ink3 block truncate">Adat &amp; Modern 3D</span>
                 </div>
-                <div class="bg-white border border-orange-100 rounded-2xl p-4 shadow-sm hover:border-orange-300 transition">
-                    <b class="block font-serif text-2xl font-bold text-orange-600 leading-none">🕌 Khitan &amp; HBH</b>
-                    <span class="text-xs font-bold text-ink mt-1.5 block">Khitan &amp; Silaturahmi</span>
-                    <span class="text-[11px] text-ink3">Islami &amp; Syar'i</span>
+                <div class="bg-white border border-orange-100 rounded-2xl p-3 sm:p-4 shadow-sm hover:border-orange-300 transition min-w-0">
+                    <b class="block font-serif text-lg sm:text-2xl font-bold text-orange-600 leading-none truncate">🕌 Khitan &amp; HBH</b>
+                    <span class="text-xs font-bold text-ink mt-1.5 block truncate">Khitan &amp; Silaturahmi</span>
+                    <span class="text-[11px] text-ink3 block truncate">Islami &amp; Syar'i</span>
                 </div>
-                <div class="bg-white border border-orange-100 rounded-2xl p-4 shadow-sm col-span-2 sm:col-span-1 hover:border-orange-300 transition">
-                    <b class="block font-serif text-2xl font-bold text-orange-600 leading-none">🎉 Ultah &amp; Aqiqah</b>
-                    <span class="text-xs font-bold text-ink mt-1.5 block">Milad &amp; Wisuda</span>
-                    <span class="text-[11px] text-ink3">Ceria &amp; Doa Bersama</span>
+                <div class="bg-white border border-orange-100 rounded-2xl p-3 sm:p-4 shadow-sm col-span-2 sm:col-span-1 hover:border-orange-300 transition min-w-0">
+                    <b class="block font-serif text-lg sm:text-2xl font-bold text-orange-600 leading-none truncate">🎉 Ultah &amp; Aqiqah</b>
+                    <span class="text-xs font-bold text-ink mt-1.5 block truncate">Milad &amp; Wisuda</span>
+                    <span class="text-[11px] text-ink3 block truncate">Ceria &amp; Doa Bersama</span>
                 </div>
             </div>
         </div>
 
         {{-- Floating Tier Alert Banner when coming from Pricing Card click --}}
-        <div id="catalogTierBanner" class="hidden mb-6 p-5 rounded-2xl bg-white border-2 border-orange-400 shadow-md">
+        <div id="catalogTierBanner" class="hidden mb-6 p-4 sm:p-5 rounded-2xl bg-white border-2 border-orange-400 shadow-md">
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div class="flex items-start gap-3.5">
+                <div class="flex items-start gap-3.5 min-w-0">
                     <span class="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center text-xl shrink-0 mt-0.5">
                         🎨
                     </span>
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <span id="tierBannerBadge" class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-orange-600 text-white">
+                    <div class="min-w-0">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span id="tierBannerBadge" class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-orange-600 text-white shrink-0">
                                 Filter Paket Terpilih
                             </span>
-                            <h4 id="tierBannerTitle" class="font-serif text-lg sm:text-xl font-bold text-ink">
+                            <h4 id="tierBannerTitle" class="font-serif text-lg sm:text-xl font-bold text-ink truncate">
                                 Menampilkan Pilihan Desain
                             </h4>
                         </div>
@@ -106,9 +106,9 @@
                 </div>
             </div>
 
-            {{-- 2. Tier Filters --}}
-            <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none" id="tierFilters" role="group" aria-label="Saring menurut tingkat harga">
-                <span class="text-xs font-bold uppercase tracking-wider text-ink3 mr-1 shrink-0">Tingkat Paket:</span>
+            {{-- 2. Tier Filters (Smooth Native Edge-to-Edge Mobile Scroll) --}}
+            <div class="flex items-center gap-2 overflow-x-auto pb-2 pt-0.5 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-none touch-pan-x select-none" id="tierFilters" role="group" aria-label="Saring menurut tingkat harga" style="-webkit-overflow-scrolling: touch;">
+                <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-ink3 mr-1 shrink-0">Tingkat Paket:</span>
                 <button type="button" id="chipTier_semua" onclick="filterCatalogByTier('semua')" class="chip aktif">🌟 Semua Tingkat</button>
                 <button type="button" id="chipTier_basic" onclick="filterCatalogByTier('basic')" class="chip border-emerald-300 text-emerald-800 hover:border-emerald-500">🟢 Desain Basic (Rp50k)</button>
                 <button type="button" id="chipTier_premium" onclick="filterCatalogByTier('premium')" class="chip border-blue-300 text-blue-800 hover:border-blue-500">🔵 Desain Premium (Rp110k)</button>
@@ -116,9 +116,9 @@
                 <button type="button" id="chipTier_kustom" onclick="filterCatalogByTier('kustom')" class="chip border-purple-300 text-purple-800 hover:border-purple-600">✨ Desain Kustom (Full Request)</button>
             </div>
 
-            {{-- 3. Category Filters --}}
-            <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none" id="themeFilters" role="group" aria-label="Saring menurut kategori acara">
-                <span class="text-xs font-bold uppercase tracking-wider text-ink3 mr-1 shrink-0">Kategori Acara:</span>
+            {{-- 3. Category Filters (Smooth Native Edge-to-Edge Mobile Scroll) --}}
+            <div class="flex items-center gap-2 overflow-x-auto pb-2 pt-0.5 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-none touch-pan-x select-none" id="themeFilters" role="group" aria-label="Saring menurut kategori acara" style="-webkit-overflow-scrolling: touch;">
+                <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-ink3 mr-1 shrink-0">Kategori Acara:</span>
                 <button type="button" onclick="filterThemes('semua', this)" class="chip aktif">Semua Acara</button>
                 <button type="button" onclick="filterThemes('pernikahan', this)" class="chip">💍 Pernikahan</button>
                 <button type="button" onclick="filterThemes('tahlilan', this)" class="chip">🕯️ Doa Bersama / Tahlilan</button>
@@ -137,7 +137,7 @@
         @endphp
 
         {{-- Responsive Catalog Grid --}}
-        <div id="catalogGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div id="catalogGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 pb-6 sm:pb-0">
             @foreach($themes as $t)
                 @php
                     $cardTier = $t['tier'] ?? 'eksklusif';
@@ -148,7 +148,7 @@
                          data-tier="{{ strtolower($cardTier) }}"
                          data-name="{{ strtolower($t['name'] ?? '') }}"
                          data-tags="{{ strtolower(($t['sub_category'] ?? '') . ' ' . ($t['desc'] ?? '') . ' ' . ($t['category_label'] ?? '') . ' ' . ($t['badge'] ?? '')) }}"
-                         class="theme-card h-full bg-white rounded-3xl border border-stone-200/90 shadow-sm hover:shadow-xl hover:border-orange-300 p-4 flex flex-col justify-between group transition-all duration-300 hover:-translate-y-1">
+                         class="theme-card w-full max-w-full overflow-hidden h-full bg-white rounded-3xl border border-stone-200/90 shadow-sm hover:shadow-xl hover:border-orange-300 p-4 flex flex-col justify-between group transition-all duration-300 hover:-translate-y-1">
                     <div>
                         {{-- Thumbnail Container: Aspect Ratio 16/10 dengan Badge Ringkas --}}
                         <figure class="relative aspect-[16/10] rounded-2xl overflow-hidden bg-stone-100 shadow-xs cursor-pointer group/fig"
@@ -210,24 +210,24 @@
                         @if($isCustom)
                             <a href="https://wa.me/6281234567890?text=Halo%20Admin%20D'Karsa,%20saya%20ingin%20request%20desain%20kustom%20undangan%20sesuai%20keinginan%20saya..."
                                target="_blank" rel="noopener"
-                               class="px-3.5 py-2 rounded-xl bg-stone-100 text-ink text-xs font-bold hover:bg-orange-50 hover:text-orange-600 transition flex items-center justify-center gap-1.5 shrink-0">
-                                <span>💬</span> WA
+                               class="px-3 py-2 sm:px-3.5 rounded-xl bg-stone-100 text-ink text-xs font-bold hover:bg-orange-50 hover:text-orange-600 transition flex items-center justify-center gap-1.5 shrink-0">
+                                <span>💬</span> <span class="truncate">WA</span>
                             </a>
                             <button type="button"
                                     onclick="selectPackageCustomRequest()"
-                                    class="flex-1 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-orange-600 text-white text-xs font-extrabold hover:shadow-md transition text-center truncate cursor-pointer">
+                                    class="flex-1 min-w-0 px-3.5 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-orange-600 text-white text-xs font-extrabold hover:shadow-md transition text-center truncate cursor-pointer">
                                 <span>Request Desain →</span>
                             </button>
                         @else
                             <button type="button"
                                     onclick="openThemePreviewModal('{{ $themeKey }}')"
-                                    class="flex-1 px-3 py-2 rounded-xl bg-stone-100 text-ink text-xs font-bold hover:bg-orange-50 hover:text-orange-600 transition flex items-center justify-center gap-1.5 border border-stone-200/60 cursor-pointer">
-                                <span>👁️</span> Demo
+                                    class="flex-1 min-w-0 px-2.5 sm:px-3 py-2 rounded-xl bg-stone-100 text-ink text-xs font-bold hover:bg-orange-50 hover:text-orange-600 transition flex items-center justify-center gap-1.5 border border-stone-200/60 cursor-pointer">
+                                <span>👁️</span> <span class="truncate">Demo</span>
                             </button>
                             <button type="button"
                                     onclick="selectThemeAndOrder('{{ $t['name'] }}', '{{ $t['package_val'] }}', '{{ $t['event_cat'] }}', '{{ $t['sub_cat'] ?? '' }}')"
-                                    class="flex-1 px-3.5 py-2 rounded-xl bg-orange-600 hover:bg-orange-700 text-white text-xs font-extrabold shadow-sm transition flex items-center justify-center gap-1 cursor-pointer">
-                                <span>Pilih Desain →</span>
+                                    class="flex-1 min-w-0 px-2.5 sm:px-3.5 py-2 rounded-xl bg-orange-600 hover:bg-orange-700 text-white text-xs font-extrabold shadow-sm transition flex items-center justify-center gap-1 cursor-pointer">
+                                <span class="truncate">Pilih Desain →</span>
                             </button>
                         @endif
                     </div>
@@ -255,7 +255,7 @@
         </div>
 
         {{-- Load More Section & Progress --}}
-        <div id="catalogLoadMoreSection" class="mt-12 text-center flex flex-col items-center justify-center gap-3">
+        <div id="catalogLoadMoreSection" class="mt-8 sm:mt-12 text-center flex flex-col items-center justify-center gap-3 pb-12 sm:pb-8">
             <button type="button"
                     id="catalogLoadMoreBtn"
                     onclick="loadMoreCatalogThemes()"

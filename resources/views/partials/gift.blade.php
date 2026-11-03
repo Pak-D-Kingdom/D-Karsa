@@ -232,13 +232,13 @@
     </div>
 </section>
 
-{{-- Floating WhatsApp Quick Contact Button --}}
+{{-- Floating WhatsApp Quick Contact Button (Responsive: Compact icon FAB on mobile, Full pill on desktop) --}}
 <a href="https://wa.me/6281234567890?text=Halo%20Admin%20D'Karsa,%20saya%20ingin%20memesan%20undangan%20digital"
    target="_blank" rel="noopener"
    aria-label="Tanya tim D'Karsa lewat WhatsApp"
-   class="fixed z-40 right-4 sm:right-6 bottom-5 sm:bottom-6 h-12 px-4 rounded-full bg-stone-900 hover:bg-emerald-600 text-white shadow-xl hover:shadow-2xl transition duration-300 flex items-center gap-2.5 text-xs font-bold border border-white/20 hover:-translate-y-0.5">
-    <span class="w-7 h-7 rounded-full bg-emerald-500 text-white grid place-items-center text-sm shadow-xs">
+   class="fixed z-40 right-3.5 sm:right-6 bottom-4 sm:bottom-6 w-11 h-11 sm:w-auto sm:h-12 p-0 sm:px-4 rounded-full bg-stone-900 hover:bg-emerald-600 text-white shadow-xl hover:shadow-2xl transition duration-300 flex items-center justify-center sm:gap-2.5 text-xs font-bold border border-white/20 hover:-translate-y-0.5">
+    <span class="w-7 h-7 rounded-full bg-emerald-500 text-white grid place-items-center text-sm shadow-xs shrink-0">
         <svg aria-hidden="true" class="w-3.5 h-3.5"><use href="#i-whatsapp-logo"></use></svg>
     </span>
-    <span>Tanya D'Karsa</span>
+    <span class="hidden sm:inline">Tanya D'Karsa</span>
 </a>

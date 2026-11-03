@@ -344,9 +344,26 @@ class InvitationController extends Controller
         // Catatan: Pembuatan data tamu dummy (Bapak Budi Santoso & Sahabat) telah dinonaktifkan
         // agar database Daftar Tamu bersih dan hanya diisi tamu riil dari customer/admin.
 
-        // Create Galleries (Supports binary uploads, base64 array, and automatic couple photo showcase)
+        // Create Galleries (Supports multiple uploads, base64 array, reordered items, and automatic couple photo showcase)
         $galleryIndex = 1;
-        if ($request->hasFile('gallery_photos')) {
+        if ($request->filled('gallery_photos_base64')) {
+            $rawGal = json_decode($request->input('gallery_photos_base64'), true);
+            if (is_array($rawGal) && count($rawGal) > 0) {
+                foreach ($rawGal as $b64) {
+                    $imgStr = is_array($b64) ? ($b64['image'] ?? ($b64['dataUrl'] ?? '')) : (is_object($b64) ? ($b64->image ?? ($b64->dataUrl ?? '')) : (string)$b64);
+                    $capStr = is_array($b64) ? ($b64['caption'] ?? null) : (is_object($b64) ? ($b64->caption ?? null) : null);
+                    $gPath = $this->saveBase64Image($imgStr, 'couples/galleries');
+                    if ($gPath) {
+                        Gallery::create([
+                            'couple_id' => $couple->id,
+                            'image' => $gPath,
+                            'caption' => $capStr,
+                            'sort_order' => $galleryIndex++,
+                        ]);
+                    }
+                }
+            }
+        } elseif ($request->hasFile('gallery_photos')) {
             foreach ($request->file('gallery_photos') as $photo) {
                 $gPath = $photo->store('couples/galleries', 'public');
                 Gallery::create([
@@ -354,20 +371,6 @@ class InvitationController extends Controller
                     'image' => $gPath,
                     'sort_order' => $galleryIndex++,
                 ]);
-            }
-        } elseif ($request->filled('gallery_photos_base64')) {
-            $rawGal = json_decode($request->input('gallery_photos_base64'), true);
-            if (is_array($rawGal)) {
-                foreach ($rawGal as $b64) {
-                    $gPath = $this->saveBase64Image($b64, 'couples/galleries');
-                    if ($gPath) {
-                        Gallery::create([
-                            'couple_id' => $couple->id,
-                            'image' => $gPath,
-                            'sort_order' => $galleryIndex++,
-                        ]);
-                    }
-                }
             }
         }
 
@@ -792,6 +795,10 @@ class InvitationController extends Controller
         }
 
         if (str_starts_with($base64Data, 'http://') || str_starts_with($base64Data, 'https://')) {
+            return $base64Data;
+        }
+
+        if (str_starts_with($base64Data, 'couples/') || str_starts_with($base64Data, 'storage/couples/')) {
             return $base64Data;
         }
 

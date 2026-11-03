@@ -696,6 +696,115 @@ class TemplateManager
     }
 
     /**
+     * Memeriksa apakah suatu template cocok dengan kategori dan sub-kategori tertentu
+     */
+    public static function matchesCategory(array $theme, string $category, ?string $subCategory = null): bool
+    {
+        $cat = strtolower(trim($category));
+        $sub = strtolower(trim($subCategory ?? ''));
+
+        $themeCat = strtolower(trim($theme['category'] ?? ''));
+        $themeLabel = strtolower(trim($theme['category_label'] ?? ''));
+        $themeEvent = strtolower(trim($theme['event_cat'] ?? ''));
+        $themeSub = strtolower(trim($theme['sub_category'] ?? ''));
+        $themeName = strtolower(trim($theme['name'] ?? ''));
+
+        // 1. Khitan / Khitanan
+        if ($cat === 'khitan' || $cat === 'khitanan' || str_contains($cat, 'khitan') || str_contains($sub, 'khitan')) {
+            return $themeCat === 'khitanan' 
+                || $themeLabel === 'khitanan' 
+                || str_contains($themeSub, 'khitan') 
+                || str_contains($themeName, 'khitan');
+        }
+
+        // 2. Pernikahan / Wedding
+        if ($cat === 'pernikahan' || $cat === 'wedding') {
+            return $themeCat === 'pernikahan' || $themeLabel === 'pernikahan' || $themeEvent === 'pernikahan';
+        }
+
+        // 3. Ulang Tahun / Birthday
+        if ($cat === 'ulang tahun' || $cat === 'ulang-tahun' || $cat === 'ultah' || $cat === 'birthday') {
+            return $themeCat === 'ultah' || $themeLabel === 'ulang tahun' || $themeEvent === 'ulang tahun';
+        }
+
+        // 4. Wisuda / Kelulusan / Graduation
+        if ($cat === 'wisuda' || $cat === 'kelulusan' || $cat === 'graduation') {
+            return $themeCat === 'wisuda' || $themeLabel === 'wisuda' || $themeEvent === 'wisuda';
+        }
+
+        // 5. Seminar
+        if ($cat === 'seminar' || str_contains($sub, 'seminar')) {
+            return str_contains($themeSub, 'seminar') || str_contains($themeName, 'seminar');
+        }
+
+        // 6. Acara Formal
+        if ($cat === 'acara formal' || $cat === 'acara-formal' || $cat === 'formal') {
+            return $themeCat === 'formal' || $themeLabel === 'acara formal' || $themeEvent === 'acara formal';
+        }
+
+        // 7. Aqiqah & Kelahiran
+        if ($cat === 'aqiqah' || str_contains($cat, 'aqiqah') || str_contains($cat, 'kelahiran') || str_contains($cat, 'tasmiyah')) {
+            if (str_contains($sub, 'khitan')) {
+                return $themeCat === 'khitanan' || str_contains($themeSub, 'khitan') || str_contains($themeName, 'khitan');
+            }
+            return ($themeCat === 'aqiqah' || $themeLabel === 'aqiqah' || $themeEvent === 'aqiqah')
+                && !($themeCat === 'khitanan' && !str_contains($themeName, 'aqiqah'));
+        }
+
+        // 8. Keagamaan (Pengajian, Tasyakuran, Halal Bihalal, Tahlilan, Safar)
+        if ($cat === 'keagamaan') {
+            if (str_contains($sub, 'tahlil') || str_contains($sub, 'doa bersama')) {
+                return str_contains($themeSub, 'tahlil') || $themeCat === 'tahlilan';
+            }
+            if (str_contains($sub, 'halal') || str_contains($sub, 'silaturahmi')) {
+                return str_contains($themeSub, 'halal') || $themeCat === 'halalbihalal';
+            }
+            if (str_contains($sub, 'syukur') || str_contains($sub, 'rumah')) {
+                return str_contains($themeSub, 'syukur') || $themeCat === 'syukuran';
+            }
+            if (str_contains($sub, 'safar') || str_contains($sub, 'haji') || str_contains($sub, 'umrah')) {
+                return str_contains($themeSub, 'safar');
+            }
+            return $themeLabel === 'keagamaan' || $themeEvent === 'keagamaan' || in_array($themeCat, ['keagamaan', 'halalbihalal', 'syukuran', 'tahlilan']);
+        }
+
+        if ($cat === 'halalbihalal' || $cat === 'halal bihalal') {
+            return $themeCat === 'halalbihalal' || str_contains($themeSub, 'halal');
+        }
+        if ($cat === 'tahlilan' || $cat === 'tahlil') {
+            return $themeCat === 'tahlilan' || str_contains($themeSub, 'tahlil');
+        }
+        if ($cat === 'syukuran') {
+            return $themeCat === 'syukuran' || str_contains($themeSub, 'syukur');
+        }
+
+        return $themeCat === $cat || $themeLabel === $cat || $themeEvent === $cat;
+    }
+
+    /**
+     * Dapatkan daftar seluruh tema katalog yang cocok untuk kategori dan sub-kategori tertentu
+     */
+    public static function getThemesByCategory(string $category, ?string $subCategory = null): array
+    {
+        $results = [];
+        foreach (self::getCatalogThemes() as $t) {
+            if (self::matchesCategory($t, $category, $subCategory)) {
+                $results[] = $t;
+            }
+        }
+        return $results;
+    }
+
+    /**
+     * Dapatkan tema default untuk kategori dan sub-kategori tertentu
+     */
+    public static function getDefaultThemeForCategory(string $category, ?string $subCategory = null): ?array
+    {
+        $filtered = self::getThemesByCategory($category, $subCategory);
+        return $filtered[0] ?? self::getCatalogThemes()[0] ?? null;
+    }
+
+    /**
      * Dapatkan daftar seluruh tema katalog resmi D'Karsa untuk halaman Home & Builder
      */
     public static function getCatalogThemes(): array

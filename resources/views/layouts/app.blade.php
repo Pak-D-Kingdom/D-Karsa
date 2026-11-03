@@ -307,25 +307,45 @@
 
         /* Filter Chip (.chip) */
         .chip {
-            height: 2.5rem;
-            padding: 0 1.15rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            flex-shrink: 0;
+            height: 2.25rem;
+            padding: 0 1rem;
             border-radius: 999px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 700;
             color: var(--ink-2);
             background: #fff;
             box-shadow: inset 0 0 0 1px var(--line-2);
             transition: all 0.25s var(--ease);
             cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
         .chip:hover {
             color: var(--ink);
             box-shadow: inset 0 0 0 1px var(--ink);
         }
+        .chip:active {
+            transform: scale(0.97);
+        }
         .chip.aktif {
             background: var(--ink);
             color: #fff;
             box-shadow: none;
+        }
+
+        /* Scrollbar None Utility */
+        .scrollbar-none::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-none {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
         /* FAQ Accordion (details) */

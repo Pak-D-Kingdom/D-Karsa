@@ -875,7 +875,7 @@
                 const angle = idx * (360 / images.length);
                 const card = document.createElement('div');
                 card.className = 'carousel-card';
-                card.style.transform = `rotateY(${angle}deg) translateZ(240px);`;
+                card.style.transform = `rotateY(${angle}deg) translateZ(240px)`;
                 card.onclick = function() { openLightbox(imgUrl); };
                 card.innerHTML = `<img src="${imgUrl}" alt="Galeri ${idx + 1}" class="w-full h-full object-cover">`;
                 container.appendChild(card);

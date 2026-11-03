@@ -237,7 +237,10 @@
             currentSelectedCategory = category;
             currentCatalogPage = 1;
             document.querySelectorAll('#themeFilters .chip').forEach(c => c.classList.remove('aktif'));
-            if (btn) btn.classList.add('aktif');
+            if (btn) {
+                btn.classList.add('aktif');
+                try { btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); } catch (e) {}
+            }
             applyCatalogFilters();
         }
 
@@ -249,7 +252,10 @@
             // Update status chip aktif di tier filters
             document.querySelectorAll('#tierFilters .chip').forEach(c => c.classList.remove('aktif'));
             const activeChip = document.getElementById('chipTier_' + tier);
-            if (activeChip) activeChip.classList.add('aktif');
+            if (activeChip) {
+                activeChip.classList.add('aktif');
+                try { activeChip.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' }); } catch (e) {}
+            }
 
             // Update Banner Informasi Tier
             const banner = document.getElementById('catalogTierBanner');

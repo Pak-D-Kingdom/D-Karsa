@@ -822,41 +822,23 @@
 
                     <!-- Bento-style Editorial Gallery Layout with preview sync ID -->
                     <div id="previewGalleryGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <!-- Main Highlight -->
-                        <div class="md:col-span-2 relative aspect-[4/3] rounded-2xl overflow-hidden shadow-sm group">
-                            <img alt="Foto pengantin adat Jawa {{ $groomNickname }} dan {{ $brideNickname }}" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700" src="{{ $g1 }}">
-                            <div class="absolute inset-0 bg-gradient-to-t from-on-surface/50 via-transparent to-transparent flex items-end p-6">
-                                <span class="text-on-secondary font-headline-md text-headline-md font-serif">Cunduk Mentul &amp; Paes Ageng</span>
+                        @php
+                            $captions = ['Cunduk Mentul & Paes Ageng', 'Ndalem Joglo Heritage', 'Tali Asih Kalpika', 'Ageman Jawi', 'Guyub Rukun', 'Kersaning Rahayu', 'Tresna Sejati', 'Pawiwahan Luhur'];
+                        @endphp
+                        @foreach($userGalleries as $idx => $gal)
+                            @php
+                                $imgSrc = is_object($gal) ? ($gal->image ?? '') : (is_array($gal) ? ($gal['image'] ?? '') : (string)$gal);
+                                $imgResolved = \App\Services\TemplateManager::resolvePhotoUrl($imgSrc, $fallbackGalleries[$idx % count($fallbackGalleries)]);
+                                $cap = (is_object($gal) && !empty($gal->caption)) ? $gal->caption : ($captions[$idx % count($captions)] ?? 'Kisah Kasih');
+                                $isHero = ($idx === 0);
+                            @endphp
+                            <div class="{{ $isHero ? 'md:col-span-2 aspect-[4/3]' : ($idx === 1 ? 'aspect-[3/4] md:aspect-auto' : 'aspect-square') }} relative rounded-2xl overflow-hidden shadow-sm group">
+                                <img alt="Foto pengantin adat Jawa {{ $groomNickname }} dan {{ $brideNickname }}" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700" src="{{ $imgResolved }}">
+                                <div class="absolute inset-0 bg-gradient-to-t from-on-surface/50 via-transparent to-transparent flex items-end p-4 {{ $isHero ? 'sm:p-6' : '' }}">
+                                    <span class="text-on-secondary {{ $isHero ? 'font-headline-md text-headline-md font-serif' : 'font-label-md text-label-md uppercase tracking-wider' }}">{{ $cap }}</span>
+                                </div>
                             </div>
-                        </div>
-                        <!-- Vertical Gallery Item -->
-                        <div class="relative aspect-[3/4] md:aspect-auto rounded-2xl overflow-hidden shadow-sm group">
-                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Gallery 2" src="{{ $g2 }}">
-                            <div class="absolute inset-0 bg-gradient-to-t from-on-surface/50 via-transparent to-transparent flex items-end p-4">
-                                <span class="text-on-secondary font-label-md text-label-md uppercase tracking-wider">Ndalem Joglo Heritage</span>
-                            </div>
-                        </div>
-                        <!-- Row 2 item 1 -->
-                        <div class="relative aspect-square rounded-2xl overflow-hidden shadow-sm group">
-                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Gallery 3" src="{{ $g3 }}">
-                            <div class="absolute inset-0 bg-gradient-to-t from-on-surface/50 via-transparent to-transparent flex items-end p-4">
-                                <span class="text-on-secondary font-label-md text-label-md uppercase tracking-wider">Tali Asih Kalpika</span>
-                            </div>
-                        </div>
-                        <!-- Row 2 item 2 -->
-                        <div class="relative aspect-square rounded-2xl overflow-hidden shadow-sm group">
-                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Gallery 4" src="{{ $g4 }}">
-                            <div class="absolute inset-0 bg-gradient-to-t from-on-surface/50 via-transparent to-transparent flex items-end p-4">
-                                <span class="text-on-secondary font-label-md text-label-md uppercase tracking-wider">Ageman Jawi</span>
-                            </div>
-                        </div>
-                        <!-- Row 2 item 3 -->
-                        <div class="relative aspect-square rounded-2xl overflow-hidden shadow-sm group">
-                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Gallery 5" src="{{ $g5 }}">
-                            <div class="absolute inset-0 bg-gradient-to-t from-on-surface/50 via-transparent to-transparent flex items-end p-4">
-                                <span class="text-on-secondary font-label-md text-label-md uppercase tracking-wider">Guyub Rukun</span>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </section>
 
@@ -1311,6 +1293,27 @@
             update();
         })();
 
+        // Dynamic Gallery Renderer for Live Preview Synchronization
+        function renderDynamicGallery(images) {
+            const grid = document.getElementById('previewGalleryGrid');
+            if (!grid || !Array.isArray(images) || images.length === 0) return;
+            grid.innerHTML = '';
+            const captions = ['Cunduk Mentul & Paes Ageng', 'Ndalem Joglo Heritage', 'Tali Asih Kalpika', 'Ageman Jawi', 'Guyub Rukun', 'Kersaning Rahayu', 'Tresna Sejati', 'Pawiwahan Luhur'];
+            images.forEach((imgUrl, idx) => {
+                const isHero = (idx === 0);
+                const cap = captions[idx % captions.length] || 'Kisah Kasih';
+                const div = document.createElement('div');
+                div.className = `${isHero ? 'md:col-span-2 aspect-[4/3]' : (idx === 1 ? 'aspect-[3/4] md:aspect-auto' : 'aspect-square')} relative rounded-2xl overflow-hidden shadow-sm group`;
+                div.innerHTML = `
+                    <img alt="Foto Galeri ${idx + 1}" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700" src="${imgUrl}">
+                    <div class="absolute inset-0 bg-gradient-to-t from-on-surface/50 via-transparent to-transparent flex items-end p-4 ${isHero ? 'sm:p-6' : ''}">
+                        <span class="text-on-secondary ${isHero ? 'font-headline-md text-headline-md font-serif' : 'font-label-md text-label-md uppercase tracking-wider'}">${cap}</span>
+                    </div>
+                `;
+                grid.appendChild(div);
+            });
+        }
+
         // 7. Live Builder Synchronization (PREVIEW_IFRAME_READY, UPDATE_PREVIEW_PHOTO, etc.)
         window.addEventListener('message', function (event) {
             const data = event.data;
@@ -1347,13 +1350,8 @@
             }
 
             if (data.type === 'UPDATE_PREVIEW_GALLERY') {
-                const grid = document.getElementById('previewGalleryGrid');
-                if (grid && Array.isArray(data.photos) && data.photos.length > 0) {
-                    const images = grid.querySelectorAll('img');
-                    data.photos.forEach((src, idx) => {
-                        if (images[idx] && src) images[idx].src = src;
-                    });
-                }
+                const photos = Array.isArray(data.photos) ? data.photos : (Array.isArray(data.images) ? data.images : []);
+                renderDynamicGallery(photos);
             }
 
             if (data.type === 'UPDATE_PREVIEW_FIELD') {
