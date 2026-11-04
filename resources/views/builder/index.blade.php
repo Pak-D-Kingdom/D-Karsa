@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Buat Undangan Digital Sendiri | D'Karsa Builder</title>
     <meta name="description" content="Buat undangan pernikahan, khitanan, dan acara digital secara mandiri, cepat, dan mudah dengan D'Karsa.">
     <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
@@ -290,103 +291,46 @@
             // ========================================================
             // 6 BAB KATEGORI UNDANGAN DIGITAL BESERTA SUB-BAB LENGKAP
             // ========================================================
-            $categoryChapters = [
-                'Pernikahan' => [
-                    'id' => 'pernikahan',
-                    'number' => 1,
-                    'title' => 'Undangan Pernikahan',
-                    'badge' => 'Prioritas Utama',
-                    'icon' => '💍',
-                    'desc' => 'Pernikahan adat, minimalis modern, elegan floral & internasional',
-                    'sub_categories' => [
-                        'Pernikahan adat Jawa, Sunda, Minang, dan lainnya',
-                        'Minimalis modern',
-                        'Elegan, floral, dan islami',
-                        'Akad nikah dan resepsi',
-                        'Undangan pernikahan internasional',
-                    ],
-                    'default_sub' => 'Pernikahan adat Jawa, Sunda, Minang, dan lainnya',
-                ],
-                'Ulang Tahun' => [
-                    'id' => 'ultah',
-                    'number' => 2,
-                    'title' => 'Undangan Ulang Tahun',
-                    'badge' => 'Pesta Ceria',
-                    'icon' => '🎂',
-                    'desc' => 'Ulang tahun anak, remaja, sweet seventeen, dewasa & karakter',
-                    'sub_categories' => [
-                        'Ulang tahun anak',
-                        'Ulang tahun remaja',
-                        'Sweet seventeen',
-                        'Ulang tahun dewasa',
-                        'Ulang tahun dengan tema kartun atau karakter original',
-                    ],
-                    'default_sub' => 'Sweet seventeen',
-                ],
-                'Aqiqah' => [
-                    'id' => 'aqiqah',
-                    'number' => 3,
-                    'title' => 'Undangan Aqiqah dan Kelahiran',
-                    'badge' => 'Buah Hati',
-                    'icon' => '👶',
-                    'desc' => 'Aqiqah anak, tasyakuran bayi, tasmiyah & syukuran khitanan',
-                    'sub_categories' => [
-                        'Aqiqah anak',
-                        'Tasyakuran kelahiran bayi',
-                        'Pemberian nama bayi',
-                        'Tasyakuran khitanan',
-                    ],
-                    'default_sub' => 'Aqiqah anak',
-                ],
-                'Keagamaan' => [
-                    'id' => 'keagamaan',
-                    'number' => 4,
-                    'title' => 'Undangan Keagamaan',
-                    'badge' => 'Islami & Berkah',
-                    'icon' => '🕌',
-                    'desc' => 'Pengajian, tasyakuran, maulid, bukber, haji, tahlilan & halal bihalal',
-                    'sub_categories' => [
-                        'Pengajian',
-                        'Tasyakuran',
-                        'Maulid Nabi',
-                        'Buka puasa bersama',
-                        'Walimatus safar dan syukuran haji',
-                        'Halal bihalal',
-                        'Doa bersama & tahlilan',
-                    ],
-                    'default_sub' => 'Halal bihalal',
-                ],
-                'Wisuda' => [
-                    'id' => 'wisuda',
-                    'number' => 5,
-                    'title' => 'Undangan Wisuda dan Kelulusan',
-                    'badge' => 'Momen Kelulusan',
-                    'icon' => '🎓',
-                    'desc' => 'Wisuda kuliah sarjana/pasca, kelulusan sekolah & syukuran keluarga',
-                    'sub_categories' => [
-                        'Wisuda kuliah',
-                        'Kelulusan sekolah',
-                        'Perayaan kelulusan bersama keluarga',
-                    ],
-                    'default_sub' => 'Wisuda kuliah',
-                ],
-                'Acara Formal' => [
-                    'id' => 'acara-formal',
-                    'number' => 6,
-                    'title' => 'Undangan Acara Formal',
-                    'badge' => 'Bisnis & Instansi',
-                    'icon' => '🏛️',
-                    'desc' => 'Seminar, gathering perusahaan, grand opening bisnis & komunitas',
-                    'sub_categories' => [
-                        'Seminar dan workshop',
-                        'Rapat dan gathering perusahaan',
-                        'Grand opening bisnis',
-                        'Peluncuran produk',
-                        'Acara komunitas',
-                    ],
-                    'default_sub' => 'Grand opening bisnis',
-                ],
+            // Bab & sub-bab diturunkan dari katalog harga (docs/template-pricing-catalog.json)
+            // supaya jumlah sub-pilihan selalu akurat dengan jumlah template sebenarnya.
+            $pricingCatalog = [];
+            $catalogFile = base_path('docs/template-pricing-catalog.json');
+            if (is_file($catalogFile)) {
+                $pricingCatalog = json_decode((string) file_get_contents($catalogFile), true) ?: [];
+            }
+
+            $chapterMeta = [
+                'Pernikahan' => ['id' => 'pernikahan', 'number' => 1, 'title' => 'Undangan Pernikahan', 'badge' => 'Prioritas Utama', 'icon' => '💍', 'desc' => 'Pernikahan adat, minimalis modern, elegan floral & internasional'],
+                'Ulang Tahun' => ['id' => 'ultah', 'number' => 2, 'title' => 'Undangan Ulang Tahun', 'badge' => 'Pesta Ceria', 'icon' => '🎂', 'desc' => 'Ulang tahun anak, remaja, sweet seventeen, dewasa & karakter'],
+                'Aqiqah' => ['id' => 'aqiqah', 'number' => 3, 'title' => 'Undangan Aqiqah dan Kelahiran', 'badge' => 'Buah Hati', 'icon' => '👶', 'desc' => 'Aqiqah, kelahiran, tasmiyah & khitanan'],
+                'Keagamaan' => ['id' => 'keagamaan', 'number' => 4, 'title' => 'Undangan Keagamaan', 'badge' => 'Syiar', 'icon' => '🕌', 'desc' => 'Pengajian, tasyakuran, maulid, bukber, safar haji & halal bihalal'],
+                'Wisuda' => ['id' => 'wisuda', 'number' => 5, 'title' => 'Undangan Wisuda dan Kelulusan', 'badge' => 'Prestasi', 'icon' => '🎓', 'desc' => 'Wisuda kuliah, kelulusan sekolah & syukuran keluarga'],
+                'Acara Formal' => ['id' => 'formal', 'number' => 6, 'title' => 'Undangan Acara Formal', 'badge' => 'Korporat', 'icon' => '🏢', 'desc' => 'Seminar, gathering, grand opening, peluncuran produk & komunitas'],
             ];
+
+            $categoryChapters = [];
+            foreach ($chapterMeta as $catName => $meta) {
+                $subs = [];
+                $counts = [];
+                foreach ($pricingCatalog as $catalogItem) {
+                    if (($catalogItem['l1_name'] ?? '') !== $meta['title']) {
+                        continue;
+                    }
+                    $subName = $catalogItem['l2_subbab'] ?? '';
+                    if ($subName === '') {
+                        continue;
+                    }
+                    if (!in_array($subName, $subs, true)) {
+                        $subs[] = $subName;
+                    }
+                    $counts[$subName] = ($counts[$subName] ?? 0) + 1;
+                }
+                $meta['sub_categories'] = $subs;
+                $meta['sub_counts'] = $counts;
+                $meta['total_templates'] = array_sum($counts);
+                $meta['default_sub'] = $subs[0] ?? '';
+                $categoryChapters[$catName] = $meta;
+            }
 
             // Mapping keyword lama/URL ke 6 Bab Utama & Sub-Bab
             $catMap = [
@@ -473,6 +417,7 @@
             $currentGalConf = $categoryGalleryConfigs[$selectedCat] ?? $categoryGalleryConfigs['Pernikahan'];
 
             $allTemplates = \App\Services\TemplateManager::getCatalogThemes();
+            $waMode = app(\App\Services\WhatsAppBulkSender::class)->mode();
 
             // Resolve initial template based on query parameters or category
             $currentTemplate = null;
@@ -490,6 +435,26 @@
             if (!$selectedPackage) {
                 $selectedPackage = $currentTemplate['package_val'];
             }
+
+            // Picker cepat di atas kartu template: desain yang cocok dengan bab & sub-bab terpilih.
+            $catalogByKey = collect($pricingCatalog)->keyBy('template_key');
+            $chapterNumber = collect($chapterMeta)->map(fn ($m) => $m['number'])->all();
+            $quickTemplates = collect($allTemplates)->map(function ($tpl) use ($catalogByKey, $chapterNumber) {
+                $row = $catalogByKey[$tpl['template_key'] ?? $tpl['key'] ?? ''] ?? [];
+
+                return [
+                    'name' => $tpl['name'],
+                    'img' => $tpl['img'] ?? '',
+                    'tier' => $tpl['tier'] ?? '',
+                    'price' => $tpl['price'] ?? '',
+                    'badge' => $tpl['badge'] ?? '',
+                    'cat' => $tpl['category_label'] ?? '',
+                    'bab' => $chapterNumber[$tpl['category_label'] ?? ''] ?? 0,
+                    'sub' => $row['l2_subbab'] ?? '',
+                    'style' => $row['l3_style'] ?? '',
+                    'color' => $row['l4_color_name'] ?? '',
+                ];
+            })->values()->all();
         @endphp
 
         @if($selectedTheme || $selectedPackage)
@@ -574,7 +539,7 @@
                                         </p>
                                     </div>
                                     <div class="mt-2.5 pt-2 border-t border-ink/10 flex items-center justify-between text-[10px] text-ink3">
-                                        <span class="font-medium">{{ count($chapter['sub_categories']) }} Sub-Pilihan</span>
+                                        <span class="font-medium">{{ count($chapter['sub_categories']) }} Sub • {{ $chapter['total_templates'] }} Template</span>
                                         <span class="text-brand font-bold text-xs opacity-0 peer-checked:opacity-100 transition">✓ Terpilih</span>
                                     </div>
                                 </div>
@@ -609,7 +574,7 @@
                                 @if(isset($categoryChapters[$selectedCat]))
                                     @foreach($categoryChapters[$selectedCat]['sub_categories'] as $subItem)
                                         <option value="{{ $subItem }}" {{ $selectedSubCat === $subItem ? 'selected' : '' }}>
-                                            {{ $subItem }}
+                                            {{ $subItem }} ({{ $categoryChapters[$selectedCat]['sub_counts'][$subItem] ?? 0 }})
                                         </option>
                                     @endforeach
                                 @endif
@@ -621,6 +586,28 @@
                             </div>
                         </div>
                     </div>
+                </div>
+
+                {{-- 3. Gaya Desain & Tema Warna (L3 & L4) --}}
+                <div id="styleColorContainer" class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-white via-blush/40 to-sunk/70 border-2 border-brand/20 shadow-sm space-y-3">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-brand/10 text-brand grid place-items-center text-xs font-bold">🎨</span>
+                            <label class="text-xs font-bold text-ink uppercase tracking-wider">
+                                3. Pilih Gaya Desain &amp; Tema Warna Template *
+                            </label>
+                        </div>
+                        <span id="styleCountBadge" class="self-start sm:self-auto text-[10px] font-bold px-3 py-1 rounded-full bg-white border border-brand/30 text-brand shadow-xs">0 Gaya • 0 Warna</span>
+                    </div>
+                    <div id="stylePills" class="flex flex-wrap gap-2"></div>
+                    <div id="colorSwatches" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
+                    <button type="button" onclick="selectCustomStyle()" id="customStyleBtn"
+                            class="w-full min-h-[44px] rounded-xl border-2 border-dashed border-purple-300 bg-purple-50/70 text-purple-800 text-[11px] font-bold uppercase tracking-wider hover:bg-purple-100 transition">
+                        🎨 Request Warna &amp; Gaya Kustom (Rp280.000)
+                    </button>
+                    <p id="styleHelperText" class="text-[11px] text-ink3 leading-relaxed">
+                        Pilih gaya lalu warna. Paket harga di bawah akan menyesuaikan otomatis sesuai kompleksitas desain.
+                    </p>
                 </div>
 
                 {{-- Pilihan Paket & Tingkat Desain --}}
@@ -635,7 +622,7 @@
                             <input type="radio" name="selected_package" value="Paket Basic - Rp50.000" class="peer sr-only"
                                    {{ str_contains(strtolower($selectedPackage ?? ''), 'basic') || (!$selectedPackage && !request('theme')) ? 'checked' : '' }}
                                    onchange="onPackageSelect(this.value)">
-                            <div class="p-3.5 rounded-2xl border-2 border-ink/15 bg-white text-center peer-checked:border-emerald-500 peer-checked:bg-emerald-50/50 transition h-full flex flex-col justify-between">
+                            <div id="pkgCard-basic" data-tier="basic" class="pkg-card p-3.5 rounded-2xl border-2 border-ink/15 bg-white text-center peer-checked:border-emerald-500 peer-checked:bg-emerald-50/50 transition h-full flex flex-col justify-between relative">
                                 <div>
                                     <span class="text-xs font-bold text-emerald-800 block">🟢 Basic</span>
                                     <b class="text-sm font-bold text-ink block mt-0.5">Rp50.000</b>
@@ -649,7 +636,7 @@
                             <input type="radio" name="selected_package" value="Paket Premium - Rp110.000" class="peer sr-only"
                                    {{ str_contains(strtolower($selectedPackage ?? ''), 'premium') ? 'checked' : '' }}
                                    onchange="onPackageSelect(this.value)">
-                            <div class="p-3.5 rounded-2xl border-2 border-ink/15 bg-white text-center peer-checked:border-blue-500 peer-checked:bg-blue-50/50 transition h-full flex flex-col justify-between">
+                            <div id="pkgCard-premium" data-tier="premium" class="pkg-card p-3.5 rounded-2xl border-2 border-ink/15 bg-white text-center peer-checked:border-blue-500 peer-checked:bg-blue-50/50 transition h-full flex flex-col justify-between relative">
                                 <div>
                                     <span class="text-xs font-bold text-blue-800 block">🔵 Premium</span>
                                     <b class="text-sm font-bold text-ink block mt-0.5">Rp110.000</b>
@@ -663,7 +650,7 @@
                             <input type="radio" name="selected_package" value="Paket Eksklusif - Rp180.000" class="peer sr-only"
                                    {{ str_contains(strtolower($selectedPackage ?? ''), 'eksklusif') ? 'checked' : '' }}
                                    onchange="onPackageSelect(this.value)">
-                            <div class="p-3.5 rounded-2xl border-2 border-ink/15 bg-white text-center peer-checked:border-brand peer-checked:bg-rose-50/50 transition h-full flex flex-col justify-between">
+                            <div id="pkgCard-eksklusif" data-tier="eksklusif" class="pkg-card p-3.5 rounded-2xl border-2 border-ink/15 bg-white text-center peer-checked:border-brand peer-checked:bg-rose-50/50 transition h-full flex flex-col justify-between relative">
                                 <div>
                                     <span class="text-xs font-bold text-brand block">🔴 Eksklusif</span>
                                     <b class="text-sm font-bold text-ink block mt-0.5">Rp180.000</b>
@@ -703,6 +690,16 @@
                                   placeholder="Contoh: Saya ingin tema perpaduan adat Bugis & modern dengan warna terracotta gold, ada animasi daun gugur, dan layout cover sinematik..."
                                   class="w-full rounded-xl border border-purple-300 p-3 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
                     </div>
+                </div>
+
+                {{-- Picker cepat: desain pada bab & sub-bab yang sedang dipilih --}}
+                <div class="space-y-2 pt-2 border-t border-ink/10">
+                    <div class="flex items-center justify-between gap-2">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-ink2">Desain Sesuai Kategori Terpilih</label>
+                        <span id="quickTemplateCount" class="text-[10px] font-bold text-ink3 whitespace-nowrap">— desain</span>
+                    </div>
+                    <div id="quickTemplateStrip" class="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1 snap-x [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"></div>
+                    <p class="text-[10px] text-ink3" id="quickTemplateHint">Geser untuk melihat desain lain pada bab &amp; sub-bab yang sama.</p>
                 </div>
 
                 {{-- Template Desain Aktif Card (Bisa diganti kapan saja via modal & dipreview) --}}
@@ -763,13 +760,10 @@
                            placeholder="Contoh: WALIMATUL 'URSY"
                            class="w-full rounded-2xl border border-ink/20 px-4 py-3 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
                     
-                    {{-- Quick Chip Selectors --}}
-                    <div class="flex flex-wrap gap-1.5 pt-1">
+                    {{-- Quick Chip Selectors: menyesuaikan bab yang dipilih --}}
+                    <div class="flex flex-wrap gap-1.5 pt-1" id="headingPresets">
                         <span class="text-[11px] text-ink3 self-center mr-1">Pilihan Cepat:</span>
-                        <button type="button" onclick="setHeading('WALIMATUL \'URSY')" class="px-2.5 py-1 rounded-full bg-sunk hover:bg-brand/10 text-[11px] font-semibold text-ink2">Walimatul 'Ursy</button>
-                        <button type="button" onclick="setHeading('THE WEDDING CELEBRATION OF')" class="px-2.5 py-1 rounded-full bg-sunk hover:bg-brand/10 text-[11px] font-semibold text-ink2">The Wedding</button>
-                        <button type="button" onclick="setHeading('HOLY MATRIMONY & RECEPTION')" class="px-2.5 py-1 rounded-full bg-sunk hover:bg-brand/10 text-[11px] font-semibold text-ink2">Holy Matrimony</button>
-                        <button type="button" onclick="setHeading('PAMASU-MASUON & RESEPSI')" class="px-2.5 py-1 rounded-full bg-sunk hover:bg-brand/10 text-[11px] font-semibold text-ink2">Adat Batak</button>
+                        <span class="text-[11px] text-ink3">Pilih bab dulu untuk melihat preset judul.</span>
                     </div>
                 </div>
 
@@ -790,6 +784,83 @@
                                    class="w-full px-3 py-3 text-xs font-semibold focus:outline-none">
                         </div>
                         <p class="text-[10px] text-ink3">Biarkan kosong untuk otomatis dibuat dari nama tokoh / mempelai.</p>
+                    </div>
+
+                    {{-- Generator Link Tamu: impor Excel/CSV, edit nama & nomor, kirim per tamu --}}
+                    <div class="space-y-2 pt-2 border-t border-dashed border-ink/15 sm:col-span-2 min-w-0">
+                        <div class="flex items-center justify-between gap-2">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-ink2">Link Personal per Tamu</label>
+                            <span class="flex items-center gap-2">
+                                <span class="text-[9.5px] font-bold px-2 py-0.5 rounded-full {{ $waMode === 'simulasi' ? 'bg-amber-100 text-amber-900' : 'bg-emerald-100 text-emerald-800' }}">
+                                    WA: {{ $waMode }}
+                                </span>
+                                <span class="text-[10px] text-ink3">opsional</span>
+                            </span>
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-2">
+                            <label class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-ink/20 bg-white text-[11px] font-bold text-ink2 cursor-pointer hover:border-brand hover:text-brand transition">
+                                <span aria-hidden="true">📄</span> Impor Excel / CSV
+                                <input type="file" id="guestImportFile" accept=".csv,.txt,.xlsx,.xls" class="hidden" onchange="importGuestFile(this)">
+                            </label>
+                            <a href="{{ route('invitation.guest-sample') }}"
+                               class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-600 text-white text-[11px] font-bold hover:bg-emerald-700 transition">
+                                <span aria-hidden="true">⬇</span> Unduh Excel (.xlsx)
+                            </a>
+                            <a href="{{ route('invitation.guest-sample', ['format' => 'csv']) }}"
+                               class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-ink/20 bg-white text-[11px] font-bold text-ink2 hover:border-brand hover:text-brand transition">
+                                <span aria-hidden="true">⬇</span> CSV
+                            </a>
+                            <span id="guestImportStatus" class="text-[10px] text-ink3"></span>
+                        </div>
+
+                        <textarea id="guestNamesInput" rows="3" placeholder="Satu nama per baris, contoh:&#10;Bapak Andi Wijaya&#10;Ibu Sari &amp; Keluarga&#10;Tim Marketing PT Maju"
+                                  class="w-full rounded-2xl border border-ink/20 p-3 text-xs focus:outline-none focus:ring-2 focus:ring-brand"></textarea>
+                        <button type="button" onclick="generateGuestLinks()"
+                                class="w-full min-h-[42px] rounded-xl bg-ink text-white text-[11px] font-bold uppercase tracking-wider hover:bg-ink/90 transition">
+                            Buat Link Tamu
+                        </button>
+                        <div id="guestLinkList" class="space-y-1.5 max-h-72 overflow-y-auto overflow-x-hidden pr-1 min-w-0"></div>
+
+                        {{-- Antrean kirim WhatsApp: satu tab per tamu supaya tidak diblokir pop-up --}}
+                        <div id="guestWaQueue" class="fixed inset-0 z-[70] hidden items-center justify-center p-4" style="background:rgba(0,0,0,.72)" onclick="if(event.target===this)closeWaQueue()">
+                            <div class="w-full max-w-sm rounded-2xl bg-white p-4 space-y-3 shadow-2xl">
+                                <div class="flex items-center justify-between gap-2">
+                                    <b class="text-sm font-bold text-ink">Kirim Undangan WhatsApp</b>
+                                    <button type="button" onclick="closeWaQueue()" class="w-8 h-8 rounded-full bg-sunk text-ink2 hover:bg-brand/10 hover:text-brand transition grid place-items-center text-sm font-bold">✕</button>
+                                </div>
+                                <div class="h-1.5 rounded-full bg-sunk overflow-hidden">
+                                    <div id="waQueueBar" class="h-full bg-emerald-500 transition-all" style="width:0%"></div>
+                                </div>
+                                <p id="waQueueProgress" class="text-[11px] font-semibold text-ink3">—</p>
+                                <div class="rounded-xl border border-ink/10 bg-sunk/40 p-3 space-y-1">
+                                    <b id="waQueueName" class="block text-xs font-bold text-ink">—</b>
+                                    <span id="waQueuePhone" class="block text-[10.5px] text-ink3">—</span>
+                                    <p id="waQueueText" class="text-[10px] text-ink3 leading-snug break-words pt-1"></p>
+                                </div>
+                                <a id="waQueueOpen" href="#" target="_blank" rel="noopener" onclick="markQueueSent()"
+                                   class="flex items-center justify-center gap-2 min-h-[44px] rounded-xl bg-emerald-600 text-white text-[11px] font-bold uppercase tracking-wider hover:bg-emerald-700 transition">
+                                    <span aria-hidden="true">✆</span> Buka WhatsApp &amp; Kirim
+                                </a>
+                                <div class="flex gap-2">
+                                    <button type="button" onclick="skipQueueItem()" class="flex-1 min-h-[38px] rounded-xl border border-ink/15 text-[11px] font-bold text-ink2 hover:border-brand">Lewati</button>
+                                    <button type="button" onclick="closeWaQueue()" class="flex-1 min-h-[38px] rounded-xl bg-sunk text-[11px] font-bold text-ink2">Tutup</button>
+                                </div>
+                                <p class="text-[9.5px] text-ink3 leading-relaxed">Satu tamu satu tab WhatsApp — jadi tidak ada yang diblokir browser. Klik tombol hijau, kirim pesannya, lalu otomatis lanjut ke tamu berikutnya.</p>
+                            </div>
+                        </div>
+
+                        {{-- Kirim WhatsApp serentak ke nomor masing-masing tamu --}}
+                        <div id="guestBulkActions" class="hidden space-y-1.5">
+                            <button type="button" id="guestWaAllBtn" onclick="sendAllGuestWa()"
+                                    class="w-full min-h-[42px] rounded-xl bg-emerald-600 text-white text-[11px] font-bold uppercase tracking-wider hover:bg-emerald-700 transition">
+                                Kirim WA Satu per Satu
+                            </button>
+                        </div>
+                        <p class="text-[10px] text-ink3 leading-relaxed">
+                            Template Excel sudah berformat: baris judul berwarna, kolom lebar, baris judul dibekukan, plus sheet
+                            <b>Petunjuk</b> berisi cara pengisian. Nama, nomor WhatsApp, jumlah orang, dan meja bisa diubah langsung di daftar.
+                        </p>
                     </div>
                 </div>
 
@@ -820,6 +891,21 @@
                         <button type="button" onclick="setQuote('islamic')" class="px-2.5 py-1 rounded-full bg-sunk hover:bg-brand/10 text-[11px] font-semibold text-ink2">QS. Ar-Rum: 21</button>
                         <button type="button" onclick="setQuote('christian')" class="px-2.5 py-1 rounded-full bg-sunk hover:bg-brand/10 text-[11px] font-semibold text-ink2">1 Korintus 13:4-7</button>
                         <button type="button" onclick="setQuote('general')" class="px-2.5 py-1 rounded-full bg-sunk hover:bg-brand/10 text-[11px] font-semibold text-ink2">Puisi Romantis</button>
+                    </div>
+
+                    {{-- Pustaka kutipan: pilih dari daftar atau acak --}}
+                    <div class="flex items-center gap-1.5 pt-1.5">
+                        <div class="relative flex-1 min-w-0">
+                            <select id="quoteLibrarySelect" onchange="applyLibraryQuote(this.value)"
+                                    class="w-full rounded-xl border border-ink/20 px-3 py-2 text-[11px] font-semibold bg-white text-ink focus:outline-none focus:ring-2 focus:ring-brand appearance-none pr-8 cursor-pointer">
+                                <option value="">Pustaka kutipan…</option>
+                            </select>
+                            <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-ink3 text-[10px]">▾</span>
+                        </div>
+                        <button type="button" onclick="randomQuote()"
+                                class="shrink-0 px-3 py-2 rounded-xl bg-ink text-white text-[11px] font-bold hover:bg-ink/90 flex items-center gap-1">
+                            <span>🎲</span> Acak
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1060,9 +1146,9 @@
                             <div class="space-y-1">
                                 <label class="block text-xs font-semibold text-ink2">Waktu (Mulai - Selesai)</label>
                                 <div class="flex items-center gap-1">
-                                    <input type="text" name="event_1_start_time" value="{{ old('event_1_start_time') }}" placeholder="08:00 WIB" class="event-start-input w-1/2 rounded-2xl border border-ink/20 px-2 py-2.5 text-xs text-center font-semibold">
+                                    <input type="time" step="300" name="event_1_start_time" value="{{ old('event_1_start_time') }}" placeholder="08:00 WIB" class="event-start-input w-1/2 rounded-2xl border border-ink/20 px-2 py-2.5 text-xs text-center font-semibold">
                                     <span>-</span>
-                                    <input type="text" name="event_1_end_time" value="{{ old('event_1_end_time') }}" placeholder="10:00 / Selesai" class="event-end-input w-1/2 rounded-2xl border border-ink/20 px-2 py-2.5 text-xs text-center font-semibold">
+                                    <input type="time" step="300" name="event_1_end_time" value="{{ old('event_1_end_time') }}" placeholder="10:00 / Selesai" class="event-end-input w-1/2 rounded-2xl border border-ink/20 px-2 py-2.5 text-xs text-center font-semibold">
                                 </div>
                             </div>
                         </div>
@@ -1119,9 +1205,9 @@
                             <div class="space-y-1">
                                 <label class="block text-xs font-semibold text-ink2">Waktu (Mulai - Selesai)</label>
                                 <div class="flex items-center gap-1">
-                                    <input type="text" name="event_2_start_time" value="{{ old('event_2_start_time') }}" placeholder="11:00 WIB" class="event-start-input w-1/2 rounded-2xl border border-ink/20 px-2 py-2.5 text-xs text-center font-semibold">
+                                    <input type="time" step="300" name="event_2_start_time" value="{{ old('event_2_start_time') }}" placeholder="11:00 WIB" class="event-start-input w-1/2 rounded-2xl border border-ink/20 px-2 py-2.5 text-xs text-center font-semibold">
                                     <span>-</span>
-                                    <input type="text" name="event_2_end_time" value="{{ old('event_2_end_time') }}" placeholder="14:00 / Selesai" class="event-end-input w-1/2 rounded-2xl border border-ink/20 px-2 py-2.5 text-xs text-center font-semibold">
+                                    <input type="time" step="300" name="event_2_end_time" value="{{ old('event_2_end_time') }}" placeholder="14:00 / Selesai" class="event-end-input w-1/2 rounded-2xl border border-ink/20 px-2 py-2.5 text-xs text-center font-semibold">
                                 </div>
                             </div>
                         </div>
@@ -1233,6 +1319,15 @@
                     <p class="text-[10px] text-ink3">Tamu dapat mengirim paket hadiah langsung ke alamat ini.</p>
                 </div>
 
+                {{-- Cerita Perjalanan (timeline) --}}
+                <div class="space-y-1.5">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-ink2">Cerita Perjalanan (Opsional)</label>
+                    <textarea name="story" id="storyInput" rows="4"
+                              placeholder="Satu baris = satu momen.&#10;Format: Tahun | Judul | Cerita&#10;Contoh:&#10;2022 | Awal Bertemu | Pertemuan pertama di kampus saat acara seminar.&#10;2025 | Lamaran | Keluarga besar berkumpul membawa cincin."
+                              class="w-full rounded-2xl border border-ink/20 p-3 text-xs focus:outline-none focus:ring-2 focus:ring-brand">{{ old('story', $currentTemplate['story'] ?? '') }}</textarea>
+                    <p class="text-[10px] text-ink3">Kalau dikosongkan, template memakai contoh cerita bawaan. Pisahkan dengan tanda <b>|</b>.</p>
+                </div>
+
                 {{-- Pesan Terima Kasih --}}
                 <div class="space-y-1.5">
                     <label class="block text-xs font-bold uppercase tracking-wider text-ink2">Pesan Terima Kasih / Penutup</label>
@@ -1251,15 +1346,60 @@
                     <p id="step6Desc" class="text-xs text-ink2 mt-1">{{ $currentGalConf['desc'] }}</p>
                 </div>
 
-                {{-- Pilihan Musik Latar --}}
+                {{-- Pilihan Musik Latar: pustaka atau unggah sendiri --}}
                 <div class="p-5 rounded-3xl bg-white border border-ink/15 shadow-sm space-y-3">
-                    <b id="musicSectionLabel" class="text-xs font-bold uppercase tracking-wider text-ink block">Pilihan Musik Latar (Autoplay Audio)</b>
-                    <select name="music_url" id="musicUrlSelect" class="w-full rounded-2xl border border-ink/20 px-4 py-3 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
-                        <option value="wedding-melody.wav" selected>♫ Beautiful Melody (Instrumental Bawaan)</option>
-                        <option value="https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-640.mp3">♫ Melodi Akustik Syahdu &amp; Lembut</option>
-                        <option value="https://assets.mixkit.co/music/preview/mixkit-wedding-piano-641.mp3">♫ Sweet Piano Melody</option>
-                    </select>
-                    <p class="text-[10px] text-ink3">Musik akan diputar secara otomatis saat tamu menekan tombol "Buka Undangan".</p>
+                    <div class="flex items-center justify-between gap-2">
+                        <b id="musicSectionLabel" class="text-xs font-bold uppercase tracking-wider text-ink block">Musik Latar</b>
+                        <span class="text-[10px] font-bold text-brand">MP3 / WAV / M4A · maks 10 MB</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="music_source" value="library" class="peer sr-only" checked onchange="switchMusicSource('library')">
+                            <span class="flex items-center justify-center min-h-[42px] rounded-xl border-2 border-ink/15 text-[11px] font-bold text-ink2 peer-checked:border-brand peer-checked:bg-blush peer-checked:text-brand transition">🎵 Pilih dari Pustaka</span>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="music_source" value="upload" class="peer sr-only" onchange="switchMusicSource('upload')">
+                            <span class="flex items-center justify-center min-h-[42px] rounded-xl border-2 border-ink/15 text-[11px] font-bold text-ink2 peer-checked:border-brand peer-checked:bg-blush peer-checked:text-brand transition">⬆️ Unggah File Sendiri</span>
+                        </label>
+                    </div>
+
+                    <div id="musicLibraryBox" class="space-y-2">
+                        <div class="relative">
+                            <input id="musicSearch" type="search" placeholder="Cari musik…" oninput="filterMusicLibrary(this.value)"
+                                   class="w-full rounded-2xl border border-ink/20 pl-8 pr-3 py-2.5 text-[11px] font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                            <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[11px] text-ink3">⌕</span>
+                        </div>
+
+                        <div id="musicLibraryList" class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[264px] overflow-y-auto pr-1">
+                            @foreach($musicLibrary as $i => $track)
+                                <label class="music-card cursor-pointer" data-name="{{ mb_strtolower($track['label'].' '.$track['mood']) }}">
+                                    <input type="radio" name="music_url" value="{{ $track['file'] }}" class="peer sr-only"
+                                           @checked($track['file'] === 'wedding-melody.wav' || ($i === 0 && ! in_array('wedding-melody.wav', array_column($musicLibrary, 'file'), true)))>
+                                    <span class="flex items-center gap-2 rounded-xl border-2 border-ink/12 px-2.5 py-2 peer-checked:border-brand peer-checked:bg-blush transition">
+                                        <span class="text-base leading-none">♫</span>
+                                        <span class="min-w-0 flex-1">
+                                            <b class="block text-[11px] font-bold text-ink truncate">{{ $track['label'] }}</b>
+                                            <small class="block text-[9.5px] font-semibold uppercase tracking-wider text-ink3">{{ $track['mood'] }}</small>
+                                        </span>
+                                        <button type="button" onclick="event.preventDefault(); playMusicTrack('{{ $track['url'] }}')"
+                                                class="shrink-0 w-7 h-7 rounded-full bg-ink/85 text-white text-[10px] grid place-items-center hover:bg-ink">▶</button>
+                                    </span>
+                                </label>
+                            @endforeach
+                        </div>
+                        <p id="musicLibraryEmpty" class="hidden text-[11px] text-ink3">Tidak ada musik yang cocok.</p>
+                        <audio id="musicLibPreview" controls class="w-full hidden" style="height:36px;"></audio>
+                    </div>
+
+                    <div id="musicUploadBox" class="hidden space-y-2">
+                        <input type="file" name="music_file" id="musicFileInput" accept="audio/mpeg,audio/mp3,audio/wav,audio/x-wav,audio/mp4,audio/x-m4a,audio/ogg" onchange="onMusicFileChange(this)"
+                               class="w-full rounded-2xl border border-dashed border-ink/25 px-4 py-3 text-xs file:mr-3 file:rounded-lg file:border-0 file:bg-brand file:px-3 file:py-1.5 file:text-[11px] file:font-bold file:text-white">
+                        <p id="musicFileName" class="text-[11px] text-ink3">Belum ada file dipilih.</p>
+                        <audio id="musicPreview" controls class="w-full hidden" style="height:36px;"></audio>
+                    </div>
+
+                    <p class="text-[10px] text-ink3">Musik diputar otomatis saat tamu menekan tombol "Buka Undangan". Untuk format WAV, gunakan file di bawah 10 MB agar cepat dimuat.</p>
                 </div>
 
                 {{-- Upload Galeri Foto --}}
@@ -1323,6 +1463,7 @@
                             <input type="tel" name="customer_phone" id="customerPhoneInput" required value="{{ old('customer_phone') }}"
                                    placeholder="Contoh: 081234567890 atau 6281234567890"
                                    class="w-full rounded-2xl border border-amber-300 bg-white px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                            <p class="text-[10px] text-amber-800/90 leading-snug">Nomor ini juga menjadi tujuan tombol <b>“Kirim ke Pemberi Undangan”</b> saat tamu mengonfirmasi RSVP di undangan.</p>
                         </div>
                     </div>
                 </div>
@@ -1336,6 +1477,15 @@
                     <p class="text-xs text-emerald-800 max-w-lg mx-auto leading-relaxed">
                         Setelah menekan tombol di bawah, Anda akan diarahkan ke halaman pembayaran <b>Midtrans Payment Gateway</b> (QRIS, GoPay, ShopeePay, Virtual Account Bank). Begitu pembayaran selesai diverifikasi, undangan Anda <b>langsung aktif seketika tanpa perlu menunggu ACC admin</b> dan siap disebarkan!
                     </p>
+                </div>
+
+                {{-- Tombol uji: cek data pelanggan tanpa membuka pembayaran --}}
+                <div class="text-center space-y-1.5">
+                    <button type="button" onclick="testCustomerInput()"
+                            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border-2 border-dashed border-ink/25 text-[11px] font-bold text-ink2 hover:border-brand hover:text-brand transition">
+                        <span>🧪</span> Tes Input Data Pelanggan
+                    </button>
+                    <p class="text-[10px] text-ink3">Melihat data yang akan dikirim pelanggan — tanpa membuka pembayaran Midtrans.</p>
                 </div>
             </div>
 
@@ -1374,6 +1524,34 @@
             <span>Live Preview</span>
             <span class="hidden sm:inline text-white/80 font-normal">| D'Karsa</span>
         </button>
+    </div>
+
+    <!-- ========================================================
+         MODAL TES INPUT PELANGGAN (tanpa pembayaran)
+    ======================================================== -->
+    <div id="testInputModal" class="fixed inset-0 z-[60] hidden bg-black/70 p-3 sm:p-6 overflow-y-auto" onclick="if(event.target===this)closeTestInput()">
+        <div class="mx-auto w-full max-w-lg my-6 rounded-3xl bg-white shadow-2xl border border-ink/10 overflow-hidden">
+            <div class="flex items-center justify-between gap-3 px-5 py-4 border-b border-ink/10 bg-sunk/60">
+                <div>
+                    <h3 class="font-serif text-lg font-bold text-ink">Tes Input Data Pelanggan</h3>
+                    <p id="testInputSummary" class="text-[11px] text-ink3">Memeriksa isian formulir…</p>
+                </div>
+                <button type="button" onclick="closeTestInput()" class="w-9 h-9 rounded-full bg-white border border-ink/15 text-ink2 hover:text-brand">✕</button>
+            </div>
+            <div id="testInputBody" class="px-5 py-4 space-y-2 text-[11.5px]"></div>
+            <div class="px-5 py-3 border-t border-ink/10 bg-sunk/40 flex flex-wrap items-center justify-between gap-2">
+                <p class="text-[10px] text-ink3 leading-snug max-w-[190px]">
+                    Undangan tes ini <b>sementara</b> — dibuat dari data formulir, tanpa pembayaran. Bisa dihapus kapan saja.
+                </p>
+                <div class="flex items-center gap-2 ml-auto">
+                    <button type="button" onclick="openTestInvitation()"
+                            class="px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold flex items-center gap-1.5">
+                        <span>↗</span> Buka Undangan Tes
+                    </button>
+                    <button type="button" onclick="closeTestInput()" class="px-5 py-2 rounded-full bg-ink text-white text-[11px] font-bold">Tutup</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- ========================================================
@@ -1428,6 +1606,7 @@
                              data-name="{{ $tmpl['name'] }}"
                              data-category="{{ $tmpl['category'] }}"
                              data-tier="{{ $tmpl['tier'] }}"
+                             data-tiers="{{ implode(',', array_keys($tmpl['tiers'] ?? [$tmpl['tier'] => []])) }}"
                              data-price="{{ $tmpl['price'] }}"
                              data-package="{{ $tmpl['package_val'] }}"
                              data-eventcat="{{ $tmpl['category_label'] }}"
@@ -1705,6 +1884,69 @@
             }
         }
 
+        /* ---------- Pustaka kutipan (dipilih atau diacak) ---------- */
+        const QUOTE_LIBRARY = [
+            { group: 'Islami', label: 'QS. Ar-Rum: 21', text: 'Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang. (QS. Ar-Rum: 21)' },
+            { group: 'Islami', label: 'QS. Al-Baqarah: 187', text: 'Mereka adalah pakaian bagimu, dan kamu adalah pakaian bagi mereka. (QS. Al-Baqarah: 187)' },
+            { group: 'Islami', label: 'QS. Ar-Ra\'d: 28', text: 'Ingatlah, hanya dengan mengingat Allah hati menjadi tenteram. (QS. Ar-Ra\'d: 28)' },
+            { group: 'Islami', label: 'QS. Al-Hujurat: 13', text: 'Sesungguhnya yang paling mulia di antara kamu di sisi Allah ialah orang yang paling bertakwa. (QS. Al-Hujurat: 13)' },
+            { group: 'Islami', label: 'Hadits riwayat Tirmidzi', text: 'Sebaik-baik kalian adalah yang paling baik akhlaknya terhadap keluarganya. (HR. Tirmidzi)' },
+            { group: 'Kristen', label: '1 Korintus 13:4-7', text: 'Kasih itu sabar; kasih itu murah hati; ia tidak cemburu. Ia tidak memegahkan diri dan tidak sombong. Ia tidak melakukan yang tidak sopan dan tidak mencari keuntungan diri sendiri. (1 Korintus 13:4-7)' },
+            { group: 'Kristen', label: 'Kejadian 2:24', text: 'Sebab itu seorang laki-laki akan meninggalkan ayahnya dan ibunya dan bersatu dengan isterinya, sehingga keduanya menjadi satu daging. (Kejadian 2:24)' },
+            { group: 'Kristen', label: 'Pengkhotbah 4:9', text: 'Berdua lebih baik dari pada seorang diri, karena mereka menerima upah yang baik dalam jerih payah mereka. (Pengkhotbah 4:9)' },
+            { group: 'Adat Nusantara', label: 'Pepatah Jawa', text: 'Rukun agawe santosa, crah agawe bubrah — hidup rukun membuat kuat, perpecahan membuat runtuh.' },
+            { group: 'Adat Nusantara', label: 'Pepatah Sunda', text: 'Silih asah, silih asih, silih asuh — saling mengasah, saling mengasihi, saling menjaga.' },
+            { group: 'Adat Nusantara', label: 'Pepatah Minang', text: 'Adat basandi syarak, syarak basandi Kitabullah — adat berlandaskan syariat, syariat berlandaskan Al-Qur\'an.' },
+            { group: 'Umum', label: 'Puisi Romantis', text: 'Dua jiwa yang bersatu, dua hati yang berpadu dalam ikatan cinta yang suci untuk melangkah bersama mengarungi perjalanan hidup selamanya.' },
+            { group: 'Umum', label: 'Kata Mutiara', text: 'Pernikahan bukan tentang menemukan orang yang sempurna, melainkan memilih orang yang tepat untuk menemani setiap langkah, dalam suka maupun duka.' },
+        ];
+
+        function buildQuoteLibrary() {
+            const sel = document.getElementById('quoteLibrarySelect');
+            if (!sel || sel.dataset.built === '1') { return; }
+            const groups = [...new Set(QUOTE_LIBRARY.map((q) => q.group))];
+            groups.forEach((group) => {
+                const og = document.createElement('optgroup');
+                og.label = group;
+                QUOTE_LIBRARY.forEach((q, index) => {
+                    if (q.group !== group) { return; }
+                    const opt = document.createElement('option');
+                    opt.value = String(index);
+                    opt.textContent = q.label;
+                    og.appendChild(opt);
+                });
+                sel.appendChild(og);
+            });
+            if (sel.options[0]) { sel.options[0].textContent = 'Pustaka kutipan (' + QUOTE_LIBRARY.length + ' pilihan)…'; }
+            sel.dataset.built = '1';
+        }
+
+        function fillQuote(text) {
+            const quoteEl = document.getElementById('quoteInput');
+            if (!quoteEl) { return; }
+            quoteEl.dataset.manualEdited = 'true';
+            quoteEl.value = text;
+            quoteEl.dispatchEvent(new Event('input', { bubbles: true }));
+            quoteEl.classList.add('ring-2', 'ring-brand');
+            setTimeout(() => quoteEl.classList.remove('ring-2', 'ring-brand'), 600);
+        }
+
+        function applyLibraryQuote(value) {
+            if (value === '' || value === null) { return; }
+            const item = QUOTE_LIBRARY[Number(value)];
+            if (item) { fillQuote(item.text); }
+        }
+
+        function randomQuote() {
+            const pool = QUOTE_LIBRARY;
+            const pick = pool[Math.floor(Math.random() * pool.length)];
+            const sel = document.getElementById('quoteLibrarySelect');
+            if (sel) { sel.value = String(pool.indexOf(pick)); }
+            fillQuote(pick.text);
+        }
+
+        document.addEventListener('DOMContentLoaded', buildQuoteLibrary);
+
         // Data 6 Bab Kategori Undangan Beserta Sub-Pilihannya
         const categoryChaptersData = @json($categoryChapters);
 
@@ -1773,7 +2015,10 @@
                     { value: 'wedding-melody.wav', label: '♫ Beautiful Wedding Melody (Instrumental Romantis Bawaan)' },
                     { value: 'https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-640.mp3', label: '♫ Romantic Wedding Acoustic (Gitar Akustik Lembut)' },
                     { value: 'https://assets.mixkit.co/music/preview/mixkit-wedding-piano-641.mp3', label: '♫ Sweet Wedding Piano (Alunan Piano Manis)' }
-                ],
+                ,
+                    { value: 'celebration-melody.wav', label: '♫ Celebration Melody (Ceria & Festive)' },
+                    { value: 'islamic-melody.wav', label: '♫ Islamic Melody (Nada Islami)' },
+                    { value: 'lullaby-melody.wav', label: '♫ Lullaby Melody (Lembut untuk Bayi)' }],
             },
 
             'Tahlilan': {
@@ -1839,7 +2084,10 @@
                     { value: 'wedding-melody.wav', label: '♫ Alunan Dzikir & Sholawat Syahdu (Menenangkan Hati Bawaan)' },
                     { value: 'https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-640.mp3', label: '♫ Instrumental Doa Religi Khidmat' },
                     { value: 'https://assets.mixkit.co/music/preview/mixkit-wedding-piano-641.mp3', label: '♫ Alunan Melodi Tenang & Khusyuk' }
-                ],
+                ,
+                    { value: 'celebration-melody.wav', label: '♫ Celebration Melody (Ceria & Festive)' },
+                    { value: 'islamic-melody.wav', label: '♫ Islamic Melody (Nada Islami)' },
+                    { value: 'lullaby-melody.wav', label: '♫ Lullaby Melody (Lembut untuk Bayi)' }],
             },
 
             'Khitanan': {
@@ -1905,7 +2153,10 @@
                     { value: 'wedding-melody.wav', label: '♫ Melodi Syukuran Khitan (Ceria & Syahdu Bawaan)' },
                     { value: 'https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-640.mp3', label: '♫ Akustik Ceria Tradisional' },
                     { value: 'https://assets.mixkit.co/music/preview/mixkit-wedding-piano-641.mp3', label: '♫ Alunan Riang Walimatul Khitan' }
-                ],
+                ,
+                    { value: 'celebration-melody.wav', label: '♫ Celebration Melody (Ceria & Festive)' },
+                    { value: 'islamic-melody.wav', label: '♫ Islamic Melody (Nada Islami)' },
+                    { value: 'lullaby-melody.wav', label: '♫ Lullaby Melody (Lembut untuk Bayi)' }],
             },
 
             'Aqiqah': {
@@ -1971,7 +2222,10 @@
                     { value: 'wedding-melody.wav', label: '♫ Lullaby Kasih Buah Hati (Alunan Lembut Bawaan)' },
                     { value: 'https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-640.mp3', label: '♫ Melodi Akustik Hangat Buah Hati' },
                     { value: 'https://assets.mixkit.co/music/preview/mixkit-wedding-piano-641.mp3', label: '♫ Piano Manis Tasyakuran Aqiqah' }
-                ],
+                ,
+                    { value: 'celebration-melody.wav', label: '♫ Celebration Melody (Ceria & Festive)' },
+                    { value: 'islamic-melody.wav', label: '♫ Islamic Melody (Nada Islami)' },
+                    { value: 'lullaby-melody.wav', label: '♫ Lullaby Melody (Lembut untuk Bayi)' }],
             },
 
             'Ulang Tahun': {
@@ -2037,7 +2291,10 @@
                     { value: 'wedding-melody.wav', label: '♫ Happy Birthday Instrumental (Melodi Ceria Pesta Bawaan)' },
                     { value: 'https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-640.mp3', label: '♫ Akustik Ceria Semarak Pesta' },
                     { value: 'https://assets.mixkit.co/music/preview/mixkit-wedding-piano-641.mp3', label: '♫ Melodi Manis Sweet Birthday' }
-                ],
+                ,
+                    { value: 'celebration-melody.wav', label: '♫ Celebration Melody (Ceria & Festive)' },
+                    { value: 'islamic-melody.wav', label: '♫ Islamic Melody (Nada Islami)' },
+                    { value: 'lullaby-melody.wav', label: '♫ Lullaby Melody (Lembut untuk Bayi)' }],
             },
 
             'Halal Bihalal': {
@@ -2103,7 +2360,10 @@
                     { value: 'wedding-melody.wav', label: '♫ Instrumental Silaturahmi Fitri (Alunan Hangat Bawaan)' },
                     { value: 'https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-640.mp3', label: '♫ Gambus & Akustik Suci Idul Fitri' },
                     { value: 'https://assets.mixkit.co/music/preview/mixkit-wedding-piano-641.mp3', label: '♫ Harmoni Damai Kekeluargaan' }
-                ],
+                ,
+                    { value: 'celebration-melody.wav', label: '♫ Celebration Melody (Ceria & Festive)' },
+                    { value: 'islamic-melody.wav', label: '♫ Islamic Melody (Nada Islami)' },
+                    { value: 'lullaby-melody.wav', label: '♫ Lullaby Melody (Lembut untuk Bayi)' }],
             },
 
             'Syukuran': {
@@ -2169,7 +2429,10 @@
                     { value: 'wedding-melody.wav', label: '♫ Instrumental Tasyakuran & Syukur (Alunan Harmonis Bawaan)' },
                     { value: 'https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-640.mp3', label: '♫ Akustik Hangat Kebersamaan' },
                     { value: 'https://assets.mixkit.co/music/preview/mixkit-wedding-piano-641.mp3', label: '♫ Piano Syahdu Tasyakuran' }
-                ],
+                ,
+                    { value: 'celebration-melody.wav', label: '♫ Celebration Melody (Ceria & Festive)' },
+                    { value: 'islamic-melody.wav', label: '♫ Islamic Melody (Nada Islami)' },
+                    { value: 'lullaby-melody.wav', label: '♫ Lullaby Melody (Lembut untuk Bayi)' }],
             },
 
             'Keagamaan': {
@@ -2235,7 +2498,10 @@
                     { value: 'wedding-melody.wav', label: '♫ Alunan Sholawat & Dzikir Menenangkan (Bawaan)' },
                     { value: 'https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-640.mp3', label: '♫ Instrumental Gambus Syahdu' },
                     { value: 'https://assets.mixkit.co/music/preview/mixkit-wedding-piano-641.mp3', label: '♫ Harmoni Doa Khidmat' }
-                ],
+                ,
+                    { value: 'celebration-melody.wav', label: '♫ Celebration Melody (Ceria & Festive)' },
+                    { value: 'islamic-melody.wav', label: '♫ Islamic Melody (Nada Islami)' },
+                    { value: 'lullaby-melody.wav', label: '♫ Lullaby Melody (Lembut untuk Bayi)' }],
             },
 
             'Wisuda': {
@@ -2301,7 +2567,10 @@
                     { value: 'wedding-melody.wav', label: '♫ Melodi Sukacita Kelulusan (Harmoni Bawaan)' },
                     { value: 'https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-640.mp3', label: '♫ Akustik Semangat Masa Depan' },
                     { value: 'https://assets.mixkit.co/music/preview/mixkit-wedding-piano-641.mp3', label: '♫ Piano Syukur Kelulusan' }
-                ],
+                ,
+                    { value: 'celebration-melody.wav', label: '♫ Celebration Melody (Ceria & Festive)' },
+                    { value: 'islamic-melody.wav', label: '♫ Islamic Melody (Nada Islami)' },
+                    { value: 'lullaby-melody.wav', label: '♫ Lullaby Melody (Lembut untuk Bayi)' }],
             },
 
             'Acara Formal': {
@@ -2367,7 +2636,10 @@
                     { value: 'wedding-melody.wav', label: '♫ Instrumental Corporate Elegan (Audio Bawaan)' },
                     { value: 'https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-640.mp3', label: '♫ Ambient Musik Elegan & Modern' },
                     { value: 'https://assets.mixkit.co/music/preview/mixkit-wedding-piano-641.mp3', label: '♫ Harmoni Piano Formal & Tenang' }
-                ],
+                ,
+                    { value: 'celebration-melody.wav', label: '♫ Celebration Melody (Ceria & Festive)' },
+                    { value: 'islamic-melody.wav', label: '♫ Islamic Melody (Nada Islami)' },
+                    { value: 'lullaby-melody.wav', label: '♫ Lullaby Melody (Lembut untuk Bayi)' }],
             }
         };
 
@@ -2531,7 +2803,7 @@
             const musicSectionLabel = document.getElementById('musicSectionLabel');
             if (musicSectionLabel && conf.musicLabel) musicSectionLabel.textContent = conf.musicLabel;
 
-            const musicSelect = document.getElementById('musicUrlSelect');
+        const musicSelect = document.getElementById('musicUrlSelect');
             if (musicSelect && conf.musicOptions && conf.musicOptions.length) {
                 const curVal = musicSelect.value;
                 musicSelect.innerHTML = '';
@@ -2550,6 +2822,753 @@
         // ========================================================
         // BAB & SUB-BAB CATEGORY SELECTION HANDLERS
         // ========================================================
+        document.addEventListener('DOMContentLoaded', () => { try { renderStyleColors(); } catch (e) {} try { renderHeadingPresets(document.querySelector('input[name="category"]:checked')?.value || 'Pernikahan'); } catch (e) {} try { renderQuickTemplateStrip(); } catch (e) {} });
+
+        // ===== Katalog harga & warna (L3 gaya + L4 palet) =====
+        const PRICING_CATALOG = @json(json_decode(file_get_contents(base_path('docs/template-pricing-catalog.json')), true) ?: []);
+
+        // Desain yang cocok dengan bab & sub-bab terpilih (picker cepat di atas kartu template).
+        const QUICK_TEMPLATES = @json($quickTemplates);
+
+        function quickCategoryState() {
+            const catName = document.querySelector('input[name="category"]:checked')?.value || '';
+            const chapter = (typeof categoryChaptersData !== 'undefined' && categoryChaptersData[catName]) ? categoryChaptersData[catName] : null;
+            const selectEl = document.getElementById('subCategorySelect');
+            // Sub-bab awal bisa tidak cocok dengan opsi katalog → pakai opsi pertama yang tersedia.
+            const sub = (selectEl && selectEl.value) ? selectEl.value : (selectEl?.options?.[0]?.value || '');
+            return { catName, babNo: chapter ? chapter.number : 0, sub };
+        }
+
+        function renderQuickTemplateStrip() {
+            const strip = document.getElementById('quickTemplateStrip');
+            if (!strip || !Array.isArray(QUICK_TEMPLATES)) return;
+
+            const state = quickCategoryState();
+            let list = QUICK_TEMPLATES.filter((t) => t.cat === state.catName);
+            if (state.sub) {
+                const bySub = list.filter((t) => t.sub === state.sub);
+                if (bySub.length) list = bySub;
+            }
+
+            const countEl = document.getElementById('quickTemplateCount');
+            if (countEl) countEl.textContent = list.length + ' desain';
+            const hint = document.getElementById('quickTemplateHint');
+            if (hint) {
+                hint.textContent = state.sub
+                    ? 'Menampilkan ' + list.length + ' desain untuk "' + state.sub + '".'
+                    : 'Geser untuk melihat desain lain pada bab yang sama.';
+            }
+
+            strip.innerHTML = list.slice(0, 16).map((t) => {
+                const on = t.name === currentSelectedTheme;
+                const safeName = String(t.name).replace(/'/g, "\\'");
+                return `<button type="button" onclick="selectTemplate('${safeName}', false); renderQuickTemplateStrip();"
+                    class="snap-start shrink-0 w-[88px] text-left rounded-xl overflow-hidden border bg-white transition ${on ? 'border-brand ring-2 ring-brand/30' : 'border-ink/12 hover:border-brand'}">
+                    <img src="${t.img}" alt="${t.name}" loading="lazy" class="w-full h-[64px] object-cover bg-sunk">
+                    <div class="p-1.5">
+                        <b class="block text-[9.5px] leading-tight text-ink line-clamp-2">${t.name}</b>
+                        <span class="block text-[8.5px] font-bold text-brand mt-0.5">${t.price}</span>
+                    </div>
+                </button>`;
+            }).join('') || '<p class="text-[11px] text-ink3 py-3">Belum ada desain untuk kategori ini.</p>';
+        }
+
+        const TIER_META = {
+            basic:     { label: 'Basic',     price: 50000,  radio: 'Paket Basic - Rp50.000' },
+            premium:   { label: 'Premium',   price: 110000, radio: 'Paket Premium - Rp110.000' },
+            eksklusif: { label: 'Eksklusif', price: 180000, radio: 'Paket Eksklusif - Rp180.000' },
+            kustom:    { label: 'Kustom',    price: 280000, radio: 'Paket Kustom - Rp280.000' },
+        };
+
+        let activeStyle = null;
+
+        function catalogForSub(sub) {
+            return PRICING_CATALOG.filter((item) => item.l2_subbab === sub);
+        }
+
+        function renderStyleColors() {
+            const selectEl = document.getElementById('subCategorySelect');
+            const sub = selectEl ? selectEl.value : null;
+            const pills = document.getElementById('stylePills');
+            const swatches = document.getElementById('colorSwatches');
+            const badge = document.getElementById('styleCountBadge');
+            if (!pills || !swatches || !sub) return;
+
+            const items = catalogForSub(sub);
+            const styleCounts = {};
+            items.forEach((i) => { styleCounts[i.l3_style] = (styleCounts[i.l3_style] || 0) + 1; });
+            const styles = Object.keys(styleCounts).sort((a, b) => styleCounts[b] - styleCounts[a]);
+            activeStyle = styles.includes(activeStyle) ? activeStyle : (styles[0] || null);
+
+            pills.innerHTML = styles.map((st) => {
+                const on = st === activeStyle;
+                return `<button type="button" onclick="pickStyle('${st.replace(/'/g, "\\'")}')"
+                    class="px-3.5 py-2 rounded-full text-[11px] font-bold border-2 transition ${on
+                        ? 'bg-brand text-white border-brand shadow-sm'
+                        : 'bg-white text-ink2 border-ink/15 hover:border-brand/50'}">${st}</button>`;
+            }).join('') || '<span class="text-[11px] text-ink3">Belum ada gaya untuk sub-bab ini.</span>';
+
+            const filtered = items.filter((i) => i.l3_style === activeStyle);
+            swatches.innerHTML = filtered.map((i) => {
+                const sw = (i.swatch_hex || []).filter(Boolean).slice(0, 3);
+                const dots = sw.map((hex) => `<span style="width:16px;height:16px;border-radius:999px;background:${hex};border:1px solid rgba(0,0,0,.12);display:inline-block"></span>`).join('');
+                const rec = i.recommended_tier === 'eksklusif' ? '🔴' : '🔵';
+                return `<button type="button" onclick="pickSwatch('${i.code}')" data-code="${i.code}"
+                    class="swatch-btn text-left p-2.5 rounded-xl border-2 border-ink/12 bg-white hover:border-brand/60 transition flex items-center gap-2.5">
+                    <span class="flex gap-1 shrink-0">${dots}</span>
+                    <span class="min-w-0 flex-1">
+                        <b class="block text-[11.5px] text-ink truncate">${i.l4_color_name}</b>
+                        <span class="block text-[10px] text-ink3">${i.code} • ${i.l3_style} ${rec}</span>
+                    </span>
+                </button>`;
+            }).join('');
+
+            if (badge) badge.textContent = `${styles.length} Gaya • ${items.length} Warna`;
+            const helper = document.getElementById('styleHelperText');
+            if (helper) helper.textContent = `Menampilkan ${items.length} pilihan warna untuk "${sub}". Klik warna untuk melihat pratinjau & rekomendasi paket.`;
+        }
+
+        function pickStyle(style) {
+            activeStyle = style;
+            renderStyleColors();
+        }
+
+        function selectedTier() {
+            const checked = document.querySelector('input[name="selected_package"]:checked');
+            if (!checked) return null;
+            return Object.keys(TIER_META).find((t) => TIER_META[t].radio === checked.value) || null;
+        }
+
+        // Pratinjau langsung memakai paket yang sedang dipilih, supaya beda Basic/Premium/Eksklusif/Kustom terlihat.
+        function withTier(url) {
+            const tier = selectedTier();
+            if (!tier) return url;
+            return url + (url.indexOf('?') >= 0 ? '&' : '?') + 'tier=' + tier;
+        }
+
+        function pickSwatch(code) {
+            const item = PRICING_CATALOG.find((i) => i.code === code);
+            if (!item) return;
+
+            document.querySelectorAll('.swatch-btn').forEach((btn) => {
+                const on = btn.dataset.code === code;
+                btn.classList.toggle('border-brand', on);
+                btn.classList.toggle('ring-2', on);
+                btn.classList.toggle('ring-brand/30', on);
+                btn.classList.toggle('bg-blush/40', on);
+            });
+
+            const themeInput = document.getElementById('selectedThemeInput');
+            if (themeInput) themeInput.value = item.template_key;
+
+            const iframe = document.getElementById('builderLivePreviewIframe');
+            if (iframe) iframe.src = withTier(item.demo_url + '?preview=1');
+
+            applyTierRecommendation(item);
+        }
+
+        function applyTierRecommendation(item) {
+            const rec = item.recommended_tier || 'premium';
+            document.querySelectorAll('.pkg-card').forEach((card) => {
+                const tier = card.dataset.tier;
+                const isRec = tier === rec;
+                card.style.outline = isRec ? '3px solid #F59E0B' : 'none';
+                card.style.outlineOffset = isRec ? '2px' : '0';
+                let flag = card.querySelector('.pkg-rec-flag');
+                if (isRec && !flag) {
+                    flag = document.createElement('span');
+                    flag.className = 'pkg-rec-flag absolute -top-2 left-1/2 -translate-x-1/2 text-[8.5px] font-extrabold uppercase tracking-wider bg-amber-500 text-white px-2 py-0.5 rounded-full whitespace-nowrap';
+                    flag.textContent = '🔥 Direkomendasikan';
+                    card.appendChild(flag);
+                } else if (!isRec && flag) {
+                    flag.remove();
+                }
+            });
+
+            const basicInput = document.querySelector('input[name="selected_package"][value="Paket Basic - Rp50.000"]');
+            const basicCard = document.getElementById('pkgCard-basic');
+            const basicAvailable = !!(item.pricing_tiers && item.pricing_tiers.basic && item.pricing_tiers.basic.available);
+            if (basicInput && basicCard) {
+                basicInput.disabled = !basicAvailable;
+                basicCard.style.opacity = basicAvailable ? '1' : '.45';
+                basicCard.style.pointerEvents = basicAvailable ? 'auto' : 'none';
+                basicCard.title = basicAvailable ? '' : 'Versi Basic hanya statis tanpa gerbang 3D & amplop digital. Pilih Eksklusif untuk pengalaman penuh.';
+            }
+
+            const radio = document.querySelector(`input[name="selected_package"][value="${TIER_META[rec].radio}"]`);
+            if (radio) {
+                radio.checked = true;
+                onPackageSelect(radio.value);
+            }
+
+            const helper = document.getElementById('styleHelperText');
+            if (helper) {
+                helper.innerHTML = `Direkomendasikan <b>${TIER_META[rec].label} (Rp${TIER_META[rec].price.toLocaleString('id-ID')})</b> untuk ${item.l4_color_name} — ${item.l3_style}.`;
+            }
+        }
+
+        function selectCustomStyle() {
+            const kustom = document.querySelector('input[name="selected_package"][value="Paket Kustom - Rp280.000"]');
+            if (kustom) {
+                kustom.checked = true;
+                onPackageSelect(kustom.value);
+            }
+            document.querySelectorAll('.pkg-card').forEach((card) => {
+                card.style.outline = card.dataset.tier === 'kustom' ? '3px solid #7C3AED' : 'none';
+            });
+            const helper = document.getElementById('styleHelperText');
+            if (helper) helper.innerHTML = 'Mode <b>Kustom</b>: tim desain akan menyesuaikan warna, ornamen, dan struktur seksi sesuai permintaan (Rp280.000).';
+        }
+
+        /* ---------- Link tamu: impor Excel/CSV, edit nama & nomor, kirim per tamu ---------- */
+        let guestRows = [];
+
+        function guestSlug() {
+            const el = document.getElementById('slugInput');
+            return (el && el.value.trim()) || 'undangan-anda';
+        }
+
+        // Nama di tautan ditulis dengan tanda hubung: "Bapak Andi Wijaya" → "Bapak-Andi-Wijaya".
+        function guestNameSlug(name) {
+            // Spasi → tanda hubung; "&" dibiarkan (nanti jadi %26) supaya nama tetap utuh.
+            const cleaned = String(name || '').trim()
+                .replace(/\s+/g, '-')
+                .replace(/[^\p{L}\p{N}&._-]+/gu, '')
+                .replace(/-+/g, '-')
+                .replace(/^-+|-+$/g, '');
+            return cleaned || String(name || '').trim().replace(/\s+/g, '-');
+        }
+
+        // Link tamu sengaja hanya membawa nama (?to=) supaya rapi saat dibagikan.
+        function guestUrl(row) {
+            return window.location.origin + '/u/' + guestSlug() + '?to=' + encodeURIComponent(guestNameSlug(row.name));
+        }
+
+        function normalizePhone(value) {
+            let digits = String(value || '').replace(/\D/g, '');
+            if (!digits) { return ''; }
+            if (digits.startsWith('0')) { digits = '62' + digits.slice(1); }
+            if (digits.startsWith('8')) { digits = '62' + digits; }
+            return digits;
+        }
+
+        function guestWaHref(row) {
+            const url = guestUrl(row);
+            // Pax & meja tetap dikirim lewat pesan WhatsApp, bukan ditempel di link.
+            const detail = [];
+            if (row.pax) { detail.push(row.pax + ' orang'); }
+            if (row.seat) { detail.push(row.seat); }
+            const text = 'Undangan untuk ' + row.name + ': ' + url + (detail.length ? '\n(' + detail.join(' • ') + ')' : '');
+            const phone = normalizePhone(row.phone);
+            return 'https://wa.me/' + phone + '?text=' + encodeURIComponent(text);
+        }
+
+        function escapeAttr(value) {
+            return String(value == null ? '' : value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+        }
+
+        function guestStorageKey() { return 'dkarsa-guests-' + guestSlug(); }
+
+        function saveGuestRows() {
+            try { localStorage.setItem(guestStorageKey(), JSON.stringify(guestRows)); } catch (e) {}
+        }
+
+        function loadGuestRows() {
+            try { return JSON.parse(localStorage.getItem(guestStorageKey()) || '[]'); } catch (e) { return []; }
+        }
+
+        function renderGuestRows() {
+            const list = document.getElementById('guestLinkList');
+            if (!list) { return; }
+            if (!guestRows.length) {
+                list.innerHTML = '<p class="text-[11px] text-ink3">Belum ada tamu. Tulis nama atau impor file Excel/CSV.</p>';
+                updateGuestBulkBar();
+                return;
+            }
+            list.innerHTML = guestRows.map((row, i) => {
+                const url = guestUrl(row);
+                const waBtn = normalizePhone(row.phone)
+                    ? `<a data-guest-wa href="${guestWaHref(row)}" target="_blank" rel="noopener" title="Kirim undangan via WhatsApp ke tamu ini"
+                         class="shrink-0 px-2.5 py-1 rounded-lg bg-emerald-600 text-white text-[10px] font-bold">WA</a>`
+                    : `<span data-guest-wa title="Isi nomor WA dulu untuk mengirim"
+                         class="shrink-0 px-2.5 py-1 rounded-lg bg-ink/10 text-ink3 text-[10px] font-bold cursor-not-allowed">WA</span>`;
+
+                return `<div data-guest-row="${i}" class="rounded-xl border border-ink/10 bg-white p-2 space-y-1.5">
+                    <div class="flex items-center gap-1.5">
+                        ${row.sent
+                            ? `<span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 grid place-items-center text-[10px] font-bold shrink-0" title="Sudah dikirim via WhatsApp">✓</span>`
+                            : `<span class="w-5 h-5 rounded-full bg-brand/10 text-brand grid place-items-center text-[10px] font-bold shrink-0">${i + 1}</span>`}
+                        <input value="${escapeAttr(row.name)}" oninput="updateGuestRow(${i}, 'name', this.value)" placeholder="Nama tamu" aria-label="Nama tamu"
+                               class="flex-1 min-w-0 rounded-lg border border-ink/15 px-2 py-1 text-[11px] font-semibold focus:outline-none focus:ring-2 focus:ring-brand/40">
+                    </div>
+                    <div class="grid grid-cols-3 gap-1.5">
+                        <input value="${escapeAttr(row.phone || '')}" oninput="updateGuestRow(${i}, 'phone', this.value)" placeholder="Nomor WA" aria-label="Nomor WhatsApp tamu" inputmode="tel"
+                               class="min-w-0 rounded-lg border border-ink/15 px-2 py-1 text-[10.5px] focus:outline-none focus:ring-2 focus:ring-brand/40">
+                        <input value="${escapeAttr(row.pax || 2)}" oninput="updateGuestRow(${i}, 'pax', this.value)" type="number" min="1" max="20" placeholder="Pax" aria-label="Jumlah orang"
+                               class="min-w-0 rounded-lg border border-ink/15 px-2 py-1 text-[10.5px] focus:outline-none focus:ring-2 focus:ring-brand/40">
+                        <input value="${escapeAttr(row.seat || '')}" oninput="updateGuestRow(${i}, 'seat', this.value)" placeholder="Meja / Zona" aria-label="Meja atau zona"
+                               class="min-w-0 rounded-lg border border-ink/15 px-2 py-1 text-[10.5px] focus:outline-none focus:ring-2 focus:ring-brand/40">
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <p data-guest-url class="flex-1 min-w-0 text-[9.5px] text-ink3 truncate">${url}</p>
+                        <button type="button" data-guest-copy data-url="${escapeAttr(url)}" onclick="copyGuestUrl(this)"
+                                class="shrink-0 px-2.5 py-1 rounded-lg bg-sunk border border-ink/15 text-[10px] font-bold text-ink2 hover:border-brand">Salin</button>
+                        ${waBtn}
+                    </div>
+                </div>`;
+            }).join('');
+            updateGuestBulkBar();
+        }
+
+        function updateGuestRow(index, field, value) {
+            if (!guestRows[index]) { return; }
+            guestRows[index][field] = value;
+            guestRows[index].sent = false;
+            const row = document.querySelector('[data-guest-row="' + index + '"]');
+            if (row) {
+                const url = guestUrl(guestRows[index]);
+                const urlEl = row.querySelector('[data-guest-url]');
+                if (urlEl) { urlEl.textContent = url; }
+                const copyBtn = row.querySelector('[data-guest-copy]');
+                if (copyBtn) { copyBtn.dataset.url = url; }
+                const wa = row.querySelector('[data-guest-wa]');
+                const hasPhone = !!normalizePhone(guestRows[index].phone);
+                if (wa && hasPhone && wa.tagName === 'SPAN') {
+                    const link = document.createElement('a');
+                    link.setAttribute('data-guest-wa', '');
+                    link.className = 'shrink-0 px-2.5 py-1 rounded-lg bg-emerald-600 text-white text-[10px] font-bold';
+                    link.target = '_blank';
+                    link.rel = 'noopener';
+                    link.title = 'Kirim undangan via WhatsApp ke tamu ini';
+                    link.textContent = 'WA';
+                    link.href = guestWaHref(guestRows[index]);
+                    wa.replaceWith(link);
+                } else if (wa && !hasPhone && wa.tagName === 'A') {
+                    const off = document.createElement('span');
+                    off.setAttribute('data-guest-wa', '');
+                    off.className = 'shrink-0 px-2.5 py-1 rounded-lg bg-ink/10 text-ink3 text-[10px] font-bold cursor-not-allowed';
+                    off.title = 'Isi nomor WA dulu untuk mengirim';
+                    off.textContent = 'WA';
+                    wa.replaceWith(off);
+                } else if (wa && hasPhone) {
+                    wa.href = guestWaHref(guestRows[index]);
+                }
+            }
+            saveGuestRows();
+            updateGuestBulkBar();
+        }
+
+        /* ---------- Kirim WhatsApp serentak ke nomor masing-masing tamu ---------- */
+        function updateGuestBulkBar() {
+            const bar = document.getElementById('guestBulkActions');
+            const btn = document.getElementById('guestWaAllBtn');
+            if (!bar || !btn) { return; }
+
+            const withPhone = guestRows.filter((r) => !!normalizePhone(r.phone));
+            const pending = withPhone.filter((r) => !r.sent);
+
+            if (!guestRows.length) { bar.classList.add('hidden'); return; }
+            bar.classList.remove('hidden');
+
+            btn.textContent = withPhone.length
+                ? 'Kirim WA Satu per Satu (' + withPhone.length + ')'
+                : 'Belum Ada Nomor WhatsApp';
+            btn.disabled = withPhone.length === 0;
+            btn.classList.toggle('opacity-50', withPhone.length === 0);
+            btn.classList.toggle('cursor-not-allowed', withPhone.length === 0);
+
+        }
+
+        function markGuestSent(index) {
+            if (!guestRows[index]) { return; }
+            guestRows[index].sent = true;
+            saveGuestRows();
+        }
+
+        function finishBulkSend() {
+            const s = waBulkState;
+            s.running = false;
+            renderBulkProgress();
+            renderGuestRows();
+            updateGuestBulkBar();
+
+            const stopBtn = document.getElementById('waBulkStopBtn');
+            if (stopBtn) { stopBtn.classList.add('hidden'); }
+
+            if (s.simulated) {
+                bulkLog('Simulasi selesai: ' + s.sent + ' undangan tercatat, TIDAK terkirim sungguhan. '
+                    + 'Isi WHATSAPP_PROVIDER + token (cloud/fonnte/wablas) untuk pengiriman nyata.', 'error');
+            } else {
+                bulkLog(s.stop
+                    ? 'Dihentikan. ' + s.sent + ' terkirim, ' + s.failed + ' gagal.'
+                    : 'Selesai. ' + s.sent + ' terkirim' + (s.failed ? ', ' + s.failed + ' gagal' : '') + '.');
+            }
+        }
+
+        function stopBulkSend() {
+            waBulkState.stop = true;
+            if (!waBulkState.running) { closeBulkSend(); }
+        }
+
+        function closeBulkSend() {
+            waBulkState.stop = true;
+            const modal = document.getElementById('guestBulkSendModal');
+            if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+            renderGuestRows();
+        }
+
+        /* Antrean: satu klik = satu tab WhatsApp, jadi tidak diblokir pop-up. */
+        let waQueue = [];
+        let waQueueIndex = 0;
+
+        function sendAllGuestWa() {
+            const targets = guestRows.map((row, index) => ({ row, index })).filter((item) => !!normalizePhone(item.row.phone));
+            if (!targets.length) { return; }
+
+            const pending = targets.filter((item) => !item.row.sent);
+            waQueue = pending.length ? pending : targets;
+            waQueueIndex = 0;
+            renderWaQueueItem();
+            const modal = document.getElementById('guestWaQueue');
+            if (modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
+        }
+
+        function renderWaQueueItem() {
+            const item = waQueue[waQueueIndex];
+            const modal = document.getElementById('guestWaQueue');
+            if (!item) { closeWaQueue(true); return; }
+
+            const total = waQueue.length;
+            const progress = document.getElementById('waQueueProgress');
+            const bar = document.getElementById('waQueueBar');
+            const name = document.getElementById('waQueueName');
+            const phone = document.getElementById('waQueuePhone');
+            const text = document.getElementById('waQueueText');
+            const openBtn = document.getElementById('waQueueOpen');
+
+            if (progress) { progress.textContent = 'Tamu ' + (waQueueIndex + 1) + ' dari ' + total; }
+            if (bar) { bar.style.width = Math.round((waQueueIndex / total) * 100) + '%'; }
+            if (name) { name.textContent = item.row.name || 'Tamu'; }
+            if (phone) { phone.textContent = '+' + normalizePhone(item.row.phone); }
+            if (openBtn) { openBtn.href = guestWaHref(item.row); }
+
+            if (text) {
+                const detail = [];
+                if (item.row.pax) { detail.push(item.row.pax + ' orang'); }
+                if (item.row.seat) { detail.push(item.row.seat); }
+                text.textContent = 'Undangan untuk ' + item.row.name + ': ' + guestUrl(item.row)
+                    + (detail.length ? ' (' + detail.join(' • ') + ')' : '');
+            }
+            if (modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
+        }
+
+        function markQueueSent() {
+            const item = waQueue[waQueueIndex];
+            if (item) { markGuestSent(item.index); }
+            setTimeout(nextQueueItem, 650);
+        }
+
+        function nextQueueItem() {
+            waQueueIndex += 1;
+            if (waQueueIndex >= waQueue.length) { closeWaQueue(true); return; }
+            renderWaQueueItem();
+        }
+
+        function skipQueueItem() { nextQueueItem(); }
+
+        function closeWaQueue(finished) {
+            const modal = document.getElementById('guestWaQueue');
+            if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+            renderGuestRows();
+            if (finished) {
+            }
+        }
+
+        function copyGuestUrl(btn) {
+            const url = btn?.dataset?.url || '';
+            const done = () => { const old = btn.textContent; btn.textContent = '✓'; setTimeout(() => { btn.textContent = old; }, 1400); };
+            if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(url).then(done).catch(() => window.prompt('Salin tautan:', url)); }
+            else { window.prompt('Salin tautan:', url); }
+        }
+
+        function generateGuestLinks() {
+            const namesEl = document.getElementById('guestNamesInput');
+            const names = (namesEl?.value || '').split(/\r?\n/).map((n) => n.trim()).filter(Boolean);
+            const existing = new Map(guestRows.map((r) => [String(r.name).toLowerCase(), r]));
+            guestRows = names.map((name) => existing.get(name.toLowerCase()) || { name, phone: '', pax: 2, seat: '' });
+            renderGuestRows();
+            saveGuestRows();
+            const status = document.getElementById('guestImportStatus');
+            if (status) { status.textContent = guestRows.length ? guestRows.length + ' tamu siap dibagikan.' : ''; }
+        }
+
+        /* Impor daftar tamu dari CSV/TXT atau Excel (.xlsx/.xls). */
+        function parseDelimited(text) {
+            const clean = text.replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n');
+            const firstLine = clean.split('\n')[0] || '';
+            const counts = { ',': (firstLine.match(/,/g) || []).length, ';': (firstLine.match(/;/g) || []).length, '\t': (firstLine.match(/\t/g) || []).length };
+            const delimiter = Object.keys(counts).sort((a, b) => counts[b] - counts[a])[0] || ',';
+
+            const rows = [];
+            let row = [], cell = '', quoted = false;
+            for (let i = 0; i < clean.length; i++) {
+                const ch = clean[i];
+                if (quoted) {
+                    if (ch === '"' && clean[i + 1] === '"') { cell += '"'; i++; }
+                    else if (ch === '"') { quoted = false; }
+                    else { cell += ch; }
+                } else if (ch === '"') { quoted = true; }
+                else if (ch === delimiter) { row.push(cell.trim()); cell = ''; }
+                else if (ch === '\n') { row.push(cell.trim()); rows.push(row); row = []; cell = ''; }
+                else { cell += ch; }
+            }
+            row.push(cell.trim());
+            if (row.some((c) => c !== '')) { rows.push(row); }
+            return rows.filter((r) => r.some((c) => c !== ''));
+        }
+
+        function rowsToGuests(rows) {
+            if (!rows.length) { return []; }
+            const header = rows[0].map((c) => String(c).toLowerCase());
+            const find = (keys) => header.findIndex((h) => keys.some((k) => h.includes(k)));
+            const iName = find(['nama', 'name', 'tamu', 'guest']);
+            const iPhone = find(['wa', 'whatsapp', 'hp', 'phone', 'nomor', 'telp']);
+            const iPax = find(['pax', 'jumlah', 'orang', 'qty', 'kuota']);
+            const iSeat = find(['meja', 'seat', 'zona', 'kursi', 'table']);
+            const hasHeader = iName >= 0 && rows[0].some((c) => /[a-z]/i.test(String(c))) && !/^\+?\d+$/.test(String(rows[0][0]));
+
+            const body = hasHeader ? rows.slice(1) : rows;
+            return body.map((r) => {
+                const name = String(r[hasHeader && iName >= 0 ? iName : 0] || '').trim();
+                if (!name) { return null; }
+                return {
+                    name,
+                    phone: hasHeader && iPhone >= 0 ? String(r[iPhone] || '').trim() : (String(r[1] || '').match(/^[\d+\s-]+$/) ? String(r[1]).trim() : ''),
+                    pax: parseInt((hasHeader && iPax >= 0 ? r[iPax] : r[2]) || 2, 10) || 2,
+                    seat: hasHeader && iSeat >= 0 ? String(r[iSeat] || '').trim() : '',
+                };
+            }).filter(Boolean);
+        }
+
+        function loadSheetJS() {
+            if (window.XLSX) { return Promise.resolve(); }
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        }
+
+        async function importGuestFile(input) {
+            const file = input?.files?.[0];
+            const status = document.getElementById('guestImportStatus');
+            if (!file) { return; }
+            const isExcel = /\.(xlsx|xls)$/i.test(file.name);
+
+            try {
+                let rows;
+                if (isExcel) {
+                    if (status) { status.textContent = 'Membaca Excel…'; }
+                    await loadSheetJS();
+                    const buffer = await file.arrayBuffer();
+                    const book = window.XLSX.read(buffer, { type: 'array' });
+                    const sheet = book.Sheets[book.SheetNames[0]];
+                    rows = window.XLSX.utils.sheet_to_json(sheet, { header: 1, blankrows: false, defval: '' });
+                } else {
+                    rows = parseDelimited(await file.text());
+                }
+
+                const guests = rowsToGuests(rows);
+                if (!guests.length) {
+                    if (status) { status.textContent = 'Tidak ada nama tamu yang terbaca.'; }
+                    return;
+                }
+                guestRows = guests;
+                renderGuestRows();
+                saveGuestRows();
+                const namesEl = document.getElementById('guestNamesInput');
+                if (namesEl) { namesEl.value = guests.map((g) => g.name).join('\n'); }
+                if (status) { status.textContent = guests.length + ' tamu diimpor dari ' + file.name + '.'; }
+            } catch (error) {
+                if (status) { status.textContent = 'Gagal membaca file. Coba CSV.'; }
+            } finally {
+                input.value = '';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            guestRows = loadGuestRows();
+            if (guestRows.length) {
+                const namesEl = document.getElementById('guestNamesInput');
+                if (namesEl && !namesEl.value.trim()) { namesEl.value = guestRows.map((g) => g.name).join('\n'); }
+                renderGuestRows();
+            }
+        });
+
+        function switchMusicSource(src) {
+        const lib = document.getElementById('musicLibraryBox');
+        const up = document.getElementById('musicUploadBox');
+        if (!lib || !up) return;
+        if (src === 'upload') { lib.classList.add('hidden'); up.classList.remove('hidden'); }
+        else { up.classList.add('hidden'); lib.classList.remove('hidden'); }
+    }
+
+    /* ---------- Tes input pelanggan (tanpa pembayaran) ---------- */
+    function testCustomerInput() {
+        const val = (sel) => {
+            const el = document.querySelector(sel);
+            return el ? String(el.value || '').trim() : '';
+        };
+        const text = (sel) => {
+            const el = document.querySelector(sel);
+            return el ? String(el.textContent || '').trim() : '';
+        };
+
+        const rows = [
+            { label: 'Template Terpilih', value: (typeof currentSelectedTheme !== 'undefined' ? currentSelectedTheme : '') || '-', required: false, highlight: true },
+            { label: 'Paket', value: (document.querySelector('input[name="selected_package"]:checked')?.value || (typeof selectedTier === 'function' ? selectedTier() : '') || '-'), required: false, highlight: true },
+            { label: 'Nama Pemesan', value: val('#customerNameInput') || val('input[name="customer_name"]'), required: true },
+            { label: 'Nomor WhatsApp', value: val('#customerPhoneInput') || val('input[name="customer_phone"]'), required: true },
+            { label: 'Kategori Acara', value: val('select[name="category"]') || val('input[name="category"]'), required: true },
+            { label: 'Sub-Kategori', value: (document.getElementById('subCategorySelect')?.selectedOptions?.[0]?.textContent || val('#hiddenSubCategoryInput') || '').trim(), required: false },
+
+            { label: 'Tanggal Acara', value: val('input[name="wedding_date"]'), required: true },
+            { label: 'Nama Mempelai / Anak', value: val('#groomNameInput') || val('input[name="groom_name"]'), required: true },
+            { label: 'Slug Undangan', value: val('#slugInput'), required: false },
+            { label: 'Jumlah Acara', value: String(document.querySelectorAll('.event-card-item').length), required: false },
+            { label: 'Foto Galeri', value: String((typeof galleryDataUrls !== 'undefined' ? galleryDataUrls.length : 0)) + ' foto', required: false },
+            { label: 'Musik Latar', value: (document.querySelector('input[name="music_url"]:checked') || {}).value || (document.getElementById('musicFileInput')?.files?.[0]?.name || '-'), required: false },
+        ];
+
+        const missing = rows.filter((r) => r.required && (!r.value || r.value === '-'));
+        const body = document.getElementById('testInputBody');
+        const summary = document.getElementById('testInputSummary');
+        if (!body || !summary) { return; }
+
+        body.innerHTML = rows.map((r) => {
+            const empty = r.required && (!r.value || r.value === '-');
+            const tone = empty ? 'border-red-300 bg-red-50' : (r.highlight ? 'border-brand/40 bg-blush' : 'border-ink/10 bg-sunk/30');
+            return `<div class="flex items-start justify-between gap-3 rounded-xl border ${tone} px-3 py-2">
+                <span class="text-ink3 font-semibold">${r.label}${r.required ? ' *' : ''}</span>
+                <span class="text-right font-bold ${empty ? 'text-red-600' : 'text-ink'} break-all">${r.value || 'kosong'}</span>
+            </div>`;
+        }).join('');
+
+        summary.textContent = missing.length
+            ? `${missing.length} isian wajib belum lengkap: ${missing.map((m) => m.label).join(', ')}`
+            : 'Semua isian wajib terisi — data siap dikirim ke pelanggan.';
+
+        const modal = document.getElementById('testInputModal');
+        if (modal) { modal.classList.remove('hidden'); }
+    }
+
+    function closeTestInput() {
+        const modal = document.getElementById('testInputModal');
+        if (modal) { modal.classList.add('hidden'); }
+    }
+
+    /* URL undangan sementara dari data formulir (tanpa pembayaran).
+       Data dikirim ke server sekali, lalu pemakai hanya membagikan tautan pendek /p/{token}. */
+    function testInvitationPayload() {
+        const key = typeof getCanonicalTemplateKey === 'function'
+            ? getCanonicalTemplateKey(currentSelectedTheme)
+            : 'jawa-keraton-agung';
+        const params = typeof getLivePreviewParams === 'function' ? getLivePreviewParams() : new URLSearchParams();
+        params.set('preview', '1');
+        if (!params.get('to')) { params.set('to', 'Tamu Tes'); }
+        const tier = typeof selectedTier === 'function' ? selectedTier() : null;
+        if (tier) { params.set('tier', tier); }
+
+        const flat = {};
+        params.forEach((value, name) => { flat[name] = value; });
+
+        return { template_key: key, params: flat };
+    }
+
+    async function testInvitationUrl() {
+        const res = await fetch('{{ route('invitation.preview.link') }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '{{ csrf_token() }}',
+            },
+            body: JSON.stringify(testInvitationPayload()),
+        });
+        if (!res.ok) { throw new Error('Gagal membuat tautan uji'); }
+        const data = await res.json();
+        return data.url;
+    }
+
+    async function openTestInvitation() {
+        const win = window.open('', '_blank');
+        try {
+            const url = await testInvitationUrl();
+            if (win) { win.location.replace(url); } else { window.open(url, '_blank', 'noopener'); }
+        } catch (e) {
+            if (win) { win.close(); }
+            alert('Tautan uji gagal dibuat. Silakan coba lagi.');
+        }
+    }
+
+    /* Pustaka musik: putar contoh & cari cepat */
+    function playMusicTrack(url) {
+        const player = document.getElementById('musicLibPreview');
+        if (!player) return;
+        player.classList.remove('hidden');
+        player.src = url;
+        player.play().catch(() => {});
+    }
+
+    function filterMusicLibrary(query) {
+        const q = String(query || '').toLowerCase().trim();
+        let shown = 0;
+        document.querySelectorAll('#musicLibraryList .music-card').forEach((card) => {
+            const hit = !q || (card.dataset.name || '').includes(q);
+            card.classList.toggle('hidden', !hit);
+            if (hit) shown += 1;
+        });
+        const empty = document.getElementById('musicLibraryEmpty');
+        if (empty) empty.classList.toggle('hidden', shown > 0);
+    }
+
+    function onMusicFileChange(input) {
+        const nameEl = document.getElementById('musicFileName');
+        const prev = document.getElementById('musicPreview');
+        const file = input.files && input.files[0];
+        if (!file) { if (nameEl) nameEl.textContent = 'Belum ada file dipilih.'; if (prev) prev.classList.add('hidden'); return; }
+        const maxBytes = 10 * 1024 * 1024;
+        if (file.size > maxBytes) {
+            alert('Ukuran file musik melebihi 10 MB. Silakan pilih file yang lebih kecil.');
+            input.value = '';
+            if (nameEl) nameEl.textContent = 'Belum ada file dipilih.';
+            if (prev) prev.classList.add('hidden');
+            return;
+        }
+        if (nameEl) nameEl.textContent = file.name + ' (' + (file.size / 1024 / 1024).toFixed(2) + ' MB)';
+        if (prev) { prev.src = URL.createObjectURL(file); prev.classList.remove('hidden'); }
+    }
+
+        const HEADING_PRESETS = {
+            'Pernikahan': ["WALIMATUL 'URSY", 'THE WEDDING CELEBRATION OF', 'HOLY MATRIMONY & RECEPTION', 'PAMASU-MASUON & RESEPSI'],
+            'Ulang Tahun': ['HAPPY BIRTHDAY', 'SWEET SEVENTEEN', 'MILAD & SYUKURAN'],
+            'Aqiqah': ['AQIQAH & TASMIYAH', 'TASYAKURAN KELAHIRAN', 'WALIMATUL KHITAN'],
+            'Keagamaan': ['PENGAJIAN & DOA BERSAMA', 'MAULID NABI MUHAMMAD ﷺ', 'HALAL BIHALAL', 'WALIMATUS SAFAR'],
+            'Wisuda': ['WISUDA & SYUKURAN', 'GRADUATION CELEBRATION', 'KELULUSAN SEKOLAH'],
+            'Acara Formal': ['EXECUTIVE SUMMIT', 'GRAND OPENING', 'PRODUCT LAUNCH', 'COMPANY GATHERING'],
+        };
+
+        function renderHeadingPresets(catKey) {
+            const wrap = document.getElementById('headingPresets');
+            if (!wrap) return;
+            const list = HEADING_PRESETS[catKey] || HEADING_PRESETS['Pernikahan'];
+            wrap.innerHTML = '<span class="text-[11px] text-ink3 self-center mr-1">Pilihan Cepat:</span>' + list.map((t) =>
+                `<button type="button" onclick="setHeading('${t.replace(/'/g, "\\'")}')" class="px-2.5 py-1 rounded-full bg-sunk hover:bg-brand/10 text-[11px] font-semibold text-ink2">${t}</button>`
+            ).join('');
+        }
+
         function onSelectCategoryChapter(catKey, subCat = null) {
             const chapter = categoryChaptersData[catKey];
             if (!chapter) return;
@@ -2582,6 +3601,7 @@
                 });
             }
 
+            renderHeadingPresets(catKey);
             onSubCategoryChange(targetSub, false);
             updateCategoryTheme(catKey, targetSub);
         }
@@ -2605,6 +3625,8 @@
                 updateCategoryTheme(currentCat, subCatVal);
             }
 
+            if (typeof renderQuickTemplateStrip === 'function') { renderQuickTemplateStrip(); }
+
             // Update Live preview display if element exists
             const prevSub = document.getElementById('prevSubCategoryDisplay');
             if (prevSub) {
@@ -2614,6 +3636,9 @@
             if (typeof updateLivePreviewContent === 'function') {
                 updateLivePreviewContent();
             }
+
+            activeStyle = null;
+            renderStyleColors();
         }
 
         // Toggle Custom Request Box based on Package Selection
@@ -2625,6 +3650,14 @@
                 } else {
                     customBox.classList.add('hidden');
                 }
+            }
+
+            // Pratinjau mengikuti paket yang dipilih (Basic/Premium/Eksklusif/Kustom).
+            const iframe = document.getElementById('builderLivePreviewIframe');
+            const tier = selectedTier();
+            if (iframe && iframe.getAttribute('src') && tier) {
+                const base = iframe.getAttribute('src').split('&tier=')[0].split('?tier=')[0];
+                iframe.src = base + (base.indexOf('?') >= 0 ? '&' : '?') + 'tier=' + tier;
             }
         }
 
@@ -2746,6 +3779,19 @@
             });
         }
 
+        /* "08.00 WIB" / "8:00" → "08:00" agar cocok dengan input type=time */
+        function toTimeValue(raw) {
+            const m = String(raw || '').match(/(\d{1,2})\s*[:.]\s*(\d{2})/);
+            return m ? (String(m[1]).padStart(2, '0') + ':' + m[2]) : '';
+        }
+        function normalizeTimeInputs(root) {
+            (root || document).querySelectorAll('.event-start-input, .event-end-input').forEach((el) => {
+                const v = toTimeValue(el.value);
+                if (v && v !== el.value) el.value = v;
+            });
+        }
+        document.addEventListener('DOMContentLoaded', () => normalizeTimeInputs());
+
         function addNewEventCard(data = {}) {
             const container = document.getElementById('eventsListContainer');
             if (!container) return;
@@ -2792,9 +3838,9 @@
                     <div class="space-y-1">
                         <label class="block text-xs font-semibold text-ink2">Waktu (Mulai - Selesai)</label>
                         <div class="flex items-center gap-1">
-                            <input type="text" value="${evStart}" placeholder="11:00 WIB" class="event-start-input w-1/2 rounded-2xl border border-ink/20 px-2 py-2.5 text-xs text-center font-semibold">
+                            <input type="time" step="300" value="${toTimeValue(evStart)}" class="event-start-input w-1/2 rounded-2xl border border-ink/20 px-2 py-2.5 text-xs text-center font-semibold">
                             <span>-</span>
-                            <input type="text" value="${evEnd}" placeholder="14:00 / Selesai" class="event-end-input w-1/2 rounded-2xl border border-ink/20 px-2 py-2.5 text-xs text-center font-semibold">
+                            <input type="time" step="300" value="${toTimeValue(evEnd)}" class="event-end-input w-1/2 rounded-2xl border border-ink/20 px-2 py-2.5 text-xs text-center font-semibold">
                         </div>
                     </div>
                 </div>
@@ -2910,6 +3956,24 @@
                 if (ev2VenueEl && !cards[1]) ev2VenueEl.value = '';
             }
 
+            // Cerita perjalanan -> live preview
+            (function () {
+                const storyEl = document.getElementById('storyInput');
+                const frame = document.getElementById('builderLivePreviewIframe');
+                if (!storyEl || !frame) return;
+                const parseStory = (raw) => raw.split(/\r?\n/)
+                    .map(l => l.trim()).filter(Boolean)
+                    .map(l => { const p = l.split('|').map(x => x.trim()); return { year: p[0] || '', title: p[1] || p[0] || '', text: p[2] || '' }; })
+                    .filter(it => it.title);
+                const push = () => {
+                    const items = parseStory(storyEl.value || '');
+                    if (!items.length) return;
+                    frame.contentWindow && frame.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_STORY', items }, '*');
+                };
+                storyEl.addEventListener('input', push);
+                frame.addEventListener('load', push);
+            })();
+
             // PostMessage to live preview iframe for real-time instant rendering
             const iframe = document.getElementById('builderLivePreviewIframe');
             if (iframe && iframe.contentWindow) {
@@ -2923,69 +3987,104 @@
             updateLivePreviewContent(false);
         }
 
-        // Live Multiple Gallery Previews & Real-Time Sync
+        // Live Multiple Gallery Previews & Real-Time Sync (akumulatif: pilih satu-satu tidak menimpa)
+        const GALLERY_MAX = 20;
+        let galleryDataUrls = [];
+
         function previewGalleryFiles(input) {
+            if (!input.files || input.files.length === 0) { return; }
+
+            const files = Array.from(input.files);
+            const maxBytes = 5 * 1024 * 1024; // 5 MB
+            const oversizedFiles = files.filter(f => f.size > maxBytes);
+            if (oversizedFiles.length > 0) {
+                const fileDetails = oversizedFiles.map(f => `• ${f.name} (${(f.size / (1024 * 1024)).toFixed(1)} MB)`).join('\n');
+                alert(`Ada foto galeri yang melebihi batas ukuran 5 MB:\n\n${fileDetails}\n\nMaksimal ukuran per file foto adalah 5 MB.`);
+                input.value = '';
+                return;
+            }
+
+            const room = GALLERY_MAX - galleryDataUrls.length;
+            if (room <= 0) {
+                alert(`Galeri sudah berisi ${GALLERY_MAX} foto (batas maksimal). Hapus salah satu untuk menambah.`);
+                input.value = '';
+                return;
+            }
+            if (files.length > room) {
+                alert(`Hanya ${room} foto lagi yang bisa ditambahkan (maksimal ${GALLERY_MAX} foto).`);
+            }
+
+            const toRead = files.slice(0, room);
+            let pending = toRead.length;
+
+            toRead.forEach((file) => {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    galleryDataUrls.push(e.target.result);
+                    pending -= 1;
+                    if (pending === 0) {
+                        renderGalleryPreviews();
+                        persistGallery();
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
+
+            // Reset input supaya foto yang sama bisa dipilih lagi tanpa menghapus daftar sebelumnya
+            input.value = '';
+        }
+
+        function renderGalleryPreviews() {
             const container = document.getElementById('galleryPreviews');
-            if (!container) return;
+            if (!container) { return; }
+            container.innerHTML = galleryDataUrls.map((src, index) => `
+                <div class="aspect-square rounded-xl bg-white border border-ink/15 overflow-hidden shadow-sm relative group">
+                    <img src="${src}" class="w-full h-full object-cover">
+                    <button type="button" onclick="removeGalleryPhoto(${index})" title="Hapus foto ini"
+                            class="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/65 text-white text-[10px] font-bold grid place-items-center hover:bg-black">✕</button>
+                </div>`).join('');
+        }
 
-            if (input.files && input.files.length > 0) {
-                const files = Array.from(input.files);
-                const maxBytes = 5 * 1024 * 1024; // 5 MB
-                const oversizedFiles = files.filter(f => f.size > maxBytes);
-                if (oversizedFiles.length > 0) {
-                    const fileDetails = oversizedFiles.map(f => `• ${f.name} (${(f.size / (1024 * 1024)).toFixed(1)} MB)`).join('\n');
-                    alert(`Ada foto galeri yang melebihi batas ukuran 5 MB:\n\n${fileDetails}\n\nMaksimal ukuran per file foto adalah 5 MB. Silakan pilih foto dengan ukuran yang lebih kecil atau kompres terlebih dahulu.`);
-                    input.value = '';
-                    return;
-                }
+        function removeGalleryPhoto(index) {
+            galleryDataUrls.splice(index, 1);
+            renderGalleryPreviews();
+            persistGallery();
+        }
 
-                container.innerHTML = '';
-                const dataUrls = [];
-                let loadedCount = 0;
+        function persistGallery() {
+            try {
+                sessionStorage.setItem('dkarsa_preview_gallery_photos', JSON.stringify(galleryDataUrls));
+            } catch (err) {
+                console.warn('Storage quota warning for gallery photos', err);
+            }
 
-                files.forEach((file, index) => {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const dataUrl = e.target.result;
-                        dataUrls[index] = dataUrl;
-                        loadedCount++;
+            const hiddenGal = document.getElementById('galleryPhotosBase64');
+            if (hiddenGal) { hiddenGal.value = JSON.stringify(galleryDataUrls); }
 
-                        const div = document.createElement('div');
-                        div.className = 'aspect-square rounded-xl bg-white border border-ink/15 overflow-hidden shadow-sm relative group';
-                        div.innerHTML = `<img src="${dataUrl}" class="w-full h-full object-cover">`;
-                        container.appendChild(div);
-
-                        if (loadedCount === files.length) {
-                            const validUrls = dataUrls.filter(Boolean);
-                            try {
-                                sessionStorage.setItem('dkarsa_preview_gallery_photos', JSON.stringify(validUrls));
-                            } catch(err) {
-                                console.warn('Storage quota warning for gallery photos', err);
-                            }
-
-                            // Store in hidden base64 input for persistent form submission
-                            const hiddenGal = document.getElementById('galleryPhotosBase64');
-                            if (hiddenGal) hiddenGal.value = JSON.stringify(validUrls);
-
-                            // Send postMessage to live preview iframe for instant visual update
-                            const iframe = document.getElementById('builderLivePreviewIframe');
-                            if (iframe && iframe.contentWindow) {
-                                iframe.contentWindow.postMessage({
-                                    type: 'UPDATE_PREVIEW_GALLERY',
-                                    images: validUrls,
-                                    photos: validUrls
-                                }, '*');
-                            }
-                        }
-                    };
-                    reader.readAsDataURL(file);
-                });
+            const iframe = document.getElementById('builderLivePreviewIframe');
+            if (iframe && iframe.contentWindow) {
+                iframe.contentWindow.postMessage({
+                    type: 'UPDATE_PREVIEW_GALLERY',
+                    images: galleryDataUrls,
+                    photos: galleryDataUrls
+                }, '*');
             }
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                const saved = JSON.parse(sessionStorage.getItem('dkarsa_preview_gallery_photos') || '[]');
+                if (Array.isArray(saved) && saved.length) {
+                    galleryDataUrls = saved.filter(Boolean);
+                    renderGalleryPreviews();
+                }
+            } catch (err) {}
+        });
 
         function resetGalleryPhotos() {
             const input = document.querySelector('input[name="gallery_photos[]"]');
             if (input) input.value = '';
+            galleryDataUrls = [];
             const container = document.getElementById('galleryPreviews');
             if (container) container.innerHTML = '';
             const hiddenGal = document.getElementById('galleryPhotosBase64');
@@ -3089,7 +4188,7 @@
                     matchCat = true;
                 }
 
-                const matchTier = (modalActiveTier === 'semua') || (cardTier === modalActiveTier);
+                const matchTier = (modalActiveTier === 'semua') || ((card.dataset.tiers || cardTier).split(',').map(t => t.trim()).includes(modalActiveTier));
 
                 if (matchCat && matchTier) {
                     card.classList.remove('hidden');
@@ -3157,6 +4256,8 @@
             if (cardTitle) cardTitle.textContent = tmpl.name;
             const cardDesc = document.getElementById('activeTemplateDesc');
             if (cardDesc) cardDesc.textContent = tmpl.desc;
+
+            if (typeof renderQuickTemplateStrip === 'function') { renderQuickTemplateStrip(); }
 
             // Synchronize matching Package Radio button in Step 1
             const pkgRadios = document.querySelectorAll('input[name="selected_package"]');
@@ -3228,6 +4329,108 @@
             if (s.includes('batak') || s.includes('ulos') || s.includes('gorga')) return 'batak-heritage';
             if (s.includes('royal tasmiyah') || s.includes('tasmiyah') || s.includes('sultan')) return 'royal-tasmiyah';
             if (s.includes('little prince') || s.includes('prince') || s.includes('nordic')) return 'little-prince';
+            // Adat Jawa suite 01–10 (master registry) — resolve before the generic jawa/keraton branch
+            const adatJawaNames = {
+                'keraton agung': 'jawa-keraton-agung', 'sekar kedhaton': 'jawa-sekar-kedhaton',
+                'gunungan emas': 'jawa-gunungan-emas', 'batik parang': 'jawa-batik-parang',
+                'gebyok ukir': 'jawa-gebyok-ukir', 'melati kraton': 'jawa-melati-kraton',
+                'sogan klasik': 'jawa-sogan-klasik', 'wijaya kusuma': 'jawa-wijaya-kusuma',
+                'sekar jagad': 'jawa-sekar-jagad', 'prada ayu': 'jawa-prada-ayu',
+                'arctic frost': 'jawa-arctic-frost', 'purple dream': 'jawa-purple-dream',
+                'burgundy': 'jawa-burgundy-wine', 'ruby luxe': 'jawa-ruby-luxe',
+                'pastel mix': 'jawa-pastel-mix', 'citrus pop': 'jawa-citrus-pop',
+                'soft pink': 'jawa-soft-pink', 'midnight navy': 'jawa-midnight-navy',
+                'mega mendung': 'sunda-mega-mendung', 'siger wangi': 'sunda-siger-wangi',
+                'parahyangan': 'sunda-parahyangan', 'kembang peuteuy': 'sunda-kembang-peuteuy',
+                'ratu sunda': 'sunda-ratu-sunda', 'angklung': 'sunda-angklung-kasih',
+                'priangan lembut': 'sunda-priangan-lembut', 'sangkuriang': 'sunda-sangkuriang',
+                'dayang sumbi': 'sunda-dayang-sumbi', 'citarum': 'sunda-citarum-ayu',
+                'bunga kantil': 'sunda-bunga-kantil', 'cireundeu': 'sunda-cireundeu-asih',
+                'rumah gadang': 'minang-rumah-gadang', 'gonjong amah': 'minang-gonjong-amah',
+                'suntiang permata': 'minang-suntiang-permata', 'songket padang': 'minang-songket-padang',
+                'ranah minang': 'minang-ranah-minang', 'bundo kanduang': 'minang-bundo-kanduang',
+                'siti nurbaya': 'minang-siti-nurbaya', 'singgalang': 'minang-singgalang',
+                'marawa pusako': 'minang-marawa-pusako', 'anak daro': 'minang-anak-daro',
+                'tenun ikat': 'nusantara-tenun-ikat', 'ulos hela': 'nusantara-ulos-hela',
+                'nusantara raya': 'nusantara-nusantara-raya', 'wastra timur': 'nusantara-wastra-timur',
+                'toraja tallu': 'nusantara-toraja-tallu', 'dayak ranying': 'nusantara-dayak-ranying',
+                'bunga cengkeh': 'nusantara-bunga-cengkeh', 'sabu raijua': 'nusantara-sabu-raijua',
+                'aria': 'minimalis-aria', 'bening': 'minimalis-bening',
+                'nadi': 'minimalis-nadi', 'ruang': 'minimalis-ruang', 'kanvas': 'minimalis-kanvas',
+                'selaras': 'minimalis-selaras', 'lumen': 'minimalis-lumen', 'sudut': 'minimalis-sudut',
+                'grafik': 'minimalis-grafik', 'sunyi': 'minimalis-sunyi', 'kaca': 'minimalis-kaca',
+                'aksara': 'minimalis-aksara',
+                'monoline': 'minimalis-monoline', 'rona': 'minimalis-rona',
+                'rosalind': 'floral-rosalind', 'peony putih': 'floral-peony-putih',
+                'taman ayu': 'floral-taman-ayu', 'anggrek bulan': 'floral-anggrek-bulan',
+                'bunga kertas': 'floral-bunga-kertas', 'magnolia': 'floral-magnolia',
+                'lavender': 'floral-lavender-fields', 'sakura': 'floral-sakura-lembut',
+                'daisy pagi': 'floral-daisy-pagi', 'rosewood': 'floral-rosewood',
+                'ar-rum': 'islami-ar-rum-21', 'nurul iman': 'islami-nurul-iman',
+                'baarakallahu': 'islami-baarakallahu', 'misykah': 'islami-misykah',
+                'mihrab': 'islami-mihrab-cinta', 'salam khusyuk': 'islami-salam-khusyuk',
+                'zahra': 'islami-zahra-and-ahmad', 'barokah jannah': 'islami-barokah-jannah',
+                'dua janji': 'akad-dua-janji', 'sakral': 'akad-sakral-and-syahdu',
+                'satu hari dua acara': 'akad-satu-hari-dua-acara', 'khitbah': 'akad-khitbah',
+                'akad dan resepsi': 'akad-akad-and-resepsi', 'maison': 'internasional-maison',
+                'editorial vows': 'internasional-editorial-vows', 'nusantara fusion': 'internasional-nusantara-fusion',
+                'grand affair': 'internasional-the-grand-affair', 'bilingual bliss': 'internasional-bilingual-bliss'
+            };
+            for (const [needle, key] of Object.entries(adatJawaNames)) { if (s.includes(needle)) return key; }
+            if (s.includes('jawa') || s.includes('keraton')) {
+                const adatJawaPalettes = {
+                    'ocean blue': 'jawa-keraton-agung', 'clean white': 'jawa-sekar-kedhaton',
+                    'dusty rose': 'jawa-gunungan-emas', 'sage green': 'jawa-batik-parang',
+                    'rose gold': 'jawa-gebyok-ukir', 'blueberry': 'jawa-melati-kraton',
+                    'yellow sunshine': 'jawa-sogan-klasik', 'plum velvet': 'jawa-wijaya-kusuma',
+                    'monochrome': 'jawa-sekar-jagad', 'coral': 'jawa-prada-ayu',
+                    'arctic frost': 'jawa-arctic-frost', 'purple dream': 'jawa-purple-dream',
+                    'burgundy': 'jawa-burgundy-wine', 'ruby': 'jawa-ruby-luxe',
+                    'pastel mix': 'jawa-pastel-mix', 'citrus': 'jawa-citrus-pop',
+                    'soft pink': 'jawa-soft-pink', 'midnight navy': 'jawa-midnight-navy'
+                };
+                for (const [needle, key] of Object.entries(adatJawaPalettes)) { if (s.includes(needle)) return key; }
+            }
+            if (s.includes('nusantara') || s.includes('tenun') || s.includes('ulos') || s.includes('toraja') || s.includes('dayak') || s.includes('wastra') || s.includes('sabu') || s.includes('cengkeh')) {
+                const nuPalettes = { 'dusty rose': 'nusantara-tenun-ikat', 'sage green': 'nusantara-ulos-hela', 'rose gold': 'nusantara-nusantara-raya', 'blueberry': 'nusantara-wastra-timur', 'yellow sunshine': 'nusantara-toraja-tallu', 'plum velvet': 'nusantara-dayak-ranying', 'monochrome': 'nusantara-bunga-cengkeh', 'coral': 'nusantara-sabu-raijua' };
+                for (const [needle, key] of Object.entries(nuPalettes)) { if (s.includes(needle)) return key; }
+                return 'nusantara-tenun-ikat';
+            }
+            if (s.includes('islami') && !s.includes('floral')) {
+                const isPal = { 'burgundy': 'islami-ar-rum-21', 'ruby': 'islami-nurul-iman', 'pastel mix': 'islami-baarakallahu', 'citrus': 'islami-misykah', 'soft pink': 'islami-mihrab-cinta', 'midnight navy': 'islami-salam-khusyuk', 'cyber neon': 'islami-zahra-and-ahmad', 'bold red': 'islami-barokah-jannah' };
+                for (const [needle, key] of Object.entries(isPal)) { if (s.includes(needle)) return key; }
+                return 'islami-ar-rum-21';
+            }
+            if (s.includes('akad') || s.includes('resepsi')) {
+                const akPal = { 'rose gold': 'akad-dua-janji', 'blueberry': 'akad-sakral-and-syahdu', 'yellow sunshine': 'akad-satu-hari-dua-acara', 'plum velvet': 'akad-khitbah', 'monochrome': 'akad-akad-and-resepsi' };
+                for (const [needle, key] of Object.entries(akPal)) { if (s.includes(needle)) return key; }
+                return 'akad-dua-janji';
+            }
+            if (s.includes('internasional') || s.includes('bilingual')) {
+                const inPal = { 'earth tone': 'internasional-maison', 'lavender': 'internasional-editorial-vows', 'chocolate': 'internasional-nusantara-fusion', 'orange': 'internasional-the-grand-affair', 'cherry blossom': 'internasional-bilingual-bliss' };
+                for (const [needle, key] of Object.entries(inPal)) { if (s.includes(needle)) return key; }
+                return 'internasional-maison';
+            }
+            if (s.includes('floral') || s.includes('pastel floral')) {
+                const flPal = { 'clean white': 'floral-rosalind', 'dusty rose': 'floral-peony-putih', 'sage green': 'floral-taman-ayu', 'rose gold': 'floral-anggrek-bulan', 'blueberry': 'floral-bunga-kertas', 'yellow sunshine': 'floral-magnolia', 'plum velvet': 'floral-lavender-fields', 'monochrome': 'floral-sakura-lembut' };
+                for (const [needle, key] of Object.entries(flPal)) { if (s.includes(needle)) return key; }
+                return 'floral-rosalind';
+            }
+            if (s.includes('minimalis') || s.includes('korporat') || s.includes('rustic')) {
+                const moPal = { 'citrus': 'minimalis-aria', 'soft pink': 'minimalis-bening', 'midnight navy': 'minimalis-nadi', 'cyber neon': 'minimalis-ruang', 'bold red': 'minimalis-kanvas', 'mint': 'minimalis-selaras', 'ocean blue': 'minimalis-lumen', 'clean white': 'minimalis-sudut', 'dusty rose': 'minimalis-grafik', 'sage green': 'minimalis-sunyi', 'rose gold': 'minimalis-kaca', 'blueberry': 'minimalis-aksara', 'yellow sunshine': 'minimalis-monoline', 'plum velvet': 'minimalis-rona' };
+                for (const [needle, key] of Object.entries(moPal)) { if (s.includes(needle)) return key; }
+                return 'minimalis-aria';
+            }
+            if (s.includes('minang') || s.includes('padang') || s.includes('gonjong')) {
+                const minangPalettes = { 'burgundy': 'minang-rumah-gadang', 'ruby': 'minang-gonjong-amah', 'pastel mix': 'minang-suntiang-permata', 'citrus': 'minang-songket-padang', 'soft pink': 'minang-ranah-minang', 'midnight navy': 'minang-bundo-kanduang', 'cyber neon': 'minang-siti-nurbaya', 'bold red': 'minang-singgalang', 'mint': 'minang-marawa-pusako', 'ocean blue': 'minang-anak-daro' };
+                for (const [needle, key] of Object.entries(minangPalettes)) { if (s.includes(needle)) return key; }
+                return 'minang-rumah-gadang';
+            }
+            if (s.includes('sunda')) {
+                const sundaPalettes = { 'sage green': 'sunda-mega-mendung', 'sage': 'sunda-mega-mendung', 'rose gold': 'sunda-siger-wangi', 'rose': 'sunda-siger-wangi', 'blueberry': 'sunda-parahyangan', 'yellow sunshine': 'sunda-kembang-peuteuy', 'plum velvet': 'sunda-ratu-sunda', 'monochrome': 'sunda-angklung-kasih', 'coral': 'sunda-priangan-lembut', 'arctic frost': 'sunda-sangkuriang', 'purple dream': 'sunda-dayang-sumbi', 'burgundy': 'sunda-citarum-ayu', 'ruby': 'sunda-bunga-kantil', 'pastel mix': 'sunda-cireundeu-asih' };
+                for (const [needle, key] of Object.entries(sundaPalettes)) { if (s.includes(needle)) return key; }
+                return 'sunda-mega-mendung';
+            }
             if (s.includes('javanese') || s.includes('keraton') || s.includes('jawa') || (s.includes('royal') && !s.includes('tasmiyah')) || s.includes('adat')) return 'javanese-royal';
             if (s.includes('chibi') || s.includes('oriental') || s.includes('chinese')) return 'chibi-red';
             if (s.includes('wildflower') || s.includes('rose') || s.includes('pink')) return 'wildflower-pink';

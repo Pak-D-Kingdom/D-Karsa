@@ -9,9 +9,15 @@ use App\Models\Guest;
 use App\Models\Rsvp;
 use App\Models\Wish;
 use App\Services\MidtransService;
+use App\Services\TemplateManager;
+use App\Services\WhatsAppBulkSender;
+use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Response;
 
 class InvitationController extends Controller
 {
@@ -20,8 +26,8 @@ class InvitationController extends Controller
         // Load data; on any DB error fall back to static placeholder values
         try {
             $couple = Couple::with([
-                'events' => fn($q) => $q->orderBy('sort_order')->orderBy('date'),
-                'galleries' => fn($q) => $q->orderBy('sort_order'),
+                'events' => fn ($q) => $q->orderBy('sort_order')->orderBy('date'),
+                'galleries' => fn ($q) => $q->orderBy('sort_order'),
             ])->first();
             if ($couple && ($couple->groom_name === 'Riko' || $couple->bride_name === 'Putri')) {
                 $couple->update([
@@ -34,12 +40,12 @@ class InvitationController extends Controller
             }
             $guest = $request->filled('to') ? Guest::where('slug', $request->query('to'))->first() : null;
             $wishes = Wish::where('is_approved', true)->latest()->take(50)->get();
-            if (!$couple) {
+            if (! $couple) {
                 throw new \Exception('No couple data');
             }
         } catch (\Exception $e) {
             // Static placeholder sufficient for view rendering without DB
-            $couple = (object)[
+            $couple = (object) [
                 'slug' => 'd-karsa',
                 // basic names
                 'groom_name' => "D'Karsa",
@@ -67,12 +73,69 @@ class InvitationController extends Controller
             $guest = null;
             $wishes = collect();
         }
+
         return view('invitation', compact('couple', 'guest', 'wishes'));
     }
 
     public function create()
     {
-        return view('builder.index');
+        return view('builder.index', ['musicLibrary' => $this->musicLibrary()]);
+    }
+
+    /**
+     * Pustaka musik latar: semua berkas audio di public/audio dan storage/app/public/audio.
+     *
+     * @return array<int, array{file: string, label: string, mood: string, url: string}>
+     */
+    private function musicLibrary(): array
+    {
+        $sources = [
+            ['dir' => public_path('audio'), 'url' => '/audio/'],
+            ['dir' => storage_path('app/public/audio'), 'url' => '/storage/audio/'],
+        ];
+
+        $library = [];
+
+        foreach ($sources as $source) {
+            if (! is_dir($source['dir'])) {
+                continue;
+            }
+
+            foreach (glob($source['dir'].'/*.{mp3,wav,m4a,ogg}', GLOB_BRACE) ?: [] as $path) {
+                $file = basename($path);
+
+                if (isset($library[$file])) {
+                    continue;
+                }
+
+                $library[$file] = [
+                    'file' => $file,
+                    'label' => Str::of(pathinfo($file, PATHINFO_FILENAME))
+                        ->replace(['-', '_'], ' ')
+                        ->title()
+                        ->toString(),
+                    'mood' => $this->musicMood($file),
+                    'url' => $source['url'].$file,
+                ];
+            }
+        }
+
+        ksort($library);
+
+        return array_values($library);
+    }
+
+    private function musicMood(string $file): string
+    {
+        $name = strtolower($file);
+
+        return match (true) {
+            str_contains($name, 'wedding') => 'Romantis',
+            str_contains($name, 'celebration') => 'Ceria',
+            str_contains($name, 'islamic') => 'Islami',
+            str_contains($name, 'lullaby') => 'Lembut',
+            default => 'Instrumental',
+        };
     }
 
     public function store(Request $request)
@@ -151,7 +214,10 @@ class InvitationController extends Controller
 
             // Extras
             'music_url' => 'nullable|string|max:255',
+            'music_source' => 'nullable|string|in:library,upload',
+            'music_file' => 'nullable|file|mimes:mp3,wav,m4a,ogg|max:10240',
             'thank_you_note' => 'nullable|string|max:1000',
+            'story' => 'nullable|string|max:4000',
             'gallery_photos.*' => 'nullable|image|max:5120',
             'is_in_catalog' => 'nullable|boolean',
         ];
@@ -174,23 +240,23 @@ class InvitationController extends Controller
 
         $validated = $request->validate($rules, $messages);
 
-        $category = !empty($validated['category']) ? ucwords(strtolower(trim($validated['category']))) : 'Pernikahan';
+        $category = ! empty($validated['category']) ? ucwords(strtolower(trim($validated['category']))) : 'Pernikahan';
         $isNonWedding = ($category !== 'Pernikahan');
-        $brideName = !empty($validated['bride_name']) 
-            ? $validated['bride_name'] 
+        $brideName = ! empty($validated['bride_name'])
+            ? $validated['bride_name']
             : ($isNonWedding ? 'Keluarga' : 'Mempelai Wanita');
-        $brideFullName = !empty($validated['bride_fullname'])
+        $brideFullName = ! empty($validated['bride_fullname'])
             ? $validated['bride_fullname']
             : ($isNonWedding ? 'Keluarga Besar' : $brideName);
 
         // Generate unique slug
         $slugBase = $validated['groom_name'];
-        if (!$isNonWedding && !empty($validated['bride_name'])) {
-            $slugBase .= '-' . $validated['bride_name'];
+        if (! $isNonWedding && ! empty($validated['bride_name'])) {
+            $slugBase .= '-'.$validated['bride_name'];
         }
-        $rawSlug = !empty($validated['slug']) ? Str::slug($validated['slug']) : Str::slug($slugBase);
+        $rawSlug = ! empty($validated['slug']) ? Str::slug($validated['slug']) : Str::slug($slugBase);
         if (empty($rawSlug)) {
-            $rawSlug = 'undangan-' . Str::lower(Str::random(6));
+            $rawSlug = 'undangan-'.Str::lower(Str::random(6));
         }
         $slug = $rawSlug;
         $count = 2;
@@ -226,21 +292,27 @@ class InvitationController extends Controller
         $customDesign = $request->input('custom_design_request');
 
         $storyNotes = [];
-        if (!empty($validated['sub_category'])) {
-            $storyNotes[] = "Sub-Kategori: " . $validated['sub_category'];
+        if (! empty($validated['sub_category'])) {
+            $storyNotes[] = 'Sub-Kategori: '.$validated['sub_category'];
         }
-        if (!empty($selectedPackage)) {
-            $storyNotes[] = "Paket: " . $selectedPackage;
+        if (! empty($selectedPackage)) {
+            $storyNotes[] = 'Paket: '.$selectedPackage;
         }
-        if (!empty($selectedTheme)) {
-            $storyNotes[] = "Tema: " . $selectedTheme;
+        if (! empty($selectedTheme)) {
+            $storyNotes[] = 'Tema: '.$selectedTheme;
         }
-        if (!empty($customDesign)) {
-            $storyNotes[] = "Request Kustom Desain: " . $customDesign;
+        if (! empty($customDesign)) {
+            $storyNotes[] = 'Request Kustom Desain: '.$customDesign;
         }
 
         $amount = MidtransService::getPackagePrice($selectedPackage);
         $invoiceNumber = MidtransService::generateInvoiceNumber();
+
+        $musicUrl = $validated['music_url'] ?? null;
+        if ($request->hasFile('music_file')) {
+            $musicPath = $request->file('music_file')->store('audio/uploads', 'public');
+            $musicUrl = 'storage/'.$musicPath;
+        }
 
         $couple = Couple::create([
             'slug' => $slug,
@@ -251,9 +323,9 @@ class InvitationController extends Controller
             'amount' => $amount,
             'invoice_number' => $invoiceNumber,
             'payment_status' => 'pending',
-            'event_heading' => (!empty($validated['event_heading'])) ? $validated['event_heading'] : ($isNonWedding ? "UNDANGAN " . strtoupper($category) : "WALIMATUL 'URSY"),
+            'event_heading' => (! empty($validated['event_heading'])) ? $validated['event_heading'] : ($isNonWedding ? 'UNDANGAN '.strtoupper($category) : "WALIMATUL 'URSY"),
             'groom_name' => $validated['groom_name'],
-            'groom_fullname' => (!empty($validated['groom_fullname'])) ? $validated['groom_fullname'] : $validated['groom_name'],
+            'groom_fullname' => (! empty($validated['groom_fullname'])) ? $validated['groom_fullname'] : $validated['groom_name'],
             'groom_birth_order' => $validated['groom_birth_order'] ?? null,
             'groom_father' => $validated['groom_father'] ?? null,
             'groom_mother' => $validated['groom_mother'] ?? null,
@@ -271,8 +343,8 @@ class InvitationController extends Controller
             'display_order' => $validated['display_order'] ?? 'groom_first',
             'cover_photo' => $coverPhotoPath,
             'wedding_date' => $validated['wedding_date'],
-            'venue_name' => (!empty($validated['event_2_venue'])) ? $validated['event_2_venue'] : ((!empty($validated['event_1_venue'])) ? $validated['event_1_venue'] : 'Lokasi Acara'),
-            'quote' => (!empty($validated['quote'])) ? $validated['quote'] : 'Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya.',
+            'venue_name' => (! empty($validated['event_2_venue'])) ? $validated['event_2_venue'] : ((! empty($validated['event_1_venue'])) ? $validated['event_1_venue'] : 'Lokasi Acara'),
+            'quote' => (! empty($validated['quote'])) ? $validated['quote'] : 'Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya.',
 
             'bank_name_1' => $validated['bank_name_1'] ?? null,
             'bank_account_1' => $validated['bank_account_1'] ?? null,
@@ -281,9 +353,9 @@ class InvitationController extends Controller
             'bank_account_2' => $validated['bank_account_2'] ?? null,
             'bank_holder_2' => $validated['bank_holder_2'] ?? null,
             'gift_address' => $validated['gift_address'] ?? null,
-            'music_url' => $validated['music_url'] ?? null,
+            'music_url' => $musicUrl,
             'thank_you_note' => $validated['thank_you_note'] ?? null,
-            'story' => !empty($storyNotes) ? implode("\n", $storyNotes) : null,
+            'story' => $validated['story'] ?? (! empty($storyNotes) ? implode("\n", $storyNotes) : null),
             'customer_name' => $validated['customer_name'] ?? null,
             'customer_phone' => $validated['customer_phone'] ?? null,
             'status' => 'pending',
@@ -294,16 +366,16 @@ class InvitationController extends Controller
         if ($request->has('events') && is_array($request->input('events')) && count($request->input('events')) > 0) {
             $sortOrder = 1;
             foreach ($request->input('events') as $evData) {
-                if (!empty($evData['title']) || !empty($evData['venue_name']) || !empty($evData['address'])) {
+                if (! empty($evData['title']) || ! empty($evData['venue_name']) || ! empty($evData['address'])) {
                     Event::create([
                         'couple_id' => $couple->id,
-                        'title' => !empty($evData['title']) ? $evData['title'] : 'Rangkaian Acara ' . $sortOrder,
-                        'date' => !empty($evData['date']) ? $evData['date'] : $validated['wedding_date'],
+                        'title' => ! empty($evData['title']) ? $evData['title'] : 'Rangkaian Acara '.$sortOrder,
+                        'date' => ! empty($evData['date']) ? $evData['date'] : $validated['wedding_date'],
                         'start_time' => $evData['start_time'] ?? null,
                         'end_time' => $evData['end_time'] ?? null,
-                        'venue_name' => !empty($evData['venue_name']) ? $evData['venue_name'] : 'Lokasi Acara',
+                        'venue_name' => ! empty($evData['venue_name']) ? $evData['venue_name'] : 'Lokasi Acara',
                         'address' => $evData['address'] ?? null,
-                        'maps_url' => !empty($evData['maps_url']) ? $evData['maps_url'] : 'https://maps.google.com',
+                        'maps_url' => ! empty($evData['maps_url']) ? $evData['maps_url'] : 'https://maps.google.com',
                         'sort_order' => $sortOrder,
                     ]);
                     $sortOrder++;
@@ -311,31 +383,31 @@ class InvitationController extends Controller
             }
         } else {
             // Fallback: Create Event 1 (Akad / Acara Utama)
-            if (!empty($validated['event_1_title']) || !empty($validated['event_1_venue'])) {
+            if (! empty($validated['event_1_title']) || ! empty($validated['event_1_venue'])) {
                 Event::create([
                     'couple_id' => $couple->id,
-                    'title' => (!empty($validated['event_1_title'])) ? $validated['event_1_title'] : ($category === 'Pernikahan' ? 'Akad Nikah' : 'Acara Utama'),
-                    'date' => (!empty($validated['event_1_date'])) ? $validated['event_1_date'] : $validated['wedding_date'],
-                    'start_time' => (!empty($validated['event_1_start_time'])) ? $validated['event_1_start_time'] : '08:00 WIB',
-                    'end_time' => (!empty($validated['event_1_end_time'])) ? $validated['event_1_end_time'] : '10:00 WIB',
-                    'venue_name' => (!empty($validated['event_1_venue'])) ? $validated['event_1_venue'] : 'Masjid / Lokasi Acara',
+                    'title' => (! empty($validated['event_1_title'])) ? $validated['event_1_title'] : ($category === 'Pernikahan' ? 'Akad Nikah' : 'Acara Utama'),
+                    'date' => (! empty($validated['event_1_date'])) ? $validated['event_1_date'] : $validated['wedding_date'],
+                    'start_time' => (! empty($validated['event_1_start_time'])) ? $validated['event_1_start_time'] : '08:00 WIB',
+                    'end_time' => (! empty($validated['event_1_end_time'])) ? $validated['event_1_end_time'] : '10:00 WIB',
+                    'venue_name' => (! empty($validated['event_1_venue'])) ? $validated['event_1_venue'] : 'Masjid / Lokasi Acara',
                     'address' => $validated['event_1_address'] ?? null,
-                    'maps_url' => (!empty($validated['event_1_maps_url'])) ? $validated['event_1_maps_url'] : 'https://maps.google.com',
+                    'maps_url' => (! empty($validated['event_1_maps_url'])) ? $validated['event_1_maps_url'] : 'https://maps.google.com',
                     'sort_order' => 1,
                 ]);
             }
 
             // Fallback: Create Event 2 (Resepsi / Tasyakuran)
-            if (!empty($validated['event_2_venue']) || !empty($validated['event_2_title'])) {
+            if (! empty($validated['event_2_venue']) || ! empty($validated['event_2_title'])) {
                 Event::create([
                     'couple_id' => $couple->id,
-                    'title' => (!empty($validated['event_2_title'])) ? $validated['event_2_title'] : ($category === 'Pernikahan' ? 'Resepsi Pernikahan' : 'Ramah Tamah & Tasyakuran'),
-                    'date' => (!empty($validated['event_2_date'])) ? $validated['event_2_date'] : $validated['wedding_date'],
-                    'start_time' => (!empty($validated['event_2_start_time'])) ? $validated['event_2_start_time'] : '11:00 WIB',
-                    'end_time' => (!empty($validated['event_2_end_time'])) ? $validated['event_2_end_time'] : '14:00 WIB',
-                    'venue_name' => (!empty($validated['event_2_venue'])) ? $validated['event_2_venue'] : 'Ballroom / Gedung Serbaguna',
+                    'title' => (! empty($validated['event_2_title'])) ? $validated['event_2_title'] : ($category === 'Pernikahan' ? 'Resepsi Pernikahan' : 'Ramah Tamah & Tasyakuran'),
+                    'date' => (! empty($validated['event_2_date'])) ? $validated['event_2_date'] : $validated['wedding_date'],
+                    'start_time' => (! empty($validated['event_2_start_time'])) ? $validated['event_2_start_time'] : '11:00 WIB',
+                    'end_time' => (! empty($validated['event_2_end_time'])) ? $validated['event_2_end_time'] : '14:00 WIB',
+                    'venue_name' => (! empty($validated['event_2_venue'])) ? $validated['event_2_venue'] : 'Ballroom / Gedung Serbaguna',
                     'address' => $validated['event_2_address'] ?? null,
-                    'maps_url' => (!empty($validated['event_2_maps_url'])) ? $validated['event_2_maps_url'] : 'https://maps.google.com',
+                    'maps_url' => (! empty($validated['event_2_maps_url'])) ? $validated['event_2_maps_url'] : 'https://maps.google.com',
                     'sort_order' => 2,
                 ]);
             }
@@ -397,7 +469,7 @@ class InvitationController extends Controller
         if (($status === 'settlement' || $status === 'capture' || $statusCode == '200') && $couple->payment_status !== 'paid') {
             app(MidtransService::class)->markAsPaid(
                 $couple,
-                'Midtrans - ' . strtoupper($request->query('payment_type', 'Virtual Account / QRIS')),
+                'Midtrans - '.strtoupper($request->query('payment_type', 'Virtual Account / QRIS')),
                 $request->query('order_id')
             );
             session()->flash('payment_success', 'Pembayaran via Midtrans berhasil diverifikasi! Undangan Anda kini telah aktif.');
@@ -409,8 +481,8 @@ class InvitationController extends Controller
     public function showInvitation(Request $request, string $slug)
     {
         $couple = Couple::with([
-            'events' => fn($q) => $q->orderBy('sort_order')->orderBy('date'),
-            'galleries' => fn($q) => $q->orderBy('sort_order'),
+            'events' => fn ($q) => $q->orderBy('sort_order')->orderBy('date'),
+            'galleries' => fn ($q) => $q->orderBy('sort_order'),
         ])->where('slug', $slug)->firstOrFail();
 
         // Check if invitation is still pending review
@@ -424,29 +496,33 @@ class InvitationController extends Controller
         }
 
         $toParam = $request->query('to');
+        // Tautan memakai tanda hubung (Bapak-Andi-Wijaya) → nama asli dikembalikan dengan spasi.
+        $toName = $this->guestNameFromParam($toParam);
         $guest = null;
 
-        if (!empty($toParam)) {
+        if (! empty($toParam)) {
             $guest = Guest::where('couple_id', $couple->id)
-                ->where('slug', $toParam)
+                ->where(function ($query) use ($toParam, $toName) {
+                    $query->where('slug', $toParam)->orWhere('slug', Str::slug($toName));
+                })
                 ->first();
 
-            if (!$guest) {
-                $guest = Guest::where('slug', $toParam)->first();
+            if (! $guest) {
+                $guest = Guest::where('slug', $toParam)->orWhere('slug', Str::slug($toName))->first();
             }
 
-            if (!$guest) {
-                $guest = (object)[
-                    'name' => $toParam,
-                    'slug' => Str::slug($toParam),
+            if (! $guest) {
+                $guest = (object) [
+                    'name' => $toName,
+                    'slug' => Str::slug($toName),
                     'category' => 'Tamu Undangan',
                     'quota' => 2,
                 ];
             }
         }
 
-        if (!$guest) {
-            $guest = (object)[
+        if (! $guest) {
+            $guest = (object) [
                 'name' => 'Bapak / Ibu / Saudara/i',
                 'slug' => 'tamu-kehormatan',
                 'category' => 'Tamu Kehormatan',
@@ -460,93 +536,183 @@ class InvitationController extends Controller
             ->take(50)
             ->get();
 
-        $templateKey = \App\Services\TemplateManager::resolveKey($couple->theme, $couple->category, $couple->sub_category);
-        $template = \App\Services\TemplateManager::get($templateKey);
+        $templateKey = TemplateManager::resolveKey($couple->theme, $couple->category, $couple->sub_category);
+        $template = TemplateManager::get($templateKey);
         $isDemo = false;
         $galleries = $couple->galleries;
 
         return view($template['blade'], compact('couple', 'guest', 'wishes', 'isAdminPreview', 'template', 'isDemo', 'galleries'));
     }
 
-    public function demoTemplate(Request $request, string $templateKey)
+    /**
+     * Indeks demo lokal: 179 template × 4 paket, dikelompokkan per bab.
+     */
+    public function demoIndex()
     {
+        $rows = json_decode((string) @file_get_contents(base_path('docs/template-pricing-catalog.json')), true) ?: [];
+        $themes = collect(TemplateManager::all())->keyBy('key');
+        $groups = [];
+
+        foreach ($rows as $row) {
+            $key = $row['template_key'] ?? null;
+            if (! $key || ! $themes->has($key)) {
+                continue;
+            }
+
+            $groups[$row['l1_bab'] ?? 'Lainnya'][] = [
+                'key' => $key,
+                'code' => $row['code'] ?? '',
+                'name' => $themes[$key]['name'] ?? $key,
+                'style' => $row['l3_style'] ?? '',
+                'color' => $row['l4_color_name'] ?? '',
+            ];
+        }
+
+        ksort($groups);
+
+        return view('demo-index', [
+            'groups' => $groups,
+            'total' => array_sum(array_map('count', $groups)),
+        ]);
+    }
+
+    public function demoTemplate(Request $request, string $templateKey, ?string $tier = null)
+    {
+        // Paket bisa lewat segmen path (/demo/{key}/premium) atau query (?tier=premium).
+        if ($tier !== null && in_array($tier, ['basic', 'premium', 'eksklusif', 'kustom'], true)) {
+            $request->query->set('tier', $tier);
+        }
+
         $category = $request->query('category');
         $subCategory = $request->query('sub_category');
-        $key = \App\Services\TemplateManager::resolveKey($templateKey, $category, $subCategory);
-        $template = \App\Services\TemplateManager::get($key);
+        $key = TemplateManager::resolveKey($templateKey, $category, $subCategory);
+        $template = TemplateManager::get($key);
 
         // Allow live query parameters (e.g. from Builder Live Preview frame)
         $overrides = [];
-        if ($request->filled('groom_name')) $overrides['groom_name'] = $request->query('groom_name');
-        if ($request->filled('bride_name')) $overrides['bride_name'] = $request->query('bride_name');
-        if ($request->filled('groom_fullname')) $overrides['groom_fullname'] = $request->query('groom_fullname');
-        if ($request->filled('bride_fullname')) $overrides['bride_fullname'] = $request->query('bride_fullname');
-        if ($request->filled('groom_birth_order')) $overrides['groom_birth_order'] = $request->query('groom_birth_order');
-        if ($request->filled('groom_father')) $overrides['groom_father'] = $request->query('groom_father');
-        if ($request->filled('groom_mother')) $overrides['groom_mother'] = $request->query('groom_mother');
-        if ($request->filled('groom_parents')) $overrides['groom_parents'] = $request->query('groom_parents');
-        if ($request->filled('groom_city')) $overrides['groom_city'] = $request->query('groom_city');
+        if ($request->filled('groom_name')) {
+            $overrides['groom_name'] = $request->query('groom_name');
+        }
+        if ($request->filled('bride_name')) {
+            $overrides['bride_name'] = $request->query('bride_name');
+        }
+        if ($request->filled('groom_fullname')) {
+            $overrides['groom_fullname'] = $request->query('groom_fullname');
+        }
+        if ($request->filled('bride_fullname')) {
+            $overrides['bride_fullname'] = $request->query('bride_fullname');
+        }
+        if ($request->filled('groom_birth_order')) {
+            $overrides['groom_birth_order'] = $request->query('groom_birth_order');
+        }
+        if ($request->filled('groom_father')) {
+            $overrides['groom_father'] = $request->query('groom_father');
+        }
+        if ($request->filled('groom_mother')) {
+            $overrides['groom_mother'] = $request->query('groom_mother');
+        }
+        if ($request->filled('groom_parents')) {
+            $overrides['groom_parents'] = $request->query('groom_parents');
+        }
+        if ($request->filled('groom_city')) {
+            $overrides['groom_city'] = $request->query('groom_city');
+        }
 
-        if ($request->filled('bride_birth_order')) $overrides['bride_birth_order'] = $request->query('bride_birth_order');
-        if ($request->filled('bride_father')) $overrides['bride_father'] = $request->query('bride_father');
-        if ($request->filled('bride_mother')) $overrides['bride_mother'] = $request->query('bride_mother');
-        if ($request->filled('bride_parents')) $overrides['bride_parents'] = $request->query('bride_parents');
-        if ($request->filled('bride_city')) $overrides['bride_city'] = $request->query('bride_city');
+        if ($request->filled('bride_birth_order')) {
+            $overrides['bride_birth_order'] = $request->query('bride_birth_order');
+        }
+        if ($request->filled('bride_father')) {
+            $overrides['bride_father'] = $request->query('bride_father');
+        }
+        if ($request->filled('bride_mother')) {
+            $overrides['bride_mother'] = $request->query('bride_mother');
+        }
+        if ($request->filled('bride_parents')) {
+            $overrides['bride_parents'] = $request->query('bride_parents');
+        }
+        if ($request->filled('bride_city')) {
+            $overrides['bride_city'] = $request->query('bride_city');
+        }
 
         if ($request->filled('wedding_date')) {
             try {
-                $overrides['wedding_date'] = \Carbon\Carbon::parse($request->query('wedding_date'));
-            } catch (\Exception $e) {}
+                $overrides['wedding_date'] = Carbon::parse($request->query('wedding_date'));
+            } catch (\Exception $e) {
+            }
         }
-        if ($request->filled('venue_name')) $overrides['venue_name'] = $request->query('venue_name');
-        if ($request->filled('quote')) $overrides['quote'] = $request->query('quote');
-        if ($request->filled('event_heading')) $overrides['event_heading'] = $request->query('event_heading');
-        if ($request->filled('category')) $overrides['category'] = $request->query('category');
-        if ($request->filled('sub_category')) $overrides['sub_category'] = $request->query('sub_category');
-        if ($request->filled('cover_photo')) $overrides['cover_photo'] = $request->query('cover_photo');
-        if ($request->filled('groom_photo')) $overrides['groom_photo'] = $request->query('groom_photo');
-        if ($request->filled('bride_photo')) $overrides['bride_photo'] = $request->query('bride_photo');
+        if ($request->filled('venue_name')) {
+            $overrides['venue_name'] = $request->query('venue_name');
+        }
+        if ($request->filled('quote')) {
+            $overrides['quote'] = $request->query('quote');
+        }
+        if ($request->filled('event_heading')) {
+            $overrides['event_heading'] = $request->query('event_heading');
+        }
+        if ($request->filled('category')) {
+            $overrides['category'] = $request->query('category');
+        }
+        if ($request->filled('sub_category')) {
+            $overrides['sub_category'] = $request->query('sub_category');
+        }
+        if ($request->filled('cover_photo')) {
+            $overrides['cover_photo'] = $request->query('cover_photo');
+        }
+        if ($request->filled('groom_photo')) {
+            $overrides['groom_photo'] = $request->query('groom_photo');
+        }
+        if ($request->filled('bride_photo')) {
+            $overrides['bride_photo'] = $request->query('bride_photo');
+        }
 
         // Bank and Gift parameters with full cross-key compatibility
         $bName1 = $request->query('bank_name_1') ?: $request->query('bank_name');
-        if (!empty($bName1)) {
+        if (! empty($bName1)) {
             $overrides['bank_name_1'] = $bName1;
             $overrides['bank_name'] = $bName1;
         }
 
         $bAcc1 = $request->query('bank_account_1') ?: $request->query('account_number');
-        if (!empty($bAcc1)) {
+        if (! empty($bAcc1)) {
             $overrides['bank_account_1'] = $bAcc1;
             $overrides['account_number'] = $bAcc1;
         }
 
         $bHolder1 = $request->query('bank_holder_1') ?: $request->query('account_name');
-        if (!empty($bHolder1)) {
+        if (! empty($bHolder1)) {
             $overrides['bank_holder_1'] = $bHolder1;
             $overrides['account_name'] = $bHolder1;
         }
 
-        if ($request->filled('bank_name_2')) $overrides['bank_name_2'] = $request->query('bank_name_2');
-        if ($request->filled('bank_account_2')) $overrides['bank_account_2'] = $request->query('bank_account_2');
-        if ($request->filled('bank_holder_2')) $overrides['bank_holder_2'] = $request->query('bank_holder_2');
-        if ($request->filled('gift_address')) $overrides['gift_address'] = $request->query('gift_address');
+        if ($request->filled('bank_name_2')) {
+            $overrides['bank_name_2'] = $request->query('bank_name_2');
+        }
+        if ($request->filled('bank_account_2')) {
+            $overrides['bank_account_2'] = $request->query('bank_account_2');
+        }
+        if ($request->filled('bank_holder_2')) {
+            $overrides['bank_holder_2'] = $request->query('bank_holder_2');
+        }
+        if ($request->filled('gift_address')) {
+            $overrides['gift_address'] = $request->query('gift_address');
+        }
 
         // Custom events override if provided via JSON array or legacy event parameters
         if ($request->filled('events_json')) {
             $rawEvents = json_decode($request->query('events_json'), true);
             if (is_array($rawEvents) && count($rawEvents) > 0) {
                 $evList = [];
-                $firstRawDate = !empty($rawEvents[0]['date']) ? $rawEvents[0]['date'] : null;
-                $baseDate = !empty($firstRawDate) 
-                    ? $firstRawDate 
-                    : (isset($overrides['wedding_date']) && $overrides['wedding_date'] instanceof \Carbon\Carbon
-                        ? $overrides['wedding_date']->format('Y-m-d') 
+                $firstRawDate = ! empty($rawEvents[0]['date']) ? $rawEvents[0]['date'] : null;
+                $baseDate = ! empty($firstRawDate)
+                    ? $firstRawDate
+                    : (isset($overrides['wedding_date']) && $overrides['wedding_date'] instanceof Carbon
+                        ? $overrides['wedding_date']->format('Y-m-d')
                         : now()->format('Y-m-d'));
 
                 foreach ($rawEvents as $i => $ev) {
-                    $evList[] = (object)[
-                        'title' => $ev['title'] ?? 'Acara ' . ($i + 1),
-                        'date' => !empty($ev['date']) ? $ev['date'] : $baseDate,
+                    $evList[] = (object) [
+                        'title' => $ev['title'] ?? 'Acara '.($i + 1),
+                        'date' => ! empty($ev['date']) ? $ev['date'] : $baseDate,
                         'start_time' => $ev['start_time'] ?? '',
                         'end_time' => $ev['end_time'] ?? '',
                         'venue_name' => $ev['venue_name'] ?? ($overrides['venue_name'] ?? 'Lokasi Acara'),
@@ -558,23 +724,24 @@ class InvitationController extends Controller
                 $overrides['events'] = collect($evList);
 
                 // Harmonize primary date, time, and venue from the first event
-                if (!empty($evList[0])) {
-                    if (empty($overrides['wedding_date']) && !empty($evList[0]->date)) {
+                if (! empty($evList[0])) {
+                    if (empty($overrides['wedding_date']) && ! empty($evList[0]->date)) {
                         try {
-                            $overrides['wedding_date'] = \Carbon\Carbon::parse($evList[0]->date);
-                        } catch (\Exception $e) {}
+                            $overrides['wedding_date'] = Carbon::parse($evList[0]->date);
+                        } catch (\Exception $e) {
+                        }
                     }
-                    if (!empty($evList[0]->start_time) && empty($overrides['wedding_time'])) {
+                    if (! empty($evList[0]->start_time) && empty($overrides['wedding_time'])) {
                         $overrides['wedding_time'] = $evList[0]->start_time;
                     }
-                    if (!empty($evList[0]->venue_name) && empty($overrides['venue_name'])) {
+                    if (! empty($evList[0]->venue_name) && empty($overrides['venue_name'])) {
                         $overrides['venue_name'] = $evList[0]->venue_name;
                     }
-                    if (!empty($evList[0]->address)) {
+                    if (! empty($evList[0]->address)) {
                         $overrides['venue_address'] = $evList[0]->address;
                         $overrides['address'] = $evList[0]->address;
                     }
-                    if (!empty($evList[0]->maps_url)) {
+                    if (! empty($evList[0]->maps_url)) {
                         $overrides['maps_url'] = $evList[0]->maps_url;
                     }
                 }
@@ -582,7 +749,7 @@ class InvitationController extends Controller
         } elseif ($request->filled('event_1_title') || $request->filled('event_1_venue') || $request->filled('event_2_title') || $request->filled('event_2_venue')) {
             $evList = [];
             $ev1Date = $request->query('event_1_date', $request->query('wedding_date', now()->format('Y-m-d')));
-            $evList[] = (object)[
+            $evList[] = (object) [
                 'title' => $request->query('event_1_title', 'Akad Nikah / Acara Utama'),
                 'date' => $ev1Date,
                 'start_time' => $request->query('event_1_start_time', '08:00 WIB'),
@@ -595,7 +762,7 @@ class InvitationController extends Controller
 
             if ($request->filled('event_2_title') || $request->filled('event_2_venue')) {
                 $ev2Date = $request->query('event_2_date', $ev1Date);
-                $evList[] = (object)[
+                $evList[] = (object) [
                     'title' => $request->query('event_2_title', 'Resepsi / Ramah Tamah'),
                     'date' => $ev2Date,
                     'start_time' => $request->query('event_2_start_time', '11:00 WIB'),
@@ -608,10 +775,11 @@ class InvitationController extends Controller
             }
             $overrides['events'] = collect($evList);
 
-            if (empty($overrides['wedding_date']) && !empty($ev1Date)) {
+            if (empty($overrides['wedding_date']) && ! empty($ev1Date)) {
                 try {
-                    $overrides['wedding_date'] = \Carbon\Carbon::parse($ev1Date);
-                } catch (\Exception $e) {}
+                    $overrides['wedding_date'] = Carbon::parse($ev1Date);
+                } catch (\Exception $e) {
+                }
             }
         }
 
@@ -621,7 +789,7 @@ class InvitationController extends Controller
             if (is_array($rawGalleries) && count($rawGalleries) > 0) {
                 $galList = [];
                 foreach ($rawGalleries as $i => $gImg) {
-                    $galList[] = (object)[
+                    $galList[] = (object) [
                         'image' => $gImg,
                         'sort_order' => $i + 1,
                     ];
@@ -630,14 +798,363 @@ class InvitationController extends Controller
             }
         }
 
-        $couple = \App\Services\TemplateManager::getDemoCouple($key, $overrides);
-        $guest = \App\Services\TemplateManager::getDemoGuest($request->query('to'));
-        $wishes = \App\Services\TemplateManager::getDemoWishes();
+        $couple = TemplateManager::getDemoCouple($key, $overrides);
+        $guest = TemplateManager::getDemoGuest($request->query('to'));
+        $wishes = TemplateManager::getDemoWishes();
         $isDemo = true;
         $isAdminPreview = false;
         $galleries = $couple->galleries ?? collect();
 
         return view($template['blade'], compact('couple', 'guest', 'wishes', 'isDemo', 'isAdminPreview', 'template', 'galleries'));
+    }
+
+    /**
+     * Simpan data pratinjau di server dan kembalikan tautan pendek /p/{token}.
+     * Dipakai builder untuk tombol "Buka Undangan Tes" supaya URL tidak berisi puluhan parameter.
+     */
+    public function previewLink(Request $request): JsonResponse
+    {
+        $params = $request->input('params', []);
+        if (! is_array($params)) {
+            $params = [];
+        }
+
+        $params = array_filter($params, static fn ($value) => is_scalar($value) && $value !== '');
+        $key = (string) ($request->input('template_key') ?: ($params['template_key'] ?? 'chibi-red'));
+        unset($params['template_key'], $params['_key']);
+
+        $params['_key'] = $key;
+        $token = Str::lower(Str::random(9));
+
+        Cache::put('preview:'.$token, $params, now()->addDays(30));
+
+        return response()->json([
+            'url' => route('invitation.preview', $token),
+            'token' => $token,
+        ]);
+    }
+
+    /**
+     * Tautan pratinjau pendek: muat kembali data tersimpan lalu render seperti /demo/{key}.
+     */
+    public function shortPreview(string $token)
+    {
+        $payload = Cache::get('preview:'.$token);
+        abort_unless(is_array($payload), 404);
+
+        $key = (string) ($payload['_key'] ?? 'chibi-red');
+        unset($payload['_key']);
+
+        return $this->demoTemplate(Request::create('/demo/'.$key, 'GET', $payload), $key);
+    }
+
+    /**
+     * Ubah parameter ?to= menjadi nama yang enak dibaca.
+     * "Bapak-Andi-Wijaya" → "Bapak Andi Wijaya"; nama dengan spasi dibiarkan apa adanya.
+     */
+    private function guestNameFromParam(?string $param): string
+    {
+        $raw = trim((string) $param);
+
+        if ($raw === '') {
+            return '';
+        }
+
+        $decoded = urldecode($raw);
+
+        if (! str_contains($decoded, ' ') && str_contains($decoded, '-')) {
+            $decoded = str_replace('-', ' ', $decoded);
+        }
+
+        return trim(preg_replace('/\s+/', ' ', $decoded));
+    }
+
+    /**
+     * Tes kirim satu undangan (untuk memastikan provider benar-benar bekerja).
+     */
+    public function testSendGuest(Request $request, WhatsAppBulkSender $sender): JsonResponse
+    {
+        $data = $request->validate([
+            'phone' => 'required|string|max:30',
+            'name' => 'nullable|string|max:150',
+            'slug' => 'nullable|string|max:150',
+        ]);
+
+        $name = trim((string) ($data['name'] ?? '')) ?: 'Bapak/Ibu Tamu';
+        $link = url('/u/'.($data['slug'] ?? 'undangan-anda')).'?to='.rawurlencode($this->guestNameSlug($name));
+        $outcome = $sender->send((string) $data['phone'], $name, $link);
+        $phone = $sender->normalizePhone((string) $data['phone']);
+
+        return response()->json([
+            'mode' => $sender->mode(),
+            'ok' => $outcome['ok'],
+            'simulated' => $outcome['simulated'],
+            'error' => $outcome['error'],
+            'phone' => $phone,
+            'link' => $link,
+            'wa_me' => 'https://wa.me/'.$phone.'?text='.rawurlencode($sender->messageText($name, $link)),
+        ]);
+    }
+
+    /**
+     * Kirim undangan WhatsApp ke banyak tamu dalam satu permintaan (batch).
+     * Dipanggil berulang oleh builder sampai semua tamu terkirim.
+     */
+    public function bulkSendGuests(Request $request, WhatsAppBulkSender $sender): JsonResponse
+    {
+        $data = $request->validate([
+            'slug' => 'nullable|string|max:150',
+            'base_url' => 'nullable|string|max:500',
+            'guests' => 'required|array|min:1|max:50',
+            'guests.*.name' => 'required|string|max:150',
+            'guests.*.phone' => 'required|string|max:30',
+        ]);
+
+        $base = rtrim((string) ($data['base_url'] ?? ''), '/');
+        if ($base === '') {
+            $base = url('/u/'.($data['slug'] ?: 'undangan-anda'));
+        }
+        $base = strtok($base, '?') ?: $base;
+
+        $results = [];
+        foreach ($data['guests'] as $index => $guest) {
+            $name = trim((string) $guest['name']);
+            $link = $base.'?to='.rawurlencode($this->guestNameSlug($name));
+            $outcome = $sender->send((string) $guest['phone'], $name, $link);
+
+            $results[] = [
+                'index' => $index,
+                'name' => $name,
+                'phone' => $sender->normalizePhone((string) $guest['phone']),
+                'ok' => $outcome['ok'],
+                'simulated' => $outcome['simulated'],
+                'error' => $outcome['error'],
+            ];
+        }
+
+        return response()->json([
+            'mode' => $sender->mode(),
+            'sent' => count(array_filter($results, fn ($row) => $row['ok'])),
+            'failed' => count(array_filter($results, fn ($row) => ! $row['ok'])),
+            'results' => $results,
+        ]);
+    }
+
+    /**
+     * Nama tamu → bentuk tautan: "Bapak Andi Wijaya" → "Bapak-Andi-Wijaya".
+     */
+    private function guestNameSlug(string $name): string
+    {
+        $slug = preg_replace('/\s+/u', '-', trim($name)) ?? '';
+        $slug = preg_replace('/[^\p{L}\p{N}&._-]+/u', '', $slug) ?? '';
+        $slug = preg_replace('/-+/', '-', $slug) ?? '';
+
+        return trim($slug, '-');
+    }
+
+    /**
+     * Contoh daftar tamu siap isi: Excel berformat (default) atau CSV.
+     * Dibangun manual dengan ZipArchive supaya tidak menambah dependensi.
+     */
+    public function guestTemplateSample(Request $request): Response
+    {
+        $headers = ['Nama Tamu', 'Nomor WhatsApp', 'Jumlah Orang', 'Meja / Zona'];
+        $rows = [
+            ['Bapak Andi Wijaya', '081234567890', 2, 'VIP - Meja Melati 04'],
+            ['Ibu Sari & Keluarga', '081298765432', 4, 'Reguler A1'],
+            ['Tim Marketing PT Maju', '081377778888', 6, 'Meja Sponsor 02'],
+        ];
+
+        if ($request->query('format') === 'csv') {
+            $lines = [implode(',', $headers)];
+            foreach ($rows as $row) {
+                $lines[] = implode(',', array_map(fn ($cell) => '"'.str_replace('"', '""', (string) $cell).'"', $row));
+            }
+
+            return response("\xEF\xBB\xBF".implode("\r\n", $lines)."\r\n", 200, [
+                'Content-Type' => 'text/csv; charset=UTF-8',
+                'Content-Disposition' => 'attachment; filename="contoh-daftar-tamu.csv"',
+            ]);
+        }
+
+        $path = tempnam(sys_get_temp_dir(), 'dkarsa-tamu-').'.xlsx';
+        $this->writeGuestWorkbook($path, $headers, $rows);
+
+        return response()->download($path, 'contoh-daftar-tamu.xlsx', [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ])->deleteFileAfterSend(true);
+    }
+
+    /**
+     * @param  array<int, string>  $headers
+     * @param  array<int, array<int, string|int>>  $rows
+     */
+    private function writeGuestWorkbook(string $path, array $headers, array $rows): void
+    {
+        $zip = new \ZipArchive;
+        $zip->open($path, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+
+        $col = static fn (int $index): string => chr(65 + $index);
+        $escape = static fn (string $value): string => htmlspecialchars($value, ENT_QUOTES | ENT_XML1, 'UTF-8');
+
+        // ---- Sheet 1: daftar tamu (header berwarna, kolom lebar, baris judul dibekukan) ----
+        $sheetRows = '';
+        $headerCells = '';
+        foreach ($headers as $i => $label) {
+            $headerCells .= '<c r="'.$col($i).'1" s="1" t="inlineStr"><is><t>'.$escape($label).'</t></is></c>';
+        }
+        $sheetRows .= '<row r="1" ht="28" customHeight="1">'.$headerCells.'</row>';
+
+        foreach ($rows as $r => $row) {
+            $cells = '';
+            foreach ($row as $i => $value) {
+                $ref = $col($i).($r + 2);
+                $style = $i === 2 ? 3 : ($i === 1 ? 5 : 2); // 3 = angka rata tengah, 5 = format teks (nomor HP)
+                $cells .= '<c r="'.$ref.'" s="'.$style.'" t="inlineStr"><is><t>'.$escape((string) $value).'</t></is></c>';
+            }
+            $sheetRows .= '<row r="'.($r + 2).'" ht="20" customHeight="1">'.$cells.'</row>';
+        }
+
+        $lastRow = count($rows) + 1;
+        $sheet1 = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+            .'<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'
+            .'<sheetViews><sheetView tabSelected="1" workbookViewId="0">'
+            .'<pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/>'
+            .'</sheetView></sheetViews>'
+            .'<sheetFormatPr defaultRowHeight="18"/>'
+            .'<cols>'
+            .'<col min="1" max="1" width="34" customWidth="1"/>'
+            .'<col min="2" max="2" width="20" customWidth="1"/>'
+            .'<col min="3" max="3" width="15" customWidth="1"/>'
+            .'<col min="4" max="4" width="26" customWidth="1"/>'
+            .'</cols>'
+            .'<sheetData>'.$sheetRows.'</sheetData>'
+            .'<autoFilter ref="A1:D'.$lastRow.'"/>'
+            // Urutan elemen OOXML wajib: autoFilter → dataValidations → ignoredErrors.
+            // Jumlah orang dibatasi 1-20 supaya salah isi diberi tahu jelas, bukan tampak seperti error.
+            .'<dataValidations count="1">'
+            .'<dataValidation type="whole" operator="between" sqref="C2:C400" allowBlank="1"'
+            .' showInputMessage="1" promptTitle="Jumlah Orang" prompt="Isi angka 1 sampai 20."'
+            .' showErrorMessage="1" errorTitle="Jumlah orang tidak valid" error="Isi angka 1 sampai 20.">'
+            .'<formula1>1</formula1><formula2>20</formula2></dataValidation>'
+            .'</dataValidations>'
+            // Nomor HP disimpan sebagai teks agar 0 di depan tidak hilang; matikan peringatan "angka tersimpan sebagai teks".
+            .'<ignoredErrors><ignoredError sqref="A2:D400" numberStoredAsText="1"/></ignoredErrors>'
+            .'</worksheet>';
+
+        // ---- Sheet 2: petunjuk pengisian ----
+        $guide = [
+            ['CARA MENGISI DAFTAR TAMU', 1],
+            ['', 0],
+            ['1. Tulis satu tamu per baris pada sheet "Daftar Tamu". Jangan mengubah baris judul (baris 1).', 0],
+            ['2. Kolom Nama Tamu wajib diisi. Contoh penulisan: Bapak Andi Wijaya / Ibu Sari & Keluarga / Tim Marketing PT Maju.', 0],
+            ['3. Nomor WhatsApp opsional, tulis 08xx atau 628xx. Dipakai untuk tombol kirim undangan per tamu.', 0],
+            ['4. Jumlah Orang opsional (1-20). Kalau kosong dianggap 2 orang.', 0],
+            ['5. Meja / Zona opsional, contoh: VIP - Meja Melati 04.', 0],
+            ['6. Simpan sebagai .xlsx atau .csv, lalu unggah lewat tombol "Impor Excel / CSV" di halaman builder.', 0],
+            ['7. Baris contoh (Bapak Andi Wijaya, dst.) boleh dihapus sebelum diunggah.', 0],
+            ['', 0],
+            ['Judul kolom yang dikenali: nama / name / tamu, wa / whatsapp / hp / nomor, pax / jumlah / orang, meja / seat / zona / kursi.', 2],
+        ];
+
+        $guideRows = '';
+        foreach ($guide as $r => $line) {
+            [$text, $style] = $line;
+            $rowNum = $r + 1;
+            $height = $style === 1 ? ' ht="26" customHeight="1"' : '';
+            $guideRows .= '<row r="'.$rowNum.'"'.$height.'>'
+                .'<c r="A'.$rowNum.'" s="'.$style.'" t="inlineStr"><is><t>'.$escape($text).'</t></is></c>'
+                .'</row>';
+        }
+
+        $sheet2 = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+            .'<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'
+            .'<sheetViews><sheetView workbookViewId="0"/></sheetViews>'
+            .'<sheetFormatPr defaultRowHeight="18"/>'
+            .'<cols><col min="1" max="1" width="104" customWidth="1"/></cols>'
+            .'<sheetData>'.$guideRows.'</sheetData>'
+            .'</worksheet>';
+
+        $contentTypes = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+            .'<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
+            .'<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'
+            .'<Default Extension="xml" ContentType="application/xml"/>'
+            .'<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>'
+            .'<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>'
+            .'<Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'
+            .'<Override PartName="/xl/worksheets/sheet2.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'
+            .'</Types>';
+
+        $rootRels = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+            .'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+            .'<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>'
+            .'</Relationships>';
+
+        $workbook = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+            .'<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"'
+            .' xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">'
+            .'<sheets>'
+            .'<sheet name="Daftar Tamu" sheetId="1" r:id="rId1"/>'
+            .'<sheet name="Petunjuk" sheetId="2" r:id="rId2"/>'
+            .'</sheets></workbook>';
+
+        $workbookRels = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+            .'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+            .'<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>'
+            .'<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet2.xml"/>'
+            .'<Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>'
+            .'</Relationships>';
+
+        $styles = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+            .'<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'
+            .'<numFmts count="1"><numFmt numFmtId="164" formatCode="@"/></numFmts>'
+            .'<fonts count="4">'
+            .'<font><sz val="11"/><name val="Calibri"/></font>'
+            .'<font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Calibri"/></font>'
+            .'<font><sz val="11"/><color rgb="FF1C1417"/><name val="Calibri"/></font>'
+            .'<font><b/><sz val="13"/><color rgb="FFC2185B"/><name val="Calibri"/></font>'
+            .'</fonts>'
+            .'<fills count="5">'
+            .'<fill><patternFill patternType="none"/></fill>'
+            .'<fill><patternFill patternType="gray125"/></fill>'
+            .'<fill><patternFill patternType="solid"><fgColor rgb="FFF63854"/><bgColor indexed="64"/></patternFill></fill>'
+            .'<fill><patternFill patternType="solid"><fgColor rgb="FFFFF1F3"/><bgColor indexed="64"/></patternFill></fill>'
+            .'<fill><patternFill patternType="solid"><fgColor rgb="FFFDF4F5"/><bgColor indexed="64"/></patternFill></fill>'
+            .'</fills>'
+            .'<borders count="2">'
+            .'<border><left/><right/><top/><bottom/><diagonal/></border>'
+            .'<border>'
+            .'<left style="thin"><color rgb="FFF0DDE1"/></left>'
+            .'<right style="thin"><color rgb="FFF0DDE1"/></right>'
+            .'<top style="thin"><color rgb="FFF0DDE1"/></top>'
+            .'<bottom style="thin"><color rgb="FFF0DDE1"/></bottom>'
+            .'<diagonal/></border>'
+            .'</borders>'
+            .'<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>'
+            .'<cellXfs count="6">'
+            .'<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>'
+            .'<xf numFmtId="0" fontId="1" fillId="2" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1">'
+            .'<alignment horizontal="left" vertical="center" indent="1"/></xf>'
+            .'<xf numFmtId="0" fontId="2" fillId="3" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1">'
+            .'<alignment vertical="center" wrapText="1"/></xf>'
+            .'<xf numFmtId="0" fontId="2" fillId="3" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1">'
+            .'<alignment horizontal="center" vertical="center"/></xf>'
+            .'<xf numFmtId="0" fontId="3" fillId="4" borderId="0" xfId="0" applyFont="1" applyFill="1" applyAlignment="1">'
+            .'<alignment vertical="center"/></xf>'
+            .'<xf numFmtId="164" fontId="2" fillId="3" borderId="1" xfId="0" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1">'
+            .'<alignment vertical="center" horizontal="left"/></xf>'
+            .'</cellXfs>'
+            .'<cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>'
+            .'</styleSheet>';
+
+        $zip->addFromString('[Content_Types].xml', $contentTypes);
+        $zip->addFromString('_rels/.rels', $rootRels);
+        $zip->addFromString('xl/workbook.xml', $workbook);
+        $zip->addFromString('xl/_rels/workbook.xml.rels', $workbookRels);
+        $zip->addFromString('xl/styles.xml', $styles);
+        $zip->addFromString('xl/worksheets/sheet1.xml', $sheet1);
+        $zip->addFromString('xl/worksheets/sheet2.xml', $sheet2);
+        $zip->close();
     }
 
     public function rsvp(Request $request)
@@ -655,29 +1172,29 @@ class InvitationController extends Controller
             'guest_slug' => 'nullable|string',
         ]);
 
-        $category = !empty($data['category']) ? ucwords(strtolower(trim($data['category']))) : 'Pernikahan';
+        $category = ! empty($data['category']) ? ucwords(strtolower(trim($data['category']))) : 'Pernikahan';
 
         $guestId = null;
-        if (!empty($data['guest_slug'])) {
+        if (! empty($data['guest_slug'])) {
             $guestId = Guest::where('slug', $data['guest_slug'])->value('id');
         }
 
         // Compose structured order summary if submitted from the D'Karsa Order Form
         $orderDetails = [];
         $orderDetails[] = "Kategori: {$category}";
-        if (!empty($data['package'])) {
+        if (! empty($data['package'])) {
             $orderDetails[] = "Paket: {$data['package']}";
         }
-        if (!empty($data['theme'])) {
+        if (! empty($data['theme'])) {
             $orderDetails[] = "Tema: {$data['theme']}";
         }
-        if (!empty($data['service_mode'])) {
+        if (! empty($data['service_mode'])) {
             $orderDetails[] = "Layanan: {$data['service_mode']}";
         }
-        if (!empty($data['whatsapp'])) {
+        if (! empty($data['whatsapp'])) {
             $orderDetails[] = "WA: {$data['whatsapp']}";
         }
-        if (!empty($data['message'])) {
+        if (! empty($data['message'])) {
             $orderDetails[] = "Catatan: {$data['message']}";
         }
 
@@ -687,10 +1204,10 @@ class InvitationController extends Controller
             'name' => $data['name'],
             'attendance' => $data['attendance'] ?? 'hadir',
             'guest_count' => $data['guest_count'] ?? 1,
-            'message' => !empty($orderDetails) ? implode(' | ', $orderDetails) : ($data['message'] ?? null),
+            'message' => ! empty($orderDetails) ? implode(' | ', $orderDetails) : ($data['message'] ?? null),
         ]);
 
-        $pkgText = !empty($data['package']) ? " ({$data['package']} - " . ($data['theme'] ?? 'Tema Pilihan') . ")" : '';
+        $pkgText = ! empty($data['package']) ? " ({$data['package']} - ".($data['theme'] ?? 'Tema Pilihan').')' : '';
 
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
@@ -723,11 +1240,11 @@ class InvitationController extends Controller
             'is_approved' => true,
         ]);
 
-        if (!empty($data['attendance'])) {
+        if (! empty($data['attendance'])) {
             $guestId = null;
-            if (!empty($data['guest_slug'])) {
+            if (! empty($data['guest_slug'])) {
                 $guestId = Guest::where('slug', $data['guest_slug'])->value('id');
-            } elseif (!empty($data['couple_id'])) {
+            } elseif (! empty($data['couple_id'])) {
                 $guestId = Guest::where('couple_id', $data['couple_id'])->where('name', $data['name'])->value('id');
             }
 
@@ -736,7 +1253,7 @@ class InvitationController extends Controller
                 'name' => $data['name'],
                 'attendance' => $data['attendance'],
                 'message' => $data['message'],
-                'guest_count' => (int)($data['guest_count'] ?? 1),
+                'guest_count' => (int) ($data['guest_count'] ?? 1),
                 'category' => $data['category'] ?? 'Tamu Undangan',
             ]);
         }
@@ -748,7 +1265,7 @@ class InvitationController extends Controller
             ]);
         }
 
-        if (!empty($data['attendance'])) {
+        if (! empty($data['attendance'])) {
             return back()->with('wish_success', 'Terima kasih atas ucapan doa restu dan konfirmasi kehadiran Anda!')->withFragment('rsvp');
         }
 
@@ -760,7 +1277,7 @@ class InvitationController extends Controller
      */
     protected function saveBase64Image(?string $base64Data, string $directory): ?string
     {
-        if (empty($base64Data) || !is_string($base64Data)) {
+        if (empty($base64Data) || ! is_string($base64Data)) {
             return null;
         }
 
@@ -783,12 +1300,12 @@ class InvitationController extends Controller
             $decoded = base64_decode($base64Data);
         }
 
-        if (!$decoded) {
+        if (! $decoded) {
             return null;
         }
 
-        $filename = Str::random(40) . '.' . $extension;
-        $path = trim($directory, '/') . '/' . $filename;
+        $filename = Str::random(40).'.'.$extension;
+        $path = trim($directory, '/').'/'.$filename;
         Storage::disk('public')->put($path, $decoded);
 
         return $path;

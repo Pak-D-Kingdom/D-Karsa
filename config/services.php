@@ -35,6 +35,23 @@ return [
         ],
     ],
 
+    /*
+    | WhatsApp Cloud API (Meta) — dipakai untuk kirim undangan massal sekali klik.
+    | Tanpa token & phone id, pengiriman berjalan dalam mode simulasi (dicatat, tidak dikirim).
+    */
+    'whatsapp' => [
+        // cloud = WhatsApp Cloud API (Meta) · fonnte / wablas = gateway lokal · kosong = simulasi
+        'provider' => env('WHATSAPP_PROVIDER', ''),
+        'token' => env('WHATSAPP_TOKEN', ''),
+        'phone_id' => env('WHATSAPP_PHONE_ID', ''),
+        'template' => env('WHATSAPP_TEMPLATE', ''),
+        'template_lang' => env('WHATSAPP_TEMPLATE_LANG', 'id'),
+        'version' => env('WHATSAPP_API_VERSION', 'v21.0'),
+        'fonnte_token' => env('FONNTE_TOKEN', ''),
+        'wablas_token' => env('WABLAS_TOKEN', ''),
+        'wablas_domain' => env('WABLAS_DOMAIN', ''),
+    ],
+
     'midtrans' => [
         'server_key' => env('MIDTRANS_SERVER_KEY', ''),
         'client_key' => env('MIDTRANS_CLIENT_KEY', ''),

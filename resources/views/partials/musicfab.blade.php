@@ -4,6 +4,6 @@
         style="background: rgba(255, 255, 255, 0.94); box-shadow: 0 16px 36px -12px rgba(234, 88, 12, 0.35);"
         title="Putar / Jeda Musik Latar">
     <span class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-tr from-amber-500 to-orange-500 text-white grid place-items-center text-sm shadow-inner" id="musicIcon">♪</span>
-    <span id="musicLabel" class="hidden sm:inline font-bold text-stone-800">Musik Latar</span>
+    <span id="musicLabel" class="inline font-bold text-stone-800">Musik Latar</span>
 </button>
 <audio id="bgMusic" loop preload="none" src="{{ asset('audio/wedding-melody.wav') }}"></audio>

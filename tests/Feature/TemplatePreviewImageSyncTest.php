@@ -3,9 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\Couple;
-use App\Models\Event;
-use App\Models\Gallery;
-use App\Models\Guest;
 use App\Services\TemplateManager;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -107,13 +104,13 @@ class TemplatePreviewImageSyncTest extends TestCase
                 'quote' => 'Bersama menggapai ridho-Nya dalam ikatan suci yang penuh berkah.',
             ]);
 
-            $guest = (object)['name' => 'Sahabat Tercinta'];
+            $guest = (object) ['name' => 'Sahabat Tercinta'];
             $galleries = collect([
-                (object)['image' => $base64Sample],
-                (object)['image' => $base64Sample],
+                (object) ['image' => $base64Sample],
+                (object) ['image' => $base64Sample],
             ]);
 
-            $rendered = view('templates.' . $themeKey, [
+            $rendered = view(TemplateManager::viewPath($themeKey), [
                 'couple' => $couple,
                 'guest' => $guest,
                 'galleries' => $galleries,
@@ -186,10 +183,9 @@ class TemplatePreviewImageSyncTest extends TestCase
         ];
 
         foreach ($templates as $themeKey) {
-            $response = $this->get('/demo/' . $themeKey);
+            $response = $this->get('/demo/'.$themeKey);
             $response->assertStatus(200);
             $this->assertNotEmpty($response->getContent(), "Demo route /demo/{$themeKey} returned empty content.");
         }
     }
 }
-

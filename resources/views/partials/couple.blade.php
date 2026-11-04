@@ -68,33 +68,92 @@
         {{-- Filter Section: Tier / Paket & Event Categories --}}
         <div class="space-y-3.5 mb-10">
             {{-- 1. Tier Filters --}}
-            <div class="flex items-center gap-2 overflow-x-auto pb-1" id="tierFilters" role="group" aria-label="Saring menurut tingkat harga">
-                <span class="text-xs font-bold uppercase tracking-wider text-ink3 mr-1 shrink-0">Tingkat Paket:</span>
-                <button type="button" id="chipTier_semua" onclick="filterCatalogByTier('semua')" class="chip aktif">🌟 Semua Tingkat</button>
-                <button type="button" id="chipTier_basic" onclick="filterCatalogByTier('basic')" class="chip border-emerald-300 text-emerald-800 hover:border-emerald-500">🟢 Desain Basic (Rp50k)</button>
-                <button type="button" id="chipTier_premium" onclick="filterCatalogByTier('premium')" class="chip border-blue-300 text-blue-800 hover:border-blue-500">🔵 Desain Premium (Rp110k)</button>
-                <button type="button" id="chipTier_eksklusif" onclick="filterCatalogByTier('eksklusif')" class="chip border-orange-300 text-orange-800 hover:border-orange-500">🟠 Desain Eksklusif (Rp180k)</button>
-                <button type="button" id="chipTier_kustom" onclick="filterCatalogByTier('kustom')" class="chip border-purple-300 text-purple-800 hover:border-purple-600">✨ Desain Kustom (Full Request)</button>
+            <div class="space-y-1.5">
+                <div class="flex items-center justify-between gap-2">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-ink3">Tingkat Paket</span>
+                    <span id="tierActiveLabel" class="text-[11px] font-bold text-orange-600">Semua Tingkat</span>
+                </div>
+                <div class="flex gap-1.5 overflow-x-auto pb-1 -mx-1 px-1 snap-x [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" id="tierFilters" style="-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 18px),transparent 100%);mask-image:linear-gradient(90deg,#000 calc(100% - 18px),transparent 100%)" role="group" aria-label="Saring menurut tingkat harga">
+                    <button type="button" id="chipTier_semua" onclick="filterCatalogByTier('semua')" class="chip aktif shrink-0 snap-start">🌟 <span class="hidden sm:inline">Semua Tingkat</span><span class="sm:hidden">Semua</span></button>
+                    <button type="button" id="chipTier_basic" onclick="filterCatalogByTier('basic')" class="chip shrink-0 snap-start border-emerald-300 text-emerald-800 hover:border-emerald-500">🟢 <span class="hidden sm:inline">Desain Basic (Rp50k)</span><span class="sm:hidden">Basic</span></button>
+                    <button type="button" id="chipTier_premium" onclick="filterCatalogByTier('premium')" class="chip shrink-0 snap-start border-blue-300 text-blue-800 hover:border-blue-500">🔵 <span class="hidden sm:inline">Desain Premium (Rp110k)</span><span class="sm:hidden">Premium</span></button>
+                    <button type="button" id="chipTier_eksklusif" onclick="filterCatalogByTier('eksklusif')" class="chip shrink-0 snap-start border-orange-300 text-orange-800 hover:border-orange-500">🟠 <span class="hidden sm:inline">Desain Eksklusif (Rp180k)</span><span class="sm:hidden">Eksklusif</span></button>
+                    <button type="button" id="chipTier_kustom" onclick="filterCatalogByTier('kustom')" class="chip shrink-0 snap-start border-purple-300 text-purple-800 hover:border-purple-600">✨ <span class="hidden sm:inline">Desain Kustom (Full Request)</span><span class="sm:hidden">Kustom</span></button>
+                </div>
             </div>
 
-            {{-- 2. Category Filters --}}
-            <div class="flex items-center gap-2 overflow-x-auto pb-1" id="themeFilters" role="group" aria-label="Saring menurut kategori acara">
-                <span class="text-xs font-bold uppercase tracking-wider text-ink3 mr-1 shrink-0">Kategori Acara:</span>
-                <button type="button" onclick="filterThemes('semua', this)" class="chip aktif">Semua Acara</button>
-                <button type="button" onclick="filterThemes('pernikahan', this)" class="chip">💍 Pernikahan</button>
-                <button type="button" onclick="filterThemes('tahlilan', this)" class="chip">🕯️ Doa Bersama / Tahlilan</button>
-                <button type="button" onclick="filterThemes('halalbihalal', this)" class="chip">🕌 Halal Bihalal</button>
-                <button type="button" onclick="filterThemes('khitanan', this)" class="chip">✂️ Khitanan</button>
-                <button type="button" onclick="filterThemes('aqiqah', this)" class="chip">👶 Aqiqah</button>
-                <button type="button" onclick="filterThemes('ultah', this)" class="chip">🎂 Ulang Tahun</button>
-                <button type="button" onclick="filterThemes('wisuda', this)" class="chip">🎓 Wisuda</button>
-                <button type="button" onclick="filterThemes('formal', this)" class="chip">🏛️ Acara Formal</button>
-                <button type="button" onclick="filterThemes('syukuran', this)" class="chip">🎉 Syukuran</button>
+            {{-- 2. Pengkategorian bertingkat: Bab -> Sub-Bab -> Gaya -> Warna (dilipat di mobile) --}}
+            <button type="button" id="filterPanelToggle" onclick="toggleFilterPanel()"
+                    class="w-full flex items-center justify-between rounded-2xl border border-stone-200 bg-white px-4 py-3 text-left">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-ink3">Filter &amp; Kategori</span>
+                <span class="flex items-center gap-2">
+                    <span id="filterPanelSummary" class="text-[11px] font-bold text-orange-600">Semua Bab</span>
+                    <span id="filterPanelChevron" class="text-ink3 text-xs">▴</span>
+                </span>
+            </button>
+            <div id="filterPanel" class="rounded-2xl border border-stone-200 bg-white px-3.5 py-3 space-y-2.5 overflow-hidden">
+                <div class="flex items-center justify-between gap-2">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-ink3">Pengkategorian Template</span>
+                    <span class="flex items-center gap-2.5">
+                        <span id="catalogCount" class="text-[11px] font-bold text-orange-600">— template</span>
+                        <button type="button" onclick="resetCascade()" class="text-[11px] font-bold text-ink3 hover:text-orange-600">↺ Reset</button>
+                    </span>
+                </div>
+
+                {{-- Setiap baris = satu kriteria, satu garis bisa digeser (tidak menumpuk ke bawah) --}}
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-2.5 [&>*]:min-w-0">
+                <div class="flex items-center gap-2 min-w-0">
+                    <span class="w-11 shrink-0 text-[9.5px] font-bold uppercase tracking-wider text-ink3">Bab</span>
+                    <div id="babChips" style="-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 18px),transparent 100%);mask-image:linear-gradient(90deg,#000 calc(100% - 18px),transparent 100%)" class="flex flex-nowrap gap-1.5 overflow-x-auto pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="group" aria-label="Pilih bab kategori"></div>
+                </div>
+
+                <div class="flex items-center gap-2 min-w-0">
+                    <span class="w-11 shrink-0 text-[9.5px] font-bold uppercase tracking-wider text-ink3">Sub</span>
+                    <div class="relative flex-1 min-w-0">
+                        <select id="subSelect" onchange="pickSub(this.value)"
+                                class="w-full rounded-lg border border-stone-300 px-2.5 py-[7px] text-[11px] font-semibold bg-white text-ink focus:outline-none focus:ring-2 focus:ring-orange-400 appearance-none pr-8 cursor-pointer">
+                            <option value="semua">Semua Sub-Bab</option>
+                        </select>
+                        <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-ink3 text-[10px]">▾</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 min-w-0">
+                    <span class="w-11 shrink-0 text-[9.5px] font-bold uppercase tracking-wider text-ink3">Gaya</span>
+                    <div class="relative flex-1 min-w-0">
+                        <select id="styleSelect" onchange="pickStyle(this.value)"
+                                class="w-full rounded-lg border border-stone-300 px-2.5 py-[7px] text-[11px] font-semibold bg-white text-ink focus:outline-none focus:ring-2 focus:ring-orange-400 appearance-none pr-8 cursor-pointer">
+                            <option value="semua">Semua Gaya</option>
+                        </select>
+                        <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-ink3 text-[10px]">▾</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 min-w-0">
+                    <span class="w-11 shrink-0 text-[9.5px] font-bold uppercase tracking-wider text-ink3">Warna</span>
+                    <div id="colorSwatches" style="-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 18px),transparent 100%);mask-image:linear-gradient(90deg,#000 calc(100% - 18px),transparent 100%)" class="flex flex-nowrap gap-1.5 items-center overflow-x-auto pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"></div>
+                </div>
+                </div>
+
+                <p class="text-[10.5px] text-ink3 leading-snug" id="catalogHint">Geser baris untuk melihat pilihan lain.</p>
             </div>
         </div>
 
         @php
             $themes = \App\Services\TemplateManager::getCatalogThemes();
+            $catalogJson = [];
+            $catalogFile = base_path('docs/template-pricing-catalog.json');
+            if (is_file($catalogFile)) {
+                $catalogJson = json_decode((string) file_get_contents($catalogFile), true) ?: [];
+            }
+            $catalogMeta = [];
+            foreach ($catalogJson as $ci) {
+                $catalogMeta[$ci['template_key']] = $ci;
+            }
+            $babByEventCat = [
+                'Pernikahan' => 'BAB 1', 'Ulang Tahun' => 'BAB 2', 'Aqiqah' => 'BAB 3',
+                'Khitanan' => 'BAB 3', 'Keagamaan' => 'BAB 4', 'Wisuda' => 'BAB 5', 'Acara Formal' => 'BAB 6',
+            ];
         @endphp
 
         <div id="catalogGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -103,7 +162,20 @@
                     $cardTier = $t['tier'] ?? 'eksklusif';
                     $isCustom = !empty($t['is_custom']);
                 @endphp
-                <article data-category="{{ $t['category'] }}" data-tier="{{ $cardTier }}" class="theme-card bg-white rounded-3xl border border-stone-200/90 shadow-sm hover:shadow-xl hover:border-orange-300 p-4 flex flex-col justify-between group transition duration-300 hover:-translate-y-1">
+                @php
+                    $ci = $catalogMeta[$t['template_key'] ?? $t['key'] ?? ''] ?? null;
+                    $babCode = $ci['l1_bab'] ?? ($babByEventCat[$t['event_cat'] ?? ''] ?? 'BAB 1');
+                    $subName = $ci['l2_subbab'] ?? ($t['sub_cat'] ?? '');
+                    $styleName = $ci['l3_style'] ?? '';
+                    $colorName = $ci['l4_color_name'] ?? '';
+                    // Satu desain × 4 paket (catatan paket mengikuti layar Stitch).
+                    $tierMatrix = $t['tiers'] ?? [];
+                    $tierKeys = $tierMatrix ? array_keys($tierMatrix) : [$cardTier];
+                    $tierPrices = $tierMatrix ? array_map(fn ($row) => $row['price'], $tierMatrix) : [$cardTier => ($t['price'] ?? 'Rp180.000')];
+                    $tierNotes = $tierMatrix ? array_map(fn ($row) => $row['note'], $tierMatrix) : [];
+                    $cardPrice = $t['price'] ?? ($tierPrices[$cardTier] ?? 'Rp180.000');
+                @endphp
+                <article data-category="{{ $t['category'] }}" data-tier="{{ $cardTier }}" data-tiers="{{ implode(',', $tierKeys) }}" data-tier-prices="{{ json_encode($tierPrices) }}" data-tier-notes="{{ json_encode($tierNotes) }}" data-bab="{{ $babCode }}" data-subbab="{{ $subName }}" data-style="{{ $styleName }}" data-color="{{ $colorName }}" class="theme-card bg-white rounded-3xl border border-stone-200/90 shadow-sm hover:shadow-xl hover:border-orange-300 p-4 flex flex-col justify-between group transition duration-300 hover:-translate-y-1">
                     <div>
                         <figure class="relative aspect-[16/11] rounded-2xl overflow-hidden bg-stone-100 shadow-xs cursor-pointer group/fig"
                                 onclick="{{ $isCustom ? "selectPackageCustomRequest()" : "openThemePreviewModal('" . ($t['template_key'] ?? $t['key'] ?? \Illuminate\Support\Str::slug($t['name'])) . "')" }}">
@@ -116,8 +188,8 @@
                             </span>
 
                             {{-- Price Badge on Top Right --}}
-                            <span class="absolute top-3 right-3 px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider {{ $cardTier === 'basic' ? 'bg-emerald-600 text-white' : ($cardTier === 'premium' ? 'bg-blue-600 text-white' : ($cardTier === 'kustom' ? 'bg-purple-600 text-white' : 'bg-orange-600 text-white')) }} shadow-xs">
-                                {{ $t['price'] ?? 'Rp180.000' }}
+                            <span data-js-price data-js-default="{{ $cardPrice }}" class="absolute top-3 right-3 px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider {{ $cardTier === 'basic' ? 'bg-emerald-600 text-white' : ($cardTier === 'premium' ? 'bg-blue-600 text-white' : ($cardTier === 'kustom' ? 'bg-purple-600 text-white' : 'bg-orange-600 text-white')) }} shadow-xs">
+                                {{ $cardPrice }}
                             </span>
                             
                             {{-- Centered Hover Live Preview Overlay Pill --}}
@@ -141,6 +213,7 @@
                                 <svg aria-hidden="true" class="w-4 h-4 shrink-0 text-orange-500"><use href="#i-centang-biru"></use></svg>
                             </div>
                             <p class="text-xs text-ink2 mt-1.5 leading-relaxed">{{ $t['desc'] }}</p>
+                            <p class="js-tier-note hidden mt-1.5 text-[11px] font-extrabold uppercase tracking-wider text-orange-700"></p>
                         </div>
                     </div>
 

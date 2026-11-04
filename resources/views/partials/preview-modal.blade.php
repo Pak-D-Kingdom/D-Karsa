@@ -9,7 +9,7 @@
                 <div class="flex items-center justify-between gap-2.5 sm:gap-4">
                     {{-- Left: Category Badge & Theme Title --}}
                     <div class="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
-                        <span id="previewCategoryBadge" class="shrink-0 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold bg-white text-accent border border-brand/20 shadow-sm flex items-center gap-1">
+                        <span id="previewCategoryBadge" class="hidden sm:flex shrink-0 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold bg-white text-accent border border-brand/20 shadow-sm items-center gap-1">
                             💍 Pernikahan
                         </span>
                         <div class="min-w-0 flex-1">
@@ -66,6 +66,20 @@
                         </div>
                     </div>
 
+                    {{-- Pilihan Paket: satu template, empat tingkat pengalaman --}}
+                    <div class="mt-3 w-full max-w-[340px]">
+                        <div class="flex items-center justify-between mb-1.5 px-1">
+                            <span class="text-[10px] font-extrabold uppercase tracking-wider text-ink3">Pilih Paket</span>
+                            <span id="previewTierNote" class="text-[10px] font-bold text-brand">Eksklusif</span>
+                        </div>
+                        <div id="previewTierTabs" class="flex items-center gap-1 p-1 rounded-full bg-ink/5 border border-ink/10">
+                            @foreach(['basic' => 'Basic', 'premium' => 'Premium', 'eksklusif' => 'Eksklusif', 'kustom' => 'Kustom'] as $tierKey => $tierLabel)
+                                <button type="button" data-tier="{{ $tierKey }}" onclick="setPreviewTier('{{ $tierKey }}')"
+                                        class="preview-tier-tab flex-1 px-1.5 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider transition">{{ $tierLabel }}</button>
+                            @endforeach
+                        </div>
+                    </div>
+
                     {{-- Simulator Tip & Fullscreen Link --}}
                     <div class="mt-3 text-center">
                         <a id="btnModalFullscreenDemoBottom" href="/demo/chibi-red" target="_blank" class="text-xs font-bold text-brand hover:underline inline-flex items-center gap-1.5">
@@ -82,13 +96,25 @@
                     
                     {{-- Template Selector Chips (Filtered Strictly by Category) --}}
                     <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <label class="block text-xs font-extrabold uppercase tracking-wider text-ink3">Pilihan Desain Template:</label>
-                            <span id="previewCategoryFilterLabel" class="text-[11px] font-bold text-brand bg-brand/10 px-2.5 py-0.5 rounded-full">Kategori: Pernikahan</span>
+                        <div class="flex items-center justify-between gap-2 mb-2">
+                            <label class="block text-[10.5px] font-extrabold uppercase tracking-wider text-ink3">Pilihan Desain Template</label>
+                            <span id="previewCategoryFilterLabel" class="text-[10px] font-bold text-brand bg-brand/10 px-2 py-0.5 rounded-full whitespace-nowrap">Kategori: Pernikahan</span>
                         </div>
-                        <div class="grid grid-cols-2 gap-2" id="previewThemeSelectorGrid">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="relative flex-1 min-w-0">
+                                <input id="previewThemeSearch" type="search" placeholder="Cari nama desain…" oninput="setPreviewGridQuery(this.value)"
+                                       class="w-full rounded-lg border border-stone-300 pl-7 pr-2 py-1.5 text-[11px] font-semibold text-ink placeholder:text-ink3/70 focus:outline-none focus:ring-2 focus:ring-brand/40">
+                                <span class="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-[11px] text-ink3">⌕</span>
+                            </div>
+                            <span id="previewThemeGridCount" class="text-[10px] font-bold text-ink3 whitespace-nowrap">—</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-1.5 max-h-[34vh] overflow-y-auto pr-1 [scrollbar-width:thin]" id="previewThemeSelectorGrid">
                             {{-- Dynamically populated per category via JavaScript --}}
                         </div>
+                        <button type="button" id="previewThemeShowAll" onclick="showAllPreviewThemes()"
+                                class="hidden mt-2 w-full rounded-lg border border-stone-300 py-1.5 text-[11px] font-bold text-ink2 hover:border-brand hover:text-brand transition">
+                            Tampilkan semua
+                        </button>
                     </div>
 
                     {{-- Theme Description Box --}}

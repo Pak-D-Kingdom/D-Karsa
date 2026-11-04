@@ -72,6 +72,92 @@
             'syukuran': ['syukuran', 'selamatan', 'rumah baru']
         };
 
+        // ===== Kaskade katalog: Bab -> Sub-Bab -> Gaya -> Warna =====
+        const CATALOG_DATA = @json(json_decode(file_get_contents(base_path('docs/template-pricing-catalog.json')), true) ?: []);
+        const BAB_LABEL = { 'BAB 1': '💍 Pernikahan', 'BAB 2': '🎂 Ulang Tahun', 'BAB 3': '👶 Aqiqah & Kelahiran', 'BAB 4': '🕌 Keagamaan', 'BAB 5': '🎓 Wisuda', 'BAB 6': '🏢 Acara Formal' };
+        let selBab = 'semua', selSub = 'semua', selStyle = 'semua', selColor = 'semua';
+
+        function catalogRows() {
+            return CATALOG_DATA.filter((i) => (selBab === 'semua' || i.l1_bab === selBab));
+        }
+
+        function buildCascade() {
+            const babWrap = document.getElementById('babChips');
+            if (!babWrap) return;
+
+            const babs = ['semua', ...Object.keys(BAB_LABEL)];
+            babWrap.innerHTML = babs.map((code) => {
+                const on = code === selBab;
+                const label = code === 'semua' ? 'Semua Bab' : BAB_LABEL[code];
+                return `<button type="button" onclick="pickBab('${code}')"
+                    class="shrink-0 px-2.5 py-[7px] rounded-full text-[10.5px] font-bold border transition ${on
+                        ? 'bg-orange-600 text-white border-orange-600 shadow-sm'
+                        : 'bg-white text-ink2 border-stone-300 hover:border-orange-400'}">${label}</button>`;
+            }).join('');
+
+            const subSel = document.getElementById('subSelect');
+            if (subSel) {
+                const subs = [...new Set(catalogRows().map((i) => i.l2_subbab))];
+                if (selSub !== 'semua' && !subs.includes(selSub)) selSub = 'semua';
+                subSel.innerHTML = '<option value="semua">Semua Sub-Bab (' + subs.length + ')</option>' +
+                    subs.map((sb) => `<option value="${sb}" ${sb === selSub ? 'selected' : ''}>${sb} (${catalogRows().filter((i) => i.l2_subbab === sb).length})</option>`).join('');
+            }
+
+            const styleSel = document.getElementById('styleSelect');
+            if (styleSel) {
+                const rows = catalogRows().filter((i) => selSub === 'semua' || i.l2_subbab === selSub);
+                const styles = [...new Set(rows.map((i) => i.l3_style))];
+                if (selStyle !== 'semua' && !styles.includes(selStyle)) selStyle = 'semua';
+                styleSel.innerHTML = ['semua', ...styles].map((st) => {
+                    const count = st === 'semua' ? rows.length : rows.filter((i) => i.l3_style === st).length;
+                    const label = st === 'semua' ? 'Semua Gaya (' + rows.length + ')' : st + ' (' + count + ')';
+                    return `<option value="${st}" ${st === selStyle ? 'selected' : ''}>${label}</option>`;
+                }).join('');
+            }
+
+            const sw = document.getElementById('colorSwatches');
+            if (sw) {
+                const rows = catalogRows().filter((i) => (selSub === 'semua' || i.l2_subbab === selSub) && (selStyle === 'semua' || i.l3_style === selStyle));
+                if (selColor !== 'semua' && !rows.some((i) => i.l4_color_name === selColor)) selColor = 'semua';
+                const unique = [];
+                rows.forEach((i) => { if (!unique.some((u) => u.l4_color_name === i.l4_color_name)) unique.push(i); });
+                sw.innerHTML = unique.length
+                    ? unique.map((i) => {
+                        const on = selColor === i.l4_color_name;
+                        const dots = (i.swatch_hex || []).slice(0, 2).map((h) => `<span style="width:10px;height:10px;border-radius:999px;background:${h};display:inline-block;border:1px solid rgba(0,0,0,.12)"></span>`).join('');
+                        return `<button type="button" onclick="pickColor('${i.l4_color_name.replace(/'/g, "\\'")}')"
+                            class="shrink-0 inline-flex items-center gap-1.5 whitespace-nowrap px-2.5 py-[6px] rounded-full text-[10.5px] font-semibold border transition ${on
+                                ? 'border-orange-500 bg-orange-50 text-orange-800'
+                                : 'border-stone-300 bg-white text-ink2 hover:border-orange-300'}">${dots}${i.l4_color_name}</button>`;
+                    }).join('')
+                    : '';
+            }
+
+            applyCatalogFilters();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            try { buildCascade(); } catch (e) { console.warn('cascade', e); }
+
+            // Tautan yang menyertakan ?tier=basic langsung membuka katalog pada paket tersebut.
+            const initialTier = new URLSearchParams(location.search).get('tier');
+            if (['basic', 'premium', 'eksklusif', 'kustom'].includes(initialTier)) {
+                currentSelectedTier = initialTier;
+                const chip = document.getElementById('chipTier_' + initialTier);
+                document.querySelectorAll('#tierFilters .chip').forEach((c) => c.classList.remove('aktif'));
+                if (chip) chip.classList.add('aktif');
+                const tierLabel = document.getElementById('tierActiveLabel');
+                if (tierLabel) tierLabel.textContent = { basic: 'Basic Rp50.000', premium: 'Premium Rp110.000', eksklusif: 'Eksklusif Rp180.000', kustom: 'Kustom Rp280.000' }[initialTier];
+                applyCatalogFilters();
+            }
+        });
+
+        function pickBab(code) { selBab = code; selSub = 'semua'; selStyle = 'semua'; selColor = 'semua'; buildCascade(); }
+        function pickSub(sub) { selSub = sub; selStyle = 'semua'; selColor = 'semua'; buildCascade(); }
+        function pickStyle(style) { selStyle = style; selColor = 'semua'; buildCascade(); }
+        function pickColor(color) { selColor = color; buildCascade(); }
+        function resetCascade() { selBab = selSub = selStyle = selColor = 'semua'; buildCascade(); }
+
         function applyCatalogFilters() {
             const selCat = (currentSelectedCategory || 'semua').toLowerCase();
             const allowedKeywords = catalogCategoryAliases[selCat] || [selCat];
@@ -79,16 +165,71 @@
             document.querySelectorAll('#catalogGrid .theme-card').forEach(card => {
                 const cardCat = (card.dataset.category || '').toLowerCase();
                 const cardTier = card.dataset.tier || '';
+                // Satu desain tersedia untuk 4 paket; data-tiers menentukan kecocokan filter.
+                const cardTiers = (card.dataset.tiers || cardTier).split(',').map(t => t.trim()).filter(Boolean);
 
                 const matchCat = (selCat === 'semua' || cardCat === 'semua' || cardCat === selCat || allowedKeywords.some(kw => cardCat.includes(kw)));
-                const matchTier = (currentSelectedTier === 'semua' || cardTier === currentSelectedTier);
+                const matchTier = (currentSelectedTier === 'semua' || cardTiers.includes(currentSelectedTier));
+                const matchBab = (selBab === 'semua' || card.dataset.bab === selBab);
+                const matchSub = (selSub === 'semua' || card.dataset.subbab === selSub);
+                const matchStyle = (selStyle === 'semua' || card.dataset.style === selStyle);
+                const matchColor = (selColor === 'semua' || card.dataset.color === selColor);
 
-                if (matchCat && matchTier) {
+                if (matchCat && matchTier && matchBab && matchSub && matchStyle && matchColor) {
                     card.classList.remove('hidden');
                 } else {
                     card.classList.add('hidden');
                 }
+
+                // Harga & catatan paket (mekanisme gerbang + kuota tamu) mengikuti filter aktif.
+                const priceEl = card.querySelector('[data-js-price]');
+                const noteEl = card.querySelector('.js-tier-note');
+                let prices = {};
+                let notes = {};
+                try { prices = JSON.parse(card.dataset.tierPrices || '{}'); } catch (e) { prices = {}; }
+                try { notes = JSON.parse(card.dataset.tierNotes || '{}'); } catch (e) { notes = {}; }
+
+                if (priceEl) {
+                    const tier = currentSelectedTier === 'semua' ? '' : currentSelectedTier;
+                    priceEl.textContent = (tier && prices[tier]) ? prices[tier] : (priceEl.dataset.jsDefault || priceEl.textContent);
+                    const badgeColors = { basic: 'bg-emerald-600', premium: 'bg-blue-600', eksklusif: 'bg-orange-600', kustom: 'bg-purple-600' };
+                    const activeColor = badgeColors[tier];
+                    if (activeColor) {
+                        Object.values(badgeColors).forEach((cls) => priceEl.classList.remove(cls));
+                        priceEl.classList.add(activeColor);
+                    }
+                }
+                if (noteEl) {
+                    const note = currentSelectedTier === 'semua' ? '' : (notes[currentSelectedTier] || '');
+                    noteEl.textContent = note;
+                    noteEl.classList.toggle('hidden', !note);
+                }
             });
+
+            const cards = [...document.querySelectorAll('#catalogGrid .theme-card')];
+            const shown = cards.filter((c) => !c.classList.contains('hidden')).length;
+            const counter = document.getElementById('catalogCount');
+            if (counter) counter.textContent = shown + ' template';
+            const hint = document.getElementById('catalogHint');
+            if (hint) {
+                const parts = [];
+                if (selBab !== 'semua') parts.push(selBab.replace('BAB', 'Bab'));
+                if (selSub !== 'semua') parts.push(selSub);
+                if (selStyle !== 'semua') parts.push(selStyle);
+                if (selColor !== 'semua') parts.push(selColor);
+                const tierLabel = { basic: 'Basic', premium: 'Premium', eksklusif: 'Eksklusif', kustom: 'Kustom' }[currentSelectedTier];
+                if (tierLabel) parts.unshift('Paket ' + tierLabel);
+                hint.textContent = parts.length ? 'Filter: ' + parts.join(' → ') : 'Geser baris untuk melihat pilihan lain.';
+
+                const summary = document.getElementById('filterPanelSummary');
+                if (summary) {
+                    const short = [];
+                    if (selBab !== 'semua') short.push(selBab.replace('BAB', 'Bab'));
+                    if (selSub !== 'semua') short.push(selSub);
+                    if (selStyle !== 'semua') short.push(selStyle);
+                    summary.textContent = short.length ? short.join(' · ') : 'Semua Bab';
+                }
+            }
         }
 
         // Filter Katalog Desain Berdasarkan Kategori Acara
@@ -99,9 +240,36 @@
             applyCatalogFilters();
         }
 
+        // Panel filter dilipat di mobile
+        function toggleFilterPanel() {
+            const panel = document.getElementById('filterPanel');
+            const chevron = document.getElementById('filterPanelChevron');
+            if (!panel) return;
+            panel.classList.toggle('hidden');
+            if (chevron) chevron.textContent = panel.classList.contains('hidden') ? '▾' : '▴';
+        }
+
         // Filter Katalog Desain Berdasarkan Tingkat Paket (Basic, Premium, Eksklusif, Kustom)
         function filterCatalogByTier(tier, packageName) {
             currentSelectedTier = tier;
+
+            const tierLabel = document.getElementById('tierActiveLabel');
+            if (tierLabel) {
+                tierLabel.textContent = {
+                    semua: 'Semua Tingkat',
+                    basic: 'Basic Rp50.000',
+                    premium: 'Premium Rp110.000',
+                    eksklusif: 'Eksklusif Rp180.000',
+                    kustom: 'Kustom Rp280.000'
+                }[tier] || 'Semua Tingkat';
+            }
+
+            // Tier ikut tersimpan di URL supaya tautan/refresh tetap memakai paket yang sama.
+            try {
+                const url = new URL(location.href);
+                if (tier === 'semua') { url.searchParams.delete('tier'); } else { url.searchParams.set('tier', tier); }
+                history.replaceState(null, '', url);
+            } catch (e) {}
 
             // Update status chip aktif di tier filters
             document.querySelectorAll('#tierFilters .chip').forEach(c => c.classList.remove('aktif'));
@@ -200,11 +368,23 @@
 
         // Pilih Tema dari Katalog & Alihkan Langsung ke Halaman Buat Undangan Sendiri (/buat-undangan)
         function selectThemeAndOrder(themeName, packageVal, eventCat, subCat) {
+            // Paket mengikuti filter yang sedang aktif, bukan tier default kartu.
+            const packageByTier = {
+                basic: 'Paket Basic - Rp50.000',
+                premium: 'Paket Premium - Rp110.000',
+                eksklusif: 'Paket Eksklusif - Rp180.000',
+                kustom: 'Paket Kustom - Rp280.000'
+            };
+            if (currentSelectedTier && currentSelectedTier !== 'semua' && packageByTier[currentSelectedTier]) {
+                packageVal = packageByTier[currentSelectedTier];
+            }
+
             const params = new URLSearchParams();
             if (eventCat) params.append('category', eventCat);
             if (subCat) params.append('sub_category', subCat);
             if (themeName) params.append('theme', themeName);
             if (packageVal) params.append('package', packageVal);
+            if (currentSelectedTier && currentSelectedTier !== 'semua') params.append('tier', currentSelectedTier);
             const query = params.toString() ? '?' + params.toString() : '';
             window.location.href = "{{ route('invitation.create') }}" + query;
         }
@@ -1199,45 +1379,54 @@
             'syukuran': '{{ asset("audio/wedding-melody.wav") }}',
         };
 
-        const categoryTemplates = {
-            'pernikahan': [
-                { slug: 'chibi-red', name: 'Chibi Red Oriental', tag: 'Oriental Red & 3D', icon: '囍', iconBg: 'bg-red-100 text-red-700', demoUrl: '/demo/chibi-red' },
-                { slug: 'wildflower-pink', name: 'Wildflower Pink', tag: 'Kubah Lengkung & Lilin', icon: '🌸', iconBg: 'bg-pink-100 text-pink-700', demoUrl: '/demo/wildflower-pink' },
-                { slug: '3d-javanese-royal', name: '3D Javanese Royal', tag: 'Keraton Gunungan 3D', icon: '👑', iconBg: 'bg-amber-100 text-amber-800', demoUrl: '/demo/javanese-royal' },
-                { slug: 'simple-minimalist-floral', name: 'Minimalist Floral', tag: 'Clean Editorial Modern', icon: '🌿', iconBg: 'bg-emerald-100 text-emerald-800', demoUrl: '/demo/minimalist-floral' },
-                { slug: 'snowfall-minimalist-white', name: 'SnowFall Minimalist', tag: 'Pure White Snowfall', icon: '❄️', iconBg: 'bg-sky-100 text-sky-800', demoUrl: '/demo/snowfall-white' },
-                { slug: 'batak-istimewa-heritage', name: 'Batak Istimewa', tag: 'Ulos Marun & Emas', icon: '🧣', iconBg: 'bg-rose-100 text-rose-800', demoUrl: '/demo/batak-heritage' }
-            ],
-            'keagamaan': [
-                { slug: 'doa-bersama-tahlilan-khusyuk', name: 'Doa Bersama & Tahlilan', tag: 'Khusyuk & Sopan', icon: '🕯️', iconBg: 'bg-slate-100 text-slate-800', demoUrl: '/demo/tahlilan-khusyuk' },
-                { slug: 'ketupat-raya-silaturahmi', name: 'Ketupat Raya Silaturahmi', tag: 'Halal Bihalal & Silaturahmi', icon: '✨', iconBg: 'bg-amber-100 text-amber-800', demoUrl: '/demo/halal-bihalal' },
-                { slug: 'tasyakuran-doa-rumah-baru', name: 'Tasyakuran Rumah Baru', tag: 'Syukuran & Doa Bersama', icon: '🏡', iconBg: 'bg-teal-100 text-teal-800', demoUrl: '/demo/syukuran-rumah' },
-                { slug: 'green-mosque', name: 'Green Mosque Syiar', tag: 'Tabligh Akbar & Tausiyah', icon: '🕌', iconBg: 'bg-emerald-100 text-emerald-800', demoUrl: '/demo/green-mosque' },
-                { slug: 'walimatus-safar', name: 'Walimatus Safar Mubarok', tag: 'Haji & Umrah Ka\'bah Kiswah', icon: '🕋', iconBg: 'bg-amber-100 text-amber-800', demoUrl: '/demo/walimatus-safar' }
-            ],
-            'aqiqah': [
-                { slug: 'little-prince', name: 'Little Prince Nordic', tag: 'Aqiqah Bayi Nordic Basic', icon: '👶', iconBg: 'bg-sky-100 text-sky-800', demoUrl: '/demo/little-prince' },
-                { slug: 'walimatul-khitan-sahaja', name: 'Walimatul Khitan Sahaja', tag: 'Khitanan Sahaja Basic', icon: '✂️', iconBg: 'bg-emerald-100 text-emerald-800', demoUrl: '/demo/walimatul-khitan-sahaja' },
-                { slug: 'sweet-baby-pastel-aqiqah', name: 'Sweet Baby Pastel', tag: 'Aqiqah Bayi & Tasmiyah', icon: '🍼', iconBg: 'bg-pink-100 text-pink-700', demoUrl: '/demo/baby-aqiqah' },
-                { slug: 'walimatul-khitan-berkah-sholeh', name: 'Walimatul Khitan Berkah', tag: 'Khitanan Islami Sholeh', icon: '🕌', iconBg: 'bg-blue-100 text-blue-700', demoUrl: '/demo/walimatul-khitan' },
-                { slug: 'royal-tasmiyah', name: 'Royal Tasmiyah Sultan', tag: 'Tasmiyah & Aqiqah Mewah', icon: '👑', iconBg: 'bg-emerald-100 text-emerald-800', demoUrl: '/demo/royal-tasmiyah' }
-            ],
-            'wisuda': [
-                { slug: 'modern-graduate', name: 'Modern Graduate Editorial', tag: 'Monokrom Majalah Basic', icon: '📜', iconBg: 'bg-slate-100 text-slate-800', demoUrl: '/demo/modern-graduate' },
-                { slug: 'wisuda-sarjana-prestasi-emas', name: 'Wisuda Sarjana Emas', tag: 'Wisuda & Kelulusan', icon: '🎓', iconBg: 'bg-amber-100 text-amber-800', demoUrl: '/demo/wisuda-sarjana' },
-                { slug: 'scholar-luxury', name: 'Scholar Luxury Gala', tag: 'Valedictorian Ivy League', icon: '🏆', iconBg: 'bg-blue-100 text-blue-800', demoUrl: '/demo/scholar-luxury' }
-            ],
-            'ulang-tahun': [
-                { slug: 'cheerful-birthday', name: 'Cheerful Confetti Birthday', tag: 'Pesta Ceria Fun Minimalist', icon: '🎉', iconBg: 'bg-orange-100 text-orange-800', demoUrl: '/demo/cheerful-birthday' },
-                { slug: 'kids-birthday-party-balon-ceria', name: 'Kids Birthday Balon Ceria', tag: 'Pesta Ceria Anak & Games', icon: '🎈', iconBg: 'bg-pink-100 text-pink-700', demoUrl: '/demo/kids-birthday' },
-                { slug: 'golden-luxury-birthday-milad', name: 'Golden Luxury Birthday', tag: 'Sweet 17th & Milad', icon: '🎂', iconBg: 'bg-yellow-100 text-yellow-800', demoUrl: '/demo/golden-birthday' }
-            ],
-            'acara-formal': [
-                { slug: 'clean-seminar', name: 'Clean Tech Seminar & Workshop', tag: 'Simposium & Konferensi Basic', icon: '🎙️', iconBg: 'bg-sky-100 text-sky-800', demoUrl: '/demo/clean-seminar' },
-                { slug: 'reuni-akbar', name: 'Reuni Akbar Sapphire Silver', tag: 'Gala Dinner Alumni Navy', icon: '🥂', iconBg: 'bg-blue-100 text-blue-800', demoUrl: '/demo/reuni-akbar' },
-                { slug: 'executive-corporate-grand-opening', name: 'Executive Corporate', tag: 'Grand Opening & Bisnis', icon: '🏢', iconBg: 'bg-indigo-100 text-indigo-800', demoUrl: '/demo/formal-corporate' }
-            ]
-        };
+        @php
+            $catKeyMap = [
+                'Pernikahan' => 'pernikahan',
+                'Ulang Tahun' => 'ulang-tahun',
+                'Aqiqah' => 'aqiqah',
+                'Keagamaan' => 'keagamaan',
+                'Wisuda' => 'wisuda',
+                'Acara Formal' => 'acara-formal',
+            ];
+            $iconByCat = [
+                'pernikahan' => ['&#128141;', 'bg-rose-100 text-rose-800'],
+                'ulang-tahun' => ['&#127874;', 'bg-orange-100 text-orange-800'],
+                'aqiqah' => ['&#127868;', 'bg-sky-100 text-sky-800'],
+                'keagamaan' => ['&#128332;', 'bg-emerald-100 text-emerald-800'],
+                'wisuda' => ['&#127891;', 'bg-amber-100 text-amber-800'],
+                'acara-formal' => ['&#127970;', 'bg-indigo-100 text-indigo-800'],
+            ];
+            $genTemplates = ['pernikahan' => [], 'ulang-tahun' => [], 'aqiqah' => [], 'keagamaan' => [], 'wisuda' => [], 'acara-formal' => []];
+            foreach (\App\Services\TemplateManager::all() as $tk => $tm) {
+                if (! empty($tm['legacy'])) {
+                    continue; // 179 template suite modern saja (× 4 paket)
+                }
+                $ck = $catKeyMap[$tm['category'] ?? 'Pernikahan'] ?? 'pernikahan';
+                $subLabel = trim((string) ($tm['sub'] ?? ''));
+                $paletteLabel = trim((string) ($tm['palette'] ?? ''));
+                $tagLabel = $subLabel !== '' && $paletteLabel !== '' && $subLabel !== $paletteLabel
+                    ? $subLabel . ' &bull; ' . $paletteLabel
+                    : ($paletteLabel !== '' ? $paletteLabel : ($subLabel !== '' ? $subLabel : ($tm['category'] ?? "D'Karsa")));
+                $cleanTag = html_entity_decode(strip_tags($tagLabel), ENT_QUOTES, 'UTF-8');
+                $cleanName = (string) ($tm['name'] ?? $tk);
+                if (mb_strtolower(trim($cleanTag)) === mb_strtolower(trim($cleanName)) || trim($cleanTag) === '') {
+                    $cleanTag = $tm['category'] ?? "D'Karsa";
+                }
+                $genTemplates[$ck][] = [
+                    'slug' => $tk,
+                    'name' => $cleanName,
+                    'tag' => $cleanTag,
+                    'icon' => html_entity_decode($iconByCat[$ck][0], ENT_QUOTES, 'UTF-8'),
+                    'iconBg' => $iconByCat[$ck][1],
+                    'demoUrl' => '/demo/' . $tk,
+                    'catKey' => $ck,
+                    'catLabel' => $tm['category'] ?? 'Pernikahan',
+                    'cover' => $tm['default_cover'] ?? ($tm['img'] ?? ''),
+                    'desc' => $tm['desc'] ?? '',
+                ];
+            }
+        @endphp
+        const categoryTemplates = @json($genTemplates);
 
         let currentPreviewSlug = 'chibi-red';
         let currentCategoryKey = 'pernikahan';
@@ -1342,44 +1531,95 @@
             }
 
             const list = categoryTemplates[catKey] || categoryTemplates['pernikahan'];
-            grid.innerHTML = list.map(item => {
-                const isActive = (item.slug === activeSlug || 
-                                 (activeSlug.includes('chibi') && item.slug === 'chibi-red') || 
-                                 ((activeSlug.includes('wildflower') || activeSlug.includes('rose')) && item.slug === 'wildflower-pink') ||
-                                 (activeSlug.includes('javanese') && item.slug === '3d-javanese-royal') ||
-                                 ((activeSlug.includes('wisuda') || activeSlug.includes('sarjana') || activeSlug.includes('graduate')) && item.slug.includes(activeSlug)) ||
-                                 ((activeSlug.includes('cheerful') || activeSlug.includes('confetti')) && item.slug === 'cheerful-birthday') ||
-                                 ((activeSlug.includes('birthday') || activeSlug.includes('milad') || activeSlug.includes('golden')) && item.slug.includes('golden')) ||
-                                 ((activeSlug.includes('seminar') || activeSlug.includes('workshop')) && item.slug === 'clean-seminar') ||
-                                 ((activeSlug.includes('mosque') || activeSlug.includes('syiar')) && item.slug === 'green-mosque') ||
-                                 ((activeSlug.includes('safar') || activeSlug.includes('haji')) && item.slug === 'walimatus-safar') ||
-                                 ((activeSlug.includes('halal') || activeSlug.includes('ketupat')) && item.slug === 'ketupat-raya-silaturahmi') ||
-                                 ((activeSlug.includes('little-prince') || activeSlug.includes('prince') || activeSlug.includes('nordic')) && item.slug === 'little-prince') ||
-                                 ((activeSlug.includes('royal-tasmiyah') || activeSlug.includes('tasmiyah') || activeSlug.includes('sultan')) && item.slug === 'royal-tasmiyah') ||
-                                 (activeSlug.includes('sahaja') && item.slug === 'walimatul-khitan-sahaja') ||
-                                 (!activeSlug.includes('sahaja') && (activeSlug.includes('walimatul-khitan') || activeSlug.includes('khitan') || activeSlug.includes('sunat')) && item.slug === 'walimatul-khitan-berkah-sholeh') ||
-                                 ((activeSlug.includes('baby') || activeSlug.includes('pastel')) && item.slug === 'sweet-baby-pastel-aqiqah'));
-                const activeStyle = isActive 
-                    ? 'border-brand bg-brand/5 ring-2 ring-brand/30 shadow-md font-bold' 
-                    : 'border-ink/15 bg-white hover:border-brand shadow-sm';
-                
-                return `
-                    <button type="button" onclick="openThemePreviewModal('${item.slug}')" class="p-2.5 rounded-xl border text-left transition flex items-center gap-2 ${activeStyle}">
-                        <span class="w-8 h-8 rounded-lg ${item.iconBg} flex items-center justify-center text-sm font-bold shrink-0">${item.icon}</span>
-                        <div class="min-w-0 flex-1">
-                            <b class="text-xs text-ink block truncate">${item.name}</b>
-                            <span class="text-[10px] text-brand block truncate">${item.tag}</span>
-                        </div>
-                    </button>
-                `;
-            }).join('');
+    const query = (previewGridQuery || '').toLowerCase().trim();
+    const filtered = query
+        ? list.filter((i) => (String(i.name) + ' ' + String(i.tag)).toLowerCase().includes(query))
+        : list;
+    const shown = filtered.slice(0, previewGridLimit);
+
+    grid.innerHTML = shown.map(item => {
+        const isActive = (item.slug === activeSlug ||
+            (activeSlug.includes('chibi') && item.slug === 'chibi-red') ||
+            ((activeSlug.includes('wildflower') || activeSlug.includes('rose')) && item.slug === 'wildflower-pink') ||
+            (activeSlug.includes('javanese') && item.slug === '3d-javanese-royal') ||
+            ((activeSlug.includes('wisuda') || activeSlug.includes('sarjana') || activeSlug.includes('graduate')) && item.slug.includes(activeSlug)) ||
+            ((activeSlug.includes('cheerful') || activeSlug.includes('confetti')) && item.slug === 'cheerful-birthday') ||
+            ((activeSlug.includes('birthday') || activeSlug.includes('milad') || activeSlug.includes('golden')) && item.slug.includes('golden')) ||
+            ((activeSlug.includes('seminar') || activeSlug.includes('workshop')) && item.slug === 'clean-seminar') ||
+            ((activeSlug.includes('mosque') || activeSlug.includes('syiar')) && item.slug === 'green-mosque') ||
+            ((activeSlug.includes('safar') || activeSlug.includes('haji')) && item.slug === 'walimatus-safar') ||
+            ((activeSlug.includes('halal') || activeSlug.includes('ketupat')) && item.slug === 'ketupat-raya-silaturahmi') ||
+            ((activeSlug.includes('little-prince') || activeSlug.includes('prince') || activeSlug.includes('nordic')) && item.slug === 'little-prince') ||
+            ((activeSlug.includes('royal-tasmiyah') || activeSlug.includes('tasmiyah') || activeSlug.includes('sultan')) && item.slug === 'royal-tasmiyah') ||
+            (activeSlug.includes('sahaja') && item.slug === 'walimatul-khitan-sahaja') ||
+            (!activeSlug.includes('sahaja') && (activeSlug.includes('walimatul-khitan') || activeSlug.includes('khitan') || activeSlug.includes('sunat')) && item.slug === 'walimatul-khitan-berkah-sholeh') ||
+            ((activeSlug.includes('baby') || activeSlug.includes('pastel')) && item.slug === 'sweet-baby-pastel-aqiqah'));
+        const activeStyle = isActive
+            ? 'border-brand bg-brand/5 ring-2 ring-brand/30 shadow-md'
+            : 'border-ink/12 bg-white hover:border-brand shadow-xs';
+
+        const thumb = item.cover
+            ? `<img src="${item.cover}" alt="" loading="lazy" class="w-9 h-9 rounded-md object-cover shrink-0 bg-sunk">`
+            : `<span class="w-9 h-9 rounded-md ${item.iconBg} grid place-items-center text-xs shrink-0">${item.icon}</span>`;
+
+        return `
+            <button type="button" onclick="openThemePreviewModal('${item.slug}')" class="p-1.5 rounded-lg border text-left transition flex items-center gap-2 ${activeStyle}">
+                ${thumb}
+                <div class="min-w-0 flex-1">
+                    <b class="text-[10.5px] text-ink block leading-tight line-clamp-2">${item.name}</b>
+                    <span class="text-[8.5px] font-bold uppercase tracking-wide text-brand block truncate mt-0.5">${item.tag}</span>
+                </div>
+            </button>
+        `;
+    }).join('') || '<p class="col-span-2 text-[11px] text-ink3 py-3 text-center">Tidak ada desain yang cocok.</p>';
+
+    const countEl = document.getElementById('previewThemeGridCount');
+    if (countEl) countEl.textContent = filtered.length ? shown.length + '/' + filtered.length : '0';
+    const showAllBtn = document.getElementById('previewThemeShowAll');
+    if (showAllBtn) {
+        const more = filtered.length - shown.length;
+        showAllBtn.classList.toggle('hidden', more <= 0);
+        showAllBtn.textContent = 'Tampilkan semua (' + filtered.length + ')';
+    }
+        }
+
+        function findTemplateEntry(slug) {
+            for (const key in categoryTemplates) {
+                const found = categoryTemplates[key].find((item) => item.slug === slug);
+                if (found) { return Object.assign({}, found, { catKey: key }); }
+            }
+            return null;
+        }
+
+        function themeForEntry(entry) {
+            const base = themePreviews['chibi-red'];
+            if (!entry) { return base; }
+            return Object.assign({}, base, {
+                name: entry.name,
+                category: entry.catLabel,
+                catKey: entry.catKey,
+                subCat: (entry.tag && entry.tag.toLowerCase() !== String(entry.name).toLowerCase()) ? entry.tag : entry.catLabel,
+                badge: entry.icon + ' ' + entry.catLabel + ' - ' + entry.name,
+                desc: entry.desc || base.desc,
+                coverImg: entry.cover || base.coverImg,
+                coverTitle: entry.name,
+                coverBadge: (entry.tag && entry.tag.toLowerCase() !== String(entry.name).toLowerCase())
+                    ? entry.tag
+                    : String(entry.catLabel || "D'Karsa").toUpperCase(),
+            });
         }
 
         function openThemePreviewModal(slug) {
+            // Paket yang dipilih di filter harus dipakai oleh pratinjau & tautan demo.
+            if (currentSelectedTier && currentSelectedTier !== 'semua') {
+                currentPreviewTier = currentSelectedTier;
+            }
             const rawSlug = (slug || '').toLowerCase();
-            
+            const directEntry = findTemplateEntry(rawSlug);
+
             // Map legacy / alternative slugs to canonical themePreviews keys
             let matchedSlug = rawSlug;
+            if (!directEntry) {
             if (rawSlug.includes('chibi') || rawSlug.includes('oriental')) matchedSlug = 'chibi-red';
             else if (rawSlug.includes('wildflower') || rawSlug.includes('rose-romance') || rawSlug.includes('elegant-rose')) matchedSlug = 'wildflower-pink';
             else if (rawSlug.includes('javanese') || rawSlug.includes('keraton')) matchedSlug = '3d-javanese-royal';
@@ -1405,16 +1645,19 @@
             else if (rawSlug.includes('reuni') || rawSlug.includes('alumni')) matchedSlug = 'reuni-akbar';
             else if (rawSlug.includes('baby') || rawSlug.includes('pastel') || rawSlug.includes('aqiqah')) matchedSlug = 'sweet-baby-pastel-aqiqah';
             else if (rawSlug.includes('corporate') || rawSlug.includes('formal') || rawSlug.includes('opening')) matchedSlug = 'executive-corporate-grand-opening';
+            }
 
-            const theme = themePreviews[matchedSlug] || themePreviews[rawSlug] || themePreviews['chibi-red'];
-            currentCategoryKey = detectCategoryKey(matchedSlug, theme);
+            const theme = directEntry
+                ? themeForEntry(directEntry)
+                : (themePreviews[matchedSlug] || themePreviews[rawSlug] || themePreviews['chibi-red']);
+            currentCategoryKey = directEntry ? directEntry.catKey : detectCategoryKey(matchedSlug, theme);
             currentPreviewSlug = matchedSlug;
 
             renderThemePreview(theme, matchedSlug);
             renderCategorySelectorGrid(matchedSlug, currentCategoryKey);
 
             // Determine target iframe url strictly matching the template
-            let targetUrl = demoUrlMap[matchedSlug] || demoUrlMap[rawSlug];
+            let targetUrl = directEntry ? directEntry.demoUrl : (demoUrlMap[matchedSlug] || demoUrlMap[rawSlug]);
             if (!targetUrl) {
                 const catList = categoryTemplates[currentCategoryKey] || categoryTemplates['pernikahan'];
                 const foundItem = catList.find(item => item.slug === matchedSlug || item.slug === rawSlug);
@@ -1453,14 +1696,8 @@
                 }
             }
 
-            const iframe = document.getElementById('previewModalIframe');
-            if (iframe) iframe.src = targetUrl;
-            const btnFs = document.getElementById('btnModalFullscreenDemo');
-            if (btnFs) btnFs.href = targetUrl;
-            const btnFsMob = document.getElementById('btnModalFullscreenDemoMobile');
-            if (btnFsMob) btnFsMob.href = targetUrl;
-            const btnFsBtm = document.getElementById('btnModalFullscreenDemoBottom');
-            if (btnFsBtm) btnFsBtm.href = targetUrl;
+            currentPreviewUrl = targetUrl;
+            applyPreviewTier();
 
             const modal = document.getElementById('themePreviewModal');
             const box = document.getElementById('themePreviewBox');
@@ -1473,6 +1710,55 @@
                 }, 10);
                 document.body.classList.add('overflow-hidden');
             }
+        }
+
+        let previewGridLimit = 6;
+    let previewGridQuery = '';
+
+    function setPreviewGridQuery(value) {
+        previewGridQuery = value || '';
+        previewGridLimit = 6;
+        renderCategorySelectorGrid(currentPreviewSlug, currentCategoryKey);
+    }
+
+    function showAllPreviewThemes() {
+        previewGridLimit = 9999;
+        renderCategorySelectorGrid(currentPreviewSlug, currentCategoryKey);
+    }
+
+    let currentPreviewUrl = '/demo/chibi-red';
+        let currentPreviewTier = 'eksklusif';
+
+        function previewTierUrl(tier) {
+            const base = currentPreviewUrl.split('?')[0].split('#')[0];
+            const qs = currentPreviewUrl.indexOf('?') >= 0 ? currentPreviewUrl.slice(currentPreviewUrl.indexOf('?')) : '';
+            return base + (qs ? qs + '&' : '?') + 'tier=' + encodeURIComponent(tier);
+        }
+
+        // Satu template, empat paket: pratinjau & tautan layar penuh selalu membawa tier aktif.
+        function applyPreviewTier() {
+            const url = previewTierUrl(currentPreviewTier);
+            const iframe = document.getElementById('previewModalIframe');
+            if (iframe) iframe.src = url;
+            ['btnModalFullscreenDemo', 'btnModalFullscreenDemoMobile', 'btnModalFullscreenDemoBottom'].forEach((id) => {
+                const el = document.getElementById(id);
+                if (el) el.href = url;
+            });
+            document.querySelectorAll('#previewTierTabs [data-tier]').forEach((btn) => {
+                const on = btn.dataset.tier === currentPreviewTier;
+                btn.classList.toggle('bg-brand', on);
+                btn.classList.toggle('text-white', on);
+                btn.classList.toggle('text-ink2', !on);
+                btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+            });
+            const note = document.getElementById('previewTierNote');
+            if (note) note.textContent = currentPreviewTier.charAt(0).toUpperCase() + currentPreviewTier.slice(1);
+        }
+
+        function setPreviewTier(tier) {
+            if (!['basic', 'premium', 'eksklusif', 'kustom'].includes(tier)) return;
+            currentPreviewTier = tier;
+            applyPreviewTier();
         }
 
         function closeThemePreview() {

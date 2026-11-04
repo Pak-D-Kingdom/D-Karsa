@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Services\TemplateManager;
 use Tests\TestCase;
 
 class TemplatePreviewDefaultIsolationTest extends TestCase
@@ -50,11 +51,11 @@ class TemplatePreviewDefaultIsolationTest extends TestCase
      */
     public function test_template_blades_do_not_contain_unsolicited_localstorage_reads(): void
     {
-        $minimalistContent = file_get_contents(resource_path('views/templates/minimalist-floral.blade.php'));
+        $minimalistContent = file_get_contents(resource_path('views/templates/pernikahan/minimalis/minimalist-floral.blade.php'));
         $this->assertStringNotContainsString('applyLivePreviewData', $minimalistContent);
         $this->assertStringNotContainsString('localStorage.getItem(\'dkarsa_preview_', $minimalistContent);
 
-        $snowfallContent = file_get_contents(resource_path('views/templates/snowfall-white.blade.php'));
+        $snowfallContent = file_get_contents(resource_path('views/templates/pernikahan/minimalis/snowfall-white.blade.php'));
         $this->assertStringNotContainsString('applyLivePreviewData', $snowfallContent);
         $this->assertStringNotContainsString('localStorage.getItem(\'dkarsa_preview_', $snowfallContent);
     }
@@ -186,10 +187,10 @@ class TemplatePreviewDefaultIsolationTest extends TestCase
                 'venue_name' => 'Rumah Pak Bambang',
                 'address' => 'Jln Prambon Kec Prambon Kab Sidoarjo',
                 'maps_url' => 'https://maps.google.com/?q=Prambon+Sidoarjo',
-            ]
+            ],
         ]);
 
-        $response = $this->get('/demo/walimatul-khitan?' . http_build_query([
+        $response = $this->get('/demo/walimatul-khitan?'.http_build_query([
             'preview' => '1',
             'bank_name_1' => 'Bank BCA',
             'bank_account_1' => '12345678',
@@ -223,10 +224,10 @@ class TemplatePreviewDefaultIsolationTest extends TestCase
                 'venue_name' => 'Rumah Pak Bambang',
                 'address' => 'Jln Prambon Kec Prambon Kab Sidoarjo',
                 'maps_url' => 'https://maps.google.com/?q=Prambon+Sidoarjo',
-            ]
+            ],
         ]);
 
-        $response = $this->get('/demo/baby-aqiqah?' . http_build_query([
+        $response = $this->get('/demo/baby-aqiqah?'.http_build_query([
             'preview' => '1',
             'bank_name_1' => 'Bank BCA',
             'bank_account_1' => '12345678',
@@ -260,10 +261,10 @@ class TemplatePreviewDefaultIsolationTest extends TestCase
                 'venue_name' => 'Rumah Pak Bambang',
                 'address' => 'Jln Prambon Kec Prambon Kab Sidoarjo',
                 'maps_url' => 'https://maps.google.com/?q=Prambon+Sidoarjo',
-            ]
+            ],
         ]);
 
-        $response = $this->get('/demo/little-prince?' . http_build_query([
+        $response = $this->get('/demo/little-prince?'.http_build_query([
             'preview' => '1',
             'bank_name_1' => 'Bank BCA',
             'bank_account_1' => '12345678',
@@ -286,21 +287,21 @@ class TemplatePreviewDefaultIsolationTest extends TestCase
      */
     public function test_template_manager_resolves_distinct_keys(): void
     {
-        $this->assertEquals('cheerful-birthday', \App\Services\TemplateManager::resolveKey('Cheerful Confetti Birthday'));
-        $this->assertEquals('golden-birthday', \App\Services\TemplateManager::resolveKey('Golden Luxury Birthday'));
-        $this->assertEquals('golden-birthday', \App\Services\TemplateManager::resolveKey('Golden Luxury Birthday / Milad'));
-        $this->assertEquals('modern-graduate', \App\Services\TemplateManager::resolveKey('Modern Graduate Editorial'));
-        $this->assertEquals('clean-seminar', \App\Services\TemplateManager::resolveKey('Clean Tech Seminar & Workshop'));
-        $this->assertEquals('green-mosque', \App\Services\TemplateManager::resolveKey('Green Mosque Syiar & Tabligh Akbar'));
-        $this->assertEquals('green-mosque', \App\Services\TemplateManager::resolveKey('Green Mosque Syiar'));
-        $this->assertEquals('little-prince', \App\Services\TemplateManager::resolveKey('Little Prince Nordic Aqiqah'));
-        $this->assertEquals('little-prince', \App\Services\TemplateManager::resolveKey('Little Prince Nordic'));
-        $this->assertEquals('royal-tasmiyah', \App\Services\TemplateManager::resolveKey('Royal Tasmiyah & Aqiqah Sultan'));
-        $this->assertEquals('royal-tasmiyah', \App\Services\TemplateManager::resolveKey('Royal Tasmiyah Sultan'));
-        $this->assertEquals('walimatul-khitan-sahaja', \App\Services\TemplateManager::resolveKey('Walimatul Khitan Sahaja Berkah'));
-        $this->assertEquals('walimatul-khitan-sahaja', \App\Services\TemplateManager::resolveKey('Walimatul Khitan Sahaja'));
-        $this->assertEquals('walimatul-khitan', \App\Services\TemplateManager::resolveKey('Walimatul Khitan Berkah Sholeh'));
-        $this->assertEquals('chibi-red', \App\Services\TemplateManager::resolveKey('Chibi Red Oriental'));
+        $this->assertEquals('cheerful-birthday', TemplateManager::resolveKey('Cheerful Confetti Birthday'));
+        $this->assertEquals('golden-birthday', TemplateManager::resolveKey('Golden Luxury Birthday'));
+        $this->assertEquals('golden-birthday', TemplateManager::resolveKey('Golden Luxury Birthday / Milad'));
+        $this->assertEquals('modern-graduate', TemplateManager::resolveKey('Modern Graduate Editorial'));
+        $this->assertEquals('clean-seminar', TemplateManager::resolveKey('Clean Tech Seminar & Workshop'));
+        $this->assertEquals('green-mosque', TemplateManager::resolveKey('Green Mosque Syiar & Tabligh Akbar'));
+        $this->assertEquals('green-mosque', TemplateManager::resolveKey('Green Mosque Syiar'));
+        $this->assertEquals('little-prince', TemplateManager::resolveKey('Little Prince Nordic Aqiqah'));
+        $this->assertEquals('little-prince', TemplateManager::resolveKey('Little Prince Nordic'));
+        $this->assertEquals('royal-tasmiyah', TemplateManager::resolveKey('Royal Tasmiyah & Aqiqah Sultan'));
+        $this->assertEquals('royal-tasmiyah', TemplateManager::resolveKey('Royal Tasmiyah Sultan'));
+        $this->assertEquals('walimatul-khitan-sahaja', TemplateManager::resolveKey('Walimatul Khitan Sahaja Berkah'));
+        $this->assertEquals('walimatul-khitan-sahaja', TemplateManager::resolveKey('Walimatul Khitan Sahaja'));
+        $this->assertEquals('walimatul-khitan', TemplateManager::resolveKey('Walimatul Khitan Berkah Sholeh'));
+        $this->assertEquals('chibi-red', TemplateManager::resolveKey('Chibi Red Oriental'));
     }
 
     /**
@@ -324,7 +325,7 @@ class TemplatePreviewDefaultIsolationTest extends TestCase
      */
     public function test_catalog_contains_khitan_basic_template(): void
     {
-        $themes = \App\Services\TemplateManager::getCatalogThemes();
+        $themes = TemplateManager::getCatalogThemes();
         $basicKhitanThemes = array_filter($themes, function ($t) {
             return ($t['tier'] ?? '') === 'basic' && ($t['category'] ?? '') === 'khitanan';
         });
@@ -344,10 +345,10 @@ class TemplatePreviewDefaultIsolationTest extends TestCase
         $builderContent = file_get_contents(resource_path('views/builder/index.blade.php'));
         $this->assertStringNotContainsStringIgnoringCase('chungdoi', $builderContent);
 
-        $templateFiles = glob(resource_path('views/templates/*.blade.php'));
+        $templateFiles = glob(resource_path('views/templates/*/*/*.blade.php'));
         foreach ($templateFiles as $file) {
             $content = file_get_contents($file);
-            $this->assertStringNotContainsStringIgnoringCase('chungdoi', $content, "Template " . basename($file) . " contains forbidden word.");
+            $this->assertStringNotContainsStringIgnoringCase('chungdoi', $content, 'Template '.basename($file).' contains forbidden word.');
         }
     }
 }

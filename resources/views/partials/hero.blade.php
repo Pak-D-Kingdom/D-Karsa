@@ -198,6 +198,24 @@
     </div>
 </section>
 
+{{-- Toast notifikasi salin tautan tamu --}}
+<div id="heroToast" role="status" aria-live="polite"
+     style="position:fixed;left:50%;bottom:28px;transform:translate(-50%,22px);opacity:0;pointer-events:none;
+            display:flex;gap:11px;align-items:center;padding:12px 16px;border-radius:14px;max-width:min(92vw,420px);
+            background:#14130f;color:#f6efe2;border:1px solid rgba(201,160,80,.45);
+            box-shadow:0 20px 44px -18px rgba(0,0,0,.75);z-index:90;
+            transition:opacity .28s ease, transform .34s cubic-bezier(.16,1,.3,1);">
+    <span style="width:26px;height:26px;border-radius:999px;background:#c9a050;color:#14130f;display:grid;place-items:center;
+                 font-weight:800;font-size:14px;flex:0 0 auto;">&#10003;</span>
+    <span style="min-width:0;">
+        <strong style="display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;">Tautan tamu disalin</strong>
+        <span id="heroToastLink" style="display:block;font-size:11px;color:#cbbfa6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></span>
+    </span>
+</div>
+<style>
+    #heroToast.is-on { opacity: 1 !important; transform: translate(-50%, 0) !important; }
+</style>
+
 {{-- In-Hero JavaScript for Live Link Simulator & Category Preview Switcher --}}
 <script>
     function updateHeroDemoLink(name) {
@@ -207,11 +225,32 @@
         if (resEl) resEl.textContent = url;
     }
 
+    let heroToastTimer = null;
+    function showHeroToast(link) {
+        const t = document.getElementById('heroToast');
+        const l = document.getElementById('heroToastLink');
+        if (!t) return;
+        if (l) l.textContent = link;
+        t.style.opacity = '1';
+        t.style.transform = 'translate(-50%, 0)';
+        t.classList.add('is-on');
+        clearTimeout(heroToastTimer);
+        heroToastTimer = setTimeout(() => {
+            t.style.opacity = '0';
+            t.style.transform = 'translate(-50%, 22px)';
+            t.classList.remove('is-on');
+        }, 3400);
+    }
+
     function copyHeroDemoLink() {
         const resEl = document.getElementById('demoGuestLinkResult');
-        if (resEl) {
-            navigator.clipboard.writeText('https://' + resEl.textContent.trim());
-            alert('Tautan WhatsApp personal berhasil disalin: https://' + resEl.textContent.trim());
+        if (!resEl) return;
+        const url = 'https://' + resEl.textContent.trim().replace(/^https?:\/\//, '');
+        const done = () => showHeroToast(url);
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(done).catch(done);
+        } else {
+            done();
         }
     }
 
