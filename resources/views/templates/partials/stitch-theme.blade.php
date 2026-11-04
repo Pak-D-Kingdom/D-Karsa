@@ -1587,5 +1587,6 @@
 
     try { if (window.parent && window.parent !== window) window.parent.postMessage({ type: 'PREVIEW_IFRAME_READY' }, '*'); } catch (e) {}
 </script>
+@include('templates.partials.preview-media-bridge')
 </body>
 </html>

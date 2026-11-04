@@ -790,12 +790,6 @@
                     <div class="space-y-2 pt-2 border-t border-dashed border-ink/15 sm:col-span-2 min-w-0">
                         <div class="flex items-center justify-between gap-2">
                             <label class="block text-xs font-bold uppercase tracking-wider text-ink2">Link Personal per Tamu</label>
-                            <span class="flex items-center gap-2">
-                                <span class="text-[9.5px] font-bold px-2 py-0.5 rounded-full {{ $waMode === 'simulasi' ? 'bg-amber-100 text-amber-900' : 'bg-emerald-100 text-emerald-800' }}">
-                                    WA: {{ $waMode }}
-                                </span>
-                                <span class="text-[10px] text-ink3">opsional</span>
-                            </span>
                         </div>
 
                         <div class="flex flex-wrap items-center gap-2">
@@ -3041,7 +3035,7 @@
 
         // Link tamu sengaja hanya membawa nama (?to=) supaya rapi saat dibagikan.
         function guestUrl(row) {
-            return window.location.origin + '/u/' + guestSlug() + '?to=' + encodeURIComponent(guestNameSlug(row.name));
+            return window.location.origin + '/undangan/' + guestSlug() + '?to=' + encodeURIComponent(guestNameSlug(row.name));
         }
 
         function normalizePhone(value) {
@@ -3504,9 +3498,22 @@
 
     async function openTestInvitation() {
         const win = window.open('', '_blank');
+        const media = previewPhotoPayload();
+
+        const applyMedia = () => {
+            if (!win || !hasPreviewMedia(media)) { return; }
+            try { if (win.DKarsaApplyPreviewPhotos) { win.DKarsaApplyPreviewPhotos(media); } } catch (e) {}
+        };
+
         try {
             const url = await testInvitationUrl();
-            if (win) { win.location.replace(url); } else { window.open(url, '_blank', 'noopener'); }
+            if (win) {
+                win.addEventListener('load', applyMedia);
+                win.location.replace(url);
+                setTimeout(applyMedia, 1200);
+            } else {
+                window.open(url, '_blank', 'noopener');
+            }
         } catch (e) {
             if (win) { win.close(); }
             alert('Tautan uji gagal dibuat. Silakan coba lagi.');
@@ -3660,6 +3667,41 @@
                 iframe.src = base + (base.indexOf('?') >= 0 ? '&' : '?') + 'tier=' + tier;
             }
         }
+
+        /* Foto pratinjau (cover/mempelai/galeri) dikirim ulang setiap iframe selesai dimuat,
+           karena iframe reload tiap kali isian berubah. */
+        function previewPhotoPayload() {
+            const read = (key) => { try { return sessionStorage.getItem(key) || ''; } catch (e) { return ''; } };
+            let gallery = [];
+            try { gallery = JSON.parse(read('dkarsa_preview_gallery_photos') || '[]') || []; } catch (e) { gallery = []; }
+
+            return {
+                cover: read('dkarsa_preview_cover_photo'),
+                groom: read('dkarsa_preview_groom_photo'),
+                bride: read('dkarsa_preview_bride_photo'),
+                gallery: Array.isArray(gallery) ? gallery.filter(Boolean) : [],
+            };
+        }
+
+        function hasPreviewMedia(media) {
+            return !!(media.cover || media.groom || media.bride || (media.gallery && media.gallery.length));
+        }
+
+        function pushPreviewMedia(iframe) {
+            if (!iframe || !iframe.contentWindow) { return; }
+            const media = previewPhotoPayload();
+            if (!hasPreviewMedia(media)) { return; }
+            try {
+                iframe.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_PHOTOS', photos: media }, '*');
+            } catch (e) {}
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const iframe = document.getElementById('builderLivePreviewIframe');
+            if (!iframe) { return; }
+            iframe.addEventListener('load', () => pushPreviewMedia(iframe));
+            pushPreviewMedia(iframe);
+        });
 
         // Live Single Image Preview & Sync
         function previewImageFile(input, targetImgId) {

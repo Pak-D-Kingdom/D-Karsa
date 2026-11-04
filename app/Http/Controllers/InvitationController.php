@@ -881,7 +881,7 @@ class InvitationController extends Controller
         ]);
 
         $name = trim((string) ($data['name'] ?? '')) ?: 'Bapak/Ibu Tamu';
-        $link = url('/u/'.($data['slug'] ?? 'undangan-anda')).'?to='.rawurlencode($this->guestNameSlug($name));
+        $link = url('/undangan/'.($data['slug'] ?? 'undangan-anda')).'?to='.rawurlencode($this->guestNameSlug($name));
         $outcome = $sender->send((string) $data['phone'], $name, $link);
         $phone = $sender->normalizePhone((string) $data['phone']);
 
@@ -912,7 +912,7 @@ class InvitationController extends Controller
 
         $base = rtrim((string) ($data['base_url'] ?? ''), '/');
         if ($base === '') {
-            $base = url('/u/'.($data['slug'] ?: 'undangan-anda'));
+            $base = url('/undangan/'.($data['slug'] ?: 'undangan-anda'));
         }
         $base = strtok($base, '?') ?: $base;
 

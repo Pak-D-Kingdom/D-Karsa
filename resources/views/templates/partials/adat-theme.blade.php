@@ -2131,5 +2131,6 @@
             }
         } catch (e) {}
     </script>
+@include('templates.partials.preview-media-bridge')
 </body>
 </html>
