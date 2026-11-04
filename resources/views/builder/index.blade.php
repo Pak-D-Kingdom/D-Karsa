@@ -3420,33 +3420,65 @@
             return el ? String(el.textContent || '').trim() : '';
         };
 
+        const categoryNow = (document.querySelector('input[name="category"]:checked')?.value
+            || val('select[name="category"]')
+            || 'Pernikahan');
+        const isWeddingCategory = categoryNow === 'Pernikahan';
+
+        /* Label tokoh mengikuti kategori/tema yang dipilih — pernikahan selalu dua mempelai. */
+        const PERSON_LABELS = {
+            'Pernikahan': 'Kedua Mempelai',
+            'Ulang Tahun': 'Nama Anak / Yang Berulang Tahun',
+            'Aqiqah': 'Nama Anak',
+            'Keagamaan': 'Nama Tokoh / Keluarga',
+            'Wisuda': 'Nama Wisudawan',
+            'Acara Formal': 'Nama Acara / Instansi',
+        };
+
+        const groomValue = val('#groomNameInput') || val('input[name="groom_name"]');
+        const brideValue = val('#brideNameInput') || val('input[name="bride_name"]');
+        const personRow = isWeddingCategory
+            ? {
+                label: PERSON_LABELS[categoryNow] || 'Kedua Mempelai',
+                value: [groomValue, brideValue].filter(Boolean).join(' & '),
+                required: true,
+                missing: (!groomValue || !brideValue),
+                hint: (!groomValue || !brideValue) ? 'Nama mempelai pria dan wanita wajib diisi' : '',
+            }
+            : {
+                label: PERSON_LABELS[categoryNow] || 'Nama Tokoh',
+                value: groomValue,
+                required: true,
+            };
+
         const rows = [
             { label: 'Template Terpilih', value: (typeof currentSelectedTheme !== 'undefined' ? currentSelectedTheme : '') || '-', required: false, highlight: true },
             { label: 'Paket', value: (document.querySelector('input[name="selected_package"]:checked')?.value || (typeof selectedTier === 'function' ? selectedTier() : '') || '-'), required: false, highlight: true },
             { label: 'Nama Pemesan', value: val('#customerNameInput') || val('input[name="customer_name"]'), required: true },
             { label: 'Nomor WhatsApp', value: val('#customerPhoneInput') || val('input[name="customer_phone"]'), required: true },
-            { label: 'Kategori Acara', value: val('select[name="category"]') || val('input[name="category"]'), required: true },
-            { label: 'Sub-Kategori', value: (document.getElementById('subCategorySelect')?.selectedOptions?.[0]?.textContent || val('#hiddenSubCategoryInput') || '').trim(), required: false },
+            { label: 'Kategori Acara', value: categoryNow, required: true },
+            { label: 'Sub-Kategori', value: (val('#hiddenSubCategoryInput') || document.getElementById('subCategorySelect')?.selectedOptions?.[0]?.textContent || '').trim(), required: false },
 
             { label: 'Tanggal Acara', value: val('input[name="wedding_date"]'), required: true },
-            { label: 'Nama Mempelai / Anak', value: val('#groomNameInput') || val('input[name="groom_name"]'), required: true },
+            personRow,
             { label: 'Slug Undangan', value: val('#slugInput'), required: false },
             { label: 'Jumlah Acara', value: String(document.querySelectorAll('.event-card-item').length), required: false },
             { label: 'Foto Galeri', value: String((typeof galleryDataUrls !== 'undefined' ? galleryDataUrls.length : 0)) + ' foto', required: false },
             { label: 'Musik Latar', value: (document.querySelector('input[name="music_url"]:checked') || {}).value || (document.getElementById('musicFileInput')?.files?.[0]?.name || '-'), required: false },
         ];
 
-        const missing = rows.filter((r) => r.required && (!r.value || r.value === '-'));
+        const missing = rows.filter((r) => r.required && (!r.value || r.value === '-' || r.missing));
         const body = document.getElementById('testInputBody');
         const summary = document.getElementById('testInputSummary');
         if (!body || !summary) { return; }
 
         body.innerHTML = rows.map((r) => {
-            const empty = r.required && (!r.value || r.value === '-');
+            const empty = r.required && (!r.value || r.value === '-' || r.missing);
             const tone = empty ? 'border-red-300 bg-red-50' : (r.highlight ? 'border-brand/40 bg-blush' : 'border-ink/10 bg-sunk/30');
+            const note = r.hint ? `<span class="block text-[10px] font-normal text-red-600 mt-1">${r.hint}</span>` : '';
             return `<div class="flex items-start justify-between gap-3 rounded-xl border ${tone} px-3 py-2">
                 <span class="text-ink3 font-semibold">${r.label}${r.required ? ' *' : ''}</span>
-                <span class="text-right font-bold ${empty ? 'text-red-600' : 'text-ink'} break-all">${r.value || 'kosong'}</span>
+                <span class="text-right font-bold ${empty ? 'text-red-600' : 'text-ink'} break-all">${r.value || 'kosong'}${note}</span>
             </div>`;
         }).join('');
 
