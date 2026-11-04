@@ -92,6 +92,11 @@
     }
 
     $c = $tj['c'];
+
+    // Aturan warna D'Karsa: palet siang/pastel & jewel memakai halaman terang.
+    // Hanya Midnight Navy, Cyber Neon, dan Dark Mode yang boleh gelap.
+    $colorTheme = \App\Support\ColorTheme::forPalette($palette, $c);
+    $isNightPalette = \App\Support\ColorTheme::isNight($colorTheme);
     $icons = [
         'seal' => '<path d="M12 3l7 3v5c0 4.6-3 7.8-7 9.4C8 18.8 5 15.6 5 11V6z"/><path d="M12 15.2s-2.6-1.6-2.6-3.4A1.7 1.7 0 0112 10.6a1.7 1.7 0 012.6 1.2c0 1.8-2.6 3.4-2.6 3.4z"/>',
         'mail' => '<rect x="3" y="5" width="18" height="14" rx="2.2"/><path d="M3.6 7.2l8.4 5.6 8.4-5.6"/>',
@@ -118,7 +123,7 @@
     };
 @endphp
 <!DOCTYPE html>
-<html lang="id" data-tier="{{ $tierParam }}" data-cat="{{ $cat }}"@if($wed) data-wed="{{ $wed }}"@endif>
+<html lang="id" data-tier="{{ $tierParam }}" data-cat="{{ $cat }}" data-mode="{{ $colorTheme['mode'] }}"@if($wed) data-wed="{{ $wed }}"@endif>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -132,20 +137,37 @@
 
     <style>
         :root {
-            --obsidian: #0F0E0D;
-            --navy: {{ $c['deep'] }};
-            --surface: color-mix(in srgb, {{ $c['deep'] }} 52%, #151311);
-            --surface-container: color-mix(in srgb, {{ $c['deep'] }} 74%, #151311);
-            --surface-high: color-mix(in srgb, {{ $c['deep'] }} 92%, #151311);
-            --gold: {{ $c['accent'] }};
-            --foil: #E5C158;
-            --gold-2: {{ $c['accent2'] }};
+            @if($isNightPalette)
+            --obsidian: {{ $colorTheme['page'] }};
+            --navy: {{ $colorTheme['gate'] }};
+            --surface: color-mix(in srgb, {{ $colorTheme['page'] }} 52%, #151311);
+            --surface-container: {{ $colorTheme['card'] }};
+            --surface-high: color-mix(in srgb, {{ $colorTheme['card'] }} 88%, {{ $colorTheme['page'] }});
+            --gold: {{ $colorTheme['accent'] }};
+            --foil: {{ $colorTheme['accent'] }};
+            --gold-2: color-mix(in srgb, {{ $colorTheme['accent'] }} 40%, #FFFFFF);
             --silver: #C5BC9E;
-            --on-surface: #e7e1de;
-            --muted: #d0c5af;
-            --glass: rgba({{ $hex2rgb($c['deep']) }}, .72);
-            --line: rgba(229, 193, 88, .22);
-            --line-strong: rgba(229, 193, 88, .45);
+            --on-surface: {{ $colorTheme['text'] }};
+            --muted: color-mix(in srgb, {{ $colorTheme['text'] }} 62%, {{ $colorTheme['page'] }});
+            --glass: rgba({{ $hex2rgb($colorTheme['gate']) }}, .72);
+            --line: color-mix(in srgb, {{ $colorTheme['accent'] }} 28%, transparent);
+            --line-strong: color-mix(in srgb, {{ $colorTheme['accent'] }} 55%, transparent);
+            @else
+            --obsidian: {{ $colorTheme['page'] }};
+            --navy: {{ $colorTheme['gate'] }};
+            --surface: {{ $colorTheme['page'] }};
+            --surface-container: {{ $colorTheme['card'] }};
+            --surface-high: color-mix(in srgb, {{ $colorTheme['card'] }} 92%, {{ $colorTheme['accent'] }});
+            --gold: {{ $colorTheme['accent'] }};
+            --foil: {{ $colorTheme['accent'] }};
+            --gold-2: color-mix(in srgb, {{ $colorTheme['accent'] }} 55%, #FFFFFF);
+            --silver: color-mix(in srgb, {{ $colorTheme['text'] }} 55%, {{ $colorTheme['page'] }});
+            --on-surface: {{ $colorTheme['text'] }};
+            --muted: color-mix(in srgb, {{ $colorTheme['text'] }} 66%, {{ $colorTheme['page'] }});
+            --glass: rgba(255, 255, 255, .78);
+            --line: color-mix(in srgb, {{ $colorTheme['accent'] }} 24%, transparent);
+            --line-strong: color-mix(in srgb, {{ $colorTheme['accent'] }} 48%, transparent);
+            @endif
             /* alias untuk partial guest-pass & digital-gift */
             --bg: var(--surface);
             --ink: var(--on-surface);
@@ -634,6 +656,112 @@
 
         @media (prefers-reduced-motion: reduce) {
             .gate-seal .medal, #audio-pill .mi { animation: none; }
+        }
+
+        /* ================= MODE TERANG (siang, pastel, jewel) =================
+           Aturan D'Karsa: hanya Midnight Navy, Cyber Neon, dan Dark Mode yang gelap.
+           Semua palet lain memakai halaman terang + kartu putih + tinta gelap. */
+        html[data-mode="light"] body,
+        html[data-mode="jewel"] body { background: var(--obsidian); color: var(--on-surface); }
+
+        html[data-mode="light"] .shell,
+        html[data-mode="jewel"] .shell {
+            background: var(--surface);
+            box-shadow: 0 0 0 1px var(--line), 0 30px 60px -44px rgba(16, 42, 67, .45);
+        }
+
+        html[data-mode="light"] .bg-layer,
+        html[data-mode="jewel"] .bg-layer { background: var(--surface); }
+
+        html[data-mode="light"] .topbar,
+        html[data-mode="jewel"] .topbar {
+            background: rgba(255, 255, 255, .92);
+            border-bottom: 1px solid var(--line);
+            box-shadow: 0 8px 22px -22px rgba(16, 42, 67, .55);
+        }
+
+        html[data-mode="light"] .card,
+        html[data-mode="jewel"] .card,
+        html[data-mode="light"][data-tier="eksklusif"] .card,
+        html[data-mode="light"][data-tier="kustom"] .card,
+        html[data-mode="jewel"][data-tier="eksklusif"] .card,
+        html[data-mode="jewel"][data-tier="kustom"] .card {
+            background: var(--surface-container);
+            border-color: var(--line);
+            box-shadow: 0 16px 34px -30px rgba(16, 42, 67, .45);
+        }
+
+        html[data-mode="light"] .card::before,
+        html[data-mode="jewel"] .card::before { border-color: var(--line); }
+
+        html[data-mode="light"] .ticket,
+        html[data-mode="jewel"] .ticket { background: var(--surface-container); border-color: var(--line); }
+
+        html[data-mode="light"] .plaque,
+        html[data-mode="jewel"] .plaque { background: var(--surface-high); border-color: var(--line); }
+
+        html[data-mode="light"] .eyebrow,
+        html[data-mode="jewel"] .eyebrow { color: var(--gold); }
+
+        html[data-mode="light"] .pill,
+        html[data-mode="jewel"] .pill { background: var(--surface-high); color: var(--gold); }
+
+        html[data-mode="light"] .dock,
+        html[data-mode="jewel"] .dock {
+            background: rgba(255, 255, 255, .94);
+            border-color: var(--line);
+            box-shadow: 0 16px 34px -24px rgba(16, 42, 67, .5);
+        }
+
+        html[data-mode="light"] #audio-pill,
+        html[data-mode="jewel"] #audio-pill { background: var(--surface-high); color: var(--gold); border-color: var(--line-strong); }
+
+        html[data-mode="light"] .gate-door,
+        html[data-mode="jewel"] .gate-door {
+            background: linear-gradient(160deg, color-mix(in srgb, var(--navy) 88%, #FFFFFF), var(--navy) 55%, color-mix(in srgb, var(--navy) 76%, #000));
+            border-color: var(--line-strong);
+            box-shadow: 0 24px 48px -30px rgba(16, 42, 67, .5);
+        }
+
+        html[data-mode="light"] #gate-veil,
+        html[data-mode="jewel"] #gate-veil { background: color-mix(in srgb, var(--surface) 74%, transparent); }
+
+        html[data-mode="light"] .gate-seal .plate,
+        html[data-mode="jewel"] .gate-seal .plate { background: rgba(255, 255, 255, .86); border-color: var(--line); }
+
+        html[data-mode="light"] .gate-frame,
+        html[data-mode="jewel"] .gate-frame {
+            background: linear-gradient(180deg, color-mix(in srgb, var(--navy) 92%, #FFFFFF), var(--navy));
+            border-color: var(--line-strong);
+        }
+
+        html[data-mode="light"] .field,
+        html[data-mode="jewel"] .field { background: #FFFFFF; color: var(--on-surface); border-color: var(--line-strong); }
+
+        html[data-mode="light"] #envelope-stage,
+        html[data-mode="jewel"] #envelope-stage { background: var(--surface); }
+
+        html[data-mode="light"] .atm-card,
+        html[data-mode="jewel"] .atm-card { color: #FFFFFF; }
+
+        /* Tier basic: kartu datar ikut terang. */
+        html[data-mode="light"] .basic-card,
+        html[data-mode="jewel"] .basic-card { background: var(--surface-container); border-color: var(--line); }
+        html[data-mode="light"] .basic-row,
+        html[data-mode="jewel"] .basic-row { background: var(--surface-high); }
+        html[data-mode="light"] .basic-plaque,
+        html[data-mode="jewel"] .basic-plaque { background: var(--surface-high); }
+        html[data-mode="light"] .basic-guest,
+        html[data-mode="jewel"] .basic-guest { background: rgba(255, 255, 255, .72); border-color: var(--line-strong); }
+
+        /* Panggung desktop: jangan pakai hitam pekat untuk palet terang. */
+        @media (min-width: 768px) {
+            html[data-mode="light"] body,
+            html[data-mode="jewel"] body { background: color-mix(in srgb, var(--obsidian) 88%, #0F172A 12%); }
+            html[data-mode="light"] body::before,
+            html[data-mode="jewel"] body::before { background: radial-gradient(46% 52% at 50% 42%, color-mix(in srgb, var(--navy) 26%, transparent), transparent 72%); }
+            html[data-mode="light"] .shell,
+            html[data-mode="jewel"] .shell { box-shadow: 0 40px 90px -44px rgba(16, 42, 67, .45), 0 0 0 8px rgba(255, 255, 255, .6); }
         }
     </style>
 @include('templates.partials.wedding-archetypes')

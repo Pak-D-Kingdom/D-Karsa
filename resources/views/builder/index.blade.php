@@ -785,6 +785,7 @@
                         </div>
                         <p class="text-[10px] text-ink3">Biarkan kosong untuk otomatis dibuat dari nama tokoh / mempelai.</p>
                     </div>
+                </div>
 
                 {{-- Foto Cover Utama --}}
                 <div class="space-y-2 pt-2 border-t border-ink/10">
@@ -4157,7 +4158,10 @@
                     const address = card.querySelector('.event-address-input')?.value || '';
                     const maps = card.querySelector('.event-maps-input')?.value || '';
 
-                    if (title || venue || address) {
+                    // Kartu acara ikut tampil bila ADA isian apa pun (bukan hanya nama/tempat),
+                    // supaya acara kedua tidak "hilang" hanya karena satu kolom belum diisi.
+                    const filled = [title, date, start, end, venue, address, maps].some((value) => String(value).trim() !== '');
+                    if (filled) {
                         events.push({
                             title: title || `Acara ${idx + 1}`,
                             date: date || weddingDateVal,

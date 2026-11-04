@@ -141,14 +141,14 @@
                     <div class="ticket">
                         <span class="notch l"></span><span class="notch r"></span>
                         <div class="flex items-center justify-between">
-                            <span class="hud" style="color:var(--foil)">{{ strtoupper($ev->title ?? 'ACARA') }}</span>
+                            <span class="hud" style="color:var(--foil)">{{ strtoupper($ev->title ?: 'ACARA') }}</span>
                             {!! $icon('ticket') !!}
                         </div>
                         <p class="text-[13px] mt-2" style="color:var(--on-surface)">
                             {{ ! empty($ev->date) ? \Carbon\Carbon::parse($ev->date)->locale('id')->isoFormat('dddd, D MMMM Y') : $dateLong }}
                         </p>
-                        <p class="text-[12px]" style="color:var(--muted)">{{ $ev->start_time ?? '08.00' }} — {{ $ev->end_time ?? 'Selesai' }} WIB</p>
-                        <p class="text-[13px] mt-1" style="color:var(--on-surface)">{{ $ev->venue_name ?? $venueName }}</p>
+                        <p class="text-[12px]" style="color:var(--muted)">{{ $ev->start_time ?: '08.00' }}{{ ! empty($ev->end_time) ? ' — ' . $ev->end_time : '' }} WIB</p>
+                        <p class="text-[13px] mt-1" style="color:var(--on-surface)">{{ $ev->venue_name ?: $venueName }}</p>
                         @if(! empty($ev->address))
                             <p class="text-[12px] mt-0.5" style="color:var(--muted)">{{ $ev->address }}</p>
                         @endif

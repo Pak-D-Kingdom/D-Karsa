@@ -68,9 +68,9 @@
         <div class="flex flex-col gap-2 mt-3 text-left">
             @forelse($couple->events ?? collect() as $ev)
                 <div class="basic-row">
-                    <span class="hud" style="color:var(--foil)">{{ strtoupper($ev->title ?? 'ACARA') }}</span>
-                    <p class="text-[13px]" style="color:var(--on-surface)">{{ $ev->start_time ?? '08.00' }} — {{ $ev->end_time ?? 'Selesai' }} WIB</p>
-                    <p class="text-[12px]" style="color:var(--muted)">{{ $ev->venue_name ?? $venueName }}</p>
+                    <span class="hud" style="color:var(--foil)">{{ strtoupper($ev->title ?: 'ACARA') }}</span>
+                    <p class="text-[13px]" style="color:var(--on-surface)">{{ $ev->start_time ?: '08.00' }}{{ ! empty($ev->end_time) ? ' — ' . $ev->end_time : '' }} WIB</p>
+                    <p class="text-[12px]" style="color:var(--muted)">{{ $ev->venue_name ?: $venueName }}</p>
                 </div>
             @empty
                 <div class="basic-row">
