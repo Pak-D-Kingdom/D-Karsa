@@ -786,78 +786,6 @@
                         <p class="text-[10px] text-ink3">Biarkan kosong untuk otomatis dibuat dari nama tokoh / mempelai.</p>
                     </div>
 
-                    {{-- Generator Link Tamu: impor Excel/CSV, edit nama & nomor, kirim per tamu --}}
-                    <div class="space-y-2 pt-2 border-t border-dashed border-ink/15 sm:col-span-2 min-w-0">
-                        <div class="flex items-center justify-between gap-2">
-                            <label class="block text-xs font-bold uppercase tracking-wider text-ink2">Link Personal per Tamu</label>
-                        </div>
-
-                        <div class="flex flex-wrap items-center gap-2">
-                            <label class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-ink/20 bg-white text-[11px] font-bold text-ink2 cursor-pointer hover:border-brand hover:text-brand transition">
-                                <span aria-hidden="true">📄</span> Impor Excel / CSV
-                                <input type="file" id="guestImportFile" accept=".csv,.txt,.xlsx,.xls" class="hidden" onchange="importGuestFile(this)">
-                            </label>
-                            <a href="{{ route('invitation.guest-sample') }}"
-                               class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-600 text-white text-[11px] font-bold hover:bg-emerald-700 transition">
-                                <span aria-hidden="true">⬇</span> Unduh Excel (.xlsx)
-                            </a>
-                            <a href="{{ route('invitation.guest-sample', ['format' => 'csv']) }}"
-                               class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-ink/20 bg-white text-[11px] font-bold text-ink2 hover:border-brand hover:text-brand transition">
-                                <span aria-hidden="true">⬇</span> CSV
-                            </a>
-                            <span id="guestImportStatus" class="text-[10px] text-ink3"></span>
-                        </div>
-
-                        <textarea id="guestNamesInput" rows="3" placeholder="Satu nama per baris, contoh:&#10;Bapak Andi Wijaya&#10;Ibu Sari &amp; Keluarga&#10;Tim Marketing PT Maju"
-                                  class="w-full rounded-2xl border border-ink/20 p-3 text-xs focus:outline-none focus:ring-2 focus:ring-brand"></textarea>
-                        <button type="button" onclick="generateGuestLinks()"
-                                class="w-full min-h-[42px] rounded-xl bg-ink text-white text-[11px] font-bold uppercase tracking-wider hover:bg-ink/90 transition">
-                            Buat Link Tamu
-                        </button>
-                        <div id="guestLinkList" class="space-y-1.5 max-h-72 overflow-y-auto overflow-x-hidden pr-1 min-w-0"></div>
-
-                        {{-- Antrean kirim WhatsApp: satu tab per tamu supaya tidak diblokir pop-up --}}
-                        <div id="guestWaQueue" class="fixed inset-0 z-[70] hidden items-center justify-center p-4" style="background:rgba(0,0,0,.72)" onclick="if(event.target===this)closeWaQueue()">
-                            <div class="w-full max-w-sm rounded-2xl bg-white p-4 space-y-3 shadow-2xl">
-                                <div class="flex items-center justify-between gap-2">
-                                    <b class="text-sm font-bold text-ink">Kirim Undangan WhatsApp</b>
-                                    <button type="button" onclick="closeWaQueue()" class="w-8 h-8 rounded-full bg-sunk text-ink2 hover:bg-brand/10 hover:text-brand transition grid place-items-center text-sm font-bold">✕</button>
-                                </div>
-                                <div class="h-1.5 rounded-full bg-sunk overflow-hidden">
-                                    <div id="waQueueBar" class="h-full bg-emerald-500 transition-all" style="width:0%"></div>
-                                </div>
-                                <p id="waQueueProgress" class="text-[11px] font-semibold text-ink3">—</p>
-                                <div class="rounded-xl border border-ink/10 bg-sunk/40 p-3 space-y-1">
-                                    <b id="waQueueName" class="block text-xs font-bold text-ink">—</b>
-                                    <span id="waQueuePhone" class="block text-[10.5px] text-ink3">—</span>
-                                    <p id="waQueueText" class="text-[10px] text-ink3 leading-snug break-words pt-1"></p>
-                                </div>
-                                <a id="waQueueOpen" href="#" target="_blank" rel="noopener" onclick="markQueueSent()"
-                                   class="flex items-center justify-center gap-2 min-h-[44px] rounded-xl bg-emerald-600 text-white text-[11px] font-bold uppercase tracking-wider hover:bg-emerald-700 transition">
-                                    <span aria-hidden="true">✆</span> Buka WhatsApp &amp; Kirim
-                                </a>
-                                <div class="flex gap-2">
-                                    <button type="button" onclick="skipQueueItem()" class="flex-1 min-h-[38px] rounded-xl border border-ink/15 text-[11px] font-bold text-ink2 hover:border-brand">Lewati</button>
-                                    <button type="button" onclick="closeWaQueue()" class="flex-1 min-h-[38px] rounded-xl bg-sunk text-[11px] font-bold text-ink2">Tutup</button>
-                                </div>
-                                <p class="text-[9.5px] text-ink3 leading-relaxed">Satu tamu satu tab WhatsApp — jadi tidak ada yang diblokir browser. Klik tombol hijau, kirim pesannya, lalu otomatis lanjut ke tamu berikutnya.</p>
-                            </div>
-                        </div>
-
-                        {{-- Kirim WhatsApp serentak ke nomor masing-masing tamu --}}
-                        <div id="guestBulkActions" class="hidden space-y-1.5">
-                            <button type="button" id="guestWaAllBtn" onclick="sendAllGuestWa()"
-                                    class="w-full min-h-[42px] rounded-xl bg-emerald-600 text-white text-[11px] font-bold uppercase tracking-wider hover:bg-emerald-700 transition">
-                                Kirim WA Satu per Satu
-                            </button>
-                        </div>
-                        <p class="text-[10px] text-ink3 leading-relaxed">
-                            Template Excel sudah berformat: baris judul berwarna, kolom lebar, baris judul dibekukan, plus sheet
-                            <b>Petunjuk</b> berisi cara pengisian. Nama, nomor WhatsApp, jumlah orang, dan meja bisa diubah langsung di daftar.
-                        </p>
-                    </div>
-                </div>
-
                 {{-- Foto Cover Utama --}}
                 <div class="space-y-2 pt-2 border-t border-ink/10">
                     <label class="block text-xs font-bold uppercase tracking-wider text-ink2">Foto Sampul Depan (Cover Photo)</label>
@@ -1538,6 +1466,10 @@
                     Undangan tes ini <b>sementara</b> — dibuat dari data formulir, tanpa pembayaran. Bisa dihapus kapan saja.
                 </p>
                 <div class="flex items-center gap-2 ml-auto">
+                    <button type="button" onclick="openGuestLinkManager()"
+                            class="px-4 py-2 rounded-full bg-white border border-ink/20 hover:border-brand hover:text-brand text-ink2 text-[11px] font-bold flex items-center gap-1.5">
+                        <span aria-hidden="true">🔗</span> Link Tamu
+                    </button>
                     <button type="button" onclick="openTestInvitation()"
                             class="px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold flex items-center gap-1.5">
                         <span>↗</span> Buka Undangan Tes
@@ -3014,401 +2946,6 @@
             if (helper) helper.innerHTML = 'Mode <b>Kustom</b>: tim desain akan menyesuaikan warna, ornamen, dan struktur seksi sesuai permintaan (Rp280.000).';
         }
 
-        /* ---------- Link tamu: impor Excel/CSV, edit nama & nomor, kirim per tamu ---------- */
-        let guestRows = [];
-
-        function guestSlug() {
-            const el = document.getElementById('slugInput');
-            return (el && el.value.trim()) || 'undangan-anda';
-        }
-
-        // Nama di tautan ditulis dengan tanda hubung: "Bapak Andi Wijaya" → "Bapak-Andi-Wijaya".
-        function guestNameSlug(name) {
-            // Spasi → tanda hubung; "&" dibiarkan (nanti jadi %26) supaya nama tetap utuh.
-            const cleaned = String(name || '').trim()
-                .replace(/\s+/g, '-')
-                .replace(/[^\p{L}\p{N}&._-]+/gu, '')
-                .replace(/-+/g, '-')
-                .replace(/^-+|-+$/g, '');
-            return cleaned || String(name || '').trim().replace(/\s+/g, '-');
-        }
-
-        // Link tamu sengaja hanya membawa nama (?to=) supaya rapi saat dibagikan.
-        function guestUrl(row) {
-            return window.location.origin + '/undangan/' + guestSlug() + '?to=' + encodeURIComponent(guestNameSlug(row.name));
-        }
-
-        function normalizePhone(value) {
-            let digits = String(value || '').replace(/\D/g, '');
-            if (!digits) { return ''; }
-            if (digits.startsWith('0')) { digits = '62' + digits.slice(1); }
-            if (digits.startsWith('8')) { digits = '62' + digits; }
-            return digits;
-        }
-
-        function guestWaHref(row) {
-            const url = guestUrl(row);
-            // Pax & meja tetap dikirim lewat pesan WhatsApp, bukan ditempel di link.
-            const detail = [];
-            if (row.pax) { detail.push(row.pax + ' orang'); }
-            if (row.seat) { detail.push(row.seat); }
-            const text = 'Undangan untuk ' + row.name + ': ' + url + (detail.length ? '\n(' + detail.join(' • ') + ')' : '');
-            const phone = normalizePhone(row.phone);
-            return 'https://wa.me/' + phone + '?text=' + encodeURIComponent(text);
-        }
-
-        function escapeAttr(value) {
-            return String(value == null ? '' : value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
-        }
-
-        function guestStorageKey() { return 'dkarsa-guests-' + guestSlug(); }
-
-        function saveGuestRows() {
-            try { localStorage.setItem(guestStorageKey(), JSON.stringify(guestRows)); } catch (e) {}
-        }
-
-        function loadGuestRows() {
-            try { return JSON.parse(localStorage.getItem(guestStorageKey()) || '[]'); } catch (e) { return []; }
-        }
-
-        function renderGuestRows() {
-            const list = document.getElementById('guestLinkList');
-            if (!list) { return; }
-            if (!guestRows.length) {
-                list.innerHTML = '<p class="text-[11px] text-ink3">Belum ada tamu. Tulis nama atau impor file Excel/CSV.</p>';
-                updateGuestBulkBar();
-                return;
-            }
-            list.innerHTML = guestRows.map((row, i) => {
-                const url = guestUrl(row);
-                const waBtn = normalizePhone(row.phone)
-                    ? `<a data-guest-wa href="${guestWaHref(row)}" target="_blank" rel="noopener" title="Kirim undangan via WhatsApp ke tamu ini"
-                         class="shrink-0 px-2.5 py-1 rounded-lg bg-emerald-600 text-white text-[10px] font-bold">WA</a>`
-                    : `<span data-guest-wa title="Isi nomor WA dulu untuk mengirim"
-                         class="shrink-0 px-2.5 py-1 rounded-lg bg-ink/10 text-ink3 text-[10px] font-bold cursor-not-allowed">WA</span>`;
-
-                return `<div data-guest-row="${i}" class="rounded-xl border border-ink/10 bg-white p-2 space-y-1.5">
-                    <div class="flex items-center gap-1.5">
-                        ${row.sent
-                            ? `<span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 grid place-items-center text-[10px] font-bold shrink-0" title="Sudah dikirim via WhatsApp">✓</span>`
-                            : `<span class="w-5 h-5 rounded-full bg-brand/10 text-brand grid place-items-center text-[10px] font-bold shrink-0">${i + 1}</span>`}
-                        <input value="${escapeAttr(row.name)}" oninput="updateGuestRow(${i}, 'name', this.value)" placeholder="Nama tamu" aria-label="Nama tamu"
-                               class="flex-1 min-w-0 rounded-lg border border-ink/15 px-2 py-1 text-[11px] font-semibold focus:outline-none focus:ring-2 focus:ring-brand/40">
-                    </div>
-                    <div class="grid grid-cols-3 gap-1.5">
-                        <input value="${escapeAttr(row.phone || '')}" oninput="updateGuestRow(${i}, 'phone', this.value)" placeholder="Nomor WA" aria-label="Nomor WhatsApp tamu" inputmode="tel"
-                               class="min-w-0 rounded-lg border border-ink/15 px-2 py-1 text-[10.5px] focus:outline-none focus:ring-2 focus:ring-brand/40">
-                        <input value="${escapeAttr(row.pax || 2)}" oninput="updateGuestRow(${i}, 'pax', this.value)" type="number" min="1" max="20" placeholder="Pax" aria-label="Jumlah orang"
-                               class="min-w-0 rounded-lg border border-ink/15 px-2 py-1 text-[10.5px] focus:outline-none focus:ring-2 focus:ring-brand/40">
-                        <input value="${escapeAttr(row.seat || '')}" oninput="updateGuestRow(${i}, 'seat', this.value)" placeholder="Meja / Zona" aria-label="Meja atau zona"
-                               class="min-w-0 rounded-lg border border-ink/15 px-2 py-1 text-[10.5px] focus:outline-none focus:ring-2 focus:ring-brand/40">
-                    </div>
-                    <div class="flex items-center gap-1.5">
-                        <p data-guest-url class="flex-1 min-w-0 text-[9.5px] text-ink3 truncate">${url}</p>
-                        <button type="button" data-guest-copy data-url="${escapeAttr(url)}" onclick="copyGuestUrl(this)"
-                                class="shrink-0 px-2.5 py-1 rounded-lg bg-sunk border border-ink/15 text-[10px] font-bold text-ink2 hover:border-brand">Salin</button>
-                        ${waBtn}
-                    </div>
-                </div>`;
-            }).join('');
-            updateGuestBulkBar();
-        }
-
-        function updateGuestRow(index, field, value) {
-            if (!guestRows[index]) { return; }
-            guestRows[index][field] = value;
-            guestRows[index].sent = false;
-            const row = document.querySelector('[data-guest-row="' + index + '"]');
-            if (row) {
-                const url = guestUrl(guestRows[index]);
-                const urlEl = row.querySelector('[data-guest-url]');
-                if (urlEl) { urlEl.textContent = url; }
-                const copyBtn = row.querySelector('[data-guest-copy]');
-                if (copyBtn) { copyBtn.dataset.url = url; }
-                const wa = row.querySelector('[data-guest-wa]');
-                const hasPhone = !!normalizePhone(guestRows[index].phone);
-                if (wa && hasPhone && wa.tagName === 'SPAN') {
-                    const link = document.createElement('a');
-                    link.setAttribute('data-guest-wa', '');
-                    link.className = 'shrink-0 px-2.5 py-1 rounded-lg bg-emerald-600 text-white text-[10px] font-bold';
-                    link.target = '_blank';
-                    link.rel = 'noopener';
-                    link.title = 'Kirim undangan via WhatsApp ke tamu ini';
-                    link.textContent = 'WA';
-                    link.href = guestWaHref(guestRows[index]);
-                    wa.replaceWith(link);
-                } else if (wa && !hasPhone && wa.tagName === 'A') {
-                    const off = document.createElement('span');
-                    off.setAttribute('data-guest-wa', '');
-                    off.className = 'shrink-0 px-2.5 py-1 rounded-lg bg-ink/10 text-ink3 text-[10px] font-bold cursor-not-allowed';
-                    off.title = 'Isi nomor WA dulu untuk mengirim';
-                    off.textContent = 'WA';
-                    wa.replaceWith(off);
-                } else if (wa && hasPhone) {
-                    wa.href = guestWaHref(guestRows[index]);
-                }
-            }
-            saveGuestRows();
-            updateGuestBulkBar();
-        }
-
-        /* ---------- Kirim WhatsApp serentak ke nomor masing-masing tamu ---------- */
-        function updateGuestBulkBar() {
-            const bar = document.getElementById('guestBulkActions');
-            const btn = document.getElementById('guestWaAllBtn');
-            if (!bar || !btn) { return; }
-
-            const withPhone = guestRows.filter((r) => !!normalizePhone(r.phone));
-            const pending = withPhone.filter((r) => !r.sent);
-
-            if (!guestRows.length) { bar.classList.add('hidden'); return; }
-            bar.classList.remove('hidden');
-
-            btn.textContent = withPhone.length
-                ? 'Kirim WA Satu per Satu (' + withPhone.length + ')'
-                : 'Belum Ada Nomor WhatsApp';
-            btn.disabled = withPhone.length === 0;
-            btn.classList.toggle('opacity-50', withPhone.length === 0);
-            btn.classList.toggle('cursor-not-allowed', withPhone.length === 0);
-
-        }
-
-        function markGuestSent(index) {
-            if (!guestRows[index]) { return; }
-            guestRows[index].sent = true;
-            saveGuestRows();
-        }
-
-        function finishBulkSend() {
-            const s = waBulkState;
-            s.running = false;
-            renderBulkProgress();
-            renderGuestRows();
-            updateGuestBulkBar();
-
-            const stopBtn = document.getElementById('waBulkStopBtn');
-            if (stopBtn) { stopBtn.classList.add('hidden'); }
-
-            if (s.simulated) {
-                bulkLog('Simulasi selesai: ' + s.sent + ' undangan tercatat, TIDAK terkirim sungguhan. '
-                    + 'Isi WHATSAPP_PROVIDER + token (cloud/fonnte/wablas) untuk pengiriman nyata.', 'error');
-            } else {
-                bulkLog(s.stop
-                    ? 'Dihentikan. ' + s.sent + ' terkirim, ' + s.failed + ' gagal.'
-                    : 'Selesai. ' + s.sent + ' terkirim' + (s.failed ? ', ' + s.failed + ' gagal' : '') + '.');
-            }
-        }
-
-        function stopBulkSend() {
-            waBulkState.stop = true;
-            if (!waBulkState.running) { closeBulkSend(); }
-        }
-
-        function closeBulkSend() {
-            waBulkState.stop = true;
-            const modal = document.getElementById('guestBulkSendModal');
-            if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
-            renderGuestRows();
-        }
-
-        /* Antrean: satu klik = satu tab WhatsApp, jadi tidak diblokir pop-up. */
-        let waQueue = [];
-        let waQueueIndex = 0;
-
-        function sendAllGuestWa() {
-            const targets = guestRows.map((row, index) => ({ row, index })).filter((item) => !!normalizePhone(item.row.phone));
-            if (!targets.length) { return; }
-
-            const pending = targets.filter((item) => !item.row.sent);
-            waQueue = pending.length ? pending : targets;
-            waQueueIndex = 0;
-            renderWaQueueItem();
-            const modal = document.getElementById('guestWaQueue');
-            if (modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
-        }
-
-        function renderWaQueueItem() {
-            const item = waQueue[waQueueIndex];
-            const modal = document.getElementById('guestWaQueue');
-            if (!item) { closeWaQueue(true); return; }
-
-            const total = waQueue.length;
-            const progress = document.getElementById('waQueueProgress');
-            const bar = document.getElementById('waQueueBar');
-            const name = document.getElementById('waQueueName');
-            const phone = document.getElementById('waQueuePhone');
-            const text = document.getElementById('waQueueText');
-            const openBtn = document.getElementById('waQueueOpen');
-
-            if (progress) { progress.textContent = 'Tamu ' + (waQueueIndex + 1) + ' dari ' + total; }
-            if (bar) { bar.style.width = Math.round((waQueueIndex / total) * 100) + '%'; }
-            if (name) { name.textContent = item.row.name || 'Tamu'; }
-            if (phone) { phone.textContent = '+' + normalizePhone(item.row.phone); }
-            if (openBtn) { openBtn.href = guestWaHref(item.row); }
-
-            if (text) {
-                const detail = [];
-                if (item.row.pax) { detail.push(item.row.pax + ' orang'); }
-                if (item.row.seat) { detail.push(item.row.seat); }
-                text.textContent = 'Undangan untuk ' + item.row.name + ': ' + guestUrl(item.row)
-                    + (detail.length ? ' (' + detail.join(' • ') + ')' : '');
-            }
-            if (modal) { modal.classList.remove('hidden'); modal.classList.add('flex'); }
-        }
-
-        function markQueueSent() {
-            const item = waQueue[waQueueIndex];
-            if (item) { markGuestSent(item.index); }
-            setTimeout(nextQueueItem, 650);
-        }
-
-        function nextQueueItem() {
-            waQueueIndex += 1;
-            if (waQueueIndex >= waQueue.length) { closeWaQueue(true); return; }
-            renderWaQueueItem();
-        }
-
-        function skipQueueItem() { nextQueueItem(); }
-
-        function closeWaQueue(finished) {
-            const modal = document.getElementById('guestWaQueue');
-            if (modal) { modal.classList.add('hidden'); modal.classList.remove('flex'); }
-            renderGuestRows();
-            if (finished) {
-            }
-        }
-
-        function copyGuestUrl(btn) {
-            const url = btn?.dataset?.url || '';
-            const done = () => { const old = btn.textContent; btn.textContent = '✓'; setTimeout(() => { btn.textContent = old; }, 1400); };
-            if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(url).then(done).catch(() => window.prompt('Salin tautan:', url)); }
-            else { window.prompt('Salin tautan:', url); }
-        }
-
-        function generateGuestLinks() {
-            const namesEl = document.getElementById('guestNamesInput');
-            const names = (namesEl?.value || '').split(/\r?\n/).map((n) => n.trim()).filter(Boolean);
-            const existing = new Map(guestRows.map((r) => [String(r.name).toLowerCase(), r]));
-            guestRows = names.map((name) => existing.get(name.toLowerCase()) || { name, phone: '', pax: 2, seat: '' });
-            renderGuestRows();
-            saveGuestRows();
-            const status = document.getElementById('guestImportStatus');
-            if (status) { status.textContent = guestRows.length ? guestRows.length + ' tamu siap dibagikan.' : ''; }
-        }
-
-        /* Impor daftar tamu dari CSV/TXT atau Excel (.xlsx/.xls). */
-        function parseDelimited(text) {
-            const clean = text.replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n');
-            const firstLine = clean.split('\n')[0] || '';
-            const counts = { ',': (firstLine.match(/,/g) || []).length, ';': (firstLine.match(/;/g) || []).length, '\t': (firstLine.match(/\t/g) || []).length };
-            const delimiter = Object.keys(counts).sort((a, b) => counts[b] - counts[a])[0] || ',';
-
-            const rows = [];
-            let row = [], cell = '', quoted = false;
-            for (let i = 0; i < clean.length; i++) {
-                const ch = clean[i];
-                if (quoted) {
-                    if (ch === '"' && clean[i + 1] === '"') { cell += '"'; i++; }
-                    else if (ch === '"') { quoted = false; }
-                    else { cell += ch; }
-                } else if (ch === '"') { quoted = true; }
-                else if (ch === delimiter) { row.push(cell.trim()); cell = ''; }
-                else if (ch === '\n') { row.push(cell.trim()); rows.push(row); row = []; cell = ''; }
-                else { cell += ch; }
-            }
-            row.push(cell.trim());
-            if (row.some((c) => c !== '')) { rows.push(row); }
-            return rows.filter((r) => r.some((c) => c !== ''));
-        }
-
-        function rowsToGuests(rows) {
-            if (!rows.length) { return []; }
-            const header = rows[0].map((c) => String(c).toLowerCase());
-            const find = (keys) => header.findIndex((h) => keys.some((k) => h.includes(k)));
-            const iName = find(['nama', 'name', 'tamu', 'guest']);
-            const iPhone = find(['wa', 'whatsapp', 'hp', 'phone', 'nomor', 'telp']);
-            const iPax = find(['pax', 'jumlah', 'orang', 'qty', 'kuota']);
-            const iSeat = find(['meja', 'seat', 'zona', 'kursi', 'table']);
-            const hasHeader = iName >= 0 && rows[0].some((c) => /[a-z]/i.test(String(c))) && !/^\+?\d+$/.test(String(rows[0][0]));
-
-            const body = hasHeader ? rows.slice(1) : rows;
-            return body.map((r) => {
-                const name = String(r[hasHeader && iName >= 0 ? iName : 0] || '').trim();
-                if (!name) { return null; }
-                return {
-                    name,
-                    phone: hasHeader && iPhone >= 0 ? String(r[iPhone] || '').trim() : (String(r[1] || '').match(/^[\d+\s-]+$/) ? String(r[1]).trim() : ''),
-                    pax: parseInt((hasHeader && iPax >= 0 ? r[iPax] : r[2]) || 2, 10) || 2,
-                    seat: hasHeader && iSeat >= 0 ? String(r[iSeat] || '').trim() : '',
-                };
-            }).filter(Boolean);
-        }
-
-        function loadSheetJS() {
-            if (window.XLSX) { return Promise.resolve(); }
-            return new Promise((resolve, reject) => {
-                const script = document.createElement('script');
-                script.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
-                script.onload = resolve;
-                script.onerror = reject;
-                document.head.appendChild(script);
-            });
-        }
-
-        async function importGuestFile(input) {
-            const file = input?.files?.[0];
-            const status = document.getElementById('guestImportStatus');
-            if (!file) { return; }
-            const isExcel = /\.(xlsx|xls)$/i.test(file.name);
-
-            try {
-                let rows;
-                if (isExcel) {
-                    if (status) { status.textContent = 'Membaca Excel…'; }
-                    await loadSheetJS();
-                    const buffer = await file.arrayBuffer();
-                    const book = window.XLSX.read(buffer, { type: 'array' });
-                    const sheet = book.Sheets[book.SheetNames[0]];
-                    rows = window.XLSX.utils.sheet_to_json(sheet, { header: 1, blankrows: false, defval: '' });
-                } else {
-                    rows = parseDelimited(await file.text());
-                }
-
-                const guests = rowsToGuests(rows);
-                if (!guests.length) {
-                    if (status) { status.textContent = 'Tidak ada nama tamu yang terbaca.'; }
-                    return;
-                }
-                guestRows = guests;
-                renderGuestRows();
-                saveGuestRows();
-                const namesEl = document.getElementById('guestNamesInput');
-                if (namesEl) { namesEl.value = guests.map((g) => g.name).join('\n'); }
-                if (status) { status.textContent = guests.length + ' tamu diimpor dari ' + file.name + '.'; }
-            } catch (error) {
-                if (status) { status.textContent = 'Gagal membaca file. Coba CSV.'; }
-            } finally {
-                input.value = '';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            guestRows = loadGuestRows();
-            if (guestRows.length) {
-                const namesEl = document.getElementById('guestNamesInput');
-                if (namesEl && !namesEl.value.trim()) { namesEl.value = guestRows.map((g) => g.name).join('\n'); }
-                renderGuestRows();
-            }
-        });
-
-        function switchMusicSource(src) {
-        const lib = document.getElementById('musicLibraryBox');
-        const up = document.getElementById('musicUploadBox');
-        if (!lib || !up) return;
-        if (src === 'upload') { lib.classList.add('hidden'); up.classList.remove('hidden'); }
-        else { up.classList.add('hidden'); lib.classList.remove('hidden'); }
-    }
-
     /* ---------- Tes input pelanggan (tanpa pembayaran) ---------- */
     function testCustomerInput() {
         const val = (sel) => {
@@ -3549,6 +3086,20 @@
         } catch (e) {
             if (win) { win.close(); }
             alert('Tautan uji gagal dibuat. Silakan coba lagi.');
+        }
+    }
+
+    /* Halaman pengelola link tamu dibuka dari tautan undangan tes yang sudah jadi,
+       jadi link tamu selalu menunjuk halaman undangan yang benar-benar ada. */
+    async function openGuestLinkManager() {
+        const win = window.open('', '_blank');
+        try {
+            const url = await testInvitationUrl();
+            const target = url.replace(/\/$/, '') + '/tamu';
+            if (win) { win.location.replace(target); } else { window.open(target, '_blank', 'noopener'); }
+        } catch (e) {
+            if (win) { win.close(); }
+            alert('Halaman link tamu gagal dibuka. Silakan coba lagi.');
         }
     }
 
@@ -3703,7 +3254,13 @@
         /* Foto pratinjau (cover/mempelai/galeri) dikirim ulang setiap iframe selesai dimuat,
            karena iframe reload tiap kali isian berubah. */
         function previewPhotoPayload() {
-            const read = (key) => { try { return sessionStorage.getItem(key) || ''; } catch (e) { return ''; } };
+            const read = (key) => {
+                try {
+                    return localStorage.getItem(key) || sessionStorage.getItem(key) || '';
+                } catch (e) {
+                    return '';
+                }
+            };
             let gallery = [];
             try { gallery = JSON.parse(read('dkarsa_preview_gallery_photos') || '[]') || []; } catch (e) { gallery = []; }
 
@@ -3735,6 +3292,43 @@
             pushPreviewMedia(iframe);
         });
 
+        /* ---------- Kompres foto sebelum disimpan ke storage pratinjau ----------
+           sessionStorage hanya ~5 MB; foto 5 MB langsung memenuhi kuota sehingga foto berikutnya
+           gagal tersimpan (gejala: cover/galeri berubah, foto mempelai kembali ke bawaan). */
+        function shrinkImageFile(file, maxSide, quality) {
+            const limit = maxSide || 900;
+            const q = quality || 0.82;
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onerror = () => resolve('');
+                reader.onload = (event) => {
+                    const raw = String(event.target.result || '');
+                    const image = new Image();
+                    image.onerror = () => resolve(raw);
+                    image.onload = () => {
+                        const longest = Math.max(image.width, image.height) || 1;
+                        const scale = Math.min(1, limit / longest);
+                        if (scale >= 1 && raw.length < 500000) { resolve(raw); return; }
+                        const canvas = document.createElement('canvas');
+                        canvas.width = Math.max(1, Math.round(image.width * scale));
+                        canvas.height = Math.max(1, Math.round(image.height * scale));
+                        canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
+                        resolve(canvas.toDataURL('image/jpeg', q));
+                    };
+                    image.src = raw;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function storePreviewMedia(key, dataUrl) {
+            ['sessionStorage', 'localStorage'].forEach((store) => {
+                try { window[store].setItem(key, dataUrl); } catch (err) {
+                    console.warn('Kuota ' + store + ' penuh untuk ' + key, err);
+                }
+            });
+        }
+
         // Live Single Image Preview & Sync
         function previewImageFile(input, targetImgId) {
             if (input.files && input.files[0]) {
@@ -3747,41 +3341,32 @@
                     return;
                 }
 
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const dataUrl = e.target.result;
+                let photoKey = null;
+                if (targetImgId.toLowerCase().includes('groom')) photoKey = 'groom';
+                else if (targetImgId.toLowerCase().includes('bride')) photoKey = 'bride';
+                else if (targetImgId.toLowerCase().includes('cover')) photoKey = 'cover';
+
+                const maxSide = photoKey === 'cover' ? 1280 : 900;
+
+                shrinkImageFile(input.files[0], maxSide).then((dataUrl) => {
+                    if (!dataUrl) { return; }
                     const img = document.getElementById(targetImgId);
                     if (img) img.src = dataUrl;
 
-                    let photoKey = null;
-                    if (targetImgId.toLowerCase().includes('groom')) photoKey = 'groom';
-                    else if (targetImgId.toLowerCase().includes('bride')) photoKey = 'bride';
-                    else if (targetImgId.toLowerCase().includes('cover')) photoKey = 'cover';
+                    if (!photoKey) { return; }
 
-                    if (photoKey) {
-                        try {
-                            sessionStorage.setItem('dkarsa_preview_' + photoKey + '_photo', dataUrl);
-                        } catch(err) {
-                            console.warn('Storage quota warning for preview photo', err);
-                        }
+                    storePreviewMedia('dkarsa_preview_' + photoKey + '_photo', dataUrl);
 
-                        // Sync with hidden base64 input for persistent form submission
-                        const base64Input = document.getElementById(photoKey + 'PhotoBase64');
-                        if (base64Input) base64Input.value = dataUrl;
+                    // Sync with hidden base64 input for persistent form submission
+                    const base64Input = document.getElementById(photoKey + 'PhotoBase64');
+                    if (base64Input) base64Input.value = dataUrl;
 
-                        // Send postMessage to live preview iframe for instant visual update
-                        const iframe = document.getElementById('builderLivePreviewIframe');
-                        if (iframe && iframe.contentWindow) {
-                            iframe.contentWindow.postMessage({
-                                type: 'UPDATE_PREVIEW_PHOTO',
-                                target: photoKey,
-                                photoUrl: dataUrl,
-                                dataUrl: dataUrl
-                            }, '*');
-                        }
+                    // Kirim seluruh media sekaligus supaya iframe tidak pernah kehilangan foto lain.
+                    const iframe = document.getElementById('builderLivePreviewIframe');
+                    if (iframe && iframe.contentWindow) {
+                        iframe.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_PHOTOS', photos: previewPhotoPayload() }, '*');
                     }
-                };
-                reader.readAsDataURL(input.files[0]);
+                });
             }
         }
 
@@ -4092,16 +3677,15 @@
             let pending = toRead.length;
 
             toRead.forEach((file) => {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    galleryDataUrls.push(e.target.result);
+                shrinkImageFile(file, 900).then((dataUrl) => {
+                    if (dataUrl) { galleryDataUrls.push(dataUrl); }
                     pending -= 1;
                     if (pending === 0) {
                         renderGalleryPreviews();
                         persistGallery();
+                        pushPreviewMedia(document.getElementById('builderLivePreviewIframe'));
                     }
-                };
-                reader.readAsDataURL(file);
+                });
             });
 
             // Reset input supaya foto yang sama bisa dipilih lagi tanpa menghapus daftar sebelumnya
@@ -4126,11 +3710,12 @@
         }
 
         function persistGallery() {
-            try {
-                sessionStorage.setItem('dkarsa_preview_gallery_photos', JSON.stringify(galleryDataUrls));
-            } catch (err) {
-                console.warn('Storage quota warning for gallery photos', err);
-            }
+            const payload = JSON.stringify(galleryDataUrls);
+            ['sessionStorage', 'localStorage'].forEach((store) => {
+                try { window[store].setItem('dkarsa_preview_gallery_photos', payload); } catch (err) {
+                    console.warn('Kuota ' + store + ' penuh untuk galeri', err);
+                }
+            });
 
             const hiddenGal = document.getElementById('galleryPhotosBase64');
             if (hiddenGal) { hiddenGal.value = JSON.stringify(galleryDataUrls); }
@@ -4147,7 +3732,8 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             try {
-                const saved = JSON.parse(sessionStorage.getItem('dkarsa_preview_gallery_photos') || '[]');
+                const raw = localStorage.getItem('dkarsa_preview_gallery_photos') || sessionStorage.getItem('dkarsa_preview_gallery_photos') || '[]';
+                const saved = JSON.parse(raw);
                 if (Array.isArray(saved) && saved.length) {
                     galleryDataUrls = saved.filter(Boolean);
                     renderGalleryPreviews();
@@ -4927,30 +4513,8 @@
             if (!iframe || !iframe.contentWindow) return;
 
             try {
-                const groomBase64 = document.getElementById('groomPhotoBase64')?.value || sessionStorage.getItem('dkarsa_preview_groom_photo');
-                if (groomBase64) {
-                    iframe.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_PHOTO', target: 'groom', photoUrl: groomBase64, dataUrl: groomBase64 }, '*');
-                }
-                const brideBase64 = document.getElementById('bridePhotoBase64')?.value || sessionStorage.getItem('dkarsa_preview_bride_photo');
-                if (brideBase64) {
-                    iframe.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_PHOTO', target: 'bride', photoUrl: brideBase64, dataUrl: brideBase64 }, '*');
-                }
-                const coverBase64 = document.getElementById('coverPhotoBase64')?.value || sessionStorage.getItem('dkarsa_preview_cover_photo');
-                if (coverBase64) {
-                    iframe.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_PHOTO', target: 'cover', photoUrl: coverBase64, dataUrl: coverBase64 }, '*');
-                }
-                let galleryBase64 = document.getElementById('galleryPhotosBase64')?.value;
-                if (!galleryBase64) {
-                    galleryBase64 = sessionStorage.getItem('dkarsa_preview_gallery_photos');
-                }
-                if (galleryBase64) {
-                    try {
-                        const parsedGal = typeof galleryBase64 === 'string' ? JSON.parse(galleryBase64) : galleryBase64;
-                        if (Array.isArray(parsedGal) && parsedGal.length > 0) {
-                            iframe.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_GALLERY', images: parsedGal, photos: parsedGal }, '*');
-                        }
-                    } catch(e) {}
-                }
+                // Satu paket media: cover + mempelai + galeri, supaya tidak ada foto yang tertinggal.
+                pushPreviewMedia(iframe);
             } catch(e) {}
 
             try {

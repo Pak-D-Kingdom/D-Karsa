@@ -19,6 +19,7 @@ Route::get('/u/{slug}', [InvitationController::class, 'showInvitation'])->name('
 Route::get('/demo', [InvitationController::class, 'demoIndex'])->name('invitation.demo.index');
 Route::post('/demo/tautan', [InvitationController::class, 'previewLink'])->middleware('throttle:60,1')->name('invitation.preview.link');
 Route::get('/p/{token}', [InvitationController::class, 'shortPreview'])->name('invitation.preview');
+Route::get('/p/{token}/tamu', [InvitationController::class, 'shortPreviewGuestLinks'])->name('invitation.preview.guests');
 Route::get('/demo/{templateKey}/{tier?}', [InvitationController::class, 'demoTemplate'])->name('invitation.demo');
 Route::post('/rsvp', [InvitationController::class, 'rsvp'])->name('invitation.rsvp');
 Route::post('/wish', [InvitationController::class, 'wish'])->name('invitation.wish');

@@ -849,6 +849,32 @@ class InvitationController extends Controller
     }
 
     /**
+     * Halaman pengelola link tamu untuk undangan uji (/p/{token}).
+     * Link tamu mengikuti tautan undangan yang benar-benar ada, bukan /undangan/{slug} yang belum terbit.
+     */
+    public function shortPreviewGuestLinks(string $token)
+    {
+        $payload = Cache::get('preview:'.$token);
+        abort_unless(is_array($payload), 404);
+
+        $groom = trim((string) ($payload['groom_name'] ?? $payload['groom_fullname'] ?? ''));
+        $bride = trim((string) ($payload['bride_name'] ?? $payload['bride_fullname'] ?? ''));
+        $title = trim((string) ($payload['event_heading'] ?? ''));
+
+        if ($groom !== '' && $bride !== '') {
+            $title = $groom.' & '.$bride;
+        } elseif ($title === '') {
+            $title = 'Undangan uji';
+        }
+
+        return view('invitation.guest-links', [
+            'token' => $token,
+            'guestBaseUrl' => route('invitation.preview', $token),
+            'invitationTitle' => $title,
+        ]);
+    }
+
+    /**
      * Ubah parameter ?to= menjadi nama yang enak dibaca.
      * "Bapak-Andi-Wijaya" → "Bapak Andi Wijaya"; nama dengan spasi dibiarkan apa adanya.
      */

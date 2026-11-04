@@ -27,7 +27,8 @@
 
     function applyPicker(kind, url) {
         if (!url) { return; }
-        paint(document.getElementById(PERSON_IDS[kind]), url);
+        // Beberapa tema memakai id yang sama di gerbang dan di isi undangan: warnai semuanya.
+        document.querySelectorAll('[id="' + PERSON_IDS[kind] + '"]').forEach(function (el) { paint(el, url); });
         document.querySelectorAll('[data-' + kind + '-photo]').forEach(function (el) { paint(el, url); });
         if (kind === 'cover') {
             document.querySelectorAll('.page-photo').forEach(function (el) { paint(el, url); });
