@@ -78,6 +78,36 @@
 
     window.DKarsaApplyPreviewPhotos = applyAll;
 
+    /* Pintu masuk pengelola link tamu — hanya di halaman undangan uji (/p/{token}),
+       jadi tamu undangan jadi tidak pernah melihatnya. */
+    function mountGuestLinkChip() {
+        var path = window.location.pathname || '';
+        if (path.indexOf('/p/') !== 0 || /\/tamu\/?$/.test(path)) { return; }
+        if (document.getElementById('dkarsaGuestLinkChip')) { return; }
+
+        var link = document.createElement('a');
+        link.id = 'dkarsaGuestLinkChip';
+        link.href = path.replace(/\/$/, '') + '/tamu';
+        link.textContent = '🔗 Link Tamu';
+        link.setAttribute('aria-label', 'Buka pengelola link personal per tamu');
+        link.style.cssText = [
+            'position:fixed', 'left:10px', 'bottom:64px', 'z-index:55',
+            'display:inline-flex', 'align-items:center', 'gap:5px',
+            'padding:6px 10px', 'border-radius:999px',
+            'font:700 10px/1 "Plus Jakarta Sans",system-ui,sans-serif',
+            'letter-spacing:.02em', 'color:#141311', 'text-decoration:none',
+            'background:rgba(255,255,255,.86)', 'border:1px solid rgba(0,0,0,.16)',
+            'box-shadow:0 4px 14px -8px rgba(0,0,0,.6)', 'backdrop-filter:blur(6px)'
+        ].join(';');
+        document.body.appendChild(link);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', mountGuestLinkChip);
+    } else {
+        mountGuestLinkChip();
+    }
+
     window.addEventListener('message', function (event) {
         var data = event.data || {};
         if (data.type === 'UPDATE_PREVIEW_PHOTOS') { applyAll(data.photos || {}); return; }

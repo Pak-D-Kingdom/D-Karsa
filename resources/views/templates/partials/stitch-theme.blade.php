@@ -66,13 +66,17 @@
     $tierMatrix = \App\Services\TemplateManager::tierMatrix();
     $tierInfo = $tierMatrix[$tierParam] ?? $tierMatrix['eksklusif'];
     $tierNote = $isCorporate ? $tierInfo['note_envelope'] : $tierInfo['note'];
+    // Harga & pemilih paket hanya untuk halaman demo katalog — undangan jadi/uji tidak jualan.
+    $showTierDock = request()->routeIs('invitation.demo');
     $tierMapJs = [];
-    foreach ($tierMatrix as $tierKey => $tierRow) {
-        $tierMapJs[$tierKey] = [
-            'label' => strtoupper($tierRow['label']),
-            'price' => $tierRow['price'],
-            'note' => $isCorporate ? $tierRow['note_envelope'] : $tierRow['note'],
-        ];
+    if ($showTierDock) {
+        foreach ($tierMatrix as $tierKey => $tierRow) {
+            $tierMapJs[$tierKey] = [
+                'label' => strtoupper($tierRow['label']),
+                'price' => $tierRow['price'],
+                'note' => $isCorporate ? $tierRow['note_envelope'] : $tierRow['note'],
+            ];
+        }
     }
 
     $c = $tj['c'];
@@ -677,12 +681,15 @@
                 <span class="dot"></span>
                 <span class="eyebrow truncate">{{ $copy['eyebrow'] }}</span>
             </div>
-            <div class="pill"><span id="tier-pill-label">{{ strtoupper($tierParam) }}</span> • <span id="tier-pill-price">{{ $tierInfo['price'] }}</span></div>
+            @if($showTierDock)
+                <div class="pill"><span id="tier-pill-label">{{ strtoupper($tierParam) }}</span> • <span id="tier-pill-price">{{ $tierInfo['price'] }}</span></div>
+            @endif
         </div>
         <div class="row mt-1">
             <span class="muted text-[11px] truncate">{{ $styleLabel ? $styleLabel . ' • ' : '' }}{{ $palette }}</span>
             <span class="hud" id="tier-note" style="color:var(--silver)">{{ $tierNote }}</span>
         </div>
+        @if($showTierDock)
         <div class="row mt-1.5" id="top-customizer-dock" aria-label="Pratinjau paket">
             <div class="tier-pill">
                 @foreach(['basic' => 'Basic', 'premium' => 'Premium', 'eksklusif' => 'Eksklusif', 'kustom' => 'Kustom'] as $tierKey => $tierLabel)
@@ -696,6 +703,7 @@
                 <span class="hud" style="color:var(--muted)">{{ $tierInfo['price'] }}</span>
             </span>
         </div>
+        @endif
     </div>
 
     @include('templates.partials.tier-' . $tierParam . '-body')

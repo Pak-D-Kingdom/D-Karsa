@@ -1466,10 +1466,6 @@
                     Undangan tes ini <b>sementara</b> — dibuat dari data formulir, tanpa pembayaran. Bisa dihapus kapan saja.
                 </p>
                 <div class="flex items-center gap-2 ml-auto">
-                    <button type="button" onclick="openGuestLinkManager()"
-                            class="px-4 py-2 rounded-full bg-white border border-ink/20 hover:border-brand hover:text-brand text-ink2 text-[11px] font-bold flex items-center gap-1.5">
-                        <span aria-hidden="true">🔗</span> Link Tamu
-                    </button>
                     <button type="button" onclick="openTestInvitation()"
                             class="px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-bold flex items-center gap-1.5">
                         <span>↗</span> Buka Undangan Tes
@@ -3089,20 +3085,6 @@
         }
     }
 
-    /* Halaman pengelola link tamu dibuka dari tautan undangan tes yang sudah jadi,
-       jadi link tamu selalu menunjuk halaman undangan yang benar-benar ada. */
-    async function openGuestLinkManager() {
-        const win = window.open('', '_blank');
-        try {
-            const url = await testInvitationUrl();
-            const target = url.replace(/\/$/, '') + '/tamu';
-            if (win) { win.location.replace(target); } else { window.open(target, '_blank', 'noopener'); }
-        } catch (e) {
-            if (win) { win.close(); }
-            alert('Halaman link tamu gagal dibuka. Silakan coba lagi.');
-        }
-    }
-
     /* Pustaka musik: putar contoh & cari cepat */
     function playMusicTrack(url) {
         const player = document.getElementById('musicLibPreview');
@@ -3254,7 +3236,11 @@
         /* Foto pratinjau (cover/mempelai/galeri) dikirim ulang setiap iframe selesai dimuat,
            karena iframe reload tiap kali isian berubah. */
         function previewPhotoPayload() {
-            const read = (key) => {
+            // Form menyimpan salinan base64 di input tersembunyi — itu sumber paling andal,
+            // storage dipakai sebagai cadangan untuk tab undangan yang dibuka belakangan.
+            const read = (key, inputId) => {
+                const field = inputId ? document.getElementById(inputId) : null;
+                if (field && field.value) { return field.value; }
                 try {
                     return localStorage.getItem(key) || sessionStorage.getItem(key) || '';
                 } catch (e) {
@@ -3262,12 +3248,12 @@
                 }
             };
             let gallery = [];
-            try { gallery = JSON.parse(read('dkarsa_preview_gallery_photos') || '[]') || []; } catch (e) { gallery = []; }
+            try { gallery = JSON.parse(read('dkarsa_preview_gallery_photos', 'galleryPhotosBase64') || '[]') || []; } catch (e) { gallery = []; }
 
             return {
-                cover: read('dkarsa_preview_cover_photo'),
-                groom: read('dkarsa_preview_groom_photo'),
-                bride: read('dkarsa_preview_bride_photo'),
+                cover: read('dkarsa_preview_cover_photo', 'coverPhotoBase64'),
+                groom: read('dkarsa_preview_groom_photo', 'groomPhotoBase64'),
+                bride: read('dkarsa_preview_bride_photo', 'bridePhotoBase64'),
                 gallery: Array.isArray(gallery) ? gallery.filter(Boolean) : [],
             };
         }
@@ -4551,16 +4537,8 @@
                 });
             });
 
-            // Clean any stale local storage from past sessions on initial load
-            try {
-                const hasFormErrors = @json(isset($errors) && $errors->any());
-                if (!hasFormErrors) {
-                    ['groom_photo', 'bride_photo', 'cover_photo', 'gallery_photos', 'groom_father', 'groom_mother', 'bride_father', 'bride_mother'].forEach(k => {
-                        localStorage.removeItem('dkarsa_preview_' + k);
-                        sessionStorage.removeItem('dkarsa_preview_' + k);
-                    });
-                }
-            } catch(e) {}
+            // Catatan: foto pratinjau sengaja TIDAK dihapus saat halaman dimuat —
+            // dulu blok "clean stale storage" ini menghapus unggahan yang belum dikirim.
 
             // Setup iframe load listener and handshake listener to post latest photos, gallery, and dynamic events
             const iframe = document.getElementById('builderLivePreviewIframe');
