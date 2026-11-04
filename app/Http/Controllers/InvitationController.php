@@ -8,6 +8,7 @@ use App\Models\Gallery;
 use App\Models\Guest;
 use App\Models\Rsvp;
 use App\Models\Wish;
+use App\Services\MapsLinkResolver;
 use App\Services\MidtransService;
 use App\Services\TemplateManager;
 use App\Services\WhatsAppBulkSender;
@@ -375,7 +376,7 @@ class InvitationController extends Controller
                         'end_time' => $evData['end_time'] ?? null,
                         'venue_name' => ! empty($evData['venue_name']) ? $evData['venue_name'] : 'Lokasi Acara',
                         'address' => $evData['address'] ?? null,
-                        'maps_url' => ! empty($evData['maps_url']) ? $evData['maps_url'] : 'https://maps.google.com',
+                        'maps_url' => ! empty($evData['maps_url']) ? MapsLinkResolver::expand($evData['maps_url']) : 'https://maps.google.com',
                         'sort_order' => $sortOrder,
                     ]);
                     $sortOrder++;
@@ -392,7 +393,7 @@ class InvitationController extends Controller
                     'end_time' => (! empty($validated['event_1_end_time'])) ? $validated['event_1_end_time'] : '10:00 WIB',
                     'venue_name' => (! empty($validated['event_1_venue'])) ? $validated['event_1_venue'] : 'Masjid / Lokasi Acara',
                     'address' => $validated['event_1_address'] ?? null,
-                    'maps_url' => (! empty($validated['event_1_maps_url'])) ? $validated['event_1_maps_url'] : 'https://maps.google.com',
+                    'maps_url' => (! empty($validated['event_1_maps_url'])) ? MapsLinkResolver::expand($validated['event_1_maps_url']) : 'https://maps.google.com',
                     'sort_order' => 1,
                 ]);
             }
@@ -407,7 +408,7 @@ class InvitationController extends Controller
                     'end_time' => (! empty($validated['event_2_end_time'])) ? $validated['event_2_end_time'] : '14:00 WIB',
                     'venue_name' => (! empty($validated['event_2_venue'])) ? $validated['event_2_venue'] : 'Ballroom / Gedung Serbaguna',
                     'address' => $validated['event_2_address'] ?? null,
-                    'maps_url' => (! empty($validated['event_2_maps_url'])) ? $validated['event_2_maps_url'] : 'https://maps.google.com',
+                    'maps_url' => (! empty($validated['event_2_maps_url'])) ? MapsLinkResolver::expand($validated['event_2_maps_url']) : 'https://maps.google.com',
                     'sort_order' => 2,
                 ]);
             }
@@ -820,6 +821,7 @@ class InvitationController extends Controller
         }
 
         $params = array_filter($params, static fn ($value) => is_scalar($value) && $value !== '');
+        $params = $this->expandMapsParams($params);
         $key = (string) ($request->input('template_key') ?: ($params['template_key'] ?? 'chibi-red'));
         unset($params['template_key'], $params['_key']);
 
@@ -846,6 +848,35 @@ class InvitationController extends Controller
         unset($payload['_key']);
 
         return $this->demoTemplate(Request::create('/demo/'.$key, 'GET', $payload), $key);
+    }
+
+    /**
+     * Rapikan tautan Google Maps pada parameter pratinjau supaya peta mengikuti titik yang dipilih.
+     *
+     * @param  array<string, mixed>  $params
+     * @return array<string, mixed>
+     */
+    private function expandMapsParams(array $params): array
+    {
+        foreach (['event_1_maps_url', 'event_2_maps_url'] as $fieldName) {
+            if (! empty($params[$fieldName]) && is_string($params[$fieldName])) {
+                $params[$fieldName] = MapsLinkResolver::expand($params[$fieldName]);
+            }
+        }
+
+        if (! empty($params['events_json']) && is_string($params['events_json'])) {
+            $events = json_decode($params['events_json'], true);
+            if (is_array($events)) {
+                foreach ($events as $index => $event) {
+                    if (is_array($event) && ! empty($event['maps_url']) && is_string($event['maps_url'])) {
+                        $events[$index]['maps_url'] = MapsLinkResolver::expand($event['maps_url']);
+                    }
+                }
+                $params['events_json'] = json_encode($events);
+            }
+        }
+
+        return $params;
     }
 
     /**

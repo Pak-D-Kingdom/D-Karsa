@@ -89,7 +89,7 @@
             <p class="text-[12.5px] mt-1" style="color:var(--muted)">{{ $venueAddress }}</p>
         @endif
         <div class="map-facade mt-3" role="button" tabindex="0"
-                     data-map-src="https://www.google.com/maps?q={{ urlencode($venueName . ' ' . $venueAddress) }}&z=16&output=embed"
+                     data-map-src="{{ $mapsEmbed }}"
                      data-map-title="Peta {{ $venueName }}"
                      onclick="DKarsaLoadMap(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();DKarsaLoadMap(this);}">
                     <span class="map-facade-pin" aria-hidden="true">◉</span>

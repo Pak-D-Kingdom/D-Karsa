@@ -30,7 +30,19 @@
     $firstEvent = ($couple->events ?? collect())->first();
     $venueName = $couple->venue_name ?? ($firstEvent->venue_name ?? 'Lokasi Acara');
     $venueAddress = $couple->venue_address ?? ($firstEvent->address ?? '');
-    $mapsUrl = $couple->maps_url ?? ($firstEvent->maps_url ?? ('https://www.google.com/maps/search/?api=1&query=' . urlencode($venueName . ' ' . $venueAddress)));
+    // Peta mengikuti tautan yang diisi pemesan; alamat hanya jadi cadangan.
+    $mapQuery = trim(($venueName ?? '').' '.($venueAddress ?? ''));
+    $mapsRaw = $mapsRaw = '';
+    foreach ([($firstEvent->maps_url ?? null), ($couple->maps_url ?? null)] as $mapsCandidate) {
+        $mapsCandidate = trim((string) $mapsCandidate);
+        if ($mapsCandidate === '' || in_array($mapsCandidate, ['https://maps.google.com', 'http://maps.google.com', 'https://www.google.com/maps'], true)) {
+            continue;
+        }
+        $mapsRaw = $mapsCandidate;
+        break;
+    }
+    $mapsUrl = \App\Services\TemplateManager::mapDirectionsUrl($mapsRaw, $mapQuery);
+    $mapsEmbed = \App\Services\TemplateManager::mapEmbedUrl($mapsRaw, $mapQuery);
     $targetDate = ! empty($couple->wedding_date) ? \Carbon\Carbon::parse($couple->wedding_date) : now()->addMonths(2);
     $dateLong = $targetDate->locale('id')->isoFormat('dddd, D MMMM Y');
     $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo ?? null, 'https://images.unsplash.com/photo-1519741497674-611481863552?w=1200');

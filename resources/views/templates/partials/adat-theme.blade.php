@@ -815,7 +815,17 @@
         $firstEvent = $events->first();
         $venueName = $couple->venue_name ?? ($firstEvent->venue_name ?? 'Gedung Pahargyan');
         $venueAddress = $firstEvent->address ?? ($couple->venue_address ?? 'Alamat acara akan diinformasikan lebih lanjut');
-        $mapsUrl = $firstEvent->maps_url ?? ('https://www.google.com/maps/search/?api=1&query=' . urlencode($venueName));
+        // Tautan per acara menang atas tautan tingkat pasangan; placeholder "https://maps.google.com" diabaikan.
+        $mapsRaw = '';
+        foreach ([($firstEvent->maps_url ?? null), ($couple->maps_url ?? null)] as $mapsCandidate) {
+            $mapsCandidate = trim((string) $mapsCandidate);
+            if ($mapsCandidate === '' || in_array($mapsCandidate, ['https://maps.google.com', 'http://maps.google.com', 'https://www.google.com/maps'], true)) {
+                continue;
+            }
+            $mapsRaw = $mapsCandidate;
+            break;
+        }
+        $mapsUrl = \App\Services\TemplateManager::mapDirectionsUrl($mapsRaw, trim(($venueName ?? '') . ' ' . ($venueAddress ?? '')));
 
         $galleryItems = ($couple->galleries ?? collect());
         if ($galleryItems->isEmpty()) {
@@ -1300,7 +1310,7 @@
             <div class="scard overflow-hidden">
                 @php
                     $mapQuery = trim(($venueName ?? '') . ' ' . ($venueAddress ?? ''));
-                    $mapEmbed = 'https://www.google.com/maps?q=' . urlencode($mapQuery !== '' ? $mapQuery : ($venueName ?? 'Indonesia')) . '&z=16&output=embed';
+                    $mapEmbed = \App\Services\TemplateManager::mapEmbedUrl($mapsRaw ?? null, $mapQuery);
                 @endphp
                 <div class="relative w-full h-44 overflow-hidden" style="background:color-mix(in srgb, var(--deep) 10%, var(--bg));">
                     <iframe
@@ -1334,7 +1344,7 @@
                 <div class="scard overflow-hidden">
                     @php
                         $akadQuery = trim(($akad->venue_name ?? $venueName) . ' ' . ($akad->address ?? ''));
-                        $akadEmbed = 'https://www.google.com/maps?q=' . urlencode($akadQuery) . '&z=16&output=embed';
+                        $akadEmbed = \App\Services\TemplateManager::mapEmbedUrl($mapsRaw ?? null, $akadQuery);
                     @endphp
                     <div class="relative w-full h-40 overflow-hidden" style="background:color-mix(in srgb, var(--deep) 10%, var(--bg));">
                         <iframe src="{{ $akadEmbed }}" title="Peta lokasi akad" class="w-full h-full border-0"

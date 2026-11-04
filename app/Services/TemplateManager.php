@@ -1070,6 +1070,110 @@ class TemplateManager
     }
 
     /**
+     * Tautan "Petunjuk Google Maps" yang aman dipakai di <a href>.
+     * Menerima tautan Google Maps apa pun (share pendek, /maps/place/…, koordinat, atau alamat teks)
+     * dan selalu mengembalikan URL absolut — tautan tanpa skema seperti "maps.app.goo.gl/abc" dulu
+     * dianggap path relatif sehingga tombolnya 404.
+     */
+    public static function mapDirectionsUrl(?string $raw, ?string $fallbackQuery = ''): string
+    {
+        $raw = trim((string) $raw);
+        $fallbackQuery = trim((string) $fallbackQuery);
+
+        if ($raw === '') {
+            return self::mapsSearchUrl($fallbackQuery);
+        }
+
+        if (preg_match('#^(https?:)?//#i', $raw)) {
+            $url = str_starts_with($raw, '//') ? 'https:'.$raw : $raw;
+
+            // Tautan embed bukan untuk dibuka di tab baru.
+            return str_contains($url, 'output=embed')
+                ? preg_replace('/[?&]output=embed/i', '', $url)
+                : $url;
+        }
+
+        if (self::looksLikeHost($raw)) {
+            return 'https://'.$raw;
+        }
+
+        return self::mapsSearchUrl($raw);
+    }
+
+    /**
+     * URL iframe peta yang mengikuti tautan pembeli (koordinat/nama tempat) dan bukan hanya teks alamat.
+     */
+    public static function mapEmbedUrl(?string $raw, ?string $fallbackQuery = ''): string
+    {
+        $raw = trim((string) $raw);
+        $fallbackQuery = trim((string) $fallbackQuery);
+
+        $query = self::mapQueryFromUrl($raw);
+        if ($query === '') {
+            $query = $raw !== '' && ! self::looksLikeHost($raw) && ! preg_match('#^(https?:)?//#i', $raw)
+                ? $raw
+                : $fallbackQuery;
+        }
+        if ($query === '') {
+            $query = 'Indonesia';
+        }
+
+        return 'https://www.google.com/maps?q='.urlencode($query).'&z=16&output=embed';
+    }
+
+    /**
+     * Ambil bagian yang bisa dipakai sebagai query peta dari sebuah tautan Google Maps.
+     */
+    private static function mapQueryFromUrl(string $raw): string
+    {
+        if ($raw === '') {
+            return '';
+        }
+
+        // Koordinat: /@-7.2575,112.7521,15z atau !3d-7.2575!4d112.7521
+        if (preg_match('#@(-?\d+\.\d+),(-?\d+\.\d+)#', $raw, $m)) {
+            return $m[1].','.$m[2];
+        }
+        if (preg_match('#!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)#', $raw, $m)) {
+            return $m[1].','.$m[2];
+        }
+
+        // Parameter query yang sudah berupa pencarian/koordinat.
+        $parts = parse_url($raw, PHP_URL_QUERY);
+        if (is_string($parts)) {
+            parse_str($parts, $params);
+            foreach (['query', 'q', 'destination', 'center', 'll'] as $key) {
+                if (! empty($params[$key]) && is_string($params[$key])) {
+                    return trim(str_replace('+', ' ', $params[$key]));
+                }
+            }
+        }
+
+        // Nama tempat: /maps/place/Belia+Cosmetic/@…
+        if (preg_match('#/maps/place/([^/@?]+)#', $raw, $m)) {
+            $name = trim(urldecode(str_replace('+', ' ', $m[1])));
+
+            return $name;
+        }
+
+        return '';
+    }
+
+    private static function mapsSearchUrl(string $query): string
+    {
+        $query = trim($query);
+
+        return $query === ''
+            ? 'https://www.google.com/maps'
+            : 'https://www.google.com/maps/search/?api=1&query='.urlencode($query);
+    }
+
+    private static function looksLikeHost(string $value): bool
+    {
+        return (bool) preg_match('~^[\w.-]+\.[a-z]{2,}([/?#].*)?$~i', $value);
+    }
+
+    /**
      * Format nama kedua orang tua mempelai dengan gelar kehormatan rapi & konsisten
      */
     public static function formatParentNames(?string $father, ?string $mother, ?string $fallback = ''): string

@@ -1084,8 +1084,9 @@
                             </div>
                             <div class="space-y-1">
                                 <label class="block text-xs font-semibold text-ink2">Tautan Google Maps</label>
-                                <input type="url" name="event_1_maps_url" value="{{ old('event_1_maps_url') }}"
+                                <input type="text" inputmode="url" name="event_1_maps_url" value="{{ old('event_1_maps_url') }}"
                                        placeholder="Contoh: https://maps.app.goo.gl/..."
+                                       onblur="normalizeMapsLink(this)"
                                        class="event-maps-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
                             </div>
                         </div>
@@ -1143,8 +1144,9 @@
                             </div>
                             <div class="space-y-1">
                                 <label class="block text-xs font-semibold text-ink2">Tautan Google Maps</label>
-                                <input type="url" name="event_2_maps_url" value="{{ old('event_2_maps_url') }}"
+                                <input type="text" inputmode="url" name="event_2_maps_url" value="{{ old('event_2_maps_url') }}"
                                        placeholder="Contoh: https://maps.app.goo.gl/..."
+                                       onblur="normalizeMapsLink(this)"
                                        class="event-maps-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
                             </div>
                         </div>
@@ -3231,6 +3233,17 @@
                 const base = iframe.getAttribute('src').split('&tier=')[0].split('?tier=')[0];
                 iframe.src = base + (base.indexOf('?') >= 0 ? '&' : '?') + 'tier=' + tier;
             }
+        }
+
+        /* Tautan Maps yang ditempel apa adanya (tanpa https://) dulu jadi path relatif → tombol 404.
+           Rapikan jadi URL absolut saat kolom ditinggalkan. */
+        function normalizeMapsLink(input) {
+            const raw = String(input.value || '').trim();
+            if (!raw) { return; }
+            if (raw.startsWith('//')) { input.value = 'https:' + raw; return; }
+            if (/^https?:\/\//i.test(raw)) { input.value = raw; return; }
+            if (/^[\w.-]+\.[a-z]{2,}([/?#].*)?$/i.test(raw)) { input.value = 'https://' + raw; return; }
+            input.value = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(raw);
         }
 
         /* Foto pratinjau (cover/mempelai/galeri) dikirim ulang setiap iframe selesai dimuat,
