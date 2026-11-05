@@ -163,25 +163,62 @@
             </div>
         </section>
 
-        {{-- 6. LOKASI --}}
+        {{-- 6. LOKASI: satu kartu peta per acara --}}
         <section id="lokasi" class="reveal">
-            <div class="card">
-                <span class="eyebrow">{{ $copy['venue'] }}</span>
-                <h2 class="serif text-[20px] mt-0.5" style="color:var(--on-surface)">{{ $venueName }}</h2>
-                @if($venueAddress !== '')<p class="text-[12.5px] mt-1" style="color:var(--muted)">{{ $venueAddress }}</p>@endif
-                <div class="mt-3">
-                    <div class="map-facade " role="button" tabindex="0"
-                     data-map-src="{{ $mapsEmbed }}"
-                     data-map-title="Peta {{ $venueName }}"
-                     onclick="DKarsaLoadMap(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();DKarsaLoadMap(this);}">
-                    <span class="map-facade-pin" aria-hidden="true">◉</span>
-                    <b class="map-facade-label">Muat Peta Interaktif</b>
-                    <span class="map-facade-note">{{ $venueName }}</span>
-                </div>
-                </div>
-                <a href="{{ $mapsUrl }}" target="_blank" rel="noopener" class="btn-gold w-full mt-3" style="text-decoration:none">
-                    {!! $icon('pin') !!} PETUNJUK GOOGLE MAPS
-                </a>
+            <div class="space-y-3">
+                @php $venueCards = ($couple->events ?? collect()); @endphp
+                @forelse($venueCards as $venueIndex => $venueEvent)
+                    @php
+                        $cardVenue = trim((string) ($venueEvent->venue_name ?: $venueName));
+                        $cardAddress = trim((string) ($venueEvent->address ?? ''));
+                        $cardQuery = trim($cardVenue . ' ' . $cardAddress);
+                        $cardRaw = trim((string) ($venueEvent->maps_url ?? ''));
+                        if (in_array($cardRaw, ['https://maps.google.com', 'http://maps.google.com', 'https://www.google.com/maps'], true)) {
+                            $cardRaw = '';
+                        }
+                        $cardEmbed = \App\Services\TemplateManager::mapEmbedUrl($cardRaw, $cardQuery);
+                        $cardDirections = \App\Services\TemplateManager::mapDirectionsUrl($cardRaw, $cardQuery);
+                        $cardTitle = trim((string) ($venueEvent->title ?: 'Acara ' . ($venueIndex + 1)));
+                    @endphp
+                    <div class="card" id="map-card-event-{{ $venueIndex + 1 }}">
+                        <span class="eyebrow">{{ strtoupper($cardTitle) }}</span>
+                        <h2 class="serif text-[20px] mt-0.5" style="color:var(--on-surface)">{{ $cardVenue }}</h2>
+                        @if($cardAddress !== '')
+                            <p class="text-[12.5px] mt-1" style="color:var(--muted)">{{ $cardAddress }}</p>
+                        @endif
+                        <div class="mt-3">
+                            <div class="map-facade" role="button" tabindex="0"
+                                 data-map-src="{{ $cardEmbed }}"
+                                 data-map-title="Peta {{ $cardVenue }}"
+                                 onclick="DKarsaLoadMap(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();DKarsaLoadMap(this);}">
+                                <span class="map-facade-pin" aria-hidden="true">◉</span>
+                                <b class="map-facade-label">Muat Peta Interaktif</b>
+                                <span class="map-facade-note">{{ $cardVenue }}</span>
+                            </div>
+                        </div>
+                        <a id="btn-map-event-{{ $venueIndex + 1 }}" href="{{ $cardDirections }}" target="_blank" rel="noopener noreferrer" class="btn-gold w-full mt-3" style="text-decoration:none">
+                            {!! $icon('pin') !!} PETUNJUK GOOGLE MAPS
+                        </a>
+                    </div>
+                @empty
+                    <div class="card" id="map-card-event-1">
+                        <span class="eyebrow">{{ $copy['venue'] }}</span>
+                        <h2 class="serif text-[20px] mt-0.5" style="color:var(--on-surface)">{{ $venueName }}</h2>
+                        @if($venueAddress !== '')<p class="text-[12.5px] mt-1" style="color:var(--muted)">{{ $venueAddress }}</p>@endif
+                        <div class="mt-3">
+                            <div class="map-facade" role="button" tabindex="0"
+                                 data-map-src="{{ $mapsEmbed }}" data-map-title="Peta {{ $venueName }}"
+                                 onclick="DKarsaLoadMap(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();DKarsaLoadMap(this);}">
+                                <span class="map-facade-pin" aria-hidden="true">◉</span>
+                                <b class="map-facade-label">Muat Peta Interaktif</b>
+                                <span class="map-facade-note">{{ $venueName }}</span>
+                            </div>
+                        </div>
+                        <a id="btn-map-event-1" href="{{ $mapsUrl }}" target="_blank" rel="noopener noreferrer" class="btn-gold w-full mt-3" style="text-decoration:none">
+                            {!! $icon('pin') !!} PETUNJUK GOOGLE MAPS
+                        </a>
+                    </div>
+                @endforelse
             </div>
         </section>
 

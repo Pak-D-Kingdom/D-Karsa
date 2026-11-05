@@ -383,11 +383,38 @@ window.DKarsaGuest = (function () {
 
     function hash(s) { var h = 0; for (var i = 0; i < s.length; i++) { h = (h * 31 + s.charCodeAt(i)) >>> 0; } return h; }
     function saved() { try { return JSON.parse(sessionStorage.getItem(store) || '{}'); } catch (e) { return {}; } }
+
+    /* Nama tamu bisa datang dari generator link Excel dengan banyak nama kunci,
+       dan bisa ada di query biasa maupun di dalam hash (#/undangan?to=...). */
+    var GUEST_KEYS = ['to', 'guest', 'nama', 'name', 'kepada', 'tamu', 'penerima'];
+
+    function readGuestParam() {
+        var sources = [location.search || ''];
+        var hashPart = location.hash || '';
+        var qIndex = hashPart.indexOf('?');
+        if (qIndex >= 0) { sources.push(hashPart.slice(qIndex)); }
+
+        for (var s = 0; s < sources.length; s++) {
+            if (!sources[s]) { continue; }
+            var params = new URLSearchParams(sources[s]);
+            for (var k = 0; k < GUEST_KEYS.length; k++) {
+                var raw = params.get(GUEST_KEYS[k]);
+                if (!raw) { continue; }
+                var value;
+                try { value = decodeURIComponent(String(raw).replace(/\+/g, ' ')); } catch (e) { value = String(raw).replace(/\+/g, ' '); }
+                value = value.trim();
+                // Tautan boleh memakai tanda hubung (?to=Bapak-Andi-Wijaya) → tampilkan dengan spasi.
+                if (value && value.indexOf(' ') < 0 && value.indexOf('-') >= 0) { value = value.replace(/-/g, ' '); }
+                if (value) { return value; }
+            }
+        }
+
+        return '';
+    }
+
     var seed = saved();
     var nameEl = document.getElementById('qr-guest-name');
-    // Tautan bisa memakai tanda hubung (?to=Bapak-Andi-Wijaya) → tampilkan dengan spasi.
-    var rawTo = qs.get('to') || '';
-    if (rawTo && rawTo.indexOf(' ') < 0 && rawTo.indexOf('-') >= 0) { rawTo = rawTo.replace(/-/g, ' '); }
+    var rawTo = readGuestParam();
     var state = {
         to: rawTo || seed.to || (nameEl ? nameEl.textContent.trim() : '') || 'Bapak/Ibu/Saudara/i Tamu Kehormatan',
         pax: qs.get('pax') || seed.pax || '2 Orang',
@@ -429,7 +456,12 @@ window.DKarsaGuest = (function () {
         var gate = document.getElementById('gate-guest-name');
         if (gate) { gate.textContent = state.to; }
         var rsvpName = document.querySelector('#rsvp input[name="name"]');
-        if (rsvpName && !rsvpName.value) { rsvpName.value = state.to; }
+        if (rsvpName && (!rsvpName.value || rsvpName.dataset.dkAuto === '1')) {
+            rsvpName.value = state.to;
+            rsvpName.dataset.dkAuto = '1';
+        }
+        var heroName = document.getElementById('hero-guest-name');
+        if (heroName) { heroName.textContent = state.to; }
         var svg = window.DKarsaQR.svg(payload(), 164);
         var mount = document.getElementById('guest-qr-mount');
         if (mount) { mount.innerHTML = svg; }
@@ -512,8 +544,36 @@ window.DKarsaGuest = (function () {
         paint();
         bindRsvp();
     }
+    /* Dipakai generator link tamu / perubahan URL: langsung perbarui nama di gerbang,
+       sapaan, isian RSVP, dan QR sekaligus. */
+    function setGuest(name, id, pax, seat) {
+        if (typeof name === 'string' && name.trim() !== '') { state.to = name.trim(); }
+        if (id) { state.id = String(id); }
+        if (pax) { state.pax = /orang/i.test(String(pax)) ? String(pax) : pax + ' Orang'; }
+        if (seat) { state.seat = String(seat); }
+        paint();
+    }
+
+    function syncFromUrl() {
+        var fromUrl = readGuestParam();
+        if (fromUrl && fromUrl !== state.to) { state.to = fromUrl; }
+
+        var params = new URLSearchParams(location.search || '');
+        var id = params.get('id');
+        var pax = params.get('pax');
+        var seat = params.get('seat');
+        if (id) { state.id = id; }
+        if (pax) { state.pax = /orang/i.test(pax) ? pax : pax + ' Orang'; }
+        if (seat) { state.seat = seat; }
+        paint();
+    }
+
+    window.addEventListener('popstate', syncFromUrl);
+    window.addEventListener('hashchange', syncFromUrl);
+    window.DKarsaUpdateGuestName = setGuest;
+
     if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', init); } else { init(); }
-    return { state: state, paint: paint, setTier: setTier, payload: payload, toast: toast, confirm: confirm, applyConfirmUI: applyConfirmUI };
+    return { state: state, paint: paint, setTier: setTier, payload: payload, toast: toast, confirm: confirm, applyConfirmUI: applyConfirmUI, setGuest: setGuest, syncFromUrl: syncFromUrl };
 })();
 
 function DKarsaSetTier(tier) { window.DKarsaGuest.setTier(tier); }

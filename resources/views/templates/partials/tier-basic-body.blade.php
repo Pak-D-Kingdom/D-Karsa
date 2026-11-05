@@ -81,22 +81,53 @@
         </div>
     </section>
 
-    {{-- 4. Lokasi --}}
+    {{-- 4. Lokasi: satu kartu datar per acara --}}
     <section id="lokasi" class="reveal basic-card text-left">
-        <span class="eyebrow">{{ $copy['venue'] }}</span>
-        <h3 class="text-[15px] font-semibold mt-1" style="color:var(--on-surface)">{{ $venueName }}</h3>
-        @if($venueAddress !== '')
-            <p class="text-[12.5px] mt-1" style="color:var(--muted)">{{ $venueAddress }}</p>
-        @endif
-        <div class="map-facade mt-3" role="button" tabindex="0"
-                     data-map-src="{{ $mapsEmbed }}"
-                     data-map-title="Peta {{ $venueName }}"
+        @php $venueCards = ($couple->events ?? collect()); @endphp
+        @forelse($venueCards as $venueIndex => $venueEvent)
+            @php
+                $cardVenue = trim((string) ($venueEvent->venue_name ?: $venueName));
+                $cardAddress = trim((string) ($venueEvent->address ?? ''));
+                $cardQuery = trim($cardVenue . ' ' . $cardAddress);
+                $cardRaw = trim((string) ($venueEvent->maps_url ?? ''));
+                if (in_array($cardRaw, ['https://maps.google.com', 'http://maps.google.com', 'https://www.google.com/maps'], true)) {
+                    $cardRaw = '';
+                }
+                $cardEmbed = \App\Services\TemplateManager::mapEmbedUrl($cardRaw, $cardQuery);
+                $cardDirections = \App\Services\TemplateManager::mapDirectionsUrl($cardRaw, $cardQuery);
+                $cardTitle = trim((string) ($venueEvent->title ?: 'Acara ' . ($venueIndex + 1)));
+            @endphp
+            <div class="basic-row mt-3" id="map-card-event-{{ $venueIndex + 1 }}">
+                <span class="eyebrow">{{ strtoupper($cardTitle) }}</span>
+                <h3 class="text-[15px] font-semibold mt-1" style="color:var(--on-surface)">{{ $cardVenue }}</h3>
+                @if($cardAddress !== '')
+                    <p class="text-[12.5px] mt-1" style="color:var(--muted)">{{ $cardAddress }}</p>
+                @endif
+                <div class="map-facade mt-3" role="button" tabindex="0"
+                     data-map-src="{{ $cardEmbed }}"
+                     data-map-title="Peta {{ $cardVenue }}"
                      onclick="DKarsaLoadMap(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();DKarsaLoadMap(this);}">
                     <span class="map-facade-pin" aria-hidden="true">◉</span>
                     <b class="map-facade-label">Muat Peta Interaktif</b>
-                    <span class="map-facade-note">{{ $venueName }}</span>
+                    <span class="map-facade-note">{{ $cardVenue }}</span>
                 </div>
-        <a href="{{ $mapsUrl }}" target="_blank" rel="noopener" class="basic-btn mt-3" style="text-decoration:none">[ PETUNJUK GOOGLE MAPS ]</a>
+                <a id="btn-map-event-{{ $venueIndex + 1 }}" href="{{ $cardDirections }}" target="_blank" rel="noopener noreferrer" class="basic-btn mt-3" style="text-decoration:none">[ PETUNJUK GOOGLE MAPS ]</a>
+            </div>
+        @empty
+            <span class="eyebrow">{{ $copy['venue'] }}</span>
+            <h3 class="text-[15px] font-semibold mt-1" style="color:var(--on-surface)">{{ $venueName }}</h3>
+            @if($venueAddress !== '')
+                <p class="text-[12.5px] mt-1" style="color:var(--muted)">{{ $venueAddress }}</p>
+            @endif
+            <div class="map-facade mt-3" role="button" tabindex="0"
+                 data-map-src="{{ $mapsEmbed }}" data-map-title="Peta {{ $venueName }}"
+                 onclick="DKarsaLoadMap(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();DKarsaLoadMap(this);}">
+                <span class="map-facade-pin" aria-hidden="true">◉</span>
+                <b class="map-facade-label">Muat Peta Interaktif</b>
+                <span class="map-facade-note">{{ $venueName }}</span>
+            </div>
+            <a id="btn-map-event-1" href="{{ $mapsUrl }}" target="_blank" rel="noopener noreferrer" class="basic-btn mt-3" style="text-decoration:none">[ PETUNJUK GOOGLE MAPS ]</a>
+        @endforelse
     </section>
 
     {{-- 5. Galeri 2×2 --}}

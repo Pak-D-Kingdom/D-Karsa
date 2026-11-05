@@ -1098,6 +1098,13 @@
                                    placeholder="Contoh: Jl. Sisingamangaraja No. 1, Kebayoran Baru, Jakarta Selatan"
                                    class="event-address-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
                         </div>
+
+                        <div class="space-y-1 sm:col-span-3">
+                            <label class="block text-xs font-semibold text-ink2">Dresscode Acara (Opsional)</label>
+                            <input type="text" name="event_1_dresscode" value="{{ old('event_1_dresscode') }}"
+                                   placeholder="Contoh: Batik Lengan Panjang / Kebaya Putih &amp; Sage Green"
+                                   class="event-dresscode-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                        </div>
                     </div>
 
                     {{-- Acara 2 --}}
@@ -1157,6 +1164,13 @@
                             <input type="text" name="event_2_address" value="{{ old('event_2_address') }}"
                                    placeholder="Contoh: Jl. TB Simatupang Kav. 1, Cilandak Timur, Jakarta Selatan"
                                    class="event-address-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                        </div>
+
+                        <div class="space-y-1 sm:col-span-3">
+                            <label class="block text-xs font-semibold text-ink2">Dresscode Acara (Opsional)</label>
+                            <input type="text" name="event_2_dresscode" value="{{ old('event_2_dresscode') }}"
+                                   placeholder="Contoh: Batik Lengan Panjang / Kebaya Putih &amp; Sage Green"
+                                   class="event-dresscode-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
                         </div>
                     </div>
                 </div>
@@ -3464,6 +3478,7 @@
             const evEnd = data.end_time || (nextIndex === 1 ? '10:00 WIB' : (nextIndex === 2 ? '14:00 WIB' : '21:00 WIB'));
             const evVenue = data.venue_name || '';
             const evMaps = data.maps_url || '';
+            const evDresscode = data.dresscode || '';
             const evAddress = data.address || '';
 
             const card = document.createElement('div');
@@ -3521,6 +3536,12 @@
                     <label class="block text-xs font-semibold text-ink2">Alamat Lengkap</label>
                     <input type="text" value="${evAddress}" placeholder="Contoh: Jl. TB Simatupang No. 12, Jakarta"
                            class="event-address-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                </div>
+
+                <div class="space-y-1">
+                    <label class="block text-xs font-semibold text-ink2">Dresscode Acara (Opsional)</label>
+                    <input type="text" value="${evDresscode || ''}" placeholder="Contoh: Batik Lengan Panjang / Kebaya Putih &amp; Sage Green"
+                           class="event-dresscode-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
                 </div>
             `;
 
@@ -3581,6 +3602,7 @@
                     venue_name: venue,
                     address: address,
                     maps_url: maps,
+                    dresscode: dresscode,
                     sort_order: idx + 1
                 });
 
@@ -4157,6 +4179,7 @@
                     const venue = card.querySelector('.event-venue-input')?.value || '';
                     const address = card.querySelector('.event-address-input')?.value || '';
                     const maps = card.querySelector('.event-maps-input')?.value || '';
+                    const dresscode = card.querySelector('.event-dresscode-input')?.value || '';
 
                     // Kartu acara ikut tampil bila ADA isian apa pun (bukan hanya nama/tempat),
                     // supaya acara kedua tidak "hilang" hanya karena satu kolom belum diisi.
@@ -4170,6 +4193,7 @@
                             venue_name: venue,
                             address: address,
                             maps_url: maps,
+                            dresscode: dresscode,
                             sort_order: idx + 1
                         });
                     }
@@ -4238,6 +4262,14 @@
                     if (events[1].address) params.set('event_2_address', events[1].address);
                     if (events[1].maps_url) params.set('event_2_maps_url', events[1].maps_url);
                 }
+
+                if (events[0].dresscode) {
+                    params.set('dresscode', events[0].dresscode);
+                    params.set('event_1_dresscode', events[0].dresscode);
+                }
+                events.forEach((ev, evIndex) => {
+                    if (ev.dresscode) params.set('event_' + (evIndex + 1) + '_dresscode', ev.dresscode);
+                });
             }
 
             if (bankName1) {

@@ -180,6 +180,8 @@
                     </div>
                     <div class="flex items-center gap-1.5">
                         <p data-guest-url class="flex-1 min-w-0 text-[9.5px] text-ink3 truncate">${url}</p>
+                        <a data-guest-preview href="${url}" target="_blank" rel="noopener" title="Pratinjau undangan dengan nama tamu ini"
+                           class="shrink-0 px-2.5 py-1 rounded-lg bg-white border border-ink/15 text-[10px] font-bold text-ink2 hover:border-brand hover:text-brand">Lihat</a>
                         <button type="button" data-guest-copy data-url="${escapeAttr(url)}" onclick="copyGuestUrl(this)"
                                 class="shrink-0 px-2.5 py-1 rounded-lg bg-sunk border border-ink/15 text-[10px] font-bold text-ink2 hover:border-brand">Salin</button>
                         ${waBtn}
@@ -201,6 +203,8 @@
                 if (urlEl) { urlEl.textContent = url; }
                 const copyBtn = row.querySelector('[data-guest-copy]');
                 if (copyBtn) { copyBtn.dataset.url = url; }
+                const previewLink = row.querySelector('[data-guest-preview]');
+                if (previewLink) { previewLink.href = url; }
                 const wa = row.querySelector('[data-guest-wa]');
                 const hasPhone = !!normalizePhone(guestRows[index].phone);
                 if (wa && hasPhone && wa.tagName === 'SPAN') {

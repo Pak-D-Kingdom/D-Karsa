@@ -180,6 +180,8 @@ class InvitationController extends Controller
             'event_1_venue' => 'nullable|string|max:200',
             'event_1_address' => 'nullable|string|max:500',
             'event_1_maps_url' => 'nullable|string|max:500',
+            'event_1_dresscode' => 'nullable|string|max:200',
+            'dresscode' => 'nullable|string|max:200',
 
             // Event 2 (Resepsi/Party)
             'event_2_title' => 'nullable|string|max:150',
@@ -189,6 +191,7 @@ class InvitationController extends Controller
             'event_2_venue' => 'nullable|string|max:200',
             'event_2_address' => 'nullable|string|max:500',
             'event_2_maps_url' => 'nullable|string|max:500',
+            'event_2_dresscode' => 'nullable|string|max:200',
 
             // Dynamic events array
             'events' => 'nullable|array',
@@ -199,6 +202,7 @@ class InvitationController extends Controller
             'events.*.venue_name' => 'nullable|string|max:200',
             'events.*.address' => 'nullable|string|max:500',
             'events.*.maps_url' => 'nullable|string|max:500',
+            'events.*.dresscode' => 'nullable|string|max:200',
 
             // Digital Bank / Gift
             'bank_name_1' => 'nullable|string|max:80',
@@ -341,6 +345,7 @@ class InvitationController extends Controller
             'bride_city' => $validated['bride_city'] ?? null,
             'bride_photo' => $bridePhotoPath,
 
+            'dresscode' => $validated['dresscode'] ?? ($validated['event_1_dresscode'] ?? null),
             'display_order' => $validated['display_order'] ?? 'groom_first',
             'cover_photo' => $coverPhotoPath,
             'wedding_date' => $validated['wedding_date'],
@@ -698,6 +703,13 @@ class InvitationController extends Controller
             $overrides['gift_address'] = $request->query('gift_address');
         }
 
+        // Dresscode: bisa dari isian langsung atau dari event pertama.
+        if ($request->filled('dresscode')) {
+            $overrides['dresscode'] = (string) $request->query('dresscode');
+        } elseif ($request->filled('event_1_dresscode')) {
+            $overrides['dresscode'] = (string) $request->query('event_1_dresscode');
+        }
+
         // Custom events override if provided via JSON array or legacy event parameters
         if ($request->filled('events_json')) {
             $rawEvents = json_decode($request->query('events_json'), true);
@@ -719,10 +731,14 @@ class InvitationController extends Controller
                         'venue_name' => $ev['venue_name'] ?? ($overrides['venue_name'] ?? 'Lokasi Acara'),
                         'address' => $ev['address'] ?? '',
                         'maps_url' => $ev['maps_url'] ?? 'https://maps.google.com',
+                        'dresscode' => $ev['dresscode'] ?? '',
                         'sort_order' => $i + 1,
                     ];
                 }
                 $overrides['events'] = collect($evList);
+                if (empty($overrides['dresscode']) && ! empty($evList[0]->dresscode)) {
+                    $overrides['dresscode'] = (string) $evList[0]->dresscode;
+                }
 
                 // Harmonize primary date, time, and venue from the first event
                 if (! empty($evList[0])) {

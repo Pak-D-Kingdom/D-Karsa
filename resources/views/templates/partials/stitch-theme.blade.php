@@ -43,6 +43,7 @@
     }
     $mapsUrl = \App\Services\TemplateManager::mapDirectionsUrl($mapsRaw, $mapQuery);
     $mapsEmbed = \App\Services\TemplateManager::mapEmbedUrl($mapsRaw, $mapQuery);
+    $dresscode = trim((string) (($couple->dresscode ?? null) ?: ''));
     $targetDate = ! empty($couple->wedding_date) ? \Carbon\Carbon::parse($couple->wedding_date) : now()->addMonths(2);
     $dateLong = $targetDate->locale('id')->isoFormat('dddd, D MMMM Y');
     $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo ?? null, 'https://images.unsplash.com/photo-1519741497674-611481863552?w=1200');
@@ -471,7 +472,7 @@
             display: block !important; position: fixed; inset: 0; z-index: 28; pointer-events: none; overflow: hidden;
             max-width: 430px; margin: 0 auto;
         }
-        #parallax-plane-4-lens .bokeh { position: absolute; border-radius: 999px; filter: blur(2.5px); opacity: .75; background: radial-gradient(circle, rgba(229,193,88,.85), rgba(229,193,88,0) 70%); }
+        #parallax-plane-4-lens .bokeh { position: absolute; border-radius: 999px; opacity: .62; background: radial-gradient(circle, color-mix(in srgb, var(--foil) 55%, transparent), transparent 70%); }
         #parallax-plane-4-lens .b1 { width: 74px; height: 74px; left: 6%; top: 22%; }
         #parallax-plane-4-lens .b2 { width: 46px; height: 46px; right: 10%; top: 34%; }
         #parallax-plane-4-lens .b3 { width: 96px; height: 96px; left: 18%; bottom: 18%; }
@@ -524,24 +525,24 @@
         /* ================= KUSTOM: panggung bespoke (beda dari Eksklusif) ================= */
         #parallax-plane-5-bespoke { display: none; position: fixed; inset: 0; z-index: 6; pointer-events: none; max-width: 430px; margin: 0 auto; }
         html[data-tier="kustom"] #parallax-plane-5-bespoke { display: grid; place-items: center; }
-        #parallax-plane-5-bespoke .crest { position: relative; width: min(78vw, 320px); aspect-ratio: 1; border-radius: 999px; border: 2px solid rgba(229,193,88,.45); opacity: .38; animation: crest-spin 70s linear infinite; box-shadow: 0 0 60px rgba(229,193,88,.18), inset 0 0 40px rgba(229,193,88,.12); }
-        #parallax-plane-5-bespoke .crest::before { content: ""; position: absolute; inset: 22px; border-radius: 999px; border: 1px dashed rgba(229,193,88,.42); }
-        #parallax-plane-5-bespoke .crest::after { content: ""; position: absolute; inset: 42%; border-radius: 8px; transform: rotate(45deg); border: 1px solid rgba(229,193,88,.55); background: radial-gradient(circle, rgba(229,193,88,.35), transparent 72%); }
+        #parallax-plane-5-bespoke .crest { position: relative; width: min(78vw, 320px); aspect-ratio: 1; border-radius: 999px; border: 2px solid color-mix(in srgb, var(--foil) 45%, transparent); opacity: .38; animation: crest-spin 70s linear infinite; box-shadow: 0 0 60px color-mix(in srgb, var(--foil) 18%, transparent), inset 0 0 40px color-mix(in srgb, var(--foil) 12%, transparent); }
+        #parallax-plane-5-bespoke .crest::before { content: ""; position: absolute; inset: 22px; border-radius: 999px; border: 1px dashed color-mix(in srgb, var(--foil) 42%, transparent); }
+        #parallax-plane-5-bespoke .crest::after { content: ""; position: absolute; inset: 42%; border-radius: 8px; transform: rotate(45deg); border: 1px solid color-mix(in srgb, var(--foil) 55%, transparent); background: radial-gradient(circle, color-mix(in srgb, var(--foil) 32%, transparent), transparent 72%); }
         @keyframes crest-spin { to { transform: rotate(360deg); } }
         .drape { display: none; position: absolute; top: 0; bottom: 0; width: 13%; pointer-events: none; z-index: 21;
             background:
-                repeating-linear-gradient(90deg, rgba(0,0,0,.22) 0 6px, rgba(229,193,88,.06) 6px 12px),
-                linear-gradient(180deg, rgba(229,193,88,.34), rgba(10,9,8,.55) 48%, rgba(229,193,88,.22));
-            box-shadow: inset 0 0 26px rgba(0,0,0,.55); }
-        .drape.left { left: 0; border-right: 1px solid rgba(229,193,88,.22); -webkit-mask-image: linear-gradient(90deg, #000 42%, transparent 100%); mask-image: linear-gradient(90deg, #000 42%, transparent 100%); }
-        .drape.right { right: 0; border-left: 1px solid rgba(229,193,88,.22); -webkit-mask-image: linear-gradient(270deg, #000 42%, transparent 100%); mask-image: linear-gradient(270deg, #000 42%, transparent 100%); }
+                repeating-linear-gradient(90deg, color-mix(in srgb, var(--foil) 8%, transparent) 0 6px, transparent 6px 12px),
+                linear-gradient(180deg, color-mix(in srgb, var(--foil) 34%, transparent), color-mix(in srgb, var(--surface) 55%, transparent) 48%, color-mix(in srgb, var(--foil) 22%, transparent));
+            box-shadow: inset 0 0 26px color-mix(in srgb, var(--foil) 12%, transparent); }
+        .drape.left { left: 0; border-right: 1px solid color-mix(in srgb, var(--foil) 22%, transparent); -webkit-mask-image: linear-gradient(90deg, #000 42%, transparent 100%); mask-image: linear-gradient(90deg, #000 42%, transparent 100%); }
+        .drape.right { right: 0; border-left: 1px solid color-mix(in srgb, var(--foil) 22%, transparent); -webkit-mask-image: linear-gradient(270deg, #000 42%, transparent 100%); mask-image: linear-gradient(270deg, #000 42%, transparent 100%); }
         html[data-tier="kustom"] .drape { display: block; }
         html[data-tier="kustom"] #parallax-plane-3-foreground .orn-hang { display: none; }
-        html[data-tier="kustom"] #parallax-plane-1-midground { opacity: .3; filter: drop-shadow(0 0 28px rgba(229,193,88,.35)); }
+        html[data-tier="kustom"] #parallax-plane-1-midground { opacity: .28; }
         html[data-tier="kustom"] #parallax-plane-0-bg {
             background:
-                radial-gradient(circle at 50% calc(30% + var(--scroll-y, 0) * 0.04px), rgba(229,193,88,.3), transparent 72%),
-                conic-gradient(from calc(var(--scroll-y, 0) * 0.02deg) at 50% 38%, rgba(229,193,88,.09), transparent 28%, rgba(229,193,88,.09) 58%, transparent 86%);
+                radial-gradient(circle at 50% calc(30% + var(--scroll-y, 0) * 0.04px), color-mix(in srgb, var(--foil) 26%, transparent), transparent 72%),
+                conic-gradient(from calc(var(--scroll-y, 0) * 0.02deg) at 50% 38%, color-mix(in srgb, var(--foil) 9%, transparent), transparent 28%, color-mix(in srgb, var(--foil) 9%, transparent) 58%, transparent 86%);
         }
         html[data-tier="kustom"] #parallax-plane-4-lens .bokeh { filter: blur(5px); opacity: .88; }
         #parallax-plane-4-lens .b6 { width: 120px; height: 120px; left: -4%; top: 58%; }
@@ -1137,7 +1138,11 @@
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
         const shape = (DKARSA_WED && DKARSA_PARTICLE_PRESETS[DKARSA_WED]) ? DKARSA_WED : 'default';
-        const preset = DKARSA_PARTICLE_PRESETS[shape] || { count: 12, rise: false, color: '#E5C158', glow: 0 };
+        const preset = Object.assign({}, DKARSA_PARTICLE_PRESETS[shape] || { count: 12, rise: false, color: '#E5C158', glow: 0 });
+
+        /* Warna partikel mengikuti aksen tema (--gold) supaya tidak bertabrakan dengan palet. */
+        const themeAccent = (getComputedStyle(document.documentElement).getPropertyValue('--gold') || '').trim();
+        if (themeAccent) { preset.color = themeAccent; }
         const count = Math.min(DKARSA_PARTICLE_MAX, preset.count || DKARSA_PARTICLE_MAX);
         const ctx = cv.getContext('2d');
 
@@ -1160,6 +1165,7 @@
             const r = shape === 'bokeh' ? 9 : 6;
             c.translate(12, 12);
             c.fillStyle = preset.color;
+            c.globalAlpha = 0.62;
             if (preset.glow) { c.shadowColor = preset.color; c.shadowBlur = 6; }
 
             const petalStar = (radius, petals) => {
