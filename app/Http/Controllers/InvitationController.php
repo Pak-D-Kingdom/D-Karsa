@@ -182,6 +182,9 @@ class InvitationController extends Controller
             'event_1_maps_url' => 'nullable|string|max:500',
             'event_1_dresscode' => 'nullable|string|max:200',
             'dresscode' => 'nullable|string|max:200',
+            'event_1_dresscode_colors' => 'nullable|string|max:255',
+            'event_2_dresscode_colors' => 'nullable|string|max:255',
+            'dresscode_colors' => 'nullable|string|max:255',
 
             // Event 2 (Resepsi/Party)
             'event_2_title' => 'nullable|string|max:150',
@@ -203,6 +206,7 @@ class InvitationController extends Controller
             'events.*.address' => 'nullable|string|max:500',
             'events.*.maps_url' => 'nullable|string|max:500',
             'events.*.dresscode' => 'nullable|string|max:200',
+            'events.*.dresscode_colors' => 'nullable|string|max:255',
 
             // Digital Bank / Gift
             'bank_name_1' => 'nullable|string|max:80',
@@ -346,6 +350,7 @@ class InvitationController extends Controller
             'bride_photo' => $bridePhotoPath,
 
             'dresscode' => $validated['dresscode'] ?? ($validated['event_1_dresscode'] ?? null),
+            'dresscode_colors' => $validated['dresscode_colors'] ?? ($validated['event_1_dresscode_colors'] ?? null),
             'display_order' => $validated['display_order'] ?? 'groom_first',
             'cover_photo' => $coverPhotoPath,
             'wedding_date' => $validated['wedding_date'],
@@ -710,6 +715,12 @@ class InvitationController extends Controller
             $overrides['dresscode'] = (string) $request->query('event_1_dresscode');
         }
 
+        if ($request->filled('dresscode_colors')) {
+            $overrides['dresscode_colors'] = (string) $request->query('dresscode_colors');
+        } elseif ($request->filled('event_1_dresscode_colors')) {
+            $overrides['dresscode_colors'] = (string) $request->query('event_1_dresscode_colors');
+        }
+
         // Custom events override if provided via JSON array or legacy event parameters
         if ($request->filled('events_json')) {
             $rawEvents = json_decode($request->query('events_json'), true);
@@ -854,14 +865,22 @@ class InvitationController extends Controller
 
     /**
      * Tautan pratinjau pendek: muat kembali data tersimpan lalu render seperti /demo/{key}.
+     * Parameter pada URL (mis. ?to=Nama+Tamu dari link personal) menimpa data tersimpan,
+     * supaya nama tamu di amplop, sapaan, dan formulir RSVP selalu mengikuti link.
      */
-    public function shortPreview(string $token)
+    public function shortPreview(Request $request, string $token)
     {
         $payload = Cache::get('preview:'.$token);
         abort_unless(is_array($payload), 404);
 
         $key = (string) ($payload['_key'] ?? 'chibi-red');
         unset($payload['_key']);
+
+        foreach ($request->query() as $name => $value) {
+            if (is_scalar($value) && trim((string) $value) !== '') {
+                $payload[$name] = $value;
+            }
+        }
 
         return $this->demoTemplate(Request::create('/demo/'.$key, 'GET', $payload), $key);
     }

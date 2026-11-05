@@ -455,10 +455,12 @@ window.DKarsaGuest = (function () {
         if (meta) { meta.textContent = 'ID: ' + state.id + ' • ' + state.pax; }
         var gate = document.getElementById('gate-guest-name');
         if (gate) { gate.textContent = state.to; }
-        var rsvpName = document.querySelector('#rsvp input[name="name"]');
-        if (rsvpName && (!rsvpName.value || rsvpName.dataset.dkAuto === '1')) {
+        /* Isian nama RSVP selalu mengikuti nama tamu dari link/Excel, bukan nama bawaan
+           yang dirender server. Ketikan pengguna tetap menang karena handler input
+           memperbarui state.to lebih dulu. */
+        var rsvpName = document.querySelector('#rsvp-input-name, #rsvp input[name="name"]');
+        if (rsvpName && rsvpName.value !== state.to) {
             rsvpName.value = state.to;
-            rsvpName.dataset.dkAuto = '1';
         }
         var heroName = document.getElementById('hero-guest-name');
         if (heroName) { heroName.textContent = state.to; }

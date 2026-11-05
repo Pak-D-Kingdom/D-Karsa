@@ -44,6 +44,19 @@
     $mapsUrl = \App\Services\TemplateManager::mapDirectionsUrl($mapsRaw, $mapQuery);
     $mapsEmbed = \App\Services\TemplateManager::mapEmbedUrl($mapsRaw, $mapQuery);
     $dresscode = trim((string) (($couple->dresscode ?? null) ?: ''));
+
+    // Warna dresscode pilihan pemesan (hex dipisah koma); kosong → pakai palet tema.
+    $dresscodeColors = [];
+    $rawDresscodeColors = trim((string) (($couple->dresscode_colors ?? null) ?: ''));
+    if ($rawDresscodeColors !== '') {
+        foreach (preg_split('/[,;]+/', $rawDresscodeColors) as $hexColor) {
+            $hexColor = trim($hexColor);
+            if (preg_match('/^#?[0-9a-fA-F]{6}$/', $hexColor)) {
+                $dresscodeColors[] = str_starts_with($hexColor, '#') ? $hexColor : '#'.$hexColor;
+            }
+        }
+    }
+    $dresscodeColors = array_slice($dresscodeColors, 0, 4);
     $targetDate = ! empty($couple->wedding_date) ? \Carbon\Carbon::parse($couple->wedding_date) : now()->addMonths(2);
     $dateLong = $targetDate->locale('id')->isoFormat('dddd, D MMMM Y');
     $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo ?? null, 'https://images.unsplash.com/photo-1519741497674-611481863552?w=1200');

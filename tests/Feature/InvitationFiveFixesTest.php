@@ -79,4 +79,40 @@ class InvitationFiveFixesTest extends TestCase
         $this->get($path.'?kepada=Ibu+Sari')
             ->assertOk();
     }
+
+    public function test_link_tamu_menimpa_nama_default_di_token(): void
+    {
+        $path = $this->previewPath([
+            'preview' => '1',
+            'tier' => 'eksklusif',
+            'category' => 'Pernikahan',
+            'groom_name' => 'Arya',
+            'bride_name' => 'Kinanthi',
+            'to' => 'Tamu Tes',
+        ]);
+
+        $this->get($path.'?to=Bapak-Andi-Wijaya')
+            ->assertOk()
+            ->assertSee('Bapak Andi Wijaya', false)
+            ->assertDontSee('Tamu Tes', false);
+    }
+
+    public function test_warna_dresscode_pilihan_pemesan_ditampilkan(): void
+    {
+        $path = $this->previewPath([
+            'preview' => '1',
+            'tier' => 'eksklusif',
+            'category' => 'Pernikahan',
+            'groom_name' => 'Arya',
+            'bride_name' => 'Kinanthi',
+            'dresscode' => 'Kebaya Putih',
+            'dresscode_colors' => '#A67B5B,#5C8063,#FFFDF9',
+        ]);
+
+        $this->get($path)
+            ->assertOk()
+            ->assertSee('background:#A67B5B', false)
+            ->assertSee('background:#5C8063', false)
+            ->assertSee('#A67B5B', false);
+    }
 }

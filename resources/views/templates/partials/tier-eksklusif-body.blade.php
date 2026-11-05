@@ -241,9 +241,12 @@
             <span class="eyebrow">Dresscode</span>
             <h2 class="serif text-[19px] mt-0.5" style="color:var(--on-surface)">{{ $dresscode !== '' ? $dresscode : 'Palet ' . $palette }}</h2>
             <p class="text-[12px] mt-1" style="color:var(--muted)">Warna yang selaras dengan tema undangan</p>
-            <div class="flex items-center gap-2 mt-3">
-                @foreach([$c['accent'], $c['accent2'], $c['deep'], '#E5C158', '#e7e1de'] as $swatch)
-                    <span style="width:34px;height:34px;border-radius:999px;background:{{ $swatch }};border:1px solid color-mix(in srgb,var(--gold) 45%,transparent)"></span>
+            <div class="flex items-center gap-2 mt-3 flex-wrap">
+                @foreach(($dresscodeColors ?: [$c['accent'], $c['accent2'], $c['deep'], '#E5C158', '#e7e1de']) as $swatch)
+                    <span class="inline-flex flex-col items-center gap-1">
+                        <span style="width:34px;height:34px;border-radius:999px;background:{{ $swatch }};border:1px solid color-mix(in srgb,var(--gold) 45%,transparent)"></span>
+                        <span class="hud" style="color:var(--muted)">{{ strtoupper($swatch) }}</span>
+                    </span>
                 @endforeach
             </div>
         </div>
@@ -293,7 +296,7 @@
                 <input type="hidden" name="message" value="Konfirmasi kehadiran melalui formulir RSVP.">
                 <label class="block">
                     <span class="hud block mb-1" style="color:var(--silver)">NAMA LENGKAP</span>
-                    <input type="text" name="name" required value="{{ $guest->name ?? '' }}" placeholder="Nama Lengkap Tamu" class="field">
+                    <input type="text" name="name" id="rsvp-input-name" required value="{{ $guest->name ?? '' }}" placeholder="Nama Lengkap Tamu" class="field">
                 </label>
                 <div class="grid grid-cols-2 gap-2">
                     <label class="cursor-pointer">

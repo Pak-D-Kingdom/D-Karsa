@@ -1105,6 +1105,15 @@
                                    placeholder="Contoh: Batik Lengan Panjang / Kebaya Putih &amp; Sage Green"
                                    class="event-dresscode-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
                         </div>
+                        <div class="space-y-1 sm:col-span-3">
+                            <label class="block text-xs font-semibold text-ink2">Warna Dresscode</label>
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <input type="color" class="event-dresscode-color w-9 h-9 rounded-lg border border-ink/20 bg-white cursor-pointer" value="#1D6FA5" aria-label="Warna dresscode 1">
+                                <input type="color" class="event-dresscode-color w-9 h-9 rounded-lg border border-ink/20 bg-white cursor-pointer" value="#C9A050" aria-label="Warna dresscode 2">
+                                <input type="color" class="event-dresscode-color w-9 h-9 rounded-lg border border-ink/20 bg-white cursor-pointer" value="#FFFFFF" aria-label="Warna dresscode 3">
+                                <span class="text-[10px] text-ink3">Pilih sampai 4 warna</span>
+                            </div>
+                        </div>
                     </div>
 
                     {{-- Acara 2 --}}
@@ -1171,6 +1180,15 @@
                             <input type="text" name="event_2_dresscode" value="{{ old('event_2_dresscode') }}"
                                    placeholder="Contoh: Batik Lengan Panjang / Kebaya Putih &amp; Sage Green"
                                    class="event-dresscode-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                        </div>
+                        <div class="space-y-1 sm:col-span-3">
+                            <label class="block text-xs font-semibold text-ink2">Warna Dresscode</label>
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <input type="color" class="event-dresscode-color w-9 h-9 rounded-lg border border-ink/20 bg-white cursor-pointer" value="#1D6FA5" aria-label="Warna dresscode 1">
+                                <input type="color" class="event-dresscode-color w-9 h-9 rounded-lg border border-ink/20 bg-white cursor-pointer" value="#C9A050" aria-label="Warna dresscode 2">
+                                <input type="color" class="event-dresscode-color w-9 h-9 rounded-lg border border-ink/20 bg-white cursor-pointer" value="#FFFFFF" aria-label="Warna dresscode 3">
+                                <span class="text-[10px] text-ink3">Pilih sampai 4 warna</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -3543,6 +3561,13 @@
                     <input type="text" value="${evDresscode || ''}" placeholder="Contoh: Batik Lengan Panjang / Kebaya Putih &amp; Sage Green"
                            class="event-dresscode-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
                 </div>
+                <div class="space-y-1">
+                    <label class="block text-xs font-semibold text-ink2">Warna Dresscode</label>
+                    <div class="flex items-center gap-2 flex-wrap">
+                        ${[0,1,2].map((ci) => `<input type="color" class="event-dresscode-color w-9 h-9 rounded-lg border border-ink/20 bg-white cursor-pointer" value="${(evDressColors[ci] || ['#1D6FA5','#C9A050','#FFFFFF'][ci])}" aria-label="Warna dresscode ${ci + 1}">`).join('')}
+                        <span class="text-[10px] text-ink3">Pilih sampai 4 warna</span>
+                    </div>
+                </div>
             `;
 
             // Attach change listeners
@@ -3603,6 +3628,7 @@
                     address: address,
                     maps_url: maps,
                     dresscode: dresscode,
+                    dresscode_colors: dressColors,
                     sort_order: idx + 1
                 });
 
@@ -4180,10 +4206,12 @@
                     const address = card.querySelector('.event-address-input')?.value || '';
                     const maps = card.querySelector('.event-maps-input')?.value || '';
                     const dresscode = card.querySelector('.event-dresscode-input')?.value || '';
+                    const dressColors = Array.from(card.querySelectorAll('.event-dresscode-color'))
+                        .map((el) => el.value).filter(Boolean).join(',');
 
                     // Kartu acara ikut tampil bila ADA isian apa pun (bukan hanya nama/tempat),
                     // supaya acara kedua tidak "hilang" hanya karena satu kolom belum diisi.
-                    const filled = [title, date, start, end, venue, address, maps].some((value) => String(value).trim() !== '');
+                    const filled = [title, date, start, end, venue, address, maps, dresscode].some((value) => String(value).trim() !== '');
                     if (filled) {
                         events.push({
                             title: title || `Acara ${idx + 1}`,
@@ -4194,6 +4222,7 @@
                             address: address,
                             maps_url: maps,
                             dresscode: dresscode,
+                            dresscode_colors: dressColors,
                             sort_order: idx + 1
                         });
                     }
@@ -4267,8 +4296,13 @@
                     params.set('dresscode', events[0].dresscode);
                     params.set('event_1_dresscode', events[0].dresscode);
                 }
+                if (events[0].dresscode_colors) {
+                    params.set('dresscode_colors', events[0].dresscode_colors);
+                    params.set('event_1_dresscode_colors', events[0].dresscode_colors);
+                }
                 events.forEach((ev, evIndex) => {
                     if (ev.dresscode) params.set('event_' + (evIndex + 1) + '_dresscode', ev.dresscode);
+                    if (ev.dresscode_colors) params.set('event_' + (evIndex + 1) + '_dresscode_colors', ev.dresscode_colors);
                 });
             }
 
