@@ -111,6 +111,41 @@
     // Hanya Midnight Navy, Cyber Neon, dan Dark Mode yang boleh gelap.
     $colorTheme = \App\Support\ColorTheme::forPalette($palette, $c);
     $isNightPalette = \App\Support\ColorTheme::isNight($colorTheme);
+
+    /* ---------- Studio kustom (paket Rp280.000) ----------
+       Template tetap jadi fondasi; nilai di bawah hanya menimpa bagian yang dipilih pemesan.
+       Saat tamu membuka link (?to=...), semua kontrol editor tidak ikut dirender. */
+    $customRaw = $couple->custom_design ?? null;
+    if (is_string($customRaw)) {
+        $customRaw = json_decode($customRaw, true);
+    }
+    $custom = is_array($customRaw) ? $customRaw : [];
+    $customColors = is_array($custom['colors'] ?? null) ? $custom['colors'] : [];
+    foreach (['bg', 'card', 'accent', 'text', 'gate'] as $colorKey) {
+        $hexValue = trim((string) ($customColors[$colorKey] ?? ''));
+        if (preg_match('/^#?[0-9a-fA-F]{6}$/', $hexValue)) {
+            $colorTheme[$colorKey === 'bg' ? 'page' : ($colorKey === 'card' ? 'card' : ($colorKey === 'text' ? 'text' : 'accent'))]
+                = str_starts_with($hexValue, '#') ? $hexValue : '#'.$hexValue;
+        }
+    }
+    if (! empty($custom['colors']['gate']) && preg_match('/^#?[0-9a-fA-F]{6}$/', (string) $custom['colors']['gate'])) {
+        $gateHex = (string) $custom['colors']['gate'];
+        $colorTheme['gate'] = str_starts_with($gateHex, '#') ? $gateHex : '#'.$gateHex;
+    }
+    $isNightPalette = \App\Support\ColorTheme::isNight($colorTheme);
+
+    $customGate = (string) ($custom['gate'] ?? '');
+    $customParticle = (string) ($custom['particle'] ?? '');
+    $customIntensity = (float) ($custom['intensity'] ?? 1);
+    $customFont = (string) ($custom['font'] ?? '');
+    $customFrame = (string) ($custom['frame'] ?? '');
+    $customOverlay = (int) ($custom['overlay'] ?? 55);
+    $customGateLabel = trim((string) ($custom['gate_label'] ?? ''));
+    $customQuoteText = trim((string) ($custom['quote_text'] ?? ''));
+    $customQuoteSource = trim((string) ($custom['quote_source'] ?? ''));
+    $customAudio = trim((string) ($custom['audio_url'] ?? ''));
+    $customAudioStart = max(0, (int) ($custom['audio_start'] ?? 0));
+    $customHidden = array_values(array_filter((array) ($custom['hide'] ?? []), 'is_string'));
     $icons = [
         'seal' => '<path d="M12 3l7 3v5c0 4.6-3 7.8-7 9.4C8 18.8 5 15.6 5 11V6z"/><path d="M12 15.2s-2.6-1.6-2.6-3.4A1.7 1.7 0 0112 10.6a1.7 1.7 0 012.6 1.2c0 1.8-2.6 3.4-2.6 3.4z"/>',
         'mail' => '<rect x="3" y="5" width="18" height="14" rx="2.2"/><path d="M3.6 7.2l8.4 5.6 8.4-5.6"/>',
@@ -137,7 +172,7 @@
     };
 @endphp
 <!DOCTYPE html>
-<html lang="id" data-tier="{{ $tierParam }}" data-cat="{{ $cat }}" data-mode="{{ $colorTheme['mode'] }}"@if($wed) data-wed="{{ $wed }}"@endif>
+<html lang="id" data-tier="{{ $tierParam }}" data-cat="{{ $cat }}" data-mode="{{ $colorTheme['mode'] }}" data-gate="{{ $customGate }}" data-font="{{ $customFont }}" data-frame="{{ $customFrame }}" data-custom-overlay="{{ $customOverlay }}" data-hide="{{ implode(',', $customHidden) }}"@if($wed) data-wed="{{ $wed }}"@endif>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -147,6 +182,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    @if($customFont === 'heritage')
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
+    @elseif($customFont === 'script')
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    @elseif($customFont === 'editorial')
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    @elseif($customFont === 'islamic')
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    @endif
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
@@ -182,6 +226,7 @@
             --line: color-mix(in srgb, {{ $colorTheme['accent'] }} 24%, transparent);
             --line-strong: color-mix(in srgb, {{ $colorTheme['accent'] }} 48%, transparent);
             @endif
+            --dk-overlay: {{ $customOverlay }};
             /* alias untuk partial guest-pass & digital-gift */
             --bg: var(--surface);
             --ink: var(--on-surface);
@@ -224,7 +269,7 @@
         body.gate-locked .page-photo { opacity: 0; }
 
         /* ---------- top bar ---------- */
-        .topbar { position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; z-index: 45; padding: 6px 20px 8px; background: color-mix(in srgb, var(--obsidian) 90%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 6px 18px -12px rgba(0,0,0,.9); }
+        .topbar { position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; z-index: 45; padding: 6px 20px 8px; background: color-mix(in srgb, var(--obsidian) 96%, transparent); box-shadow: 0 6px 18px -12px rgba(0,0,0,.45); }
         .topbar .row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
         .topbar .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--gold); box-shadow: 0 0 8px var(--gold); animation: pulse 2.4s ease-in-out infinite; }
         .topbar .pill { padding: 2px 8px; border-radius: 999px; background: var(--surface-high); color: var(--foil); white-space: nowrap; font-size: 9px; letter-spacing: .06em; }
@@ -337,7 +382,7 @@
         .gate-seal .medal > div { width: 100%; height: 100%; border-radius: 999px; background: var(--navy); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
         .gate-seal .tri { width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; border-bottom: 9px solid color-mix(in srgb, var(--foil) 65%, transparent); margin: 2px 0 6px; }
         @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-        .gate-seal .plate { padding: 12px 18px; border-radius: 14px; background: var(--glass); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--line); margin-bottom: 16px; }
+        .gate-seal .plate { padding: 12px 18px; border-radius: 14px; background: var(--glass); border: 1px solid var(--line); margin-bottom: 16px; }
         .btn-gold { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 12px 26px; border: 0; border-radius: 999px; background: linear-gradient(90deg, var(--gold), var(--foil), var(--gold)); color: #141311; font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; box-shadow: 0 0 24px rgba(229,193,88,.4); cursor: pointer; }
         .btn-gold:active { transform: scale(.96); }
         #gate-veil { position: absolute; inset: 0; background: color-mix(in srgb, var(--navy) 78%, #000); transition: opacity .5s ease; }
@@ -392,7 +437,7 @@
             background-blend-mode: multiply; }
         #bespoke-dock { position: fixed; right: 8px; top: calc(var(--topbar-h, 86px) + 6px); z-index: 50; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
         .bespoke-toggle { display: inline-flex; align-items: center; gap: 5px; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--line-strong); background: color-mix(in srgb, var(--obsidian) 92%, transparent); color: var(--foil); font-family: 'Space Grotesk', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .08em; cursor: pointer; }
-        #bespoke-panel { width: 196px; padding: 10px 12px; border-radius: 14px; border: 1px solid var(--line); background: color-mix(in srgb, var(--obsidian) 94%, transparent); backdrop-filter: blur(12px); display: flex; flex-direction: column; gap: 8px; }
+        #bespoke-panel { width: 196px; padding: 10px 12px; border-radius: 14px; border: 1px solid var(--line); background: color-mix(in srgb, var(--obsidian) 97%, transparent); display: flex; flex-direction: column; gap: 8px; }
         #bespoke-panel[hidden] { display: none; }
         .bespoke-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
         .bespoke-row .hud { color: var(--silver); }
@@ -430,7 +475,7 @@
         #invitation-content > section { content-visibility: auto; contain-intrinsic-size: 1px 420px; }
         #invitation-content > section:first-of-type { content-visibility: visible; contain-intrinsic-size: auto; }
 
-        .dock { width: 100%; max-width: 400px; height: 56px; border-radius: 999px; background: color-mix(in srgb, var(--obsidian) 90%, transparent); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 4px; padding: 0 10px; box-shadow: 0 18px 40px -20px rgba(0,0,0,.9); overflow: hidden; }
+        .dock { width: 100%; max-width: 400px; height: 56px; border-radius: 999px; background: color-mix(in srgb, var(--obsidian) 96%, transparent); border: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 4px; padding: 0 10px; box-shadow: 0 18px 40px -20px rgba(0,0,0,.9); overflow: hidden; }
         .dock a { display: flex; flex: 1 1 0; min-width: 0; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: var(--silver); text-decoration: none; }
         .dock a.is-active, .dock a:hover { color: var(--foil); }
         .dock a svg { flex: none; display: block; }
@@ -557,7 +602,7 @@
                 radial-gradient(circle at 50% calc(30% + var(--scroll-y, 0) * 0.04px), color-mix(in srgb, var(--foil) 26%, transparent), transparent 72%),
                 conic-gradient(from calc(var(--scroll-y, 0) * 0.02deg) at 50% 38%, color-mix(in srgb, var(--foil) 9%, transparent), transparent 28%, color-mix(in srgb, var(--foil) 9%, transparent) 58%, transparent 86%);
         }
-        html[data-tier="kustom"] #parallax-plane-4-lens .bokeh { filter: blur(5px); opacity: .88; }
+        html[data-tier="kustom"] #parallax-plane-4-lens .bokeh { opacity: .7; }
         #parallax-plane-4-lens .b6 { width: 120px; height: 120px; left: -4%; top: 58%; }
         #parallax-plane-4-lens .b7 { width: 28px; height: 28px; right: 34%; top: 12%; }
         html[data-tier="kustom"] main > section.reveal .card::after {
@@ -668,9 +713,71 @@
             body::after { content: "D\2019KARSA  \2022  DIGITAL INVITATION"; position: fixed; bottom: 22px; left: 0; right: 0; text-align: center; font-family: 'Space Grotesk', sans-serif; font-size: 10px; letter-spacing: .3em; color: color-mix(in srgb, var(--foil) 45%, transparent); pointer-events: none; }
         }
 
+
+        /* ================= STUDIO KUSTOM (paket Rp280.000) ================= */
+        html[data-font="heritage"] .serif, html[data-font="heritage"] .eyebrow { font-family: 'Cinzel', 'Playfair Display', serif; }
+        html[data-font="script"] .serif { font-family: 'Great Vibes', 'Beau Rivage', cursive; font-weight: 400; }
+        html[data-font="script"] .eyebrow, html[data-font="script"] .hud { font-family: 'Lora', Georgia, serif; letter-spacing: .1em; }
+        html[data-font="editorial"] .serif { font-family: 'Playfair Display', serif; }
+        html[data-font="editorial"] body, html[data-font="editorial"] .muted { font-family: 'Inter', 'Plus Jakarta Sans', sans-serif; }
+        html[data-font="islamic"] .serif { font-family: 'Amiri', 'Playfair Display', serif; }
+        html[data-font="islamic"] .eyebrow, html[data-font="islamic"] .hud { font-family: 'Montserrat', sans-serif; }
+
+        /* Bingkai potret */
+        html[data-frame="gunungan"] .couple-portrait { border-radius: 50% 50% 10px 10px / 42% 42% 10px 10px; }
+        html[data-frame="siger"] .couple-portrait { border-radius: 46% 46% 12px 12px; }
+        html[data-frame="bagonjong"] .couple-portrait { clip-path: polygon(50% 0%, 100% 18%, 100% 100%, 0% 100%, 0% 18%); border-radius: 8px; }
+        html[data-frame="arch"] .couple-portrait { border-radius: 999px 999px 12px 12px; }
+        html[data-frame="oval"] .couple-portrait { border-radius: 50%; }
+        html[data-frame="pill"] .couple-portrait { border-radius: 999px; }
+        html[data-frame="octagon"] .couple-portrait { clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%); border-radius: 0; }
+        html[data-frame="rect"] .couple-portrait { border-radius: 10px; }
+
+        /* Siluet gerbang */
+        html[data-gate="gunungan"] .gate-door.left { clip-path: polygon(0 10%, 60% 10%, 100% 0, 100% 100%, 0 100%); }
+        html[data-gate="gunungan"] .gate-door.right { clip-path: polygon(0 0, 40% 10%, 100% 10%, 100% 100%, 0 100%); }
+        html[data-gate="mihrab"] .gate-door.left { clip-path: polygon(0 24%, 50% 0, 100% 0, 100% 100%, 0 100%); }
+        html[data-gate="mihrab"] .gate-door.right { clip-path: polygon(0 0, 50% 0, 100% 24%, 100% 100%, 0 100%); }
+        html[data-gate="candi"] .gate-door.left { clip-path: polygon(0 0, 58% 0, 58% 12%, 72% 12%, 72% 24%, 86% 24%, 86% 36%, 100% 36%, 100% 100%, 0 100%); }
+        html[data-gate="candi"] .gate-door.right { clip-path: polygon(0 36%, 14% 36%, 14% 24%, 28% 24%, 28% 12%, 42% 12%, 42% 0, 100% 0, 100% 100%, 0 100%); }
+        html[data-gate="arch"] .gate-door.left { clip-path: polygon(0 100%, 0 26%, 50% 0, 100% 26%, 100% 100%); }
+        html[data-gate="arch"] .gate-door.right { clip-path: polygon(0 100%, 0 26%, 50% 0, 100% 26%, 100% 100%); }
+        html[data-gate="straight"] .gate-door { clip-path: none; }
+
+        /* Overlay foto sampul (keterbacaan teks) */
+        .page-photo::after { content: ""; position: absolute; inset: 0; background: var(--surface); opacity: .55; }
+        html[data-custom-overlay] .page-photo::after { opacity: calc(var(--dk-overlay, 55) / 100); }
+
         @media (prefers-reduced-motion: reduce) {
             .gate-seal .medal, #audio-pill .mi { animation: none; }
         }
+
+
+        /* ================= PERFORMA (aturan 60FPS) ================= */
+        /* Parallax dibatasi 2 lapisan ringan: midground (z-5) + foreground (z-22).
+           Bokeh (plane-4) dan crest (plane-5) tidak lagi digambar. */
+        html[data-tier] #parallax-plane-4-lens,
+        html[data-tier] #parallax-plane-5-bespoke,
+        #parallax-plane-4-lens,
+        #parallax-plane-5-bespoke { display: none !important; }
+
+        /* Bagian di bawah lipatan tidak dilayout sampai terlihat. */
+        main#invitation-content > section { content-visibility: auto; contain-intrinsic-size: 1px 480px; }
+
+        /* Gerbang: animasi transform tidak perlu will-change permanen. */
+        body.gate-open .gate-door { will-change: auto; }
+
+        /* Tidak ada filter blur / backdrop-filter pada elemen yang bergerak saat scroll. */
+        .card,
+        .ticket,
+        .plaque,
+        .topbar,
+        .dock,
+        #bespoke-panel,
+        .gate-seal .plate,
+        .gate-door,
+        #parallax-plane-1-midground svg,
+        #parallax-plane-3-foreground * { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
 
         /* ================= MODE TERANG (siang, pastel, jewel) =================
            Aturan D'Karsa: hanya Midnight Navy, Cyber Neon, dan Dark Mode yang gelap.
@@ -781,7 +888,7 @@
 @include('templates.partials.wedding-archetypes')
 </head>
 <body class="gate-locked">
-<audio id="bg-audio" loop preload="none" src="{{ $audioUrl }}"></audio>
+<audio id="bg-audio" loop preload="none" src="{{ $customAudio !== '' ? $customAudio : $audioUrl }}" data-start="{{ $customAudioStart }}"></audio>
 <div class="bg-layer" aria-hidden="true"></div>
 <div class="page-photo" aria-hidden="true" style="background-image:url('{{ $coverImg }}')"></div>
 
@@ -1006,6 +1113,8 @@
         if (env) env.classList.add('env-hidden');
         document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'));
         if (window.DKarsaParticlesStart) window.DKarsaParticlesStart();
+        // Section memakai content-visibility: ukur ulang offset setelah konten benar-benar tampil.
+        try { window.dispatchEvent(new Event('resize')); } catch (e) {}
     }
 
 
@@ -1037,7 +1146,13 @@
 
     function DKarsaOpen() {
         const audio = document.getElementById('bg-audio');
-        if (audio) audio.play().catch(() => {});
+        if (audio) {
+            const offset = Number(audio.dataset.start || 0);
+            if (offset > 0) {
+                try { audio.currentTime = offset; } catch (e) {}
+            }
+            audio.play().catch(() => {});
+        }
         const pill = document.getElementById('audio-pill');
         if (pill) { pill.classList.add('is-playing'); pill.setAttribute('aria-pressed', 'true'); }
         if (DKarsaTier() !== 'basic') DKarsaConfetti();
@@ -1125,7 +1240,36 @@
     }
 
     /* ---------- partikel: 1x resolution, maks 14, stamp 24x24, lifecycle ---------- */
-    const DKARSA_WED = @json($wed);
+    const DKARSA_WED = @json($customParticle !== '' && $customParticle !== 'auto' ? $customParticle : $wed);
+    const DKARSA_CUSTOM_INTENSITY = @json($customIntensity ?: 1);
+    const DKARSA_HIDDEN_SECTIONS = @json($customHidden);
+
+    /* Studio kustom: sembunyikan seksi yang dimatikan (beserta tautan HUD-nya). */
+    (function hideCustomSections() {
+        if (!Array.isArray(DKARSA_HIDDEN_SECTIONS) || !DKARSA_HIDDEN_SECTIONS.length) { return; }
+        const map = {
+            quotes: ['#doa-quote', '#quote', 'section[id="quote"]'],
+            story: ['#cerita', '#section-story'],
+            gallery: ['#galeri', '#section-gallery'],
+            dresscode: ['#dresscode'],
+            gift: ['#gift', '#section-digital-gift', '#amplop'],
+            gift_address: ['#gift-address'],
+            wishes: ['#ucapan', '#section-wishes']
+        };
+        DKARSA_HIDDEN_SECTIONS.forEach((key) => {
+            (map[key] || []).forEach((sel) => {
+                document.querySelectorAll(sel).forEach((el) => { el.style.display = 'none'; });
+            });
+        });
+        const anchors = { ACARA: '#acara', GALERI: '#galeri', PROFIL: '#profil', DOA: '#doa' };
+        document.querySelectorAll('#bottom-hud .dock-link').forEach((link) => {
+            const label = (link.querySelector('.lbl') || {}).textContent || '';
+            const target = anchors[label.trim()] || link.getAttribute('href');
+            if (target && document.querySelector(target) && document.querySelector(target).style.display === 'none') {
+                link.style.display = 'none';
+            }
+        });
+    })();
 
     const DKARSA_PARTICLE_PRESETS = {
         jasmine:      { count: 14, rise: false, color: '#F7F3E6', glow: 0 },
@@ -1263,8 +1407,8 @@
 
             for (let i = 0; i < items.length; i++) {
                 const p = items[i];
-                p.y += p.vy;
-                p.x += p.vx + (shape === 'petal' ? Math.sin(p.y * 0.03) * 0.5 : 0);
+                p.y += p.vy * DKARSA_CUSTOM_INTENSITY;
+                p.x += (p.vx + (shape === 'petal' ? Math.sin(p.y * 0.03) * 0.5 : 0)) * DKARSA_CUSTOM_INTENSITY;
                 p.rot += p.spin;
 
                 if (p.y > H + 24) { p.y = -24; p.x = Math.random() * W; }

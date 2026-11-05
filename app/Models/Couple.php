@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\TemplateManager;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -14,7 +15,7 @@ class Couple extends Model
         'display_order', 'cover_photo', 'wedding_date', 'venue_name', 'quote',
         'bank_name_1', 'bank_account_1', 'bank_holder_1',
         'bank_name_2', 'bank_account_2', 'bank_holder_2',
-        'gift_address', 'music_url', 'thank_you_note', 'story',
+        'gift_address', 'music_url', 'thank_you_note', 'story', 'dresscode', 'dresscode_colors',
         'status', 'is_in_catalog',
         'customer_name', 'customer_phone',
         'amount', 'invoice_number', 'payment_status', 'payment_method', 'paid_at', 'payment_token',
@@ -27,17 +28,32 @@ class Couple extends Model
         'amount' => 'integer',
     ];
 
-    public function events(): HasMany { return $this->hasMany(Event::class); }
-    public function guests(): HasMany { return $this->hasMany(Guest::class); }
-    public function galleries(): HasMany { return $this->hasMany(Gallery::class); }
-    public function wishes(): HasMany { return $this->hasMany(Wish::class); }
+    public function events(): HasMany
+    {
+        return $this->hasMany(Event::class);
+    }
+
+    public function guests(): HasMany
+    {
+        return $this->hasMany(Guest::class);
+    }
+
+    public function galleries(): HasMany
+    {
+        return $this->hasMany(Gallery::class);
+    }
+
+    public function wishes(): HasMany
+    {
+        return $this->hasMany(Wish::class);
+    }
 
     /**
      * Accessor untuk nama kedua orang tua mempelai pria
      */
     public function getGroomParentsAttribute(): ?string
     {
-        return \App\Services\TemplateManager::formatParentNames(
+        return TemplateManager::formatParentNames(
             $this->groom_father,
             $this->groom_mother,
             'Bapak & Ibu Keluarga Mempelai Pria'
@@ -49,7 +65,7 @@ class Couple extends Model
      */
     public function getBrideParentsAttribute(): ?string
     {
-        return \App\Services\TemplateManager::formatParentNames(
+        return TemplateManager::formatParentNames(
             $this->bride_father,
             $this->bride_mother,
             'Bapak & Ibu Keluarga Mempelai Wanita'
@@ -61,8 +77,9 @@ class Couple extends Model
      */
     public function getCoverPhotoUrlAttribute(): string
     {
-        $fallback = \App\Services\TemplateManager::getDefaultCoverImage($this->theme ?? $this->category ?? 'chibi-red');
-        return \App\Services\TemplateManager::resolvePhotoUrl($this->cover_photo, $fallback);
+        $fallback = TemplateManager::getDefaultCoverImage($this->theme ?? $this->category ?? 'chibi-red');
+
+        return TemplateManager::resolvePhotoUrl($this->cover_photo, $fallback);
     }
 
     /**
