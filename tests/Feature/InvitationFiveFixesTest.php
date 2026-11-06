@@ -21,7 +21,7 @@ class InvitationFiveFixesTest extends TestCase
         return (string) parse_url($response->json('url'), PHP_URL_PATH);
     }
 
-    public function test_setiap_acara_punya_kartu_peta_dan_tombol_sendiri(): void
+    public function test_setiap_acara_punya_kartu_peta_interaktif(): void
     {
         $path = $this->previewPath([
             'preview' => '1',
@@ -39,9 +39,8 @@ class InvitationFiveFixesTest extends TestCase
             ->assertOk()
             ->assertSee('map-card-event-1', false)
             ->assertSee('map-card-event-2', false)
-            ->assertSee('btn-map-event-2', false)
             ->assertSee('q=-7.2892%2C112.7211', false)
-            ->assertSee('https://maps.app.goo.gl/AbCdEf', false);
+            ->assertSee('Muat Peta Interaktif', false);
     }
 
     public function test_live_streaming_sudah_dihapus_dan_dresscode_tampil(): void
@@ -114,5 +113,117 @@ class InvitationFiveFixesTest extends TestCase
             ->assertSee('background:#A67B5B', false)
             ->assertSee('background:#5C8063', false)
             ->assertSee('#A67B5B', false);
+    }
+
+    public function test_kustom_tier_merender_4_color_pickers(): void
+    {
+        $path = $this->previewPath([
+            'preview' => '1',
+            'tier' => 'kustom',
+            'category' => 'Pernikahan',
+            'groom_name' => 'Arya',
+            'bride_name' => 'Kinanthi',
+        ]);
+
+        $this->get($path)
+            ->assertOk()
+            ->assertSee('id="bespokeBg"', false)
+            ->assertSee('id="bespokeCard"', false)
+            ->assertSee('id="bespokeColor"', false)
+            ->assertSee('id="bespokeTxt"', false)
+            ->assertSee('cBg', false)
+            ->assertSee('cCard', false)
+            ->assertSee('cAcc', false)
+            ->assertSee('cTxt', false);
+    }
+
+    public function test_event_2_dresscode_badge_tampil_pada_acara_kedua(): void
+    {
+        $path = $this->previewPath([
+            'preview' => '1',
+            'tier' => 'eksklusif',
+            'category' => 'Pernikahan',
+            'groom_name' => 'Arya',
+            'bride_name' => 'Kinanthi',
+            'events_json' => json_encode([
+                ['title' => 'Akad Nikah', 'date' => '2026-11-14', 'venue_name' => 'Masjid Agung', 'dresscode' => 'Kebaya Putih'],
+                ['title' => 'Resepsi', 'date' => '2026-11-14', 'venue_name' => 'Gedung Serbaguna', 'dresscode' => 'Batik Modern & Navy'],
+            ]),
+        ]);
+
+        $this->get($path)
+            ->assertOk()
+            ->assertSee('id="event-1-dresscode-badge"', false)
+            ->assertSee('Kebaya Putih', false)
+            ->assertSee('id="event-2-dresscode-badge"', false)
+            ->assertSee('Batik Modern &amp; Navy', false);
+    }
+
+    public function test_schedule_card_tidak_berisi_tombol_maps(): void
+    {
+        $path = $this->previewPath([
+            'preview' => '1',
+            'tier' => 'eksklusif',
+            'category' => 'Pernikahan',
+            'groom_name' => 'Arya',
+            'bride_name' => 'Kinanthi',
+            'events_json' => json_encode([
+                ['title' => 'Akad Nikah', 'date' => '2026-11-14', 'venue_name' => 'Masjid Agung', 'address' => 'Jl. Ketintang', 'maps_url' => 'https://maps.google.com/?q=Masjid'],
+            ]),
+        ]);
+
+        $response = $this->get($path)->assertOk();
+        $content = $response->getContent();
+
+        if (preg_match('/<section id="acara".*?<\/section>/s', $content, $m)) {
+            $this->assertStringNotContainsString('PETUNJUK GOOGLE MAPS', $m[0]);
+            $this->assertStringNotContainsString('Petunjuk Google Maps', $m[0]);
+            $this->assertStringNotContainsString('Buka Google Maps', $m[0]);
+        }
+    }
+
+    public function test_palet_warna_kustom_diterapkan_ke_undangan(): void
+    {
+        $path = $this->previewPath([
+            'preview' => '1',
+            'tier' => 'kustom',
+            'category' => 'Pernikahan',
+            'groom_name' => 'Arya',
+            'bride_name' => 'Kinanthi',
+            'cBg' => '#0E4369',
+            'cCard' => '#B71C1C',
+            'cAcc' => '#005082',
+            'cTxt' => '#FFFFFF',
+        ]);
+
+        $this->get($path)
+            ->assertOk()
+            ->assertSee('data-tier="kustom"', false)
+            ->assertSee('--obsidian: #0E4369', false)
+            ->assertSee('--surface-container: #B71C1C', false)
+            ->assertSee('--gold: #005082', false)
+            ->assertSee('--on-surface: #FFFFFF', false);
+    }
+
+    public function test_dresscode_acara_1_dan_acara_2_keduanya_tersimpan_dan_tampil(): void
+    {
+        $path = $this->previewPath([
+            'preview' => '1',
+            'tier' => 'kustom',
+            'category' => 'Pernikahan',
+            'groom_name' => 'Arya',
+            'bride_name' => 'Kinanthi',
+            'event_1_dresscode' => 'Kebaya Putih Elegan',
+            'event_2_dresscode' => 'Batik Tenun Nusantara',
+            'events_json' => json_encode([
+                ['title' => 'Akad Nikah', 'date' => '2026-11-14', 'venue_name' => 'Masjid Raya', 'dresscode' => 'Kebaya Putih Elegan', 'dresscode_colors' => '#FFFFFF,#E5C158,#1D6FA5,#2A2A26'],
+                ['title' => 'Resepsi Malam', 'date' => '2026-11-14', 'venue_name' => 'Ballroom Grand', 'dresscode' => 'Batik Tenun Nusantara', 'dresscode_colors' => '#1D6FA5,#C9A050,#FFFFFF,#000000'],
+            ]),
+        ]);
+
+        $this->get($path)
+            ->assertOk()
+            ->assertSee('Kebaya Putih Elegan', false)
+            ->assertSee('Batik Tenun Nusantara', false);
     }
 }

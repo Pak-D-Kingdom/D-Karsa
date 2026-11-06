@@ -124,7 +124,8 @@
         }
 
         function guestUrl(row) {
-            return GUEST_BASE_URL + '?to=' + encodeURIComponent(guestNameSlug(row.name));
+            const sep = GUEST_BASE_URL.indexOf('?') >= 0 ? '&' : '?';
+            return GUEST_BASE_URL + sep + 'to=' + encodeURIComponent(guestNameSlug(row.name));
         }
 
         function guestWaHref(row) {

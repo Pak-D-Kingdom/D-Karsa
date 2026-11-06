@@ -1,0 +1,6804 @@
+[
+ {
+  "code": "WED-001",
+  "key": "jawa-keraton-agung",
+  "template_key": "jawa-keraton-agung",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Jawa",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Ocean Blue",
+  "swatch_hex": [
+   "#F2F6F8",
+   "#C9A050",
+   "#0A1F2B"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/jawa-keraton-agung",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-001__pernikahan-adat-jawa__minimalis-modern__ocean-blue"
+ },
+ {
+  "code": "WED-002",
+  "key": "jawa-sekar-kedhaton",
+  "template_key": "jawa-sekar-kedhaton",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Jawa",
+  "l3_style": "Geometris",
+  "l4_color_name": "Clean White",
+  "swatch_hex": [
+   "#FBF9F4",
+   "#B08D57",
+   "#2A2A26"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/jawa-sekar-kedhaton",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-002__pernikahan-adat-jawa__geometris__clean-white"
+ },
+ {
+  "code": "WED-003",
+  "key": "jawa-gunungan-emas",
+  "template_key": "jawa-gunungan-emas",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Jawa",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Dusty Rose",
+  "swatch_hex": [
+   "#FBF1EF",
+   "#B78A6A",
+   "#2C1A1F"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/jawa-gunungan-emas",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-003__pernikahan-adat-jawa__minimalis-modern__dusty-rose"
+ },
+ {
+  "code": "WED-004",
+  "key": "jawa-batik-parang",
+  "template_key": "jawa-batik-parang",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Jawa",
+  "l3_style": "Geometris",
+  "l4_color_name": "Sage Green",
+  "swatch_hex": [
+   "#F3F6F1",
+   "#A8B58C",
+   "#1C2A18"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/jawa-batik-parang",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-004__pernikahan-adat-jawa__geometris__sage-green"
+ },
+ {
+  "code": "WED-005",
+  "key": "jawa-gebyok-ukir",
+  "template_key": "jawa-gebyok-ukir",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Jawa",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Rose Gold",
+  "swatch_hex": [
+   "#FCF4F1",
+   "#C08A6E",
+   "#281A16"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/jawa-gebyok-ukir",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-005__pernikahan-adat-jawa__minimalis-modern__rose-gold"
+ },
+ {
+  "code": "WED-006",
+  "key": "jawa-melati-kraton",
+  "template_key": "jawa-melati-kraton",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Jawa",
+  "l3_style": "Geometris",
+  "l4_color_name": "Blueberry Milk",
+  "swatch_hex": [
+   "#F4F3FA",
+   "#B9AEDC",
+   "#1C1930"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/jawa-melati-kraton",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-006__pernikahan-adat-jawa__geometris__blueberry-milk"
+ },
+ {
+  "code": "WED-007",
+  "key": "jawa-sogan-klasik",
+  "template_key": "jawa-sogan-klasik",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Jawa",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Yellow Sunshine",
+  "swatch_hex": [
+   "#FDF8EC",
+   "#E0B44A",
+   "#2A2008"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/jawa-sogan-klasik",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-007__pernikahan-adat-jawa__minimalis-modern__yellow-sunshine"
+ },
+ {
+  "code": "WED-008",
+  "key": "jawa-wijaya-kusuma",
+  "template_key": "jawa-wijaya-kusuma",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Jawa",
+  "l3_style": "Geometris",
+  "l4_color_name": "Plum Velvet",
+  "swatch_hex": [
+   "#F6EFF6",
+   "#B486A8",
+   "#241224"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/jawa-wijaya-kusuma",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-008__pernikahan-adat-jawa__geometris__plum-velvet"
+ },
+ {
+  "code": "WED-009",
+  "key": "jawa-sekar-jagad",
+  "template_key": "jawa-sekar-jagad",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Jawa",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Monochrome",
+  "swatch_hex": [
+   "#F4F4F4",
+   "#9A9A9A",
+   "#111111"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/jawa-sekar-jagad",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-009__pernikahan-adat-jawa__minimalis-modern__monochrome"
+ },
+ {
+  "code": "WED-010",
+  "key": "jawa-prada-ayu",
+  "template_key": "jawa-prada-ayu",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Jawa",
+  "l3_style": "Geometris",
+  "l4_color_name": "Coral & Peach",
+  "swatch_hex": [
+   "#FFF3EC",
+   "#E08A63",
+   "#2A1812"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/jawa-prada-ayu",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-010__pernikahan-adat-jawa__geometris__coral-and-peach"
+ },
+ {
+  "code": "WED-011",
+  "key": "jawa-arctic-frost",
+  "template_key": "jawa-arctic-frost",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Jawa",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Arctic Frost",
+  "swatch_hex": [
+   "#F1F6FA",
+   "#9FB6C6",
+   "#0C1A24"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/jawa-arctic-frost",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-011__pernikahan-adat-jawa__minimalis-modern__arctic-frost"
+ },
+ {
+  "code": "WED-012",
+  "key": "jawa-purple-dream",
+  "template_key": "jawa-purple-dream",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Jawa",
+  "l3_style": "Geometris",
+  "l4_color_name": "Purple Dream",
+  "swatch_hex": [
+   "#F5F1FA",
+   "#9B7BC4",
+   "#241636"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/jawa-purple-dream",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-012__pernikahan-adat-jawa__geometris__purple-dream"
+ },
+ {
+  "code": "WED-013",
+  "key": "jawa-burgundy-wine",
+  "template_key": "jawa-burgundy-wine",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Jawa",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Burgundy Wine",
+  "swatch_hex": [
+   "#FBF3F1",
+   "#A8743F",
+   "#2A0C16"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/jawa-burgundy-wine",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-013__pernikahan-adat-jawa__minimalis-modern__burgundy-wine"
+ },
+ {
+  "code": "WED-014",
+  "key": "jawa-ruby-luxe",
+  "template_key": "jawa-ruby-luxe",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Jawa",
+  "l3_style": "Geometris",
+  "l4_color_name": "Ruby Luxe",
+  "swatch_hex": [
+   "#FCF3F2",
+   "#C9A050",
+   "#2A0A0E"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/jawa-ruby-luxe",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-014__pernikahan-adat-jawa__geometris__ruby-luxe"
+ },
+ {
+  "code": "WED-015",
+  "key": "jawa-pastel-mix",
+  "template_key": "jawa-pastel-mix",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Jawa",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Pastel Mix",
+  "swatch_hex": [
+   "#FBF7F4",
+   "#C7A9C0",
+   "#2A2430"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/jawa-pastel-mix",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-015__pernikahan-adat-jawa__minimalis-modern__pastel-mix"
+ },
+ {
+  "code": "WED-016",
+  "key": "jawa-citrus-pop",
+  "template_key": "jawa-citrus-pop",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Jawa",
+  "l3_style": "Geometris",
+  "l4_color_name": "Citrus Pop",
+  "swatch_hex": [
+   "#FDFAEC",
+   "#D9A31C",
+   "#2B2608"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/jawa-citrus-pop",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-016__pernikahan-adat-jawa__geometris__citrus-pop"
+ },
+ {
+  "code": "WED-017",
+  "key": "jawa-soft-pink",
+  "template_key": "jawa-soft-pink",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Jawa",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Soft Pink",
+  "swatch_hex": [
+   "#FDF4F4",
+   "#C98F7E",
+   "#2E1A22"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/jawa-soft-pink",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-017__pernikahan-adat-jawa__minimalis-modern__soft-pink"
+ },
+ {
+  "code": "WED-018",
+  "key": "jawa-midnight-navy",
+  "template_key": "jawa-midnight-navy",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Jawa",
+  "l3_style": "Geometris",
+  "l4_color_name": "Midnight Navy",
+  "swatch_hex": [
+   "#0F1A2B",
+   "#C9A050",
+   "#060C16"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/jawa-midnight-navy",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-018__pernikahan-adat-jawa__geometris__midnight-navy"
+ },
+ {
+  "code": "WED-019",
+  "key": "sunda-mega-mendung",
+  "template_key": "sunda-mega-mendung",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Sunda",
+  "l3_style": "Rustic",
+  "l4_color_name": "Sage Green",
+  "swatch_hex": [
+   "#F3F6F1",
+   "#A8B58C",
+   "#2C3A27"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/sunda-mega-mendung",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-019__pernikahan-adat-sunda__rustic__sage-green"
+ },
+ {
+  "code": "WED-020",
+  "key": "sunda-siger-wangi",
+  "template_key": "sunda-siger-wangi",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Sunda",
+  "l3_style": "Korporat Profesional",
+  "l4_color_name": "Rose Gold",
+  "swatch_hex": [
+   "#FCF4F1",
+   "#C08A6E",
+   "#402924"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/sunda-siger-wangi",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-020__pernikahan-adat-sunda__korporat-profesional__rose-gold"
+ },
+ {
+  "code": "WED-021",
+  "key": "sunda-parahyangan",
+  "template_key": "sunda-parahyangan",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Sunda",
+  "l3_style": "Rustic",
+  "l4_color_name": "Blueberry Milk",
+  "swatch_hex": [
+   "#F4F3FA",
+   "#B9AEDC",
+   "#2C2547"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/sunda-parahyangan",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-021__pernikahan-adat-sunda__rustic__blueberry-milk"
+ },
+ {
+  "code": "WED-022",
+  "key": "sunda-kembang-peuteuy",
+  "template_key": "sunda-kembang-peuteuy",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Sunda",
+  "l3_style": "Korporat Profesional",
+  "l4_color_name": "Yellow Sunshine",
+  "swatch_hex": [
+   "#FDF8EC",
+   "#E0B44A",
+   "#3D3115"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/sunda-kembang-peuteuy",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-022__pernikahan-adat-sunda__korporat-profesional__yellow-sunshine"
+ },
+ {
+  "code": "WED-023",
+  "key": "sunda-ratu-sunda",
+  "template_key": "sunda-ratu-sunda",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Sunda",
+  "l3_style": "Rustic",
+  "l4_color_name": "Plum Velvet",
+  "swatch_hex": [
+   "#F6EFF6",
+   "#B486A8",
+   "#36143A"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/sunda-ratu-sunda",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-023__pernikahan-adat-sunda__rustic__plum-velvet"
+ },
+ {
+  "code": "WED-024",
+  "key": "sunda-angklung-kasih",
+  "template_key": "sunda-angklung-kasih",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Sunda",
+  "l3_style": "Korporat Profesional",
+  "l4_color_name": "Monochrome",
+  "swatch_hex": [
+   "#FAFAF9",
+   "#9A9A94",
+   "#232323"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/sunda-angklung-kasih",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-024__pernikahan-adat-sunda__korporat-profesional__monochrome"
+ },
+ {
+  "code": "WED-025",
+  "key": "sunda-priangan-lembut",
+  "template_key": "sunda-priangan-lembut",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Sunda",
+  "l3_style": "Rustic",
+  "l4_color_name": "Coral & Peach",
+  "swatch_hex": [
+   "#FFF3EC",
+   "#E08A63",
+   "#472A1F"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/sunda-priangan-lembut",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-025__pernikahan-adat-sunda__rustic__coral-and-peach"
+ },
+ {
+  "code": "WED-026",
+  "key": "sunda-sangkuriang",
+  "template_key": "sunda-sangkuriang",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Sunda",
+  "l3_style": "Korporat Profesional",
+  "l4_color_name": "Arctic Frost",
+  "swatch_hex": [
+   "#F3F8FB",
+   "#A9C6D4",
+   "#1E3B49"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/sunda-sangkuriang",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-026__pernikahan-adat-sunda__korporat-profesional__arctic-frost"
+ },
+ {
+  "code": "WED-027",
+  "key": "sunda-dayang-sumbi",
+  "template_key": "sunda-dayang-sumbi",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Sunda",
+  "l3_style": "Rustic",
+  "l4_color_name": "Purple Dream",
+  "swatch_hex": [
+   "#F7F1FC",
+   "#B48BD6",
+   "#341C4E"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/sunda-dayang-sumbi",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-027__pernikahan-adat-sunda__rustic__purple-dream"
+ },
+ {
+  "code": "WED-028",
+  "key": "sunda-citarum-ayu",
+  "template_key": "sunda-citarum-ayu",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Sunda",
+  "l3_style": "Korporat Profesional",
+  "l4_color_name": "Burgundy Wine",
+  "swatch_hex": [
+   "#F8F0EF",
+   "#A8563F",
+   "#350F18"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/sunda-citarum-ayu",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-028__pernikahan-adat-sunda__korporat-profesional__burgundy-wine"
+ },
+ {
+  "code": "WED-029",
+  "key": "sunda-bunga-kantil",
+  "template_key": "sunda-bunga-kantil",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Sunda",
+  "l3_style": "Rustic",
+  "l4_color_name": "Ruby Luxe",
+  "swatch_hex": [
+   "#FBF1F1",
+   "#C0505A",
+   "#370D14"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/sunda-bunga-kantil",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-029__pernikahan-adat-sunda__rustic__ruby-luxe"
+ },
+ {
+  "code": "WED-030",
+  "key": "sunda-cireundeu-asih",
+  "template_key": "sunda-cireundeu-asih",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Sunda",
+  "l3_style": "Korporat Profesional",
+  "l4_color_name": "Pastel Mix",
+  "swatch_hex": [
+   "#FBF7F6",
+   "#D8A9A0",
+   "#3A3434"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/sunda-cireundeu-asih",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-030__pernikahan-adat-sunda__korporat-profesional__pastel-mix"
+ },
+ {
+  "code": "WED-031",
+  "key": "minang-rumah-gadang",
+  "template_key": "minang-rumah-gadang",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Minang",
+  "l3_style": "Geometris",
+  "l4_color_name": "Burgundy Wine",
+  "swatch_hex": [
+   "#F8F0EF",
+   "#A8563F",
+   "#350F18"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/minang-rumah-gadang",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-031__pernikahan-adat-minang__geometris__burgundy-wine"
+ },
+ {
+  "code": "WED-032",
+  "key": "minang-gonjong-amah",
+  "template_key": "minang-gonjong-amah",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Minang",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Ruby Luxe",
+  "swatch_hex": [
+   "#FBF1F1",
+   "#C0505A",
+   "#370D14"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/minang-gonjong-amah",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-032__pernikahan-adat-minang__minimalis-modern__ruby-luxe"
+ },
+ {
+  "code": "WED-033",
+  "key": "minang-suntiang-permata",
+  "template_key": "minang-suntiang-permata",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Minang",
+  "l3_style": "Geometris",
+  "l4_color_name": "Pastel Mix",
+  "swatch_hex": [
+   "#FBF7F6",
+   "#D8A9A0",
+   "#3A3434"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/minang-suntiang-permata",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-033__pernikahan-adat-minang__geometris__pastel-mix"
+ },
+ {
+  "code": "WED-034",
+  "key": "minang-songket-padang",
+  "template_key": "minang-songket-padang",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Minang",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Citrus Pop",
+  "swatch_hex": [
+   "#FDFBEF",
+   "#D3C24A",
+   "#37340F"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/minang-songket-padang",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-034__pernikahan-adat-minang__minimalis-modern__citrus-pop"
+ },
+ {
+  "code": "WED-035",
+  "key": "minang-ranah-minang",
+  "template_key": "minang-ranah-minang",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Minang",
+  "l3_style": "Geometris",
+  "l4_color_name": "Soft Pink",
+  "swatch_hex": [
+   "#FFF6F7",
+   "#D9A3AE",
+   "#462B31"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/minang-ranah-minang",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-035__pernikahan-adat-minang__geometris__soft-pink"
+ },
+ {
+  "code": "WED-036",
+  "key": "minang-bundo-kanduang",
+  "template_key": "minang-bundo-kanduang",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Minang",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Midnight Navy",
+  "swatch_hex": [
+   "#F4F6FA",
+   "#C6A96B",
+   "#101E3A"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/minang-bundo-kanduang",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-036__pernikahan-adat-minang__minimalis-modern__midnight-navy"
+ },
+ {
+  "code": "WED-037",
+  "key": "minang-siti-nurbaya",
+  "template_key": "minang-siti-nurbaya",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Minang",
+  "l3_style": "Geometris",
+  "l4_color_name": "Cyber Neon",
+  "swatch_hex": [
+   "#0E0F14",
+   "#6FF3C1",
+   "#05060A"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/minang-siti-nurbaya",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-037__pernikahan-adat-minang__geometris__cyber-neon"
+ },
+ {
+  "code": "WED-038",
+  "key": "minang-singgalang",
+  "template_key": "minang-singgalang",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Minang",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Bold Red",
+  "swatch_hex": [
+   "#FFF4F2",
+   "#D73B32",
+   "#360A07"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/minang-singgalang",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-038__pernikahan-adat-minang__minimalis-modern__bold-red"
+ },
+ {
+  "code": "WED-039",
+  "key": "minang-marawa-pusako",
+  "template_key": "minang-marawa-pusako",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Minang",
+  "l3_style": "Geometris",
+  "l4_color_name": "Mint Fresh",
+  "swatch_hex": [
+   "#F1FAF6",
+   "#86C9B0",
+   "#14332A"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/minang-marawa-pusako",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-039__pernikahan-adat-minang__geometris__mint-fresh"
+ },
+ {
+  "code": "WED-040",
+  "key": "minang-anak-daro",
+  "template_key": "minang-anak-daro",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Minang",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Ocean Blue",
+  "swatch_hex": [
+   "#F2F6F8",
+   "#C9A050",
+   "#0A1F2B"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/minang-anak-daro",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-040__pernikahan-adat-minang__minimalis-modern__ocean-blue"
+ },
+ {
+  "code": "WED-041",
+  "key": "nusantara-tenun-ikat",
+  "template_key": "nusantara-tenun-ikat",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Nusantara lainnya",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Dusty Rose",
+  "swatch_hex": [
+   "#FBF1EF",
+   "#B78A6A",
+   "#4A2C2C"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/nusantara-tenun-ikat",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-041__pernikahan-adat-nusantara-lainnya__minimalis-modern__dusty-rose"
+ },
+ {
+  "code": "WED-042",
+  "key": "nusantara-ulos-hela",
+  "template_key": "nusantara-ulos-hela",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Nusantara lainnya",
+  "l3_style": "Geometris",
+  "l4_color_name": "Sage Green",
+  "swatch_hex": [
+   "#F3F6F1",
+   "#A8B58C",
+   "#2C3A27"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/nusantara-ulos-hela",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-042__pernikahan-adat-nusantara-lainnya__geometris__sage-green"
+ },
+ {
+  "code": "WED-043",
+  "key": "nusantara-nusantara-raya",
+  "template_key": "nusantara-nusantara-raya",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Nusantara lainnya",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Rose Gold",
+  "swatch_hex": [
+   "#FCF4F1",
+   "#C08A6E",
+   "#402924"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/nusantara-nusantara-raya",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-043__pernikahan-adat-nusantara-lainnya__minimalis-modern__rose-gold"
+ },
+ {
+  "code": "WED-044",
+  "key": "nusantara-wastra-timur",
+  "template_key": "nusantara-wastra-timur",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Nusantara lainnya",
+  "l3_style": "Geometris",
+  "l4_color_name": "Blueberry Milk",
+  "swatch_hex": [
+   "#F4F3FA",
+   "#B9AEDC",
+   "#2C2547"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/nusantara-wastra-timur",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-044__pernikahan-adat-nusantara-lainnya__geometris__blueberry-milk"
+ },
+ {
+  "code": "WED-045",
+  "key": "nusantara-toraja-tallu",
+  "template_key": "nusantara-toraja-tallu",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Nusantara lainnya",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Yellow Sunshine",
+  "swatch_hex": [
+   "#FDF8EC",
+   "#E0B44A",
+   "#3D3115"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/nusantara-toraja-tallu",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-045__pernikahan-adat-nusantara-lainnya__minimalis-modern__yellow-sunshine"
+ },
+ {
+  "code": "WED-046",
+  "key": "nusantara-dayak-ranying",
+  "template_key": "nusantara-dayak-ranying",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Nusantara lainnya",
+  "l3_style": "Geometris",
+  "l4_color_name": "Plum Velvet",
+  "swatch_hex": [
+   "#F6EFF6",
+   "#B486A8",
+   "#36143A"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/nusantara-dayak-ranying",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-046__pernikahan-adat-nusantara-lainnya__geometris__plum-velvet"
+ },
+ {
+  "code": "WED-047",
+  "key": "nusantara-bunga-cengkeh",
+  "template_key": "nusantara-bunga-cengkeh",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Nusantara lainnya",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Monochrome",
+  "swatch_hex": [
+   "#FAFAF9",
+   "#9A9A94",
+   "#232323"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/nusantara-bunga-cengkeh",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-047__pernikahan-adat-nusantara-lainnya__minimalis-modern__monochrome"
+ },
+ {
+  "code": "WED-048",
+  "key": "nusantara-sabu-raijua",
+  "template_key": "nusantara-sabu-raijua",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Adat Nusantara lainnya",
+  "l3_style": "Geometris",
+  "l4_color_name": "Coral & Peach",
+  "swatch_hex": [
+   "#FFF3EC",
+   "#E08A63",
+   "#472A1F"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/nusantara-sabu-raijua",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-048__pernikahan-adat-nusantara-lainnya__geometris__coral-and-peach"
+ },
+ {
+  "code": "WED-049",
+  "key": "minimalis-aria",
+  "template_key": "minimalis-aria",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Minimalis Modern",
+  "l3_style": "Korporat Profesional",
+  "l4_color_name": "Citrus Pop",
+  "swatch_hex": [
+   "#FDFBEF",
+   "#D3C24A",
+   "#37340F"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/minimalis-aria",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-049__pernikahan-minimalis-modern__korporat-profesional__citrus-pop"
+ },
+ {
+  "code": "WED-050",
+  "key": "minimalis-bening",
+  "template_key": "minimalis-bening",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Minimalis Modern",
+  "l3_style": "Rustic",
+  "l4_color_name": "Soft Pink",
+  "swatch_hex": [
+   "#FFF6F7",
+   "#D9A3AE",
+   "#462B31"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/minimalis-bening",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-050__pernikahan-minimalis-modern__rustic__soft-pink"
+ },
+ {
+  "code": "WED-051",
+  "key": "minimalis-nadi",
+  "template_key": "minimalis-nadi",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Minimalis Modern",
+  "l3_style": "Korporat Profesional",
+  "l4_color_name": "Midnight Navy",
+  "swatch_hex": [
+   "#F4F6FA",
+   "#C6A96B",
+   "#101E3A"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/minimalis-nadi",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-051__pernikahan-minimalis-modern__korporat-profesional__midnight-navy"
+ },
+ {
+  "code": "WED-052",
+  "key": "minimalis-ruang",
+  "template_key": "minimalis-ruang",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Minimalis Modern",
+  "l3_style": "Rustic",
+  "l4_color_name": "Cyber Neon",
+  "swatch_hex": [
+   "#0E0F14",
+   "#6FF3C1",
+   "#05060A"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/minimalis-ruang",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-052__pernikahan-minimalis-modern__rustic__cyber-neon"
+ },
+ {
+  "code": "WED-053",
+  "key": "minimalis-kanvas",
+  "template_key": "minimalis-kanvas",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Minimalis Modern",
+  "l3_style": "Korporat Profesional",
+  "l4_color_name": "Bold Red",
+  "swatch_hex": [
+   "#FFF4F2",
+   "#D73B32",
+   "#360A07"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/minimalis-kanvas",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-053__pernikahan-minimalis-modern__korporat-profesional__bold-red"
+ },
+ {
+  "code": "WED-054",
+  "key": "minimalis-selaras",
+  "template_key": "minimalis-selaras",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Minimalis Modern",
+  "l3_style": "Rustic",
+  "l4_color_name": "Mint Fresh",
+  "swatch_hex": [
+   "#F1FAF6",
+   "#86C9B0",
+   "#14332A"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/minimalis-selaras",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-054__pernikahan-minimalis-modern__rustic__mint-fresh"
+ },
+ {
+  "code": "WED-055",
+  "key": "minimalis-lumen",
+  "template_key": "minimalis-lumen",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Minimalis Modern",
+  "l3_style": "Korporat Profesional",
+  "l4_color_name": "Ocean Blue",
+  "swatch_hex": [
+   "#F2F6F8",
+   "#C9A050",
+   "#0A1F2B"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/minimalis-lumen",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-055__pernikahan-minimalis-modern__korporat-profesional__ocean-blue"
+ },
+ {
+  "code": "WED-056",
+  "key": "minimalis-sudut",
+  "template_key": "minimalis-sudut",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Minimalis Modern",
+  "l3_style": "Rustic",
+  "l4_color_name": "Clean White",
+  "swatch_hex": [
+   "#FBF9F4",
+   "#B08D57",
+   "#2A2A26"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/minimalis-sudut",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-056__pernikahan-minimalis-modern__rustic__clean-white"
+ },
+ {
+  "code": "WED-057",
+  "key": "minimalis-grafik",
+  "template_key": "minimalis-grafik",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Minimalis Modern",
+  "l3_style": "Korporat Profesional",
+  "l4_color_name": "Dusty Rose",
+  "swatch_hex": [
+   "#FBF1EF",
+   "#B78A6A",
+   "#4A2C2C"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/minimalis-grafik",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-057__pernikahan-minimalis-modern__korporat-profesional__dusty-rose"
+ },
+ {
+  "code": "WED-058",
+  "key": "minimalis-sunyi",
+  "template_key": "minimalis-sunyi",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Minimalis Modern",
+  "l3_style": "Rustic",
+  "l4_color_name": "Sage Green",
+  "swatch_hex": [
+   "#F3F6F1",
+   "#A8B58C",
+   "#2C3A27"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/minimalis-sunyi",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-058__pernikahan-minimalis-modern__rustic__sage-green"
+ },
+ {
+  "code": "WED-059",
+  "key": "minimalis-kaca",
+  "template_key": "minimalis-kaca",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Minimalis Modern",
+  "l3_style": "Korporat Profesional",
+  "l4_color_name": "Rose Gold",
+  "swatch_hex": [
+   "#FCF4F1",
+   "#C08A6E",
+   "#402924"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/minimalis-kaca",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-059__pernikahan-minimalis-modern__korporat-profesional__rose-gold"
+ },
+ {
+  "code": "WED-060",
+  "key": "minimalis-aksara",
+  "template_key": "minimalis-aksara",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Minimalis Modern",
+  "l3_style": "Rustic",
+  "l4_color_name": "Blueberry Milk",
+  "swatch_hex": [
+   "#F4F3FA",
+   "#B9AEDC",
+   "#2C2547"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/minimalis-aksara",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-060__pernikahan-minimalis-modern__rustic__blueberry-milk"
+ },
+ {
+  "code": "WED-061",
+  "key": "minimalis-monoline",
+  "template_key": "minimalis-monoline",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Minimalis Modern",
+  "l3_style": "Korporat Profesional",
+  "l4_color_name": "Yellow Sunshine",
+  "swatch_hex": [
+   "#FDF8EC",
+   "#E0B44A",
+   "#3D3115"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/minimalis-monoline",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-061__pernikahan-minimalis-modern__korporat-profesional__yellow-sunshine"
+ },
+ {
+  "code": "WED-062",
+  "key": "minimalis-rona",
+  "template_key": "minimalis-rona",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Minimalis Modern",
+  "l3_style": "Rustic",
+  "l4_color_name": "Plum Velvet",
+  "swatch_hex": [
+   "#F6EFF6",
+   "#B486A8",
+   "#36143A"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/minimalis-rona",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-062__pernikahan-minimalis-modern__rustic__plum-velvet"
+ },
+ {
+  "code": "WED-063",
+  "key": "floral-rosalind",
+  "template_key": "floral-rosalind",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Elegan dan Floral",
+  "l3_style": "Pastel",
+  "l4_color_name": "Clean White",
+  "swatch_hex": [
+   "#FBF9F4",
+   "#B08D57",
+   "#2A2A26"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/floral-rosalind",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-063__pernikahan-elegan-dan-floral__pastel__clean-white"
+ },
+ {
+  "code": "WED-064",
+  "key": "floral-peony-putih",
+  "template_key": "floral-peony-putih",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Elegan dan Floral",
+  "l3_style": "Islami",
+  "l4_color_name": "Dusty Rose",
+  "swatch_hex": [
+   "#FBF1EF",
+   "#B78A6A",
+   "#4A2C2C"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/floral-peony-putih",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-064__pernikahan-elegan-dan-floral__islami__dusty-rose"
+ },
+ {
+  "code": "WED-065",
+  "key": "floral-taman-ayu",
+  "template_key": "floral-taman-ayu",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Elegan dan Floral",
+  "l3_style": "Pastel",
+  "l4_color_name": "Sage Green",
+  "swatch_hex": [
+   "#F3F6F1",
+   "#A8B58C",
+   "#2C3A27"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/floral-taman-ayu",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-065__pernikahan-elegan-dan-floral__pastel__sage-green"
+ },
+ {
+  "code": "WED-066",
+  "key": "floral-anggrek-bulan",
+  "template_key": "floral-anggrek-bulan",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Elegan dan Floral",
+  "l3_style": "Islami",
+  "l4_color_name": "Rose Gold",
+  "swatch_hex": [
+   "#FCF4F1",
+   "#C08A6E",
+   "#402924"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/floral-anggrek-bulan",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-066__pernikahan-elegan-dan-floral__islami__rose-gold"
+ },
+ {
+  "code": "WED-067",
+  "key": "floral-bunga-kertas",
+  "template_key": "floral-bunga-kertas",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Elegan dan Floral",
+  "l3_style": "Pastel",
+  "l4_color_name": "Blueberry Milk",
+  "swatch_hex": [
+   "#F4F3FA",
+   "#B9AEDC",
+   "#2C2547"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/floral-bunga-kertas",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-067__pernikahan-elegan-dan-floral__pastel__blueberry-milk"
+ },
+ {
+  "code": "WED-068",
+  "key": "floral-magnolia",
+  "template_key": "floral-magnolia",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Elegan dan Floral",
+  "l3_style": "Islami",
+  "l4_color_name": "Yellow Sunshine",
+  "swatch_hex": [
+   "#FDF8EC",
+   "#E0B44A",
+   "#3D3115"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/floral-magnolia",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-068__pernikahan-elegan-dan-floral__islami__yellow-sunshine"
+ },
+ {
+  "code": "WED-069",
+  "key": "floral-lavender-fields",
+  "template_key": "floral-lavender-fields",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Elegan dan Floral",
+  "l3_style": "Pastel",
+  "l4_color_name": "Plum Velvet",
+  "swatch_hex": [
+   "#F6EFF6",
+   "#B486A8",
+   "#36143A"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/floral-lavender-fields",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-069__pernikahan-elegan-dan-floral__pastel__plum-velvet"
+ },
+ {
+  "code": "WED-070",
+  "key": "floral-sakura-lembut",
+  "template_key": "floral-sakura-lembut",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Elegan dan Floral",
+  "l3_style": "Islami",
+  "l4_color_name": "Monochrome",
+  "swatch_hex": [
+   "#FAFAF9",
+   "#9A9A94",
+   "#232323"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/floral-sakura-lembut",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-070__pernikahan-elegan-dan-floral__islami__monochrome"
+ },
+ {
+  "code": "WED-071",
+  "key": "floral-daisy-pagi",
+  "template_key": "floral-daisy-pagi",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Elegan dan Floral",
+  "l3_style": "Pastel",
+  "l4_color_name": "Coral & Peach",
+  "swatch_hex": [
+   "#FFF3EC",
+   "#E08A63",
+   "#472A1F"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/floral-daisy-pagi",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-071__pernikahan-elegan-dan-floral__pastel__coral-and-peach"
+ },
+ {
+  "code": "WED-072",
+  "key": "floral-rosewood",
+  "template_key": "floral-rosewood",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Elegan dan Floral",
+  "l3_style": "Islami",
+  "l4_color_name": "Arctic Frost",
+  "swatch_hex": [
+   "#F3F8FB",
+   "#A9C6D4",
+   "#1E3B49"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/floral-rosewood",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-072__pernikahan-elegan-dan-floral__islami__arctic-frost"
+ },
+ {
+  "code": "WED-073",
+  "key": "islami-ar-rum-21",
+  "template_key": "islami-ar-rum-21",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Islami",
+  "l3_style": "Islami",
+  "l4_color_name": "Burgundy Wine",
+  "swatch_hex": [
+   "#F8F0EF",
+   "#A8563F",
+   "#350F18"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/islami-ar-rum-21",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-073__pernikahan-islami__islami__burgundy-wine"
+ },
+ {
+  "code": "WED-074",
+  "key": "islami-nurul-iman",
+  "template_key": "islami-nurul-iman",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Islami",
+  "l3_style": "Pastel",
+  "l4_color_name": "Ruby Luxe",
+  "swatch_hex": [
+   "#FBF1F1",
+   "#C0505A",
+   "#370D14"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/islami-nurul-iman",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-074__pernikahan-islami__pastel__ruby-luxe"
+ },
+ {
+  "code": "WED-075",
+  "key": "islami-baarakallahu",
+  "template_key": "islami-baarakallahu",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Islami",
+  "l3_style": "Islami",
+  "l4_color_name": "Pastel Mix",
+  "swatch_hex": [
+   "#FBF7F6",
+   "#D8A9A0",
+   "#3A3434"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/islami-baarakallahu",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-075__pernikahan-islami__islami__pastel-mix"
+ },
+ {
+  "code": "WED-076",
+  "key": "islami-misykah",
+  "template_key": "islami-misykah",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Islami",
+  "l3_style": "Pastel",
+  "l4_color_name": "Citrus Pop",
+  "swatch_hex": [
+   "#FDFBEF",
+   "#D3C24A",
+   "#37340F"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/islami-misykah",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-076__pernikahan-islami__pastel__citrus-pop"
+ },
+ {
+  "code": "WED-077",
+  "key": "islami-mihrab-cinta",
+  "template_key": "islami-mihrab-cinta",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Islami",
+  "l3_style": "Islami",
+  "l4_color_name": "Soft Pink",
+  "swatch_hex": [
+   "#FFF6F7",
+   "#D9A3AE",
+   "#462B31"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/islami-mihrab-cinta",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-077__pernikahan-islami__islami__soft-pink"
+ },
+ {
+  "code": "WED-078",
+  "key": "islami-salam-khusyuk",
+  "template_key": "islami-salam-khusyuk",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Islami",
+  "l3_style": "Pastel",
+  "l4_color_name": "Midnight Navy",
+  "swatch_hex": [
+   "#F4F6FA",
+   "#C6A96B",
+   "#101E3A"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/islami-salam-khusyuk",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-078__pernikahan-islami__pastel__midnight-navy"
+ },
+ {
+  "code": "WED-079",
+  "key": "islami-zahra-and-ahmad",
+  "template_key": "islami-zahra-and-ahmad",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Islami",
+  "l3_style": "Islami",
+  "l4_color_name": "Cyber Neon",
+  "swatch_hex": [
+   "#0E0F14",
+   "#6FF3C1",
+   "#05060A"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/islami-zahra-and-ahmad",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-079__pernikahan-islami__islami__cyber-neon"
+ },
+ {
+  "code": "WED-080",
+  "key": "islami-barokah-jannah",
+  "template_key": "islami-barokah-jannah",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Islami",
+  "l3_style": "Pastel",
+  "l4_color_name": "Bold Red",
+  "swatch_hex": [
+   "#FFF4F2",
+   "#D73B32",
+   "#360A07"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/islami-barokah-jannah",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-080__pernikahan-islami__pastel__bold-red"
+ },
+ {
+  "code": "WED-081",
+  "key": "akad-dua-janji",
+  "template_key": "akad-dua-janji",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Akad Nikah dan Resepsi",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Rose Gold",
+  "swatch_hex": [
+   "#FCF4F1",
+   "#C08A6E",
+   "#402924"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/akad-dua-janji",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-081__akad-nikah-dan-resepsi__minimalis-modern__rose-gold"
+ },
+ {
+  "code": "WED-082",
+  "key": "akad-sakral-and-syahdu",
+  "template_key": "akad-sakral-and-syahdu",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Akad Nikah dan Resepsi",
+  "l3_style": "Geometris",
+  "l4_color_name": "Blueberry Milk",
+  "swatch_hex": [
+   "#F4F3FA",
+   "#B9AEDC",
+   "#2C2547"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/akad-sakral-and-syahdu",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-082__akad-nikah-dan-resepsi__geometris__blueberry-milk"
+ },
+ {
+  "code": "WED-083",
+  "key": "akad-satu-hari-dua-acara",
+  "template_key": "akad-satu-hari-dua-acara",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Akad Nikah dan Resepsi",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Yellow Sunshine",
+  "swatch_hex": [
+   "#FDF8EC",
+   "#E0B44A",
+   "#3D3115"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/akad-satu-hari-dua-acara",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-083__akad-nikah-dan-resepsi__minimalis-modern__yellow-sunshine"
+ },
+ {
+  "code": "WED-084",
+  "key": "akad-khitbah",
+  "template_key": "akad-khitbah",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Akad Nikah dan Resepsi",
+  "l3_style": "Geometris",
+  "l4_color_name": "Plum Velvet",
+  "swatch_hex": [
+   "#F6EFF6",
+   "#B486A8",
+   "#36143A"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/akad-khitbah",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-084__akad-nikah-dan-resepsi__geometris__plum-velvet"
+ },
+ {
+  "code": "WED-085",
+  "key": "akad-akad-and-resepsi",
+  "template_key": "akad-akad-and-resepsi",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Akad Nikah dan Resepsi",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Monochrome",
+  "swatch_hex": [
+   "#FAFAF9",
+   "#9A9A94",
+   "#232323"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/akad-akad-and-resepsi",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-085__akad-nikah-dan-resepsi__minimalis-modern__monochrome"
+ },
+ {
+  "code": "WED-086",
+  "key": "internasional-maison",
+  "template_key": "internasional-maison",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Internasional",
+  "l3_style": "Bold Modern",
+  "l4_color_name": "Earth Tone",
+  "swatch_hex": [
+   "#F7F2EA",
+   "#A9805A",
+   "#382D22"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/internasional-maison",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-086__pernikahan-internasional__bold-modern__earth-tone"
+ },
+ {
+  "code": "WED-087",
+  "key": "internasional-editorial-vows",
+  "template_key": "internasional-editorial-vows",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Internasional",
+  "l3_style": "Tradisional Nusantara",
+  "l4_color_name": "Lavender Haze",
+  "swatch_hex": [
+   "#F7F4FB",
+   "#B7A6D6",
+   "#2E2442"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/internasional-editorial-vows",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-087__pernikahan-internasional__tradisional-nusantara__lavender-haze"
+ },
+ {
+  "code": "WED-088",
+  "key": "internasional-nusantara-fusion",
+  "template_key": "internasional-nusantara-fusion",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Internasional",
+  "l3_style": "Bold Modern",
+  "l4_color_name": "Chocolate Luxe",
+  "swatch_hex": [
+   "#F9F2EA",
+   "#B98A5E",
+   "#2D1B12"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/internasional-nusantara-fusion",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-088__pernikahan-internasional__bold-modern__chocolate-luxe"
+ },
+ {
+  "code": "WED-089",
+  "key": "internasional-the-grand-affair",
+  "template_key": "internasional-the-grand-affair",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Internasional",
+  "l3_style": "Tradisional Nusantara",
+  "l4_color_name": "Orange Energy",
+  "swatch_hex": [
+   "#FFF6ED",
+   "#E28A3C",
+   "#402912"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/internasional-the-grand-affair",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-089__pernikahan-internasional__tradisional-nusantara__orange-energy"
+ },
+ {
+  "code": "WED-090",
+  "key": "internasional-bilingual-bliss",
+  "template_key": "internasional-bilingual-bliss",
+  "l1_bab": "BAB 1",
+  "l1_name": "Undangan Pernikahan",
+  "l2_subbab": "Pernikahan Internasional",
+  "l3_style": "Bold Modern",
+  "l4_color_name": "Cherry Blossom",
+  "swatch_hex": [
+   "#FFF5F6",
+   "#E7A9B8",
+   "#442A35"
+  ],
+  "opening_mechanic": "hinge-swing-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/internasional-bilingual-bliss",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "WED-090__pernikahan-internasional__bold-modern__cherry-blossom"
+ },
+ {
+  "code": "BDY-091",
+  "key": "birthday-citrus-pop",
+  "template_key": "birthday-citrus-pop",
+  "l1_bab": "BAB 2",
+  "l1_name": "Undangan Ulang Tahun",
+  "l2_subbab": "Ulang Tahun Anak",
+  "l3_style": "Geometris",
+  "l4_color_name": "Citrus Pop",
+  "swatch_hex": [
+   "#FDFBEF",
+   "#D3C24A",
+   "#37340F"
+  ],
+  "opening_mechanic": "v-angle-split-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/birthday-citrus-pop",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "BDY-091__ulang-tahun-anak__geometris__citrus-pop"
+ },
+ {
+  "code": "BDY-092",
+  "key": "birthday-soft-pink",
+  "template_key": "birthday-soft-pink",
+  "l1_bab": "BAB 2",
+  "l1_name": "Undangan Ulang Tahun",
+  "l2_subbab": "Ulang Tahun Anak",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Soft Pink",
+  "swatch_hex": [
+   "#FFF6F7",
+   "#D9A3AE",
+   "#462B31"
+  ],
+  "opening_mechanic": "v-angle-split-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/birthday-soft-pink",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "BDY-092__ulang-tahun-anak__minimalis-modern__soft-pink"
+ },
+ {
+  "code": "BDY-093",
+  "key": "birthday-midnight-navy",
+  "template_key": "birthday-midnight-navy",
+  "l1_bab": "BAB 2",
+  "l1_name": "Undangan Ulang Tahun",
+  "l2_subbab": "Ulang Tahun Anak",
+  "l3_style": "Geometris",
+  "l4_color_name": "Midnight Navy",
+  "swatch_hex": [
+   "#F4F6FA",
+   "#C6A96B",
+   "#101E3A"
+  ],
+  "opening_mechanic": "v-angle-split-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/birthday-midnight-navy",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "BDY-093__ulang-tahun-anak__geometris__midnight-navy"
+ },
+ {
+  "code": "BDY-094",
+  "key": "birthday-cyber-neon",
+  "template_key": "birthday-cyber-neon",
+  "l1_bab": "BAB 2",
+  "l1_name": "Undangan Ulang Tahun",
+  "l2_subbab": "Ulang Tahun Anak",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Cyber Neon",
+  "swatch_hex": [
+   "#0E0F14",
+   "#6FF3C1",
+   "#05060A"
+  ],
+  "opening_mechanic": "v-angle-split-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/birthday-cyber-neon",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "BDY-094__ulang-tahun-anak__minimalis-modern__cyber-neon"
+ },
+ {
+  "code": "BDY-095",
+  "key": "birthday-bold-red",
+  "template_key": "birthday-bold-red",
+  "l1_bab": "BAB 2",
+  "l1_name": "Undangan Ulang Tahun",
+  "l2_subbab": "Ulang Tahun Anak",
+  "l3_style": "Geometris",
+  "l4_color_name": "Bold Red",
+  "swatch_hex": [
+   "#FFF4F2",
+   "#D73B32",
+   "#360A07"
+  ],
+  "opening_mechanic": "v-angle-split-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/birthday-bold-red",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "BDY-095__ulang-tahun-anak__geometris__bold-red"
+ },
+ {
+  "code": "BDY-096",
+  "key": "birthday-mint-fresh",
+  "template_key": "birthday-mint-fresh",
+  "l1_bab": "BAB 2",
+  "l1_name": "Undangan Ulang Tahun",
+  "l2_subbab": "Ulang Tahun Anak",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Mint Fresh",
+  "swatch_hex": [
+   "#F1FAF6",
+   "#86C9B0",
+   "#14332A"
+  ],
+  "opening_mechanic": "v-angle-split-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/birthday-mint-fresh",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "BDY-096__ulang-tahun-anak__minimalis-modern__mint-fresh"
+ },
+ {
+  "code": "BDY-097",
+  "key": "birthday-ocean-blue",
+  "template_key": "birthday-ocean-blue",
+  "l1_bab": "BAB 2",
+  "l1_name": "Undangan Ulang Tahun",
+  "l2_subbab": "Ulang Tahun Anak",
+  "l3_style": "Geometris",
+  "l4_color_name": "Ocean Blue",
+  "swatch_hex": [
+   "#F2F6F8",
+   "#C9A050",
+   "#0A1F2B"
+  ],
+  "opening_mechanic": "v-angle-split-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/birthday-ocean-blue",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "BDY-097__ulang-tahun-anak__geometris__ocean-blue"
+ },
+ {
+  "code": "BDY-098",
+  "key": "birthday-clean-white",
+  "template_key": "birthday-clean-white",
+  "l1_bab": "BAB 2",
+  "l1_name": "Undangan Ulang Tahun",
+  "l2_subbab": "Ulang Tahun Anak",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Clean White",
+  "swatch_hex": [
+   "#FBF9F4",
+   "#B08D57",
+   "#2A2A26"
+  ],
+  "opening_mechanic": "v-angle-split-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/birthday-clean-white",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "BDY-098__ulang-tahun-anak__minimalis-modern__clean-white"
+ },
+ {
+  "code": "BDY-099",
+  "key": "birthday-plum-velvet",
+  "template_key": "birthday-plum-velvet",
+  "l1_bab": "BAB 2",
+  "l1_name": "Undangan Ulang Tahun",
+  "l2_subbab": "Ulang Tahun Remaja",
+  "l3_style": "Rustic",
+  "l4_color_name": "Plum Velvet",
+  "swatch_hex": [
+   "#F6EFF6",
+   "#B486A8",
+   "#36143A"
+  ],
+  "opening_mechanic": "v-angle-split-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/birthday-plum-velvet",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "BDY-099__ulang-tahun-remaja__rustic__plum-velvet"
+ },
+ {
+  "code": "BDY-100",
+  "key": "birthday-monochrome",
+  "template_key": "birthday-monochrome",
+  "l1_bab": "BAB 2",
+  "l1_name": "Undangan Ulang Tahun",
+  "l2_subbab": "Ulang Tahun Remaja",
+  "l3_style": "Korporat Profesional",
+  "l4_color_name": "Monochrome",
+  "swatch_hex": [
+   "#FAFAF9",
+   "#9A9A94",
+   "#232323"
+  ],
+  "opening_mechanic": "v-angle-split-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/birthday-monochrome",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "BDY-100__ulang-tahun-remaja__korporat-profesional__monochrome"
+ },
+ {
+  "code": "AQQ-121",
+  "key": "aqiqah-yellow-sunshine",
+  "template_key": "aqiqah-yellow-sunshine",
+  "l1_bab": "BAB 3",
+  "l1_name": "Undangan Aqiqah dan Kelahiran",
+  "l2_subbab": "Aqiqah Anak",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Yellow Sunshine",
+  "swatch_hex": [
+   "#FDF8EC",
+   "#E0B44A",
+   "#3D3115"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/aqiqah-yellow-sunshine",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "AQQ-121__aqiqah-anak__minimalis-modern__yellow-sunshine"
+ },
+ {
+  "code": "AQQ-122",
+  "key": "aqiqah-plum-velvet",
+  "template_key": "aqiqah-plum-velvet",
+  "l1_bab": "BAB 3",
+  "l1_name": "Undangan Aqiqah dan Kelahiran",
+  "l2_subbab": "Aqiqah Anak",
+  "l3_style": "Geometris",
+  "l4_color_name": "Plum Velvet",
+  "swatch_hex": [
+   "#F6EFF6",
+   "#B486A8",
+   "#36143A"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/aqiqah-plum-velvet",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "AQQ-122__aqiqah-anak__geometris__plum-velvet"
+ },
+ {
+  "code": "AQQ-123",
+  "key": "aqiqah-monochrome",
+  "template_key": "aqiqah-monochrome",
+  "l1_bab": "BAB 3",
+  "l1_name": "Undangan Aqiqah dan Kelahiran",
+  "l2_subbab": "Aqiqah Anak",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Monochrome",
+  "swatch_hex": [
+   "#FAFAF9",
+   "#9A9A94",
+   "#232323"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/aqiqah-monochrome",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "AQQ-123__aqiqah-anak__minimalis-modern__monochrome"
+ },
+ {
+  "code": "AQQ-124",
+  "key": "aqiqah-coral-peach",
+  "template_key": "aqiqah-coral-peach",
+  "l1_bab": "BAB 3",
+  "l1_name": "Undangan Aqiqah dan Kelahiran",
+  "l2_subbab": "Aqiqah Anak",
+  "l3_style": "Geometris",
+  "l4_color_name": "Coral & Peach",
+  "swatch_hex": [
+   "#FFF3EC",
+   "#E08A63",
+   "#472A1F"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/aqiqah-coral-peach",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "AQQ-124__aqiqah-anak__geometris__coral-and-peach"
+ },
+ {
+  "code": "AQQ-125",
+  "key": "aqiqah-arctic-frost",
+  "template_key": "aqiqah-arctic-frost",
+  "l1_bab": "BAB 3",
+  "l1_name": "Undangan Aqiqah dan Kelahiran",
+  "l2_subbab": "Aqiqah Anak",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Arctic Frost",
+  "swatch_hex": [
+   "#F3F8FB",
+   "#A9C6D4",
+   "#1E3B49"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/aqiqah-arctic-frost",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "AQQ-125__aqiqah-anak__minimalis-modern__arctic-frost"
+ },
+ {
+  "code": "AQQ-126",
+  "key": "aqiqah-purple-dream",
+  "template_key": "aqiqah-purple-dream",
+  "l1_bab": "BAB 3",
+  "l1_name": "Undangan Aqiqah dan Kelahiran",
+  "l2_subbab": "Aqiqah Anak",
+  "l3_style": "Geometris",
+  "l4_color_name": "Purple Dream",
+  "swatch_hex": [
+   "#F5F1FA",
+   "#9B7BC4",
+   "#241636"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/aqiqah-purple-dream",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "AQQ-126__aqiqah-anak__geometris__purple-dream"
+ },
+ {
+  "code": "AQQ-127",
+  "key": "aqiqah-burgundy-wine",
+  "template_key": "aqiqah-burgundy-wine",
+  "l1_bab": "BAB 3",
+  "l1_name": "Undangan Aqiqah dan Kelahiran",
+  "l2_subbab": "Aqiqah Anak",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Burgundy Wine",
+  "swatch_hex": [
+   "#F8F0EF",
+   "#A8563F",
+   "#350F18"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/aqiqah-burgundy-wine",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "AQQ-127__aqiqah-anak__minimalis-modern__burgundy-wine"
+ },
+ {
+  "code": "AQQ-128",
+  "key": "aqiqah-earth-tone",
+  "template_key": "aqiqah-earth-tone",
+  "l1_bab": "BAB 3",
+  "l1_name": "Undangan Aqiqah dan Kelahiran",
+  "l2_subbab": "Tasyakuran Kelahiran Bayi",
+  "l3_style": "Romantis",
+  "l4_color_name": "Earth Tone",
+  "swatch_hex": [
+   "#F7F2EA",
+   "#A9805A",
+   "#382D22"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/aqiqah-earth-tone",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "AQQ-128__tasyakuran-kelahiran-bayi__romantis__earth-tone"
+ },
+ {
+  "code": "AQQ-129",
+  "key": "aqiqah-lavender-haze",
+  "template_key": "aqiqah-lavender-haze",
+  "l1_bab": "BAB 3",
+  "l1_name": "Undangan Aqiqah dan Kelahiran",
+  "l2_subbab": "Tasyakuran Kelahiran Bayi",
+  "l3_style": "Monokrom",
+  "l4_color_name": "Lavender Haze",
+  "swatch_hex": [
+   "#F7F4FB",
+   "#B7A6D6",
+   "#2E2442"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/aqiqah-lavender-haze",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "AQQ-129__tasyakuran-kelahiran-bayi__monokrom__lavender-haze"
+ },
+ {
+  "code": "AQQ-130",
+  "key": "aqiqah-chocolate-luxe",
+  "template_key": "aqiqah-chocolate-luxe",
+  "l1_bab": "BAB 3",
+  "l1_name": "Undangan Aqiqah dan Kelahiran",
+  "l2_subbab": "Tasyakuran Kelahiran Bayi",
+  "l3_style": "Romantis",
+  "l4_color_name": "Chocolate Luxe",
+  "swatch_hex": [
+   "#F9F2EA",
+   "#B98A5E",
+   "#2D1B12"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/aqiqah-chocolate-luxe",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "AQQ-130__tasyakuran-kelahiran-bayi__romantis__chocolate-luxe"
+ },
+ {
+  "code": "AQQ-131",
+  "key": "aqiqah-orange-energy",
+  "template_key": "aqiqah-orange-energy",
+  "l1_bab": "BAB 3",
+  "l1_name": "Undangan Aqiqah dan Kelahiran",
+  "l2_subbab": "Tasyakuran Kelahiran Bayi",
+  "l3_style": "Monokrom",
+  "l4_color_name": "Orange Energy",
+  "swatch_hex": [
+   "#FFF6ED",
+   "#E28A3C",
+   "#402912"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/aqiqah-orange-energy",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "AQQ-131__tasyakuran-kelahiran-bayi__monokrom__orange-energy"
+ },
+ {
+  "code": "AQQ-132",
+  "key": "aqiqah-cherry-blossom",
+  "template_key": "aqiqah-cherry-blossom",
+  "l1_bab": "BAB 3",
+  "l1_name": "Undangan Aqiqah dan Kelahiran",
+  "l2_subbab": "Tasyakuran Kelahiran Bayi",
+  "l3_style": "Romantis",
+  "l4_color_name": "Cherry Blossom",
+  "swatch_hex": [
+   "#FFF5F6",
+   "#E7A9B8",
+   "#442A35"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/aqiqah-cherry-blossom",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "AQQ-132__tasyakuran-kelahiran-bayi__romantis__cherry-blossom"
+ },
+ {
+  "code": "AQQ-133",
+  "key": "tasmiyah-citrus-pop",
+  "template_key": "tasmiyah-citrus-pop",
+  "l1_bab": "BAB 3",
+  "l1_name": "Undangan Aqiqah dan Kelahiran",
+  "l2_subbab": "Pemberian Nama Bayi",
+  "l3_style": "Islami",
+  "l4_color_name": "Citrus Pop",
+  "swatch_hex": [
+   "#FDFBEF",
+   "#D3C24A",
+   "#37340F"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/tasmiyah-citrus-pop",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "AQQ-133__pemberian-nama-bayi__islami__citrus-pop"
+ },
+ {
+  "code": "AQQ-134",
+  "key": "tasmiyah-soft-pink",
+  "template_key": "tasmiyah-soft-pink",
+  "l1_bab": "BAB 3",
+  "l1_name": "Undangan Aqiqah dan Kelahiran",
+  "l2_subbab": "Pemberian Nama Bayi",
+  "l3_style": "Pastel",
+  "l4_color_name": "Soft Pink",
+  "swatch_hex": [
+   "#FFF6F7",
+   "#D9A3AE",
+   "#462B31"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/tasmiyah-soft-pink",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "AQQ-134__pemberian-nama-bayi__pastel__soft-pink"
+ },
+ {
+  "code": "AQQ-135",
+  "key": "tasmiyah-midnight-navy",
+  "template_key": "tasmiyah-midnight-navy",
+  "l1_bab": "BAB 3",
+  "l1_name": "Undangan Aqiqah dan Kelahiran",
+  "l2_subbab": "Pemberian Nama Bayi",
+  "l3_style": "Islami",
+  "l4_color_name": "Midnight Navy",
+  "swatch_hex": [
+   "#F4F6FA",
+   "#C6A96B",
+   "#101E3A"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/tasmiyah-midnight-navy",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "AQQ-135__pemberian-nama-bayi__islami__midnight-navy"
+ },
+ {
+  "code": "AQQ-136",
+  "key": "tasmiyah-pastel-cyber",
+  "template_key": "tasmiyah-pastel-cyber",
+  "l1_bab": "BAB 3",
+  "l1_name": "Undangan Aqiqah dan Kelahiran",
+  "l2_subbab": "Pemberian Nama Bayi",
+  "l3_style": "Pastel",
+  "l4_color_name": "Cyber Neon",
+  "swatch_hex": [
+   "#FBF7F6",
+   "#D8A9A0",
+   "#3A3434"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/tasmiyah-pastel-cyber",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "AQQ-136__pemberian-nama-bayi__pastel__cyber-neon"
+ },
+ {
+  "code": "AQQ-137",
+  "key": "khitanan-purple-dream",
+  "template_key": "khitanan-purple-dream",
+  "l1_bab": "BAB 3",
+  "l1_name": "Undangan Aqiqah dan Kelahiran",
+  "l2_subbab": "Tasyakuran Khitanan",
+  "l3_style": "Watercolor",
+  "l4_color_name": "Purple Dream",
+  "swatch_hex": [
+   "#F5F1FA",
+   "#9B7BC4",
+   "#241636"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/khitanan-purple-dream",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "AQQ-137__tasyakuran-khitanan__watercolor__purple-dream"
+ },
+ {
+  "code": "AQQ-138",
+  "key": "khitanan-burgundy-wine",
+  "template_key": "khitanan-burgundy-wine",
+  "l1_bab": "BAB 3",
+  "l1_name": "Undangan Aqiqah dan Kelahiran",
+  "l2_subbab": "Tasyakuran Khitanan",
+  "l3_style": "Floral",
+  "l4_color_name": "Burgundy Wine",
+  "swatch_hex": [
+   "#F8F0EF",
+   "#A8563F",
+   "#350F18"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/khitanan-burgundy-wine",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "AQQ-138__tasyakuran-khitanan__floral__burgundy-wine"
+ },
+ {
+  "code": "AQQ-139",
+  "key": "khitanan-ruby-luxe",
+  "template_key": "khitanan-ruby-luxe",
+  "l1_bab": "BAB 3",
+  "l1_name": "Undangan Aqiqah dan Kelahiran",
+  "l2_subbab": "Tasyakuran Khitanan",
+  "l3_style": "Watercolor",
+  "l4_color_name": "Ruby Luxe",
+  "swatch_hex": [
+   "#FBF1F1",
+   "#C0505A",
+   "#370D14"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/khitanan-ruby-luxe",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "AQQ-139__tasyakuran-khitanan__watercolor__ruby-luxe"
+ },
+ {
+  "code": "AQQ-140",
+  "key": "khitanan-pastel-mix",
+  "template_key": "khitanan-pastel-mix",
+  "l1_bab": "BAB 3",
+  "l1_name": "Undangan Aqiqah dan Kelahiran",
+  "l2_subbab": "Tasyakuran Khitanan",
+  "l3_style": "Floral",
+  "l4_color_name": "Pastel Mix",
+  "swatch_hex": [
+   "#FBF7F6",
+   "#D8A9A0",
+   "#3A3434"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/khitanan-pastel-mix",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "AQQ-140__tasyakuran-khitanan__floral__pastel-mix"
+ },
+ {
+  "code": "REL-141",
+  "key": "pengajian-plum-velvet",
+  "template_key": "pengajian-plum-velvet",
+  "l1_bab": "BAB 4",
+  "l1_name": "Undangan Keagamaan",
+  "l2_subbab": "Pengajian",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Plum Velvet",
+  "swatch_hex": [
+   "#F6EFF6",
+   "#B486A8",
+   "#36143A"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/pengajian-plum-velvet",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "REL-141__pengajian__minimalis-modern__plum-velvet"
+ },
+ {
+  "code": "REL-142",
+  "key": "pengajian-monochrome",
+  "template_key": "pengajian-monochrome",
+  "l1_bab": "BAB 4",
+  "l1_name": "Undangan Keagamaan",
+  "l2_subbab": "Pengajian",
+  "l3_style": "Geometris",
+  "l4_color_name": "Monochrome",
+  "swatch_hex": [
+   "#FAFAF9",
+   "#9A9A94",
+   "#232323"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/pengajian-monochrome",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "REL-142__pengajian__geometris__monochrome"
+ },
+ {
+  "code": "REL-143",
+  "key": "pengajian-coral-peach",
+  "template_key": "pengajian-coral-peach",
+  "l1_bab": "BAB 4",
+  "l1_name": "Undangan Keagamaan",
+  "l2_subbab": "Pengajian",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Coral & Peach",
+  "swatch_hex": [
+   "#FFF3EC",
+   "#E08A63",
+   "#472A1F"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/pengajian-coral-peach",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "REL-143__pengajian__minimalis-modern__coral-and-peach"
+ },
+ {
+  "code": "REL-144",
+  "key": "pengajian-arctic-frost",
+  "template_key": "pengajian-arctic-frost",
+  "l1_bab": "BAB 4",
+  "l1_name": "Undangan Keagamaan",
+  "l2_subbab": "Pengajian",
+  "l3_style": "Geometris",
+  "l4_color_name": "Arctic Frost",
+  "swatch_hex": [
+   "#F3F8FB",
+   "#A9C6D4",
+   "#1E3B49"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/pengajian-arctic-frost",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "REL-144__pengajian__geometris__arctic-frost"
+ },
+ {
+  "code": "REL-145",
+  "key": "pengajian-purple-dream",
+  "template_key": "pengajian-purple-dream",
+  "l1_bab": "BAB 4",
+  "l1_name": "Undangan Keagamaan",
+  "l2_subbab": "Pengajian",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Purple Dream",
+  "swatch_hex": [
+   "#F5F1FA",
+   "#9B7BC4",
+   "#241636"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/pengajian-purple-dream",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "REL-145__pengajian__minimalis-modern__purple-dream"
+ },
+ {
+  "code": "REL-146",
+  "key": "pengajian-burgundy-wine",
+  "template_key": "pengajian-burgundy-wine",
+  "l1_bab": "BAB 4",
+  "l1_name": "Undangan Keagamaan",
+  "l2_subbab": "Pengajian",
+  "l3_style": "Geometris",
+  "l4_color_name": "Burgundy Wine",
+  "swatch_hex": [
+   "#F8F0EF",
+   "#A8563F",
+   "#350F18"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/pengajian-burgundy-wine",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "REL-146__pengajian__geometris__burgundy-wine"
+ },
+ {
+  "code": "REL-147",
+  "key": "tasyakuran-clean-white",
+  "template_key": "tasyakuran-clean-white",
+  "l1_bab": "BAB 4",
+  "l1_name": "Undangan Keagamaan",
+  "l2_subbab": "Tasyakuran",
+  "l3_style": "Floral",
+  "l4_color_name": "Clean White",
+  "swatch_hex": [
+   "#FBF9F4",
+   "#B08D57",
+   "#2A2A26"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/tasyakuran-clean-white",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "REL-147__tasyakuran__floral__clean-white"
+ },
+ {
+  "code": "REL-148",
+  "key": "tasyakuran-dusty-rose",
+  "template_key": "tasyakuran-dusty-rose",
+  "l1_bab": "BAB 4",
+  "l1_name": "Undangan Keagamaan",
+  "l2_subbab": "Tasyakuran",
+  "l3_style": "Watercolor",
+  "l4_color_name": "Dusty Rose",
+  "swatch_hex": [
+   "#FBF1EF",
+   "#B78A6A",
+   "#4A2C2C"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/tasyakuran-dusty-rose",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "REL-148__tasyakuran__watercolor__dusty-rose"
+ },
+ {
+  "code": "REL-149",
+  "key": "tasyakuran-sage-green",
+  "template_key": "tasyakuran-sage-green",
+  "l1_bab": "BAB 4",
+  "l1_name": "Undangan Keagamaan",
+  "l2_subbab": "Tasyakuran",
+  "l3_style": "Floral",
+  "l4_color_name": "Sage Green",
+  "swatch_hex": [
+   "#F3F6F1",
+   "#A8B58C",
+   "#2C3A27"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/tasyakuran-sage-green",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "REL-149__tasyakuran__floral__sage-green"
+ },
+ {
+  "code": "REL-150",
+  "key": "tasyakuran-rose-gold",
+  "template_key": "tasyakuran-rose-gold",
+  "l1_bab": "BAB 4",
+  "l1_name": "Undangan Keagamaan",
+  "l2_subbab": "Tasyakuran",
+  "l3_style": "Watercolor",
+  "l4_color_name": "Rose Gold",
+  "swatch_hex": [
+   "#FCF4F1",
+   "#C08A6E",
+   "#402924"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/tasyakuran-rose-gold",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "REL-150__tasyakuran__watercolor__rose-gold"
+ },
+ {
+  "code": "REL-151",
+  "key": "maulid-cyber-neon",
+  "template_key": "maulid-cyber-neon",
+  "l1_bab": "BAB 4",
+  "l1_name": "Undangan Keagamaan",
+  "l2_subbab": "Maulid Nabi",
+  "l3_style": "Geometris",
+  "l4_color_name": "Cyber Neon",
+  "swatch_hex": [
+   "#0E0F14",
+   "#6FF3C1",
+   "#05060A"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/maulid-cyber-neon",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "REL-151__maulid-nabi__geometris__cyber-neon"
+ },
+ {
+  "code": "REL-152",
+  "key": "maulid-bold-red",
+  "template_key": "maulid-bold-red",
+  "l1_bab": "BAB 4",
+  "l1_name": "Undangan Keagamaan",
+  "l2_subbab": "Maulid Nabi",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Bold Red",
+  "swatch_hex": [
+   "#FFF4F2",
+   "#D73B32",
+   "#360A07"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/maulid-bold-red",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "REL-152__maulid-nabi__minimalis-modern__bold-red"
+ },
+ {
+  "code": "REL-153",
+  "key": "maulid-mint-fresh",
+  "template_key": "maulid-mint-fresh",
+  "l1_bab": "BAB 4",
+  "l1_name": "Undangan Keagamaan",
+  "l2_subbab": "Maulid Nabi",
+  "l3_style": "Geometris",
+  "l4_color_name": "Mint Fresh",
+  "swatch_hex": [
+   "#F1FAF6",
+   "#86C9B0",
+   "#14332A"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/maulid-mint-fresh",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "REL-153__maulid-nabi__geometris__mint-fresh"
+ },
+ {
+  "code": "REL-154",
+  "key": "maulid-ocean-blue",
+  "template_key": "maulid-ocean-blue",
+  "l1_bab": "BAB 4",
+  "l1_name": "Undangan Keagamaan",
+  "l2_subbab": "Maulid Nabi",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Ocean Blue",
+  "swatch_hex": [
+   "#F2F6F8",
+   "#C9A050",
+   "#0A1F2B"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/maulid-ocean-blue",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "REL-154__maulid-nabi__minimalis-modern__ocean-blue"
+ },
+ {
+  "code": "REL-155",
+  "key": "bukber-pastel-mix",
+  "template_key": "bukber-pastel-mix",
+  "l1_bab": "BAB 4",
+  "l1_name": "Undangan Keagamaan",
+  "l2_subbab": "Buka Puasa Bersama",
+  "l3_style": "Art Deco",
+  "l4_color_name": "Pastel Mix",
+  "swatch_hex": [
+   "#FBF7F6",
+   "#D8A9A0",
+   "#3A3434"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/bukber-pastel-mix",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "REL-155__buka-puasa-bersama__art-deco__pastel-mix"
+ },
+ {
+  "code": "REL-156",
+  "key": "bukber-citrus-pop",
+  "template_key": "bukber-citrus-pop",
+  "l1_bab": "BAB 4",
+  "l1_name": "Undangan Keagamaan",
+  "l2_subbab": "Buka Puasa Bersama",
+  "l3_style": "Luxury",
+  "l4_color_name": "Citrus Pop",
+  "swatch_hex": [
+   "#FDFBEF",
+   "#D3C24A",
+   "#37340F"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/bukber-citrus-pop",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "REL-156__buka-puasa-bersama__luxury__citrus-pop"
+ },
+ {
+  "code": "REL-157",
+  "key": "bukber-soft-pink",
+  "template_key": "bukber-soft-pink",
+  "l1_bab": "BAB 4",
+  "l1_name": "Undangan Keagamaan",
+  "l2_subbab": "Buka Puasa Bersama",
+  "l3_style": "Art Deco",
+  "l4_color_name": "Soft Pink",
+  "swatch_hex": [
+   "#FFF6F7",
+   "#D9A3AE",
+   "#462B31"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/bukber-soft-pink",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "REL-157__buka-puasa-bersama__art-deco__soft-pink"
+ },
+ {
+  "code": "REL-158",
+  "key": "bukber-midnight-navy",
+  "template_key": "bukber-midnight-navy",
+  "l1_bab": "BAB 4",
+  "l1_name": "Undangan Keagamaan",
+  "l2_subbab": "Buka Puasa Bersama",
+  "l3_style": "Luxury",
+  "l4_color_name": "Midnight Navy",
+  "swatch_hex": [
+   "#F4F6FA",
+   "#C6A96B",
+   "#101E3A"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/bukber-midnight-navy",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "REL-158__buka-puasa-bersama__luxury__midnight-navy"
+ },
+ {
+  "code": "REL-159",
+  "key": "safar-arctic-frost",
+  "template_key": "safar-arctic-frost",
+  "l1_bab": "BAB 4",
+  "l1_name": "Undangan Keagamaan",
+  "l2_subbab": "Walimatus Safar dan Syukuran Haji",
+  "l3_style": "Rustic",
+  "l4_color_name": "Arctic Frost",
+  "swatch_hex": [
+   "#F3F8FB",
+   "#A9C6D4",
+   "#1E3B49"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/safar-arctic-frost",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "REL-159__walimatus-safar-dan-syukuran-haji__rustic__arctic-frost"
+ },
+ {
+  "code": "REL-160",
+  "key": "safar-purple-dream",
+  "template_key": "safar-purple-dream",
+  "l1_bab": "BAB 4",
+  "l1_name": "Undangan Keagamaan",
+  "l2_subbab": "Walimatus Safar dan Syukuran Haji",
+  "l3_style": "Korporat Profesional",
+  "l4_color_name": "Purple Dream",
+  "swatch_hex": [
+   "#F5F1FA",
+   "#9B7BC4",
+   "#241636"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/safar-purple-dream",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "REL-160__walimatus-safar-dan-syukuran-haji__korporat-profesional__purple-dream"
+ },
+ {
+  "code": "REL-161",
+  "key": "safar-burgundy-wine",
+  "template_key": "safar-burgundy-wine",
+  "l1_bab": "BAB 4",
+  "l1_name": "Undangan Keagamaan",
+  "l2_subbab": "Walimatus Safar dan Syukuran Haji",
+  "l3_style": "Rustic",
+  "l4_color_name": "Burgundy Wine",
+  "swatch_hex": [
+   "#F8F0EF",
+   "#A8563F",
+   "#350F18"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/safar-burgundy-wine",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "REL-161__walimatus-safar-dan-syukuran-haji__rustic__burgundy-wine"
+ },
+ {
+  "code": "REL-162",
+  "key": "safar-ruby-luxe",
+  "template_key": "safar-ruby-luxe",
+  "l1_bab": "BAB 4",
+  "l1_name": "Undangan Keagamaan",
+  "l2_subbab": "Walimatus Safar dan Syukuran Haji",
+  "l3_style": "Korporat Profesional",
+  "l4_color_name": "Ruby Luxe",
+  "swatch_hex": [
+   "#FBF1F1",
+   "#C0505A",
+   "#370D14"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/safar-ruby-luxe",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "REL-162__walimatus-safar-dan-syukuran-haji__korporat-profesional__ruby-luxe"
+ },
+ {
+  "code": "REL-163",
+  "key": "halalbi-yellow-sunshine",
+  "template_key": "halalbi-yellow-sunshine",
+  "l1_bab": "BAB 4",
+  "l1_name": "Undangan Keagamaan",
+  "l2_subbab": "Halal Bihalal",
+  "l3_style": "Pastel",
+  "l4_color_name": "Yellow Sunshine",
+  "swatch_hex": [
+   "#FDF8EC",
+   "#E0B44A",
+   "#3D3115"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/halalbi-yellow-sunshine",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "REL-163__halal-bihalal__pastel__yellow-sunshine"
+ },
+ {
+  "code": "REL-164",
+  "key": "halalbi-plum-velvet",
+  "template_key": "halalbi-plum-velvet",
+  "l1_bab": "BAB 4",
+  "l1_name": "Undangan Keagamaan",
+  "l2_subbab": "Halal Bihalal",
+  "l3_style": "Islami",
+  "l4_color_name": "Plum Velvet",
+  "swatch_hex": [
+   "#F6EFF6",
+   "#B486A8",
+   "#36143A"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/halalbi-plum-velvet",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "REL-164__halal-bihalal__islami__plum-velvet"
+ },
+ {
+  "code": "REL-165",
+  "key": "halalbi-monochrome",
+  "template_key": "halalbi-monochrome",
+  "l1_bab": "BAB 4",
+  "l1_name": "Undangan Keagamaan",
+  "l2_subbab": "Halal Bihalal",
+  "l3_style": "Pastel",
+  "l4_color_name": "Monochrome",
+  "swatch_hex": [
+   "#FAFAF9",
+   "#9A9A94",
+   "#232323"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/halalbi-monochrome",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "REL-165__halal-bihalal__pastel__monochrome"
+ },
+ {
+  "code": "GRD-166",
+  "key": "wisuda-cherry-blossom",
+  "template_key": "wisuda-cherry-blossom",
+  "l1_bab": "BAB 5",
+  "l1_name": "Undangan Wisuda dan Kelulusan",
+  "l2_subbab": "Wisuda Kuliah",
+  "l3_style": "Bold Modern",
+  "l4_color_name": "Cherry Blossom",
+  "swatch_hex": [
+   "#FFF5F6",
+   "#E7A9B8",
+   "#442A35"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/wisuda-cherry-blossom",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "GRD-166__wisuda-kuliah__bold-modern__cherry-blossom"
+ },
+ {
+  "code": "GRD-167",
+  "key": "wisuda-baby-blue",
+  "template_key": "wisuda-baby-blue",
+  "l1_bab": "BAB 5",
+  "l1_name": "Undangan Wisuda dan Kelulusan",
+  "l2_subbab": "Wisuda Kuliah",
+  "l3_style": "Tradisional Nusantara",
+  "l4_color_name": "Baby Blue",
+  "swatch_hex": [
+   "#F2F8FB",
+   "#9CC5D9",
+   "#1C4054"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/wisuda-baby-blue",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "GRD-167__wisuda-kuliah__tradisional-nusantara__baby-blue"
+ },
+ {
+  "code": "GRD-168",
+  "key": "wisuda-terracotta",
+  "template_key": "wisuda-terracotta",
+  "l1_bab": "BAB 5",
+  "l1_name": "Undangan Wisuda dan Kelulusan",
+  "l2_subbab": "Wisuda Kuliah",
+  "l3_style": "Bold Modern",
+  "l4_color_name": "Terracotta",
+  "swatch_hex": [
+   "#FBF0E9",
+   "#C97B4F",
+   "#3F2A1F"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/wisuda-terracotta",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "GRD-168__wisuda-kuliah__bold-modern__terracotta"
+ },
+ {
+  "code": "GRD-169",
+  "key": "wisuda-forest-moss",
+  "template_key": "wisuda-forest-moss",
+  "l1_bab": "BAB 5",
+  "l1_name": "Undangan Wisuda dan Kelulusan",
+  "l2_subbab": "Wisuda Kuliah",
+  "l3_style": "Tradisional Nusantara",
+  "l4_color_name": "Forest Moss",
+  "swatch_hex": [
+   "#F1F4EC",
+   "#7A9460",
+   "#26351F"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/wisuda-forest-moss",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "GRD-169__wisuda-kuliah__tradisional-nusantara__forest-moss"
+ },
+ {
+  "code": "GRD-170",
+  "key": "wisuda-emerald-green",
+  "template_key": "wisuda-emerald-green",
+  "l1_bab": "BAB 5",
+  "l1_name": "Undangan Wisuda dan Kelulusan",
+  "l2_subbab": "Wisuda Kuliah",
+  "l3_style": "Bold Modern",
+  "l4_color_name": "Emerald Green",
+  "swatch_hex": [
+   "#EFF7F1",
+   "#3AA07A",
+   "#0E3322"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/wisuda-emerald-green",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "GRD-170__wisuda-kuliah__bold-modern__emerald-green"
+ },
+ {
+  "code": "GRD-171",
+  "key": "wisuda-mocha-cream",
+  "template_key": "wisuda-mocha-cream",
+  "l1_bab": "BAB 5",
+  "l1_name": "Undangan Wisuda dan Kelulusan",
+  "l2_subbab": "Wisuda Kuliah",
+  "l3_style": "Tradisional Nusantara",
+  "l4_color_name": "Mocha Cream",
+  "swatch_hex": [
+   "#F8F3EC",
+   "#B08A68",
+   "#3A2C1D"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/wisuda-mocha-cream",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "GRD-171__wisuda-kuliah__tradisional-nusantara__mocha-cream"
+ },
+ {
+  "code": "GRD-172",
+  "key": "kelulusan-dark-mode",
+  "template_key": "kelulusan-dark-mode",
+  "l1_bab": "BAB 5",
+  "l1_name": "Undangan Wisuda dan Kelulusan",
+  "l2_subbab": "Kelulusan Sekolah",
+  "l3_style": "Tropical",
+  "l4_color_name": "Dark Mode",
+  "swatch_hex": [
+   "#101216",
+   "#C9A050",
+   "#07080A"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/kelulusan-dark-mode",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "GRD-172__kelulusan-sekolah__tropical__dark-mode"
+ },
+ {
+  "code": "GRD-173",
+  "key": "kelulusan-denim-blue",
+  "template_key": "kelulusan-denim-blue",
+  "l1_bab": "BAB 5",
+  "l1_name": "Undangan Wisuda dan Kelulusan",
+  "l2_subbab": "Kelulusan Sekolah",
+  "l3_style": "Vintage",
+  "l4_color_name": "Denim Blue",
+  "swatch_hex": [
+   "#F2F5F9",
+   "#7E98B8",
+   "#1E3A57"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/kelulusan-denim-blue",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "GRD-173__kelulusan-sekolah__vintage__denim-blue"
+ },
+ {
+  "code": "GRD-174",
+  "key": "kelulusan-earth-tone",
+  "template_key": "kelulusan-earth-tone",
+  "l1_bab": "BAB 5",
+  "l1_name": "Undangan Wisuda dan Kelulusan",
+  "l2_subbab": "Kelulusan Sekolah",
+  "l3_style": "Tropical",
+  "l4_color_name": "Earth Tone",
+  "swatch_hex": [
+   "#F7F2EA",
+   "#A9805A",
+   "#382D22"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/kelulusan-earth-tone",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "GRD-174__kelulusan-sekolah__tropical__earth-tone"
+ },
+ {
+  "code": "GRD-175",
+  "key": "kelulusan-lavender-haze",
+  "template_key": "kelulusan-lavender-haze",
+  "l1_bab": "BAB 5",
+  "l1_name": "Undangan Wisuda dan Kelulusan",
+  "l2_subbab": "Kelulusan Sekolah",
+  "l3_style": "Vintage",
+  "l4_color_name": "Lavender Haze",
+  "swatch_hex": [
+   "#F7F4FB",
+   "#B7A6D6",
+   "#2E2442"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/kelulusan-lavender-haze",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "GRD-175__kelulusan-sekolah__vintage__lavender-haze"
+ },
+ {
+  "code": "GRD-176",
+  "key": "kelulusan-chocolate-luxe",
+  "template_key": "kelulusan-chocolate-luxe",
+  "l1_bab": "BAB 5",
+  "l1_name": "Undangan Wisuda dan Kelulusan",
+  "l2_subbab": "Kelulusan Sekolah",
+  "l3_style": "Tropical",
+  "l4_color_name": "Chocolate Luxe",
+  "swatch_hex": [
+   "#F9F2EA",
+   "#B98A5E",
+   "#2D1B12"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/kelulusan-chocolate-luxe",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "GRD-176__kelulusan-sekolah__tropical__chocolate-luxe"
+ },
+ {
+  "code": "GRD-177",
+  "key": "syukuran-ruby-luxe",
+  "template_key": "syukuran-ruby-luxe",
+  "l1_bab": "BAB 5",
+  "l1_name": "Undangan Wisuda dan Kelulusan",
+  "l2_subbab": "Perayaan Kelulusan Bersama Keluarga",
+  "l3_style": "Watercolor",
+  "l4_color_name": "Ruby Luxe",
+  "swatch_hex": [
+   "#FBF1F1",
+   "#C0505A",
+   "#370D14"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/syukuran-ruby-luxe",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "GRD-177__perayaan-kelulusan-bersama-keluarga__watercolor__ruby-luxe"
+ },
+ {
+  "code": "GRD-178",
+  "key": "syukuran-pastel-mix",
+  "template_key": "syukuran-pastel-mix",
+  "l1_bab": "BAB 5",
+  "l1_name": "Undangan Wisuda dan Kelulusan",
+  "l2_subbab": "Perayaan Kelulusan Bersama Keluarga",
+  "l3_style": "Floral",
+  "l4_color_name": "Pastel Mix",
+  "swatch_hex": [
+   "#FBF7F6",
+   "#D8A9A0",
+   "#3A3434"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/syukuran-pastel-mix",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "GRD-178__perayaan-kelulusan-bersama-keluarga__floral__pastel-mix"
+ },
+ {
+  "code": "GRD-179",
+  "key": "syukuran-citrus-pop",
+  "template_key": "syukuran-citrus-pop",
+  "l1_bab": "BAB 5",
+  "l1_name": "Undangan Wisuda dan Kelulusan",
+  "l2_subbab": "Perayaan Kelulusan Bersama Keluarga",
+  "l3_style": "Watercolor",
+  "l4_color_name": "Citrus Pop",
+  "swatch_hex": [
+   "#FDFBEF",
+   "#D3C24A",
+   "#37340F"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/syukuran-citrus-pop",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "GRD-179__perayaan-kelulusan-bersama-keluarga__watercolor__citrus-pop"
+ },
+ {
+  "code": "GRD-180",
+  "key": "syukuran-soft-pink",
+  "template_key": "syukuran-soft-pink",
+  "l1_bab": "BAB 5",
+  "l1_name": "Undangan Wisuda dan Kelulusan",
+  "l2_subbab": "Perayaan Kelulusan Bersama Keluarga",
+  "l3_style": "Floral",
+  "l4_color_name": "Soft Pink",
+  "swatch_hex": [
+   "#FFF6F7",
+   "#D9A3AE",
+   "#462B31"
+  ],
+  "opening_mechanic": "straight-slide-gate",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/syukuran-soft-pink",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "GRD-180__perayaan-kelulusan-bersama-keluarga__floral__soft-pink"
+ },
+ {
+  "code": "FRM-181",
+  "key": "seminar-coral-peach",
+  "template_key": "seminar-coral-peach",
+  "l1_bab": "BAB 6",
+  "l1_name": "Undangan Acara Formal",
+  "l2_subbab": "Seminar dan Workshop",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Coral & Peach",
+  "swatch_hex": [
+   "#FFF3EC",
+   "#E08A63",
+   "#472A1F"
+  ],
+  "opening_mechanic": "3d-envelope",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/seminar-coral-peach",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "FRM-181__seminar-dan-workshop__minimalis-modern__coral-and-peach"
+ },
+ {
+  "code": "FRM-182",
+  "key": "seminar-arctic-frost",
+  "template_key": "seminar-arctic-frost",
+  "l1_bab": "BAB 6",
+  "l1_name": "Undangan Acara Formal",
+  "l2_subbab": "Seminar dan Workshop",
+  "l3_style": "Geometris",
+  "l4_color_name": "Arctic Frost",
+  "swatch_hex": [
+   "#F3F8FB",
+   "#A9C6D4",
+   "#1E3B49"
+  ],
+  "opening_mechanic": "3d-envelope",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/seminar-arctic-frost",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "FRM-182__seminar-dan-workshop__geometris__arctic-frost"
+ },
+ {
+  "code": "FRM-183",
+  "key": "seminar-purple-dream",
+  "template_key": "seminar-purple-dream",
+  "l1_bab": "BAB 6",
+  "l1_name": "Undangan Acara Formal",
+  "l2_subbab": "Seminar dan Workshop",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Purple Dream",
+  "swatch_hex": [
+   "#F5F1FA",
+   "#9B7BC4",
+   "#241636"
+  ],
+  "opening_mechanic": "3d-envelope",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/seminar-purple-dream",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "FRM-183__seminar-dan-workshop__minimalis-modern__purple-dream"
+ },
+ {
+  "code": "FRM-184",
+  "key": "seminar-burgundy-wine",
+  "template_key": "seminar-burgundy-wine",
+  "l1_bab": "BAB 6",
+  "l1_name": "Undangan Acara Formal",
+  "l2_subbab": "Seminar dan Workshop",
+  "l3_style": "Geometris",
+  "l4_color_name": "Burgundy Wine",
+  "swatch_hex": [
+   "#F8F0EF",
+   "#A8563F",
+   "#350F18"
+  ],
+  "opening_mechanic": "3d-envelope",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/seminar-burgundy-wine",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "FRM-184__seminar-dan-workshop__geometris__burgundy-wine"
+ },
+ {
+  "code": "FRM-185",
+  "key": "seminar-ruby-luxe",
+  "template_key": "seminar-ruby-luxe",
+  "l1_bab": "BAB 6",
+  "l1_name": "Undangan Acara Formal",
+  "l2_subbab": "Seminar dan Workshop",
+  "l3_style": "Minimalis Modern",
+  "l4_color_name": "Ruby Luxe",
+  "swatch_hex": [
+   "#FBF1F1",
+   "#C0505A",
+   "#370D14"
+  ],
+  "opening_mechanic": "3d-envelope",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/seminar-ruby-luxe",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "FRM-185__seminar-dan-workshop__minimalis-modern__ruby-luxe"
+ },
+ {
+  "code": "FRM-186",
+  "key": "gathering-baby-blue",
+  "template_key": "gathering-baby-blue",
+  "l1_bab": "BAB 6",
+  "l1_name": "Undangan Acara Formal",
+  "l2_subbab": "Rapat dan Gathering Perusahaan",
+  "l3_style": "Bold Modern",
+  "l4_color_name": "Baby Blue",
+  "swatch_hex": [
+   "#F2F8FB",
+   "#9CC5D9",
+   "#1C4054"
+  ],
+  "opening_mechanic": "3d-envelope",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/gathering-baby-blue",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "FRM-186__rapat-dan-gathering-perusahaan__bold-modern__baby-blue"
+ },
+ {
+  "code": "FRM-187",
+  "key": "gathering-terracotta",
+  "template_key": "gathering-terracotta",
+  "l1_bab": "BAB 6",
+  "l1_name": "Undangan Acara Formal",
+  "l2_subbab": "Rapat dan Gathering Perusahaan",
+  "l3_style": "Tradisional Nusantara",
+  "l4_color_name": "Terracotta",
+  "swatch_hex": [
+   "#FBF0E9",
+   "#C97B4F",
+   "#3F2A1F"
+  ],
+  "opening_mechanic": "3d-envelope",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/gathering-terracotta",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "FRM-187__rapat-dan-gathering-perusahaan__tradisional-nusantara__terracotta"
+ },
+ {
+  "code": "FRM-188",
+  "key": "gathering-forest-moss",
+  "template_key": "gathering-forest-moss",
+  "l1_bab": "BAB 6",
+  "l1_name": "Undangan Acara Formal",
+  "l2_subbab": "Rapat dan Gathering Perusahaan",
+  "l3_style": "Bold Modern",
+  "l4_color_name": "Forest Moss",
+  "swatch_hex": [
+   "#F1F4EC",
+   "#7A9460",
+   "#26351F"
+  ],
+  "opening_mechanic": "3d-envelope",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/gathering-forest-moss",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "FRM-188__rapat-dan-gathering-perusahaan__bold-modern__forest-moss"
+ },
+ {
+  "code": "FRM-189",
+  "key": "gathering-emerald-green",
+  "template_key": "gathering-emerald-green",
+  "l1_bab": "BAB 6",
+  "l1_name": "Undangan Acara Formal",
+  "l2_subbab": "Rapat dan Gathering Perusahaan",
+  "l3_style": "Tradisional Nusantara",
+  "l4_color_name": "Emerald Green",
+  "swatch_hex": [
+   "#EFF7F1",
+   "#3AA07A",
+   "#0E3322"
+  ],
+  "opening_mechanic": "3d-envelope",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/gathering-emerald-green",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "FRM-189__rapat-dan-gathering-perusahaan__tradisional-nusantara__emerald-green"
+ },
+ {
+  "code": "FRM-190",
+  "key": "grandopening-lavender-haze",
+  "template_key": "grandopening-lavender-haze",
+  "l1_bab": "BAB 6",
+  "l1_name": "Undangan Acara Formal",
+  "l2_subbab": "Grand Opening Bisnis",
+  "l3_style": "Botanical",
+  "l4_color_name": "Lavender Haze",
+  "swatch_hex": [
+   "#F7F4FB",
+   "#B7A6D6",
+   "#2E2442"
+  ],
+  "opening_mechanic": "3d-envelope",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/grandopening-lavender-haze",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "FRM-190__grand-opening-bisnis__botanical__lavender-haze"
+ },
+ {
+  "code": "FRM-191",
+  "key": "grandopening-chocolate-luxe",
+  "template_key": "grandopening-chocolate-luxe",
+  "l1_bab": "BAB 6",
+  "l1_name": "Undangan Acara Formal",
+  "l2_subbab": "Grand Opening Bisnis",
+  "l3_style": "Playful",
+  "l4_color_name": "Chocolate Luxe",
+  "swatch_hex": [
+   "#F9F2EA",
+   "#B98A5E",
+   "#2D1B12"
+  ],
+  "opening_mechanic": "3d-envelope",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/grandopening-chocolate-luxe",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "FRM-191__grand-opening-bisnis__playful__chocolate-luxe"
+ },
+ {
+  "code": "FRM-192",
+  "key": "grandopening-orange-energy",
+  "template_key": "grandopening-orange-energy",
+  "l1_bab": "BAB 6",
+  "l1_name": "Undangan Acara Formal",
+  "l2_subbab": "Grand Opening Bisnis",
+  "l3_style": "Botanical",
+  "l4_color_name": "Orange Energy",
+  "swatch_hex": [
+   "#FFF6ED",
+   "#E28A3C",
+   "#402912"
+  ],
+  "opening_mechanic": "3d-envelope",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/grandopening-orange-energy",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "FRM-192__grand-opening-bisnis__botanical__orange-energy"
+ },
+ {
+  "code": "FRM-193",
+  "key": "grandopening-cherry-blossom",
+  "template_key": "grandopening-cherry-blossom",
+  "l1_bab": "BAB 6",
+  "l1_name": "Undangan Acara Formal",
+  "l2_subbab": "Grand Opening Bisnis",
+  "l3_style": "Playful",
+  "l4_color_name": "Cherry Blossom",
+  "swatch_hex": [
+   "#FFF5F6",
+   "#E7A9B8",
+   "#442A35"
+  ],
+  "opening_mechanic": "3d-envelope",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/grandopening-cherry-blossom",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "FRM-193__grand-opening-bisnis__playful__cherry-blossom"
+ },
+ {
+  "code": "FRM-194",
+  "key": "launching-glacier-blue",
+  "template_key": "launching-glacier-blue",
+  "l1_bab": "BAB 6",
+  "l1_name": "Undangan Acara Formal",
+  "l2_subbab": "Peluncuran Produk",
+  "l3_style": "Editorial",
+  "l4_color_name": "Glacier Blue",
+  "swatch_hex": [
+   "#F1F8FA",
+   "#9BC8D2",
+   "#163A44"
+  ],
+  "opening_mechanic": "3d-envelope",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/launching-glacier-blue",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "FRM-194__peluncuran-produk__editorial__glacier-blue"
+ },
+ {
+  "code": "FRM-195",
+  "key": "launching-dark-mode",
+  "template_key": "launching-dark-mode",
+  "l1_bab": "BAB 6",
+  "l1_name": "Undangan Acara Formal",
+  "l2_subbab": "Peluncuran Produk",
+  "l3_style": "Elegan Klasik",
+  "l4_color_name": "Dark Mode",
+  "swatch_hex": [
+   "#101216",
+   "#C9A050",
+   "#07080A"
+  ],
+  "opening_mechanic": "3d-envelope",
+  "recommended_tier": "eksklusif",
+  "min_allowed_tier": "eksklusif",
+  "demo_url": "/demo/launching-dark-mode",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": false
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "FRM-195__peluncuran-produk__elegan-klasik__dark-mode"
+ },
+ {
+  "code": "FRM-196",
+  "key": "launching-denim-blue",
+  "template_key": "launching-denim-blue",
+  "l1_bab": "BAB 6",
+  "l1_name": "Undangan Acara Formal",
+  "l2_subbab": "Peluncuran Produk",
+  "l3_style": "Editorial",
+  "l4_color_name": "Denim Blue",
+  "swatch_hex": [
+   "#F2F5F9",
+   "#7E98B8",
+   "#1E3A57"
+  ],
+  "opening_mechanic": "3d-envelope",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/launching-denim-blue",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "FRM-196__peluncuran-produk__editorial__denim-blue"
+ },
+ {
+  "code": "FRM-197",
+  "key": "komunitas-pastel-mix",
+  "template_key": "komunitas-pastel-mix",
+  "l1_bab": "BAB 6",
+  "l1_name": "Undangan Acara Formal",
+  "l2_subbab": "Acara Komunitas",
+  "l3_style": "Watercolor",
+  "l4_color_name": "Pastel Mix",
+  "swatch_hex": [
+   "#FBF7F6",
+   "#D8A9A0",
+   "#3A3434"
+  ],
+  "opening_mechanic": "3d-envelope",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/komunitas-pastel-mix",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "FRM-197__acara-komunitas__watercolor__pastel-mix"
+ },
+ {
+  "code": "FRM-198",
+  "key": "komunitas-citrus-pop",
+  "template_key": "komunitas-citrus-pop",
+  "l1_bab": "BAB 6",
+  "l1_name": "Undangan Acara Formal",
+  "l2_subbab": "Acara Komunitas",
+  "l3_style": "Floral",
+  "l4_color_name": "Citrus Pop",
+  "swatch_hex": [
+   "#FDFBEF",
+   "#D3C24A",
+   "#37340F"
+  ],
+  "opening_mechanic": "3d-envelope",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/komunitas-citrus-pop",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "FRM-198__acara-komunitas__floral__citrus-pop"
+ },
+ {
+  "code": "FRM-199",
+  "key": "komunitas-soft-pink",
+  "template_key": "komunitas-soft-pink",
+  "l1_bab": "BAB 6",
+  "l1_name": "Undangan Acara Formal",
+  "l2_subbab": "Acara Komunitas",
+  "l3_style": "Watercolor",
+  "l4_color_name": "Soft Pink",
+  "swatch_hex": [
+   "#FFF6F7",
+   "#D9A3AE",
+   "#462B31"
+  ],
+  "opening_mechanic": "3d-envelope",
+  "recommended_tier": "premium",
+  "min_allowed_tier": "premium",
+  "demo_url": "/demo/komunitas-soft-pink",
+  "pricing_tiers": {
+   "basic": {
+    "price": 50000,
+    "available": true
+   },
+   "premium": {
+    "price": 110000,
+    "available": true
+   },
+   "eksklusif": {
+    "price": 180000,
+    "available": true
+   },
+   "kustom": {
+    "price": 280000,
+    "available": true
+   }
+  },
+  "registry_slug": "FRM-199__acara-komunitas__watercolor__soft-pink"
+ }
+]

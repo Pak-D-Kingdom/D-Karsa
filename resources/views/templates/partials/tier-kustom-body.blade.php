@@ -9,8 +9,20 @@
 <div id="bespoke-dock" aria-label="Kustomisasi undangan">
     <div id="bespoke-panel" hidden>
         <div class="bespoke-row">
-            <span class="hud">WARNA AKSEN</span>
-            <input type="color" id="bespokeColor" value="{{ $c['accent'] }}" aria-label="Warna aksen">
+            <span class="hud">LATAR (cBg)</span>
+            <input type="color" id="bespokeBg" name="cBg" value="{{ $colorTheme['page'] ?? '#F3F8FC' }}" aria-label="Latar Belakang">
+        </div>
+        <div class="bespoke-row">
+            <span class="hud">KARTU (cCard)</span>
+            <input type="color" id="bespokeCard" name="cCard" value="{{ $colorTheme['card'] ?? '#FFFFFF' }}" aria-label="Permukaan Kartu">
+        </div>
+        <div class="bespoke-row">
+            <span class="hud">AKSEN (cAcc)</span>
+            <input type="color" id="bespokeColor" name="cAcc" value="{{ $colorTheme['accent'] ?? ($c['accent'] ?? '#1D6FA5') }}" aria-label="Warna Aksen">
+        </div>
+        <div class="bespoke-row">
+            <span class="hud">TEKS (cTxt)</span>
+            <input type="color" id="bespokeTxt" name="cTxt" value="{{ $colorTheme['text'] ?? '#102A43' }}" aria-label="Teks Utama">
         </div>
         <div class="bespoke-row">
             <span class="hud">GERBANG</span>

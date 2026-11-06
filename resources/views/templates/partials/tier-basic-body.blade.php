@@ -17,7 +17,7 @@
         </div>
 
         <button type="button" class="basic-btn mt-5" id="btn-open-invitation" onclick="DKarsaOpen()">
-            {{ strtoupper($isCorporate ? '[ BUKA AMPLOP UNDANGAN ]' : '[ BUKA UNDANGAN ]') }}
+            {{ $customGateLabel !== '' ? '[ ' . strtoupper($customGateLabel) . ' ]' : strtoupper($isCorporate ? '[ BUKA AMPLOP UNDANGAN ]' : '[ BUKA UNDANGAN ]') }}
         </button>
     </div>
 </div>
@@ -67,15 +67,24 @@
         </div>
         <div class="flex flex-col gap-2 mt-3 text-left">
             @forelse($couple->events ?? collect() as $ev)
+                @php
+                    $evDresscode = trim((string) ($ev->dresscode ?? ($loop->first ? ($dresscode ?? '') : '')));
+                @endphp
                 <div class="basic-row">
                     <span class="hud" style="color:var(--foil)">{{ strtoupper($ev->title ?: 'ACARA') }}</span>
                     <p class="text-[13px]" style="color:var(--on-surface)">{{ $ev->start_time ?: '08.00' }}{{ ! empty($ev->end_time) ? ' — ' . $ev->end_time : '' }} WIB</p>
                     <p class="text-[12px]" style="color:var(--muted)">{{ $ev->venue_name ?: $venueName }}</p>
+                    <div id="event-{{ $loop->iteration }}-dresscode-badge" class="mt-1.5 inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-medium" style="background:color-mix(in srgb,var(--foil) 12%,transparent);border:1px solid color-mix(in srgb,var(--foil) 30%,transparent);color:var(--on-surface);{{ $evDresscode === '' ? 'display:none;' : '' }}">
+                        <span>👔 Dresscode:</span> <span class="dresscode-text font-semibold">{{ $evDresscode }}</span>
+                    </div>
                 </div>
             @empty
                 <div class="basic-row">
                     <span class="hud" style="color:var(--foil)">ACARA</span>
                     <p class="text-[13px]" style="color:var(--on-surface)">{{ $dateLong }} · {{ $venueName }}</p>
+                    <div id="event-1-dresscode-badge" class="mt-1.5 inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-medium" style="background:color-mix(in srgb,var(--foil) 12%,transparent);border:1px solid color-mix(in srgb,var(--foil) 30%,transparent);color:var(--on-surface);{{ ($dresscode ?? '') === '' ? 'display:none;' : '' }}">
+                        <span>👔 Dresscode:</span> <span class="dresscode-text font-semibold">{{ $dresscode ?? '' }}</span>
+                    </div>
                 </div>
             @endforelse
         </div>
@@ -111,7 +120,9 @@
                     <b class="map-facade-label">Muat Peta Interaktif</b>
                     <span class="map-facade-note">{{ $cardVenue }}</span>
                 </div>
-                <a id="btn-map-event-{{ $venueIndex + 1 }}" href="{{ $cardDirections }}" target="_blank" rel="noopener noreferrer" class="basic-btn mt-3" style="text-decoration:none">[ PETUNJUK GOOGLE MAPS ]</a>
+                <a href="{{ $cardDirections }}" target="_blank" rel="noopener"
+                   class="mt-2.5 inline-flex items-center gap-1 text-[11.5px] font-semibold underline decoration-1 underline-offset-2"
+                   style="color:var(--accent)">Petunjuk Arah <span aria-hidden="true">↗</span></a>
             </div>
         @empty
             <span class="eyebrow">{{ $copy['venue'] }}</span>
@@ -126,7 +137,6 @@
                 <b class="map-facade-label">Muat Peta Interaktif</b>
                 <span class="map-facade-note">{{ $venueName }}</span>
             </div>
-            <a id="btn-map-event-1" href="{{ $mapsUrl }}" target="_blank" rel="noopener noreferrer" class="basic-btn mt-3" style="text-decoration:none">[ PETUNJUK GOOGLE MAPS ]</a>
         @endforelse
     </section>
 
@@ -160,7 +170,7 @@
             <input type="hidden" name="message" value="Konfirmasi kehadiran melalui formulir RSVP.">
             <label class="block">
                 <span class="hud block mb-1" style="color:var(--silver)">NAMA LENGKAP</span>
-                <input type="text" name="name" required value="{{ $guest->name ?? '' }}" placeholder="Ketik nama Anda" class="field">
+                <input type="text" name="name" id="rsvp-input-name" required value="{{ $guest->name ?? '' }}" placeholder="Ketik nama Anda" class="field">
             </label>
             <div class="grid grid-cols-3 gap-2">
                 @foreach(['hadir' => 'HADIR', 'ragu' => 'RAGU', 'tidak_hadir' => 'TIDAK'] as $val => $lbl)

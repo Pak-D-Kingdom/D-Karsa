@@ -1088,9 +1088,16 @@ class TemplateManager
             $url = str_starts_with($raw, '//') ? 'https:'.$raw : $raw;
 
             // Tautan embed bukan untuk dibuka di tab baru.
-            return str_contains($url, 'output=embed')
-                ? preg_replace('/[?&]output=embed/i', '', $url)
-                : $url;
+            if (str_contains($url, 'output=embed')) {
+                return preg_replace('/[?&]output=embed/i', '', $url);
+            }
+
+            // Short link yang gagal di-expand server tidak bisa dibuka (404) → arahkan ke pencarian alamat.
+            if (self::isUnresolvedShortMapLink($url)) {
+                return self::mapsSearchUrl($fallbackQuery !== '' ? $fallbackQuery : $raw);
+            }
+
+            return $url;
         }
 
         if (self::looksLikeHost($raw)) {
@@ -1171,6 +1178,26 @@ class TemplateManager
     private static function looksLikeHost(string $value): bool
     {
         return (bool) preg_match('~^[\w.-]+\.[a-z]{2,}([/?#].*)?$~i', $value);
+    }
+
+    /**
+     * Short link Google Maps yang tidak berhasil di-expand (tanpa koordinat/tempat) sehingga
+     * membukanya di tab baru berakhir 404. Dipakai untuk memilih fallback pencarian alamat.
+     */
+    private static function isUnresolvedShortMapLink(string $url): bool
+    {
+        $host = strtolower((string) parse_url($url, PHP_URL_HOST));
+
+        $shortHosts = ['maps.app.goo.gl', 'goo.gl', 'g.co', 'maps.google.com', 'maps.google.co.id'];
+
+        if (! in_array($host, $shortHosts, true)) {
+            return false;
+        }
+
+        $path = (string) parse_url($url, PHP_URL_PATH);
+
+        // maps.google.com/maps/... sudah memuat titik; hanya root/redirect pendek yang dianggap gagal.
+        return ! preg_match('~/maps(/|$)~i', $path) && ! str_contains($url, '?');
     }
 
     /**
@@ -4017,6 +4044,13 @@ class TemplateManager
             $data['bride_mother'] ?? null,
             $data['bride_parents'] ?? 'Bapak & Ibu Keluarga Mempelai Wanita'
         );
+
+        // Studio kustom: nilai dari builder disimpan sebagai array/json.
+        $customDesign = $overrides['custom_design'] ?? null;
+        if (is_string($customDesign)) {
+            $customDesign = json_decode($customDesign, true);
+        }
+        $data['custom_design'] = is_array($customDesign) ? $customDesign : null;
 
         // Return as object matching Eloquent Couple interface
         return (object) $data;

@@ -355,6 +355,9 @@
                     <h3 class="font-serif text-base font-bold text-white">Pemberkatan Nikah Kudus</h3>
                     <p class="text-xs text-batak-goldlight mt-1">Gereja HKBP Sudirman Medan</p>
                     <p class="text-xs text-slate-300 mt-1">Ibadah sakramen pernikahan kudus, pengucapan janji setia di hadapan Tuhan dan jemaat.</p>
+                    <div id="event-1-dresscode-badge" class="mt-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-batak-gold/15 border border-batak-gold/30 text-batak-gold text-[11px] font-medium" style="{{ empty($couple->dresscode) ? 'display:none;' : '' }}">
+                        <span>👔 Dresscode:</span> <span class="dresscode-text font-bold">{{ $couple->dresscode ?? '' }}</span>
+                    </div>
                 </div>
 
                 <!-- Sesi 2: Ulaon Unjuk -->
@@ -366,6 +369,9 @@
                     <h3 class="font-serif text-base font-bold text-white">Pesta Unjuk &amp; Mangulosi</h3>
                     <p class="text-xs text-batak-goldlight mt-1">Wisma Taman Sari Indah / Grand Ballroom</p>
                     <p class="text-xs text-slate-300 mt-1">Pasu-pasu raja, pembagian jambar juhut &amp; jambar hepeng, prosesi Mangulosi oleh Hula-hula, serta manortor bersama diiringi Gondang Sabangunan.</p>
+                    <div id="event-2-dresscode-badge" class="mt-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-batak-gold/15 border border-batak-gold/30 text-batak-gold text-[11px] font-medium" style="display:none;">
+                        <span>👔 Dresscode:</span> <span class="dresscode-text font-bold"></span>
+                    </div>
                 </div>
             </div>
 
@@ -718,6 +724,52 @@
                 if (event.data.brideParents) {
                     const el = document.getElementById('previewBatakBrideParentsText');
                     if (el) el.textContent = event.data.brideParents;
+                }
+            } else if (event.data.type === 'UPDATE_EVENT_DRESSCODE') {
+                const idx = event.data.eventIndex;
+                const dress = event.data.dresscode;
+                const badge = document.getElementById('event-' + idx + '-dresscode-badge');
+                if (badge) {
+                    badge.style.display = dress ? 'inline-flex' : 'none';
+                    const txt = badge.querySelector('.dresscode-text');
+                    if (txt) txt.textContent = dress;
+                    else badge.textContent = '👔 Dresscode: ' + dress;
+                }
+            } else if (event.data.type === 'UPDATE_PREVIEW_EVENTS' && Array.isArray(event.data.events)) {
+                event.data.events.forEach((ev, i) => {
+                    const badge = document.getElementById('event-' + (i + 1) + '-dresscode-badge');
+                    if (badge) {
+                        const dress = ev.dresscode || '';
+                        badge.style.display = dress ? 'inline-flex' : 'none';
+                        const txt = badge.querySelector('.dresscode-text');
+                        if (txt) txt.textContent = dress;
+                        else badge.textContent = '👔 Dresscode: ' + dress;
+                    }
+                });
+            }
+        });
+
+        // Sync dresscodes from URLSearchParams on initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            const sp = new URLSearchParams(window.location.search);
+            const ev2Dress = sp.get('event_2_dresscode');
+            if (ev2Dress !== null) {
+                const b2 = document.getElementById('event-2-dresscode-badge');
+                if (b2) {
+                    b2.style.display = ev2Dress.trim() ? 'inline-flex' : 'none';
+                    const t2 = b2.querySelector('.dresscode-text');
+                    if (t2) t2.textContent = ev2Dress.trim();
+                    else b2.textContent = '👔 Dresscode: ' + ev2Dress.trim();
+                }
+            }
+            const ev1Dress = sp.get('event_1_dresscode') || sp.get('dresscode');
+            if (ev1Dress !== null) {
+                const b1 = document.getElementById('event-1-dresscode-badge');
+                if (b1) {
+                    b1.style.display = ev1Dress.trim() ? 'inline-flex' : 'none';
+                    const t1 = b1.querySelector('.dresscode-text');
+                    if (t1) t1.textContent = ev1Dress.trim();
+                    else b1.textContent = '👔 Dresscode: ' + ev1Dress.trim();
                 }
             }
         });

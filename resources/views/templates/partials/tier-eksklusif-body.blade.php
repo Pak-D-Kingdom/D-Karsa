@@ -52,7 +52,7 @@
             <b id="gate-guest-name" class="block text-[15px] mt-0.5" style="color:var(--on-surface)">{{ $guest->name ?? 'Bapak/Ibu/Saudara/i Tamu Kehormatan' }}</b>
         </div>
         <button type="button" class="btn-gold" id="btn-open-invitation" onclick="DKarsaOpen()">
-            {!! $icon('mail', 18, 1.7) !!} [ {{ $isCorporate ? 'BUKA AMPLOP UNDANGAN' : 'BUKA UNDANGAN' }} ]
+            {!! $icon('mail', 18, 1.7) !!} [ {{ $customGateLabel !== '' ? $customGateLabel : ($isCorporate ? 'BUKA AMPLOP UNDANGAN' : 'BUKA UNDANGAN') }} ]
         </button>
     </div>
 </div>
@@ -75,9 +75,9 @@
         <div class="card text-center" style="padding:18px 20px">
             <span class="eyebrow">{{ $isWedding ? 'Ayat Suci' : 'Kutipan' }}</span>
             <p class="serif italic text-[15px] leading-relaxed mt-2" style="color:var(--on-surface)">
-                &ldquo;{{ $couple->quote ?? 'Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan hidup dari jenismu sendiri, supaya kamu merasa tenteram dan tenang di sampingnya.' }}&rdquo;
+                &ldquo;{{ $customQuoteText !== '' ? $customQuoteText : ($couple->quote ?? 'Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan hidup dari jenismu sendiri, supaya kamu merasa tenteram dan tenang di sampingnya.') }}&rdquo;
             </p>
-            <span class="hud block mt-2" style="color:var(--foil)">{{ $isWedding ? 'QS. Ar-Rum : 21' : 'D\'Karsa Heritage' }}</span>
+            <span class="hud block mt-2" style="color:var(--foil)">{{ $customQuoteSource !== '' ? $customQuoteSource : ($isWedding ? 'QS. Ar-Rum : 21' : 'D\'Karsa Heritage') }}</span>
         </div>
     </section>
 
@@ -153,6 +153,9 @@
         <h2 class="serif text-[22px] mt-0.5 mb-3" style="color:var(--on-surface)">{{ $isWedding ? 'Akad & Resepsi' : 'Jadwal Acara' }}</h2>
         <div class="space-y-3">
             @forelse($couple->events ?? collect() as $ev)
+                @php
+                    $evDresscode = trim((string) ($ev->dresscode ?? ($loop->first ? ($dresscode ?? '') : '')));
+                @endphp
                 <div class="ticket">
                     <span class="notch l"></span><span class="notch r"></span>
                     <div class="flex items-center justify-between">
@@ -167,12 +170,18 @@
                     @if(! empty($ev->address))
                         <p class="text-[12px] mt-0.5" style="color:var(--muted)">{{ $ev->address }}</p>
                     @endif
+                    <div id="event-{{ $loop->iteration }}-dresscode-badge" class="mt-2.5 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium" style="background:color-mix(in srgb,var(--foil) 12%,transparent);border:1px solid color-mix(in srgb,var(--foil) 30%,transparent);color:var(--on-surface);{{ $evDresscode === '' ? 'display:none;' : '' }}">
+                        <span>👔 Dresscode:</span> <span class="dresscode-text font-semibold">{{ $evDresscode }}</span>
+                    </div>
                 </div>
             @empty
                 <div class="ticket">
                     <span class="notch l"></span><span class="notch r"></span>
                     <span class="hud" style="color:var(--foil)">ACARA</span>
                     <p class="text-[13px] mt-2">{{ $dateLong }} · {{ $venueName }}</p>
+                    <div id="event-1-dresscode-badge" class="mt-2.5 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium" style="background:color-mix(in srgb,var(--foil) 12%,transparent);border:1px solid color-mix(in srgb,var(--foil) 30%,transparent);color:var(--on-surface);{{ ($dresscode ?? '') === '' ? 'display:none;' : '' }}">
+                        <span>👔 Dresscode:</span> <span class="dresscode-text font-semibold">{{ $dresscode ?? '' }}</span>
+                    </div>
                 </div>
             @endforelse
         </div>
@@ -211,10 +220,9 @@
                         <b class="map-facade-label">Muat Peta Interaktif</b>
                         <span class="map-facade-note">{{ $cardVenue }}</span>
                     </div>
-                    <a id="btn-map-event-{{ $venueIndex + 1 }}" href="{{ $cardDirections }}" target="_blank" rel="noopener noreferrer"
-                       class="btn-gold w-full mt-3" style="text-decoration:none">
-                        {!! $icon('pin', 18, 1.6) !!} PETUNJUK GOOGLE MAPS
-                    </a>
+                    <a href="{{ $cardDirections }}" target="_blank" rel="noopener"
+                       class="mt-2.5 inline-flex items-center gap-1 text-[11.5px] font-semibold underline decoration-1 underline-offset-2"
+                       style="color:var(--accent)">Petunjuk Arah <span aria-hidden="true">↗</span></a>
                 </div>
             @empty
                 <div class="card" id="map-card-event-1">
@@ -227,9 +235,6 @@
                         <b class="map-facade-label">Muat Peta Interaktif</b>
                         <span class="map-facade-note">{{ $venueName }}</span>
                     </div>
-                    <a id="btn-map-event-1" href="{{ $mapsUrl }}" target="_blank" rel="noopener noreferrer" class="btn-gold w-full mt-3" style="text-decoration:none">
-                        {!! $icon('pin', 18, 1.6) !!} PETUNJUK GOOGLE MAPS
-                    </a>
                 </div>
             @endforelse
         </div>
@@ -237,19 +242,56 @@
 
     {{-- 8. Dresscode --}}
     <section id="dresscode" class="reveal">
-        <div class="card">
-            <span class="eyebrow">Dresscode</span>
-            <h2 class="serif text-[19px] mt-0.5" style="color:var(--on-surface)">{{ $dresscode !== '' ? $dresscode : 'Palet ' . $palette }}</h2>
-            <p class="text-[12px] mt-1" style="color:var(--muted)">Warna yang selaras dengan tema undangan</p>
-            <div class="flex items-center gap-2 mt-3 flex-wrap">
-                @foreach(($dresscodeColors ?: [$c['accent'], $c['accent2'], $c['deep'], '#E5C158', '#e7e1de']) as $swatch)
-                    <span class="inline-flex flex-col items-center gap-1">
-                        <span style="width:34px;height:34px;border-radius:999px;background:{{ $swatch }};border:1px solid color-mix(in srgb,var(--gold) 45%,transparent)"></span>
-                        <span class="hud" style="color:var(--muted)">{{ strtoupper($swatch) }}</span>
-                    </span>
+        @php
+            $eventsWithDresscode = ($couple->events ?? collect())->filter(fn($ev) => !empty(trim((string)($ev->dresscode ?? ''))));
+        @endphp
+        @if($eventsWithDresscode->count() > 1)
+            <span class="eyebrow">Dresscode Acara</span>
+            <div class="space-y-3 mt-1">
+                @foreach($eventsWithDresscode as $dEv)
+                    @php
+                        $dColors = [];
+                        $rawDc = trim((string)($dEv->dresscode_colors ?? ''));
+                        if ($rawDc !== '') {
+                            foreach (preg_split('/[,;]+/', $rawDc) as $hc) {
+                                $hc = trim($hc);
+                                if (preg_match('/^#?[0-9a-fA-F]{6}$/', $hc)) {
+                                    $dColors[] = str_starts_with($hc, '#') ? $hc : '#'.$hc;
+                                }
+                            }
+                        }
+                        $dColors = array_slice($dColors ?: $dresscodeColors, 0, 4);
+                    @endphp
+                    <div class="card" style="padding:16px">
+                        <span class="hud" style="color:var(--foil)">{{ strtoupper($dEv->title ?: 'ACARA') }}</span>
+                        <h2 class="serif text-[18px] mt-0.5" style="color:var(--on-surface)">{{ $dEv->dresscode }}</h2>
+                        <p class="text-[12px] mt-0.5" style="color:var(--muted)">Warna yang selaras dengan acara ini</p>
+                        <div class="flex items-center gap-2 mt-3 flex-wrap">
+                            @foreach(($dColors ?: [$c['accent'], $c['accent2'], $c['deep'], '#E5C158']) as $swatch)
+                                <span class="inline-flex flex-col items-center gap-1">
+                                    <span style="width:34px;height:34px;border-radius:999px;background:{{ $swatch }};border:1px solid color-mix(in srgb,var(--gold) 45%,transparent)"></span>
+                                    <span class="hud" style="color:var(--muted)">{{ strtoupper($swatch) }}</span>
+                                </span>
+                            @endforeach
+                        </div>
+                    </div>
                 @endforeach
             </div>
-        </div>
+        @else
+            <div class="card">
+                <span class="eyebrow">Dresscode</span>
+                <h2 class="serif text-[19px] mt-0.5" style="color:var(--on-surface)">{{ $dresscode !== '' ? $dresscode : 'Palet ' . $palette }}</h2>
+                <p class="text-[12px] mt-1" style="color:var(--muted)">Warna yang selaras dengan tema undangan</p>
+                <div class="flex items-center gap-2 mt-3 flex-wrap">
+                    @foreach(($dresscodeColors ?: [$c['accent'], $c['accent2'], $c['deep'], '#E5C158', '#e7e1de']) as $swatch)
+                        <span class="inline-flex flex-col items-center gap-1">
+                            <span style="width:34px;height:34px;border-radius:999px;background:{{ $swatch }};border:1px solid color-mix(in srgb,var(--gold) 45%,transparent)"></span>
+                            <span class="hud" style="color:var(--muted)">{{ strtoupper($swatch) }}</span>
+                        </span>
+                    @endforeach
+                </div>
+            </div>
+        @endif
     </section>
 
     {{-- 9. Galeri bento 1+4 --}}

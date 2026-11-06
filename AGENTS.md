@@ -156,3 +156,70 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 - Run `vendor/bin/phpunit` to call the test runner directly. It accepts the same file path and `--filter=testName` arguments.
 
 </laravel-boost-guidelines>
+
+---
+
+# Master Engineering Standards & Agent Guidelines
+
+The following cross-cutting engineering standards apply across this project, synthesizing best practices from:
+- **Andrej Karpathy Guidelines** (surgical diffs, anti-overengineering, no assumptions)
+- **Addy Osmani Agent Skills** (rigorous SDLC, quality gates, anti-rationalization tables)
+- **Jesse Vincent Superpowers** (systematic debugging, test-driven development, execution plans)
+- **Paul Bakaus Impeccable** (frontend craftsmanship, anti-AI-slop, accessibility)
+- **Ponytail Pragmatism** (strict YAGNI, eliminating speculative bloat)
+
+## 1. Core Operating Principles
+
+### A. Don't Assume & Don't Hide Confusion
+* If a requirement has multiple interpretations or lacks necessary context, stop and ask the user for clarification before executing code changes.
+* State explicit tradeoffs and edge cases upfront.
+
+### B. Surgical, Minimal Changes
+* **Strict YAGNI**: Implement only what solves the prompt. Never add speculative helpers, premature generic abstractions, or unnecessary config files.
+* **Keep Diffs Scoped**: Modify only the functions and files required. Never refactor or reformat unrelated lines or adjacent files.
+* Clean up all temporary debugging statements, test files, and scratch artifacts before concluding.
+* Run `vendor/bin/pint --dirty --format agent` on modified PHP files.
+
+### C. Loop Until Verified
+* Define concrete success criteria before writing code.
+* Execute automated tests (`php artisan test --compact` or `vendor/bin/phpunit`) to verify functionality.
+* Never conclude a turn by merely assuming the code compiles; observe the passing test output.
+
+## 2. Software Development Lifecycle (SDLC) Gates
+
+### Phase 1: Define & Plan
+1. **Clarify Objective**: Understand the user's intent, constraints, and non-goals.
+2. **Decompose**: Break tasks into incremental, reviewable steps.
+
+### Phase 2: Build & Verify (TDD & Systematic Debugging)
+1. **Bug Fixes**: Follow the 4-step debugging protocol:
+   - **Reproduce**: Create an automated test or deterministic command that fails.
+   - **Isolate**: Trace the root cause without speculative guessing.
+   - **Minimal Fix**: Address the causal defect directly.
+   - **Verify**: Confirm the test passes and full regression suite remains green.
+2. **Features**: Write tests for happy and edge cases alongside implementation.
+
+### Phase 3: Anti-Rationalization Enforcement
+Reject common excuses for cutting corners:
+- *"The change is too small to test"* -> False: Trivial changes cause silent bugs. Test boundary values.
+- *"I'll add tests later"* -> False: Write tests concurrently.
+- *"Let's refactor this adjacent file too"* -> False: Keep pull requests and diffs tightly isolated.
+
+## 3. Frontend & Design Craftsmanship (Anti-AI-Slop)
+
+When working on frontend code or user interfaces:
+* **Layout**: Avoid centered monotony. Use readable, intentional layouts with clear typographic hierarchy.
+* **Aesthetics**: Avoid arbitrary purple/blue gradient backgrounds and heavy muddy drop-shadows. Use cohesive palettes, subtle borders, and intentional whitespace.
+* **Resilience**: Every component must handle 5 states: Empty, Loading, Error, Extreme Data Overflow, and Responsive Scaling (mobile/tablet/desktop).
+* **Accessibility**: Use semantic HTML (`<main>`, `<nav>`, `<button>`), accessible color contrast (WCAG AA), and visible keyboard focus rings.
+
+## 4. Skills Directory Reference
+Active skills are registered in `.agents/skills/`:
+- `karpathy-guidelines`: Surgical diffs, anti-overengineering, clarifying ambiguity.
+- `engineering-lifecycle`: SDLC stages, quality gates, and anti-rationalization tables.
+- `superpowers-workflows`: Systematic debugging, TDD workflows, and execution planning.
+- `impeccable-design`: Frontend design systems, typography, UI/UX polish, and accessibility.
+- `laravel-best-practices`: Architecture, Eloquent, migrations, queries, and queues.
+- `tailwindcss-development`: Utility-first UI development and responsive design.
+- `testing-best-practices`: Testing patterns, PHPUnit coverage, and assertion isolation.
+- `deploying-to-cloud`: Laravel Cloud deployments and environment management.

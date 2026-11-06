@@ -10,7 +10,16 @@
     // 9 archetype gerbang pernikahan (WED-001..090): bentuk pintu, segel, ornamen, partikel.
     $wed = \App\Services\TemplateManager::weddingArchetype($tj['key'] ?? '');
     $wedArt = $wed ? \App\Support\WeddingArchetypes::art($wed) : null;
-    $tierParam = in_array(request()->query('tier'), ['basic', 'premium', 'eksklusif', 'kustom'], true) ? request()->query('tier') : 'eksklusif';
+    $defaultTier = 'eksklusif';
+    $pkgName = strtolower((string) ($couple->package_name ?? ''));
+    if (str_contains($pkgName, 'kustom') || str_contains($pkgName, 'luxury') || ! empty($couple->custom_design)) {
+        $defaultTier = 'kustom';
+    } elseif (str_contains($pkgName, 'premium')) {
+        $defaultTier = 'premium';
+    } elseif (str_contains($pkgName, 'basic')) {
+        $defaultTier = 'basic';
+    }
+    $tierParam = in_array(request()->query('tier'), ['basic', 'premium', 'eksklusif', 'kustom'], true) ? request()->query('tier') : $defaultTier;
     $palette = $tj['palette'] ?? ($tj['name'] ?? '');
     $styleLabel = $tj['sub'] ?? '';
 
@@ -132,20 +141,41 @@
         $gateHex = (string) $custom['colors']['gate'];
         $colorTheme['gate'] = str_starts_with($gateHex, '#') ? $gateHex : '#'.$gateHex;
     }
+
+    // Direct URL parameter overrides for Kustom tier (cBg, cCard, cAcc, cTxt, etc.)
+    // Nilai dibaca dari $kustomConfig (disaring controller) supaya tidak bisa menyuntik CSS.
+    $kustomUrlColors = [
+        'cBg' => 'page',
+        'cCard' => 'card',
+        'cAcc' => 'accent',
+        'cTxt' => 'text',
+    ];
+    foreach ($kustomUrlColors as $paramName => $paletteKey) {
+        $paramHex = trim((string) ($kustomConfig[$paramName] ?? ''));
+        if ($paramHex !== '' && preg_match('/^#?[0-9a-fA-F]{6}$/', $paramHex)) {
+            $colorTheme[$paletteKey] = str_starts_with($paramHex, '#') ? $paramHex : '#'.$paramHex;
+        }
+    }
+
     $isNightPalette = \App\Support\ColorTheme::isNight($colorTheme);
 
-    $customGate = (string) ($custom['gate'] ?? '');
-    $customParticle = (string) ($custom['particle'] ?? '');
-    $customIntensity = (float) ($custom['intensity'] ?? 1);
-    $customFont = (string) ($custom['font'] ?? '');
-    $customFrame = (string) ($custom['frame'] ?? '');
-    $customOverlay = (int) ($custom['overlay'] ?? 55);
-    $customGateLabel = trim((string) ($custom['gate_label'] ?? ''));
+    $customGate = (string) ($kustomConfig['cGate'] ?? ($custom['gate'] ?? ''));
+    $customParticle = (string) ($kustomConfig['cPart'] ?? ($custom['particle'] ?? ''));
+    $customIntensity = (float) ($kustomConfig['cSpd'] ?? ($custom['intensity'] ?? 1));
+    $customFont = (string) ($kustomConfig['cFont'] ?? ($custom['font'] ?? ''));
+    $customFrame = (string) ($kustomConfig['cFrame'] ?? ($custom['frame'] ?? ''));
+    $customOverlay = (int) ($kustomConfig['cOvr'] ?? ($custom['overlay'] ?? 55));
+    $customGateLabel = trim((string) ($kustomConfig['cBtn'] ?? ($custom['gate_label'] ?? '')));
     $customQuoteText = trim((string) ($custom['quote_text'] ?? ''));
     $customQuoteSource = trim((string) ($custom['quote_source'] ?? ''));
     $customAudio = trim((string) ($custom['audio_url'] ?? ''));
     $customAudioStart = max(0, (int) ($custom['audio_start'] ?? 0));
-    $customHidden = array_values(array_filter((array) ($custom['hide'] ?? []), 'is_string'));
+    $customHidden = ! empty($kustomConfig['cHide'])
+        ? array_filter(explode(',', (string) $kustomConfig['cHide']))
+        : array_values(array_filter((array) ($custom['hide'] ?? []), 'is_string'));
+    if (! empty($kustomConfig['cCov'])) {
+        $coverImg = $kustomConfig['cCov'];
+    }
     $icons = [
         'seal' => '<path d="M12 3l7 3v5c0 4.6-3 7.8-7 9.4C8 18.8 5 15.6 5 11V6z"/><path d="M12 15.2s-2.6-1.6-2.6-3.4A1.7 1.7 0 0112 10.6a1.7 1.7 0 012.6 1.2c0 1.8-2.6 3.4-2.6 3.4z"/>',
         'mail' => '<rect x="3" y="5" width="18" height="14" rx="2.2"/><path d="M3.6 7.2l8.4 5.6 8.4-5.6"/>',
@@ -444,7 +474,7 @@
         .bespoke-seg { display: flex; gap: 2px; }
         .bespoke-seg button { border: 1px solid var(--line); background: transparent; color: var(--muted); font-size: 9px; font-weight: 700; letter-spacing: .04em; padding: 3px 6px; border-radius: 6px; cursor: pointer; }
         .bespoke-seg button.is-on { background: var(--gold); border-color: var(--gold); color: #141311; }
-        #bespokeColor { width: 40px; height: 24px; border: 1px solid var(--line); border-radius: 6px; background: transparent; padding: 0; }
+        #bespokeColor, #bespokeBg, #bespokeCard, #bespokeTxt, .bespoke-row input[type="color"] { width: 40px; height: 24px; border: 1px solid var(--line); border-radius: 6px; background: transparent; padding: 0; cursor: pointer; }
         #gate-overlay.gate-arch .gate-door.left { clip-path: polygon(0 100%, 0 26%, 50% 0, 100% 26%, 100% 100%, 0 100%); }
         #gate-overlay.gate-arch .gate-door.right { clip-path: polygon(0 100%, 0 26%, 50% 0, 100% 26%, 100% 100%, 0 100%); }
 
@@ -469,6 +499,8 @@
         .map-facade-pin { font-size: 20px; color: var(--gold); }
         .map-facade-label { font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: var(--gold); }
         .map-facade-note { font-size: 11px; color: var(--muted); }
+        .map-frame-wrap { position: relative; width: 100%; height: 180px; border-radius: 12px; overflow: hidden; }
+        .map-frame-wrap .map-frame { position: absolute; top: -52px; left: 0; width: 100%; height: calc(100% + 52px); border: 0; border-radius: 0; display: block; }
         .map-frame { width: 100%; height: 180px; border: 0; border-radius: 12px; display: block; }
 
         /* Lewati layout/paint section di luar layar (biaya render awal turun) */
@@ -1317,9 +1349,14 @@
         /* Bentuk digambar sekali ke canvas 24x24; loop hanya drawImage. */
         const stamp = document.createElement('canvas');
         stamp.width = 24; stamp.height = 24;
-        (function bakeStamp() {
+        let activeShape = shape;
+
+        function bakeStamp(targetShape) {
+            const sh = targetShape || activeShape;
             const c = stamp.getContext('2d');
-            const r = shape === 'bokeh' ? 9 : 6;
+            c.clearRect(0, 0, 24, 24);
+            c.resetTransform ? c.resetTransform() : c.setTransform(1, 0, 0, 1, 0, 0);
+            const r = sh === 'bokeh' ? 9 : 6;
             c.translate(12, 12);
             c.fillStyle = preset.color;
             c.globalAlpha = 0.62;
@@ -1336,14 +1373,17 @@
                 c.fillStyle = 'rgba(255,255,255,.55)'; c.fill(); c.fillStyle = preset.color;
             };
 
-            switch (shape) {
+            switch (sh) {
                 case 'jasmine':
+                case 'melati':
                     c.beginPath(); c.ellipse(0, 0, r * 0.55, r * 1.5, 0, 0, Math.PI * 2); c.fill();
                     break;
                 case 'firefly':
+                case 'fireflies':
                     c.beginPath(); c.arc(0, 0, r * 0.9, 0, Math.PI * 2); c.fill();
                     break;
                 case 'diamond':
+                case 'gold-diamond':
                     c.rotate(Math.PI / 4); c.fillRect(-r, -r, r * 2, r * 2);
                     break;
                 case 'frangipani':
@@ -1357,6 +1397,7 @@
                     break;
                 }
                 case 'petal':
+                case 'rose':
                     c.beginPath();
                     c.moveTo(0, -r * 1.4);
                     c.bezierCurveTo(r * 1.3, -r * 0.4, r * 1.1, r * 1.1, 0, r * 1.4);
@@ -1364,6 +1405,7 @@
                     c.fill();
                     break;
                 case 'star':
+                case 'islamic-star':
                     c.beginPath();
                     for (let i = 0; i < 8; i++) {
                         const rad = i % 2 === 0 ? r * 1.3 : r * 0.55;
@@ -1381,10 +1423,40 @@
                 case 'sakura':
                     petalStar(r * 1.1, 5);
                     break;
+                case 'confetti':
+                    c.rotate(Math.PI / 6);
+                    c.fillRect(-r, -r * 0.45, r * 2, r * 0.9);
+                    break;
                 default:
                     c.beginPath(); c.ellipse(0, 0, r, r * 0.62, 0, 0, Math.PI * 2); c.fill();
             }
-        })();
+        }
+        bakeStamp(shape);
+
+        window.DKarsaParticlesBake = (shapeName, speedMult, newColor) => {
+            if (!cv) return;
+            if (shapeName === 'off') {
+                cv.style.display = 'none';
+                if (window.DKarsaParticlesStop) window.DKarsaParticlesStop();
+                return;
+            }
+            cv.style.display = '';
+            const aliases = {
+                melati: 'jasmine',
+                rose: 'petal',
+                fireflies: 'firefly',
+                'gold-diamond': 'diamond',
+                'islamic-star': 'star'
+            };
+            const mapped = aliases[shapeName] || shapeName || activeShape;
+            activeShape = mapped;
+            if (newColor) { preset.color = newColor; }
+            if (speedMult) { DKARSA_CUSTOM_INTENSITY = parseFloat(speedMult) || 1; }
+            bakeStamp(activeShape);
+            if (!running && window.DKarsaParticlesStart) {
+                window.DKarsaParticlesStart();
+            }
+        };
 
         const items = Array.from({ length: count }, () => ({
             x: Math.random() * W,
@@ -1571,14 +1643,260 @@
         if (window.DKarsaGuest) window.DKarsaGuest.toast(picked.length ? 'Wishlist disimpan: ' + picked.length + ' item' : 'Pilih hadiah terlebih dahulu');
     }
 
+    function applyKustomConfig(cfg) {
+        const sp = new URLSearchParams(window.location.search);
+        const c = cfg || {};
+
+        const tier = c.tier || sp.get('tier');
+        if (tier) {
+            document.documentElement.dataset.tier = tier;
+        }
+
+        // 1. Colors: cBg, cCard, cAcc, cTxt
+        const cBg = c.cBg || sp.get('cBg');
+        const cCard = c.cCard || sp.get('cCard');
+        const cAcc = c.cAcc || sp.get('cAcc');
+        const cTxt = c.cTxt || sp.get('cTxt');
+
+        const rootStyle = document.documentElement.style;
+        if (cBg) {
+            rootStyle.setProperty('--bg-page', cBg);
+            rootStyle.setProperty('--surface', cBg);
+            rootStyle.setProperty('--obsidian', cBg);
+            rootStyle.setProperty('--bg', cBg);
+            const bespokeBg = document.getElementById('bespokeBg');
+            if (bespokeBg && bespokeBg.value !== cBg) bespokeBg.value = cBg;
+        }
+        if (cCard) {
+            rootStyle.setProperty('--bg-card', cCard);
+            rootStyle.setProperty('--surface-container', cCard);
+            rootStyle.setProperty('--surface-high', `color-mix(in srgb, ${cCard} 92%, var(--accent, #C9A050))`);
+            rootStyle.setProperty('--surface-2', cCard);
+            const bespokeCard = document.getElementById('bespokeCard');
+            if (bespokeCard && bespokeCard.value !== cCard) bespokeCard.value = cCard;
+        }
+        if (cAcc) {
+            rootStyle.setProperty('--accent', cAcc);
+            rootStyle.setProperty('--gold', cAcc);
+            rootStyle.setProperty('--foil', cAcc);
+            rootStyle.setProperty('--accent-ink', cAcc);
+            rootStyle.setProperty('--line', `color-mix(in srgb, ${cAcc} 24%, transparent)`);
+            rootStyle.setProperty('--line-strong', `color-mix(in srgb, ${cAcc} 48%, transparent)`);
+            const bespokeColor = document.getElementById('bespokeColor');
+            if (bespokeColor && bespokeColor.value !== cAcc) bespokeColor.value = cAcc;
+        }
+        if (cTxt) {
+            rootStyle.setProperty('--text-main', cTxt);
+            rootStyle.setProperty('--on-surface', cTxt);
+            rootStyle.setProperty('--ink', cTxt);
+            const bespokeTxt = document.getElementById('bespokeTxt');
+            if (bespokeTxt && bespokeTxt.value !== cTxt) bespokeTxt.value = cTxt;
+        }
+
+        // Re-tint Gate / Parallax / Particles
+        const gate = document.getElementById('gate-overlay');
+        const bespokePlane = document.getElementById('parallax-plane-5-bespoke');
+        if (bespokePlane && cAcc) {
+            const crest = bespokePlane.querySelector('.crest');
+            if (crest) {
+                crest.style.borderColor = `color-mix(in srgb, ${cAcc} 45%, transparent)`;
+            }
+        }
+        if (window.DKarsaParticlesBake) {
+            window.DKarsaParticlesBake(c.cPart || sp.get('cPart'), c.cSpd || sp.get('cSpd'), cAcc);
+        }
+
+        // 2. cGate: switch #gate-overlay & #parallax-foreground SVG archetype
+        const cGate = c.cGate || sp.get('cGate');
+        if (cGate) {
+            document.documentElement.dataset.gate = cGate;
+            if (gate) {
+                gate.classList.remove('gate-arch', 'gate-cover', 'gate-gunungan', 'gate-mihrab', 'gate-candi', 'gate-straight');
+                if (cGate === 'arch') gate.classList.add('gate-arch');
+                else if (cGate === 'envelope' || cGate === 'cover') gate.classList.add('gate-cover');
+                else if (cGate) gate.classList.add('gate-' + cGate);
+            }
+            const fore = document.getElementById('parallax-plane-3-foreground') || document.getElementById('parallax-foreground');
+            if (fore) {
+                fore.dataset.gate = cGate;
+            }
+        }
+
+        // 3. cPart, cSpd: switch #particle-canvas stamp & speed
+        const cPart = c.cPart || sp.get('cPart');
+        const cSpd = c.cSpd || sp.get('cSpd');
+        if (cPart) {
+            document.documentElement.dataset.part = cPart;
+        }
+        const cv = document.getElementById('particle-canvas');
+        if (cv) {
+            if (cPart === 'off') {
+                cv.style.display = 'none';
+            } else {
+                cv.style.display = '';
+                if (window.DKarsaParticlesBake) {
+                    window.DKarsaParticlesBake(cPart, cSpd, cAcc);
+                }
+            }
+        }
+
+        // 4. cFont, cFrame: update --font-heading/--font-body & portrait .couple-frame-shape
+        const cFont = c.cFont || sp.get('cFont');
+        if (cFont) {
+            document.documentElement.dataset.font = cFont;
+            const fontMap = {
+                heritage: { heading: "'Cinzel', serif", body: "'Playfair Display', serif" },
+                script: { heading: "'Great Vibes', cursive", body: "'Lora', serif" },
+                editorial: { heading: "'Playfair Display', serif", body: "'Inter', sans-serif" },
+                islamic: { heading: "'Amiri', serif", body: "'Montserrat', sans-serif" }
+            };
+            if (fontMap[cFont]) {
+                rootStyle.setProperty('--font-heading', fontMap[cFont].heading);
+                rootStyle.setProperty('--font-body', fontMap[cFont].body);
+            }
+        }
+
+        const cFrame = c.cFrame || sp.get('cFrame');
+        if (cFrame) {
+            document.documentElement.dataset.frame = cFrame;
+            document.querySelectorAll('.couple-frame-shape, .couple-portrait').forEach(el => {
+                ['gunungan', 'siger', 'bagonjong', 'arch', 'oval', 'pill', 'octagon', 'rect',
+                 'frame-gunungan', 'frame-siger', 'frame-bagonjong', 'frame-arch', 'frame-oval', 'frame-pill', 'frame-octagon', 'frame-rect'
+                ].forEach(cls => el.classList.remove(cls));
+                el.classList.add(cFrame);
+                el.classList.add('frame-' + cFrame);
+            });
+        }
+
+        // 5. cHide: toggle style.display = 'none' on unchecked sections & HUD icons
+        const cHide = c.cHide !== undefined ? c.cHide : sp.get('cHide');
+        if (cHide !== null && cHide !== undefined) {
+            const hiddenKeys = Array.isArray(cHide) ? cHide : String(cHide).split(',').map(s => s.trim()).filter(Boolean);
+            const sectionMap = {
+                story: ['#story', '#section-story'],
+                gallery: ['#galeri', '#gallery', '#section-gallery'],
+                dresscode: ['#dresscode', '#section-dresscode'],
+                gift: ['#gift', '#hadiah', '#section-digital-gift'],
+                wishes: ['#rsvp', '#wishes', '#section-wishes', '#section-rsvp']
+            };
+            Object.entries(sectionMap).forEach(([key, selList]) => {
+                const shouldHide = hiddenKeys.includes(key);
+                selList.forEach(sel => {
+                    const sec = document.querySelector(sel);
+                    if (sec) sec.style.display = shouldHide ? 'none' : '';
+                });
+                const hudLink = document.querySelector(`.hud-dock a[href="#${key}"], .dock a[href="#${key}"]`);
+                if (hudLink) hudLink.style.display = shouldHide ? 'none' : '';
+            });
+        }
+
+        // 6. cCov, cOvr: set Cover/Hero backgroundImage & overlay scrim opacity
+        const cCov = c.cCov || sp.get('cCov');
+        if (cCov) {
+            const coverEls = document.querySelectorAll('#coverScreen, .page-photo, #hero-cover');
+            coverEls.forEach(el => {
+                el.style.backgroundImage = `url("${cCov}")`;
+                el.style.backgroundSize = 'cover';
+                el.style.backgroundPosition = 'center';
+            });
+        }
+        const cOvr = c.cOvr || sp.get('cOvr');
+        if (cOvr) {
+            const ovrVal = parseInt(cOvr, 10);
+            if (!isNaN(ovrVal)) {
+                rootStyle.setProperty('--dk-overlay', ovrVal);
+                document.querySelectorAll('.page-photo::after, .cover-scrim, #hero-scrim').forEach(el => {
+                    el.style.opacity = (ovrVal / 100);
+                });
+            }
+        }
+
+        // 7. cBtn: update #btn-open-invitation text
+        const cBtn = c.cBtn || sp.get('cBtn');
+        if (cBtn) {
+            document.querySelectorAll('#btn-open-invitation, .btn-open-invitation, .btn-gold[onclick="DKarsaOpen()"]').forEach(btn => {
+                btn.textContent = cBtn;
+            });
+        }
+
+        // 8. Dresscode live sync from URL / config
+        const ev2Dress = (c && c.event_2_dresscode !== undefined) ? c.event_2_dresscode : sp.get('event_2_dresscode');
+        if (ev2Dress !== null && ev2Dress !== undefined) {
+            const b2 = document.getElementById('event-2-dresscode-badge');
+            if (b2) {
+                b2.style.display = ev2Dress.trim() ? 'inline-flex' : 'none';
+                b2.classList.toggle('hidden', !ev2Dress.trim());
+                const t2 = b2.querySelector('.dresscode-text');
+                if (t2) t2.textContent = ev2Dress.trim();
+                else b2.textContent = '👔 Dresscode: ' + ev2Dress.trim();
+            }
+        }
+        const ev1Dress = (c && (c.event_1_dresscode !== undefined || c.dresscode !== undefined)) ? (c.event_1_dresscode ?? c.dresscode) : (sp.get('event_1_dresscode') || sp.get('dresscode'));
+        if (ev1Dress !== null && ev1Dress !== undefined) {
+            const b1 = document.getElementById('event-1-dresscode-badge');
+            if (b1) {
+                b1.style.display = ev1Dress.trim() ? 'inline-flex' : 'none';
+                b1.classList.toggle('hidden', !ev1Dress.trim());
+                const t1 = b1.querySelector('.dresscode-text');
+                if (t1) t1.textContent = ev1Dress.trim();
+                else b1.textContent = '👔 Dresscode: ' + ev1Dress.trim();
+            }
+        }
+    }
+    window.applyKustomConfig = applyKustomConfig;
+
     document.addEventListener('DOMContentLoaded', () => {
         DKarsaParallax();
         DKarsaParticles();
-        const color = document.getElementById('bespokeColor');
-        if (color) color.addEventListener('input', (e) => document.documentElement.style.setProperty('--gold', e.target.value));
+        applyKustomConfig();
+
+        const bespokeBg = document.getElementById('bespokeBg');
+        if (bespokeBg) bespokeBg.addEventListener('input', (e) => applyKustomConfig({ cBg: e.target.value }));
+        const bespokeCard = document.getElementById('bespokeCard');
+        if (bespokeCard) bespokeCard.addEventListener('input', (e) => applyKustomConfig({ cCard: e.target.value }));
+        const bespokeColor = document.getElementById('bespokeColor');
+        if (bespokeColor) bespokeColor.addEventListener('input', (e) => applyKustomConfig({ cAcc: e.target.value }));
+        const bespokeTxt = document.getElementById('bespokeTxt');
+        if (bespokeTxt) bespokeTxt.addEventListener('input', (e) => applyKustomConfig({ cTxt: e.target.value }));
+    });
+
+    window.addEventListener('message', (event) => {
+        if (!event.data) return;
+        if (event.data.type === 'APPLY_KUSTOM_CONFIG') {
+            applyKustomConfig(event.data.config);
+        } else if (event.data.type === 'UPDATE_EVENT_DRESSCODE') {
+            const idx = event.data.eventIndex;
+            const dress = event.data.dresscode;
+            const badge = document.getElementById('event-' + idx + '-dresscode-badge');
+            if (badge) {
+                badge.style.display = dress ? 'inline-flex' : 'none';
+                badge.classList.toggle('hidden', !dress);
+                const txt = badge.querySelector('.dresscode-text');
+                if (txt) txt.textContent = dress;
+                else badge.textContent = '👔 Dresscode: ' + dress;
+            }
+        } else if (event.data.type === 'UPDATE_PREVIEW_EVENTS' && Array.isArray(event.data.events)) {
+            event.data.events.forEach((ev, i) => {
+                const badge = document.getElementById('event-' + (i + 1) + '-dresscode-badge');
+                if (badge) {
+                    const dress = ev.dresscode || '';
+                    badge.style.display = dress ? 'inline-flex' : 'none';
+                    badge.classList.toggle('hidden', !dress);
+                    const txt = badge.querySelector('.dresscode-text');
+                    if (txt) txt.textContent = dress;
+                    else badge.textContent = '👔 Dresscode: ' + dress;
+                }
+            });
+        }
     });
 
 
+
+    /* Studio kustom: nilai dari server (URL /demo atau tautan /p/{token}) diterapkan sebelum gate dibuka. */
+    const kustomBootConfig = @json($kustomConfig ?? []);
+    if (kustomBootConfig && Object.keys(kustomBootConfig).length) {
+        try { applyKustomConfig(kustomBootConfig); } catch (e) {}
+    }
 
     /* Tinggi topbar dinamis → padding-top konten */
     function DKarsaMeasureTopbar() {
@@ -1842,13 +2160,16 @@
     function DKarsaLoadMap(el) {
         if (!el || el.dataset.loaded === '1') { return; }
         el.dataset.loaded = '1';
+        const wrap = document.createElement('div');
+        wrap.className = 'map-frame-wrap';
         const frame = document.createElement('iframe');
         frame.className = 'map-frame';
         frame.src = el.dataset.mapSrc || '';
         frame.loading = 'lazy';
         frame.referrerPolicy = 'no-referrer-when-downgrade';
         frame.title = el.dataset.mapTitle || 'Peta lokasi';
-        el.replaceWith(frame);
+        wrap.appendChild(frame);
+        el.replaceWith(wrap);
     }
 
     /* ---------- lightbox ---------- */

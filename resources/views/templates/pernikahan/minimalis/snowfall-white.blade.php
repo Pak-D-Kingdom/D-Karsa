@@ -347,12 +347,12 @@
                             <div class="pt-4 border-t border-snow-silver/60">
                                 <b class="font-cormorant text-lg text-snow-dark block">{{ $ev->venue_name ?? $couple->venue_name ?? 'Lokasi Acara' }}</b>
                                 <p class="text-xs text-snow-slate mt-1 leading-relaxed">{{ $ev->address ?? 'Alamat lengkap acara' }}</p>
-                                @if(!empty($ev->maps_url))
-                                    <a href="{{ $ev->maps_url }}" target="_blank" class="inline-flex items-center gap-2 mt-4 px-5 py-2.5 bg-snow-dark hover:bg-slate-800 text-white text-[10px] font-montserrat font-semibold tracking-[0.2em] uppercase transition shadow-sm">
-                                        <span>Buka Google Maps</span>
-                                        <span>↗</span>
-                                    </a>
-                                @endif
+                                @php
+                                    $evDresscode = trim((string) ($ev->dresscode ?? ($loop->first ? ($couple->dresscode ?? '') : '')));
+                                @endphp
+                                <div id="event-{{ $loop->iteration }}-dresscode-badge" class="mt-3 inline-flex items-center gap-1.5 px-3 py-1 bg-white border border-snow-silver text-snow-dark text-[11px] font-montserrat font-medium uppercase tracking-wider" style="{{ $evDresscode === '' ? 'display:none;' : '' }}">
+                                    <span>👔 Dresscode:</span> <span class="dresscode-text font-semibold">{{ $evDresscode }}</span>
+                                </div>
                             </div>
                         </div>
                     @endforeach
@@ -374,6 +374,9 @@
                         <div class="pt-4 border-t border-snow-silver/60">
                             <b class="font-cormorant text-lg text-snow-dark block">{{ $couple->venue_name ?? 'The Grand Ballroom' }}</b>
                             <p class="text-xs text-snow-slate mt-1 leading-relaxed">{{ $couple->venue_address ?? 'Alamat venue utama pernikahan' }}</p>
+                            <div id="event-1-dresscode-badge" class="mt-3 inline-flex items-center gap-1.5 px-3 py-1 bg-white border border-snow-silver text-snow-dark text-[11px] font-montserrat font-medium uppercase tracking-wider" style="{{ empty($couple->dresscode) ? 'display:none;' : '' }}">
+                                <span>👔 Dresscode:</span> <span class="dresscode-text font-semibold">{{ $couple->dresscode ?? '' }}</span>
+                            </div>
                         </div>
                     </div>
                 @endif
@@ -402,6 +405,45 @@
                         <span class="text-[9px] font-montserrat tracking-widest text-snow-muted uppercase mt-1 block">Detik</span>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Location / Maps Section -->
+        <section id="lokasi" class="py-16 px-6 sm:px-8 border-b border-snow-silver bg-snow-ice/30 text-center">
+            <span class="text-[9px] font-montserrat tracking-[0.35em] uppercase text-sky-700 font-bold block mb-1">LOCATION &amp; VENUE</span>
+            <h2 class="font-cormorant text-3xl sm:text-4xl text-snow-dark font-light mb-8">Peta &amp; Lokasi Acara</h2>
+            
+            <div class="space-y-6 max-w-md mx-auto">
+                @php $venueCards = ($couple->events && $couple->events->count() > 0) ? $couple->events : collect([(object)[
+                    'title' => 'Lokasi Acara',
+                    'venue_name' => $couple->venue_name ?? 'Lokasi Acara',
+                    'address' => $couple->venue_address ?? '',
+                    'maps_url' => $couple->maps_url ?? 'https://maps.google.com'
+                ]]); @endphp
+                @foreach($venueCards as $venueIndex => $venueEvent)
+                    @php
+                        $cardVenue = trim((string) ($venueEvent->venue_name ?: ($couple->venue_name ?? 'Lokasi Acara')));
+                        $cardAddress = trim((string) ($venueEvent->address ?? ($couple->venue_address ?? '')));
+                        $cardQuery = trim($cardVenue . ' ' . $cardAddress);
+                        $cardRaw = trim((string) ($venueEvent->maps_url ?? ($couple->maps_url ?? '')));
+                        if (in_array($cardRaw, ['https://maps.google.com', 'http://maps.google.com', 'https://www.google.com/maps'], true)) {
+                            $cardRaw = '';
+                        }
+                        $cardEmbed = \App\Services\TemplateManager::mapEmbedUrl($cardRaw, $cardQuery);
+                        $cardDirections = \App\Services\TemplateManager::mapDirectionsUrl($cardRaw, $cardQuery);
+                        $cardTitle = trim((string) ($venueEvent->title ?: 'Acara ' . ($venueIndex + 1)));
+                    @endphp
+                    <div class="p-6 bg-white platinum-border text-center" id="map-card-event-{{ $venueIndex + 1 }}">
+                        <span class="text-[9px] font-montserrat tracking-[0.25em] uppercase text-snow-muted font-bold block mb-1">{{ $cardTitle }}</span>
+                        <b class="font-cormorant text-xl text-snow-dark block">{{ $cardVenue }}</b>
+                        @if($cardAddress !== '')
+                            <p class="text-xs text-snow-slate mt-1 leading-relaxed">{{ $cardAddress }}</p>
+                        @endif
+                        <div class="relative w-full h-44 border border-snow-silver mt-4 overflow-hidden shadow-inner bg-snow-ice">
+                            <iframe src="{{ $cardEmbed }}" class="absolute -top-[52px] left-0 w-full h-[calc(100%+52px)] border-0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Peta {{ $cardVenue }}"></iframe>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </section>
 
@@ -838,6 +880,52 @@
                     } else if (data.resetDefault) {
                         bpEl.textContent = defaultSnowBrideParents;
                     }
+                }
+            } else if (data.type === 'UPDATE_EVENT_DRESSCODE') {
+                const idx = data.eventIndex;
+                const dress = data.dresscode;
+                const badge = document.getElementById('event-' + idx + '-dresscode-badge');
+                if (badge) {
+                    badge.style.display = dress ? 'inline-flex' : 'none';
+                    const txt = badge.querySelector('.dresscode-text');
+                    if (txt) txt.textContent = dress;
+                    else badge.textContent = '👔 Dresscode: ' + dress;
+                }
+            } else if (data.type === 'UPDATE_PREVIEW_EVENTS' && Array.isArray(data.events)) {
+                data.events.forEach((ev, i) => {
+                    const badge = document.getElementById('event-' + (i + 1) + '-dresscode-badge');
+                    if (badge) {
+                        const dress = ev.dresscode || '';
+                        badge.style.display = dress ? 'inline-flex' : 'none';
+                        const txt = badge.querySelector('.dresscode-text');
+                        if (txt) txt.textContent = dress;
+                        else badge.textContent = '👔 Dresscode: ' + dress;
+                    }
+                });
+            }
+        });
+
+        // Sync dresscodes from URLSearchParams on initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            const sp = new URLSearchParams(window.location.search);
+            const ev2Dress = sp.get('event_2_dresscode');
+            if (ev2Dress !== null) {
+                const b2 = document.getElementById('event-2-dresscode-badge');
+                if (b2) {
+                    b2.style.display = ev2Dress.trim() ? 'inline-flex' : 'none';
+                    const t2 = b2.querySelector('.dresscode-text');
+                    if (t2) t2.textContent = ev2Dress.trim();
+                    else b2.textContent = '👔 Dresscode: ' + ev2Dress.trim();
+                }
+            }
+            const ev1Dress = sp.get('event_1_dresscode') || sp.get('dresscode');
+            if (ev1Dress !== null) {
+                const b1 = document.getElementById('event-1-dresscode-badge');
+                if (b1) {
+                    b1.style.display = ev1Dress.trim() ? 'inline-flex' : 'none';
+                    const t1 = b1.querySelector('.dresscode-text');
+                    if (t1) t1.textContent = ev1Dress.trim();
+                    else b1.textContent = '👔 Dresscode: ' + ev1Dress.trim();
                 }
             }
         });

@@ -397,13 +397,12 @@
                             <div class="my-4 w-10 h-px bg-kinfolk-border mx-auto"></div>
                             <p class="font-italiana text-base font-bold text-kinfolk-ink">{{ $evVenue }}</p>
                             <p class="text-xs text-kinfolk-muted mt-1 leading-relaxed max-w-xs mx-auto">{{ $evAddress }}</p>
-                            @if(!empty($evMaps))
-                                <div class="mt-4">
-                                    <a href="{{ $evMaps }}" target="_blank" class="inline-flex items-center gap-1.5 text-[10px] tracking-widest uppercase font-semibold text-kinfolk-sage hover:text-kinfolk-sagedark underline underline-offset-4 transition">
-                                        <span>📍</span> Buka Peta Lokasi
-                                    </a>
-                                </div>
-                            @endif
+                            @php
+                                $evDresscode = trim((string) ($ev->dresscode ?? ($idx === 0 ? ($couple->dresscode ?? '') : '')));
+                            @endphp
+                            <div id="event-{{ $idx + 1 }}-dresscode-badge" class="mt-3 inline-flex items-center gap-1.5 px-3 py-1 bg-kinfolk-sage/15 border border-kinfolk-sage/30 text-kinfolk-sagedark text-[11px] font-semibold tracking-wider" style="{{ $evDresscode === '' ? 'display:none;' : '' }}">
+                                <span>👔 Dresscode:</span> <span class="dresscode-text font-bold">{{ $evDresscode }}</span>
+                            </div>
                         </div>
                     @endforeach
                 @else
@@ -416,6 +415,9 @@
                         <div class="my-4 w-10 h-px bg-kinfolk-border mx-auto"></div>
                         <p class="font-italiana text-base font-bold text-kinfolk-ink">{{ $couple->venue_name ?? 'Grand Ballroom' }}</p>
                         <p class="text-xs text-kinfolk-muted mt-1 leading-relaxed">{{ $couple->venue_address ?? 'Jl. Melati Raya No. 12, Jakarta' }}</p>
+                        <div id="event-1-dresscode-badge" class="mt-3 inline-flex items-center gap-1.5 px-3 py-1 bg-kinfolk-sage/15 border border-kinfolk-sage/30 text-kinfolk-sagedark text-[11px] font-semibold tracking-wider" style="{{ empty($couple->dresscode) ? 'display:none;' : '' }}">
+                            <span>👔 Dresscode:</span> <span class="dresscode-text font-bold">{{ $couple->dresscode ?? '' }}</span>
+                        </div>
                     </div>
 
                     <!-- Default Event Card: Resepsi / Reception -->
@@ -427,6 +429,9 @@
                         <div class="my-4 w-10 h-px bg-kinfolk-border mx-auto"></div>
                         <p class="font-italiana text-base font-bold text-kinfolk-ink">{{ $couple->venue_name ?? 'Grand Ballroom' }}</p>
                         <p class="text-xs text-kinfolk-muted mt-1 leading-relaxed">{{ $couple->venue_address ?? 'Jl. Melati Raya No. 12, Jakarta' }}</p>
+                        <div id="event-2-dresscode-badge" class="mt-3 inline-flex items-center gap-1.5 px-3 py-1 bg-kinfolk-sage/15 border border-kinfolk-sage/30 text-kinfolk-sagedark text-[11px] font-semibold tracking-wider" style="display:none;">
+                            <span>👔 Dresscode:</span> <span class="dresscode-text font-bold"></span>
+                        </div>
                     </div>
                 @endif
             </div>
@@ -822,7 +827,7 @@
                 const time = ev.start_time ? (ev.start_time + (ev.end_time ? ' - ' + ev.end_time : ' - Selesai')) : '{{ $weddingTimeFormatted }}';
                 const venue = ev.venue_name || 'Lokasi Acara';
                 const address = ev.address || 'Alamat lengkap acara';
-                const maps = ev.maps_url || '';
+                const dress = ev.dresscode || '';
 
                 const card = document.createElement('div');
                 card.className = 'bg-white p-7 hairline-border shadow-sm text-center relative';
@@ -834,7 +839,9 @@
                     <div class="my-4 w-10 h-px bg-kinfolk-border mx-auto"></div>
                     <p class="font-italiana text-base font-bold text-kinfolk-ink">${venue}</p>
                     <p class="text-xs text-kinfolk-muted mt-1 leading-relaxed max-w-xs mx-auto">${address}</p>
-                    ${maps ? `<div class="mt-4"><a href="${maps}" target="_blank" class="inline-flex items-center gap-1.5 text-[10px] tracking-widest uppercase font-semibold text-kinfolk-sage hover:text-kinfolk-sagedark underline underline-offset-4 transition"><span>📍</span> Buka Peta Lokasi</a></div>` : ''}
+                    <div id="event-${idx + 1}-dresscode-badge" class="mt-3 inline-flex items-center gap-1.5 px-3 py-1 bg-kinfolk-sage/15 border border-kinfolk-sage/30 text-kinfolk-sagedark text-[11px] font-semibold tracking-wider" style="${dress ? '' : 'display:none;'}">
+                        <span>👔 Dresscode:</span> <span class="dresscode-text font-bold">${dress}</span>
+                    </div>
                 `;
                 container.appendChild(card);
             });
@@ -870,6 +877,16 @@
                 window.location.reload();
             } else if (event.data.type === 'UPDATE_PREVIEW_EVENTS' && Array.isArray(event.data.events)) {
                 renderDynamicItinerary(event.data.events);
+            } else if (event.data.type === 'UPDATE_EVENT_DRESSCODE') {
+                const idx = event.data.eventIndex;
+                const dress = event.data.dresscode;
+                const badge = document.getElementById('event-' + idx + '-dresscode-badge');
+                if (badge) {
+                    badge.style.display = dress ? 'inline-flex' : 'none';
+                    const txt = badge.querySelector('.dresscode-text');
+                    if (txt) txt.textContent = dress;
+                    else badge.textContent = '👔 Dresscode: ' + dress;
+                }
             } else if (event.data.type === 'UPDATE_PREVIEW_PARENTS') {
                 const gpEl = document.getElementById('previewGroomParentsText');
                 if (gpEl) {
@@ -886,6 +903,31 @@
                     } else if (event.data.resetDefault) {
                         bpEl.textContent = defaultBrideParents;
                     }
+                }
+            }
+        });
+
+        // Sync dresscodes from URLSearchParams on initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            const sp = new URLSearchParams(window.location.search);
+            const ev2Dress = sp.get('event_2_dresscode');
+            if (ev2Dress !== null) {
+                const b2 = document.getElementById('event-2-dresscode-badge');
+                if (b2) {
+                    b2.style.display = ev2Dress.trim() ? 'inline-flex' : 'none';
+                    const t2 = b2.querySelector('.dresscode-text');
+                    if (t2) t2.textContent = ev2Dress.trim();
+                    else b2.textContent = '👔 Dresscode: ' + ev2Dress.trim();
+                }
+            }
+            const ev1Dress = sp.get('event_1_dresscode') || sp.get('dresscode');
+            if (ev1Dress !== null) {
+                const b1 = document.getElementById('event-1-dresscode-badge');
+                if (b1) {
+                    b1.style.display = ev1Dress.trim() ? 'inline-flex' : 'none';
+                    const t1 = b1.querySelector('.dresscode-text');
+                    if (t1) t1.textContent = ev1Dress.trim();
+                    else b1.textContent = '👔 Dresscode: ' + ev1Dress.trim();
                 }
             }
         });

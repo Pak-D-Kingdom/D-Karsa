@@ -115,7 +115,7 @@ Project ini menggunakan **Docker** untuk mengelola database MySQL dan antarmuka 
    *(Atau `docker-compose up -d` jika menggunakan Docker Compose versi lama)*.
 
    Perintah ini akan secara otomatis mengunduh image dan menjalankan 2 container:
-   - **`undangan_db`**: MySQL 8.0 pada host port **`3307`** (database: `undangan_db`)
+   - **`undangan_db`**: MySQL 8.0 pada host port **`3308`** (database: `undangan_db`)
    - **`undangan_phpmyadmin`**: phpMyAdmin web GUI pada port **`8081`**
 
 3. **Periksa Konfigurasi Database di file `.env`:**
@@ -123,7 +123,7 @@ Project ini menggunakan **Docker** untuk mengelola database MySQL dan antarmuka 
    ```env
    DB_CONNECTION=mysql
    DB_HOST=127.0.0.1
-   DB_PORT=3307
+   DB_PORT=3308
    DB_DATABASE=undangan_db
    DB_USERNAME=undangan
    DB_PASSWORD=secret

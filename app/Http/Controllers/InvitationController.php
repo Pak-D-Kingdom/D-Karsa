@@ -216,6 +216,8 @@ class InvitationController extends Controller
             'bank_account_2' => 'nullable|string|max:80',
             'bank_holder_2' => 'nullable|string|max:150',
             'gift_address' => 'nullable|string|max:500',
+            'custom_design' => 'nullable|string',
+            'custom_design_request' => 'nullable|string|max:2000',
 
             // Customer contact (Wajib untuk verifikasi & ACC)
             'customer_name' => 'required|string|max:150',
@@ -351,6 +353,7 @@ class InvitationController extends Controller
 
             'dresscode' => $validated['dresscode'] ?? ($validated['event_1_dresscode'] ?? null),
             'dresscode_colors' => $validated['dresscode_colors'] ?? ($validated['event_1_dresscode_colors'] ?? null),
+            'custom_design' => $this->decodeCustomDesign($validated['custom_design'] ?? null),
             'display_order' => $validated['display_order'] ?? 'groom_first',
             'cover_photo' => $coverPhotoPath,
             'wedding_date' => $validated['wedding_date'],
@@ -387,6 +390,8 @@ class InvitationController extends Controller
                         'venue_name' => ! empty($evData['venue_name']) ? $evData['venue_name'] : 'Lokasi Acara',
                         'address' => $evData['address'] ?? null,
                         'maps_url' => ! empty($evData['maps_url']) ? MapsLinkResolver::expand($evData['maps_url']) : 'https://maps.google.com',
+                        'dresscode' => $evData['dresscode'] ?? null,
+                        'dresscode_colors' => $evData['dresscode_colors'] ?? null,
                         'sort_order' => $sortOrder,
                     ]);
                     $sortOrder++;
@@ -404,6 +409,8 @@ class InvitationController extends Controller
                     'venue_name' => (! empty($validated['event_1_venue'])) ? $validated['event_1_venue'] : 'Masjid / Lokasi Acara',
                     'address' => $validated['event_1_address'] ?? null,
                     'maps_url' => (! empty($validated['event_1_maps_url'])) ? MapsLinkResolver::expand($validated['event_1_maps_url']) : 'https://maps.google.com',
+                    'dresscode' => $validated['event_1_dresscode'] ?? ($validated['dresscode'] ?? null),
+                    'dresscode_colors' => $validated['event_1_dresscode_colors'] ?? ($validated['dresscode_colors'] ?? null),
                     'sort_order' => 1,
                 ]);
             }
@@ -419,6 +426,8 @@ class InvitationController extends Controller
                     'venue_name' => (! empty($validated['event_2_venue'])) ? $validated['event_2_venue'] : 'Ballroom / Gedung Serbaguna',
                     'address' => $validated['event_2_address'] ?? null,
                     'maps_url' => (! empty($validated['event_2_maps_url'])) ? MapsLinkResolver::expand($validated['event_2_maps_url']) : 'https://maps.google.com',
+                    'dresscode' => $validated['event_2_dresscode'] ?? null,
+                    'dresscode_colors' => $validated['event_2_dresscode_colors'] ?? null,
                     'sort_order' => 2,
                 ]);
             }
@@ -589,9 +598,15 @@ class InvitationController extends Controller
 
     public function demoTemplate(Request $request, string $templateKey, ?string $tier = null)
     {
+        $resolvedTier = $tier ?: $request->query('tier');
+        $selectedPkg = (string) $request->query('selected_package', '');
+        if (str_contains(strtolower($selectedPkg), 'kustom') || str_contains(strtolower($selectedPkg), 'luxury')) {
+            $resolvedTier = 'kustom';
+        }
+
         // Paket bisa lewat segmen path (/demo/{key}/premium) atau query (?tier=premium).
-        if ($tier !== null && in_array($tier, ['basic', 'premium', 'eksklusif', 'kustom'], true)) {
-            $request->query->set('tier', $tier);
+        if ($resolvedTier !== null && in_array($resolvedTier, ['basic', 'premium', 'eksklusif', 'kustom'], true)) {
+            $request->query->set('tier', $resolvedTier);
         }
 
         $category = $request->query('category');
@@ -601,6 +616,42 @@ class InvitationController extends Controller
 
         // Allow live query parameters (e.g. from Builder Live Preview frame)
         $overrides = [];
+        if ($resolvedTier === 'kustom') {
+            $overrides['package_name'] = 'Paket Kustom - Rp280.000';
+        } elseif ($resolvedTier === 'eksklusif') {
+            $overrides['package_name'] = 'Paket Eksklusif - Rp180.000';
+        } elseif ($resolvedTier === 'premium') {
+            $overrides['package_name'] = 'Paket Premium - Rp110.000';
+        } elseif ($resolvedTier === 'basic') {
+            $overrides['package_name'] = 'Paket Basic - Rp50.000';
+        }
+
+        if ($request->filled('custom_design')) {
+            $overrides['custom_design'] = $this->decodeCustomDesign($request->query('custom_design'));
+        } else {
+            // Nilai studio kustom disaring dulu (lihat kustomConfigFromRequest) supaya query mentah
+            // tidak bisa menyuntik CSS/atribut lewat custom_design.
+            $kustomOverrides = $this->kustomConfigFromRequest($request);
+
+            if ($kustomOverrides !== []) {
+                $overrides['custom_design'] = [
+                    'colors' => [
+                        'bg' => $kustomOverrides['cBg'] ?? '',
+                        'card' => $kustomOverrides['cCard'] ?? '',
+                        'accent' => $kustomOverrides['cAcc'] ?? '',
+                        'text' => $kustomOverrides['cTxt'] ?? '',
+                    ],
+                    'gate' => $kustomOverrides['cGate'] ?? '',
+                    'particle' => $kustomOverrides['cPart'] ?? '',
+                    'intensity' => (float) ($kustomOverrides['cSpd'] ?? 1),
+                    'font' => $kustomOverrides['cFont'] ?? '',
+                    'frame' => $kustomOverrides['cFrame'] ?? '',
+                    'overlay' => (int) ($kustomOverrides['cOvr'] ?? 55),
+                    'gate_label' => $kustomOverrides['cBtn'] ?? '',
+                    'hide' => array_values(array_filter(explode(',', (string) ($kustomOverrides['cHide'] ?? '')))),
+                ];
+            }
+        }
         if ($request->filled('groom_name')) {
             $overrides['groom_name'] = $request->query('groom_name');
         }
@@ -743,6 +794,7 @@ class InvitationController extends Controller
                         'address' => $ev['address'] ?? '',
                         'maps_url' => $ev['maps_url'] ?? 'https://maps.google.com',
                         'dresscode' => $ev['dresscode'] ?? '',
+                        'dresscode_colors' => $ev['dresscode_colors'] ?? '',
                         'sort_order' => $i + 1,
                     ];
                 }
@@ -785,10 +837,11 @@ class InvitationController extends Controller
                 'venue_name' => $request->query('event_1_venue', $overrides['venue_name'] ?? 'Lokasi Acara'),
                 'address' => $request->query('event_1_address', 'Alamat Acara Utama'),
                 'maps_url' => $request->query('event_1_maps_url', 'https://maps.google.com'),
+                'dresscode' => $request->query('event_1_dresscode', $request->query('dresscode', '')),
                 'sort_order' => 1,
             ];
 
-            if ($request->filled('event_2_title') || $request->filled('event_2_venue')) {
+            if ($request->filled('event_2_title') || $request->filled('event_2_venue') || $request->filled('event_2_dresscode')) {
                 $ev2Date = $request->query('event_2_date', $ev1Date);
                 $evList[] = (object) [
                     'title' => $request->query('event_2_title', 'Resepsi / Ramah Tamah'),
@@ -798,6 +851,8 @@ class InvitationController extends Controller
                     'venue_name' => $request->query('event_2_venue', $request->query('event_1_venue', 'Lokasi Acara')),
                     'address' => $request->query('event_2_address', 'Alamat Acara Resepsi'),
                     'maps_url' => $request->query('event_2_maps_url', 'https://maps.google.com'),
+                    'dresscode' => $request->query('event_2_dresscode', ''),
+                    'dresscode_colors' => $request->query('event_2_dresscode_colors', ''),
                     'sort_order' => 2,
                 ];
             }
@@ -832,8 +887,70 @@ class InvitationController extends Controller
         $isDemo = true;
         $isAdminPreview = false;
         $galleries = $couple->galleries ?? collect();
+        $kustomConfig = $this->kustomConfigFromRequest($request);
 
-        return view($template['blade'], compact('couple', 'guest', 'wishes', 'isDemo', 'isAdminPreview', 'template', 'galleries'));
+        return view($template['blade'], compact('couple', 'guest', 'wishes', 'isDemo', 'isAdminPreview', 'template', 'galleries', 'kustomConfig'));
+    }
+
+    /**
+     * Nilai "Design Customization Studio" yang dikirim builder, disaring agar aman dipakai tema.
+     * Dipakai baik oleh URL /demo maupun tautan pendek /p/{token} (payload cache ikut di-merge ke query).
+     *
+     * @return array<string, string>
+     */
+    private function kustomConfigFromRequest(Request $request): array
+    {
+        $config = [];
+        $hex = '/^#[0-9a-fA-F]{6}$/';
+
+        foreach (['cBg', 'cCard', 'cAcc', 'cTxt'] as $colorKey) {
+            $value = trim((string) $request->query($colorKey, ''));
+            if (preg_match($hex, $value)) {
+                $config[$colorKey] = $value;
+            }
+        }
+
+        foreach (['cGate', 'cPart', 'cFont', 'cFrame'] as $slugKey) {
+            $value = trim((string) $request->query($slugKey, ''));
+            if ($value !== '' && preg_match('/^[a-z0-9-]{1,24}$/', $value)) {
+                $config[$slugKey] = $value;
+            }
+        }
+
+        $speed = trim((string) $request->query('cSpd', ''));
+        if ($speed !== '' && is_numeric($speed)) {
+            $config['cSpd'] = (string) max(0.2, min(4, (float) $speed));
+        }
+
+        $overlay = trim((string) $request->query('cOvr', ''));
+        if ($overlay !== '' && is_numeric($overlay)) {
+            $config['cOvr'] = (string) max(0, min(100, (int) $overlay));
+        }
+
+        $buttonLabel = trim((string) $request->query('cBtn', ''));
+        if ($buttonLabel !== '') {
+            $config['cBtn'] = mb_substr(strip_tags($buttonLabel), 0, 40);
+        }
+
+        $hiddenSections = trim((string) $request->query('cHide', ''));
+        if ($hiddenSections !== '') {
+            $allowed = ['story', 'gallery', 'dresscode', 'gift', 'wishes'];
+            $picked = array_values(array_intersect(
+                array_filter(array_map('trim', explode(',', $hiddenSections))),
+                $allowed
+            ));
+            if ($picked !== []) {
+                $config['cHide'] = implode(',', $picked);
+            }
+        }
+
+        // Cover hanya diterima sebagai URL biasa; data: base64 terlalu besar untuk query/token.
+        $cover = trim((string) $request->query('cCov', ''));
+        if (preg_match('#^https?://#i', $cover) && mb_strlen($cover) <= 512) {
+            $config['cCov'] = $cover;
+        }
+
+        return $config;
     }
 
     /**
@@ -857,8 +974,11 @@ class InvitationController extends Controller
 
         Cache::put('preview:'.$token, $params, now()->addDays(30));
 
+        $tier = $params['tier'] ?? null;
+        $url = route('invitation.preview', $token).($tier === 'kustom' ? '?tier=kustom' : '');
+
         return response()->json([
-            'url' => route('invitation.preview', $token),
+            'url' => $url,
             'token' => $token,
         ]);
     }
@@ -882,7 +1002,26 @@ class InvitationController extends Controller
             }
         }
 
-        return $this->demoTemplate(Request::create('/demo/'.$key, 'GET', $payload), $key);
+        // Merge payload directly into the active request query
+        $request->query->add($payload);
+
+        return $this->demoTemplate($request, $key, $payload['tier'] ?? null);
+    }
+
+    /**
+     * Nilai studio kustom dari builder (JSON string) → array siap disimpan.
+     *
+     * @return array<string, mixed>|null
+     */
+    private function decodeCustomDesign(?string $raw): ?array
+    {
+        if ($raw === null || trim($raw) === '') {
+            return null;
+        }
+
+        $decoded = json_decode($raw, true);
+
+        return is_array($decoded) ? $decoded : null;
     }
 
     /**
@@ -933,9 +1072,15 @@ class InvitationController extends Controller
             $title = 'Undangan uji';
         }
 
+        $tier = $payload['tier'] ?? null;
+        $guestBaseUrl = route('invitation.preview', $token);
+        if ($tier === 'kustom') {
+            $guestBaseUrl .= '?tier=kustom';
+        }
+
         return view('invitation.guest-links', [
             'token' => $token,
-            'guestBaseUrl' => route('invitation.preview', $token),
+            'guestBaseUrl' => $guestBaseUrl,
             'invitationTitle' => $title,
         ]);
     }
@@ -970,10 +1115,16 @@ class InvitationController extends Controller
             'phone' => 'required|string|max:30',
             'name' => 'nullable|string|max:150',
             'slug' => 'nullable|string|max:150',
+            'tier' => 'nullable|string|max:50',
         ]);
 
         $name = trim((string) ($data['name'] ?? '')) ?: 'Bapak/Ibu Tamu';
-        $link = url('/undangan/'.($data['slug'] ?? 'undangan-anda')).'?to='.rawurlencode($this->guestNameSlug($name));
+        $baseUrl = url('/undangan/'.($data['slug'] ?? 'undangan-anda'));
+        if (($data['tier'] ?? '') === 'kustom' || $request->query('tier') === 'kustom') {
+            $baseUrl .= '?tier=kustom';
+        }
+        $sep = str_contains($baseUrl, '?') ? '&' : '?';
+        $link = $baseUrl.$sep.'to='.rawurlencode($this->guestNameSlug($name));
         $outcome = $sender->send((string) $data['phone'], $name, $link);
         $phone = $sender->normalizePhone((string) $data['phone']);
 
@@ -997,6 +1148,7 @@ class InvitationController extends Controller
         $data = $request->validate([
             'slug' => 'nullable|string|max:150',
             'base_url' => 'nullable|string|max:500',
+            'tier' => 'nullable|string|max:50',
             'guests' => 'required|array|min:1|max:50',
             'guests.*.name' => 'required|string|max:150',
             'guests.*.phone' => 'required|string|max:30',
@@ -1006,12 +1158,16 @@ class InvitationController extends Controller
         if ($base === '') {
             $base = url('/undangan/'.($data['slug'] ?: 'undangan-anda'));
         }
-        $base = strtok($base, '?') ?: $base;
+        $tier = $data['tier'] ?? $request->query('tier');
+        if ($tier === 'kustom' && ! str_contains($base, 'tier=kustom')) {
+            $base .= (str_contains($base, '?') ? '&' : '?').'tier=kustom';
+        }
+        $sep = str_contains($base, '?') ? '&' : '?';
 
         $results = [];
         foreach ($data['guests'] as $index => $guest) {
             $name = trim((string) $guest['name']);
-            $link = $base.'?to='.rawurlencode($this->guestNameSlug($name));
+            $link = $base.$sep.'to='.rawurlencode($this->guestNameSlug($name));
             $outcome = $sender->send((string) $guest['phone'], $name, $link);
 
             $results[] = [

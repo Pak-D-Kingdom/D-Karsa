@@ -664,7 +664,7 @@
                             <input type="radio" name="selected_package" value="Paket Kustom - Rp280.000" class="peer sr-only"
                                    {{ str_contains(strtolower($selectedPackage ?? ''), 'kustom') || str_contains(strtolower($selectedPackage ?? ''), 'luxury') ? 'checked' : '' }}
                                    onchange="onPackageSelect(this.value)">
-                            <div class="p-3.5 rounded-2xl border-2 border-ink/15 bg-white text-center peer-checked:border-purple-500 peer-checked:bg-purple-50/50 transition h-full flex flex-col justify-between">
+                            <div id="pkgCard-kustom" data-tier="kustom" class="pkg-card p-3.5 rounded-2xl border-2 border-ink/15 bg-white text-center peer-checked:border-purple-500 peer-checked:bg-purple-50/50 transition h-full flex flex-col justify-between relative">
                                 <div>
                                     <span class="text-xs font-bold text-purple-800 block">✨ Kustom</span>
                                     <b class="text-sm font-bold text-ink block mt-0.5">Rp280.000</b>
@@ -688,11 +688,143 @@
                         </p>
                         <textarea name="custom_design_request" id="customDesignRequestInput" rows="2"
                                   placeholder="Contoh: Saya ingin tema perpaduan adat Bugis & modern dengan warna terracotta gold, ada animasi daun gugur, dan layout cover sinematik..."
-                                  class="w-full rounded-xl border border-purple-300 p-3 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+                                  class="w-full rounded-xl border border-purple-300 p-3 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-purple-500">{{ old('custom_design_request') }}</textarea>
+                        <input type="hidden" name="custom_design" id="customDesignHidden" value="{{ old('custom_design') }}">
+                    </div>
+
+                    {{-- ============ STUDIO DESAIN KUSTOM (paket Rp280.000) ============ --}}
+                    <div id="kustomDesignStudio" class="hidden mt-3 p-4 rounded-2xl bg-white border-2 border-purple-300 space-y-4">
+                        <div class="flex items-center justify-between gap-2 flex-wrap">
+                            <b class="text-xs font-bold text-purple-900 flex items-center gap-1.5">
+                                <span>🎛️</span> Studio Kustomisasi Desain
+                            </b>
+                            <button type="button" onclick="resetKustomStudio()"
+                                    class="px-3 py-1.5 rounded-full bg-purple-100 text-purple-800 text-[10px] font-bold hover:bg-purple-200">
+                                🔄 Reset ke Desain Bawaan Template
+                            </button>
+                        </div>
+
+                        {{-- 1. Warna --}}
+                        <div class="space-y-2">
+                            <span class="block text-[10px] font-bold uppercase tracking-wider text-purple-800">1. Palet &amp; Warna</span>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                <label class="space-y-1 block">
+                                    <span class="block text-[10px] text-ink3 font-semibold">Latar Halaman (cBg)</span>
+                                    <input type="color" id="kdColorBg" name="cBg" data-kustom="cBg" value="#F3F8FC" class="kustom-color w-full h-9 rounded-lg border border-ink/20 bg-white cursor-pointer" aria-label="Latar Belakang (cBg)">
+                                </label>
+                                <label class="space-y-1 block">
+                                    <span class="block text-[10px] text-ink3 font-semibold">Kartu (cCard)</span>
+                                    <input type="color" id="kdColorCard" name="cCard" data-kustom="cCard" value="#FFFFFF" class="kustom-color w-full h-9 rounded-lg border border-ink/20 bg-white cursor-pointer" aria-label="Permukaan Kartu (cCard)">
+                                </label>
+                                <label class="space-y-1 block">
+                                    <span class="block text-[10px] text-ink3 font-semibold">Aksen / Ornamen (cAcc)</span>
+                                    <input type="color" id="kdColorAccent" name="cAcc" data-kustom="cAcc" value="#1D6FA5" class="kustom-color w-full h-9 rounded-lg border border-ink/20 bg-white cursor-pointer" aria-label="Aksen dan Ornamen (cAcc)">
+                                </label>
+                                <label class="space-y-1 block">
+                                    <span class="block text-[10px] text-ink3 font-semibold">Teks Utama (cTxt)</span>
+                                    <input type="color" id="kdColorText" name="cTxt" data-kustom="cTxt" value="#102A43" class="kustom-color w-full h-9 rounded-lg border border-ink/20 bg-white cursor-pointer" aria-label="Teks Utama (cTxt)">
+                                </label>
+                            </div>
+                            <div class="flex items-center justify-between gap-2">
+                                <span id="kdContrastBadge" class="hidden text-[10px] font-bold text-amber-800 bg-amber-100 px-2.5 py-1 rounded-full">
+                                    ⚠️ Kontras teks terlalu rendah
+                                </span>
+                                <button type="button" id="kdContrastFix" onclick="fixKustomContrast()"
+                                        class="hidden px-3 py-1.5 rounded-full bg-amber-500 text-white text-[10px] font-bold">
+                                    Perbaiki Kontras Otomatis
+                                </button>
+                            </div>
+                        </div>
+
+                        {{-- 2. Gerbang --}}
+                        <div class="grid sm:grid-cols-2 gap-3">
+                            <label class="space-y-1 block">
+                                <span class="block text-[10px] font-bold uppercase tracking-wider text-purple-800">2. Model Gerbang</span>
+                                <select id="kdGate" class="kustom-input w-full rounded-xl border border-ink/20 px-3 py-2 text-[11px] font-semibold bg-white">
+                                    <option value="">Ikut template</option>
+                                    <option value="gunungan">Adat Jawa — Gebyok &amp; Gunungan</option>
+                                    <option value="arch">Adat Sunda / Melengkung</option>
+                                    <option value="candi">Adat Nusantara — Candi Bentar</option>
+                                    <option value="mihrab">Islami — Mihrab</option>
+                                    <option value="straight">Minimalis / Straight</option>
+                                </select>
+                            </label>
+                            <label class="space-y-1 block">
+                                <span class="block text-[10px] font-bold uppercase tracking-wider text-purple-800">4a. Pasangan Font</span>
+                                <select id="kdFont" class="kustom-input w-full rounded-xl border border-ink/20 px-3 py-2 text-[11px] font-semibold bg-white">
+                                    <option value="">Ikut template</option>
+                                    <option value="heritage">Royal Heritage Serif</option>
+                                    <option value="script">Romantic Script</option>
+                                    <option value="editorial">Modern Editorial</option>
+                                    <option value="islamic">Islamic Classic</option>
+                                </select>
+                            </label>
+                            <label class="space-y-1 block">
+                                <span class="block text-[10px] font-bold uppercase tracking-wider text-purple-800">3a. Bentuk Partikel</span>
+                                <select id="kdParticle" class="kustom-input w-full rounded-xl border border-ink/20 px-3 py-2 text-[11px] font-semibold bg-white">
+                                    <option value="">Ikut template</option>
+                                    <option value="jasmine">Kuntum Melati</option>
+                                    <option value="petal">Kelopak Mawar</option>
+                                    <option value="firefly">Kunang-Kunang</option>
+                                    <option value="diamond">Serpihan Songket</option>
+                                    <option value="frangipani">Bunga Kamboja</option>
+                                    <option value="bokeh">Bokeh Lembut</option>
+                                    <option value="star">Bintang Islami</option>
+                                    <option value="sakura">Sakura</option>
+                                    <option value="off">Nonaktif</option>
+                                </select>
+                            </label>
+                            <label class="space-y-1 block">
+                                <span class="block text-[10px] font-bold uppercase tracking-wider text-purple-800">3b. Intensitas Efek</span>
+                                <select id="kdIntensity" class="kustom-input w-full rounded-xl border border-ink/20 px-3 py-2 text-[11px] font-semibold bg-white">
+                                    <option value="0.7">Halus (0.7x)</option>
+                                    <option value="1" selected>Seimbang (1.0x)</option>
+                                    <option value="1.4">Dramatis (1.4x)</option>
+                                </select>
+                            </label>
+                            <label class="space-y-1 block">
+                                <span class="block text-[10px] font-bold uppercase tracking-wider text-purple-800">4b. Bingkai Potret</span>
+                                <select id="kdFrame" class="kustom-input w-full rounded-xl border border-ink/20 px-3 py-2 text-[11px] font-semibold bg-white">
+                                    <option value="">Ikut template</option>
+                                    <option value="gunungan">Gunungan</option>
+                                    <option value="siger">Siger</option>
+                                    <option value="bagonjong">Bagonjong</option>
+                                    <option value="arch">Lengkung Klasik</option>
+                                    <option value="oval">Oval</option>
+                                    <option value="pill">Pil Modern</option>
+                                    <option value="octagon">Oktagon Art-Deco</option>
+                                    <option value="rect">Persegi</option>
+                                </select>
+                            </label>
+                            <label class="space-y-1 block">
+                                <span class="block text-[10px] font-bold uppercase tracking-wider text-purple-800">6. Overlay Foto Sampul</span>
+                                <input type="range" id="kdOverlay" min="20" max="85" value="55" class="kustom-input w-full">
+                                <span class="block text-[10px] text-ink3"><b id="kdOverlayValue">55</b>% peredupan</span>
+                            </label>
+                        </div>
+
+                        {{-- 5. Seksi --}}
+                        <div class="space-y-1">
+                            <span class="block text-[10px] font-bold uppercase tracking-wider text-purple-800">5. Seksi yang Ditampilkan</span>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
+                                @foreach(['story' => 'Kisah Perjalanan', 'gallery' => 'Galeri Foto', 'dresscode' => 'Dresscode', 'gift' => 'Amplop Digital', 'wishes' => 'Ucapan & Doa'] as $hideKey => $hideLabel)
+                                    <label class="flex items-center gap-1.5 text-[11px] text-ink2 font-semibold">
+                                        <input type="checkbox" class="kustom-section" value="{{ $hideKey }}" checked>
+                                        {{ $hideLabel }}
+                                    </label>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        {{-- 7. Label Tombol Gerbang --}}
+                        <div class="space-y-1">
+                            <label class="space-y-1 block">
+                                <span class="block text-[10px] font-bold uppercase tracking-wider text-purple-800">7. Label Tombol Gerbang (cBtn)</span>
+                                <input type="text" id="kdGateLabel" name="cBtn" data-kustom="cBtn" class="kustom-input w-full rounded-xl border border-ink/20 px-3 py-2 text-[11px] font-semibold" placeholder="Buka Undangan">
+                            </label>
+                        </div>
                     </div>
                 </div>
-
-                {{-- Picker cepat: desain pada bab & sub-bab yang sedang dipilih --}}
                 <div class="space-y-2 pt-2 border-t border-ink/10">
                     <div class="flex items-center justify-between gap-2">
                         <label class="block text-xs font-bold uppercase tracking-wider text-ink2">Desain Sesuai Kategori Terpilih</label>
@@ -1101,7 +1233,7 @@
 
                         <div class="space-y-1 sm:col-span-3">
                             <label class="block text-xs font-semibold text-ink2">Dresscode Acara (Opsional)</label>
-                            <input type="text" name="event_1_dresscode" value="{{ old('event_1_dresscode') }}"
+                            <input type="text" name="event_1_dresscode" id="event1Dresscode" value="{{ old('event_1_dresscode') }}"
                                    placeholder="Contoh: Batik Lengan Panjang / Kebaya Putih &amp; Sage Green"
                                    class="event-dresscode-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
                         </div>
@@ -1111,6 +1243,7 @@
                                 <input type="color" class="event-dresscode-color w-9 h-9 rounded-lg border border-ink/20 bg-white cursor-pointer" value="#1D6FA5" aria-label="Warna dresscode 1">
                                 <input type="color" class="event-dresscode-color w-9 h-9 rounded-lg border border-ink/20 bg-white cursor-pointer" value="#C9A050" aria-label="Warna dresscode 2">
                                 <input type="color" class="event-dresscode-color w-9 h-9 rounded-lg border border-ink/20 bg-white cursor-pointer" value="#FFFFFF" aria-label="Warna dresscode 3">
+                                <input type="color" class="event-dresscode-color w-9 h-9 rounded-lg border border-ink/20 bg-white cursor-pointer" value="#2A2A26" aria-label="Warna dresscode 4">
                                 <span class="text-[10px] text-ink3">Pilih sampai 4 warna</span>
                             </div>
                         </div>
@@ -1177,7 +1310,7 @@
 
                         <div class="space-y-1 sm:col-span-3">
                             <label class="block text-xs font-semibold text-ink2">Dresscode Acara (Opsional)</label>
-                            <input type="text" name="event_2_dresscode" value="{{ old('event_2_dresscode') }}"
+                            <input type="text" name="event_2_dresscode" id="event2Dresscode" value="{{ old('event_2_dresscode') }}"
                                    placeholder="Contoh: Batik Lengan Panjang / Kebaya Putih &amp; Sage Green"
                                    class="event-dresscode-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
                         </div>
@@ -1187,6 +1320,7 @@
                                 <input type="color" class="event-dresscode-color w-9 h-9 rounded-lg border border-ink/20 bg-white cursor-pointer" value="#1D6FA5" aria-label="Warna dresscode 1">
                                 <input type="color" class="event-dresscode-color w-9 h-9 rounded-lg border border-ink/20 bg-white cursor-pointer" value="#C9A050" aria-label="Warna dresscode 2">
                                 <input type="color" class="event-dresscode-color w-9 h-9 rounded-lg border border-ink/20 bg-white cursor-pointer" value="#FFFFFF" aria-label="Warna dresscode 3">
+                                <input type="color" class="event-dresscode-color w-9 h-9 rounded-lg border border-ink/20 bg-white cursor-pointer" value="#2A2A26" aria-label="Warna dresscode 4">
                                 <span class="text-[10px] text-ink3">Pilih sampai 4 warna</span>
                             </div>
                         </div>
@@ -1354,6 +1488,16 @@
                                class="w-full rounded-2xl border border-dashed border-ink/25 px-4 py-3 text-xs file:mr-3 file:rounded-lg file:border-0 file:bg-brand file:px-3 file:py-1.5 file:text-[11px] file:font-bold file:text-white">
                         <p id="musicFileName" class="text-[11px] text-ink3">Belum ada file dipilih.</p>
                         <audio id="musicPreview" controls class="w-full hidden" style="height:36px;"></audio>
+                    </div>
+
+                    <div class="pt-2 border-t border-ink/10">
+                        <label class="space-y-1 block">
+                            <span class="block text-xs font-semibold text-ink2">Mulai Detik Ke- (Audio Start Offset)</span>
+                            <input type="number" name="audio_start" id="audioStartInput" min="0" max="600" value="{{ old('audio_start', 0) }}"
+                                   class="w-full sm:w-48 rounded-xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand"
+                                   placeholder="0">
+                            <span class="block text-[10px] text-ink3">Mulai putar audio dari detik ke- (misal 15 untuk langsung melewati intro).</span>
+                        </label>
                     </div>
 
                     <p class="text-[10px] text-ink3">Musik diputar otomatis saat tamu menekan tombol "Buka Undangan". Untuk format WAV, gunakan file di bawah 10 MB agar cepat dimuat.</p>
@@ -3072,8 +3216,14 @@
         const params = typeof getLivePreviewParams === 'function' ? getLivePreviewParams() : new URLSearchParams();
         params.set('preview', '1');
         if (!params.get('to')) { params.set('to', 'Tamu Tes'); }
-        const tier = typeof selectedTier === 'function' ? selectedTier() : null;
+        const tier = (window.state && window.state.tier) ? window.state.tier : (typeof selectedTier === 'function' ? selectedTier() : 'basic');
         if (tier) { params.set('tier', tier); }
+        if (tier === 'kustom' && typeof collectKustomDesign === 'function') {
+            const cd = collectKustomDesign();
+            if (cd) {
+                params.set('custom_design', JSON.stringify(cd));
+            }
+        }
 
         const flat = {};
         params.forEach((value, name) => { flat[name] = value; });
@@ -3248,25 +3398,277 @@
             renderStyleColors();
         }
 
+        window.state = window.state || {};
+
         // Toggle Custom Request Box based on Package Selection
         function onPackageSelect(pkgVal) {
             const customBox = document.getElementById('customRequestBox');
+            const isKustom = pkgVal.toLowerCase().includes('kustom') || pkgVal.toLowerCase().includes('luxury');
             if (customBox) {
-                if (pkgVal.toLowerCase().includes('kustom') || pkgVal.toLowerCase().includes('luxury')) {
+                if (isKustom) {
                     customBox.classList.remove('hidden');
                 } else {
                     customBox.classList.add('hidden');
                 }
             }
 
+            state.tier = isKustom ? 'kustom' : (selectedTier() || 'basic');
+            document.documentElement.dataset.tier = state.tier;
+
+            // Studio desain hanya untuk paket Kustom.
+            const studio = document.getElementById('kustomDesignStudio');
+            if (studio) {
+                studio.classList.toggle('hidden', !isKustom);
+                if (isKustom) {
+                    syncKustomStudio();
+                    applyKustomConfig();
+                }
+            }
+
             // Pratinjau mengikuti paket yang dipilih (Basic/Premium/Eksklusif/Kustom).
+            updateLivePreviewContent(true);
+        }
+
+        /* ================= Studio Kustom (paket Rp280.000) ================= */
+        function kustomStudioElement(id) { return document.getElementById(id); }
+
+        function collectKustomConfig() {
+            const bg = kustomStudioElement('kdColorBg')?.value || '#F3F8FC';
+            const card = kustomStudioElement('kdColorCard')?.value || '#FFFFFF';
+            const accent = kustomStudioElement('kdColorAccent')?.value || '#1D6FA5';
+            const text = kustomStudioElement('kdColorText')?.value || '#102A43';
+            const gate = kustomStudioElement('kdGate')?.value || '';
+            const particle = kustomStudioElement('kdParticle')?.value || '';
+            const spd = kustomStudioElement('kdIntensity')?.value || '1';
+            const font = kustomStudioElement('kdFont')?.value || '';
+            const frame = kustomStudioElement('kdFrame')?.value || '';
+            const overlay = kustomStudioElement('kdOverlay')?.value || '55';
+            const btn = kustomStudioElement('kdGateLabel')?.value || '';
+            const hide = Array.from(document.querySelectorAll('.kustom-section'))
+                .filter((box) => !box.checked)
+                .map((box) => box.value)
+                .join(',');
+            const cov = document.getElementById('coverPhotoPreview')?.src || '';
+
+            return {
+                tier: 'kustom',
+                cBg: bg,
+                cCard: card,
+                cAcc: accent,
+                cTxt: text,
+                cGate: gate,
+                cPart: particle,
+                cSpd: spd,
+                cFont: font,
+                cFrame: frame,
+                cHide: hide,
+                cCov: cov,
+                cOvr: overlay,
+                cBtn: btn
+            };
+        }
+
+        function applyKustomConfig(cfg) {
+            const config = cfg || collectKustomConfig();
+            state.tier = 'kustom';
+            document.documentElement.dataset.tier = 'kustom';
+
             const iframe = document.getElementById('builderLivePreviewIframe');
-            const tier = selectedTier();
-            if (iframe && iframe.getAttribute('src') && tier) {
-                const base = iframe.getAttribute('src').split('&tier=')[0].split('?tier=')[0];
-                iframe.src = base + (base.indexOf('?') >= 0 ? '&' : '?') + 'tier=' + tier;
+            if (iframe && iframe.contentWindow) {
+                iframe.contentWindow.postMessage({
+                    type: 'APPLY_KUSTOM_CONFIG',
+                    config: config
+                }, '*');
             }
         }
+
+        /** Kumpulkan semua nilai studio jadi satu objek untuk parameter custom_design. */
+        function collectKustomDesign() {
+            const studio = kustomStudioElement('kustomDesignStudio');
+            if (!studio || studio.classList.contains('hidden')) { return null; }
+
+            const colors = {
+                bg: kustomStudioElement('kdColorBg')?.value || '',
+                card: kustomStudioElement('kdColorCard')?.value || '',
+                accent: kustomStudioElement('kdColorAccent')?.value || '',
+                text: kustomStudioElement('kdColorText')?.value || '',
+            };
+
+            const hide = Array.from(document.querySelectorAll('.kustom-section'))
+                .filter((box) => !box.checked)
+                .map((box) => box.value);
+
+            return {
+                colors: colors,
+                gate: kustomStudioElement('kdGate')?.value || '',
+                particle: kustomStudioElement('kdParticle')?.value || '',
+                intensity: parseFloat(kustomStudioElement('kdIntensity')?.value || '1') || 1,
+                font: kustomStudioElement('kdFont')?.value || '',
+                frame: kustomStudioElement('kdFrame')?.value || '',
+                overlay: parseInt(kustomStudioElement('kdOverlay')?.value || '55', 10) || 55,
+                gate_label: kustomStudioElement('kdGateLabel')?.value || '',
+                quote_text: document.getElementById('quoteInput')?.value || '',
+                quote_source: '',
+                audio_url: (document.querySelector('input[name="music_url"]:checked')?.value || ''),
+                audio_start: parseInt(document.getElementById('audioStartInput')?.value || '0', 10) || 0,
+                hide: hide,
+            };
+        }
+
+        function luminanceOf(hex) {
+            const value = String(hex || '').replace('#', '');
+            if (value.length !== 6) { return 0.5; }
+            const channel = (index) => {
+                const c = parseInt(value.substr(index, 2), 16) / 255;
+                return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+            };
+            return 0.2126 * channel(0) + 0.7152 * channel(2) + 0.0722 * channel(4);
+        }
+
+        function contrastRatio(a, b) {
+            const la = luminanceOf(a);
+            const lb = luminanceOf(b);
+            const light = Math.max(la, lb);
+            const dark = Math.min(la, lb);
+            return (light + 0.05) / (dark + 0.05);
+        }
+
+        /** Guardrail keterbacaan: ingatkan bila kontras teks < 3.5:1. */
+        function checkKustomContrast() {
+            const bg = kustomStudioElement('kdColorBg')?.value || '#FFFFFF';
+            const text = kustomStudioElement('kdColorText')?.value || '#102A43';
+            const badge = kustomStudioElement('kdContrastBadge');
+            const fix = kustomStudioElement('kdContrastFix');
+            const low = contrastRatio(bg, text) < 3.5;
+            if (badge) { badge.classList.toggle('hidden', !low); }
+            if (fix) { fix.classList.toggle('hidden', !low); }
+            return low;
+        }
+
+        function fixKustomContrast() {
+            const bgInput = kustomStudioElement('kdColorBg');
+            const textInput = kustomStudioElement('kdColorText');
+            if (!bgInput || !textInput) { return; }
+            // Pilih hitam/putih tergantung latar supaya kontras aman.
+            textInput.value = luminanceOf(bgInput.value) > 0.45 ? '#102A43' : '#F8FAFC';
+            checkKustomContrast();
+            syncKustomStudio();
+            applyKustomConfig();
+        }
+
+        function syncKustomStudio() {
+            applyKustomConfig();
+            updateLivePreviewContent(false);
+            checkKustomContrast();
+        }
+
+        function resetKustomStudio() {
+            const defaults = {
+                kdColorBg: '#F3F8FC', kdColorCard: '#FFFFFF', kdColorAccent: '#1D6FA5', kdColorText: '#102A43',
+                kdGate: '', kdParticle: '', kdIntensity: '1', kdFont: '', kdFrame: '',
+                kdOverlay: '55', kdGateLabel: '',
+            };
+            Object.entries(defaults).forEach(([id, value]) => {
+                const el = kustomStudioElement(id);
+                if (el) { el.value = value; }
+            });
+            document.querySelectorAll('.kustom-section').forEach((box) => { box.checked = true; });
+            const overlayLabel = kustomStudioElement('kdOverlayValue');
+            if (overlayLabel) { overlayLabel.textContent = '55'; }
+            checkKustomContrast();
+            syncKustomStudio();
+            applyKustomConfig();
+        }
+
+        function bindDresscodeLiveSync() {
+            const ev2Inp = document.getElementById('event2Dresscode');
+            if (ev2Inp) {
+                ev2Inp.addEventListener('input', () => {
+                    const val = ev2Inp.value.trim();
+                    const iframe = document.getElementById('builderLivePreviewIframe');
+                    if (iframe && iframe.contentWindow) {
+                        try {
+                            const badge = iframe.contentWindow.document.getElementById('event-2-dresscode-badge');
+                            if (badge) {
+                                badge.style.display = val ? 'inline-flex' : 'none';
+                                badge.classList.toggle('hidden', !val);
+                                const txt = badge.querySelector('.dresscode-text');
+                                if (txt) txt.textContent = val;
+                                else badge.textContent = '👔 Dresscode: ' + val;
+                            }
+                        } catch (e) {}
+                        iframe.contentWindow.postMessage({
+                            type: 'UPDATE_EVENT_DRESSCODE',
+                            eventIndex: 2,
+                            dresscode: val
+                        }, '*');
+                    }
+                    updateLivePreviewContent(false);
+                });
+            }
+
+            const ev1Inp = document.getElementById('event1Dresscode');
+            if (ev1Inp) {
+                ev1Inp.addEventListener('input', () => {
+                    const val = ev1Inp.value.trim();
+                    const iframe = document.getElementById('builderLivePreviewIframe');
+                    if (iframe && iframe.contentWindow) {
+                        try {
+                            const badge = iframe.contentWindow.document.getElementById('event-1-dresscode-badge');
+                            if (badge) {
+                                badge.style.display = val ? 'inline-flex' : 'none';
+                                badge.classList.toggle('hidden', !val);
+                                const txt = badge.querySelector('.dresscode-text');
+                                if (txt) txt.textContent = val;
+                                else badge.textContent = '👔 Dresscode: ' + val;
+                            }
+                        } catch (e) {}
+                        iframe.contentWindow.postMessage({
+                            type: 'UPDATE_EVENT_DRESSCODE',
+                            eventIndex: 1,
+                            dresscode: val
+                        }, '*');
+                    }
+                    updateLivePreviewContent(false);
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const initialTier = selectedTier() || 'basic';
+            state.tier = initialTier;
+            document.documentElement.dataset.tier = initialTier;
+
+            bindDresscodeLiveSync();
+
+            const studio = kustomStudioElement('kustomDesignStudio');
+            if (studio) {
+                const pkg = document.querySelector('input[name="selected_package"]:checked')?.value || '';
+                if (/kustom|luxury/i.test(pkg)) {
+                    studio.classList.remove('hidden');
+                    state.tier = 'kustom';
+                    document.documentElement.dataset.tier = 'kustom';
+                }
+
+                studio.addEventListener('input', () => {
+                    checkKustomContrast();
+                    applyKustomConfig();
+                });
+                studio.addEventListener('change', () => {
+                    syncKustomStudio();
+                    applyKustomConfig();
+                });
+                const overlay = kustomStudioElement('kdOverlay');
+                if (overlay) {
+                    overlay.addEventListener('input', () => {
+                        const label = kustomStudioElement('kdOverlayValue');
+                        if (label) { label.textContent = overlay.value; }
+                        applyKustomConfig();
+                    });
+                }
+                checkKustomContrast();
+            }
+        });
 
         /* Tautan Maps yang ditempel apa adanya (tanpa https://) dulu jadi path relatif → tombol 404.
            Rapikan jadi URL absolut saat kolom ditinggalkan. */
@@ -3564,7 +3966,7 @@
                 <div class="space-y-1">
                     <label class="block text-xs font-semibold text-ink2">Warna Dresscode</label>
                     <div class="flex items-center gap-2 flex-wrap">
-                        ${[0,1,2].map((ci) => `<input type="color" class="event-dresscode-color w-9 h-9 rounded-lg border border-ink/20 bg-white cursor-pointer" value="${(evDressColors[ci] || ['#1D6FA5','#C9A050','#FFFFFF'][ci])}" aria-label="Warna dresscode ${ci + 1}">`).join('')}
+                        ${[0,1,2,3].map((ci) => `<input type="color" class="event-dresscode-color w-9 h-9 rounded-lg border border-ink/20 bg-white cursor-pointer" value="${(evDressColors[ci] || ['#1D6FA5','#C9A050','#FFFFFF','#2A2A26'][ci])}" aria-label="Warna dresscode ${ci + 1}">`).join('')}
                         <span class="text-[10px] text-ink3">Pilih sampai 4 warna</span>
                     </div>
                 </div>
@@ -3618,6 +4020,9 @@
                 const venue = card.querySelector('.event-venue-input')?.value || '';
                 const address = card.querySelector('.event-address-input')?.value || '';
                 const maps = card.querySelector('.event-maps-input')?.value || '';
+                const dresscode = card.querySelector('.event-dresscode-input')?.value || '';
+                const dressColors = Array.from(card.querySelectorAll('.event-dresscode-color'))
+                    .map((el) => el.value).filter(Boolean).join(',');
 
                 eventsList.push({
                     title: title || `Acara ${idx + 1}`,
@@ -3642,6 +4047,8 @@
                         <input type="hidden" name="events[${idx}][venue_name]" value="${venue.replace(/"/g, '&quot;')}">
                         <input type="hidden" name="events[${idx}][address]" value="${address.replace(/"/g, '&quot;')}">
                         <input type="hidden" name="events[${idx}][maps_url]" value="${maps.replace(/"/g, '&quot;')}">
+                        <input type="hidden" name="events[${idx}][dresscode]" value="${dresscode.replace(/"/g, '&quot;')}">
+                        <input type="hidden" name="events[${idx}][dresscode_colors]" value="${dressColors.replace(/"/g, '&quot;')}">
                     `;
                 }
             });
@@ -3651,16 +4058,29 @@
                 const ev1 = eventsList[0];
                 const ev1TitleEl = document.getElementById('event1TitleInput');
                 if (ev1TitleEl && ev1TitleEl !== cards[0].querySelector('.event-title-input')) ev1TitleEl.value = ev1.title;
+                const ev1DressEl = document.getElementById('event1Dresscode');
+                if (ev1DressEl && ev1DressEl !== cards[0].querySelector('.event-dresscode-input')) ev1DressEl.value = ev1.dresscode;
             }
             if (eventsList.length > 1) {
                 const ev2 = eventsList[1];
                 const ev2TitleEl = document.getElementById('event2TitleInput');
                 if (ev2TitleEl && ev2TitleEl !== cards[1].querySelector('.event-title-input')) ev2TitleEl.value = ev2.title;
+                const ev2DressEl = document.getElementById('event2Dresscode');
+                if (ev2DressEl && ev2DressEl !== cards[1].querySelector('.event-dresscode-input')) ev2DressEl.value = ev2.dresscode;
             } else {
                 const ev2TitleEl = document.getElementById('event2TitleInput');
                 if (ev2TitleEl && !cards[1]) ev2TitleEl.value = '';
                 const ev2VenueEl = document.getElementById('event2VenueInput');
                 if (ev2VenueEl && !cards[1]) ev2VenueEl.value = '';
+                const ev2DressEl = document.getElementById('event2Dresscode');
+                if (ev2DressEl && !cards[1]) ev2DressEl.value = '';
+            }
+
+            // Sync custom_design hidden input
+            const cdHidden = document.getElementById('customDesignHidden');
+            if (cdHidden && typeof collectKustomDesign === 'function') {
+                const cd = collectKustomDesign();
+                cdHidden.value = cd ? JSON.stringify(cd) : '';
             }
 
             // Cerita perjalanan -> live preview
@@ -4331,6 +4751,32 @@
 
             if (giftAddress) params.set('gift_address', giftAddress);
 
+            // Direct sync for dresscodes (Event 1 & Event 2)
+            const ev1Dress = document.getElementById('event1Dresscode')?.value?.trim();
+            const ev2Dress = document.getElementById('event2Dresscode')?.value?.trim();
+            if (ev1Dress) {
+                params.set('dresscode', ev1Dress);
+                params.set('event_1_dresscode', ev1Dress);
+            }
+            if (ev2Dress) {
+                params.set('event_2_dresscode', ev2Dress);
+            }
+
+            // Tier & Kustom serialization (never hardcode eksklusif!)
+            const activeTier = (window.state && window.state.tier) ? window.state.tier : (typeof selectedTier === 'function' ? selectedTier() : 'basic');
+            if (activeTier) {
+                params.set('tier', activeTier);
+            }
+
+            if (activeTier === 'kustom') {
+                const kCfg = typeof collectKustomConfig === 'function' ? collectKustomConfig() : {};
+                Object.entries(kCfg).forEach(([k, v]) => {
+                    if (v !== '' && v !== null && v !== undefined) {
+                        params.set(k, v);
+                    }
+                });
+            }
+
             if (previewGuestTestName) {
                 params.set('to', previewGuestTestName);
             }
@@ -4671,6 +5117,14 @@
             if (form) {
                 form.addEventListener('input', () => updateLivePreviewContent(false));
                 form.addEventListener('change', () => updateLivePreviewContent(false));
+                form.addEventListener('submit', () => {
+                    syncEventsToFormAndPreview();
+                    const cdHidden = document.getElementById('customDesignHidden');
+                    if (cdHidden && typeof collectKustomDesign === 'function') {
+                        const cd = collectKustomDesign();
+                        cdHidden.value = cd ? JSON.stringify(cd) : '';
+                    }
+                });
             }
 
             syncEventsToFormAndPreview();

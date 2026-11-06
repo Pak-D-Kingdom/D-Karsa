@@ -1,0 +1,180 @@
+code,template_key,bab,subbab,tier,gate_z,gate_fixed,gate_decoupled,dock_z,audio_fixed,cards,plain_boxes,watermark_ok,inset_ok,countdown,map,gallery_imgs,rsvp,guestbook_noscroll,copy_btn,atm,qr,fonts,sections,verdict
+WED-001,jawa-keraton-agung,BAB 1,Pernikahan Adat Jawa,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-002,jawa-sekar-kedhaton,BAB 1,Pernikahan Adat Jawa,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-003,jawa-gunungan-emas,BAB 1,Pernikahan Adat Jawa,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-004,jawa-batik-parang,BAB 1,Pernikahan Adat Jawa,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-005,jawa-gebyok-ukir,BAB 1,Pernikahan Adat Jawa,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-006,jawa-melati-kraton,BAB 1,Pernikahan Adat Jawa,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-007,jawa-sogan-klasik,BAB 1,Pernikahan Adat Jawa,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-008,jawa-wijaya-kusuma,BAB 1,Pernikahan Adat Jawa,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-009,jawa-sekar-jagad,BAB 1,Pernikahan Adat Jawa,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-010,jawa-prada-ayu,BAB 1,Pernikahan Adat Jawa,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-011,jawa-arctic-frost,BAB 1,Pernikahan Adat Jawa,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-012,jawa-purple-dream,BAB 1,Pernikahan Adat Jawa,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-013,jawa-burgundy-wine,BAB 1,Pernikahan Adat Jawa,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-014,jawa-ruby-luxe,BAB 1,Pernikahan Adat Jawa,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-015,jawa-pastel-mix,BAB 1,Pernikahan Adat Jawa,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-016,jawa-citrus-pop,BAB 1,Pernikahan Adat Jawa,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-017,jawa-soft-pink,BAB 1,Pernikahan Adat Jawa,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-018,jawa-midnight-navy,BAB 1,Pernikahan Adat Jawa,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-019,sunda-mega-mendung,BAB 1,Pernikahan Adat Sunda,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-020,sunda-siger-wangi,BAB 1,Pernikahan Adat Sunda,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-021,sunda-parahyangan,BAB 1,Pernikahan Adat Sunda,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-022,sunda-kembang-peuteuy,BAB 1,Pernikahan Adat Sunda,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-023,sunda-ratu-sunda,BAB 1,Pernikahan Adat Sunda,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-024,sunda-angklung-kasih,BAB 1,Pernikahan Adat Sunda,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-025,sunda-priangan-lembut,BAB 1,Pernikahan Adat Sunda,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-026,sunda-sangkuriang,BAB 1,Pernikahan Adat Sunda,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-027,sunda-dayang-sumbi,BAB 1,Pernikahan Adat Sunda,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-028,sunda-citarum-ayu,BAB 1,Pernikahan Adat Sunda,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-029,sunda-bunga-kantil,BAB 1,Pernikahan Adat Sunda,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-030,sunda-cireundeu-asih,BAB 1,Pernikahan Adat Sunda,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-031,minang-rumah-gadang,BAB 1,Pernikahan Adat Minang,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-032,minang-gonjong-amah,BAB 1,Pernikahan Adat Minang,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-033,minang-suntiang-permata,BAB 1,Pernikahan Adat Minang,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-034,minang-songket-padang,BAB 1,Pernikahan Adat Minang,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-035,minang-ranah-minang,BAB 1,Pernikahan Adat Minang,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-036,minang-bundo-kanduang,BAB 1,Pernikahan Adat Minang,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-037,minang-siti-nurbaya,BAB 1,Pernikahan Adat Minang,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-038,minang-singgalang,BAB 1,Pernikahan Adat Minang,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-039,minang-marawa-pusako,BAB 1,Pernikahan Adat Minang,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-040,minang-anak-daro,BAB 1,Pernikahan Adat Minang,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-041,nusantara-tenun-ikat,BAB 1,Pernikahan Adat Nusantara lainnya,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-042,nusantara-ulos-hela,BAB 1,Pernikahan Adat Nusantara lainnya,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-043,nusantara-nusantara-raya,BAB 1,Pernikahan Adat Nusantara lainnya,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-044,nusantara-wastra-timur,BAB 1,Pernikahan Adat Nusantara lainnya,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-045,nusantara-toraja-tallu,BAB 1,Pernikahan Adat Nusantara lainnya,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-046,nusantara-dayak-ranying,BAB 1,Pernikahan Adat Nusantara lainnya,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-047,nusantara-bunga-cengkeh,BAB 1,Pernikahan Adat Nusantara lainnya,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-048,nusantara-sabu-raijua,BAB 1,Pernikahan Adat Nusantara lainnya,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-049,minimalis-aria,BAB 1,Pernikahan Minimalis Modern,premium,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-050,minimalis-bening,BAB 1,Pernikahan Minimalis Modern,premium,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-051,minimalis-nadi,BAB 1,Pernikahan Minimalis Modern,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-052,minimalis-ruang,BAB 1,Pernikahan Minimalis Modern,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-053,minimalis-kanvas,BAB 1,Pernikahan Minimalis Modern,premium,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-054,minimalis-selaras,BAB 1,Pernikahan Minimalis Modern,premium,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-055,minimalis-lumen,BAB 1,Pernikahan Minimalis Modern,premium,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-056,minimalis-sudut,BAB 1,Pernikahan Minimalis Modern,premium,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-057,minimalis-grafik,BAB 1,Pernikahan Minimalis Modern,premium,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-058,minimalis-sunyi,BAB 1,Pernikahan Minimalis Modern,premium,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-059,minimalis-kaca,BAB 1,Pernikahan Minimalis Modern,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-060,minimalis-aksara,BAB 1,Pernikahan Minimalis Modern,premium,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-061,minimalis-monoline,BAB 1,Pernikahan Minimalis Modern,premium,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-062,minimalis-rona,BAB 1,Pernikahan Minimalis Modern,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-063,floral-rosalind,BAB 1,Pernikahan Elegan dan Floral,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-064,floral-peony-putih,BAB 1,Pernikahan Elegan dan Floral,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-065,floral-taman-ayu,BAB 1,Pernikahan Elegan dan Floral,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-066,floral-anggrek-bulan,BAB 1,Pernikahan Elegan dan Floral,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-067,floral-bunga-kertas,BAB 1,Pernikahan Elegan dan Floral,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-068,floral-magnolia,BAB 1,Pernikahan Elegan dan Floral,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-069,floral-lavender-fields,BAB 1,Pernikahan Elegan dan Floral,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-070,floral-sakura-lembut,BAB 1,Pernikahan Elegan dan Floral,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-071,floral-daisy-pagi,BAB 1,Pernikahan Elegan dan Floral,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-072,floral-rosewood,BAB 1,Pernikahan Elegan dan Floral,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-073,islami-ar-rum-21,BAB 1,Pernikahan Islami,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-074,islami-nurul-iman,BAB 1,Pernikahan Islami,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-075,islami-baarakallahu,BAB 1,Pernikahan Islami,premium,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-076,islami-misykah,BAB 1,Pernikahan Islami,premium,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-077,islami-mihrab-cinta,BAB 1,Pernikahan Islami,premium,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-078,islami-salam-khusyuk,BAB 1,Pernikahan Islami,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-079,islami-zahra-and-ahmad,BAB 1,Pernikahan Islami,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-080,islami-barokah-jannah,BAB 1,Pernikahan Islami,premium,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-081,akad-dua-janji,BAB 1,Akad Nikah dan Resepsi,eksklusif,40,True,True,50,True,10,0,True,True,True,True,5,True,True,True,True,True,loaded,13,PASS
+WED-082,akad-sakral-and-syahdu,BAB 1,Akad Nikah dan Resepsi,premium,40,True,True,50,True,10,0,True,True,True,True,5,True,True,True,True,True,loaded,13,PASS
+WED-083,akad-satu-hari-dua-acara,BAB 1,Akad Nikah dan Resepsi,premium,40,True,True,50,True,10,0,True,True,True,True,5,True,True,True,True,True,loaded,13,PASS
+WED-084,akad-khitbah,BAB 1,Akad Nikah dan Resepsi,eksklusif,40,True,True,50,True,10,0,True,True,True,True,5,True,True,True,True,True,loaded,13,PASS
+WED-085,akad-akad-and-resepsi,BAB 1,Akad Nikah dan Resepsi,premium,40,True,True,50,True,10,0,True,True,True,True,5,True,True,True,True,True,loaded,13,PASS
+WED-086,internasional-maison,BAB 1,Pernikahan Internasional,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-087,internasional-editorial-vows,BAB 1,Pernikahan Internasional,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-088,internasional-nusantara-fusion,BAB 1,Pernikahan Internasional,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-089,internasional-the-grand-affair,BAB 1,Pernikahan Internasional,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+WED-090,internasional-bilingual-bliss,BAB 1,Pernikahan Internasional,eksklusif,40,True,True,50,True,9,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+BDY-091,birthday-citrus-pop,BAB 2,Ulang Tahun Anak,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+BDY-092,birthday-soft-pink,BAB 2,Ulang Tahun Anak,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+BDY-093,birthday-midnight-navy,BAB 2,Ulang Tahun Anak,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+BDY-094,birthday-cyber-neon,BAB 2,Ulang Tahun Anak,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+BDY-095,birthday-bold-red,BAB 2,Ulang Tahun Anak,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+BDY-096,birthday-mint-fresh,BAB 2,Ulang Tahun Anak,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+BDY-097,birthday-ocean-blue,BAB 2,Ulang Tahun Anak,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+BDY-098,birthday-clean-white,BAB 2,Ulang Tahun Anak,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+BDY-099,birthday-plum-velvet,BAB 2,Ulang Tahun Remaja,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+BDY-100,birthday-monochrome,BAB 2,Ulang Tahun Remaja,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+AQQ-121,aqiqah-yellow-sunshine,BAB 3,Aqiqah Anak,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,11,PASS
+AQQ-122,aqiqah-plum-velvet,BAB 3,Aqiqah Anak,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,11,PASS
+AQQ-123,aqiqah-monochrome,BAB 3,Aqiqah Anak,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,11,PASS
+AQQ-124,aqiqah-coral-peach,BAB 3,Aqiqah Anak,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,11,PASS
+AQQ-125,aqiqah-arctic-frost,BAB 3,Aqiqah Anak,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,11,PASS
+AQQ-126,aqiqah-purple-dream,BAB 3,Aqiqah Anak,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,11,PASS
+AQQ-127,aqiqah-burgundy-wine,BAB 3,Aqiqah Anak,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,11,PASS
+AQQ-128,aqiqah-earth-tone,BAB 3,Tasyakuran Kelahiran Bayi,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,11,PASS
+AQQ-129,aqiqah-lavender-haze,BAB 3,Tasyakuran Kelahiran Bayi,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,11,PASS
+AQQ-130,aqiqah-chocolate-luxe,BAB 3,Tasyakuran Kelahiran Bayi,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,11,PASS
+AQQ-131,aqiqah-orange-energy,BAB 3,Tasyakuran Kelahiran Bayi,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,11,PASS
+AQQ-132,aqiqah-cherry-blossom,BAB 3,Tasyakuran Kelahiran Bayi,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,11,PASS
+AQQ-133,tasmiyah-citrus-pop,BAB 3,Pemberian Nama Bayi,eksklusif,40,True,True,50,True,8,0,True,True,True,True,5,True,True,True,True,True,loaded,11,PASS
+AQQ-134,tasmiyah-soft-pink,BAB 3,Pemberian Nama Bayi,premium,40,True,True,50,True,8,0,True,True,True,True,5,True,True,True,True,True,loaded,11,PASS
+AQQ-135,tasmiyah-midnight-navy,BAB 3,Pemberian Nama Bayi,eksklusif,40,True,True,50,True,8,0,True,True,True,True,5,True,True,True,True,True,loaded,11,PASS
+AQQ-136,tasmiyah-pastel-cyber,BAB 3,Pemberian Nama Bayi,premium,40,True,True,50,True,8,0,True,True,True,True,5,True,True,True,True,True,loaded,11,PASS
+AQQ-137,khitanan-purple-dream,BAB 3,Tasyakuran Khitanan,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,11,PASS
+AQQ-138,khitanan-burgundy-wine,BAB 3,Tasyakuran Khitanan,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,11,PASS
+AQQ-139,khitanan-ruby-luxe,BAB 3,Tasyakuran Khitanan,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,11,PASS
+AQQ-140,khitanan-pastel-mix,BAB 3,Tasyakuran Khitanan,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,11,PASS
+REL-141,pengajian-plum-velvet,BAB 4,Pengajian,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+REL-142,pengajian-monochrome,BAB 4,Pengajian,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+REL-143,pengajian-coral-peach,BAB 4,Pengajian,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+REL-144,pengajian-arctic-frost,BAB 4,Pengajian,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+REL-145,pengajian-purple-dream,BAB 4,Pengajian,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+REL-146,pengajian-burgundy-wine,BAB 4,Pengajian,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+REL-147,tasyakuran-clean-white,BAB 4,Tasyakuran,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+REL-148,tasyakuran-dusty-rose,BAB 4,Tasyakuran,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+REL-149,tasyakuran-sage-green,BAB 4,Tasyakuran,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+REL-150,tasyakuran-rose-gold,BAB 4,Tasyakuran,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+REL-151,maulid-cyber-neon,BAB 4,Maulid Nabi,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+REL-152,maulid-bold-red,BAB 4,Maulid Nabi,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+REL-153,maulid-mint-fresh,BAB 4,Maulid Nabi,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+REL-154,maulid-ocean-blue,BAB 4,Maulid Nabi,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+REL-155,bukber-pastel-mix,BAB 4,Buka Puasa Bersama,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+REL-156,bukber-citrus-pop,BAB 4,Buka Puasa Bersama,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+REL-157,bukber-soft-pink,BAB 4,Buka Puasa Bersama,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+REL-158,bukber-midnight-navy,BAB 4,Buka Puasa Bersama,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+REL-159,safar-arctic-frost,BAB 4,Walimatus Safar dan Syukuran Haji,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+REL-160,safar-purple-dream,BAB 4,Walimatus Safar dan Syukuran Haji,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+REL-161,safar-burgundy-wine,BAB 4,Walimatus Safar dan Syukuran Haji,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+REL-162,safar-ruby-luxe,BAB 4,Walimatus Safar dan Syukuran Haji,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+REL-163,halalbi-yellow-sunshine,BAB 4,Halal Bihalal,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+REL-164,halalbi-plum-velvet,BAB 4,Halal Bihalal,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+REL-165,halalbi-monochrome,BAB 4,Halal Bihalal,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+GRD-166,wisuda-cherry-blossom,BAB 5,Wisuda Kuliah,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+GRD-167,wisuda-baby-blue,BAB 5,Wisuda Kuliah,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+GRD-168,wisuda-terracotta,BAB 5,Wisuda Kuliah,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+GRD-169,wisuda-forest-moss,BAB 5,Wisuda Kuliah,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+GRD-170,wisuda-emerald-green,BAB 5,Wisuda Kuliah,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+GRD-171,wisuda-mocha-cream,BAB 5,Wisuda Kuliah,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+GRD-172,kelulusan-dark-mode,BAB 5,Kelulusan Sekolah,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+GRD-173,kelulusan-denim-blue,BAB 5,Kelulusan Sekolah,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+GRD-174,kelulusan-earth-tone,BAB 5,Kelulusan Sekolah,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+GRD-175,kelulusan-lavender-haze,BAB 5,Kelulusan Sekolah,premium,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+GRD-176,kelulusan-chocolate-luxe,BAB 5,Kelulusan Sekolah,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+GRD-177,syukuran-ruby-luxe,BAB 5,Perayaan Kelulusan Bersama Keluarga,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+GRD-178,syukuran-pastel-mix,BAB 5,Perayaan Kelulusan Bersama Keluarga,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+GRD-179,syukuran-citrus-pop,BAB 5,Perayaan Kelulusan Bersama Keluarga,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+GRD-180,syukuran-soft-pink,BAB 5,Perayaan Kelulusan Bersama Keluarga,eksklusif,40,True,True,50,True,7,0,True,True,True,True,5,True,True,True,True,True,loaded,12,PASS
+FRM-181,seminar-coral-peach,BAB 6,Seminar dan Workshop,premium,35,True,True,50,True,18,0,True,True,True,True,5,True,True,True,True,True,loaded,15,PASS
+FRM-182,seminar-arctic-frost,BAB 6,Seminar dan Workshop,premium,35,True,True,50,True,18,0,True,True,True,True,5,True,True,True,True,True,loaded,15,PASS
+FRM-183,seminar-purple-dream,BAB 6,Seminar dan Workshop,premium,35,True,True,50,True,18,0,True,True,True,True,5,True,True,True,True,True,loaded,15,PASS
+FRM-184,seminar-burgundy-wine,BAB 6,Seminar dan Workshop,eksklusif,35,True,True,50,True,18,0,True,True,True,True,5,True,True,True,True,True,loaded,15,PASS
+FRM-185,seminar-ruby-luxe,BAB 6,Seminar dan Workshop,eksklusif,35,True,True,50,True,18,0,True,True,True,True,5,True,True,True,True,True,loaded,15,PASS
+FRM-186,gathering-baby-blue,BAB 6,Rapat dan Gathering Perusahaan,premium,35,True,True,50,True,18,0,True,True,True,True,5,True,True,True,True,True,loaded,15,PASS
+FRM-187,gathering-terracotta,BAB 6,Rapat dan Gathering Perusahaan,premium,35,True,True,50,True,18,0,True,True,True,True,5,True,True,True,True,True,loaded,15,PASS
+FRM-188,gathering-forest-moss,BAB 6,Rapat dan Gathering Perusahaan,premium,35,True,True,50,True,18,0,True,True,True,True,5,True,True,True,True,True,loaded,15,PASS
+FRM-189,gathering-emerald-green,BAB 6,Rapat dan Gathering Perusahaan,premium,35,True,True,50,True,18,0,True,True,True,True,5,True,True,True,True,True,loaded,15,PASS
+FRM-190,grandopening-lavender-haze,BAB 6,Grand Opening Bisnis,premium,35,True,True,50,True,18,0,True,True,True,True,5,True,True,True,True,True,loaded,15,PASS
+FRM-191,grandopening-chocolate-luxe,BAB 6,Grand Opening Bisnis,eksklusif,35,True,True,50,True,18,0,True,True,True,True,5,True,True,True,True,True,loaded,15,PASS
+FRM-192,grandopening-orange-energy,BAB 6,Grand Opening Bisnis,premium,35,True,True,50,True,18,0,True,True,True,True,5,True,True,True,True,True,loaded,15,PASS
+FRM-193,grandopening-cherry-blossom,BAB 6,Grand Opening Bisnis,premium,35,True,True,50,True,18,0,True,True,True,True,5,True,True,True,True,True,loaded,15,PASS
+FRM-194,launching-glacier-blue,BAB 6,Peluncuran Produk,premium,35,True,True,50,True,18,0,True,True,True,True,5,True,True,True,True,True,loaded,15,PASS
+FRM-195,launching-dark-mode,BAB 6,Peluncuran Produk,eksklusif,35,True,True,50,True,18,0,True,True,True,True,5,True,True,True,True,True,loaded,15,PASS
+FRM-196,launching-denim-blue,BAB 6,Peluncuran Produk,premium,35,True,True,50,True,18,0,True,True,True,True,5,True,True,True,True,True,loaded,15,PASS
+FRM-197,komunitas-pastel-mix,BAB 6,Acara Komunitas,premium,35,True,True,50,True,18,0,True,True,True,True,5,True,True,True,True,True,loaded,15,PASS
+FRM-198,komunitas-citrus-pop,BAB 6,Acara Komunitas,premium,35,True,True,50,True,18,0,True,True,True,True,5,True,True,True,True,True,loaded,15,PASS
+FRM-199,komunitas-soft-pink,BAB 6,Acara Komunitas,premium,35,True,True,50,True,18,0,True,True,True,True,5,True,True,True,True,True,loaded,15,PASS

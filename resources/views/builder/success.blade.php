@@ -169,15 +169,19 @@
                     <span class="text-[10px] text-amber-700 bg-amber-100 font-bold px-2 py-0.5 rounded">Belum Aktif</span>
                 @endif
             </div>
+            @php
+                $isKustomPkg = str_contains(strtolower($couple->package_name ?? ''), 'kustom') || str_contains(strtolower($couple->package_name ?? ''), 'luxury');
+                $mainUrl = url('/undangan/' . $couple->slug) . ($isKustomPkg ? '?tier=kustom' : '');
+            @endphp
             <div class="flex items-center gap-2 bg-sunk/60 rounded-xl p-2.5 border border-ink/10">
-                <input type="text" id="mainInviteLink" readonly value="{{ url('/undangan/' . $couple->slug) }}"
+                <input type="text" id="mainInviteLink" readonly value="{{ $mainUrl }}"
                        class="w-full text-xs font-mono font-bold {{ $isPaid ? 'text-brand' : 'text-ink2 cursor-not-allowed' }} bg-transparent focus:outline-none select-all" title="{{ $isPaid ? 'Tautan Resmi Undangan' : 'Tautan akan aktif setelah pembayaran' }}">
                 <button type="button" onclick="copyMainLink()"
                         class="px-3.5 py-1.5 rounded-lg bg-ink/10 hover:bg-ink/20 text-ink text-xs font-bold shrink-0 transition">
                     Salin
                 </button>
                 @if($isPaid)
-                    <a href="{{ url('/undangan/' . $couple->slug) }}" target="_blank"
+                    <a href="{{ $mainUrl }}" target="_blank"
                        class="px-3.5 py-1.5 rounded-lg bg-brand hover:bg-accent text-white text-xs font-bold shrink-0 transition flex items-center gap-1 shadow-sm">
                         <span>🌐</span> Buka
                     </a>
@@ -255,7 +259,7 @@
                         <span id="guestLabelBadge" class="text-[9.5px] font-bold px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded">Format Otomatis</span>
                     </div>
                     <div class="flex items-center gap-2 bg-sunk/60 rounded-lg p-2 border border-ink/10">
-                        <input type="text" id="guestInviteLink" readonly value="{{ url('/undangan/' . $couple->slug) }}"
+                        <input type="text" id="guestInviteLink" readonly value="{{ $mainUrl }}"
                                class="w-full text-xs font-mono font-bold text-brand bg-transparent focus:outline-none select-all">
                         <button type="button" onclick="copyGuestLink()"
                                 class="px-3 py-1 rounded-md bg-brand/10 hover:bg-brand/20 text-brand text-xs font-bold shrink-0 transition">
@@ -366,7 +370,11 @@
     </div>
 
     <script>
-        const baseUrl = "{{ url('/undangan/' . $couple->slug) }}";
+        const isKustomTier = @json(str_contains(strtolower($couple->package_name ?? ''), 'kustom') || str_contains(strtolower($couple->package_name ?? ''), 'luxury'));
+        let baseUrl = "{{ url('/undangan/' . $couple->slug) }}";
+        if (isKustomTier) {
+            baseUrl += (baseUrl.indexOf('?') >= 0 ? '&' : '?') + 'tier=kustom';
+        }
         const coupleTitle = @json($couple->category === 'Pernikahan' ? ($couple->groom_name . ' & ' . $couple->bride_name) : ($couple->groom_fullname ?: $couple->groom_name));
         const eventDate = @json(\Carbon\Carbon::parse($couple->wedding_date)->translatedFormat('l, d F Y'));
         const eventCategory = @json($couple->category ?? 'Pernikahan');
@@ -375,10 +383,11 @@
             const input = document.getElementById('guestNameInput').value.trim();
             const guestLinkInput = document.getElementById('guestInviteLink');
             const badge = document.getElementById('guestLabelBadge');
+            const sep = baseUrl.indexOf('?') >= 0 ? '&' : '?';
             
             if (input.length > 0) {
                 const encodedName = encodeURIComponent(input);
-                guestLinkInput.value = `${baseUrl}?to=${encodedName}`;
+                guestLinkInput.value = `${baseUrl}${sep}to=${encodedName}`;
                 badge.innerText = `Untuk: ${input}`;
                 badge.className = "text-[9.5px] font-bold px-1.5 py-0.5 bg-brand/10 text-brand rounded truncate max-w-[150px]";
             } else {
@@ -481,7 +490,8 @@
 
                 count++;
                 const encoded = encodeURIComponent(name);
-                const fullLink = `${baseUrl}?to=${encoded}`;
+                const sep = baseUrl.indexOf('?') >= 0 ? '&' : '?';
+                const fullLink = `${baseUrl}${sep}to=${encoded}`;
                 currentBatchResults.push({ name, link: fullLink });
 
                 const row = document.createElement('div');

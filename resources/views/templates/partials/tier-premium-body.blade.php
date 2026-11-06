@@ -22,7 +22,7 @@
                     <b id="gate-guest-name" class="block text-[15px] mt-0.5" style="color:var(--on-surface)">{{ $guest->name ?? 'Bapak/Ibu/Saudara/i Tamu Kehormatan' }}</b>
                 </div>
                 <button type="button" class="btn-gold" id="btn-open-invitation" onclick="DKarsaOpen()">
-                    {!! $icon('mail') !!} [ BUKA UNDANGAN ]
+                    {!! $icon('mail') !!} [ {{ $customGateLabel !== '' ? $customGateLabel : 'BUKA UNDANGAN' }} ]
                 </button>
             </div>
         </div>
@@ -138,6 +138,9 @@
             <h2 class="serif text-[22px] mt-0.5 mb-3" style="color:var(--on-surface)">{{ $isWedding ? 'Akad & Resepsi' : 'Jadwal Acara' }}</h2>
             <div class="space-y-3">
                 @forelse($couple->events ?? collect() as $ev)
+                    @php
+                        $evDresscode = trim((string) ($ev->dresscode ?? ($loop->first ? ($dresscode ?? '') : '')));
+                    @endphp
                     <div class="ticket">
                         <span class="notch l"></span><span class="notch r"></span>
                         <div class="flex items-center justify-between">
@@ -152,12 +155,18 @@
                         @if(! empty($ev->address))
                             <p class="text-[12px] mt-0.5" style="color:var(--muted)">{{ $ev->address }}</p>
                         @endif
+                        <div id="event-{{ $loop->iteration }}-dresscode-badge" class="mt-2.5 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium" style="background:color-mix(in srgb,var(--foil) 12%,transparent);border:1px solid color-mix(in srgb,var(--foil) 30%,transparent);color:var(--on-surface);{{ $evDresscode === '' ? 'display:none;' : '' }}">
+                            <span>👔 Dresscode:</span> <span class="dresscode-text font-semibold">{{ $evDresscode }}</span>
+                        </div>
                     </div>
                 @empty
                     <div class="ticket">
                         <span class="notch l"></span><span class="notch r"></span>
                         <span class="hud" style="color:var(--foil)">ACARA</span>
                         <p class="text-[13px] mt-2">{{ $dateLong }} · {{ $venueName }}</p>
+                        <div id="event-1-dresscode-badge" class="mt-2.5 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium" style="background:color-mix(in srgb,var(--foil) 12%,transparent);border:1px solid color-mix(in srgb,var(--foil) 30%,transparent);color:var(--on-surface);{{ ($dresscode ?? '') === '' ? 'display:none;' : '' }}">
+                            <span>👔 Dresscode:</span> <span class="dresscode-text font-semibold">{{ $dresscode ?? '' }}</span>
+                        </div>
                     </div>
                 @endforelse
             </div>
@@ -195,10 +204,10 @@
                                 <b class="map-facade-label">Muat Peta Interaktif</b>
                                 <span class="map-facade-note">{{ $cardVenue }}</span>
                             </div>
+                            <a href="{{ $cardDirections }}" target="_blank" rel="noopener"
+                               class="mt-2.5 inline-flex items-center gap-1 text-[11.5px] font-semibold underline decoration-1 underline-offset-2"
+                               style="color:var(--accent)">Petunjuk Arah <span aria-hidden="true">↗</span></a>
                         </div>
-                        <a id="btn-map-event-{{ $venueIndex + 1 }}" href="{{ $cardDirections }}" target="_blank" rel="noopener noreferrer" class="btn-gold w-full mt-3" style="text-decoration:none">
-                            {!! $icon('pin') !!} PETUNJUK GOOGLE MAPS
-                        </a>
                     </div>
                 @empty
                     <div class="card" id="map-card-event-1">
@@ -214,9 +223,6 @@
                                 <span class="map-facade-note">{{ $venueName }}</span>
                             </div>
                         </div>
-                        <a id="btn-map-event-1" href="{{ $mapsUrl }}" target="_blank" rel="noopener noreferrer" class="btn-gold w-full mt-3" style="text-decoration:none">
-                            {!! $icon('pin') !!} PETUNJUK GOOGLE MAPS
-                        </a>
                     </div>
                 @endforelse
             </div>
@@ -247,7 +253,7 @@
                     <input type="hidden" name="message" value="Konfirmasi kehadiran melalui formulir RSVP.">
                     <label class="block">
                         <span class="hud block mb-1" style="color:var(--silver)">NAMA LENGKAP</span>
-                        <input type="text" name="name" required value="{{ $guest->name ?? '' }}" placeholder="Nama Lengkap Tamu" class="field">
+                        <input type="text" name="name" id="rsvp-input-name" required value="{{ $guest->name ?? '' }}" placeholder="Nama Lengkap Tamu" class="field">
                     </label>
                     <div class="grid grid-cols-2 gap-2">
                         <label class="cursor-pointer">

@@ -520,8 +520,10 @@ window.DKarsaGuest = (function () {
         if (kustom) { kustom.hidden = tier !== 'kustom'; }
         try {
             var url = new URL(location.href);
-            url.searchParams.set('tier', tier);
-            history.replaceState(null, '', url);
+            if (url.searchParams.get('tier') !== tier) {
+                url.searchParams.set('tier', tier);
+                history.replaceState(null, '', url);
+            }
         } catch (e) {}
         paint();
     }
@@ -542,7 +544,8 @@ window.DKarsaGuest = (function () {
         form.addEventListener('submit', function () { paint(); });
     }
     function init() {
-        setTier(state.tier || document.documentElement.dataset.tier || 'eksklusif');
+        var initialTier = document.documentElement.dataset.tier || state.tier || 'basic';
+        setTier(initialTier);
         paint();
         bindRsvp();
     }
