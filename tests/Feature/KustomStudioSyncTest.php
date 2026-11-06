@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Support\ColorTheme;
 use Tests\TestCase;
 
 class KustomStudioSyncTest extends TestCase
@@ -89,18 +90,21 @@ class KustomStudioSyncTest extends TestCase
     }
 
     /**
-     * Short link Google Maps yang gagal di-expand tidak boleh dipakai apa adanya (404);
-     * tombol arah harus jatuh ke pencarian alamat.
+     * Tombol petunjuk arah harus mengikuti isi field peta apa adanya (termasuk short link),
+     * bukan dialihkan ke pencarian. Hanya alamat peta kosong (https://maps.google.com) yang
+     * jatuh ke pencarian alamat supaya tidak berujung halaman peta tanpa titik.
      */
-    public function test_unresolved_short_map_link_falls_back_to_search(): void
+    public function test_map_directions_follows_the_filled_link(): void
     {
-        $response = $this->get('/demo/minimalis-lumen?tier=eksklusif&event_1_title=Akad&event_1_venue=Balai%20Kartini&event_1_address=Jl.%20Sudirman%209&event_1_maps_url=https://maps.app.goo.gl/tidak-ada');
+        $response = $this->get('/demo/minimalis-lumen?tier=eksklusif&event_1_title=Akad&event_1_venue=Balai%20Kartini&event_1_address=Jl.%20Sudirman%209&event_1_maps_url=https://maps.app.goo.gl/abc123XYZ');
 
         $response->assertOk();
+        $this->assertStringContainsString('href="https://maps.app.goo.gl/abc123XYZ"', $response->getContent());
 
-        $html = $response->getContent();
+        $empty = $this->get('/demo/minimalis-lumen?tier=eksklusif&event_1_title=Akad&event_1_venue=Balai%20Kartini&event_1_address=Jl.%20Sudirman%209&event_1_maps_url=https://maps.google.com');
 
-        $this->assertStringNotContainsString('href="https://maps.app.goo.gl/tidak-ada"', $html);
+        $empty->assertOk();
+        $html = $empty->getContent();
         $this->assertStringContainsString('google.com/maps/search/?api=1', $html);
     }
 
@@ -113,7 +117,7 @@ class KustomStudioSyncTest extends TestCase
 
         $response->assertOk();
         $this->assertMatchesRegularExpression(
-            '/id="gate-guest-name"[^>]*style="color:var\(--accent\)"/',
+            '/id="gate-guest-name"[^>]*style="color:var\(--gate-accent\)"/',
             $response->getContent(),
             'Nama tamu pada sampul harus mengikuti warna aksen yang dipilih.'
         );
@@ -145,5 +149,35 @@ class KustomStudioSyncTest extends TestCase
         $html = $response->getContent();
         $this->assertStringContainsString('body:not(.gate-open):not(.gate-opening) #bottom-hud', $html);
         $this->assertStringContainsString('body.gate-locked main { opacity: 0; visibility: hidden;', file_get_contents(resource_path('views/templates/partials/event-theme.blade.php')));
+    }
+
+    /**
+     * Tombol petunjuk arah harus persis mengikuti tautan peta yang diisi di formulir.
+     */
+    public function test_map_directions_follows_filled_link(): void
+    {
+        $link = 'https://www.google.com/maps/place/Belia+Cosmetic/@-7.2892,112.7211,17z';
+        $response = $this->get('/demo/minimalis-lumen?tier=kustom&event_1_title=Akad&event_1_venue=Belia+Cosmetic&event_1_maps_url='.urlencode($link));
+
+        $response->assertOk();
+        $this->assertStringContainsString('href="'.$link.'"', $response->getContent());
+    }
+
+    /**
+     * Warna kustom yang menyatu dengan latar harus digeser otomatis agar tetap terbaca.
+     */
+    public function test_blended_custom_colors_are_adjusted_for_contrast(): void
+    {
+        $readable = ColorTheme::readable('#FAF3E0', '#FAF3E0', 6.0);
+        $this->assertNotSame('#FAF3E0', $readable);
+        $this->assertGreaterThanOrEqual(6.0, ColorTheme::contrastRatio($readable, '#FAF3E0'));
+
+        // Aksen terang di atas halaman terang tidak boleh dibiarkan menyatu.
+        $accent = ColorTheme::readable('#FFFDF7', '#FAF3E0', 3.0);
+        $this->assertGreaterThanOrEqual(3.0, ColorTheme::contrastRatio($accent, '#FAF3E0'));
+
+        // Teks di atas blok aksen ikut menyesuaikan (gelap → putih, terang → gelap).
+        $this->assertSame('#F8FAFC', ColorTheme::onColor('#241008'));
+        $this->assertSame('#141311', ColorTheme::onColor('#F1E9D2'));
     }
 }

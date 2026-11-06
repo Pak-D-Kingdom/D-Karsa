@@ -115,6 +115,157 @@ class ColorTheme
         return trim($name);
     }
 
+    /**
+     * Rasio kontras WCAG antara dua warna hex (#rrggbb).
+     */
+    public static function contrastRatio(string $a, string $b): float
+    {
+        $l1 = self::luminance($a);
+        $l2 = self::luminance($b);
+        $light = max($l1, $l2);
+        $dark = min($l1, $l2);
+
+        return ($light + 0.05) / ($dark + 0.05);
+    }
+
+    /**
+     * Pastikan warna teks/aksen tetap terbaca di atas latar tertentu.
+     * Bila kontras terlalu rendah ("warnanya nyatu"), warna digeser ke arah hitam/putih
+     * sampai ambang terpenuhi — warna pilihan pemesan tetap jadi patokan.
+     */
+    public static function readable(string $hex, string $background, float $minRatio = 4.5): string
+    {
+        $hex = self::normalizeHex($hex);
+        $background = self::normalizeHex($background);
+
+        if ($hex === '' || self::contrastRatio($hex, $background) >= $minRatio) {
+            return $hex !== '' ? $hex : $background;
+        }
+
+        // Latar terang → gelapkan teks; latar gelap → terangkan teks.
+        $target = self::luminance($background) > 0.4 ? '#000000' : '#FFFFFF';
+
+        for ($step = 1; $step <= 10; $step++) {
+            $candidate = self::mix($hex, $target, $step / 10);
+            if (self::contrastRatio($candidate, $background) >= $minRatio) {
+                return $candidate;
+            }
+        }
+
+        return $target;
+    }
+
+    /**
+     * Warna sekunder (muted/silver) yang diturunkan dari teks + latar, tetap terbaca.
+     */
+    public static function secondary(string $text, string $background, float $ratio = 0.34): string
+    {
+        $text = self::normalizeHex($text);
+        $background = self::normalizeHex($background);
+
+        if ($text === '' || $background === '') {
+            return $text;
+        }
+
+        return self::readable(self::mix($text, $background, $ratio), $background, 4.5);
+    }
+
+    /**
+     * Warna sekunder yang aman di dua latar sekaligus (halaman & kartu).
+     * Dipakai supaya teks redup tidak hilang saat kartu dan halaman berbeda terang.
+     */
+    public static function secondaryOn(string $text, string $background, string $card, float $ratio = 0.34): string
+    {
+        $text = self::normalizeHex($text);
+        $background = self::normalizeHex($background);
+        $card = self::normalizeHex($card);
+
+        if ($text === '' || $background === '' || $card === '') {
+            return $text;
+        }
+
+        $candidate = self::readable(self::mix($text, $background, $ratio), $background, 4.5);
+
+        for ($step = 1; $step <= 10; $step++) {
+            if (self::contrastRatio($candidate, $card) >= 3.5) {
+                return $candidate;
+            }
+            $candidate = self::mix($candidate, $text, 0.12);
+        }
+
+        return $text;
+    }
+
+    /**
+     * Campur dua warna (ratio 0..1 = porsi warna kedua).
+     */
+    public static function blend(string $from, string $to, float $ratio): string
+    {
+        $from = self::normalizeHex($from);
+        $to = self::normalizeHex($to);
+
+        if ($from === '' || $to === '') {
+            return $from !== '' ? $from : $to;
+        }
+
+        return self::mix($from, $to, max(0.0, min(1.0, $ratio)));
+    }
+
+    /**
+     * Warna "gerbang"/permukaan dalam: turunan dari latar halaman + kartu pemesan,
+     * supaya pintu, bingkai, dan tombol tidak kembali ke palet bawaan.
+     */
+    public static function gateTone(string $page, string $card): string
+    {
+        $page = self::normalizeHex($page);
+        $card = self::normalizeHex($card);
+
+        if ($page === '' || $card === '') {
+            return $page !== '' ? $page : $card;
+        }
+
+        // Sedikit lebih dalam dari kartu agar daun pintu tetap terbaca sebagai bidang terpisah.
+        $deeper = self::luminance($page) > 0.4 ? '#000000' : '#FFFFFF';
+
+        return self::mix(self::mix($card, $page, 0.35), $deeper, 0.06);
+    }
+
+    /**
+     * Latar gelap? Dipakai untuk memutuskan mode halaman setelah warna kustom dipasang.
+     */
+    public static function isDark(string $hex): bool
+    {
+        $hex = self::normalizeHex($hex);
+
+        return $hex !== '' && self::luminance($hex) < 0.2;
+    }
+
+    /**
+     * Warna teks di atas blok berwarna (mis. tombol emas): hitam hangat atau putih,
+     * dipilih yang kontrasnya paling tinggi. Mencegah teks gelap di atas aksen gelap.
+     */
+    public static function onColor(string $background, string $light = '#F8FAFC', string $dark = '#141311'): string
+    {
+        $background = self::normalizeHex($background);
+
+        if ($background === '') {
+            return $dark;
+        }
+
+        return self::contrastRatio($light, $background) >= self::contrastRatio($dark, $background) ? $light : $dark;
+    }
+
+    private static function normalizeHex(string $hex): string
+    {
+        $hex = ltrim(trim($hex), '#');
+
+        if (preg_match('/^[0-9a-fA-F]{3}$/', $hex)) {
+            $hex = $hex[0].$hex[0].$hex[1].$hex[1].$hex[2].$hex[2];
+        }
+
+        return preg_match('/^[0-9a-fA-F]{6}$/', $hex) ? '#'.strtoupper($hex) : '';
+    }
+
     private static function luminance(string $hex): float
     {
         $hex = ltrim(trim($hex), '#');

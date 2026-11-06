@@ -19,7 +19,7 @@
                 </div>
                 <div class="plate" style="margin-bottom:14px;padding:10px 16px">
                     <span class="hud" style="color:var(--silver)">KEPADA YTH.</span>
-                    <b id="gate-guest-name" class="block text-[15px] mt-0.5 font-semibold" style="color:var(--accent)">{{ $guest->name ?? 'Bapak/Ibu/Saudara/i Tamu Kehormatan' }}</b>
+                    <b id="gate-guest-name" class="block text-[15px] mt-0.5 font-semibold" style="color:var(--gate-accent)">{{ $guest->name ?? 'Bapak/Ibu/Saudara/i Tamu Kehormatan' }}</b>
                 </div>
                 <button type="button" class="btn-gold" id="btn-open-invitation" onclick="DKarsaOpen()">
                     {!! $icon('mail') !!} [ {{ $customGateLabel !== '' ? $customGateLabel : 'BUKA UNDANGAN' }} ]

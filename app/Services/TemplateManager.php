@@ -1092,8 +1092,8 @@ class TemplateManager
                 return preg_replace('/[?&]output=embed/i', '', $url);
             }
 
-            // Short link yang gagal di-expand server tidak bisa dibuka (404) → arahkan ke pencarian alamat.
-            if (self::isUnresolvedShortMapLink($url)) {
+            // Hanya alamat peta "kosong" (mis. https://maps.google.com) yang dialihkan ke pencarian alamat.
+            if (self::isBareMapHome($url)) {
                 return self::mapsSearchUrl($fallbackQuery !== '' ? $fallbackQuery : $raw);
             }
 
@@ -1181,23 +1181,19 @@ class TemplateManager
     }
 
     /**
-     * Short link Google Maps yang tidak berhasil di-expand (tanpa koordinat/tempat) sehingga
-     * membukanya di tab baru berakhir 404. Dipakai untuk memilih fallback pencarian alamat.
+     * Alamat peta "kosong" tanpa titik atau nama tempat (mis. https://maps.google.com).
+     * Hanya kasus ini yang dialihkan ke pencarian alamat; tautan pendek asli dibiarkan apa adanya
+     * supaya tombol petunjuk arah selalu mengikuti isi field peta.
      */
-    private static function isUnresolvedShortMapLink(string $url): bool
+    private static function isBareMapHome(string $url): bool
     {
         $host = strtolower((string) parse_url($url, PHP_URL_HOST));
+        $path = trim((string) parse_url($url, PHP_URL_PATH), '/');
+        $query = (string) parse_url($url, PHP_URL_QUERY);
 
-        $shortHosts = ['maps.app.goo.gl', 'goo.gl', 'g.co', 'maps.google.com', 'maps.google.co.id'];
+        $mapHosts = ['maps.google.com', 'maps.google.co.id', 'www.google.com', 'google.com', 'maps.app.goo.gl', 'goo.gl', 'g.co'];
 
-        if (! in_array($host, $shortHosts, true)) {
-            return false;
-        }
-
-        $path = (string) parse_url($url, PHP_URL_PATH);
-
-        // maps.google.com/maps/... sudah memuat titik; hanya root/redirect pendek yang dianggap gagal.
-        return ! preg_match('~/maps(/|$)~i', $path) && ! str_contains($url, '?');
+        return in_array($host, $mapHosts, true) && $path === '' && $query === '';
     }
 
     /**

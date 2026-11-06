@@ -157,6 +157,39 @@
         }
     }
 
+    // "Warnanya nyatu": teks/aksen digeser sedikit bila kontrasnya terlalu rendah.
+    // Berlaku untuk semua palet (termasuk pilihan studio kustom), bukan hanya saat parameter kustom ada.
+    {
+        $colorTheme['text'] = \App\Support\ColorTheme::readable((string) $colorTheme['text'], (string) $colorTheme['page'], 6.0);
+        $cardHigh = \App\Support\ColorTheme::blend((string) $colorTheme['card'], (string) $colorTheme['accent'], 0.08);
+        $colorTheme['muted'] = \App\Support\ColorTheme::readable(
+            \App\Support\ColorTheme::secondaryOn((string) $colorTheme['text'], (string) $colorTheme['page'], (string) $colorTheme['card']),
+            $cardHigh,
+            4.5
+        );
+        $colorTheme['silver'] = \App\Support\ColorTheme::readable(
+            \App\Support\ColorTheme::secondaryOn((string) $colorTheme['text'], (string) $colorTheme['page'], (string) $colorTheme['card'], 0.55),
+            $cardHigh,
+            4.5
+        );
+        // Aksen tetap persis pilihan pemesan (dipakai garis/ornamen); hanya varian teks yang digeser.
+        $colorTheme['accent_ink'] = \App\Support\ColorTheme::readable((string) $colorTheme['accent'], (string) $colorTheme['page'], 4.5);
+        $colorTheme['gate_text'] = \App\Support\ColorTheme::readable((string) $colorTheme['text'], (string) $colorTheme['card'], 4.5);
+        $colorTheme['gate_accent'] = \App\Support\ColorTheme::readable((string) $colorTheme['accent'], (string) $colorTheme['card'], 4.5);
+        // Permukaan "gerbang" ikut warna pemesan, bukan palet bawaan.
+        if (($kustomConfig['cBg'] ?? '') !== '' || ($kustomConfig['cCard'] ?? '') !== '') {
+            $colorTheme['gate'] = \App\Support\ColorTheme::gateTone((string) $colorTheme['page'], (string) $colorTheme['card']);
+        }
+
+        // Halaman kustom yang gelap tetap harus memakai mode malam (kartu & garis ikut gelap).
+        if (\App\Support\ColorTheme::isDark((string) $colorTheme['page'])) {
+            $colorTheme['mode'] = 'night';
+        }
+    }
+
+    // Warna teks di atas blok aksen (tombol emas, wax seal, chip aktif) mengikuti kecerahan aksen.
+    $colorTheme['on_accent'] = \App\Support\ColorTheme::onColor((string) $colorTheme['accent']);
+
     $isNightPalette = \App\Support\ColorTheme::isNight($colorTheme);
 
     $customGate = (string) ($kustomConfig['cGate'] ?? ($custom['gate'] ?? ''));
@@ -202,7 +235,7 @@
     };
 @endphp
 <!DOCTYPE html>
-<html lang="id" data-tier="{{ $tierParam }}" data-cat="{{ $cat }}" data-mode="{{ $colorTheme['mode'] }}" data-gate="{{ $customGate }}" data-font="{{ $customFont }}" data-frame="{{ $customFrame }}" data-custom-overlay="{{ $customOverlay }}" data-hide="{{ implode(',', $customHidden) }}"@if($wed) data-wed="{{ $wed }}"@endif>
+<html lang="id" data-tier="{{ $tierParam }}" data-cat="{{ $cat }}" data-mode="{{ $colorTheme['mode'] }}" data-mode-base="{{ $colorTheme['mode'] }}" data-gate="{{ $customGate }}" data-font="{{ $customFont }}" data-frame="{{ $customFrame }}" data-custom-overlay="{{ $customOverlay }}" data-hide="{{ implode(',', $customHidden) }}"@if($wed) data-wed="{{ $wed }}"@endif>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -232,12 +265,12 @@
             --surface-container: {{ $colorTheme['card'] }};
             --surface-high: color-mix(in srgb, {{ $colorTheme['card'] }} 88%, {{ $colorTheme['page'] }});
             --gold: {{ $colorTheme['accent'] }};
-            --foil: {{ $colorTheme['accent'] }};
+            --foil: {{ $colorTheme['accent_ink'] ?? $colorTheme['accent'] }};
             --gold-2: color-mix(in srgb, {{ $colorTheme['accent'] }} 40%, #FFFFFF);
-            --silver: #C5BC9E;
+            --silver: {{ $colorTheme['silver'] ?? '#C5BC9E' }};
             --on-surface: {{ $colorTheme['text'] }};
-            --muted: color-mix(in srgb, {{ $colorTheme['text'] }} 62%, {{ $colorTheme['page'] }});
-            --glass: rgba({{ $hex2rgb($colorTheme['gate']) }}, .72);
+            --muted: {{ $colorTheme['muted'] ?? 'color-mix(in srgb, '.$colorTheme['text'].' 62%, '.$colorTheme['page'].')' }};
+            --glass: rgba({{ $hex2rgb($colorTheme['card']) }}, .86);
             --line: color-mix(in srgb, {{ $colorTheme['accent'] }} 28%, transparent);
             --line-strong: color-mix(in srgb, {{ $colorTheme['accent'] }} 55%, transparent);
             @else
@@ -247,12 +280,12 @@
             --surface-container: {{ $colorTheme['card'] }};
             --surface-high: color-mix(in srgb, {{ $colorTheme['card'] }} 92%, {{ $colorTheme['accent'] }});
             --gold: {{ $colorTheme['accent'] }};
-            --foil: {{ $colorTheme['accent'] }};
+            --foil: {{ $colorTheme['accent_ink'] ?? $colorTheme['accent'] }};
             --gold-2: color-mix(in srgb, {{ $colorTheme['accent'] }} 55%, #FFFFFF);
-            --silver: color-mix(in srgb, {{ $colorTheme['text'] }} 55%, {{ $colorTheme['page'] }});
+            --silver: {{ $colorTheme['silver'] ?? 'color-mix(in srgb, '.$colorTheme['text'].' 55%, '.$colorTheme['page'].')' }};
             --on-surface: {{ $colorTheme['text'] }};
-            --muted: color-mix(in srgb, {{ $colorTheme['text'] }} 66%, {{ $colorTheme['page'] }});
-            --glass: rgba(255, 255, 255, .78);
+            --muted: {{ $colorTheme['muted'] ?? 'color-mix(in srgb, '.$colorTheme['text'].' 66%, '.$colorTheme['page'].')' }};
+            --glass: rgba({{ $hex2rgb($colorTheme['card']) }}, .86);
             --line: color-mix(in srgb, {{ $colorTheme['accent'] }} 24%, transparent);
             --line-strong: color-mix(in srgb, {{ $colorTheme['accent'] }} 48%, transparent);
             @endif
@@ -264,7 +297,10 @@
             --accent: var(--gold);
             --accent-2: var(--gold-2);
             --deep: var(--navy);
-            --accent-ink: var(--foil);
+            --accent-ink: {{ $colorTheme['accent_ink'] ?? 'var(--foil)' }};
+            --on-accent: {{ $colorTheme['on_accent'] }};
+            --gate-text: {{ $colorTheme['gate_text'] ?? $colorTheme['text'] }};
+            --gate-accent: {{ $colorTheme['gate_accent'] ?? $colorTheme['accent'] }};
             --surface-2: var(--surface-container);
             --bg-page: var(--surface);
         }
@@ -278,10 +314,10 @@
         .shell { width: 100%; max-width: 430px; min-height: 100dvh; position: relative; background: var(--surface); box-shadow: 0 0 60px rgba(0,0,0,.8); }
         .serif { font-family: 'Playfair Display', serif; }
         .label { font-family: 'Space Grotesk', sans-serif; text-transform: uppercase; letter-spacing: .18em; font-size: 10px; font-weight: 700; }
-        .eyebrow { font-family: 'Space Grotesk', sans-serif; text-transform: uppercase; letter-spacing: .16em; font-size: 11px; font-weight: 700; color: var(--foil); }
+        .eyebrow { font-family: 'Space Grotesk', sans-serif; text-transform: uppercase; letter-spacing: .16em; font-size: 11px; font-weight: 700; color: var(--accent-ink); }
         .hud { font-family: 'Space Grotesk', sans-serif; font-size: 10px; letter-spacing: .08em; font-weight: 600; }
         .muted { color: var(--muted); }
-        .gold { color: var(--foil); }
+        .gold { color: var(--accent-ink); }
         section[id] { scroll-margin-top: 92px; }
 
         /* ---------- latar taktil (z-0) ---------- */
@@ -302,7 +338,7 @@
         .topbar { position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; z-index: 45; padding: 6px 20px 8px; background: color-mix(in srgb, var(--obsidian) 96%, transparent); box-shadow: 0 6px 18px -12px rgba(0,0,0,.45); }
         .topbar .row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
         .topbar .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--gold); box-shadow: 0 0 8px var(--gold); animation: pulse 2.4s ease-in-out infinite; }
-        .topbar .pill { padding: 2px 8px; border-radius: 999px; background: var(--surface-high); color: var(--foil); white-space: nowrap; font-size: 9px; letter-spacing: .06em; }
+        .topbar .pill { padding: 2px 8px; border-radius: 999px; background: var(--surface-high); color: var(--accent-ink); white-space: nowrap; font-size: 9px; letter-spacing: .06em; }
         .topbar .row > span:last-child, .topbar .row > .pill { flex: 0 0 auto; }
         .topbar .eyebrow { font-size: 10px; }
         #top-customizer-dock { display: flex; align-items: center; justify-content: space-between; gap: 6px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
@@ -310,7 +346,7 @@
         #top-customizer-dock > * { flex: 0 0 auto; }
         #top-customizer-dock .tier-pill { display: flex; gap: 2px; padding: 3px; border-radius: 999px; background: color-mix(in srgb, var(--navy) 72%, transparent); border: 1px solid color-mix(in srgb, var(--gold) 35%, transparent); }
         #top-customizer-dock button { border: 0; background: transparent; color: var(--on-surface); font-family: 'Space Grotesk', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: .04em; padding: 4px 7px; border-radius: 999px; }
-        #top-customizer-dock button[aria-pressed="true"] { background: var(--gold); color: #141311; }
+        #top-customizer-dock button[aria-pressed="true"] { background: var(--gold); color: var(--on-accent); }
         @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
 
         /* ---------- kartu ---------- */
@@ -333,7 +369,7 @@
         html[data-tier="basic"] .basic-card { background: color-mix(in srgb, var(--navy) 55%, #151311); border: 1px solid rgba(255,255,255,.10); border-radius: 8px; padding: 16px; }
         html[data-tier="basic"] .basic-plaque { background: color-mix(in srgb, var(--navy) 72%, #151311); border-radius: 8px; padding: 8px 4px; text-align: center; }
         html[data-tier="basic"] .basic-row { background: color-mix(in srgb, var(--navy) 64%, #151311); border-radius: 8px; padding: 10px 12px; }
-        html[data-tier="basic"] .basic-btn { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 46px; border: 0; border-radius: 8px; background: var(--gold); color: #141311; font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }
+        html[data-tier="basic"] .basic-btn { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 46px; border: 0; border-radius: 8px; background: var(--gold); color: var(--on-accent); font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }
         html[data-tier="basic"] .basic-btn:active { transform: scale(.98); }
         html[data-tier="basic"] .card { border-radius: 8px; }
 
@@ -412,8 +448,12 @@
         .gate-seal .medal > div { width: 100%; height: 100%; border-radius: 999px; background: var(--navy); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
         .gate-seal .tri { width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; border-bottom: 9px solid color-mix(in srgb, var(--foil) 65%, transparent); margin: 2px 0 6px; }
         @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-        .gate-seal .plate { padding: 12px 18px; border-radius: 14px; background: var(--glass); border: 1px solid var(--line); margin-bottom: 16px; }
-        .btn-gold { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 12px 26px; border: 0; border-radius: 999px; background: linear-gradient(90deg, var(--gold), var(--foil), var(--gold)); color: #141311; font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; box-shadow: 0 0 24px rgba(229,193,88,.4); cursor: pointer; }
+        .gate-seal .plate { padding: 12px 18px; border-radius: 14px; background: var(--glass); border: 1px solid var(--line); margin-bottom: 16px; color: var(--gate-text); }
+        .gate-seal .plate h1, .gate-seal .plate .hud, .gate-seal .plate p, .gate-seal .plate b { color: var(--gate-text); }
+        .gate-seal .plate h1 { color: var(--gate-accent); }
+        .gate-seal .plate .hud { opacity: .72; }
+        .gate-seal .plate b { color: var(--gate-accent); }
+        .btn-gold { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 12px 26px; border: 0; border-radius: 999px; background: linear-gradient(90deg, var(--gold), var(--foil), var(--gold)); color: var(--on-accent); font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; box-shadow: 0 0 24px rgba(229,193,88,.4); cursor: pointer; }
         .btn-gold:active { transform: scale(.96); }
         #gate-veil { position: absolute; inset: 0; background: color-mix(in srgb, var(--navy) 78%, #000); transition: opacity .5s ease; }
 
@@ -460,7 +500,8 @@
         .video-modal-card { width: 100%; max-width: 380px; }
         .video-frame { position: relative; padding-top: 56.25%; border-radius: 12px; overflow: hidden; background: #000; }
         .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-        .qris-box { display: inline-flex; flex-direction: column; align-items: center; background: #fff; border-radius: 12px; padding: 12px; }
+        .qris-box { display: inline-flex; flex-direction: column; align-items: center; background: #fff; color: #0F172A; border-radius: 12px; padding: 12px; }
+        .qris-box * { color: #0F172A !important; }
         .qris-grid { width: 132px; height: 132px; background:
             repeating-linear-gradient(90deg, #0F172A 0 6px, transparent 6px 12px),
             repeating-linear-gradient(0deg, #0F172A 0 6px, #fff 6px 12px);
@@ -473,7 +514,7 @@
         .bespoke-row .hud { color: var(--silver); }
         .bespoke-seg { display: flex; gap: 2px; }
         .bespoke-seg button { border: 1px solid var(--line); background: transparent; color: var(--muted); font-size: 9px; font-weight: 700; letter-spacing: .04em; padding: 3px 6px; border-radius: 6px; cursor: pointer; }
-        .bespoke-seg button.is-on { background: var(--gold); border-color: var(--gold); color: #141311; }
+        .bespoke-seg button.is-on { background: var(--gold); border-color: var(--gold); color: var(--on-accent); }
         #bespokeColor, #bespokeBg, #bespokeCard, #bespokeTxt, .bespoke-row input[type="color"] { width: 40px; height: 24px; border: 1px solid var(--line); border-radius: 6px; background: transparent; padding: 0; cursor: pointer; }
         #gate-overlay.gate-arch .gate-door.left { clip-path: polygon(0 100%, 0 26%, 50% 0, 100% 26%, 100% 100%, 0 100%); }
         #gate-overlay.gate-arch .gate-door.right { clip-path: polygon(0 100%, 0 26%, 50% 0, 100% 26%, 100% 100%, 0 100%); }
@@ -485,7 +526,7 @@
         #gate-overlay.gate-cover .gate-seal::before { display: none; }
 
         .env-seal { position: absolute; inset: 0; z-index: 40; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 24px; }
-        .env-wax { width: 72px; height: 72px; border-radius: 999px; display: grid; place-items: center; color: #141311; background: radial-gradient(circle at 35% 30%, var(--foil), var(--gold) 62%, color-mix(in srgb, var(--gold) 70%, black)); box-shadow: 0 0 30px rgba(229,193,88,.5); }
+        .env-wax { width: 72px; height: 72px; border-radius: 999px; display: grid; place-items: center; color: var(--on-accent); background: radial-gradient(circle at 35% 30%, var(--foil), var(--gold) 62%, color-mix(in srgb, var(--gold) 70%, black)); box-shadow: 0 0 30px rgba(229,193,88,.5); }
 
         /* ---------- dock kaca ---------- */
         #bottom-hud { position: fixed; bottom: 10px; left: 0; right: 0; z-index: 50; display: flex; justify-content: center; padding: 0 12px calc(env(safe-area-inset-bottom, 0px)); }
@@ -509,14 +550,14 @@
 
         .dock { width: 100%; max-width: 400px; height: 56px; border-radius: 999px; background: color-mix(in srgb, var(--obsidian) 96%, transparent); border: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 4px; padding: 0 10px; box-shadow: 0 18px 40px -20px rgba(0,0,0,.9); overflow: hidden; }
         .dock a { display: flex; flex: 1 1 0; min-width: 0; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: var(--silver); text-decoration: none; }
-        .dock a.is-active, .dock a:hover { color: var(--foil); }
+        .dock a.is-active, .dock a:hover { color: var(--accent-ink); }
         .dock a svg { flex: none; display: block; }
         .dock .lbl { font-family: 'Space Grotesk', sans-serif; font-size: 8.5px; line-height: 1.1; letter-spacing: .01em; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; text-align: center; }
-        #audio-pill { width: 36px; height: 36px; border-radius: 999px; background: var(--navy); color: var(--foil); border: 1px solid var(--line-strong); display: flex; align-items: center; justify-content: center; }
+        #audio-pill { width: 36px; height: 36px; border-radius: 999px; background: var(--surface-high); color: var(--foil); border: 1px solid var(--line-strong); display: flex; align-items: center; justify-content: center; }
 
         /* ---------- interaksi dock (profil/acara/galeri/qr/doa + musik) ---------- */
         .dock-link { border-radius: 12px; transition: color .18s ease, background-color .18s ease, transform .16s ease; }
-        .dock-link:hover { color: var(--foil); background: color-mix(in srgb, var(--foil) 10%, transparent); }
+        .dock-link:hover { color: var(--accent-ink); background: color-mix(in srgb, var(--foil) 10%, transparent); }
         .dock-link:active { transform: scale(.9); background: color-mix(in srgb, var(--foil) 18%, transparent); }
         .dock-link.is-active { background: color-mix(in srgb, var(--foil) 14%, transparent); }
         .dock-link:focus-visible, #audio-pill:focus-visible { outline: 2px solid var(--foil); outline-offset: 2px; }
@@ -745,7 +786,7 @@
         textarea.field { padding: 12px 14px; min-height: 92px; resize: vertical; }
         .field:focus { outline: 2px solid color-mix(in srgb, var(--gold) 45%, transparent); outline-offset: 1px; }
         .toggle-card { display: flex; align-items: center; justify-content: center; gap: 5px; height: 46px; padding: 0 8px; border-radius: 10px; border: 1px solid color-mix(in srgb, var(--gold) 35%, transparent); background: var(--surface-high); color: var(--silver); font-size: 10px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
-        .peer:checked ~ .toggle-card { background: var(--gold); border-color: var(--gold); color: #141311; }
+        .peer:checked ~ .toggle-card { background: var(--gold); border-color: var(--gold); color: var(--on-accent); }
         .note-card { position: relative; padding: 12px 14px; border-radius: 12px; background: var(--surface-high); border: 1px solid color-mix(in srgb, var(--gold) 16%, transparent); }
         .guestbook-feed { max-height: 20rem; overflow-y: auto; scrollbar-width: none; -webkit-mask-image: linear-gradient(180deg, #000 0, #000 86%, transparent 100%); mask-image: linear-gradient(180deg, #000 0, #000 86%, transparent 100%); }
         .guestbook-feed::-webkit-scrollbar { display: none; }
@@ -866,7 +907,7 @@
 
         html[data-mode="light"] .topbar,
         html[data-mode="jewel"] .topbar {
-            background: rgba(255, 255, 255, .92);
+            background: color-mix(in srgb, var(--surface-container) 92%, transparent);
             border-bottom: 1px solid var(--line);
             box-shadow: 0 8px 22px -22px rgba(16, 42, 67, .55);
         }
@@ -892,14 +933,14 @@
         html[data-mode="jewel"] .plaque { background: var(--surface-high); border-color: var(--line); }
 
         html[data-mode="light"] .eyebrow,
-        html[data-mode="jewel"] .eyebrow { color: var(--gold); }
+        html[data-mode="jewel"] .eyebrow { color: var(--accent-ink); }
 
         html[data-mode="light"] .pill,
-        html[data-mode="jewel"] .pill { background: var(--surface-high); color: var(--gold); }
+        html[data-mode="jewel"] .pill { background: var(--surface-high); color: var(--accent-ink); }
 
         html[data-mode="light"] .dock,
         html[data-mode="jewel"] .dock {
-            background: rgba(255, 255, 255, .94);
+            background: color-mix(in srgb, var(--surface-container) 94%, transparent);
             border-color: var(--line);
             box-shadow: 0 16px 34px -24px rgba(16, 42, 67, .5);
         }
@@ -918,7 +959,7 @@
         html[data-mode="jewel"] #gate-veil { background: color-mix(in srgb, var(--surface) 74%, transparent); }
 
         html[data-mode="light"] .gate-seal .plate,
-        html[data-mode="jewel"] .gate-seal .plate { background: rgba(255, 255, 255, .86); border-color: var(--line); }
+        html[data-mode="jewel"] .gate-seal .plate { background: color-mix(in srgb, var(--surface-container) 88%, transparent); border-color: var(--line); }
 
         html[data-mode="light"] .gate-frame,
         html[data-mode="jewel"] .gate-frame {
@@ -927,7 +968,7 @@
         }
 
         html[data-mode="light"] .field,
-        html[data-mode="jewel"] .field { background: #FFFFFF; color: var(--on-surface); border-color: var(--line-strong); }
+        html[data-mode="jewel"] .field { background: var(--surface-container); color: var(--on-surface); border-color: var(--line-strong); }
 
         html[data-mode="light"] #envelope-stage,
         html[data-mode="jewel"] #envelope-stage { background: var(--surface); }
@@ -943,7 +984,7 @@
         html[data-mode="light"] .basic-plaque,
         html[data-mode="jewel"] .basic-plaque { background: var(--surface-high); }
         html[data-mode="light"] .basic-guest,
-        html[data-mode="jewel"] .basic-guest { background: rgba(255, 255, 255, .72); border-color: var(--line-strong); }
+        html[data-mode="jewel"] .basic-guest { background: color-mix(in srgb, var(--surface-container) 76%, transparent); border-color: var(--line-strong); }
 
         /* Panggung desktop: jangan pakai hitam pekat untuk palet terang. */
         @media (min-width: 768px) {
@@ -1695,13 +1736,51 @@
             document.documentElement.dataset.tier = tier;
         }
 
-        // 1. Colors: cBg, cCard, cAcc, cTxt
+        // 1. Colors: cBg, cCard, cAcc, cTxt (+ jaga kontras agar teks tidak "nyatu" dengan latar)
         const cBg = c.cBg || sp.get('cBg');
         const cCard = c.cCard || sp.get('cCard');
         const cAcc = c.cAcc || sp.get('cAcc');
         const cTxt = c.cTxt || sp.get('cTxt');
 
         const rootStyle = document.documentElement.style;
+        const dkRgb = (hex) => {
+            const h = String(hex || '').replace('#', '');
+            if (h.length !== 6) { return null; }
+            return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
+        };
+        const dkMix = (a, b, ratio) => {
+            const x = dkRgb(a); const y = dkRgb(b);
+            if (!x || !y) { return a; }
+            const to = (i) => Math.round(x[i] + (y[i] - x[i]) * ratio).toString(16).padStart(2, '0');
+            return '#' + to(0) + to(1) + to(2);
+        };
+        const dkLum = (hex) => {
+            const c = dkRgb(hex);
+            if (!c) { return 0.5; }
+            const lin = c.map((v) => { const s = v / 255; return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4); });
+            return 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2];
+        };
+        const dkContrast = (a, b) => {
+            const l1 = dkLum(a); const l2 = dkLum(b);
+            return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+        };
+        const dkReadableBoth = (hex, bgA, bgB, min) => {
+            let candidate = dkReadable(hex, bgA, min);
+            if (!dkRgb(bgB)) { return candidate; }
+            for (let i = 0; i < 10 && dkContrast(candidate, bgB) < min; i++) {
+                candidate = dkMix(candidate, dkLum(bgB) > 0.4 ? '#000000' : '#FFFFFF', 0.12);
+            }
+            return candidate;
+        };
+        const dkReadable = (hex, bg, min) => {
+            if (!dkRgb(hex) || !dkRgb(bg) || dkContrast(hex, bg) >= min) { return hex; }
+            const target = dkLum(bg) > 0.4 ? '#000000' : '#FFFFFF';
+            for (let step = 1; step <= 10; step++) {
+                const candidate = dkMix(hex, target, step / 10);
+                if (dkContrast(candidate, bg) >= min) { return candidate; }
+            }
+            return target;
+        };
         if (cBg) {
             rootStyle.setProperty('--bg-page', cBg);
             rootStyle.setProperty('--surface', cBg);
@@ -1719,21 +1798,56 @@
             if (bespokeCard && bespokeCard.value !== cCard) bespokeCard.value = cCard;
         }
         if (cAcc) {
-            rootStyle.setProperty('--accent', cAcc);
-            rootStyle.setProperty('--gold', cAcc);
-            rootStyle.setProperty('--foil', cAcc);
-            rootStyle.setProperty('--accent-ink', cAcc);
-            rootStyle.setProperty('--line', `color-mix(in srgb, ${cAcc} 24%, transparent)`);
-            rootStyle.setProperty('--line-strong', `color-mix(in srgb, ${cAcc} 48%, transparent)`);
+            const surface = cBg || getComputedStyle(document.documentElement).getPropertyValue('--obsidian').trim() || '#FFFFFF';
+            const accent = cAcc;
+            const accentInk = dkReadable(cAcc, surface, 4.5);
+            rootStyle.setProperty('--accent', accent);
+            rootStyle.setProperty('--gold', accent);
+            rootStyle.setProperty('--foil', accentInk);
+            rootStyle.setProperty('--accent-ink', accentInk);
+            rootStyle.setProperty('--accent-2', dkMix(accentInk, '#FFFFFF', 0.4));
+            rootStyle.setProperty('--on-accent', dkContrast('#F8FAFC', accent) >= dkContrast('#141311', accent) ? '#F8FAFC' : '#141311');
+            const cardBg = cCard || getComputedStyle(document.documentElement).getPropertyValue('--surface-container').trim() || '#FFFFFF';
+            rootStyle.setProperty('--gate-accent', dkReadable(accentInk, cardBg, 4.5));
+            rootStyle.setProperty('--gold-2', dkMix(accent, '#FFFFFF', 0.4));
+            rootStyle.setProperty('--line', `color-mix(in srgb, ${accent} 24%, transparent)`);
+            rootStyle.setProperty('--line-strong', `color-mix(in srgb, ${accent} 48%, transparent)`);
             const bespokeColor = document.getElementById('bespokeColor');
             if (bespokeColor && bespokeColor.value !== cAcc) bespokeColor.value = cAcc;
         }
-        if (cTxt) {
-            rootStyle.setProperty('--text-main', cTxt);
-            rootStyle.setProperty('--on-surface', cTxt);
-            rootStyle.setProperty('--ink', cTxt);
+        if (cTxt || cBg || cCard) {
+            const computedRoot = getComputedStyle(document.documentElement);
+            const surface = cBg || computedRoot.getPropertyValue('--obsidian').trim() || '#FFFFFF';
+            const cardSurface = cCard || computedRoot.getPropertyValue('--surface-container').trim() || surface;
+            const base = cTxt || computedRoot.getPropertyValue('--on-surface').trim() || '#1E293B';
+            // Teks harus terbaca di halaman DAN di kartu (warnanya bisa berbeda).
+            const text = dkReadableBoth(base, surface, cardSurface, 6);
+            rootStyle.setProperty('--text-main', text);
+            rootStyle.setProperty('--on-surface', text);
+            rootStyle.setProperty('--ink', text);
+            const cardHigh = dkMix(cardSurface, cAcc || computedRoot.getPropertyValue('--accent').trim() || text, 0.08);
+            const muted = dkReadable(dkReadableBoth(dkMix(text, surface, 0.34), surface, cardSurface, 4.5), cardHigh, 4.5);
+            rootStyle.setProperty('--muted', muted);
+            rootStyle.setProperty('--soft', muted);
+            rootStyle.setProperty('--silver', dkReadable(dkReadableBoth(dkMix(text, surface, 0.45), surface, cardSurface, 4.5), cardHigh, 4.5));
+            rootStyle.setProperty('--gate-text', dkReadable(text, cardSurface, 4.5));
+            rootStyle.setProperty('--glass', `rgba(${(dkRgb(cardSurface) || [255, 255, 255]).join(',')}, .86)`);
             const bespokeTxt = document.getElementById('bespokeTxt');
-            if (bespokeTxt && bespokeTxt.value !== cTxt) bespokeTxt.value = cTxt;
+            if (cTxt && bespokeTxt && bespokeTxt.value !== cTxt) { bespokeTxt.value = cTxt; }
+
+            // Latar kustom yang gelap harus memakai mode malam supaya kartu/gradien ikut gelap.
+            if (cBg) {
+                const baseMode = document.documentElement.dataset.modeBase || 'light';
+                document.documentElement.dataset.mode = dkLum(cBg) < 0.2 ? 'night' : baseMode;
+            }
+        }
+
+        if (cCard || cBg) {
+            const pageTone = cBg || getComputedStyle(document.documentElement).getPropertyValue('--obsidian').trim() || '#FFFFFF';
+            const cardTone = cCard || getComputedStyle(document.documentElement).getPropertyValue('--surface-container').trim() || pageTone;
+            const gateTone = dkMix(dkMix(cardTone, pageTone, 0.35), dkLum(pageTone) > 0.4 ? '#000000' : '#FFFFFF', 0.06);
+            rootStyle.setProperty('--navy', gateTone);
+            rootStyle.setProperty('--deep', gateTone);
         }
 
         // Re-tint Gate / Parallax / Particles
