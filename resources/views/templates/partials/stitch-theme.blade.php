@@ -513,6 +513,44 @@
         .dock a svg { flex: none; display: block; }
         .dock .lbl { font-family: 'Space Grotesk', sans-serif; font-size: 8.5px; line-height: 1.1; letter-spacing: .01em; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; text-align: center; }
         #audio-pill { width: 36px; height: 36px; border-radius: 999px; background: var(--navy); color: var(--foil); border: 1px solid var(--line-strong); display: flex; align-items: center; justify-content: center; }
+
+        /* ---------- interaksi dock (profil/acara/galeri/qr/doa + musik) ---------- */
+        .dock-link { border-radius: 12px; transition: color .18s ease, background-color .18s ease, transform .16s ease; }
+        .dock-link:hover { color: var(--foil); background: color-mix(in srgb, var(--foil) 10%, transparent); }
+        .dock-link:active { transform: scale(.9); background: color-mix(in srgb, var(--foil) 18%, transparent); }
+        .dock-link.is-active { background: color-mix(in srgb, var(--foil) 14%, transparent); }
+        .dock-link:focus-visible, #audio-pill:focus-visible { outline: 2px solid var(--foil); outline-offset: 2px; }
+        #audio-pill { transition: transform .16s ease, box-shadow .18s ease, background-color .18s ease; }
+        #audio-pill:hover { box-shadow: 0 0 0 4px color-mix(in srgb, var(--foil) 16%, transparent); }
+        #audio-pill:active { transform: scale(.9); }
+
+        /* ---------- konten tidak boleh bocor sebelum gerbang dibuka ---------- */
+        main#invitation-content { opacity: 0; visibility: hidden; transition: opacity .5s ease; }
+        body.gate-opening main#invitation-content,
+        body.gate-open main#invitation-content { opacity: 1; visibility: visible; }
+        #bottom-hud { transition: opacity .3s ease, transform .5s cubic-bezier(.16,1,.3,1); }
+        body:not(.gate-open):not(.gate-opening) #bottom-hud { opacity: 0; pointer-events: none; transform: translateY(120%); }
+
+        /* ---------- tombol petunjuk arah pada kartu lokasi ---------- */
+        .map-directions {
+            display: inline-flex; align-items: center; gap: 8px; margin-top: 12px;
+            padding: 9px 16px; border-radius: 999px; text-decoration: none;
+            font-family: 'Space Grotesk', sans-serif; font-size: 10.5px; font-weight: 700;
+            letter-spacing: .1em; text-transform: uppercase;
+            color: var(--accent-ink);
+            background: color-mix(in srgb, var(--accent) 12%, transparent);
+            border: 1px solid color-mix(in srgb, var(--accent) 42%, transparent);
+            transition: background-color .2s ease, border-color .2s ease, transform .16s ease, box-shadow .2s ease;
+        }
+        .map-directions:hover {
+            background: color-mix(in srgb, var(--accent) 20%, transparent);
+            border-color: color-mix(in srgb, var(--accent) 64%, transparent);
+            box-shadow: 0 6px 18px -10px color-mix(in srgb, var(--accent) 80%, transparent);
+            transform: translateY(-1px);
+        }
+        .map-directions:active { transform: scale(.97); }
+        .map-directions:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+        .map-directions .mi { flex: none; }
         #audio-pill .mi { animation: spin 4s linear infinite; animation-play-state: paused; }
         #audio-pill.is-playing .mi { animation-play-state: running; }
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -1115,6 +1153,8 @@
     /* Klik tombol = gerbang terbuka sendiri (scroll/swipe tetap alternatif). */
     function DKarsaAnimateGate() {
         gatePhase = 'opening';
+        // Konten di balik gerbang mulai terlihat saat daun pintu benar-benar bergerak.
+        document.body.classList.add('gate-opening');
         const from = gateP;
         const t0 = performance.now();
         const dur = 1000;
@@ -1159,6 +1199,7 @@
         gesturePx = 0;
         gateP = 0;
         document.body.classList.remove('gate-open');
+        document.body.classList.remove('gate-opening');
         document.body.classList.add('gate-locked');
         if (window.DKarsaParticlesStop) window.DKarsaParticlesStop();
         const gate = document.getElementById('gate-overlay');
@@ -1213,6 +1254,7 @@
         const step = ev.deltaMode === 1 ? ev.deltaY * 16 : ev.deltaY * 1.9;
         ev.preventDefault();
         gesturePx = Math.max(0, Math.min(GATE_TRAVEL, gesturePx + Math.sign(step) * Math.min(Math.abs(step), 135)));
+        if (gesturePx > 0) document.body.classList.add('gate-opening');
         renderGate(gesturePx / GATE_TRAVEL);
     }, { passive: false });
 
@@ -1223,6 +1265,7 @@
         const d = lastY - ev.touches[0].clientY; lastY = ev.touches[0].clientY;
         if (ev.cancelable) ev.preventDefault();
         gesturePx = Math.max(0, Math.min(GATE_TRAVEL, gesturePx + Math.sign(d) * Math.min(Math.abs(d), 135)));
+        if (gesturePx > 0) document.body.classList.add('gate-opening');
         renderGate(gesturePx / GATE_TRAVEL);
     }, { passive: false });
 

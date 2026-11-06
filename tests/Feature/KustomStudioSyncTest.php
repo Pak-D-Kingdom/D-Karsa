@@ -103,4 +103,47 @@ class KustomStudioSyncTest extends TestCase
         $this->assertStringNotContainsString('href="https://maps.app.goo.gl/tidak-ada"', $html);
         $this->assertStringContainsString('google.com/maps/search/?api=1', $html);
     }
+
+    /**
+     * Nama tamu di sampul memakai warna yang dipilih (accent), bukan warna teks bawaan.
+     */
+    public function test_gate_guest_name_uses_selected_accent(): void
+    {
+        $response = $this->get('/demo/minimalis-lumen?tier=eksklusif&cAcc=%23B4762A&to=Ibu%20Sari');
+
+        $response->assertOk();
+        $this->assertMatchesRegularExpression(
+            '/id="gate-guest-name"[^>]*style="color:var\(--accent\)"/',
+            $response->getContent(),
+            'Nama tamu pada sampul harus mengikuti warna aksen yang dipilih.'
+        );
+    }
+
+    /**
+     * Tombol petunjuk arah pada kartu lokasi memakai gaya pil (.map-directions), bukan tautan garis bawah.
+     */
+    public function test_map_directions_uses_pill_button_style(): void
+    {
+        $response = $this->get('/demo/minimalis-lumen?tier=eksklusif&event_1_venue=Balai%20Kartini&event_1_address=Jl.%20Sudirman%209');
+
+        $response->assertOk();
+
+        $html = $response->getContent();
+        $this->assertStringContainsString('class="map-directions"', $html);
+        $this->assertStringContainsString('.map-directions {', $html);
+    }
+
+    /**
+     * Konten undangan tidak boleh tampil sebelum gerbang dibuka, dan tidak memakai blur (mahal saat transisi).
+     */
+    public function test_content_is_hidden_behind_gate_without_blur(): void
+    {
+        $response = $this->get('/demo/minimalis-lumen?tier=eksklusif');
+
+        $response->assertOk();
+
+        $html = $response->getContent();
+        $this->assertStringContainsString('body:not(.gate-open):not(.gate-opening) #bottom-hud', $html);
+        $this->assertStringContainsString('body.gate-locked main { opacity: 0; visibility: hidden;', file_get_contents(resource_path('views/templates/partials/event-theme.blade.php')));
+    }
 }

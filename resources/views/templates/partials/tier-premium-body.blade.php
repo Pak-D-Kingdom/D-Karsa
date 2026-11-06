@@ -19,7 +19,7 @@
                 </div>
                 <div class="plate" style="margin-bottom:14px;padding:10px 16px">
                     <span class="hud" style="color:var(--silver)">KEPADA YTH.</span>
-                    <b id="gate-guest-name" class="block text-[15px] mt-0.5" style="color:var(--on-surface)">{{ $guest->name ?? 'Bapak/Ibu/Saudara/i Tamu Kehormatan' }}</b>
+                    <b id="gate-guest-name" class="block text-[15px] mt-0.5 font-semibold" style="color:var(--accent)">{{ $guest->name ?? 'Bapak/Ibu/Saudara/i Tamu Kehormatan' }}</b>
                 </div>
                 <button type="button" class="btn-gold" id="btn-open-invitation" onclick="DKarsaOpen()">
                     {!! $icon('mail') !!} [ {{ $customGateLabel !== '' ? $customGateLabel : 'BUKA UNDANGAN' }} ]
@@ -204,9 +204,11 @@
                                 <b class="map-facade-label">Muat Peta Interaktif</b>
                                 <span class="map-facade-note">{{ $cardVenue }}</span>
                             </div>
-                            <a href="{{ $cardDirections }}" target="_blank" rel="noopener"
-                               class="mt-2.5 inline-flex items-center gap-1 text-[11.5px] font-semibold underline decoration-1 underline-offset-2"
-                               style="color:var(--accent)">Petunjuk Arah <span aria-hidden="true">↗</span></a>
+                            <a href="{{ $cardDirections }}" target="_blank" rel="noopener" class="map-directions">
+                    <svg class="mi" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.7 7-11a7 7 0 10-14 0c0 5.3 7 11 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg>
+                    Petunjuk Arah
+                    <span aria-hidden="true">↗</span>
+                </a>
                         </div>
                     </div>
                 @empty

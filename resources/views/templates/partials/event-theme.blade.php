@@ -81,7 +81,7 @@
                 repeating-linear-gradient(0deg, color-mix(in srgb, var(--accent) 7%, transparent) 0 1px, transparent 1px 28px),
                 linear-gradient(168deg, var(--deep), color-mix(in srgb, var(--deep) 72%, var(--bg)));
         }
-        body.gate-locked main { opacity: 0; transform: translateY(18px) scale(.994); filter: blur(7px); }
+        body.gate-locked main { opacity: 0; visibility: hidden; transform: translateY(18px) scale(.994); }
         main { transition: opacity .95s ease, transform 1.1s cubic-bezier(.16,1,.3,1), filter .95s ease; }
         #gateLayer.gate-hidden { display: none; }
         body.gate-open #gateLayer { z-index: 5; }

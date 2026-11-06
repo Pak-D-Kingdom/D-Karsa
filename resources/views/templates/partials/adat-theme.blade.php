@@ -263,8 +263,7 @@
         /* layer gerbang harus jadi stacking context sendiri, kalau tidak cahaya tertutup <main> */
         #gateLayer { position: fixed; inset: 0; z-index: 40; pointer-events: none; perspective: 1400px; perspective-origin: center center; }
         body.gate-locked main {
-            opacity: 0; transform: translateY(18px) scale(.994); filter: blur(7px);
-            will-change: opacity, transform, filter;
+            opacity: 0; visibility: hidden; transform: translateY(18px) scale(.994);
         }
         main { transition: opacity .95s ease, transform 1.1s cubic-bezier(.16,1,.3,1), filter .95s ease; }
         /* kilau emas menyapu sekali saat gerbang selesai terbuka */
