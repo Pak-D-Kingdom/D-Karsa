@@ -180,4 +180,23 @@ class KustomStudioSyncTest extends TestCase
         $this->assertSame('#F8FAFC', ColorTheme::onColor('#241008'));
         $this->assertSame('#141311', ColorTheme::onColor('#F1E9D2'));
     }
+
+    /**
+     * Bingkai teater tidak menutupi teks, tombol salin memakai kelas kontras,
+     * dan paket kustom tetap punya parallax paling dalam (bokeh + crest).
+     */
+    public function test_frame_padding_copy_buttons_and_kustom_depth(): void
+    {
+        $response = $this->get('/demo/minimalis-lumen?tier=kustom');
+
+        $response->assertOk();
+
+        $html = $response->getContent();
+        $this->assertStringContainsString('html[data-tier="kustom"] main#invitation-content', $html);
+        $this->assertStringContainsString('padding-left: clamp(44px, 12%, 58px);', $html);
+        $this->assertStringContainsString('.btn-copy', $html);
+        $this->assertStringContainsString('html[data-tier="kustom"] #parallax-plane-4-lens', $html);
+        $this->assertStringContainsString('html[data-tier="kustom"] #parallax-plane-5-bespoke', $html);
+        $this->assertStringContainsString('class="btn-copy', file_get_contents(resource_path('views/templates/partials/digital-gift.blade.php')));
+    }
 }

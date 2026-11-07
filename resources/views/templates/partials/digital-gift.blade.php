@@ -59,8 +59,7 @@
                             <span class="text-[13px] block">{{ $bank['holder'] }}</span>
                         </div>
                         <button type="button" data-copy="{{ $bank['account'] }}" onclick="DKarsaCopyGift(this, 'Nomor Rekening Disalin ✓')"
-                                class="min-h-[44px] px-4 py-2 text-[10px] font-bold uppercase tracking-wider"
-                                style="background: color-mix(in srgb, var(--accent-2) 92%, white); color: var(--deep); border-radius: 999px; border:1px solid color-mix(in srgb, var(--accent-2) 70%, transparent);">
+                                class="btn-copy">
                             Salin Rekening
                         </button>
                     </div>
@@ -73,8 +72,7 @@
                 <span class="label block" style="color: var(--accent-ink);">Kirim Kado Fisik</span>
                 <p class="text-[15px] mt-1 leading-relaxed" style="color: var(--soft);">{{ $giftAddress }}</p>
                 <button type="button" data-copy="{{ $giftAddress }}" onclick="DKarsaCopyGift(this, 'Alamat Kado Disalin ✓')"
-                        class="mt-3 w-full min-h-[44px] rounded-lg text-[10px] font-bold uppercase tracking-wider"
-                        style="background: var(--deep); color: var(--accent-2); border:1px solid color-mix(in srgb, var(--accent) 45%, transparent);">
+                        class="btn-copy btn-copy--wide mt-3">
                     Salin Alamat Kado 📦
                 </button>
             </div>

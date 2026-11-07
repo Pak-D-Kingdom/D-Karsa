@@ -550,7 +550,8 @@
 
         .dock { width: 100%; max-width: 400px; height: 56px; border-radius: 999px; background: color-mix(in srgb, var(--obsidian) 96%, transparent); border: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 4px; padding: 0 10px; box-shadow: 0 18px 40px -20px rgba(0,0,0,.9); overflow: hidden; }
         .dock a { display: flex; flex: 1 1 0; min-width: 0; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: var(--silver); text-decoration: none; }
-        .dock a.is-active, .dock a:hover { color: var(--accent-ink); }
+        .dock a:hover { color: var(--accent-ink); }
+        .dock a.dock-link.is-active, .dock a.dock-link.is-active:hover { color: var(--on-accent); }
         .dock a svg { flex: none; display: block; }
         .dock .lbl { font-family: 'Space Grotesk', sans-serif; font-size: 8.5px; line-height: 1.1; letter-spacing: .01em; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; text-align: center; }
         #audio-pill { width: 36px; height: 36px; border-radius: 999px; background: var(--surface-high); color: var(--foil); border: 1px solid var(--line-strong); display: flex; align-items: center; justify-content: center; }
@@ -559,7 +560,7 @@
         .dock-link { border-radius: 12px; transition: color .18s ease, background-color .18s ease, transform .16s ease; }
         .dock-link:hover { color: var(--accent-ink); background: color-mix(in srgb, var(--foil) 10%, transparent); }
         .dock-link:active { transform: scale(.9); background: color-mix(in srgb, var(--foil) 18%, transparent); }
-        .dock-link.is-active { background: color-mix(in srgb, var(--foil) 14%, transparent); }
+        
         .dock-link:focus-visible, #audio-pill:focus-visible { outline: 2px solid var(--foil); outline-offset: 2px; }
         #audio-pill { transition: transform .16s ease, box-shadow .18s ease, background-color .18s ease; }
         #audio-pill:hover { box-shadow: 0 0 0 4px color-mix(in srgb, var(--foil) 16%, transparent); }
@@ -571,6 +572,40 @@
         body.gate-open main#invitation-content { opacity: 1; visibility: visible; }
         #bottom-hud { transition: opacity .3s ease, transform .5s cubic-bezier(.16,1,.3,1); }
         body:not(.gate-open):not(.gate-opening) #bottom-hud { opacity: 0; pointer-events: none; transform: translateY(120%); }
+
+        /* ---------- bingkai teater 15% tidak boleh menutupi teks ---------- */
+        /* Padding dalam px: elemen fixed menghitung persen terhadap viewport, bukan bingkai 430px. */
+        html[data-tier="eksklusif"] main#invitation-content,
+        html[data-tier="kustom"] main#invitation-content {
+            padding-left: clamp(44px, 12%, 58px);
+            padding-right: clamp(44px, 12%, 58px);
+        }
+        html[data-tier="eksklusif"] .topbar,
+        html[data-tier="kustom"] .topbar {
+            padding-left: 50px;
+            padding-right: 50px;
+        }
+        html[data-tier="eksklusif"] .gate-seal,
+        html[data-tier="kustom"] .gate-seal { max-width: calc(100% - 116px); }
+
+        /* ---------- tombol salin (rekening / alamat kado) ---------- */
+        .btn-copy {
+            display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+            min-height: 44px; padding: 10px 16px; border-radius: 999px;
+            font-family: 'Space Grotesk', sans-serif; font-size: 10px; font-weight: 700;
+            letter-spacing: .1em; text-transform: uppercase; text-decoration: none;
+            background: var(--accent); color: var(--on-accent);
+            border: 1px solid color-mix(in srgb, var(--accent) 70%, transparent);
+            transition: transform .16s ease, box-shadow .2s ease, filter .2s ease;
+        }
+        .btn-copy:hover { filter: brightness(1.06); box-shadow: 0 8px 20px -12px var(--accent); transform: translateY(-1px); }
+        .btn-copy:active { transform: scale(.97); }
+        .btn-copy:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+        .btn-copy--wide { width: 100%; border-radius: 12px; }
+        .btn-copy--ghost {
+            background: var(--surface-high); color: var(--accent-ink);
+            border-color: color-mix(in srgb, var(--accent) 48%, transparent);
+        }
 
         /* ---------- tombol petunjuk arah pada kartu lokasi ---------- */
         .map-directions {
@@ -592,12 +627,26 @@
         .map-directions:active { transform: scale(.97); }
         .map-directions:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
         .map-directions .mi { flex: none; }
+        .dock-link.is-active {
+            color: var(--on-accent);
+            background: var(--accent);
+            box-shadow: 0 6px 16px -10px var(--accent);
+        }
+        .dock-link.is-active svg { animation: dockPop .42s cubic-bezier(.16,1,.3,1); }
+        .dock-link.is-active .lbl { font-weight: 700; letter-spacing: .02em; }
+        @keyframes dockPop {
+            0% { transform: translateY(3px) scale(.82); opacity: .5; }
+            55% { transform: translateY(-2px) scale(1.14); opacity: 1; }
+            100% { transform: none; }
+        }
+        @media (prefers-reduced-motion: reduce) { .dock-link.is-active svg { animation: none; } }
+
         #audio-pill .mi { animation: spin 4s linear infinite; animation-play-state: paused; }
         #audio-pill.is-playing .mi { animation-play-state: running; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
         html[data-tier="eksklusif"] #invitation-content, html[data-tier="kustom"] #invitation-content { padding-left: 2.9rem; padding-right: 2.9rem; }
-        html[data-tier="eksklusif"] #bottom-hud, html[data-tier="kustom"] #bottom-hud { padding-left: 1.2rem; padding-right: 1.2rem; }
+        html[data-tier="eksklusif"] #bottom-hud, html[data-tier="kustom"] #bottom-hud { padding-left: 46px; padding-right: 46px; }
         html[data-tier="eksklusif"] #invitation-content, html[data-tier="kustom"] #invitation-content { padding-bottom: 8rem; }
         html[data-tier="eksklusif"] #theatre-frame .pillar::after, html[data-tier="kustom"] #theatre-frame .pillar::after { opacity: .62; }
         /* Di ponsel bingkai tier tidak boleh memakan lebar konten (kartu QR jadi sempit). */
@@ -713,6 +762,12 @@
                 radial-gradient(circle at 50% calc(30% + var(--scroll-y, 0) * 0.04px), color-mix(in srgb, var(--foil) 26%, transparent), transparent 72%),
                 conic-gradient(from calc(var(--scroll-y, 0) * 0.02deg) at 50% 38%, color-mix(in srgb, var(--foil) 9%, transparent), transparent 28%, color-mix(in srgb, var(--foil) 9%, transparent) 58%, transparent 86%);
         }
+        html[data-tier="kustom"] #parallax-plane-5-bespoke .crest { animation: crestDrift 14s ease-in-out infinite alternate; }
+        @keyframes crestDrift {
+            from { transform: translate3d(0, calc(var(--sy, 0) * -0.05px), 0) rotate(-3deg); }
+            to   { transform: translate3d(0, calc(var(--sy, 0) * -0.09px + 14px), 0) rotate(3deg); }
+        }
+        @media (prefers-reduced-motion: reduce) { html[data-tier="kustom"] #parallax-plane-5-bespoke .crest { animation: none; } }
         html[data-tier="kustom"] #parallax-plane-4-lens .bokeh { opacity: .7; }
         #parallax-plane-4-lens .b6 { width: 120px; height: 120px; left: -4%; top: 58%; }
         #parallax-plane-4-lens .b7 { width: 28px; height: 28px; right: 34%; top: 12%; }
@@ -871,6 +926,11 @@
         html[data-tier] #parallax-plane-5-bespoke,
         #parallax-plane-4-lens,
         #parallax-plane-5-bespoke { display: none !important; }
+
+        /* Paket Kustom tetap yang paling dalam: bokeh (3 butir) + crest kembali, transform-only. */
+        html[data-tier="kustom"] #parallax-plane-4-lens,
+        html[data-tier="kustom"] #parallax-plane-5-bespoke { display: block !important; }
+        html[data-tier="kustom"] #parallax-plane-4-lens .bokeh:nth-child(n+4) { display: none; }
 
         /* Bagian di bawah lipatan tidak dilayout sampai terlihat. */
         main#invitation-content > section { content-visibility: auto; contain-intrinsic-size: 1px 480px; }
@@ -2113,13 +2173,14 @@
             const vh = window.innerHeight;
             const tx = state.tx * state.depth;
 
+            const deep = DKarsaTier() === 'kustom';
             if (midEl) {
-                const drift = Math.sin(y * 0.0022) * 58;
-                midEl.style.transform = 'translate3d(' + (tx * -14).toFixed(1) + 'px,' + (drift - y * 0.28).toFixed(1) + 'px,0)';
+                const drift = Math.sin(y * 0.0022) * (deep ? 74 : 58);
+                midEl.style.transform = 'translate3d(' + (tx * (deep ? -20 : -14)).toFixed(1) + 'px,' + (drift - y * (deep ? 0.38 : 0.28)).toFixed(1) + 'px,0)';
             }
 
             for (let i = 0; i < ornEls.length; i++) {
-                ornEls[i].style.translate = '0 ' + (state.tx * 18 + Math.sin(y * 0.004 + i * 1.7) * 16 - y * 0.48).toFixed(1) + 'px';
+                ornEls[i].style.translate = '0 ' + (state.tx * (deep ? 24 : 18) + Math.sin(y * 0.004 + i * 1.7) * 16 - y * (deep ? 0.62 : 0.48)).toFixed(1) + 'px';
             }
 
             for (let i = 0; i < bokehEls.length; i++) {
@@ -2335,15 +2396,35 @@
 
     /* ---------- dock spy ---------- */
     const dockLinks = [...document.querySelectorAll('.dock-link')];
-    const dockTargets = dockLinks.map((a) => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    const dockTargets = dockLinks.map((a) => document.querySelector(a.getAttribute('href')));
+    let spyTick = false;
     function DKarsaSpy() {
-        const y = DKarsaScrollTop() + innerHeight * .35;
+        spyTick = false;
+        const line = innerHeight * 0.38;
         let active = 0;
-        dockTargets.forEach((el, i) => { if (el.offsetTop <= y) active = i; });
-        dockLinks.forEach((a, i) => a.classList.toggle('is-active', i === active));
+        dockTargets.forEach((el, i) => {
+            if (!el) { return; }
+            const rect = el.getBoundingClientRect();
+            if (rect.height === 0 && rect.width === 0) { return; }
+            if (rect.top <= line) { active = i; }
+        });
+        // Bagian terakhir yang menyentuh garis bawah layar juga menang (mis. QR TAMU di ujung).
+        dockLinks.forEach((a, i) => {
+            const on = i === active;
+            if (a.classList.contains('is-active') === on) { return; }
+            a.classList.toggle('is-active', on);
+            if (on) { a.setAttribute('aria-current', 'true'); } else { a.removeAttribute('aria-current'); }
+        });
     }
-    window.addEventListener('scroll', DKarsaSpy, { passive: true });
-    DKarsaSpy();
+    function queueSpy() { if (!spyTick) { spyTick = true; requestAnimationFrame(DKarsaSpy); } }
+    window.addEventListener('scroll', queueSpy, { passive: true });
+    window.addEventListener('resize', queueSpy, { passive: true });
+    (function attachSpy() {
+        const scroller = document.getElementById('invitation-content');
+        if (scroller) { scroller.addEventListener('scroll', queueSpy, { passive: true }); }
+        DKarsaSpy();
+        setTimeout(DKarsaSpy, 400);
+    })();
 
     /* ---------- RSVP: input angka + reveal ---------- */
     document.addEventListener('DOMContentLoaded', () => {
