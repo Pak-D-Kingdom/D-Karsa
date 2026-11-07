@@ -5,8 +5,102 @@
     untuk Acara Formal). Satu shell untuk 179 template × 4 paket; warna diambil dari $tj['c'].
 --}}
 @php
-    $cat = $tj['culture'] ?? 'jawa';
+    $rawCat = strtolower((string) ($couple->category ?? request()->query('category', $tj['culture'] ?? 'jawa')));
+    if (str_contains($rawCat, 'formal') || str_contains($rawCat, 'corporate') || str_contains($rawCat, 'kantor') || str_contains($rawCat, 'resmi')) {
+        $cat = 'corporate';
+    } elseif (str_contains($rawCat, 'ulang') || str_contains($rawCat, 'birthday') || str_contains($rawCat, 'ultah')) {
+        $cat = 'birthday';
+    } elseif (str_contains($rawCat, 'wisuda') || str_contains($rawCat, 'graduate') || str_contains($rawCat, 'kelulusan')) {
+        $cat = 'graduate';
+    } elseif (str_contains($rawCat, 'aqiqah') || str_contains($rawCat, 'khitan') || str_contains($rawCat, 'kelahiran')) {
+        $cat = 'aqiqah';
+    } elseif (str_contains($rawCat, 'agama') || str_contains($rawCat, 'tahlil') || str_contains($rawCat, 'religious') || str_contains($rawCat, 'syukuran') || str_contains($rawCat, 'halal')) {
+        $cat = 'religious';
+    } elseif (in_array($tj['culture'] ?? '', ['birthday', 'aqiqah', 'religious', 'graduate', 'corporate'], true)) {
+        $cat = $tj['culture'];
+    } else {
+        $cat = 'wedding';
+    }
     $isCorporate = $cat === 'corporate';
+
+    // Item navigasi kapsul dock bawah (Gambar 5) menyesuaikan kategori template acara
+    $dockItems = match ($cat) {
+        'corporate' => [
+            ['#profil', 'TENTANG', 'person'],
+            ['#acara', 'AGENDA', 'event'],
+            ['#galeri', 'GALERI', 'photo'],
+            ['#section-guest-qr', 'TIKET', 'qr'],
+            ['#doa', 'UCAPAN', 'mail'],
+        ],
+        'birthday' => [
+            ['#profil', 'ULTAH', 'person'],
+            ['#acara', 'PESTA', 'event'],
+            ['#galeri', 'GALERI', 'photo'],
+            ['#section-guest-qr', 'QR TAMU', 'qr'],
+            ['#doa', 'UCAPAN', 'heart'],
+        ],
+        'graduate' => [
+            ['#profil', 'WISUDA', 'person'],
+            ['#acara', 'ACARA', 'event'],
+            ['#galeri', 'GALERI', 'photo'],
+            ['#section-guest-qr', 'QR TAMU', 'qr'],
+            ['#doa', 'UCAPAN', 'heart'],
+        ],
+        'aqiqah' => [
+            ['#profil', 'BUAH HATI', 'person'],
+            ['#acara', 'ACARA', 'event'],
+            ['#galeri', 'GALERI', 'photo'],
+            ['#section-guest-qr', 'QR TAMU', 'qr'],
+            ['#doa', 'DOA', 'heart'],
+        ],
+        'religious' => [
+            ['#profil', 'MAJELIS', 'person'],
+            ['#acara', 'ACARA', 'event'],
+            ['#galeri', 'GALERI', 'photo'],
+            ['#section-guest-qr', 'JAMA\'AH', 'qr'],
+            ['#doa', 'DOA', 'heart'],
+        ],
+        default => [
+            ['#profil', 'PROFIL', 'person'],
+            ['#acara', 'ACARA', 'event'],
+            ['#galeri', 'GALERI', 'photo'],
+            ['#section-guest-qr', 'QR TAMU', 'qr'],
+            ['#doa', 'DOA', 'heart'],
+        ],
+    };
+
+    [$defaultQuoteText, $defaultQuoteSource, $quoteCategoryLabel] = match ($cat) {
+        'corporate' => [
+            'Kami menghaturkan terima kasih atas perhatian dan kehadiran Bapak/Ibu dalam agenda resmi ini. Kehadiran Anda menjadi bagian penting dari keberhasilan dan sinergi bersama.',
+            'Agenda Resmi & Panitia Pelaksana',
+            'Kutipan Pembuka & Sambutan',
+        ],
+        'birthday' => [
+            'Selamat bertambah usia! Semoga tahun yang baru membawa limpahan kebahagiaan, kesehatan prima, dan langkah-langkah yang penuh berkah.',
+            'Doa & Harapan Kebahagiaan',
+            'Ucapan & Harapan',
+        ],
+        'graduate' => [
+            'Hari ini adalah awal perjalanan baru. Ilmu dan pengalaman yang diraih menjadi lentera untuk melangkah lebih jauh dan memberi manfaat seluas-luasnya.',
+            'Mutiara Kelulusan & Masa Depan',
+            'Kata Mutiara Wisuda',
+        ],
+        'aqiqah' => [
+            'Ya Allah, berkahilah anak ini dalam kehidupannya dan jadikanlah ia anak yang berbakti kepada kedua orang tua serta berguna bagi agama dan nusa bangsa.',
+            'Doa Syukur Buah Hati',
+            'Doa & Ayat Suci',
+        ],
+        'religious' => [
+            'Ingatlah, hanya dengan mengingat Allah hati menjadi tenteram. Semoga majelis ini mendatangkan keberkahan dan mempererat ukhuwah.',
+            'QS. Ar-Ra\'d : 28',
+            'Ayat Suci & Muhasabah',
+        ],
+        default => [
+            'Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan hidup dari jenismu sendiri, supaya kamu merasa tenteram dan tenang di sampingnya.',
+            'QS. Ar-Rum : 21',
+            'Ayat Suci',
+        ],
+    };
     // 9 archetype gerbang pernikahan (WED-001..090): bentuk pintu, segel, ornamen, partikel.
     $wed = \App\Services\TemplateManager::weddingArchetype($tj['key'] ?? '');
     $wedArt = $wed ? \App\Support\WeddingArchetypes::art($wed) : null;
@@ -102,7 +196,11 @@
     $tierInfo = $tierMatrix[$tierParam] ?? $tierMatrix['eksklusif'];
     $tierNote = $isCorporate ? $tierInfo['note_envelope'] : $tierInfo['note'];
     // Harga & pemilih paket hanya untuk halaman demo katalog — undangan jadi/uji tidak jualan.
-    $showTierDock = request()->routeIs('invitation.demo');
+    $isPurchased = ! empty($couple) && (
+        ($couple->payment_status ?? null) === 'paid' ||
+        ($couple->status ?? null) === 'published'
+    );
+    $showTierDock = ! $isPurchased && ($isDemo ?? false) && request()->routeIs('invitation.demo');
     $tierMapJs = [];
     if ($showTierDock) {
         foreach ($tierMatrix as $tierKey => $tierRow) {
@@ -201,6 +299,13 @@
     $customGateLabel = trim((string) ($kustomConfig['cBtn'] ?? ($custom['gate_label'] ?? '')));
     $customQuoteText = trim((string) ($custom['quote_text'] ?? ''));
     $customQuoteSource = trim((string) ($custom['quote_source'] ?? ''));
+    $isGenericOrWeddingQuote = ! empty($couple->quote) && (
+        str_contains($couple->quote, 'Dan di antara tanda-tanda') ||
+        $couple->quote === 'Semoga Tuhan Yang Maha Esa senantiasa melimpahkan berkah, rahmat, dan kebahagiaan bagi kita semua.'
+    );
+    $hasExplicitQuote = ! empty($couple->quote) && (! $isGenericOrWeddingQuote || $isWedding);
+    $activeQuoteText = $customQuoteText !== '' ? $customQuoteText : ($hasExplicitQuote ? $couple->quote : $defaultQuoteText);
+    $activeQuoteSource = $customQuoteSource !== '' ? $customQuoteSource : $defaultQuoteSource;
     $customAudio = trim((string) ($custom['audio_url'] ?? ''));
     $customAudioStart = max(0, (int) ($custom['audio_start'] ?? 0));
     $customHidden = ! empty($kustomConfig['cHide'])
@@ -453,8 +558,76 @@
         .gate-seal .plate h1 { color: var(--gate-accent); }
         .gate-seal .plate .hud { opacity: .72; }
         .gate-seal .plate b { color: var(--gate-accent); }
-        .btn-gold { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 12px 26px; border: 0; border-radius: 999px; background: linear-gradient(90deg, var(--gold), var(--foil), var(--gold)); color: var(--on-accent); font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; box-shadow: 0 0 24px rgba(229,193,88,.4); cursor: pointer; }
-        .btn-gold:active { transform: scale(.96); }
+        .btn-gold {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 48px;
+            padding: 12px 26px;
+            border: 0;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--gold), var(--foil), var(--gold));
+            color: var(--on-accent);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            box-shadow: 0 0 24px rgba(229,193,88,.4);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, filter 0.25s ease !important;
+            will-change: transform;
+        }
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(229,193,88,.65);
+        }
+        .btn-gold:active {
+            transform: translateY(1px) scale(.96) !important;
+        }
+        .btn-gold::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: rotate(25deg);
+            animation: btnGoldShimmer 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes btnGoldShimmer {
+            0% { transform: translateX(-150%) rotate(25deg); }
+            22%, 100% { transform: translateX(350%) rotate(25deg); }
+        }
+
+        #btn-open-invitation {
+            animation: gateOpenPulse 2.8s ease-in-out infinite;
+        }
+        @keyframes gateOpenPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 24px rgba(229,193,88,.4); }
+            50% { transform: scale(1.035); box-shadow: 0 0 34px rgba(229,193,88,.7); }
+        }
+
+        /* Micro-interactions & animations untuk seluruh tombol di proyek ini */
+        button, .btn, a.btn, input[type="button"], input[type="submit"], [role="button"], .btn-copy {
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.2s ease,
+                        filter 0.2s ease,
+                        background-color 0.2s ease,
+                        color 0.2s ease;
+            will-change: transform;
+        }
+        button:hover:not(:disabled), .btn:hover:not(:disabled), a.btn:hover, input[type="button"]:hover, input[type="submit"]:hover, [role="button"]:hover, .btn-copy:hover {
+            transform: translateY(-1.5px);
+        }
+        button:active:not(:disabled), .btn:active:not(:disabled), a.btn:active, input[type="button"]:active, input[type="submit"]:active, [role="button"]:active, .btn-copy:active {
+            transform: translateY(1px) scale(0.96) !important;
+        }
         #gate-veil { position: absolute; inset: 0; background: color-mix(in srgb, var(--navy) 78%, #000); transition: opacity .5s ease; }
 
         /* amplop 3D (kategori formal) */
@@ -548,23 +721,90 @@
         #invitation-content > section { content-visibility: auto; contain-intrinsic-size: 1px 420px; }
         #invitation-content > section:first-of-type { content-visibility: visible; contain-intrinsic-size: auto; }
 
-        .dock { width: 100%; max-width: 400px; height: 56px; border-radius: 999px; background: color-mix(in srgb, var(--obsidian) 96%, transparent); border: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 4px; padding: 0 10px; box-shadow: 0 18px 40px -20px rgba(0,0,0,.9); overflow: hidden; }
+        .dock {
+            width: 100%;
+            max-width: 400px;
+            height: 56px;
+            border-radius: 999px;
+            background: color-mix(in srgb, var(--obsidian) 96%, transparent);
+            border: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4px;
+            padding: 0 10px;
+            box-shadow: 0 18px 40px -20px rgba(0,0,0,.9);
+            overflow: hidden;
+            animation: dockFloat 4.2s ease-in-out infinite;
+        }
+        @keyframes dockFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-2.5px); }
+        }
         .dock a { display: flex; flex: 1 1 0; min-width: 0; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: var(--silver); text-decoration: none; }
         .dock a:hover { color: var(--accent-ink); }
-        .dock a.dock-link.is-active, .dock a.dock-link.is-active:hover { color: var(--on-accent); }
         .dock a svg { flex: none; display: block; }
         .dock .lbl { font-family: 'Space Grotesk', sans-serif; font-size: 8.5px; line-height: 1.1; letter-spacing: .01em; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; text-align: center; }
-        #audio-pill { width: 36px; height: 36px; border-radius: 999px; background: var(--surface-high); color: var(--foil); border: 1px solid var(--line-strong); display: flex; align-items: center; justify-content: center; }
 
-        /* ---------- interaksi dock (profil/acara/galeri/qr/doa + musik) ---------- */
-        .dock-link { border-radius: 12px; transition: color .18s ease, background-color .18s ease, transform .16s ease; }
-        .dock-link:hover { color: var(--accent-ink); background: color-mix(in srgb, var(--foil) 10%, transparent); }
-        .dock-link:active { transform: scale(.9); background: color-mix(in srgb, var(--foil) 18%, transparent); }
+        /* ---------- Animasi & Interaksi Gambar 5 (Kapsul Navigasi Bawah) ---------- */
+        .dock-link {
+            border-radius: 999px;
+            padding: 5px 6px;
+            transition: color .2s cubic-bezier(.16,1,.3,1),
+                        background-color .25s ease,
+                        box-shadow .25s ease,
+                        transform .2s cubic-bezier(.16,1,.3,1) !important;
+        }
+        .dock-link:hover {
+            color: var(--accent-ink);
+            transform: translateY(-2px);
+            background: color-mix(in srgb, var(--foil) 14%, transparent);
+        }
+        .dock-link:active {
+            transform: scale(.92) translateY(1px);
+        }
+        .dock a.dock-link.is-active, .dock a.dock-link.is-active:hover {
+            background: var(--accent);
+            color: var(--on-accent);
+            border-radius: 999px;
+            box-shadow: 0 4px 14px color-mix(in srgb, var(--accent) 45%, transparent);
+            transform: scale(1.02);
+            animation: dockPillPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes dockPillPop {
+            0% { transform: scale(0.92); }
+            60% { transform: scale(1.06); }
+            100% { transform: scale(1.02); }
+        }
+
+        #audio-pill {
+            width: 36px;
+            height: 36px;
+            border-radius: 999px;
+            background: var(--surface-high);
+            color: var(--foil);
+            border: 1px solid var(--line-strong);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform .2s cubic-bezier(0.16,1,0.3,1), box-shadow .25s ease, background-color .2s ease;
+        }
+        #audio-pill:hover {
+            transform: scale(1.08) translateY(-1px);
+            box-shadow: 0 0 0 5px color-mix(in srgb, var(--foil) 24%, transparent);
+        }
+        #audio-pill:active {
+            transform: scale(.9);
+        }
+        #audio-pill[aria-pressed="true"] {
+            animation: audioPulseAura 2s ease-in-out infinite;
+        }
+        @keyframes audioPulseAura {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 color-mix(in srgb, var(--foil) 45%, transparent); }
+            50% { transform: scale(1.06); box-shadow: 0 0 0 8px color-mix(in srgb, var(--foil) 0%, transparent); }
+        }
         
         .dock-link:focus-visible, #audio-pill:focus-visible { outline: 2px solid var(--foil); outline-offset: 2px; }
-        #audio-pill { transition: transform .16s ease, box-shadow .18s ease, background-color .18s ease; }
-        #audio-pill:hover { box-shadow: 0 0 0 4px color-mix(in srgb, var(--foil) 16%, transparent); }
-        #audio-pill:active { transform: scale(.9); }
 
         /* ---------- konten tidak boleh bocor sebelum gerbang dibuka ---------- */
         main#invitation-content { opacity: 0; visibility: hidden; transition: opacity .5s ease; }
@@ -708,8 +948,11 @@
         }
         html[data-tier="eksklusif"] .gal-hero img, html[data-tier="kustom"] .gal-hero img,
         html[data-tier="eksklusif"] .bento img, html[data-tier="kustom"] .bento img,
+        html[data-tier="eksklusif"] .couple-portrait, html[data-tier="kustom"] .couple-portrait,
         html[data-tier="eksklusif"] .couple-portrait-img, html[data-tier="kustom"] .couple-portrait-img {
-            transform: scale(1.16) translate3d(0, calc(var(--card-progress, 0) * -22px), 0);
+            transform: scale(1.16) translate3d(0, calc(var(--card-progress, 0) * -28px), 0);
+            will-change: transform;
+            transition: transform 0.1s cubic-bezier(0.2, 0.8, 0.4, 1);
         }
 
         /* ================= 3D HOLOGRAPHIC CARD TILT ================= */
@@ -919,18 +1162,19 @@
         }
 
 
-        /* ================= PERFORMA (aturan 60FPS) ================= */
-        /* Parallax dibatasi 2 lapisan ringan: midground (z-5) + foreground (z-22).
-           Bokeh (plane-4) dan crest (plane-5) tidak lagi digambar. */
-        html[data-tier] #parallax-plane-4-lens,
-        html[data-tier] #parallax-plane-5-bespoke,
-        #parallax-plane-4-lens,
-        #parallax-plane-5-bespoke { display: none !important; }
+        /* ================= MAXIMIZED 5-PLANE PARALLAX (Eksklusif & Kustom) ================= */
+        html[data-tier="basic"] #parallax-plane-4-lens,
+        html[data-tier="basic"] #parallax-plane-5-bespoke,
+        html[data-tier="premium"] #parallax-plane-4-lens,
+        html[data-tier="premium"] #parallax-plane-5-bespoke { display: none !important; }
 
-        /* Paket Kustom tetap yang paling dalam: bokeh (3 butir) + crest kembali, transform-only. */
+        html[data-tier="eksklusif"] #parallax-plane-4-lens,
+        html[data-tier="eksklusif"] #parallax-plane-5-bespoke,
         html[data-tier="kustom"] #parallax-plane-4-lens,
         html[data-tier="kustom"] #parallax-plane-5-bespoke { display: block !important; }
-        html[data-tier="kustom"] #parallax-plane-4-lens .bokeh:nth-child(n+4) { display: none; }
+
+        html[data-tier="eksklusif"] #parallax-plane-4-lens .bokeh,
+        html[data-tier="kustom"] #parallax-plane-4-lens .bokeh { display: block !important; }
 
         /* Bagian di bawah lipatan tidak dilayout sampai terlihat. */
         main#invitation-content > section { content-visibility: auto; contain-intrinsic-size: 1px 480px; }
@@ -1117,11 +1361,11 @@
                 <div class="pill"><span id="tier-pill-label">{{ strtoupper($tierParam) }}</span> • <span id="tier-pill-price">{{ $tierInfo['price'] }}</span></div>
             @endif
         </div>
+        @if($showTierDock)
         <div class="row mt-1">
             <span class="muted text-[11px] truncate">{{ $styleLabel ? $styleLabel . ' • ' : '' }}{{ $palette }}</span>
             <span class="hud" id="tier-note" style="color:var(--silver)">{{ $tierNote }}</span>
         </div>
-        @if($showTierDock)
         <div class="row mt-1.5" id="top-customizer-dock" aria-label="Pratinjau paket">
             <div class="tier-pill">
                 @foreach(['basic' => 'Basic', 'premium' => 'Premium', 'eksklusif' => 'Eksklusif', 'kustom' => 'Kustom'] as $tierKey => $tierLabel)
@@ -1143,13 +1387,7 @@
     {{-- ================= DOCK ================= --}}
     <div id="bottom-hud">
         <nav class="dock" aria-label="Navigasi undangan">
-            @foreach([
-                ['#profil', 'PROFIL', 'person'],
-                ['#acara', 'ACARA', 'event'],
-                ['#galeri', 'GALERI', 'photo'],
-                ['#section-guest-qr', 'QR TAMU', 'qr'],
-                ['#doa', 'DOA', 'heart'],
-            ] as [$href, $lbl, $ico])
+            @foreach($dockItems as [$href, $lbl, $ico])
                 <a href="{{ $href }}" class="dock-link" data-nav="{{ ltrim($href, '#') }}">
                     {!! $icon($ico, 18, 1.6) !!}
                     <span class="lbl">{{ $lbl }}</span>
@@ -1307,8 +1545,13 @@
         if (gate) { gate.classList.remove('gate-hidden'); }
         const env = document.getElementById('envelope-stage');
         if (env) {
-            env.classList.add('env-hidden');
-            env.querySelectorAll('.open').forEach((el) => el.classList.remove('open'));
+            // Template amplop: tampilkan kembali sampul amplop (bukan disembunyikan) supaya ada gerbang.
+            if (IS_ENVELOPE) {
+                env.classList.remove('env-hidden');
+                env.querySelectorAll('.open').forEach((el) => el.classList.remove('open'));
+            } else {
+                env.classList.add('env-hidden');
+            }
         }
         document.querySelectorAll('.reveal').forEach((el) => el.classList.remove('is-visible'));
         lockScroll();
@@ -1440,7 +1683,7 @@
         const anchors = { ACARA: '#acara', GALERI: '#galeri', PROFIL: '#profil', DOA: '#doa' };
         document.querySelectorAll('#bottom-hud .dock-link').forEach((link) => {
             const label = (link.querySelector('.lbl') || {}).textContent || '';
-            const target = anchors[label.trim()] || link.getAttribute('href');
+            const target = link.getAttribute('href') || anchors[label.trim()];
             if (target && document.querySelector(target) && document.querySelector(target).style.display === 'none') {
                 link.style.display = 'none';
             }
@@ -2131,7 +2374,7 @@
         return s ? s.scrollTop : (window.scrollY || document.documentElement.scrollTop || 0);
     }
 
-    /* ================= 5-PLANE 2.5D PARALLAX (halus, satu loop) ================= */
+    /* ================= 5-PLANE 2.5D PARALLAX (maksimal untuk Eksklusif & Kustom) ================= */
     window.DKarsaParallaxEngine = (function () {
         const root = document.documentElement;
         const state = { y: 0, vel: 0, tx: 0, ty: 0, depth: 1 };
@@ -2139,7 +2382,7 @@
         let ticking = false, raf = 0, running = false;
         let targetY = 0, smoothY = 0, lastY = 0, lastT = 0, hideT = 0;
         let sections = [], cacheDirty = true;
-        let midEl = null, ornEls = [], bokehEls = [];
+        let midEl = null, ornEls = [], bokehEls = [], bespokePlaneEl = null;
 
         function highTier() { return DKarsaTier() === 'eksklusif' || DKarsaTier() === 'kustom'; }
 
@@ -2156,14 +2399,18 @@
         function scrubCards(y) {
             if (cacheDirty) { measure(); }
             const vh = window.innerHeight;
+            const isKustom = DKarsaTier() === 'kustom';
+            const tiltMax = isKustom ? 13 : 10;
+            const yOffsetMax = isKustom ? 48 : 38;
+
             for (const s of sections) {
                 const top = s.top - y;
-                if (top > vh + 200 || top + s.height < -200) { continue; }
+                if (top > vh + 240 || top + s.height < -240) { continue; }
                 const enter = Math.min(1, Math.max(0, (vh - top) / (vh * 0.55)));
                 const inv = 1 - enter;
-                s.el.style.setProperty('--card-tilt', inv.toFixed(3));
-                s.el.style.setProperty('--card-y', (inv * 36).toFixed(1));
-                s.el.style.setProperty('--card-scale', inv.toFixed(3));
+                s.el.style.setProperty('--card-tilt', (inv * (tiltMax / 10)).toFixed(3));
+                s.el.style.setProperty('--card-y', (inv * yOffsetMax).toFixed(1));
+                s.el.style.setProperty('--card-scale', (inv * 0.05).toFixed(3));
                 s.el.style.setProperty('--card-fade', inv.toFixed(3));
                 s.el.style.setProperty('--card-progress', ((top + s.height / 2 - vh / 2) / vh).toFixed(3));
             }
@@ -2171,22 +2418,54 @@
 
         function drivePlanes(y) {
             const vh = window.innerHeight;
-            const tx = state.tx * state.depth;
+            const isKustom = DKarsaTier() === 'kustom';
+            const depthMult = state.depth || (isKustom ? 2 : 1.8);
+            const tx = state.tx * depthMult;
+            const ty = state.ty * depthMult;
 
-            const deep = DKarsaTier() === 'kustom';
+            // Plane 0 (latar belakang dinamis)
+            const bgEl = document.getElementById('parallax-plane-0-bg');
+            if (bgEl) {
+                bgEl.style.transform = 'scale(1.15) translate3d(' + (tx * -14).toFixed(1) + 'px,' + (y * -0.14).toFixed(1) + 'px,0)';
+            }
+
+            // Plane 1 (siluet arsitektur / motif budaya midground)
             if (midEl) {
-                const drift = Math.sin(y * 0.0022) * (deep ? 74 : 58);
-                midEl.style.transform = 'translate3d(' + (tx * (deep ? -20 : -14)).toFixed(1) + 'px,' + (drift - y * (deep ? 0.38 : 0.28)).toFixed(1) + 'px,0)';
+                const drift = Math.sin(y * 0.0024) * (isKustom ? 82 : 66);
+                midEl.style.transform = 'translate3d(' + (tx * (isKustom ? -26 : -18)).toFixed(1) + 'px,' + (drift - y * (isKustom ? 0.42 : 0.32)).toFixed(1) + 'px,0)';
             }
 
+            // Plane 3 (ornamen gantung / dedaunan foreground)
             for (let i = 0; i < ornEls.length; i++) {
-                ornEls[i].style.translate = '0 ' + (state.tx * (deep ? 24 : 18) + Math.sin(y * 0.004 + i * 1.7) * 16 - y * (deep ? 0.62 : 0.48)).toFixed(1) + 'px';
+                const swayFactor = Math.sin(y * 0.004 + i * 1.7) * (isKustom ? 24 : 18);
+                const xOffset = tx * (isKustom ? 32 : 22);
+                const yOffset = -y * (isKustom ? 0.72 : 0.54) + swayFactor;
+                ornEls[i].style.transform = 'translate3d(' + xOffset.toFixed(1) + 'px,' + yOffset.toFixed(1) + 'px,0)';
             }
 
+            // Plane 4 (7 lensa bokeh mengambang dengan kedalaman berlapis)
             for (let i = 0; i < bokehEls.length; i++) {
-                const span = vh + 200;
-                const yy = (((y * 0.85 + i * 190) % span) + span) % span;
-                bokehEls[i].style.transform = 'translate3d(' + (tx * 22).toFixed(1) + 'px,' + (-yy + 100).toFixed(1) + 'px,0)';
+                const span = vh + 300;
+                const speed = 0.92 + (i % 4) * 0.22;
+                const yy = (((y * speed + i * 170) % span) + span) % span;
+                const xShift = tx * (26 + (i % 4) * 9);
+                bokehEls[i].style.transform = 'translate3d(' + xShift.toFixed(1) + 'px,' + (-yy + 120).toFixed(1) + 'px,0) scale(' + (1 + (i % 2) * 0.15) + ')';
+            }
+
+            // Plane 5 (mandala / lambang sakral eksklusif & kustom)
+            if (bespokePlaneEl) {
+                const crest = bespokePlaneEl.querySelector('.crest');
+                if (crest) {
+                    const crestY = -y * (isKustom ? 0.18 : 0.12);
+                    const crestRot = tx * 7;
+                    crest.style.transform = 'translate3d(' + (tx * -16).toFixed(1) + 'px,' + crestY.toFixed(1) + 'px,0) rotate(' + crestRot.toFixed(1) + 'deg)';
+                }
+            }
+
+            // Foto latar belakang (.page-photo)
+            const pagePhotos = document.querySelectorAll('.page-photo');
+            for (let i = 0; i < pagePhotos.length; i++) {
+                pagePhotos[i].style.transform = 'scale(1.1) translate3d(' + (tx * -8).toFixed(1) + 'px,' + (y * -0.12).toFixed(1) + 'px,0)';
             }
         }
 
@@ -2271,11 +2550,13 @@
         }
 
         function init() {
-            try { setDepth(Number(sessionStorage.getItem('dkarsa-depth')) || 1); } catch (e) {}
+            const autoDepth = (DKarsaTier() === 'kustom' || DKarsaTier() === 'eksklusif') ? 2 : 1;
+            try { setDepth(Number(sessionStorage.getItem('dkarsa-depth')) || autoDepth); } catch (e) { setDepth(autoDepth); }
             injectGlare();
             midEl = document.getElementById('parallax-plane-1-midground');
             ornEls = [...document.querySelectorAll('#parallax-plane-3-foreground .orn-hang')];
             bokehEls = [...document.querySelectorAll('#parallax-plane-4-lens .bokeh')];
+            bespokePlaneEl = document.getElementById('parallax-plane-5-bespoke');
             measure();
             window.addEventListener('scroll', onScroll, { passive: true });
             const scroller = document.getElementById('invitation-content');
@@ -2287,6 +2568,24 @@
             if (window.matchMedia('(pointer: fine)').matches) {
                 window.addEventListener('pointermove', onPointer, { passive: true });
             }
+            // Giroskop ponsel untuk tilt 3D interaktif di genggaman
+            if (window.DeviceOrientationEvent && typeof window.DeviceOrientationEvent.requestPermission !== 'function') {
+                window.addEventListener('deviceorientation', function (e) {
+                    if (e.gamma !== null && e.beta !== null) {
+                        state.tx = Math.max(-1, Math.min(1, e.gamma / 30));
+                        state.ty = Math.max(-1, Math.min(1, (e.beta - 45) / 30));
+                        if (!running) startLoop();
+                    }
+                }, { passive: true });
+            }
+            // Dukungan sentuhan layar ponsel
+            window.addEventListener('touchmove', function (e) {
+                if (e.touches && e.touches[0]) {
+                    state.tx = (e.touches[0].clientX / window.innerWidth - 0.5) * 1.8;
+                    state.ty = (e.touches[0].clientY / window.innerHeight - 0.5) * 1.8;
+                    if (!running) startLoop();
+                }
+            }, { passive: true });
             document.addEventListener('visibilitychange', () => {
                 if (document.hidden) { running = false; cancelAnimationFrame(raf); }
                 else { startLoop(); }

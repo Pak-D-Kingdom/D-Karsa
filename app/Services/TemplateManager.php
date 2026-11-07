@@ -961,6 +961,15 @@ class TemplateManager
             $culture = $t['culture'];
             $v = $venue[$culture];
             $h = $hosts[$culture];
+            $quoteByCulture = match ($culture) {
+                'corporate' => 'Kami menghaturkan terima kasih atas perhatian dan kehadiran Bapak/Ibu dalam agenda resmi ini. Kehadiran Anda menjadi bagian penting dari keberhasilan dan sinergi bersama.',
+                'birthday' => 'Selamat bertambah usia! Semoga tahun yang baru membawa limpahan kebahagiaan, kesehatan prima, dan langkah-langkah yang penuh berkah.',
+                'graduate' => 'Hari ini adalah awal perjalanan baru. Ilmu dan pengalaman yang diraih menjadi lentera untuk melangkah lebih jauh dan memberi manfaat seluas-luasnya.',
+                'aqiqah' => 'Ya Allah, berkahilah anak ini dalam kehidupannya dan jadikanlah ia anak yang berbakti kepada kedua orang tua serta berguna bagi agama dan nusa bangsa.',
+                'religious' => 'Ingatlah, hanya dengan mengingat Allah hati menjadi tenteram. Semoga majelis ini mendatangkan keberkahan dan mempererat ukhuwah.',
+                default => 'Semoga Tuhan Yang Maha Esa senantiasa melimpahkan berkah, rahmat, dan kebahagiaan bagi kita semua.',
+            };
+
             $cfg = [
                 'slug' => $t['key'].'-demo',
                 'category' => self::eventCategoryLabel($culture),
@@ -979,7 +988,7 @@ class TemplateManager
                 'wedding_date' => $weddingDate->copy(),
                 'venue_name' => $v['venue'],
                 'venue_address' => $v['address'],
-                'quote' => 'Semoga Tuhan Yang Maha Esa senantiasa melimpahkan berkah, rahmat, dan kebahagiaan bagi kita semua.',
+                'quote' => $quoteByCulture,
                 'bank_name_1' => 'BCA',
                 'bank_account_1' => '8820 3948 21',
                 'bank_holder_1' => $h['fullname'],

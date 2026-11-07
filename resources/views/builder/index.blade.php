@@ -57,6 +57,54 @@
         .step-pill.completed { background-color: #fdf4f5; color: #cf2445; border-color: #f63854; }
 
         /* ========================================================
+           GLOBAL BUTTON ANIMATIONS (Seluruh Tombol di Builder)
+        ======================================================== */
+        button, .btn, a.btn, input[type="button"], input[type="submit"], .step-pill, [role="button"] {
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.2s ease,
+                        background-color 0.2s ease,
+                        border-color 0.2s ease,
+                        color 0.2s ease !important;
+            will-change: transform;
+        }
+        button:hover:not(:disabled), .btn:hover:not(:disabled), a.btn:hover, input[type="button"]:hover, input[type="submit"]:hover, [role="button"]:hover {
+            transform: translateY(-1.5px);
+        }
+        button:active:not(:disabled), .btn:active:not(:disabled), a.btn:active, input[type="button"]:active, input[type="submit"]:active, [role="button"]:active {
+            transform: translateY(1px) scale(0.97) !important;
+        }
+
+        /* Primary action button shimmer & pulse */
+        .btn-brand, #btnSubmit, #btnNext, #kdContrastFix, .bg-brand:is(button, a) {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-brand::after, #btnSubmit::after, #btnNext::after, #kdContrastFix::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+            transform: rotate(25deg);
+            animation: btnShine 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes btnShine {
+            0% { transform: translateX(-150%) rotate(25deg); }
+            20%, 100% { transform: translateX(350%) rotate(25deg); }
+        }
+
+        #kdContrastFix {
+            animation: bounceContrast 2.4s ease-in-out infinite;
+        }
+        @keyframes bounceContrast {
+            0%, 100% { transform: scale(1); box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3); }
+            50% { transform: scale(1.04); box-shadow: 0 6px 18px rgba(245, 158, 11, 0.55); }
+        }
+
+        /* ========================================================
            PREMIUM & MULTI-THEME AMBIENT ANIMATIONS
         ======================================================== */
         @keyframes seal-pulse {
@@ -730,10 +778,11 @@
                                     ⚠️ Kontras teks terlalu rendah
                                 </span>
                                 <button type="button" id="kdContrastFix" onclick="fixKustomContrast()"
-                                        class="hidden px-3 py-1.5 rounded-full bg-amber-500 text-white text-[10px] font-bold">
+                                        class="hidden px-3 py-1.5 rounded-full bg-amber-500 text-white text-[10px] font-bold hover:bg-amber-600 active:scale-95 transition">
                                     Perbaiki Kontras Otomatis
                                 </button>
                             </div>
+                            <p id="kdContrastNote" class="hidden text-[10px] font-semibold text-emerald-700"></p>
                         </div>
 
                         {{-- 2. Gerbang --}}
@@ -915,7 +964,7 @@
                             <input type="text" name="slug" id="slugInput" value="{{ old('slug') }}" placeholder="Contoh: rizky-amanda"
                                    class="w-full px-3 py-3 text-xs font-semibold focus:outline-none">
                         </div>
-                        <p class="text-[10px] text-ink3">Biarkan kosong untuk otomatis dibuat dari nama tokoh / mempelai.</p>
+                        <p id="slugHint" class="text-[10px] text-ink3">Biarkan kosong untuk otomatis dibuat dari nama tokoh / mempelai.</p>
                     </div>
                 </div>
 
@@ -936,12 +985,12 @@
 
                 {{-- Kutipan / Ayat / Doa --}}
                 <div class="space-y-1.5 pt-2 border-t border-ink/10">
-                    <label class="block text-xs font-bold uppercase tracking-wider text-ink2">Kutipan Ayat Suci / Kata Mutiara (Quote)</label>
+                    <label id="quoteSectionLabel" class="block text-xs font-bold uppercase tracking-wider text-ink2">Kutipan Ayat Suci / Kata Mutiara (Quote)</label>
                     <textarea name="quote" id="quoteInput" rows="3"
                               placeholder="Tuliskan kutipan ayat suci, mutiara kata, atau doa restu (Contoh: QS. Ar-Rum: 21)..."
                               class="w-full rounded-2xl border border-ink/20 p-4 text-xs focus:outline-none focus:ring-2 focus:ring-brand leading-relaxed">{{ old('quote') }}</textarea>
 
-                    <div class="flex flex-wrap gap-1.5 pt-1">
+                    <div id="quoteQuickChips" class="flex flex-wrap gap-1.5 pt-1">
                         <span class="text-[11px] text-ink3 self-center mr-1">Contoh Teks Cepat:</span>
                         <button type="button" onclick="setQuote('islamic')" class="px-2.5 py-1 rounded-full bg-sunk hover:bg-brand/10 text-[11px] font-semibold text-ink2">QS. Ar-Rum: 21</button>
                         <button type="button" onclick="setQuote('christian')" class="px-2.5 py-1 rounded-full bg-sunk hover:bg-brand/10 text-[11px] font-semibold text-ink2">1 Korintus 13:4-7</button>
@@ -1123,27 +1172,47 @@
                     </div>
                 </div>
 
-                {{-- Keluarga 2 --}}
+                {{-- Keluarga 2 / Hubungan Masyarakat & Narahubung --}}
                 <div class="p-5 rounded-3xl bg-white border border-ink/15 shadow-sm space-y-4">
                     <b id="family2Title" class="text-xs font-bold uppercase tracking-wider text-ink block">Keluarga Mempelai Wanita</b>
                     
                     <div class="grid sm:grid-cols-2 gap-4">
-                        <div class="space-y-1.5">
-                            <label id="family2FatherLabel" class="block text-xs font-semibold text-ink2">Nama Ayah</label>
-                            <input type="text" name="bride_father" id="brideFatherInput" value="{{ old('bride_father') }}"
-                                   placeholder="Contoh: Bapak Ir. Suryo Broto"
-                                   class="w-full rounded-2xl border border-ink/20 px-4 py-3 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                        {{-- Kolom / Kontak 1 --}}
+                        <div class="space-y-3">
+                            <div class="space-y-1.5">
+                                <label id="family2FatherLabel" class="block text-xs font-semibold text-ink2">Nama Ayah</label>
+                                <input type="text" name="bride_father" id="brideFatherInput" value="{{ old('bride_father') }}"
+                                       placeholder="Contoh: Bapak Ir. Suryo Broto"
+                                       class="w-full rounded-2xl border border-ink/20 px-4 py-3 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                            </div>
+
+                            <div id="contactPhone1Wrap" class="hidden space-y-1.5">
+                                <label id="contactPhone1Label" class="block text-xs font-semibold text-ink2">Nomor HP / WhatsApp CP 1</label>
+                                <input type="tel" name="cp_phone_1" id="cpPhone1Input" value="{{ old('cp_phone_1') }}"
+                                       inputmode="tel" placeholder="Contoh: 0812 3456 7890"
+                                       class="w-full rounded-2xl border border-ink/20 px-4 py-3 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                            </div>
                         </div>
 
-                        <div class="space-y-1.5">
-                            <label id="family2MotherLabel" class="block text-xs font-semibold text-ink2">Nama Ibu</label>
-                            <input type="text" name="bride_mother" id="brideMotherInput" value="{{ old('bride_mother') }}"
-                                   placeholder="Contoh: Ibu Dewi Anggraini"
-                                   class="w-full rounded-2xl border border-ink/20 px-4 py-3 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                        {{-- Kolom / Kontak 2 --}}
+                        <div class="space-y-3">
+                            <div class="space-y-1.5">
+                                <label id="family2MotherLabel" class="block text-xs font-semibold text-ink2">Nama Ibu</label>
+                                <input type="text" name="bride_mother" id="brideMotherInput" value="{{ old('bride_mother') }}"
+                                       placeholder="Contoh: Ibu Dewi Anggraini"
+                                       class="w-full rounded-2xl border border-ink/20 px-4 py-3 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                            </div>
+
+                            <div id="contactPhone2Wrap" class="hidden space-y-1.5">
+                                <label id="contactPhone2Label" class="block text-xs font-semibold text-ink2">Nomor HP / WhatsApp CP 2</label>
+                                <input type="tel" name="cp_phone_2" id="cpPhone2Input" value="{{ old('cp_phone_2') }}"
+                                       inputmode="tel" placeholder="Contoh: 0857 1111 2233"
+                                       class="w-full rounded-2xl border border-ink/20 px-4 py-3 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                            </div>
                         </div>
                     </div>
 
-                    <div class="space-y-1.5">
+                    <div id="family2CityWrap" class="space-y-1.5">
                         <label id="family2CityLabel" class="block text-xs font-semibold text-ink2">Kota Asal / Domisili Keluarga Wanita</label>
                         <input type="text" name="bride_city" id="brideCityInput" value="{{ old('bride_city') }}"
                                placeholder="Contoh: Bandung / Yogyakarta"
@@ -1339,13 +1408,13 @@
             <div id="stepPanel5" class="step-panel space-y-6">
                 <div>
                     <span class="text-xs font-bold uppercase tracking-widest text-brand block mb-1">Langkah 5</span>
-                    <h2 class="font-serif text-2xl font-bold text-ink">Amplop Digital &amp; Tanda Kasih</h2>
+                    <h2 id="step5Title" class="font-serif text-2xl font-bold text-ink">Amplop Digital &amp; Tanda Kasih</h2>
                     <p id="step5Desc" class="text-xs text-ink2 mt-1">{{ $currentGalConf['step5Desc'] }}</p>
                 </div>
 
                 {{-- Rekening 1 --}}
                 <div class="p-5 rounded-3xl bg-white border border-ink/15 shadow-sm space-y-4">
-                    <b class="text-xs font-bold uppercase tracking-wider text-ink block">Rekening Bank 1 (Utama)</b>
+                    <b id="bankTitle1" class="text-xs font-bold uppercase tracking-wider text-ink block">Rekening Bank 1 (Utama)</b>
                     <div class="grid sm:grid-cols-3 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-semibold text-ink2">Pilihan Bank / e-Wallet</label>
@@ -1366,8 +1435,8 @@
                                    class="w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
                         </div>
                         <div class="space-y-1">
-                            <label class="block text-xs font-semibold text-ink2">Atas Nama Pemilik</label>
-                            <input type="text" name="bank_holder_1" value="{{ old('bank_holder_1') }}" placeholder="Contoh: Rizky Pratama"
+                            <label id="bankHolderLabel1" class="block text-xs font-semibold text-ink2">Atas Nama Pemilik</label>
+                            <input type="text" name="bank_holder_1" id="bankHolderInput1" value="{{ old('bank_holder_1') }}" placeholder="Contoh: Rizky Pratama"
                                    class="w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
                         </div>
                     </div>
@@ -1375,7 +1444,7 @@
 
                 {{-- Rekening 2 --}}
                 <div class="p-5 rounded-3xl bg-white border border-ink/15 shadow-sm space-y-4">
-                    <b class="text-xs font-bold uppercase tracking-wider text-ink block">Rekening Bank 2 (Opsional)</b>
+                    <b id="bankTitle2" class="text-xs font-bold uppercase tracking-wider text-ink block">Rekening Bank 2 (Opsional)</b>
                     <div class="grid sm:grid-cols-3 gap-3">
                         <div class="space-y-1">
                             <label class="block text-xs font-semibold text-ink2">Pilihan Bank / e-Wallet</label>
@@ -1395,8 +1464,8 @@
                                    class="w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
                         </div>
                         <div class="space-y-1">
-                            <label class="block text-xs font-semibold text-ink2">Atas Nama Pemilik</label>
-                            <input type="text" name="bank_holder_2" value="{{ old('bank_holder_2') }}" placeholder="Contoh: Amanda Putri Sastro"
+                            <label id="bankHolderLabel2" class="block text-xs font-semibold text-ink2">Atas Nama Pemilik</label>
+                            <input type="text" name="bank_holder_2" id="bankHolderInput2" value="{{ old('bank_holder_2') }}" placeholder="Contoh: Amanda Putri Sastro"
                                    class="w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
                         </div>
                     </div>
@@ -1982,7 +2051,26 @@
                 quoteEl.value = 'Kasih itu sabar; kasih itu murah hati; ia tidak cemburu. Ia tidak memegahkan diri dan tidak sombong. Kasih tidak berkesudahan. (1 Korintus 13:4, 8)';
             } else if (type === 'general') {
                 quoteEl.value = 'Dua jiwa yang bersatu, dua hati yang berpadu dalam ikatan cinta yang suci untuk melangkah bersama mengarungi perjalanan hidup selamanya.';
+            } else if (type === 'formal') {
+                quoteEl.value = 'Kami menghaturkan terima kasih atas perhatian dan kehadiran Bapak/Ibu dalam acara yang kami selenggarakan. Kehadiran Anda menjadi bagian penting dari kesuksesan acara ini.';
+            } else if (type === 'vision') {
+                quoteEl.value = 'Bersama kita tumbuh, berkolaborasi, dan menciptakan dampak yang nyata. Acara ini menjadi wadah untuk berbagi gagasan, memperkuat sinergi, dan merayakan capaian bersama.';
+            } else if (type === 'invite') {
+                quoteEl.value = 'Dengan hormat, kami mengundang Bapak/Ibu/Rekan-rekan sekalian untuk hadir dalam acara kami sebagai bentuk dukungan dan kerja sama yang berkelanjutan.';
+            } else if (type === 'birthday') {
+                quoteEl.value = 'Selamat bertambah usia! Semoga tahun baru ini membawa kebahagiaan, kesehatan, dan keberkahan bagi keluarga.';
+            } else if (type === 'wisuda') {
+                quoteEl.value = 'Hari ini adalah awal dari perjalanan baru. Ilmu yang diraih menjadi bekal untuk melangkah lebih jauh, mengabdi, dan memberi manfaat bagi sesama.';
+            } else if (type === 'aqiqah') {
+                quoteEl.value = 'Ya Allah, berkahilah anak ini dalam kehidupannya dan jadikanlah ia anak yang berbakti kepada kedua orang tua serta bermanfaat bagi agama dan bangsa.';
+            } else if (type === 'khitan') {
+                quoteEl.value = 'Semoga dengan menunaikan syariat khitan ini, ananda tumbuh menjadi anak yang shaleh, sehat, cerdas, dan taat kepada Allah SWT.';
+            } else if (type === 'tahlil') {
+                quoteEl.value = 'Ya Allah, ampunilah dosa-dosanya, limpahkanlah rahmat kepadanya, muliakanlah tempat tinggalnya, dan luaskanlah kuburnya.';
+            } else if (type === 'halal') {
+                quoteEl.value = 'Menjalin silaturahmi mempererat persaudaraan, membuka pintu rezeki, dan melapangkan umur yang penuh keberkahan.';
             }
+            quoteEl.dispatchEvent(new Event('input', { bubbles: true }));
         }
 
         /* ---------- Pustaka kutipan (dipilih atau diacak) ---------- */
@@ -2000,25 +2088,50 @@
             { group: 'Adat Nusantara', label: 'Pepatah Minang', text: 'Adat basandi syarak, syarak basandi Kitabullah — adat berlandaskan syariat, syariat berlandaskan Al-Qur\'an.' },
             { group: 'Umum', label: 'Puisi Romantis', text: 'Dua jiwa yang bersatu, dua hati yang berpadu dalam ikatan cinta yang suci untuk melangkah bersama mengarungi perjalanan hidup selamanya.' },
             { group: 'Umum', label: 'Kata Mutiara', text: 'Pernikahan bukan tentang menemukan orang yang sempurna, melainkan memilih orang yang tepat untuk menemani setiap langkah, dalam suka maupun duka.' },
+            { group: 'Umum', label: 'Harapan Ulang Tahun', text: 'Selamat bertambah usia! Semoga tahun baru ini membawa kebahagiaan, kesehatan, dan keberkahan bagi keluarga.' },
+            { group: 'Korporat', label: 'Kata Mutiara Formal', text: 'Kami menghaturkan terima kasih atas perhatian dan kehadiran Bapak/Ibu dalam acara yang kami selenggarakan. Kehadiran Anda menjadi bagian penting dari kesuksesan acara ini.' },
+            { group: 'Korporat', label: 'Visi & Misi Acara', text: 'Bersama kita tumbuh, berkolaborasi, dan menciptakan dampak yang nyata. Acara ini menjadi wadah untuk berbagi gagasan, memperkuat sinergi, dan merayakan capaian bersama.' },
+            { group: 'Korporat', label: 'Undangan Resmi', text: 'Dengan hormat, kami mengundang Bapak/Ibu/Rekan-rekan sekalian untuk hadir dalam acara kami sebagai bentuk dukungan dan kerja sama yang berkelanjutan.' },
+            { group: 'Korporat', label: 'Peluncuran Produk', text: 'Dengan bangga kami memperkenalkan inovasi terbaru kami. Mari saksikan bersama peluncuran produk ini sebagai langkah baru dalam perjalanan kami melayani Anda.' },
+            { group: 'Pendidikan', label: 'Kata Mutiara Wisuda', text: 'Hari ini adalah awal dari perjalanan baru. Ilmu yang diraih menjadi bekal untuk melangkah lebih jauh, mengabdi, dan memberi manfaat bagi sesama.' },
+            { group: 'Pendidikan', label: 'Ucapan Selamat Wisuda', text: 'Selamat atas kelulusan dan gelar yang diraih. Semoga langkah berikutnya dipenuhi keberkahan, kemudahan, dan kesempatan yang terbaik.' },
+            { group: 'Perayaan', label: 'Ucapan Syukur', text: 'Syukur kami panjatkan atas bertambahnya usia dan kebersamaan keluarga. Semoga senantiasa diberi kesehatan, kebahagiaan, dan umur yang bermanfaat.' },
+            { group: 'Aqiqah', label: 'Doa Buah Hati', text: 'Ya Allah, berkahilah anak ini dalam kehidupannya dan jadikanlah ia anak yang berbakti kepada kedua orang tua serta bermanfaat bagi agama dan bangsa.' },
+            { group: 'Khitanan', label: 'Doa Khitanan', text: 'Semoga dengan menunaikan syariat khitan ini, ananda tumbuh menjadi anak yang shaleh, sehat, cerdas, dan taat kepada Allah SWT.' },
+            { group: 'Tahlilan', label: 'Doa Tahlil & Arwah', text: 'Ya Allah, ampunilah dosa-dosanya, limpahkanlah rahmat kepadanya, muliakanlah tempat tinggalnya, dan luaskanlah kuburnya.' },
+            { group: 'Silaturahmi', label: 'Silaturahmi & Maaf', text: 'Menjalin silaturahmi mempererat persaudaraan, membuka pintu rezeki, dan melapangkan umur yang penuh keberkahan.' },
         ];
+
+        let quoteLibraryGroups = null;
+
+        function rebuildQuoteLibrary(allowedGroups) {
+            quoteLibraryGroups = Array.isArray(allowedGroups) && allowedGroups.length ? allowedGroups : null;
+            const sel = document.getElementById('quoteLibrarySelect');
+            if (!sel) { return; }
+            sel.innerHTML = '<option value="">Pustaka kutipan…</option>';
+            sel.dataset.built = '0';
+            buildQuoteLibrary();
+        }
 
         function buildQuoteLibrary() {
             const sel = document.getElementById('quoteLibrarySelect');
             if (!sel || sel.dataset.built === '1') { return; }
-            const groups = [...new Set(QUOTE_LIBRARY.map((q) => q.group))];
+            const allowed = (item) => !quoteLibraryGroups || quoteLibraryGroups.includes(item.group);
+            const pool = QUOTE_LIBRARY.map((item, index) => ({ ...item, index })).filter(allowed);
+            const groups = [...new Set(pool.map((q) => q.group))];
             groups.forEach((group) => {
                 const og = document.createElement('optgroup');
                 og.label = group;
-                QUOTE_LIBRARY.forEach((q, index) => {
+                pool.forEach((q) => {
                     if (q.group !== group) { return; }
                     const opt = document.createElement('option');
-                    opt.value = String(index);
+                    opt.value = String(q.index);
                     opt.textContent = q.label;
                     og.appendChild(opt);
                 });
                 sel.appendChild(og);
             });
-            if (sel.options[0]) { sel.options[0].textContent = 'Pustaka kutipan (' + QUOTE_LIBRARY.length + ' pilihan)…'; }
+            if (sel.options[0]) { sel.options[0].textContent = 'Pustaka kutipan (' + pool.length + ' pilihan)…'; }
             sel.dataset.built = '1';
         }
 
@@ -2039,10 +2152,11 @@
         }
 
         function randomQuote() {
-            const pool = QUOTE_LIBRARY;
+            const allowed = (item) => !quoteLibraryGroups || quoteLibraryGroups.includes(item.group);
+            const pool = QUOTE_LIBRARY.filter(allowed);
             const pick = pool[Math.floor(Math.random() * pool.length)];
             const sel = document.getElementById('quoteLibrarySelect');
-            if (sel) { sel.value = String(pool.indexOf(pick)); }
+            if (sel) { sel.value = String(QUOTE_LIBRARY.indexOf(pick)); }
             fillQuote(pick.text);
         }
 
@@ -2717,6 +2831,7 @@
                 family2FatherLabel: "Nama Humas / Contact Person 1",
                 family2MotherLabel: "Nama Contact Person 2",
                 family2CityLabel: "Nomor Narahubung / Info",
+                contactPhones: true,
 
                 // Step 4
                 event1Header: "🏛️ Acara 1: Sesi Utama / Seminar / Grand Opening",
@@ -2743,6 +2858,171 @@
                     { value: 'lullaby-melody.wav', label: '♫ Lullaby Melody (Lembut untuk Bayi)' }],
             }
         };
+
+        /* ---------- Teks bantuan yang menyesuaikan template/kategori terpilih ---------- */
+        const CATEGORY_COPY = {
+            'Pernikahan': {
+                slugHint: 'Biarkan kosong untuk otomatis dibuat dari nama kedua mempelai.',
+                quoteLabel: 'Kutipan Ayat Suci / Kata Mutiara (Quote)',
+                quoteGroups: ['Islami', 'Kristen', 'Adat Nusantara', 'Umum'],
+                chips: [['islamic', 'QS. Ar-Rum: 21'], ['christian', '1 Korintus 13:4-7'], ['general', 'Puisi Romantis']],
+                bankTitle: 'Rekening Bank 1 (Mempelai Pria)',
+                bankHolderLabel: 'Atas Nama Mempelai Pria',
+                bankHolderPlaceholder: 'Contoh: Rizky Pratama',
+                bankTitle2: 'Rekening Bank 2 (Mempelai Wanita - Opsional)',
+                bankHolderLabel2: 'Atas Nama Mempelai Wanita',
+                bankHolderPlaceholder2: 'Contoh: Amanda Putri Sastro',
+                envelopeTitle: 'Amplop Digital & Tanda Kasih',
+                envelopeDesc: 'Kirimkan kado digital atau tanda kasih untuk kedua mempelai.',
+            },
+            'Ulang Tahun': {
+                slugHint: 'Biarkan kosong untuk otomatis dibuat dari nama yang berulang tahun.',
+                quoteLabel: 'Ucapan & Kata Mutiara (Quote)',
+                quoteGroups: ['Perayaan', 'Umum'],
+                chips: [['birthday', 'Harapan Ultah'], ['general', 'Ucapan Syukur']],
+                bankTitle: 'Rekening Kado 1 (Utama)',
+                bankHolderLabel: 'Atas Nama Yang Berulang Tahun',
+                bankHolderPlaceholder: 'Contoh: Nathan Dirgantara',
+                bankTitle2: 'Rekening Kado 2 (Orang Tua / Cadangan)',
+                bankHolderLabel2: 'Atas Nama Orang Tua / Penyelenggara',
+                bankHolderPlaceholder2: 'Contoh: Hendra Pratama',
+                envelopeTitle: 'Kado Digital & Tanda Kasih',
+                envelopeDesc: 'Kirimkan kado atau tanda kasih untuk yang berulang tahun.',
+            },
+            'Aqiqah': {
+                slugHint: 'Biarkan kosong untuk otomatis dibuat dari nama buah hati.',
+                quoteLabel: 'Doa Syukur & Kutipan (Quote)',
+                quoteGroups: ['Aqiqah', 'Islami', 'Umum'],
+                chips: [['aqiqah', 'Doa Buah Hati'], ['islamic', 'QS. Ar-Ra\'d: 28'], ['general', 'Doa Syukur']],
+                bankTitle: 'Rekening Tanda Kasih 1 (Ayah / Wali)',
+                bankHolderLabel: 'Atas Nama Ayah / Wali',
+                bankHolderPlaceholder: 'Contoh: Muhammad Yusuf',
+                bankTitle2: 'Rekening Tanda Kasih 2 (Ibu / Pendamping)',
+                bankHolderLabel2: 'Atas Nama Ibu / Pendamping',
+                bankHolderPlaceholder2: 'Contoh: Siti Fatimah',
+                envelopeTitle: 'Tanda Kasih & Kado Buah Hati',
+                envelopeDesc: 'Tanda kasih dan doa restu untuk ananda tercinta.',
+            },
+            'Khitanan': {
+                slugHint: 'Biarkan kosong untuk otomatis dibuat dari nama anak.',
+                quoteLabel: 'Doa & Kutipan Khitanan (Quote)',
+                quoteGroups: ['Khitanan', 'Islami', 'Umum'],
+                chips: [['khitan', 'Doa Khitanan'], ['islamic', 'QS. Ar-Ra\'d: 28'], ['general', 'Doa Syukur']],
+                bankTitle: 'Rekening Hadiah 1 (Ayah / Wali)',
+                bankHolderLabel: 'Atas Nama Ayah / Wali',
+                bankHolderPlaceholder: 'Contoh: Muhammad Yusuf',
+                bankTitle2: 'Rekening Hadiah 2 (Ibu / Pendamping)',
+                bankHolderLabel2: 'Atas Nama Ibu / Pendamping',
+                bankHolderPlaceholder2: 'Contoh: Siti Fatimah',
+                envelopeTitle: 'Tanda Kasih & Hadiah Khitanan',
+                envelopeDesc: 'Tanda kasih dan doa restu untuk putra kami tercinta.',
+            },
+            'Keagamaan': {
+                slugHint: 'Biarkan kosong untuk otomatis dibuat dari nama majelis / acara.',
+                quoteLabel: 'Kutipan Ayat Suci / Muhasabah (Quote)',
+                quoteGroups: ['Islami', 'Umum'],
+                chips: [['islamic', 'QS. Ar-Ra\'d: 28'], ['islamic', 'HR. Tirmidzi'], ['general', 'Doa Bersama']],
+                bankTitle: 'Rekening Infaq / Sedekah 1 (Utama)',
+                bankHolderLabel: 'Atas Nama Pengurus / Lembaga',
+                bankHolderPlaceholder: 'Contoh: Majelis Ta\'lim Al-Ikhlas',
+                bankTitle2: 'Rekening Infaq / Sedekah 2 (Opsional)',
+                bankHolderLabel2: 'Atas Nama Bendahara Majelis',
+                bankHolderPlaceholder2: 'Contoh: H. Ahmad Fauzi',
+                envelopeTitle: 'Infaq, Sedekah & Tanda Kasih',
+                envelopeDesc: 'Infaq dan sedekah jariyah untuk mendukung kelancaran kegiatan.',
+            },
+            'Tahlilan': {
+                slugHint: 'Biarkan kosong untuk otomatis dibuat dari nama almarhum / penyelenggara.',
+                quoteLabel: 'Doa Pengampunan & Tahlil (Quote)',
+                quoteGroups: ['Tahlilan', 'Islami'],
+                chips: [['tahlil', 'Doa Tahlil & Arwah'], ['islamic', 'QS. Ar-Ra\'d: 28']],
+                bankTitle: 'Rekening Sedekah 1 (Utama)',
+                bankHolderLabel: 'Atas Nama Keluarga Penyelenggara',
+                bankHolderPlaceholder: 'Contoh: Keluarga H. Ahmad Fauzi',
+                bankTitle2: 'Rekening Sedekah 2 (Opsional)',
+                bankHolderLabel2: 'Atas Nama Pendamping Keluarga',
+                bankHolderPlaceholder2: 'Contoh: Hj. Maryam Fauzi',
+                envelopeTitle: 'Sedekah Tahlilan & Tanda Kasih',
+                envelopeDesc: 'Fasilitas sedekah dan tanda kasih dari kerabat.',
+            },
+            'Halal Bihalal': {
+                slugHint: 'Biarkan kosong untuk otomatis dibuat dari nama komunitas / keluarga besar.',
+                quoteLabel: 'Kutipan Silaturahmi (Quote)',
+                quoteGroups: ['Silaturahmi', 'Islami', 'Umum'],
+                chips: [['halal', 'Silaturahmi'], ['islamic', 'HR. Tirmidzi'], ['general', 'Ucapan Syukur']],
+                bankTitle: 'Rekening Iuran / Partisipasi 1 (Utama)',
+                bankHolderLabel: 'Atas Nama Bendahara Acara',
+                bankHolderPlaceholder: 'Contoh: Bendahara Paguyuban',
+                bankTitle2: 'Rekening Cadangan 2 (Opsional)',
+                bankHolderLabel2: 'Atas Nama Koordinator Acara',
+                bankHolderPlaceholder2: 'Contoh: Koordinator Panitia',
+                envelopeTitle: 'Partisipasi & Tanda Kasih',
+                envelopeDesc: 'Iuran silaturahmi atau tanda kasih keluarga besar.',
+            },
+            'Syukuran': {
+                slugHint: 'Biarkan kosong untuk otomatis dibuat dari nama tuan rumah.',
+                quoteLabel: 'Doa Syukur & Kutipan (Quote)',
+                quoteGroups: ['Islami', 'Umum'],
+                chips: [['general', 'Doa Syukur'], ['islamic', 'QS. Ar-Ra\'d: 28']],
+                bankTitle: 'Rekening Tanda Syukur 1 (Utama)',
+                bankHolderLabel: 'Atas Nama Tuan Rumah',
+                bankHolderPlaceholder: 'Contoh: Budi Santoso',
+                bankTitle2: 'Rekening Cadangan 2 (Opsional)',
+                bankHolderLabel2: 'Atas Nama Pendamping',
+                bankHolderPlaceholder2: 'Contoh: Endang Rahayu',
+                envelopeTitle: 'Tanda Kasih & Doa Restu',
+                envelopeDesc: 'Kirimkan tanda kasih atau doa restu.',
+            },
+            'Wisuda': {
+                slugHint: 'Biarkan kosong untuk otomatis dibuat dari nama wisudawan.',
+                quoteLabel: 'Kutipan / Kata Mutiara Wisuda (Quote)',
+                quoteGroups: ['Pendidikan', 'Umum'],
+                chips: [['wisuda', 'Mutiara Wisuda'], ['invite', 'Ucapan Selamat']],
+                bankTitle: 'Rekening Hadiah 1 (Wisudawan)',
+                bankHolderLabel: 'Atas Nama Wisudawan / Wisudawati',
+                bankHolderPlaceholder: 'Contoh: Kevin Wijaya, S.T.',
+                bankTitle2: 'Rekening Hadiah 2 (Orang Tua / Opsional)',
+                bankHolderLabel2: 'Atas Nama Orang Tua / Pendamping',
+                bankHolderPlaceholder2: 'Contoh: Budi Wijaya',
+                envelopeTitle: 'Hadiah Digital & Tanda Kasih',
+                envelopeDesc: 'Berikan kemudahan bagi keluarga dan teman yang ingin mengirimkan hadiah wisuda.',
+            },
+            'Acara Formal': {
+                slugHint: 'Biarkan kosong untuk otomatis dibuat dari nama acara / instansi.',
+                quoteLabel: 'Kutipan Pembuka Acara / Sambutan Resmi (Quote)',
+                quoteGroups: ['Korporat'],
+                chips: [['formal', 'Kata Mutiara Formal'], ['vision', 'Visi & Misi Acara'], ['invite', 'Undangan Resmi']],
+                bankTitle: 'Rekening Pembayaran / Registrasi 1 (Utama)',
+                bankHolderLabel: 'Atas Nama Perusahaan / Instansi',
+                bankHolderPlaceholder: 'Contoh: PT D\'Karsa Solusi Digital',
+                bankTitle2: 'Rekening Pembayaran / Registrasi 2 (Opsional)',
+                bankHolderLabel2: 'Atas Nama Panitia / Bendahara',
+                bankHolderPlaceholder2: 'Contoh: Panitia Acara / Bendahara',
+                envelopeTitle: 'Registrasi & Rekening Resmi',
+                envelopeDesc: 'Nomor rekening resmi untuk registrasi tiket, tanda partisipasi, atau pembayaran acara.',
+            },
+        };
+
+        function categoryCopy(confKey, cat) {
+            return CATEGORY_COPY[confKey] || CATEGORY_COPY[cat] || CATEGORY_COPY['Pernikahan'];
+        }
+
+        /* Chip kutipan + pustaka disaring sesuai template acara yang dipilih. */
+        function renderQuotePresets(copy, confKey) {
+            const chips = document.getElementById('quoteQuickChips');
+            if (chips) {
+                chips.innerHTML = '<span class="text-[11px] text-ink3 self-center mr-1">Contoh Teks Cepat:</span>';
+                (copy.chips || []).forEach(([kind, label]) => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'px-2.5 py-1 rounded-full bg-sunk hover:bg-brand/10 text-[11px] font-semibold text-ink2';
+                    btn.textContent = label;
+                    btn.addEventListener('click', () => setQuote(kind));
+                    chips.appendChild(btn);
+                });
+            }
+            rebuildQuoteLibrary(copy.quoteGroups || []);
+        }
 
         function updateCategoryTheme(cat, subCat = null) {
             let confKey = cat;
@@ -2781,6 +3061,34 @@
             }
             const slugInput = document.getElementById('slugInput');
             if (slugInput) slugInput.placeholder = 'Contoh: ' + conf.slugPlaceholder;
+
+            // Teks bantuan slug, label kutipan, chip & pustaka kutipan mengikuti template/kategori.
+            const copy = categoryCopy(confKey, cat);
+            const slugHint = document.getElementById('slugHint');
+            if (slugHint && copy.slugHint) slugHint.textContent = copy.slugHint;
+            const quoteLabel = document.getElementById('quoteSectionLabel');
+            if (quoteLabel && copy.quoteLabel) quoteLabel.textContent = copy.quoteLabel;
+            renderQuotePresets(copy, confKey);
+
+            // Label rekening & amplop mengikuti template acara.
+            const bank1Title = document.getElementById('bankTitle1');
+            if (bank1Title && copy.bankTitle) bank1Title.textContent = copy.bankTitle;
+            const bankHolderLabel = document.getElementById('bankHolderLabel1');
+            if (bankHolderLabel && copy.bankHolderLabel) bankHolderLabel.textContent = copy.bankHolderLabel;
+            const bankHolderInput = document.getElementById('bankHolderInput1');
+            if (bankHolderInput && copy.bankHolderPlaceholder) bankHolderInput.placeholder = copy.bankHolderPlaceholder;
+
+            const bank2Title = document.getElementById('bankTitle2');
+            if (bank2Title && copy.bankTitle2) bank2Title.textContent = copy.bankTitle2;
+            const bankHolderLabel2 = document.getElementById('bankHolderLabel2');
+            if (bankHolderLabel2 && copy.bankHolderLabel2) bankHolderLabel2.textContent = copy.bankHolderLabel2;
+            const bankHolderInput2 = document.getElementById('bankHolderInput2');
+            if (bankHolderInput2 && copy.bankHolderPlaceholder2) bankHolderInput2.placeholder = copy.bankHolderPlaceholder2;
+
+            const envelopeTitle = document.getElementById('step5Title');
+            if (envelopeTitle && copy.envelopeTitle) envelopeTitle.textContent = copy.envelopeTitle;
+            const envelopeDesc = document.getElementById('step5Desc');
+            if (envelopeDesc && copy.envelopeDesc) envelopeDesc.textContent = copy.envelopeDesc;
 
             // 2. Stepper Pills
             const stepPill2 = document.getElementById('stepPill2Text');
@@ -2862,6 +3170,15 @@
             if (f2Mother) f2Mother.textContent = conf.family2MotherLabel;
             const f2City = document.getElementById('family2CityLabel');
             if (f2City) f2City.textContent = conf.family2CityLabel;
+
+            // Acara formal: tiap narahubung punya nama + nomor CP sendiri (bukan satu kolom gabungan).
+            const contactPhones = !!conf.contactPhones;
+            const phone1Wrap = document.getElementById('contactPhone1Wrap');
+            if (phone1Wrap) phone1Wrap.classList.toggle('hidden', !contactPhones);
+            const phone2Wrap = document.getElementById('contactPhone2Wrap');
+            if (phone2Wrap) phone2Wrap.classList.toggle('hidden', !contactPhones);
+            const cityWrap = document.getElementById('family2CityWrap');
+            if (cityWrap) cityWrap.classList.toggle('hidden', contactPhones);
 
             // 8. Step 4 (Acara)
             const ev1Header = document.getElementById('event1HeaderTitle');
@@ -3533,27 +3850,176 @@
             return (light + 0.05) / (dark + 0.05);
         }
 
-        /** Guardrail keterbacaan: ingatkan bila kontras teks < 3.5:1. */
-        function checkKustomContrast() {
+        /** Guardrail keterbacaan: teks diuji pada latar halaman DAN kartu, aksen pada latar halaman. */
+        function kustomContrastProblems() {
             const bg = kustomStudioElement('kdColorBg')?.value || '#FFFFFF';
+            const card = kustomStudioElement('kdColorCard')?.value || bg;
             const text = kustomStudioElement('kdColorText')?.value || '#102A43';
+            const accent = kustomStudioElement('kdColorAccent')?.value || '#1D6FA5';
+            const problems = [];
+            if (contrastRatio(bg, text) < 4.5) { problems.push('teks di latar'); }
+            if (contrastRatio(card, text) < 4.5) { problems.push('teks di kartu'); }
+            if (contrastRatio(bg, accent) < 3) { problems.push('aksen'); }
+            return problems;
+        }
+
+        function checkKustomContrast() {
+            const problems = kustomContrastProblems();
+            const low = problems.length > 0;
             const badge = kustomStudioElement('kdContrastBadge');
             const fix = kustomStudioElement('kdContrastFix');
-            const low = contrastRatio(bg, text) < 3.5;
-            if (badge) { badge.classList.toggle('hidden', !low); }
+            if (badge) {
+                badge.classList.toggle('hidden', !low);
+                if (low) { badge.textContent = '⚠️ Kontras ' + problems.join(' & ') + ' terlalu rendah'; }
+            }
             if (fix) { fix.classList.toggle('hidden', !low); }
             return low;
         }
 
+        /** Warna teks yang aman di dua latar (halaman + kartu), paling dekat dengan pilihan awal. */
+        function pickReadableText(bg, card, seed) {
+            const candidates = [];
+            const bases = seed && /^#[0-9a-fA-F]{6}$/.test(seed) ? [seed] : [];
+            bases.push('#102A43', '#141311', '#0B1220', '#334155', '#6B7280', '#F1F5F9', '#F8FAFC', '#FFFFFF');
+            bases.forEach((base) => {
+                const target = luminanceOf(base) > 0.45 ? '#000000' : '#FFFFFF';
+                candidates.push(base);
+                for (let step = 1; step <= 10; step++) {
+                    const value = String(base).replace('#', '');
+                    const tgt = target.replace('#', '');
+                    const mix = [0, 2, 4].map((i) => {
+                        const a = parseInt(value.substr(i, 2), 16);
+                        const b = parseInt(tgt.substr(i, 2), 16);
+                        return Math.round(a + (b - a) * (step / 10)).toString(16).padStart(2, '0');
+                    }).join('');
+                    candidates.push('#' + mix);
+                }
+            });
+            let best = candidates[0];
+            let bestScore = -1;
+            candidates.forEach((cand) => {
+                const score = Math.min(contrastRatio(cand, bg), contrastRatio(cand, card));
+                if (score > bestScore) { bestScore = score; best = cand; }
+            });
+            return best;
+        }
+
+        function mixHex(from, to, ratio) {
+            const a = String(from || '#000000').replace('#', '');
+            const b = String(to || '#FFFFFF').replace('#', '');
+            if (a.length !== 6 || b.length !== 6) { return from; }
+            const out = [0, 2, 4].map((i) => {
+                const x = parseInt(a.substr(i, 2), 16);
+                const y = parseInt(b.substr(i, 2), 16);
+                return Math.round(x + (y - x) * ratio).toString(16).padStart(2, '0');
+            }).join('');
+            return '#' + out;
+        }
+
+        /**
+         * Perbaiki kontras otomatis: WCAG AA Terpenuhi secara presisi.
+         * Menguji kontras teks terhadap latar (>=4.5), kartu (>=4.5), dan aksen (>=3.0).
+         * Menyesuaikan teks, latar, atau kartu secara harmonis sepanjang hue warna yang dipilih
+         * sehingga seluruh persyaratan kontras terpenuhi dan badge peringatan hilang.
+         */
         function fixKustomContrast() {
             const bgInput = kustomStudioElement('kdColorBg');
+            const cardInput = kustomStudioElement('kdColorCard');
             const textInput = kustomStudioElement('kdColorText');
+            const accentInput = kustomStudioElement('kdColorAccent');
             if (!bgInput || !textInput) { return; }
-            // Pilih hitam/putih tergantung latar supaya kontras aman.
-            textInput.value = luminanceOf(bgInput.value) > 0.45 ? '#102A43' : '#F8FAFC';
-            checkKustomContrast();
-            syncKustomStudio();
-            applyKustomConfig();
+
+            let bg = bgInput.value || '#FFFFFF';
+            let card = cardInput?.value || bg;
+            let text = textInput.value || '#102A43';
+            let accent = accentInput?.value || '#1D6FA5';
+            const changes = [];
+
+            // 1. Cek apakah penggantian teks sederhana (hitam / putih) mencukupi kedua sisi
+            if (contrastRatio(bg, '#FFFFFF') >= 4.5 && contrastRatio(card, '#FFFFFF') >= 4.5) {
+                text = '#FFFFFF';
+                changes.push('teks');
+            } else if (contrastRatio(bg, '#0F172A') >= 4.5 && contrastRatio(card, '#0F172A') >= 4.5) {
+                text = '#0F172A';
+                changes.push('teks');
+            } else {
+                // Tentukan preferensi dark/light berdasarkan kartu atau teks saat ini
+                const isDarkPreferred = luminanceOf(card) < 0.45 || luminanceOf(text) > 0.45;
+                if (isDarkPreferred) {
+                    text = '#FFFFFF';
+                    changes.push('teks');
+                    // Gelapkan latar halaman hingga kontras dengan teks putih >= 4.55
+                    for (let i = 0; i < 25 && contrastRatio(bg, text) < 4.55; i++) {
+                        bg = mixHex(bg, '#040B17', 0.12);
+                    }
+                    changes.push('latar');
+                    // Gelapkan kartu bila belum memenuhi kontras dengan teks putih
+                    for (let i = 0; i < 25 && contrastRatio(card, text) < 4.55; i++) {
+                        card = mixHex(card, '#040B17', 0.12);
+                    }
+                    if (cardInput && card !== cardInput.value) changes.push('kartu');
+                } else {
+                    text = '#0F172A';
+                    changes.push('teks');
+                    // Terangkan latar halaman hingga kontras dengan teks gelap >= 4.55
+                    for (let i = 0; i < 25 && contrastRatio(bg, text) < 4.55; i++) {
+                        bg = mixHex(bg, '#FFFFFF', 0.12);
+                    }
+                    changes.push('latar');
+                    // Terangkan kartu bila belum memenuhi kontras dengan teks gelap
+                    for (let i = 0; i < 25 && contrastRatio(card, text) < 4.55; i++) {
+                        card = mixHex(card, '#FFFFFF', 0.12);
+                    }
+                    if (cardInput && card !== cardInput.value) changes.push('kartu');
+                }
+            }
+
+            // 2. Periksa kembali kartu terhadap teks (safety check)
+            if (contrastRatio(card, text) < 4.5) {
+                const target = luminanceOf(text) > 0.5 ? '#000000' : '#FFFFFF';
+                for (let i = 0; i < 25 && contrastRatio(card, text) < 4.55; i++) {
+                    card = mixHex(card, target, 0.12);
+                }
+                changes.push('kartu');
+            }
+
+            // 3. Aksen terhadap latar minimal 3.0:1
+            if (contrastRatio(bg, accent) < 3.0) {
+                const target = luminanceOf(bg) < 0.45 ? '#FFFFFF' : '#0F172A';
+                for (let i = 0; i < 25 && contrastRatio(bg, accent) < 3.05; i++) {
+                    accent = mixHex(accent, target, 0.15);
+                }
+                changes.push('aksen');
+            }
+
+            // Terapkan nilai ke input
+            bgInput.value = bg;
+            bgInput.dispatchEvent(new Event('input', { bubbles: true }));
+            if (cardInput) {
+                cardInput.value = card;
+                cardInput.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+            textInput.value = text;
+            textInput.dispatchEvent(new Event('input', { bubbles: true }));
+            if (accentInput) {
+                accentInput.value = accent;
+                accentInput.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+
+            if (typeof syncKustomStudio === 'function') {
+                syncKustomStudio();
+            } else {
+                applyKustomConfig();
+                checkKustomContrast();
+            }
+
+            const note = kustomStudioElement('kdContrastNote');
+            if (note) {
+                note.textContent = '✓ Kontras berhasil disesuaikan (' + [...new Set(changes)].join(', ') + ') — WCAG AA Terpenuhi';
+                note.classList.remove('hidden');
+                clearTimeout(window.__kdContrastNoteT);
+                window.__kdContrastNoteT = setTimeout(() => note.classList.add('hidden'), 6000);
+            }
         }
 
         function syncKustomStudio() {
@@ -4612,6 +5078,8 @@
             const brideFather = document.querySelector('input[name="bride_father"]')?.value || '';
             const brideMother = document.querySelector('input[name="bride_mother"]')?.value || '';
             const brideCity = document.querySelector('input[name="bride_city"]')?.value || '';
+            const cpPhone1 = document.querySelector('input[name="cp_phone_1"]')?.value || '';
+            const cpPhone2 = document.querySelector('input[name="cp_phone_2"]')?.value || '';
 
             // Collect all events from dynamic event cards
             const events = [];
@@ -4689,6 +5157,8 @@
             if (brideFather) params.set('bride_father', brideFather);
             if (brideMother) params.set('bride_mother', brideMother);
             if (brideCity) params.set('bride_city', brideCity);
+            if (cpPhone1) params.set('cp_phone_1', cpPhone1);
+            if (cpPhone2) params.set('cp_phone_2', cpPhone2);
 
             if (events.length > 0) {
                 params.set('events_json', JSON.stringify(events));

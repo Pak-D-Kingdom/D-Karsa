@@ -166,6 +166,8 @@ class InvitationController extends Controller
             'bride_father' => 'nullable|string|max:150',
             'bride_mother' => 'nullable|string|max:150',
             'bride_city' => 'nullable|string|max:100',
+            'cp_phone_1' => 'nullable|string|max:30',
+            'cp_phone_2' => 'nullable|string|max:30',
             'bride_photo' => 'nullable|image|max:5120',
 
             // Cover & layout
@@ -349,6 +351,8 @@ class InvitationController extends Controller
             'bride_father' => $validated['bride_father'] ?? null,
             'bride_mother' => $validated['bride_mother'] ?? null,
             'bride_city' => $validated['bride_city'] ?? null,
+            'cp_phone_1' => $validated['cp_phone_1'] ?? null,
+            'cp_phone_2' => $validated['cp_phone_2'] ?? null,
             'bride_photo' => $bridePhotoPath,
 
             'dresscode' => $validated['dresscode'] ?? ($validated['event_1_dresscode'] ?? null),
@@ -694,6 +698,12 @@ class InvitationController extends Controller
         }
         if ($request->filled('bride_city')) {
             $overrides['bride_city'] = $request->query('bride_city');
+        }
+        if ($request->filled('cp_phone_1')) {
+            $overrides['cp_phone_1'] = $request->query('cp_phone_1');
+        }
+        if ($request->filled('cp_phone_2')) {
+            $overrides['cp_phone_2'] = $request->query('cp_phone_2');
         }
 
         if ($request->filled('wedding_date')) {

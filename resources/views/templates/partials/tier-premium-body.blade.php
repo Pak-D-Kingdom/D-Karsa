@@ -1,9 +1,22 @@
 {{-- Paket Premium (Rp110.000): gerbang geser datar, kartu ornate, tiket bergerigi. --}}
     {{-- ================= GERBANG / AMPLOP (z-30 / z-35) ================= --}}
     @if($isCorporate)
-        <div id="envelope-stage" class="env-hidden">
+        <div id="envelope-stage">
             <div class="env-flap" id="envFlap"></div>
             <div class="env-pocket" id="envPocket"></div>
+            <div class="env-seal" id="gateSeal">
+                <span class="env-wax">{!! $icon('seal', 30, 1.4) !!}</span>
+                <span class="eyebrow mt-3">{{ $copy['hero'] }}</span>
+                <h1 class="serif text-[24px] leading-tight mt-1" style="color:var(--foil)">{{ $hostName }}</h1>
+                <p class="text-[12px] mt-1" style="color:var(--muted)">{{ $dateLong }}</p>
+                <div class="plate mt-4" style="padding:10px 16px">
+                    <span class="hud" style="color:var(--silver)">KEPADA YTH.</span>
+                    <b id="gate-guest-name" class="block text-[15px] mt-0.5 font-semibold" style="color:var(--gate-accent)">{{ $guest->name ?? 'Bapak/Ibu/Saudara/i Tamu Kehormatan' }}</b>
+                </div>
+                <button type="button" class="btn-gold mt-4" id="btn-open-invitation" onclick="DKarsaOpen()">
+                    {!! $icon('mail') !!} [ {{ $customGateLabel !== '' ? $customGateLabel : 'BUKA AMPLOP UNDANGAN' }} ]
+                </button>
+            </div>
         </div>
     @else
         <div id="gate-overlay">
@@ -30,13 +43,7 @@
 
     {{-- ================= KONTEN (z-10) ================= --}}
     <main id="invitation-content" class="relative z-10 flex flex-col gap-8 px-5 pt-6 pb-40">
-        @if($isCorporate)
-            <div class="flex justify-center">
-                <button type="button" class="btn-gold" id="btn-open-invitation" onclick="DKarsaOpen()">
-                    {!! $icon('mail') !!} [ BUKA AMPLOP UNDANGAN ]
-                </button>
-            </div>
-        @endif
+
 
         {{-- 1. HERO --}}
         <section class="reveal text-center">
@@ -45,8 +52,9 @@
             </div>
             <span class="eyebrow block mt-4">{{ $copy['eyebrow'] }}</span>
             <h1 class="serif text-[clamp(1.7rem,6vw,2.1rem)] leading-tight mt-1" style="color:var(--on-surface)">{{ $hostName }}</h1>
-            @if($isWedding && ! empty($couple->quote))
-                <p class="text-[13px] italic mt-3 mx-auto max-w-[19rem]" style="color:var(--muted)">&ldquo;{{ $couple->quote }}&rdquo;</p>
+            @if(! empty($couple->quote) || ! empty($activeQuoteText))
+                <p class="text-[13px] italic mt-3 mx-auto max-w-[19rem]" style="color:var(--muted)">&ldquo;{{ ! empty($couple->quote) ? $couple->quote : $activeQuoteText }}&rdquo;</p>
+                <span class="hud block mt-1 text-[11px]" style="color:var(--foil)">{{ $activeQuoteSource }}</span>
             @endif
             <p class="text-[13px] mt-2" style="color:var(--muted)">{{ $dateLong }}</p>
             <div class="sec-rule"><span></span><i></i><span></span></div>
@@ -110,6 +118,34 @@
                     @endif
                     @if($cat === 'corporate')
                         <p class="text-[13px] mt-3" style="color:var(--muted)">{{ $couple->organizer_name ?? $hostName }} · {{ $couple->event_heading ?? 'Agenda Resmi' }}</p>
+                        @if(!empty($couple->bride_father) || !empty($couple->bride_mother) || !empty($couple->cp_phone_1) || !empty($couple->cp_phone_2))
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-4 text-left">
+                                @if(!empty($couple->bride_father) || !empty($couple->cp_phone_1))
+                                    <div class="plaque">
+                                        <span class="hud block" style="color:var(--silver)">CONTACT PERSON 1</span>
+                                        <b class="block text-[13px] mt-0.5" style="color:var(--on-surface)">{{ $couple->bride_father ?: 'Narahubung 1' }}</b>
+                                        @if(!empty($couple->cp_phone_1))
+                                            @php $phone1Clean = preg_replace('/\D/', '', $couple->cp_phone_1); @endphp
+                                            <a href="https://wa.me/{{ str_starts_with($phone1Clean, '0') ? '62' . substr($phone1Clean, 1) : $phone1Clean }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-[11.5px] font-bold mt-1 text-emerald-600">
+                                                {!! $icon('chat', 12, 1.5) !!} {{ $couple->cp_phone_1 }}
+                                            </a>
+                                        @endif
+                                    </div>
+                                @endif
+                                @if(!empty($couple->bride_mother) || !empty($couple->cp_phone_2))
+                                    <div class="plaque">
+                                        <span class="hud block" style="color:var(--silver)">CONTACT PERSON 2</span>
+                                        <b class="block text-[13px] mt-0.5" style="color:var(--on-surface)">{{ $couple->bride_mother ?: 'Narahubung 2' }}</b>
+                                        @if(!empty($couple->cp_phone_2))
+                                            @php $phone2Clean = preg_replace('/\D/', '', $couple->cp_phone_2); @endphp
+                                            <a href="https://wa.me/{{ str_starts_with($phone2Clean, '0') ? '62' . substr($phone2Clean, 1) : $phone2Clean }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-[11.5px] font-bold mt-1 text-emerald-600">
+                                                {!! $icon('chat', 12, 1.5) !!} {{ $couple->cp_phone_2 }}
+                                            </a>
+                                        @endif
+                                    </div>
+                                @endif
+                            </div>
+                        @endif
                     @endif
                 </div>
             @endif

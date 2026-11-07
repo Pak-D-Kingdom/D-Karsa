@@ -11,7 +11,7 @@ class Couple extends Model
     protected $fillable = [
         'slug', 'category', 'sub_category', 'theme', 'package_name', 'event_heading',
         'groom_name', 'groom_fullname', 'groom_birth_order', 'groom_father', 'groom_mother', 'groom_city', 'groom_photo',
-        'bride_name', 'bride_fullname', 'bride_birth_order', 'bride_father', 'bride_mother', 'bride_city', 'bride_photo',
+        'bride_name', 'bride_fullname', 'bride_birth_order', 'bride_father', 'bride_mother', 'bride_city', 'cp_phone_1', 'cp_phone_2', 'bride_photo',
         'display_order', 'cover_photo', 'wedding_date', 'venue_name', 'quote',
         'bank_name_1', 'bank_account_1', 'bank_holder_1',
         'bank_name_2', 'bank_account_2', 'bank_holder_2',

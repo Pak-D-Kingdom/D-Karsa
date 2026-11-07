@@ -17,7 +17,7 @@
 @endphp
 
 <style>
-    #section-guest-qr .qr-ticket-card { position: relative; border-radius: 18px; overflow: hidden; background: var(--surface); color: var(--ink); border: 1px solid var(--line); box-shadow: 0 18px 40px -34px rgba(0,0,0,.8); }
+    #section-guest-qr .qr-ticket-card { position: relative; border-radius: 18px; overflow: hidden; background: var(--surface-container, var(--surface)); color: var(--ink); border: 1px solid var(--line); box-shadow: 0 18px 40px -34px rgba(0,0,0,.8); }
     #section-guest-qr .qr-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 16px; border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
     #section-guest-qr .qr-badge { flex: none; padding: 4px 10px; border-radius: 999px; font-size: 10px; font-weight: 700; letter-spacing: .06em; background: color-mix(in srgb, #10b981 18%, transparent); color: color-mix(in srgb, #10b981 72%, var(--ink)); border: 1px solid color-mix(in srgb, #10b981 45%, transparent); }
     /* Quiet zone putih murni + matriks hitam pekat: wajib di semua tema, termasuk Dark Mode. */
@@ -42,7 +42,7 @@
     /* ---- Diferensiasi 4 tier pada kartu QR ---- */
     html[data-tier="premium"] #section-guest-qr .qr-ticket-card { border-color: color-mix(in srgb, var(--accent) 55%, transparent); box-shadow: inset 0 0 0 4px color-mix(in srgb, var(--accent) 12%, transparent), inset 0 0 0 5px color-mix(in srgb, var(--accent) 30%, transparent); }
     html[data-tier="eksklusif"] #section-guest-qr .qr-ticket-card,
-    html[data-tier="kustom"] #section-guest-qr .qr-ticket-card { border: 1.5px solid color-mix(in srgb, var(--accent) 75%, transparent); background: linear-gradient(150deg, color-mix(in srgb, var(--accent) 14%, var(--surface)) 0%, var(--surface) 42%, color-mix(in srgb, var(--accent) 10%, var(--surface)) 100%); box-shadow: 0 26px 44px -34px rgba(0,0,0,.9), inset 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent); }
+    html[data-tier="kustom"] #section-guest-qr .qr-ticket-card { border: 1.5px solid color-mix(in srgb, var(--accent) 75%, transparent); background: linear-gradient(150deg, color-mix(in srgb, var(--accent) 14%, var(--surface-container, var(--surface))) 0%, var(--surface-container, var(--surface)) 42%, color-mix(in srgb, var(--accent) 10%, var(--surface-container, var(--surface))) 100%); box-shadow: 0 26px 44px -34px rgba(0,0,0,.9), inset 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent); }
     html[data-tier="eksklusif"] #section-guest-qr .qr-scan,
     html[data-tier="kustom"] #section-guest-qr .qr-scan { display: block; animation: qrScan 2.9s ease-in-out infinite; }
     html[data-tier="basic"] #section-guest-qr .qr-notch, html[data-tier="basic"] #section-guest-qr .qr-perf { display: none; }
@@ -56,7 +56,7 @@
     #section-guest-qr .qr-veil .qr-veil-lock { font-size: 20px; line-height: 1; margin-bottom: 2px; }
     #section-guest-qr .qr-ribbon { display: flex; align-items: center; gap: 6px; margin: 0 16px; padding: 7px 10px; border-radius: 10px; font-size: 9.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: color-mix(in srgb, var(--ink) 8%, transparent); color: var(--soft); border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
     #section-guest-qr .qr-ribbon .dot { width: 6px; height: 6px; border-radius: 999px; background: #d97706; box-shadow: 0 0 0 3px rgba(217,119,6,.18); }
-    #section-guest-qr .qr-stamp { display: none; position: absolute; left: 50%; top: 50%; z-index: 3; padding: 2px 10px; border: 2px solid #10b981; border-radius: 8px; color: #10b981; font-size: 8px; font-weight: 800; letter-spacing: .16em; transform: translate(-50%, -50%) rotate(-3deg); background: var(--surface); box-shadow: 0 2px 10px -6px rgba(0,0,0,.6); }
+    #section-guest-qr .qr-stamp { display: none; position: absolute; left: 50%; top: 50%; z-index: 3; padding: 2px 10px; border: 2px solid #10b981; border-radius: 8px; color: #10b981; font-size: 8px; font-weight: 800; letter-spacing: .16em; transform: translate(-50%, -50%) rotate(-3deg); background: var(--surface-container, var(--surface)); box-shadow: 0 2px 10px -6px rgba(0,0,0,.6); }
     #section-guest-qr:not(.is-confirmed) .qr-badge { background: color-mix(in srgb, #d97706 18%, transparent); color: color-mix(in srgb, #d97706 76%, var(--ink)); border-color: color-mix(in srgb, #d97706 45%, transparent); }
     /* Terkonfirmasi: QR jernih, veil hilang, cap muncul, kartu diberi cincin emas */
     #section-guest-qr.is-confirmed .qr-veil { opacity: 0; pointer-events: none; }

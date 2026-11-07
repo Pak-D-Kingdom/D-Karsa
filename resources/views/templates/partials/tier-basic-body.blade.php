@@ -27,9 +27,16 @@
     <section class="reveal text-center pt-2">
         <span class="eyebrow">{{ $copy['eyebrow'] }}</span>
         <h2 class="serif text-[22px] mt-1" style="color:var(--on-surface)">{{ $copy['hero'] }}</h2>
-        <p class="text-[13px] mt-2 mx-auto max-w-[19rem]" style="color:var(--muted)">
-            {{ $isWedding ? 'Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud menyelenggarakan pernikahan putra-putri kami.' : 'Dengan penuh rasa syukur, kami mengundang Bapak/Ibu/Saudara/i untuk hadir pada acara kami.' }}
-        </p>
+        @if(! empty($couple->quote) || ! empty($activeQuoteText))
+            <p class="text-[13px] italic mt-2 mx-auto max-w-[19rem]" style="color:var(--muted)">
+                &ldquo;{{ ! empty($couple->quote) ? $couple->quote : $activeQuoteText }}&rdquo;
+            </p>
+            <span class="hud block mt-1 text-[11px]" style="color:var(--foil)">{{ $activeQuoteSource }}</span>
+        @else
+            <p class="text-[13px] mt-2 mx-auto max-w-[19rem]" style="color:var(--muted)">
+                {{ $isWedding ? 'Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud menyelenggarakan pernikahan putra-putri kami.' : 'Dengan penuh rasa syukur, kami mengundang Bapak/Ibu/Saudara/i untuk hadir pada acara kami.' }}
+            </p>
+        @endif
     </section>
 
     {{-- 2. Profil --}}
