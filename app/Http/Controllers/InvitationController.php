@@ -294,7 +294,7 @@ class InvitationController extends Controller
         if ($request->has('events') && is_array($request->input('events')) && count($request->input('events')) > 0) {
             $sortOrder = 1;
             foreach ($request->input('events') as $evData) {
-                if (!empty($evData['title']) || !empty($evData['venue_name']) || !empty($evData['address'])) {
+                if (!empty($evData['title']) || !empty($evData['venue_name']) || !empty($evData['address']) || !empty($evData['date'])) {
                     Event::create([
                         'couple_id' => $couple->id,
                         'title' => !empty($evData['title']) ? $evData['title'] : 'Rangkaian Acara ' . $sortOrder,
@@ -536,6 +536,9 @@ class InvitationController extends Controller
         if ($request->filled('bank_account_2')) $overrides['bank_account_2'] = $request->query('bank_account_2');
         if ($request->filled('bank_holder_2')) $overrides['bank_holder_2'] = $request->query('bank_holder_2');
         if ($request->filled('gift_address')) $overrides['gift_address'] = $request->query('gift_address');
+        if ($request->has('music_url') && $request->query('music_url') !== null) {
+            $overrides['music_url'] = $request->query('music_url');
+        }
 
         // Custom events override if provided via JSON array or legacy event parameters
         if ($request->filled('events_json')) {
@@ -582,6 +585,7 @@ class InvitationController extends Controller
                     }
                     if (!empty($evList[0]->maps_url)) {
                         $overrides['maps_url'] = $evList[0]->maps_url;
+                        $overrides['google_maps_url'] = $evList[0]->maps_url;
                     }
                 }
             }
@@ -614,11 +618,48 @@ class InvitationController extends Controller
             }
             $overrides['events'] = collect($evList);
 
+            if (!empty($evList[0]->venue_name)) {
+                $overrides['venue_name'] = $evList[0]->venue_name;
+            }
+            if (!empty($evList[0]->address)) {
+                $overrides['venue_address'] = $evList[0]->address;
+                $overrides['address'] = $evList[0]->address;
+            }
+            if (!empty($evList[0]->maps_url)) {
+                $overrides['maps_url'] = $evList[0]->maps_url;
+                $overrides['google_maps_url'] = $evList[0]->maps_url;
+            }
+
             if (empty($overrides['wedding_date']) && !empty($ev1Date)) {
                 try {
                     $overrides['wedding_date'] = \Carbon\Carbon::parse($ev1Date);
                 } catch (\Exception $e) {}
             }
+        }
+
+        // Direct query overrides for maps, venue, and address
+        if ($request->filled('maps_url')) {
+            $overrides['maps_url'] = $request->query('maps_url');
+            $overrides['google_maps_url'] = $request->query('maps_url');
+        }
+        if ($request->filled('google_maps_url')) {
+            $overrides['maps_url'] = $request->query('google_maps_url');
+            $overrides['google_maps_url'] = $request->query('google_maps_url');
+        }
+        if ($request->filled('event_1_maps_url')) {
+            $overrides['maps_url'] = $request->query('event_1_maps_url');
+            $overrides['google_maps_url'] = $request->query('event_1_maps_url');
+        }
+        if ($request->filled('venue_name')) {
+            $overrides['venue_name'] = $request->query('venue_name');
+        }
+        if ($request->filled('venue_address')) {
+            $overrides['venue_address'] = $request->query('venue_address');
+            $overrides['address'] = $request->query('venue_address');
+        }
+        if ($request->filled('event_1_address')) {
+            $overrides['venue_address'] = $request->query('event_1_address');
+            $overrides['address'] = $request->query('event_1_address');
         }
 
         // Custom galleries override if provided via JSON array or base64

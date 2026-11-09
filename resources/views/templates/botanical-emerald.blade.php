@@ -273,7 +273,7 @@
                     <p class="font-label-sm text-[8px] text-secondary uppercase tracking-[0.16em]">
                         Kepada Yth. Bapak / Ibu / Saudara / i:
                     </p>
-                    <h2 class="font-headline-md text-xs sm:text-sm text-on-surface font-semibold tracking-tight truncate py-0.5" id="guestNameDisplay">
+                    <h2 class="font-headline-md text-xs sm:text-sm text-on-surface font-semibold tracking-tight truncate py-0.5" id="previewGuestNameCover">
                         {{ $guestDisplayName }}
                     </h2>
                 </div>
@@ -531,7 +531,7 @@
                     @endphp
 
                     @if($userEvents && count($userEvents) > 0)
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
+                        <div id="itineraryContainer" class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
                             @foreach($userEvents as $evt)
                                 <div class="bg-surface-container-lowest p-space-xl rounded-2xl shadow-sm relative overflow-hidden flex flex-col justify-between">
                                     <div class="flex items-center justify-between mb-space-md">
@@ -1383,5 +1383,6 @@
             }
         });
     </script>
+    @include('templates.partials.preview-sync')
 </body>
 </html>

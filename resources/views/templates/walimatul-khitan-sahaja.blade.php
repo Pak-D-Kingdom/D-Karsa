@@ -332,7 +332,7 @@
                 ];
             @endphp
 
-            <div class="space-y-4">
+            <div id="itineraryContainer" class="space-y-4">
                 @foreach($eventList as $idx => $ev)
                     @php
                         $evDate = !empty($ev->date) ? \Carbon\Carbon::parse($ev->date) : $targetDate;
@@ -399,9 +399,9 @@
 
                 <!-- Rekening 1 -->
                 @php
-                    $bName1 = $couple->bank_name_1 ?: ($couple->bank_name ?? 'Bank Mandiri');
-                    $bAcc1 = $couple->bank_account_1 ?: ($couple->account_number ?? '1310018899221');
-                    $bHolder1 = $couple->bank_holder_1 ?: ($couple->account_name ?? 'Hendra Pratama');
+                    $bName1 = !empty($couple->bank_name_1) ? $couple->bank_name_1 : ($couple->bank_name ?? 'Bank Mandiri');
+                    $bAcc1 = !empty($couple->bank_account_1) ? $couple->bank_account_1 : ($couple->account_number ?? '1310018899221');
+                    $bHolder1 = !empty($couple->bank_holder_1) ? $couple->bank_holder_1 : ($couple->account_name ?? 'Hendra Pratama');
 
                     $bName2 = $couple->bank_name_2 ?? null;
                     $bAcc2 = $couple->bank_account_2 ?? null;
@@ -738,5 +738,6 @@
             }
         } catch(e) {}
     </script>
+    @include('templates.partials.preview-sync')
 </body>
 </html>

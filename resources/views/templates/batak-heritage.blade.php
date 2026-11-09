@@ -117,9 +117,9 @@
 <body class="gorga-bg text-slate-200 font-sans antialiased selection:bg-batak-gold selection:text-batak-black overflow-hidden">
 
     @php
-        $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo, 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=1200&q=80&auto=format&fit=crop');
-        $groomImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->groom_photo, 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600');
-        $brideImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->bride_photo, 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600');
+        $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo ?? null, 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=1200&q=80&auto=format&fit=crop');
+        $groomImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->groom_photo ?? null, 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600');
+        $brideImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->bride_photo ?? null, 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600');
         $audioUrl = !empty($couple->music_url) ? (str_starts_with($couple->music_url, 'http') ? $couple->music_url : asset('audio/' . $couple->music_url)) : asset('audio/wedding-melody.wav');
 
         $targetDate = !empty($couple->wedding_date) ? \Carbon\Carbon::parse($couple->wedding_date) : now()->addMonths(2);
@@ -397,7 +397,7 @@
                     <div class="p-5 rounded-2xl bg-batak-cardlight border border-batak-gold/30">
                         <div class="flex items-center justify-between text-batak-gold text-xs font-cinzel mb-1">
                             <span class="uppercase tracking-wider">{{ $event->title ?? 'Sesi Acara' }}</span>
-                            <span>{{ !empty($event->start_time) ? substr($event->start_time, 0, 5) : '09:00' }}{{ !empty($event->end_time) ? ' - ' . substr($event->end_time, 0, 5) : '' }} WIB</span>
+                            <span>{{ !empty($event->start_time) ? substr($event->start_time, 0, 5) : '09:00' }}{{ !empty($event->end_time) ? ' - ' . (str_contains(strtolower($event->end_time), 'selesai') ? 'Selesai' : substr($event->end_time, 0, 5) . ' WIB') : ' WIB' }}</span>
                         </div>
                         <h3 class="font-serif text-base font-bold text-white">{{ $event->title ?? 'Acara Pernikahan' }}</h3>
                         @if(!empty($event->venue_name))
@@ -819,5 +819,6 @@
             }
         } catch(e) {}
     </script>
+    @include('templates.partials.preview-sync')
 </body>
 </html>

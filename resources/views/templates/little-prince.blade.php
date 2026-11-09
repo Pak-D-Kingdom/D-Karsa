@@ -258,7 +258,7 @@
             </div>
 
             @if(isset($couple->events) && count($couple->events) > 0)
-                <div class="space-y-4">
+                <div id="itineraryContainer" class="space-y-4">
                     @foreach($couple->events as $idx => $ev)
                         <div class="p-5 rounded-2xl bg-nordic-bg/70 border border-nordic-border space-y-2.5">
                             <div class="flex items-center justify-between">
@@ -297,7 +297,7 @@
                         <p class="text-xs text-nordic-muted mt-0.5 leading-relaxed">{{ $couple->venue_address ?? 'Alamat kediaman keluarga besar.' }}</p>
                     </div>
 
-                    <a href="https://maps.google.com" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-xs font-bold text-nordic-amber hover:underline">
+                    <a href="{{ !empty($couple->maps_url) ? $couple->maps_url : (!empty($couple->google_maps_url) ? $couple->google_maps_url : 'https://maps.google.com') }}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-xs font-bold text-nordic-amber hover:underline">
                         <span>📍</span> <span>Buka Google Maps &rarr;</span>
                     </a>
                 </div>
@@ -681,5 +681,6 @@
             window.parent.postMessage({ type: 'PREVIEW_IFRAME_READY' }, '*');
         }
     </script>
+    @include('templates.partials.preview-sync')
 </body>
 </html>

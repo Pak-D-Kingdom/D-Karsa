@@ -90,8 +90,8 @@
 <body class="andalusian-bg text-slate-200 font-sans antialiased selection:bg-prince-gold selection:text-prince-sapphire overflow-hidden">
 
     @php
-        $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo, 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=1200');
-        $boyImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->groom_photo, 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=600');
+        $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo ?? null, 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=1200');
+        $boyImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->groom_photo ?? null, 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=600');
         $audioUrl = !empty($couple->music_url) ? (str_starts_with($couple->music_url, 'http') ? $couple->music_url : asset('audio/' . $couple->music_url)) : asset('audio/celebration-melody.wav');
 
         $firstEvent = isset($couple->events) && count($couple->events) > 0 ? (is_array($couple->events) ? (object)$couple->events[0] : $couple->events->first()) : null;
@@ -300,7 +300,7 @@
                 <h2 class="font-cinzel text-2xl font-bold text-white mt-1">Rangkaian Acara Khitanan 🕌</h2>
             </div>
 
-            <div class="space-y-4 max-w-sm mx-auto">
+            <div id="itineraryContainer" class="space-y-4 max-w-sm mx-auto">
                 @if(isset($couple->events) && count($couple->events) > 0)
                     @foreach($couple->events as $idx => $ev)
                         @php
@@ -762,5 +762,6 @@
             }
         } catch(e) {}
     </script>
+    @include('templates.partials.preview-sync')
 </body>
 </html>

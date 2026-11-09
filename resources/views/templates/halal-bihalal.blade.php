@@ -726,5 +726,6 @@
             window.parent.postMessage({ type: 'PREVIEW_IFRAME_READY' }, '*');
         }
     </script>
+    @include('templates.partials.preview-sync')
 </body>
 </html>

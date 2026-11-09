@@ -248,7 +248,7 @@
     <!-- ========================================================
          COVER SCREEN: INTERACTIVE DIGITAL ENVELOPE (Tampilan Awal Eksklusif)
          ======================================================== -->
-    <div class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-background flex flex-col items-center justify-center px-2 sm:px-6 py-3 sm:py-6 transition-all duration-700 ease-in-out" id="envelope-cover">
+    <div class="fixed inset-0 z-[60] overflow-y-auto overscroll-contain bg-background flex flex-col items-center justify-center px-2 sm:px-6 py-3 sm:py-6 transition-all duration-700 ease-in-out" id="envelope-cover">
         <!-- Atmospheric Ambient Glows (Clipped) -->
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
             <div class="absolute w-[380px] sm:w-[600px] h-[380px] sm:h-[600px] -top-20 sm:-top-32 -left-20 sm:-left-32 bg-primary/10 rounded-full blur-[90px] sm:blur-[140px]"></div>
@@ -957,7 +957,7 @@
         }
 
         function triggerOpenEnvelope() {
-            const envelopeCover = document.getElementById('envelope-cover');
+            const envelopeCover = document.getElementById('envelope-cover') || document.getElementById('invitation-cover');
             const envelopeFlap = document.getElementById('envelope-flap');
             const stickyBar = document.getElementById('sticky-bar');
             const mainWrapper = document.getElementById('main-invitation-wrapper');
@@ -1221,5 +1221,6 @@
             window.parent.postMessage({ type: 'PREVIEW_IFRAME_READY' }, '*');
         }
     </script>
+    @include('templates.partials.preview-sync')
 </body>
 </html>

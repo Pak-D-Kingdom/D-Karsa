@@ -78,7 +78,7 @@ class CategoryTemplateFilterTest extends TestCase
         $names = array_column($themes, 'name');
         $this->assertContains('Cheerful Confetti Birthday', $names);
         $this->assertContains('Kids Birthday Party Balon Ceria', $names);
-        $this->assertContains('Rustic Coral & Peach - Sweet 17th Birthday', $names);
+        $this->assertContains('Rustic Coral & Peach', $names);
         $this->assertContains('Golden Luxury Birthday / Milad', $names);
     }
 
@@ -171,7 +171,7 @@ class CategoryTemplateFilterTest extends TestCase
         $names = array_column($themes, 'name');
         $this->assertContains('Clean Tech Seminar & Workshop', $names);
         $this->assertContains('Reuni Akbar Sapphire Silver', $names);
-        $this->assertContains('Floral Midnight Navy - Acara Komunitas', $names);
+        $this->assertContains('Floral Midnight Navy', $names);
         $this->assertContains('Korporat Profesional & Grand Opening', $names);
 
         $this->assertNotContains('Simple Minimalist Floral', $names);

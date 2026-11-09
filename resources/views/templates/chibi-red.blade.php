@@ -180,9 +180,9 @@
 <body class="oriental-pattern text-neutral-800 font-sans antialiased selection:bg-oriental-gold selection:text-oriental-darkred overflow-hidden">
 
     @php
-        $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo, 'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?w=1200&q=80&auto=format&fit=crop');
-        $groomImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->groom_photo, 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600');
-        $brideImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->bride_photo, 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600');
+        $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo ?? null, 'https://images.unsplash.com/photo-1532712938310-34cb3982ef74?w=1200&q=80&auto=format&fit=crop');
+        $groomImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->groom_photo ?? null, 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600');
+        $brideImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->bride_photo ?? null, 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600');
         $audioUrl = !empty($couple->music_url) ? (str_starts_with($couple->music_url, 'http') ? $couple->music_url : asset('audio/' . $couple->music_url)) : asset('audio/wedding-melody.wav');
         
         $targetDate = !empty($couple->wedding_date) ? \Carbon\Carbon::parse($couple->wedding_date) : now()->addMonths(2);
@@ -422,7 +422,7 @@
                 <div class="w-16 h-0.5 bg-oriental-gold mx-auto mt-2"></div>
             </div>
 
-            <div class="space-y-5">
+            <div id="itineraryContainer" class="space-y-5">
                 @forelse($couple->events as $ev)
                     <div class="oriental-card rounded-3xl p-6 text-center space-y-3">
                         <div class="w-10 h-10 rounded-full bg-oriental-red/10 border border-oriental-red text-oriental-red font-chinese font-bold text-lg mx-auto flex items-center justify-center">
@@ -945,5 +945,6 @@
             }
         } catch(e) {}
     </script>
+    @include('templates.partials.preview-sync')
 </body>
 </html>

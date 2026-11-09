@@ -181,7 +181,7 @@
                 <!-- Guest Personalized Greeting Card -->
                 <div class="p-2 sm:p-2.5 bg-kinfolk-sand/60 border border-kinfolk-border text-center my-1.5 sm:my-2">
                     <span class="text-[7.5px] sm:text-[8px] uppercase tracking-[0.2em] text-kinfolk-muted block mb-0.5 font-semibold">Special Invitation For:</span>
-                    <p class="font-italiana text-sm sm:text-base text-kinfolk-ink font-bold">{{ $guest->name ?? 'Tamu Terhormat' }}</p>
+                    <p class="font-italiana text-sm sm:text-base text-kinfolk-ink font-bold" id="previewGuestNameCover">{{ $guest->name ?? request('to') ?? request('guest') ?? 'Tamu Terhormat' }}</p>
                     @if(!empty($guest->seat_table))
                         <span class="inline-block mt-0.5 text-[8.5px] sm:text-[9px] text-kinfolk-sage font-medium tracking-wider">Reserved: {{ $guest->seat_table }}</span>
                     @endif
@@ -815,6 +815,7 @@
             });
         }
 
+        window.renderDynamicEvents = function(events) { return renderDynamicItinerary(events); };
         function renderDynamicItinerary(events) {
             const container = document.getElementById('itineraryContainer');
             if (!container || !Array.isArray(events) || events.length === 0) return;
@@ -901,5 +902,6 @@
             }
         } catch(e) {}
     </script>
+    @include('templates.partials.preview-sync')
 </body>
 </html>

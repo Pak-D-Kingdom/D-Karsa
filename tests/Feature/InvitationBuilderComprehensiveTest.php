@@ -187,7 +187,7 @@ class InvitationBuilderComprehensiveTest extends TestCase
         $response = $this->post('/buat-undangan', [
             'category' => 'Ulang Tahun',
             'sub_category' => 'Sweet seventeen',
-            'selected_theme' => 'Korporat Profesional Arctic Frost - Sweet 17th Birthday',
+            'selected_theme' => 'Korporat Profesional Arctic Frost',
             'selected_package' => 'Paket Eksklusif - Rp180.000',
             'wedding_date' => '2026-11-15',
             'groom_name' => 'Aurellia Keisha',

@@ -208,7 +208,7 @@
                 <!-- Guest Personalized Greeting Card -->
                 <div class="relative z-10 p-2.5 sm:p-3 bg-snow-ice/90 border border-snow-silver text-center my-1.5 sm:my-2">
                     <span class="text-[7.5px] sm:text-[8px] font-montserrat uppercase tracking-[0.25em] text-snow-muted block mb-0.5 font-bold">Special Invitation For:</span>
-                    <p class="font-cormorant text-sm sm:text-base text-snow-dark font-semibold">{{ $guest->name ?? 'Tamu Terhormat' }}</p>
+                    <p class="font-cormorant text-sm sm:text-base text-snow-dark font-semibold" id="previewGuestNameCover">{{ $guest->name ?? request('to') ?? request('guest') ?? 'Tamu Terhormat' }}</p>
                     @if(!empty($guest->seat_table))
                         <span class="inline-block mt-0.5 text-[8.5px] sm:text-[9px] font-montserrat text-snow-slate font-medium tracking-wider">Table: {{ $guest->seat_table }}</span>
                     @endif
@@ -331,7 +331,7 @@
                 <h2 class="font-cormorant text-3xl sm:text-4xl text-snow-dark font-light">Rangkaian Acara</h2>
             </div>
 
-            <div class="space-y-6 max-w-md mx-auto">
+            <div id="itineraryContainer" class="space-y-6 max-w-md mx-auto">
                 @if(isset($couple->events) && count($couple->events) > 0)
                     @foreach($couple->events as $ev)
                         @php
@@ -856,5 +856,6 @@
             }
         } catch(e) {}
     </script>
+    @include('templates.partials.preview-sync')
 </body>
 </html>

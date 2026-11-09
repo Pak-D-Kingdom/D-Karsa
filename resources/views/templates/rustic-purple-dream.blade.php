@@ -191,7 +191,7 @@
     <!-- ========================================================
          COVER SCREEN: SAMPUL AMPLOP INTERAKTIF
          ======================================================== -->
-    <div id="invitation-cover" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-background flex flex-col items-center justify-between px-3.5 py-2.5 sm:py-4 transition-all duration-700 ease-in-out select-none">
+    <div id="invitation-cover" class="fixed inset-0 z-[60] overflow-y-auto overscroll-contain bg-background flex flex-col items-center justify-between px-3.5 py-2.5 sm:py-4 transition-all duration-700 ease-in-out select-none">
         <!-- Ambient orbs (Clipped) -->
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
             <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-surface-container blur-3xl opacity-60"></div>
@@ -252,7 +252,7 @@
 
             <!-- CTA Button -->
             <footer class="w-full flex flex-col items-center gap-0.5 pt-0.5 shrink-0">
-                <button id="btnOpenInvitation" type="button" class="w-full py-2.5 px-4 rounded-xl bg-primary hover:bg-primary-container text-on-primary text-xs uppercase font-bold tracking-wider shadow-lg active:scale-95 transition-all flex items-center justify-center space-x-2 cursor-pointer pointer-events-auto">
+                <button id="btnOpenInvitation" type="button" onclick="openInvitation()" class="w-full py-2.5 px-4 rounded-xl bg-primary hover:bg-primary-container text-on-primary text-xs uppercase font-bold tracking-wider shadow-lg active:scale-95 transition-all flex items-center justify-center space-x-2 cursor-pointer pointer-events-auto">
                     <span class="material-symbols-outlined text-[16px]">drafts</span>
                     <span>Buka Undangan</span>
                     <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
@@ -922,5 +922,6 @@
             window.parent.postMessage({ type: 'PREVIEW_IFRAME_READY', template: 'rustic-purple-dream' }, '*');
         }
     </script>
+    @include('templates.partials.preview-sync')
 </body>
 </html>

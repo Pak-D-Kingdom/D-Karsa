@@ -303,7 +303,7 @@
                 <h2 class="font-cinzel text-2xl font-bold text-white mt-1">Rangkaian Prosesi &amp; Syukuran</h2>
             </div>
 
-            <div class="space-y-4 max-w-sm mx-auto">
+            <div id="itineraryContainer" class="space-y-4 max-w-sm mx-auto">
                 @if(isset($couple->events) && count($couple->events) > 0)
                     @foreach($couple->events as $idx => $ev)
                         @php
@@ -729,5 +729,6 @@
             window.parent.postMessage({ type: 'PREVIEW_IFRAME_READY' }, '*');
         }
     </script>
+    @include('templates.partials.preview-sync')
 </body>
 </html>

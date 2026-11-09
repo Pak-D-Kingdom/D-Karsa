@@ -326,6 +326,21 @@
             $rawCat = request('category', 'Pernikahan');
             $rawSub = request('sub_category');
 
+            // 15-minute time slots (00:00 to 23:45 WIB)
+            $timeSlots = [];
+            for ($h = 0; $h < 24; $h++) {
+                for ($m = 0; $m < 60; $m += 15) {
+                    $hh = str_pad($h, 2, '0', STR_PAD_LEFT);
+                    $mm = str_pad($m, 2, '0', STR_PAD_LEFT);
+                    $timeSlots[] = [
+                        'val' => "{$hh}:{$mm} WIB",
+                        'short' => "{$hh}:{$mm}",
+                        'label' => "{$hh}.{$mm} WIB",
+                        'mins' => $h * 60 + $m
+                    ];
+                }
+            }
+
             // ========================================================
             // 6 BAB KATEGORI UNDANGAN DIGITAL BESERTA SUB-BAB LENGKAP
             // ========================================================
@@ -1076,7 +1091,7 @@
                 {{-- Hidden dynamic inputs container for standard form submission --}}
                 <div id="hiddenEventsInputsContainer"></div>
 
-                {{-- Penyatuan Tanggal: Seluruh Acara Otomatis Sama dengan Tanggal Hari-H --}}
+                {{-- Pengaturan Tanggal & Waktu Rangkaian Acara --}}
                 <div class="p-4 rounded-3xl bg-brand/5 border border-brand/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-2xl bg-brand text-white grid place-items-center text-base shrink-0 shadow-sm shadow-brand/20">
@@ -1084,21 +1099,20 @@
                         </div>
                         <div>
                             <div class="flex items-center gap-2 flex-wrap">
-                                <p class="text-xs font-bold text-ink">Tanggal Rangkaian Acara</p>
-                                <span id="eventDateSyncBadge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100/80 text-emerald-800 border border-emerald-300 flex items-center gap-1">
-                                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
-                                    Disatukan dengan Hari-H
+                                <p class="text-xs font-bold text-ink">Pengaturan Tanggal &amp; Waktu Acara</p>
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-brand/10 text-brand border border-brand/20 flex items-center gap-1">
+                                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-brand"></span>
+                                    Tanggal Mandiri Per Acara
                                 </span>
                             </div>
                             <p class="text-[11px] text-ink2 mt-0.5" id="eventDateSyncSummary">
-                                Seluruh acara berlangsung di hari yang sama: <strong class="text-brand font-bold" id="linkedWeddingDateDisplay">Belum dipilih di Langkah 1</strong>
+                                Tanggal Hari-H: <strong class="text-brand font-bold" id="linkedWeddingDateDisplay">Belum dipilih di Langkah 1</strong>. Anda bebas mengatur tanggal yang sama atau berbeda untuk masing-masing acara.
                             </p>
                         </div>
                     </div>
-                    <label class="inline-flex items-center gap-2 cursor-pointer select-none bg-white px-3.5 py-2 rounded-2xl border border-ink/15 shadow-xs shrink-0 hover:border-brand/30 transition">
-                        <input type="checkbox" id="syncEventsDateCheckbox" class="rounded border-ink/30 text-brand focus:ring-brand cursor-pointer" checked onchange="handleSyncEventsDateToggle(this.checked)">
-                        <span class="text-xs font-bold text-ink2">Sama dengan Hari-H</span>
-                    </label>
+                    <button type="button" onclick="applyWeddingDateToAllEvents()" class="px-3.5 py-2 bg-white hover:bg-brand/10 text-brand border border-brand/30 rounded-2xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer shadow-xs active:scale-95 shrink-0" title="Klik untuk menyamakan tanggal semua acara dengan tanggal Hari-H">
+                        <span>⚡</span> Samakan Semua ke Tanggal Hari-H
+                    </button>
                 </div>
 
                 {{-- Events List Container --}}
@@ -1122,22 +1136,44 @@
                                 <label class="block text-xs font-semibold text-ink2">Nama Acara</label>
                                 <input type="text" name="event_1_title" id="event1TitleInput" value="{{ old('event_1_title') }}"
                                        placeholder="Contoh: Akad Nikah / Doa Bersama"
-                                       class="event-title-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                                       class="event-title-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand bg-white">
                             </div>
                             <div class="space-y-1 event-date-col">
                                 <div class="flex items-center justify-between">
                                     <label class="block text-xs font-semibold text-ink2">Tanggal Acara</label>
-                                    <span class="event-date-status-tag text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">Sama dgn Hari-H</span>
+                                    <button type="button" onclick="copyWeddingDateToCard(this)" class="text-[10px] text-brand hover:underline font-semibold cursor-pointer" title="Terapkan tanggal Hari-H ke acara ini">Gunakan Hari-H</button>
                                 </div>
                                 <input type="date" name="event_1_date" id="event1DateInput" value="{{ old('event_1_date') }}"
-                                       class="event-date-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand transition-all">
+                                       onchange="onEventDateChanged(this)"
+                                       class="event-date-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand bg-white cursor-pointer transition-all">
+                                <div class="event-date-preview text-[10px] text-ink2 font-medium mt-1"></div>
                             </div>
                             <div class="space-y-1">
                                 <label class="block text-xs font-semibold text-ink2">Waktu (Mulai - Selesai)</label>
-                                <div class="flex items-center gap-1">
-                                    <input type="text" name="event_1_start_time" value="{{ old('event_1_start_time') }}" placeholder="08:00 WIB" class="event-start-input w-1/2 rounded-2xl border border-ink/20 px-2 py-2.5 text-xs text-center font-semibold">
-                                    <span>-</span>
-                                    <input type="text" name="event_1_end_time" value="{{ old('event_1_end_time') }}" placeholder="10:00 / Selesai" class="event-end-input w-1/2 rounded-2xl border border-ink/20 px-2 py-2.5 text-xs text-center font-semibold">
+                                <div class="grid grid-cols-2 gap-1.5 items-center">
+                                    <div class="relative">
+                                        <select name="event_1_start_time" onchange="handleStartTimeChange(this.closest('.event-card-item'))"
+                                                class="event-start-input w-full appearance-none rounded-2xl border border-ink/20 px-2.5 py-2.5 pr-6 text-xs font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-brand cursor-pointer transition">
+                                            @foreach($timeSlots as $slot)
+                                                <option value="{{ $slot['val'] }}" {{ (old('event_1_start_time', '08:00 WIB') === $slot['val'] || old('event_1_start_time') === $slot['short']) ? 'selected' : '' }}>{{ $slot['label'] }}</option>
+                                            @endforeach
+                                        </select>
+                                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 text-ink3">
+                                            <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                                        </div>
+                                    </div>
+                                    <div class="relative">
+                                        <select name="event_1_end_time" onchange="handleEndTimeChange(this.closest('.event-card-item'))"
+                                                class="event-end-input w-full appearance-none rounded-2xl border border-ink/20 px-2.5 py-2.5 pr-6 text-xs font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-brand cursor-pointer transition">
+                                            <option value="Selesai" {{ old('event_1_end_time') === 'Selesai' ? 'selected' : '' }}>Selesai</option>
+                                            @foreach($timeSlots as $slot)
+                                                <option value="{{ $slot['val'] }}" {{ (old('event_1_end_time', '10:00 WIB') === $slot['val'] || old('event_1_end_time') === $slot['short']) ? 'selected' : '' }}>{{ $slot['label'] }}</option>
+                                            @endforeach
+                                        </select>
+                                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 text-ink3">
+                                            <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1147,13 +1183,13 @@
                                 <label class="block text-xs font-semibold text-ink2">Nama Tempat / Gedung</label>
                                 <input type="text" name="event_1_venue" id="event1VenueInput" value="{{ old('event_1_venue') }}"
                                        placeholder="Contoh: Masjid Agung Al-Azhar"
-                                       class="event-venue-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                                       class="event-venue-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand bg-white">
                             </div>
                             <div class="space-y-1">
                                 <label class="block text-xs font-semibold text-ink2">Tautan Google Maps</label>
                                 <input type="url" name="event_1_maps_url" value="{{ old('event_1_maps_url') }}"
                                        placeholder="Contoh: https://maps.app.goo.gl/..."
-                                       class="event-maps-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                                       class="event-maps-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand bg-white">
                             </div>
                         </div>
 
@@ -1161,7 +1197,7 @@
                             <label class="block text-xs font-semibold text-ink2">Alamat Lengkap</label>
                             <input type="text" name="event_1_address" value="{{ old('event_1_address') }}"
                                    placeholder="Contoh: Jl. Sisingamangaraja No. 1, Kebayoran Baru, Jakarta Selatan"
-                                   class="event-address-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                                   class="event-address-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand bg-white">
                         </div>
                     </div>
 
@@ -1184,22 +1220,44 @@
                                 <label class="block text-xs font-semibold text-ink2">Nama Acara</label>
                                 <input type="text" name="event_2_title" id="event2TitleInput" value="{{ old('event_2_title') }}"
                                        placeholder="Contoh: Resepsi Pernikahan / Ramah Tamah"
-                                       class="event-title-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                                       class="event-title-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand bg-white">
                             </div>
                             <div class="space-y-1 event-date-col">
                                 <div class="flex items-center justify-between">
                                     <label class="block text-xs font-semibold text-ink2">Tanggal Acara</label>
-                                    <span class="event-date-status-tag text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">Sama dgn Hari-H</span>
+                                    <button type="button" onclick="copyWeddingDateToCard(this)" class="text-[10px] text-brand hover:underline font-semibold cursor-pointer" title="Terapkan tanggal Hari-H ke acara ini">Gunakan Hari-H</button>
                                 </div>
                                 <input type="date" name="event_2_date" id="event2DateInput" value="{{ old('event_2_date') }}"
-                                       class="event-date-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand transition-all">
+                                       onchange="onEventDateChanged(this)"
+                                       class="event-date-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand bg-white cursor-pointer transition-all">
+                                <div class="event-date-preview text-[10px] text-ink2 font-medium mt-1"></div>
                             </div>
                             <div class="space-y-1">
                                 <label class="block text-xs font-semibold text-ink2">Waktu (Mulai - Selesai)</label>
-                                <div class="flex items-center gap-1">
-                                    <input type="text" name="event_2_start_time" value="{{ old('event_2_start_time') }}" placeholder="11:00 WIB" class="event-start-input w-1/2 rounded-2xl border border-ink/20 px-2 py-2.5 text-xs text-center font-semibold">
-                                    <span>-</span>
-                                    <input type="text" name="event_2_end_time" value="{{ old('event_2_end_time') }}" placeholder="14:00 / Selesai" class="event-end-input w-1/2 rounded-2xl border border-ink/20 px-2 py-2.5 text-xs text-center font-semibold">
+                                <div class="grid grid-cols-2 gap-1.5 items-center">
+                                    <div class="relative">
+                                        <select name="event_2_start_time" onchange="handleStartTimeChange(this.closest('.event-card-item'))"
+                                                class="event-start-input w-full appearance-none rounded-2xl border border-ink/20 px-2.5 py-2.5 pr-6 text-xs font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-brand cursor-pointer transition">
+                                            @foreach($timeSlots as $slot)
+                                                <option value="{{ $slot['val'] }}" {{ (old('event_2_start_time', '11:00 WIB') === $slot['val'] || old('event_2_start_time') === $slot['short']) ? 'selected' : '' }}>{{ $slot['label'] }}</option>
+                                            @endforeach
+                                        </select>
+                                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 text-ink3">
+                                            <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                                        </div>
+                                    </div>
+                                    <div class="relative">
+                                        <select name="event_2_end_time" onchange="handleEndTimeChange(this.closest('.event-card-item'))"
+                                                class="event-end-input w-full appearance-none rounded-2xl border border-ink/20 px-2.5 py-2.5 pr-6 text-xs font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-brand cursor-pointer transition">
+                                            <option value="Selesai" {{ old('event_2_end_time') === 'Selesai' ? 'selected' : '' }}>Selesai</option>
+                                            @foreach($timeSlots as $slot)
+                                                <option value="{{ $slot['val'] }}" {{ (old('event_2_end_time', '14:00 WIB') === $slot['val'] || old('event_2_end_time') === $slot['short']) ? 'selected' : '' }}>{{ $slot['label'] }}</option>
+                                            @endforeach
+                                        </select>
+                                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 text-ink3">
+                                            <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1209,13 +1267,13 @@
                                 <label class="block text-xs font-semibold text-ink2">Nama Tempat / Ballroom</label>
                                 <input type="text" name="event_2_venue" id="event2VenueInput" value="{{ old('event_2_venue') }}"
                                        placeholder="Contoh: Grand Ballroom Menara 165"
-                                       class="event-venue-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                                       class="event-venue-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand bg-white">
                             </div>
                             <div class="space-y-1">
                                 <label class="block text-xs font-semibold text-ink2">Tautan Google Maps</label>
                                 <input type="url" name="event_2_maps_url" value="{{ old('event_2_maps_url') }}"
                                        placeholder="Contoh: https://maps.app.goo.gl/..."
-                                       class="event-maps-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                                       class="event-maps-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand bg-white">
                             </div>
                         </div>
 
@@ -1223,7 +1281,7 @@
                             <label class="block text-xs font-semibold text-ink2">Alamat Lengkap</label>
                             <input type="text" name="event_2_address" value="{{ old('event_2_address') }}"
                                    placeholder="Contoh: Jl. TB Simatupang Kav. 1, Cilandak Timur, Jakarta Selatan"
-                                   class="event-address-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                                   class="event-address-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand bg-white">
                         </div>
                     </div>
                 </div>
@@ -1336,6 +1394,7 @@
                         <option value="wedding-melody.wav" selected>♫ Beautiful Melody (Instrumental Bawaan)</option>
                         <option value="https://assets.mixkit.co/music/preview/mixkit-romantic-wedding-640.mp3">♫ Melodi Akustik Syahdu &amp; Lembut</option>
                         <option value="https://assets.mixkit.co/music/preview/mixkit-wedding-piano-641.mp3">♫ Sweet Piano Melody</option>
+                        <option value="none">🔇 Nonaktifkan Musik (Tanpa Musik)</option>
                     </select>
                     <p class="text-[10px] text-ink3">Musik akan diputar secara otomatis saat tamu menekan tombol "Buka Undangan".</p>
                 </div>
@@ -2793,6 +2852,13 @@
                     }
                     musicSelect.appendChild(optEl);
                 });
+                const noneOpt = document.createElement('option');
+                noneOpt.value = 'none';
+                noneOpt.textContent = '🔇 Nonaktifkan Musik (Tanpa Musik)';
+                if (curVal === 'none') {
+                    noneOpt.selected = true;
+                }
+                musicSelect.appendChild(noneOpt);
             }
         }
 
@@ -2952,6 +3018,7 @@
                     if (photoKey) {
                         try {
                             sessionStorage.setItem('dkarsa_preview_' + photoKey + '_photo', dataUrl);
+                            localStorage.setItem('dkarsa_preview_' + photoKey + '_photo', dataUrl);
                         } catch(err) {
                             console.warn('Storage quota warning for preview photo', err);
                         }
@@ -3001,8 +3068,18 @@
             updateLivePreviewContent(false);
         }
 
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
         // ========================================================
-        // SMART DATE HARMONIZATION (PENYATUAN TANGGAL HARI-H & ACARA)
+        // SMART DATE HARMONIZATION & DATE PREVIEW HELPERS
         // ========================================================
         function formatIndonesianDateStr(dateStr) {
             if (!dateStr) return '';
@@ -3016,81 +3093,213 @@
             return dateStr;
         }
 
-        function handleSyncEventsDateToggle(isSynced) {
+        function updateEventDatePreview(card) {
+            if (!card) return;
+            const dateInput = card.querySelector('.event-date-input');
+            const previewEl = card.querySelector('.event-date-preview');
+            if (!dateInput || !previewEl) return;
+
             const weddingDateInput = document.getElementById('weddingDateInput') || document.querySelector('input[name="wedding_date"]');
             const weddingDateVal = weddingDateInput?.value || '';
+            const val = dateInput.value;
 
-            const badge = document.getElementById('eventDateSyncBadge');
-            const summary = document.getElementById('eventDateSyncSummary');
-
-            if (isSynced) {
-                if (badge) {
-                    badge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100/80 text-emerald-800 border border-emerald-300 flex items-center gap-1';
-                    badge.innerHTML = '<span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Disatukan dengan Hari-H';
-                }
-                if (summary) {
-                    const formatted = weddingDateVal ? formatIndonesianDateStr(weddingDateVal) : 'Belum dipilih di Langkah 1';
-                    summary.innerHTML = `Seluruh acara berlangsung di hari yang sama: <strong class="text-brand font-bold" id="linkedWeddingDateDisplay">${formatted}</strong>`;
-                }
-
-                // Apply to all existing event cards
-                document.querySelectorAll('.event-card-item').forEach(card => {
-                    const dateInput = card.querySelector('.event-date-input');
-                    const statusTag = card.querySelector('.event-date-status-tag');
-                    if (dateInput) {
-                        if (weddingDateVal) dateInput.value = weddingDateVal;
-                        dateInput.readOnly = true;
-                        dateInput.classList.add('bg-sunk/60', 'cursor-not-allowed', 'border-dashed');
-                    }
-                    if (statusTag) {
-                        statusTag.textContent = 'Sama dgn Hari-H';
-                        statusTag.className = 'event-date-status-tag text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200';
-                    }
-                });
-            } else {
-                if (badge) {
-                    badge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100/80 text-amber-800 border border-amber-300 flex items-center gap-1';
-                    badge.innerHTML = '<span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-600"></span> Mode Tanggal Berbeda';
-                }
-                if (summary) {
-                    summary.innerHTML = 'Mode Tanggal Berbeda: Anda dapat mengatur tanggal spesifik untuk masing-masing acara di bawah ini.';
-                }
-
-                // Unlock inputs
-                document.querySelectorAll('.event-card-item').forEach(card => {
-                    const dateInput = card.querySelector('.event-date-input');
-                    const statusTag = card.querySelector('.event-date-status-tag');
-                    if (dateInput) {
-                        dateInput.readOnly = false;
-                        dateInput.classList.remove('bg-sunk/60', 'cursor-not-allowed', 'border-dashed');
-                    }
-                    if (statusTag) {
-                        statusTag.textContent = 'Beda Hari';
-                        statusTag.className = 'event-date-status-tag text-[10px] font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200';
-                    }
-                });
+            if (!val) {
+                previewEl.textContent = 'Belum memilih tanggal acara';
+                previewEl.className = 'event-date-preview text-[10px] text-ink3 font-medium mt-1';
+                return;
             }
 
+            const formatted = formatIndonesianDateStr(val);
+            if (weddingDateVal && val === weddingDateVal) {
+                previewEl.innerHTML = `📅 <span class="text-brand font-semibold">${formatted}</span> <span class="text-[9px] text-emerald-700 font-bold bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 ml-1">Sama Hari-H</span>`;
+                previewEl.className = 'event-date-preview text-[10px] text-ink font-medium mt-1';
+            } else if (weddingDateVal) {
+                previewEl.innerHTML = `📅 <span class="text-ink font-semibold">${formatted}</span> <span class="text-[9px] text-amber-700 font-bold bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200 ml-1">Tanggal Mandiri</span>`;
+                previewEl.className = 'event-date-preview text-[10px] text-ink font-medium mt-1';
+            } else {
+                previewEl.innerHTML = `📅 <span class="text-ink font-semibold">${formatted}</span>`;
+                previewEl.className = 'event-date-preview text-[10px] text-ink font-medium mt-1';
+            }
+        }
+
+        function onEventDateChanged(input) {
+            const card = input.closest('.event-card-item');
+            if (card) {
+                updateEventDatePreview(card);
+            }
             syncEventsToFormAndPreview();
+        }
+
+        function copyWeddingDateToCard(btn) {
+            const card = btn.closest('.event-card-item');
+            if (!card) return;
+            const weddingDateInput = document.getElementById('weddingDateInput') || document.querySelector('input[name="wedding_date"]');
+            const weddingDateVal = weddingDateInput?.value || '';
+            if (!weddingDateVal) {
+                alert('Silakan tentukan Tanggal Acara Utama (Hari-H) terlebih dahulu di Langkah 1.');
+                return;
+            }
+            const dateInput = card.querySelector('.event-date-input');
+            if (dateInput) {
+                dateInput.value = weddingDateVal;
+                updateEventDatePreview(card);
+                syncEventsToFormAndPreview();
+                if (typeof showBuilderToast === 'function') {
+                    showBuilderToast('Tanggal acara disamakan dengan Hari-H.', '📅');
+                }
+            }
+        }
+
+        function applyWeddingDateToAllEvents() {
+            const weddingDateInput = document.getElementById('weddingDateInput') || document.querySelector('input[name="wedding_date"]');
+            const weddingDateVal = weddingDateInput?.value || '';
+            if (!weddingDateVal) {
+                alert('Silakan tentukan Tanggal Acara Utama (Hari-H) terlebih dahulu di Langkah 1.');
+                return;
+            }
+            document.querySelectorAll('.event-card-item').forEach(card => {
+                const dateInput = card.querySelector('.event-date-input');
+                if (dateInput) {
+                    dateInput.value = weddingDateVal;
+                    updateEventDatePreview(card);
+                }
+            });
+            syncEventsToFormAndPreview();
+            if (typeof showBuilderToast === 'function') {
+                showBuilderToast('Seluruh tanggal acara berhasil disamakan dengan Hari-H.', '📅');
+            }
         }
 
         function syncWeddingDateToEvents() {
             const weddingDateInput = document.getElementById('weddingDateInput') || document.querySelector('input[name="wedding_date"]');
             const weddingDateVal = weddingDateInput?.value || '';
-            const checkbox = document.getElementById('syncEventsDateCheckbox');
-            const isSynced = checkbox ? checkbox.checked : true;
 
             const displayDateEl = document.getElementById('linkedWeddingDateDisplay');
             if (displayDateEl) {
                 displayDateEl.textContent = weddingDateVal ? formatIndonesianDateStr(weddingDateVal) : 'Belum dipilih di Langkah 1';
             }
 
-            if (isSynced && weddingDateVal) {
-                document.querySelectorAll('.event-card-item .event-date-input').forEach(input => {
-                    input.value = weddingDateVal;
-                });
-                syncEventsToFormAndPreview();
+            // If Acara 1 date is empty, initialize it with Hari-H date
+            const cards = document.querySelectorAll('.event-card-item');
+            if (cards.length > 0 && weddingDateVal) {
+                const card1Date = cards[0].querySelector('.event-date-input');
+                if (card1Date && !card1Date.value) {
+                    card1Date.value = weddingDateVal;
+                }
             }
+
+            // Update date previews for all cards
+            cards.forEach(card => updateEventDatePreview(card));
+        }
+
+        // ========================================================
+        // 15-MINUTE TIME DROPDOWN UTILITIES & CONSTRAINT ENGINE
+        // ========================================================
+        function normalizeTimeValue(val) {
+            if (!val) return '';
+            const str = String(val).trim();
+            if (str.toLowerCase().includes('selesai')) return 'Selesai';
+            const match = str.match(/(\d{1,2})[:.](\d{2})/);
+            if (match) {
+                const hh = String(parseInt(match[1], 10)).padStart(2, '0');
+                const mm = match[2];
+                return `${hh}:${mm} WIB`;
+            }
+            return str;
+        }
+
+        function parseTimeToMinutes(val) {
+            if (!val) return -1;
+            if (String(val).toLowerCase().includes('selesai')) return 99999;
+            const match = String(val).match(/(\d{1,2})[:.](\d{2})/);
+            if (match) {
+                return parseInt(match[1], 10) * 60 + parseInt(match[2], 10);
+            }
+            return -1;
+        }
+
+        function generateTimeOptionsHtml(selectedVal = '', isEndTime = false, minMinutes = -1) {
+            let html = '';
+            if (isEndTime) {
+                const isSelesai = !selectedVal || selectedVal.toLowerCase().includes('selesai');
+                html += `<option value="Selesai" ${isSelesai ? 'selected' : ''}>Selesai</option>`;
+            }
+            const normalizedSelected = normalizeTimeValue(selectedVal);
+            for (let h = 0; h < 24; h++) {
+                for (let m = 0; m < 60; m += 15) {
+                    const hh = String(h).padStart(2, '0');
+                    const mm = String(m).padStart(2, '0');
+                    const val = `${hh}:${mm} WIB`;
+                    const label = `${hh}.${mm} WIB`;
+                    const totalMins = h * 60 + m;
+                    const isDisabled = isEndTime && minMinutes >= 0 && totalMins <= minMinutes;
+                    const isSelected = (!isEndTime || (selectedVal && !selectedVal.toLowerCase().includes('selesai'))) && normalizedSelected === val;
+                    html += `<option value="${val}" ${isDisabled ? 'disabled' : ''} ${isSelected ? 'selected' : ''}>${label}</option>`;
+                }
+            }
+            return html;
+        }
+
+        function handleStartTimeChange(card) {
+            if (!card) return;
+            const startSelect = card.querySelector('.event-start-input');
+            const endSelect = card.querySelector('.event-end-input');
+            if (!startSelect || !endSelect) return;
+
+            const startMins = parseTimeToMinutes(startSelect.value);
+            const currentEndVal = endSelect.value;
+            const currentEndMins = parseTimeToMinutes(currentEndVal);
+
+            // Update disabled state for end time options
+            Array.from(endSelect.options).forEach(opt => {
+                if (opt.value === 'Selesai') {
+                    opt.disabled = false;
+                } else {
+                    const optMins = parseTimeToMinutes(opt.value);
+                    opt.disabled = (optMins <= startMins);
+                }
+            });
+
+            // If current end time is now invalid (<= start time and not 'Selesai')
+            if (currentEndVal !== 'Selesai' && currentEndMins <= startMins) {
+                const targetMins = startMins + 120; // 2 hours later
+                let bestOption = null;
+                let minDiff = 999999;
+
+                Array.from(endSelect.options).forEach(opt => {
+                    if (!opt.disabled && opt.value !== 'Selesai') {
+                        const optMins = parseTimeToMinutes(opt.value);
+                        if (optMins >= targetMins && (optMins - targetMins) < minDiff) {
+                            minDiff = optMins - targetMins;
+                            bestOption = opt.value;
+                        }
+                    }
+                });
+
+                if (bestOption) {
+                    endSelect.value = bestOption;
+                } else {
+                    endSelect.value = 'Selesai';
+                }
+            }
+
+            syncEventsToFormAndPreview();
+        }
+
+        function handleEndTimeChange(card) {
+            if (!card) return;
+            const startSelect = card.querySelector('.event-start-input');
+            const endSelect = card.querySelector('.event-end-input');
+            if (!startSelect || !endSelect) return;
+
+            const startMins = parseTimeToMinutes(startSelect.value);
+            const endMins = parseTimeToMinutes(endSelect.value);
+
+            if (endSelect.value !== 'Selesai' && endMins <= startMins) {
+                alert('Waktu selesai tidak boleh lebih awal atau sama dengan waktu mulai.');
+                endSelect.value = 'Selesai';
+            }
+            syncEventsToFormAndPreview();
         }
 
         // ========================================================
@@ -3142,15 +3351,18 @@
             const currentCount = container.querySelectorAll('.event-card-item').length;
             const nextIndex = currentCount + 1;
 
-            const isSynced = document.getElementById('syncEventsDateCheckbox')?.checked ?? true;
             const weddingDateVal = document.querySelector('input[name="wedding_date"]')?.value || '';
-            const evDate = isSynced ? weddingDateVal : (data.date || weddingDateVal);
+            const evDate = data.date || weddingDateVal || '';
             const evTitle = data.title || (nextIndex === 2 ? 'Resepsi Pernikahan' : `Rangkaian Acara ${nextIndex}`);
             const evStart = data.start_time || (nextIndex === 1 ? '08:00 WIB' : (nextIndex === 2 ? '11:00 WIB' : '19:00 WIB'));
             const evEnd = data.end_time || (nextIndex === 1 ? '10:00 WIB' : (nextIndex === 2 ? '14:00 WIB' : '21:00 WIB'));
             const evVenue = data.venue_name || '';
             const evMaps = data.maps_url || '';
             const evAddress = data.address || '';
+
+            const startMins = parseTimeToMinutes(evStart);
+            const startOptionsHtml = generateTimeOptionsHtml(evStart, false);
+            const endOptionsHtml = generateTimeOptionsHtml(evEnd, true, startMins);
 
             const card = document.createElement('div');
             card.className = 'event-card-item p-5 rounded-3xl bg-blush/60 border border-brand/20 space-y-4 relative transition-all animate-fadeIn';
@@ -3159,7 +3371,7 @@
             card.innerHTML = `
                 <div class="flex items-center justify-between">
                     <b class="text-sm font-bold text-brand flex items-center gap-1.5">
-                        <span class="event-header-label">✨ Acara ${nextIndex}: ${evTitle}</span>
+                        <span class="event-header-label">✨ Acara ${nextIndex}: ${escapeHtml(evTitle)}</span>
                     </b>
                     <div class="flex items-center gap-2">
                         <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white text-ink2 border border-ink/15 event-badge">Acara ${nextIndex}</span>
@@ -3172,28 +3384,39 @@
                 <div class="grid sm:grid-cols-3 gap-3">
                     <div class="space-y-1">
                         <label class="block text-xs font-semibold text-ink2">Nama Acara</label>
-                        <input type="text" value="${evTitle}" placeholder="Contoh: Resepsi / Ramah Tamah / Syukuran"
-                               class="event-title-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                        <input type="text" value="${escapeHtml(evTitle)}" placeholder="Contoh: Resepsi / Ramah Tamah / Syukuran"
+                               class="event-title-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand bg-white">
                     </div>
                     <div class="space-y-1 event-date-col">
                         <div class="flex items-center justify-between">
                             <label class="block text-xs font-semibold text-ink2">Tanggal Acara</label>
-                            <span class="event-date-status-tag text-[10px] font-semibold ${isSynced ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : 'text-amber-700 bg-amber-50 border-amber-200'} px-2 py-0.5 rounded-md border">${isSynced ? 'Sama dgn Hari-H' : 'Beda Hari'}</span>
+                            <button type="button" onclick="copyWeddingDateToCard(this)" class="text-[10px] text-brand hover:underline font-semibold cursor-pointer" title="Terapkan tanggal Hari-H ke acara ini">Gunakan Hari-H</button>
                         </div>
-                        <input type="date" value="${evDate}" ${isSynced ? 'readonly' : ''}
-                               class="event-date-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand transition-all ${isSynced ? 'bg-sunk/60 cursor-not-allowed border-dashed' : ''}">
+                        <input type="date" value="${evDate}" onchange="onEventDateChanged(this)"
+                               class="event-date-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand bg-white cursor-pointer transition-all">
+                        <div class="event-date-preview text-[10px] text-ink2 font-medium mt-1"></div>
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-semibold text-ink2">Waktu (Mulai - Selesai)</label>
-                        <div class="flex items-center gap-1">
-                            <input type="text" value="${evStart}" placeholder="11:00 WIB" class="event-start-input w-1/2 rounded-2xl border border-ink/20 px-2 py-2.5 text-xs text-center font-semibold">
-                            <span>-</span>
-                            <input type="text" value="${evEnd}" placeholder="14:00 / Selesai" class="event-end-input w-1/2 rounded-2xl border border-ink/20 px-2 py-2.5 text-xs text-center font-semibold">
-                        </div>
-                    </div>
-                </div>
-                            <span>-</span>
-                            <input type="text" value="${evEnd}" placeholder="14:00 / Selesai" class="event-end-input w-1/2 rounded-2xl border border-ink/20 px-2 py-2.5 text-xs text-center font-semibold">
+                        <div class="grid grid-cols-2 gap-1.5 items-center">
+                            <div class="relative">
+                                <select onchange="handleStartTimeChange(this.closest('.event-card-item'))"
+                                        class="event-start-input w-full appearance-none rounded-2xl border border-ink/20 px-2.5 py-2.5 pr-6 text-xs font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-brand cursor-pointer transition">
+                                    ${startOptionsHtml}
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 text-ink3">
+                                    <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                                </div>
+                            </div>
+                            <div class="relative">
+                                <select onchange="handleEndTimeChange(this.closest('.event-card-item'))"
+                                        class="event-end-input w-full appearance-none rounded-2xl border border-ink/20 px-2.5 py-2.5 pr-6 text-xs font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-brand cursor-pointer transition">
+                                    ${endOptionsHtml}
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 text-ink3">
+                                    <svg class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -3201,24 +3424,24 @@
                 <div class="grid sm:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <label class="block text-xs font-semibold text-ink2">Nama Tempat / Gedung</label>
-                        <input type="text" value="${evVenue}" placeholder="Contoh: Gedung Serbaguna / Ballroom"
-                               class="event-venue-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                        <input type="text" value="${escapeHtml(evVenue)}" placeholder="Contoh: Gedung Serbaguna / Ballroom"
+                               class="event-venue-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand bg-white">
                     </div>
                     <div class="space-y-1">
                         <label class="block text-xs font-semibold text-ink2">Tautan Google Maps</label>
-                        <input type="url" value="${evMaps}" placeholder="Contoh: https://maps.app.goo.gl/..."
-                               class="event-maps-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                        <input type="url" value="${escapeHtml(evMaps)}" placeholder="Contoh: https://maps.app.goo.gl/..."
+                               class="event-maps-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand bg-white">
                     </div>
                 </div>
 
                 <div class="space-y-1">
                     <label class="block text-xs font-semibold text-ink2">Alamat Lengkap</label>
-                    <input type="text" value="${evAddress}" placeholder="Contoh: Jl. TB Simatupang No. 12, Jakarta"
-                           class="event-address-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand">
+                    <input type="text" value="${escapeHtml(evAddress)}" placeholder="Contoh: Jl. TB Simatupang No. 12, Jakarta"
+                           class="event-address-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand bg-white">
                 </div>
             `;
 
-            // Attach change listeners
+            // Attach input change listeners
             card.querySelectorAll('input').forEach(input => {
                 input.addEventListener('input', () => {
                     const titleInput = card.querySelector('.event-title-input');
@@ -3231,6 +3454,8 @@
             });
 
             container.appendChild(card);
+            updateEventDatePreview(card);
+            handleStartTimeChange(card);
             reindexEventCards();
             syncEventsToFormAndPreview();
         }
@@ -3318,6 +3543,10 @@
                 if (ev2DateEl && !cards[1]) ev2DateEl.value = '';
             }
 
+            try {
+                localStorage.setItem('dkarsa_preview_events', JSON.stringify(eventsList));
+            } catch(e) {}
+
             // PostMessage to live preview iframe for real-time instant rendering
             const iframe = document.getElementById('builderLivePreviewIframe');
             if (iframe && iframe.contentWindow) {
@@ -3325,10 +3554,26 @@
                     type: 'UPDATE_PREVIEW_EVENTS',
                     events: eventsList
                 }, '*');
+
+                if (eventsList.length > 0) {
+                    const firstEv = eventsList[0];
+                    if (firstEv.venue_name) {
+                        iframe.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_FIELD', field: 'venue_name', value: firstEv.venue_name }, '*');
+                    }
+                    if (firstEv.address) {
+                        iframe.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_FIELD', field: 'venue_address', value: firstEv.address }, '*');
+                    }
+                    if (firstEv.maps_url) {
+                        iframe.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_FIELD', field: 'maps_url', value: firstEv.maps_url }, '*');
+                        iframe.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_FIELD', field: 'google_maps_url', value: firstEv.maps_url }, '*');
+                    }
+                }
             }
 
-            // Trigger debounced query string preview refresh
-            updateLivePreviewContent(false);
+            // Real-time events are dispatched above via postMessage; full query params update in background without resetting iframe
+            if (typeof updateLivePreviewContent === 'function') {
+                updateLivePreviewContent(false, false);
+            }
         }
 
         // ========================================================
@@ -3579,11 +3824,13 @@
             try {
                 if (dataUrls.length > 0) {
                     sessionStorage.setItem('dkarsa_preview_gallery_photos', JSON.stringify(dataUrls));
+                    localStorage.setItem('dkarsa_preview_gallery_photos', JSON.stringify(dataUrls));
                 } else {
                     sessionStorage.removeItem('dkarsa_preview_gallery_photos');
+                    localStorage.removeItem('dkarsa_preview_gallery_photos');
                 }
             } catch (e) {
-                console.warn('sessionStorage quota limit reached for gallery', e);
+                console.warn('Storage quota limit reached for gallery', e);
             }
 
             // 4. Update binary input.files via DataTransfer
@@ -4095,8 +4342,8 @@
             const prevThemeLabel = document.getElementById('prevCurrentThemeLabel');
             if (prevThemeLabel) prevThemeLabel.textContent = 'Tema: ' + tmpl.name;
 
-            // Trigger immediate preview iframe refresh with current form data
-            updateLivePreviewContent(true);
+            // Trigger immediate preview iframe refresh with current form data and force reload for newly selected template
+            updateLivePreviewContent(true, true);
 
             if (autoClose) {
                 closeTemplateModal();
@@ -4204,7 +4451,7 @@
                     const address = card.querySelector('.event-address-input')?.value || '';
                     const maps = card.querySelector('.event-maps-input')?.value || '';
 
-                    if (title || venue || address) {
+                    if (title || venue || address || date || start) {
                         events.push({
                             title: title || `Acara ${idx + 1}`,
                             date: date || weddingDateVal,
@@ -4268,9 +4515,19 @@
                 if (events[0].date) params.set('event_1_date', events[0].date);
                 if (events[0].start_time) params.set('event_1_start_time', events[0].start_time);
                 if (events[0].end_time) params.set('event_1_end_time', events[0].end_time);
-                if (events[0].venue_name) params.set('event_1_venue', events[0].venue_name);
-                if (events[0].address) params.set('event_1_address', events[0].address);
-                if (events[0].maps_url) params.set('event_1_maps_url', events[0].maps_url);
+                if (events[0].venue_name) {
+                    params.set('event_1_venue', events[0].venue_name);
+                    params.set('venue_name', events[0].venue_name);
+                }
+                if (events[0].address) {
+                    params.set('event_1_address', events[0].address);
+                    params.set('venue_address', events[0].address);
+                }
+                if (events[0].maps_url) {
+                    params.set('event_1_maps_url', events[0].maps_url);
+                    params.set('maps_url', events[0].maps_url);
+                    params.set('google_maps_url', events[0].maps_url);
+                }
 
                 if (events.length > 1) {
                     params.set('event_2_title', events[1].title);
@@ -4308,6 +4565,9 @@
 
             if (giftAddress) params.set('gift_address', giftAddress);
 
+            const musicVal = document.getElementById('musicUrlSelect')?.value || '';
+            if (musicVal) params.set('music_url', musicVal);
+
             if (previewGuestTestName) {
                 params.set('to', previewGuestTestName);
             }
@@ -4318,10 +4578,31 @@
         let previewGuestTestName = '';
         function onPreviewGuestNameChange(val) {
             previewGuestTestName = val ? val.trim() : '';
-            updateLivePreviewContent(false);
+            try {
+                localStorage.setItem('dkarsa_preview_guest_name', previewGuestTestName);
+            } catch(e) {}
+
+            // Instant postMessage to preview iframe for immediate live response
+            const iframe = document.getElementById('builderLivePreviewIframe');
+            if (iframe && iframe.contentWindow) {
+                const targetVal = previewGuestTestName || 'Bapak / Ibu / Saudara/i';
+                iframe.contentWindow.postMessage({
+                    type: 'UPDATE_PREVIEW_FIELD',
+                    field: 'guest_name',
+                    value: targetVal
+                }, '*');
+                iframe.contentWindow.postMessage({
+                    type: 'UPDATE_PREVIEW_FIELD',
+                    field: 'to',
+                    value: targetVal
+                }, '*');
+            }
+            updateLivePreviewContent(false, false);
         }
 
-        function updateLivePreviewContent(immediate = false) {
+        let currentLoadedTemplateKey = null;
+
+        function updateLivePreviewContent(immediate = false, forceReload = false) {
             if (previewDebounceTimer) {
                 clearTimeout(previewDebounceTimer);
             }
@@ -4333,8 +4614,19 @@
 
                 const iframe = document.getElementById('builderLivePreviewIframe');
                 if (iframe) {
-                    const currentSrc = iframe.getAttribute('src');
-                    if (currentSrc !== targetUrl) {
+                    let currentKey = currentLoadedTemplateKey;
+                    if (!currentKey) {
+                        try {
+                            const curSrc = iframe.getAttribute('src') || iframe.src || '';
+                            const match = curSrc.match(/\/demo\/([^\/\?#]+)/);
+                            if (match) currentKey = match[1];
+                        } catch(e) {}
+                    }
+
+                    // Only reload iframe when explicitly forced, when template changed, or if iframe has no src
+                    const needsReload = forceReload || (currentKey !== canonicalKey) || !iframe.src;
+                    if (needsReload) {
+                        currentLoadedTemplateKey = canonicalKey;
                         iframe.src = targetUrl;
                     }
                 }
@@ -4397,6 +4689,7 @@
 
             if (cleanDemo) {
                 const targetUrl = `/demo/${canonicalKey}`;
+                currentLoadedTemplateKey = canonicalKey;
                 if (iframe && iframe.getAttribute('src') !== targetUrl) {
                     iframe.src = targetUrl;
                 }
@@ -4411,7 +4704,7 @@
                 }
             } else {
                 try {
-                    updateLivePreviewContent(true);
+                    updateLivePreviewContent(true, false);
                 } catch(e) {
                     console.error('Error updating live preview content:', e);
                 }
@@ -4489,7 +4782,7 @@
             previewGuestTestName = '';
 
             // 5. Update live preview iframe to clean default
-            updateLivePreviewContent(true);
+            updateLivePreviewContent(true, true);
         }
 
         // Device toggle inside Preview Modal (360px vs 390px)
@@ -4564,21 +4857,21 @@
             if (!iframe || !iframe.contentWindow) return;
 
             try {
-                const groomBase64 = document.getElementById('groomPhotoBase64')?.value || sessionStorage.getItem('dkarsa_preview_groom_photo');
+                const groomBase64 = document.getElementById('groomPhotoBase64')?.value || localStorage.getItem('dkarsa_preview_groom_photo') || sessionStorage.getItem('dkarsa_preview_groom_photo');
                 if (groomBase64) {
                     iframe.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_PHOTO', target: 'groom', photoUrl: groomBase64, dataUrl: groomBase64 }, '*');
                 }
-                const brideBase64 = document.getElementById('bridePhotoBase64')?.value || sessionStorage.getItem('dkarsa_preview_bride_photo');
+                const brideBase64 = document.getElementById('bridePhotoBase64')?.value || localStorage.getItem('dkarsa_preview_bride_photo') || sessionStorage.getItem('dkarsa_preview_bride_photo');
                 if (brideBase64) {
                     iframe.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_PHOTO', target: 'bride', photoUrl: brideBase64, dataUrl: brideBase64 }, '*');
                 }
-                const coverBase64 = document.getElementById('coverPhotoBase64')?.value || sessionStorage.getItem('dkarsa_preview_cover_photo');
+                const coverBase64 = document.getElementById('coverPhotoBase64')?.value || localStorage.getItem('dkarsa_preview_cover_photo') || sessionStorage.getItem('dkarsa_preview_cover_photo');
                 if (coverBase64) {
                     iframe.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_PHOTO', target: 'cover', photoUrl: coverBase64, dataUrl: coverBase64 }, '*');
                 }
                 let galleryBase64 = document.getElementById('galleryPhotosBase64')?.value;
                 if (!galleryBase64) {
-                    galleryBase64 = sessionStorage.getItem('dkarsa_preview_gallery_photos');
+                    galleryBase64 = localStorage.getItem('dkarsa_preview_gallery_photos') || sessionStorage.getItem('dkarsa_preview_gallery_photos');
                 }
                 if (galleryBase64) {
                     try {
@@ -4602,6 +4895,27 @@
                         value: subCatVal
                     }, '*');
                 }
+
+                const weddingDateVal = document.getElementById('weddingDateInput')?.value || '';
+                if (weddingDateVal) {
+                    iframe.contentWindow.postMessage({
+                        type: 'UPDATE_PREVIEW_FIELD',
+                        field: 'wedding_date',
+                        value: weddingDateVal
+                    }, '*');
+                }
+
+                const effectiveGuestVal = previewGuestTestName || localStorage.getItem('dkarsa_preview_guest_name') || 'Bapak / Ibu / Saudara/i';
+                iframe.contentWindow.postMessage({
+                    type: 'UPDATE_PREVIEW_FIELD',
+                    field: 'guest_name',
+                    value: effectiveGuestVal
+                }, '*');
+                iframe.contentWindow.postMessage({
+                    type: 'UPDATE_PREVIEW_FIELD',
+                    field: 'to',
+                    value: effectiveGuestVal
+                }, '*');
             } catch(e) {}
         }
 
@@ -4880,11 +5194,17 @@
                                 const m = card.querySelector('.event-maps-input');
                                 if (t && ev.title) t.value = ev.title;
                                 if (d && ev.date) d.value = ev.date;
-                                if (s && ev.start_time) s.value = ev.start_time;
-                                if (e && ev.end_time) e.value = ev.end_time;
+                                if (s && ev.start_time) {
+                                    s.value = normalizeTimeValue(ev.start_time);
+                                    handleStartTimeChange(card);
+                                }
+                                if (e && ev.end_time) {
+                                    e.value = normalizeTimeValue(ev.end_time);
+                                }
                                 if (v && ev.venue_name) v.value = ev.venue_name;
                                 if (a && ev.address) a.value = ev.address;
                                 if (m && ev.maps_url) m.value = ev.maps_url;
+                                updateEventDatePreview(card);
                             }
                         });
                         if (typeof syncEventsToFormAndPreview === 'function') syncEventsToFormAndPreview();
@@ -5060,20 +5380,12 @@
                 });
             }
 
-            // Detect if previously submitted old values had divergent dates
-            const oldEv1Date = @json(old('event_1_date'));
-            const oldEv2Date = @json(old('event_2_date'));
-            const oldWeddingDate = @json(old('wedding_date'));
-            const syncCheckbox = document.getElementById('syncEventsDateCheckbox');
-
-            if (oldWeddingDate && ((oldEv1Date && oldEv1Date !== oldWeddingDate) || (oldEv2Date && oldEv2Date !== oldWeddingDate))) {
-                if (syncCheckbox) syncCheckbox.checked = false;
-                handleSyncEventsDateToggle(false);
-            } else {
-                if (syncCheckbox) syncCheckbox.checked = true;
-                handleSyncEventsDateToggle(true);
-                syncWeddingDateToEvents();
-            }
+            // Initialize event cards date previews and start/end time dropdown states
+            document.querySelectorAll('.event-card-item').forEach(card => {
+                updateEventDatePreview(card);
+                handleStartTimeChange(card);
+            });
+            syncWeddingDateToEvents();
 
             // Connect form live-binding listeners & auto-save
             const form = document.getElementById('invitationBuilderForm');

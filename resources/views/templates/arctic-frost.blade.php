@@ -250,7 +250,7 @@
     <!-- ========================================================
          COVER SCREEN: DIGITAL ENVELOPE (Tampilan Awal Eksklusif)
          ======================================================== -->
-    <div id="invitation-cover" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-surface flex flex-col items-center justify-between px-3 sm:px-4 py-2.5 sm:py-4 transition-all duration-700 ease-in-out select-none">
+    <div id="invitation-cover" class="fixed inset-0 z-[60] overflow-y-auto overscroll-contain bg-surface flex flex-col items-center justify-between px-3 sm:px-4 py-2.5 sm:py-4 transition-all duration-700 ease-in-out select-none">
         <!-- Ambient Glacial Shimmer Glows (Clipped) -->
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
             <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-80 h-80 bg-primary-fixed/10 rounded-full blur-3xl"></div>
@@ -1157,5 +1157,6 @@
             window.parent.postMessage({ type: 'PREVIEW_IFRAME_READY', template: 'arctic-frost' }, '*');
         }
     </script>
+    @include('templates.partials.preview-sync')
 </body>
 </html>

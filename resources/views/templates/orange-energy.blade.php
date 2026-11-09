@@ -101,7 +101,7 @@
         $celebrantNick = $couple->groom_nickname ?? 'Clarissa';
         $heading = $couple->event_heading ?? 'Aura Soleil XVII';
         $subCategoryBadge = !empty($couple->sub_category) ? $couple->sub_category : 'Sweet Seventeen Celebration';
-        $guestName = $guest->name ?? request('to') ?? request('guest') ?? 'Jonathan & Partner';
+        $guestName = !empty($guest->name) ? $guest->name : (request('to') ?? request('guest') ?? 'Bapak / Ibu / Saudara/i');
         $quote = $couple->quote ?? 'A radiant twilight welcoming seventeen suns — Di fajar usia ketujuh belas ini, seberkas tawa dan pelita persahabatan adalah anugerah terindah.';
 
         $defaultCoverImg = 'https://lh3.googleusercontent.com/aida-public/AB6AXuBqyWfjlXiyQzbIj4wDK6La3Dsgmaab3t9hoCW0K9c0M4VGiiqAYB_l1InauHWNKEiVOFqfh0Gqc5JDDPbsKp2NflMaV01FLo99nmIFXDweDjITeCxMLKsS0mR-nA4W2rJKU2nd2SoZd8MRfjI2pKrOqs6H9PPeSqQYbK4x4W97NxYeIIzL1GWp1RfMkpCmvTc2jKRsYMiSpvnDU5dvSNrMnyGb3UFERSqZfLCCPb53nH4B-aE8hAa_tQ';
@@ -190,7 +190,7 @@
     <!-- ========================================================
          COVER SCREEN: DIGITAL ENVELOPE (Tampilan Awal Amplop)
          ======================================================== -->
-    <div id="invitation-cover" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-surface flex flex-col items-center justify-between px-3.5 py-2.5 sm:py-4 transition-all duration-700 ease-in-out select-none">
+    <div id="invitation-cover" class="fixed inset-0 z-[60] overflow-y-auto overscroll-contain bg-surface flex flex-col items-center justify-between px-3.5 py-2.5 sm:py-4 transition-all duration-700 ease-in-out select-none">
         <!-- Ambient Warm Sunset Glow Background Orbs (Clipped) -->
         <div class="absolute inset-0 overflow-hidden pointer-events-none">
             <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-primary-container/20 blur-3xl"></div>
@@ -244,7 +244,7 @@
 
             <!-- Primary CTA Button -->
             <footer class="w-full flex flex-col items-center gap-0.5 pt-0.5 shrink-0">
-                <button id="openInvitationBtn" type="button" class="w-full py-2.5 px-4 rounded-full bg-gradient-to-r from-primary-container via-primary to-tertiary text-on-primary shadow-lg flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-xl active:scale-[0.98] font-semibold text-xs uppercase tracking-wider cursor-pointer pointer-events-auto">
+                <button id="openInvitationBtn" type="button" onclick="openInvitation()" class="w-full py-2.5 px-4 rounded-full bg-gradient-to-r from-primary-container via-primary to-tertiary text-on-primary shadow-lg flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-xl active:scale-[0.98] font-semibold text-xs uppercase tracking-wider cursor-pointer pointer-events-auto">
                     <span class="material-symbols-outlined text-secondary-container text-base">mark_email_read</span>
                     <span>Buka Undangan</span>
                     <span class="material-symbols-outlined text-sm">arrow_forward</span>
@@ -562,7 +562,7 @@
                             <label class="text-xs uppercase text-on-surface-variant block mb-1 font-semibold">Jumlah Tamu</label>
                             <select class="w-full bg-surface-container-lowest text-on-surface px-3.5 py-2.5 rounded-xl text-sm outline-none shadow-sm border border-outline-variant/30">
                                 <option>1 Orang (Hadir Sendiri)</option>
-                                <option selected>2 Orang (Jonathan & Partner)</option>
+                                <option selected>2 Orang ({{ $guestName }})</option>
                             </select>
                         </div>
                         <div>
@@ -995,5 +995,6 @@
             window.parent.postMessage({ type: 'PREVIEW_IFRAME_READY', template: 'orange-energy' }, '*');
         }
     </script>
+    @include('templates.partials.preview-sync')
 </body>
 </html>

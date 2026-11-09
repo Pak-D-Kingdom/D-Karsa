@@ -120,9 +120,9 @@
 <body class="batik-bg text-keraton-cream font-sans antialiased selection:bg-keraton-gold selection:text-black overflow-hidden">
 
     @php
-        $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo, 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=1200');
-        $groomImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->groom_photo, 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600');
-        $brideImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->bride_photo, 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600');
+        $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo ?? null, 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=1200');
+        $groomImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->groom_photo ?? null, 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600');
+        $brideImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->bride_photo ?? null, 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600');
         $audioUrl = !empty($couple->music_url) ? (str_starts_with($couple->music_url, 'http') ? $couple->music_url : asset('audio/' . $couple->music_url)) : asset('audio/wedding-melody.wav');
 
         $targetDate = !empty($couple->wedding_date) ? \Carbon\Carbon::parse($couple->wedding_date) : now()->addMonths(2);
@@ -341,7 +341,7 @@
                 <div class="w-16 h-0.5 bg-keraton-gold mx-auto mt-2"></div>
             </div>
 
-            <div class="space-y-5">
+            <div id="itineraryContainer" class="space-y-5">
                 @forelse($couple->events as $ev)
                     <div class="royal-card rounded-3xl p-6 text-center space-y-2">
                         <div class="w-10 h-10 rounded-full bg-keraton-gold/20 border border-keraton-gold text-keraton-gold flex items-center justify-center mx-auto text-sm font-bold">
@@ -749,5 +749,6 @@
             }
         } catch(e) {}
     </script>
+    @include('templates.partials.preview-sync')
 </body>
 </html>

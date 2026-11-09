@@ -93,8 +93,8 @@
 <body class="starlight-pattern text-nursery-ink font-sans antialiased selection:bg-nursery-mint selection:text-white overflow-hidden">
 
     @php
-        $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo, 'https://images.unsplash.com/photo-1519689680058-324335c77eba?w=1200');
-        $babyImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->groom_photo, 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=600');
+        $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo ?? null, 'https://images.unsplash.com/photo-1519689680058-324335c77eba?w=1200');
+        $babyImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->groom_photo ?? null, 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=600');
         $audioUrl = !empty($couple->music_url) ? (str_starts_with($couple->music_url, 'http') ? $couple->music_url : asset('audio/' . $couple->music_url)) : asset('audio/celebration-melody.wav');
 
         $firstEvent = isset($couple->events) && count($couple->events) > 0 ? (is_array($couple->events) ? (object)$couple->events[0] : $couple->events->first()) : null;
@@ -314,7 +314,7 @@
                 <h2 class="font-serif text-2xl font-bold text-nursery-ink">Rangkaian Acara Aqiqah 🌙</h2>
             </div>
 
-            <div class="space-y-3.5 max-w-sm mx-auto">
+            <div id="itineraryContainer" class="space-y-3.5 max-w-sm mx-auto">
                 @if(isset($couple->events) && count($couple->events) > 0)
                     @php
                         $icons = ['📖', '✂️', '🍲', '🌙', '🕌', '🎉'];
@@ -798,5 +798,6 @@
             }
         } catch(e) {}
     </script>
+    @include('templates.partials.preview-sync')
 </body>
 </html>

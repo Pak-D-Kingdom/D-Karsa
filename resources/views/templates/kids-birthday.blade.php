@@ -107,8 +107,8 @@
 <body class="confetti-pattern text-candy-ink font-sans antialiased selection:bg-candy-yellow selection:text-candy-ink overflow-hidden">
 
     @php
-        $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo, 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=1200');
-        $kidImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->groom_photo, 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=600');
+        $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo ?? null, 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=1200');
+        $kidImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->groom_photo ?? null, 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=600');
         $audioUrl = !empty($couple->music_url) ? (str_starts_with($couple->music_url, 'http') ? $couple->music_url : asset('audio/' . $couple->music_url)) : asset('audio/celebration-melody.wav');
 
         $firstEvent = isset($couple->events) && count($couple->events) > 0 ? (is_array($couple->events) ? (object)$couple->events[0] : $couple->events->first()) : null;
@@ -302,7 +302,7 @@
                 <h2 class="font-fredoka text-2xl font-extrabold text-candy-ink">Petualangan Seru Pesta 🎪</h2>
             </div>
 
-            <div class="space-y-3.5 max-w-sm mx-auto">
+            <div id="itineraryContainer" class="space-y-3.5 max-w-sm mx-auto">
                 @if(isset($couple->events) && count($couple->events) > 0)
                     @php
                         $partyIcons = ['🎈', '🎂', '🎉', '🎁', '🎪', '🤹'];
@@ -765,5 +765,6 @@
             }
         } catch(e) {}
     </script>
+    @include('templates.partials.preview-sync')
 </body>
 </html>

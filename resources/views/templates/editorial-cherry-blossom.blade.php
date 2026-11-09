@@ -101,7 +101,7 @@
         $celebrantNick = $couple->groom_nickname ?? 'Valerie';
         $heading = $couple->event_heading ?? 'Sakura Reverie XVII';
         $subCategoryBadge = !empty($couple->sub_category) ? $couple->sub_category : 'Sweet Seventeen Celebration';
-        $guestName = $guest->name ?? request('to') ?? request('guest') ?? 'Jonathan & Partner';
+        $guestName = !empty($guest->name) ? $guest->name : (request('to') ?? request('guest') ?? 'Bapak / Ibu / Saudara/i');
         $quote = $couple->quote ?? 'Like cherry blossoms in spring, seventeen arrives with grace, dreams, and radiant beginnings.';
 
         $defaultCoverImg = 'https://lh3.googleusercontent.com/aida-public/AB6AXuDJhtrSUcdvHwhkHrBrClKMrW5a8kpnKOnlh-6q-0hx9sEyhBV9GOT_8sDq3n04GcWPXbnQ8A9f432QivdnFhH96RmmhwfhahULsBf0O2savDB2VAFE5qiAcNfM6CXTOO-ipu8s0qMJqxaWJPruQkbFN2BRVFEA5DHO7DqujCeVzTiQHVAUcO9MjJyyHUQdkkVdcUjVa4bLFXm_EDbgsmOv5AVsYC6QxoqwBNWf-u_f';
@@ -190,7 +190,7 @@
     <!-- ========================================================
          COVER SCREEN: DIGITAL ENVELOPE (Tampilan Awal Amplop)
          ======================================================== -->
-    <div id="invitation-cover" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-surface flex flex-col items-center justify-between px-3.5 py-2.5 sm:py-4 transition-all duration-700 ease-in-out select-none">
+    <div id="invitation-cover" class="fixed inset-0 z-[60] overflow-y-auto overscroll-contain bg-surface flex flex-col items-center justify-between px-3.5 py-2.5 sm:py-4 transition-all duration-700 ease-in-out select-none">
         <!-- Floating Petals Blur Decoration (Clipped) -->
         <div class="absolute inset-0 pointer-events-none overflow-hidden z-0">
             <div class="absolute -top-6 left-8 w-12 h-12 rounded-full bg-secondary-container/25 blur-xl animate-pulse"></div>
@@ -258,7 +258,7 @@
 
             <!-- 3. Primary Call To Action Button -->
             <footer class="w-full flex flex-col items-center gap-0.5 pt-0.5 shrink-0">
-                <button id="open-envelope-btn" type="button" class="w-full bg-primary hover:bg-primary-container text-on-primary py-2.5 px-4 rounded-full shadow-lg active:scale-95 transition transform duration-150 flex items-center justify-center space-x-2 font-work text-xs tracking-[0.2em] uppercase font-semibold cursor-pointer pointer-events-auto">
+                <button id="open-envelope-btn" type="button" onclick="openInvitation()" class="w-full bg-primary hover:bg-primary-container text-on-primary py-2.5 px-4 rounded-full shadow-lg active:scale-95 transition transform duration-150 flex items-center justify-center space-x-2 font-work text-xs tracking-[0.2em] uppercase font-semibold cursor-pointer pointer-events-auto">
                     <span class="material-symbols-outlined text-base">mail</span>
                     <span>BUKA UNDANGAN</span>
                     <span class="material-symbols-outlined text-sm">arrow_forward</span>
@@ -1087,5 +1087,6 @@
             window.parent.postMessage({ type: 'PREVIEW_IFRAME_READY', template: 'editorial-cherry-blossom' }, '*');
         }
     </script>
+    @include('templates.partials.preview-sync')
 </body>
 </html>

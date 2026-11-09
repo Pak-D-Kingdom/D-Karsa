@@ -1306,6 +1306,459 @@
             audioSrc: '{{ asset("audio/wedding-melody.wav") }}'
         };
 
+        // ==========================================
+        // 15 Template Baru Kategori Ulang Tahun
+        // ==========================================
+        themePreviews['celeste-royale-baby-blue'] = {
+            name: 'Elegan Klasik Baby Blue',
+            category: 'Ulang Tahun',
+            subCat: 'Sweet seventeen',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Sweet 17 • Baby Blue',
+            packageVal: 'Paket Eksklusif - Rp180.000',
+            desc: 'Kemewahan perayaan sweet seventeen bertema Celeste Royale: palet sapphire baby blue & emas klasik, amplop royal wax seal, arch portrait showcase, dress code etiquette, galeri lookbook eksklusif & RSVP.',
+            coverBadge: 'CELESTE ROYALE XVII',
+            coverSubtitle: 'Celebrating 17 Sapphire Years',
+            coverTitle: 'Seraphina Claire Bleu (Turning 17)',
+            coverDate: 'Sabtu, 25 Oktober 2025',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDo3jH7wHdS-iczIwb8fXQYoaGu5UVi1IG_NOJqIRvLtomSf2OqJKeX2z0hrfrQYuE2vOOaiMM7UAsyIwFv-WFWVjFEbLb7dUg6yr4c7rIG636_EnQB4JYlMQ9cqfXvvtD1_Y8p5DpvL1nabH4nPEABbUjZsPoC-ivM5e7kofMyGZlE51KE91OpzoiVck5YUuY-tA_V4dby1G4DAPE4IJj7bQfujdggUSI9uVnCpnL5',
+            quoteIcon: '✨',
+            quoteTitle: 'Celestial Grace',
+            quoteBody: '"Under the moonlit sapphire sky, a fairytale chapter unfolds at seventeen."',
+            profileBadge: 'The Birthday Debutante',
+            profileName: 'Seraphina Claire Bleu',
+            profileDesc: 'Putri tercinta Keluarga Besar Handoko • Dress Code: Sapphire Blue & Classic Gold',
+            locationName: 'The Carlton Grand Ballroom, Jakarta',
+            events: [
+                { title: 'Royal Welcome & Cocktail', time: '18:30 - 19:30 WIB', date: 'Sabtu, 25 Oktober 2025', place: 'Ballroom Foyer' },
+                { title: 'Celeste Gala & Cake Ceremony', time: '19:30 - 22:00 WIB', date: 'Sabtu, 25 Oktober 2025', place: 'Grand Ballroom' }
+            ],
+            giftTitle: '🎁 Kado Ulang Tahun & Tali Kasih',
+            giftDesc: 'Kehadiran dan doa restu sahabat tercinta adalah kado terindah bagi Seraphina:',
+            wishTitle: 'Untaian Doa & Ucapan Hangat',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['terra-epoque-terracotta'] = {
+            name: 'Editorial Terracotta',
+            category: 'Ulang Tahun',
+            subCat: 'Sweet seventeen',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Sweet 17 • Terracotta',
+            packageVal: 'Paket Eksklusif - Rp180.000',
+            desc: 'Desain majalah editorial haute couture bertema Terra Époque XVII: palet terracotta hangat & earthy bronze, amplop segel monogram, countdown mekar 17 tahun, galeri lookbook editorial & RSVP.',
+            coverBadge: 'TERRA ÉPOQUE XVII',
+            coverSubtitle: 'A Haute Couture Milestone at Seventeen',
+            coverTitle: 'Audrey Calista (Turning 17)',
+            coverDate: 'Sabtu, 1 November 2025',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBoyFSvSZfWDr4PYn8k6kebaH2uIyhUhjyP0L7DD2Xjw63ACK7bhdej_A-7fYYA-Vq3QQG-zQMJ5RC2eWTi8TgYK3ZOfbbKdlNeAaQWDHnnHzZvHxSjbbGBiua7AHUowi36w7Ck9xC97P0-S0nAAwpUSrDjVi9HQw6fi4WZfwxTEmLqwonIEivueP7G3seJE9ThdPEbc30yvJ7jztsljuIVXcMhwEIctWKn-9527hP_',
+            quoteIcon: '🍂',
+            quoteTitle: 'Warmth of Youth',
+            quoteBody: '"Like the warm golden sun casting grace upon the earth, seventeen begins with beauty and gratitude."',
+            profileBadge: 'The Debutante',
+            profileName: 'Audrey Calista',
+            profileDesc: 'Putri tercinta Keluarga Besar Handoko • Dress Code: Warm Terracotta & Earthy Chic',
+            locationName: 'The Glass House Grand Ballroom, Jakarta',
+            events: [
+                { title: 'Sunset Cocktail & Welcome', time: '18:00 - 19:00 WIB', date: 'Sabtu, 1 November 2025', place: 'Garden Terrace' },
+                { title: 'Époque Gala Dinner', time: '19:00 - 21:30 WIB', date: 'Sabtu, 1 November 2025', place: 'Glass Grand Ballroom' }
+            ],
+            giftTitle: '🎁 Kado Ulang Tahun & Tali Kasih',
+            giftDesc: 'Kehadiran dan senyum hangat sahabat adalah kado terindah bagi Audrey:',
+            wishTitle: 'Untaian Doa & Harapan Sahabat',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['forest-moss-seventeen'] = {
+            name: 'Elegan Klasik Forest Moss',
+            category: 'Ulang Tahun',
+            subCat: 'Sweet seventeen',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Sweet 17 • Forest Moss',
+            packageVal: 'Paket Eksklusif - Rp180.000',
+            desc: 'Pesona perayaan sweet seventeen bertema Forest Moss XVII: kemegahan nuansa hijau lumut hutan purba & emas antik, amplop heraldic crest, panduan dress code vintage, galeri kenangan & RSVP.',
+            coverBadge: 'FOREST MOSS XVII',
+            coverSubtitle: 'Enchanted Woods of Seventeen',
+            coverTitle: 'Charlotte Vivienne (Turning 17)',
+            coverDate: 'Sabtu, 8 November 2025',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA8rWbYbidJhZCYMtIfEZyCdrsoPqqPmooG1t4tbMp9UoKql5mdA7hL1v5xAow-ELL6M_QibaUpdTyIBqksG5X1Gznb3rsZj__6MKzEFWqGkmVNWT9XSn2I4z-Vp714HIQGsKE5PSAvaMuBZt3jEEAV2ZgkmAZET_GPTbnf6nOQKYh_ZfsLl_2jJUkXBfwP6J49QuO13g1pxuV0kFgtP9_lHUlzIsZReiM2OBc1dGfP',
+            quoteIcon: '🌿',
+            quoteTitle: 'Evergreen Grace',
+            quoteBody: '"Like deep evergreen leaves in enchanted woods, seventeen unfolds in timeless grace."',
+            profileBadge: 'The Birthday Star',
+            profileName: 'Charlotte Vivienne',
+            profileDesc: 'Putri tercinta Keluarga Besar Handoko • Dress Code: Forest Green & Antique Gold',
+            locationName: 'The St. Regis Grand Ballroom, Jakarta',
+            events: [
+                { title: 'Enchanted Twilight Reception', time: '18:30 - 19:30 WIB', date: 'Sabtu, 8 November 2025', place: 'Garden Foyer' },
+                { title: 'Gala Dinner & Cake Ceremony', time: '19:30 - 22:00 WIB', date: 'Sabtu, 8 November 2025', place: 'Grand Ballroom' }
+            ],
+            giftTitle: '🎁 Kado Ulang Tahun & Tali Kasih',
+            giftDesc: 'Doa restu dan senyuman tulus Anda adalah anugerah terindah bagi Charlotte:',
+            wishTitle: 'Untaian Doa & Berkah Sahabat',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['emeraude-soiree-emerald'] = {
+            name: 'Editorial Emerald Green',
+            category: 'Ulang Tahun',
+            subCat: 'Sweet seventeen',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Sweet 17 • Emerald Editorial',
+            packageVal: 'Paket Eksklusif - Rp180.000',
+            desc: 'Kemilau perayaan musim mekar ke-17 bertema Émeraude Soirée XVII: nuansa zamrud emerald mewah & tipografi editorial majalah, amplop digital couture, countdown jam pesta, galeri lookbook & kado.',
+            coverBadge: 'ÉMERAUDE SOIRÉE XVII',
+            coverSubtitle: 'High-Fashion Spring Awakening',
+            coverTitle: 'Madeleine Vivienne (Turning 17)',
+            coverDate: 'Sabtu, 15 November 2025',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDbF-0PPxJ4Qk8_4h-rlB3NeQJgwFUNaGmn3nURqjVZ_-aXgPEWiNymynuPyTV9SfrFEMMwzSKzo1iJkA9JnoAdKDSrK-c8-7gW7FS6Ddbojo4lLYP9EFI0NfS9vT-Ety31I3WCCVXJUEeiDUaNBZieXDvWzKRjDneMvOiWByXFJFym7fvEV7WcaMup7tpMmzYXI-r_045Q2Hk0ZQE8zxBhCvdb3dDN94mh3IFRFNrq',
+            quoteIcon: '✨',
+            quoteTitle: 'Emerald Glow',
+            quoteBody: '"Under emerald chandeliers and starlit grace, seventeen unfolds into timeless splendor."',
+            profileBadge: 'The Debutante',
+            profileName: 'Madeleine Vivienne',
+            profileDesc: 'Putri tercinta Keluarga Besar Handoko • Dress Code: Emerald Green & Haute Couture',
+            locationName: 'The Emerald Grand Ballroom, SCBD, Jakarta',
+            events: [
+                { title: 'Haute Cocktail Hour', time: '18:30 - 19:30 WIB', date: 'Sabtu, 15 November 2025', place: 'Emerald Foyer' },
+                { title: 'Soirée Gala & Toast', time: '19:30 - 22:00 WIB', date: 'Sabtu, 15 November 2025', place: 'Grand Ballroom' }
+            ],
+            giftTitle: '🎁 Kado Ulang Tahun & Tali Kasih',
+            giftDesc: 'Doa dan pelukan hangat sahabat adalah kado terindah bagi Madeleine:',
+            wishTitle: 'Untaian Doa & Pesan Sahabat',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['mocha-creme-seventeen'] = {
+            name: 'Elegan Klasik Mocha Cream',
+            category: 'Ulang Tahun',
+            subCat: 'Sweet seventeen',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Sweet 17 • Mocha Cream',
+            packageVal: 'Paket Eksklusif - Rp180.000',
+            desc: 'Kehangatan pesta sweet seventeen bernuansa Mocha Crème XVII: harmoni warna kopi susu moka, karamel lembut & arsitektur katedral, amplop lilin inisial, rundown gala dinner & kado digital.',
+            coverBadge: 'MOCHA CRÈME XVII',
+            coverSubtitle: 'Sweet Warmth of Seventeen',
+            coverTitle: 'Genevieve Aurelia (Turning 17)',
+            coverDate: 'Sabtu, 22 November 2025',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDAp0uzCMYn1RFPpTPjL0ezWD7beXQ33BDUS06PEWMKDhZzZ0jtmr-HFDTMTZ2kN5i86LofMMwZ8I2iccyrcr8oBR58RRyGpTamh6MNlRphn4iyi1lS_Wnxijej3dpRIRvRl6N3QRKUO4P9ClNvxgX83e7T-qx_3mEe9BvISWzrGSdWcmak_nTgsQiSGJPcPG0QJjqgu4pAScWoqHSM2onDA2Hq5OYj7eltphFh4ALl',
+            quoteIcon: '☕',
+            quoteTitle: 'Amber Warmth',
+            quoteBody: '"Like warm sunlight filtered through amber crystals, seventeen begins with grace and laughter."',
+            profileBadge: 'The Birthday Star',
+            profileName: 'Genevieve Aurelia',
+            profileDesc: 'Putri tercinta Keluarga Besar Handoko • Dress Code: Mocha, Caramel & Creamy White',
+            locationName: 'The Mulia Grand Ballroom, Jakarta',
+            events: [
+                { title: 'Welcome & High Tea', time: '17:30 - 18:30 WIB', date: 'Sabtu, 22 November 2025', place: 'Mulia Lounge' },
+                { title: 'Mocha Gala Celebration', time: '18:30 - 21:30 WIB', date: 'Sabtu, 22 November 2025', place: 'Grand Ballroom' }
+            ],
+            giftTitle: '🎁 Kado Ulang Tahun & Tali Kasih',
+            giftDesc: 'Kehadiran dan senyum ceria sahabat adalah kado termanis bagi Genevieve:',
+            wishTitle: 'Untaian Doa & Harapan Indah',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['chapter-30-soft-pink'] = {
+            name: 'Geometris Soft Pink',
+            category: 'Ulang Tahun',
+            subCat: 'Ulang tahun dewasa',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Ultah Dewasa • Chapter 30 Pink',
+            packageVal: 'Paket Premium - Rp110.000',
+            desc: 'Perayaan kedewasaan usia 30 tahun bernuansa modern geometric soft pink: refleksi babak kehidupan baru, rundown pesta intim & gala toast, mozaik galeri perjalanan usia & RSVP.',
+            coverBadge: 'CHAPTER 30: MODERN RADIANCE',
+            coverSubtitle: 'Celebrating Three Decades of Radiance',
+            coverTitle: 'Clara Vivienne (Turning 30)',
+            coverDate: 'Sabtu, 29 November 2025',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAdxp8bI3ax_s_0AjVgSYZMyddCLhePBYvG-Te4tPDIR9cDk6doi5QKPDQoOTR-CcibCNL_bMANS_Bf1rCxzfOqr943Wx4NSk0VMJMCX3ldCkiL14lqG3onjZon8DC6gC2Mv-JxwArNiI4EagFxv_oAc3qYJ0r8QzNcJLp7uQAIQcnBFD8eDb1e6fWFju0yyv0SqDcW5Lx25dnt4Fe6nC-sL981jL6Mci5RbywAVUnu',
+            quoteIcon: '🌸',
+            quoteTitle: 'Radiant Chapter',
+            quoteBody: '"Entering thirty with boundless clarity, grateful heart, and modern radiance."',
+            profileBadge: 'Milestone 30',
+            profileName: 'Clara Vivienne',
+            profileDesc: 'Celebrating Chapter 30 with beloved friends and family • Dress Code: Soft Pink & Chic Neutral',
+            locationName: 'The Glasshouse Lounge, Kebayoran Baru, Jakarta',
+            events: [
+                { title: 'Intimate Welcome & Drinks', time: '18:30 - 19:30 WIB', date: 'Sabtu, 29 November 2025', place: 'Garden Terrace' },
+                { title: 'Dinner & Milestone Toast', time: '19:30 - 22:00 WIB', date: 'Sabtu, 29 November 2025', place: 'Glasshouse Lounge' }
+            ],
+            giftTitle: '🎁 Kado Ulang Tahun & Tali Asih',
+            giftDesc: 'Doa terbaik dan tawa hangat Anda adalah kado paling bermakna bagi Clara:',
+            wishTitle: 'Untaian Doa & Pesan Hangat',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['midnight-soiree-navy'] = {
+            name: 'Minimalis Modern Midnight Navy',
+            category: 'Ulang Tahun',
+            subCat: 'Ulang tahun dewasa',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Ultah Dewasa • Midnight Navy',
+            packageVal: 'Paket Premium - Rp110.000',
+            desc: 'Desain perayaan ulang tahun dewasa maskulin & prestisius bertema Midnight Soirée: palet biru malam pekat & aksen perak modern, amplop segel geometris, panduan cocktail attire & RSVP.',
+            coverBadge: 'MIDNIGHT SOIRÉE: MILESTONE 35',
+            coverSubtitle: 'Quiet Confidence at Thirty-Five',
+            coverTitle: 'Adrian Wicaksono (Turning 35)',
+            coverDate: 'Sabtu, 6 Desember 2025',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB6AtwKU1AzpfBSTFj3XjEmRw0vPFIRTZzX9ttciYelUfIjcTtnFjbuzz0QCoC_Ihg7jVXW9Of_Mko6R5ojZ30buJ2WjRGAhWvrD0O6ZsSr5zjEnvt5pNYPyQYB31jJGnfnHPEKGWtdQl8yUWMjOgDIiSClms-_ORe_H06CgXhzqBGZa8jW_mo_kxOJjgtsQZWvJa93zPFwGB7gIqvdHbqD50L7x_1jVSkMpGba_xQV',
+            quoteIcon: '🍸',
+            quoteTitle: 'Quiet Confidence',
+            quoteBody: '"Entering thirty-five with clarity of mind, gratitude for every milestone, and quiet confidence."',
+            profileBadge: 'Milestone 35',
+            profileName: 'Adrian Wicaksono',
+            profileDesc: 'Celebrating 35 Milestones • Dress Code: Midnight Navy & Modern Tailored',
+            locationName: 'The Foundry Private Lounge, SCBD, Jakarta',
+            events: [
+                { title: 'Cocktail & Cigar Lounge', time: '19:00 - 20:00 WIB', date: 'Sabtu, 6 Desember 2025', place: 'Foundry Mezzanine' },
+                { title: 'Dinner & Anniversary Toast', time: '20:00 - 22:30 WIB', date: 'Sabtu, 6 Desember 2025', place: 'Main Dining Room' }
+            ],
+            giftTitle: '🎁 Kado Ulang Tahun & Tanda Kasih',
+            giftDesc: 'Kebersamaan dan doa tulus sahabat adalah kehormatan terbesar bagi Adrian:',
+            wishTitle: 'Untaian Doa & Ucapan Selamat',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['cyber-neon-futuristic'] = {
+            name: 'Geometris Cyber Neon',
+            category: 'Ulang Tahun',
+            subCat: 'Ulang tahun dewasa',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Ultah Dewasa • Cyber Neon 30',
+            packageVal: 'Paket Eksklusif - Rp180.000',
+            desc: 'Desain pesta ulang tahun futuristik bertema Cyber Neon: estetika grid fotonik, aksen cyan neon & dark mode berani, sound capsule HUD, countdown milidetik & VIP guest lounge pass.',
+            coverBadge: 'PROTOCOL 3.0: CYBER SOIRÉE',
+            coverSubtitle: 'Calibrated Focus at Thirty',
+            coverTitle: 'Kevin Danuarta (Turning 30)',
+            coverDate: 'Sabtu, 13 Desember 2025',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD3O39080xYBuY92ven8_nxqUEtJWtJmjc0ojiEfLTTSysF8QNGd-kKBEVnNM8sWiDiIPWApWm_NA-xXN5MxTWkFJG8vLQ_RLTOzMLXQ-aAG0ZnGf722OaoSDock9C6lfQPOe3Bo7SSwmeP8YPVX1XEbm28MTquRseGzv2S6Fw0KH0wNalbxipi41zHt1J3da-lcIma34ErsMEVOkGSJ_dlWZ4pSB8bKBzVG2wV3-27',
+            quoteIcon: '⚡',
+            quoteTitle: 'Future Horizons',
+            quoteBody: '"Entering thirty with calibrated focus, bold ambitions, and endless frequencies ahead."',
+            profileBadge: 'Protocol Host',
+            profileName: 'Kevin Danuarta',
+            profileDesc: 'Celebrating Milestone 3.0 • Dress Code: Cyber Chic, Black & Neon Accents',
+            locationName: 'Sky Cyber Lounge Level 42, Menara Astra, Jakarta',
+            events: [
+                { title: 'VIP Check-In & Sound Lab', time: '19:30 - 20:30 WIB', date: 'Sabtu, 13 Desember 2025', place: 'Cyber Foyer' },
+                { title: 'The Cyber Protocol & Afterparty', time: '20:30 - 23:00 WIB', date: 'Sabtu, 13 Desember 2025', place: 'Sky Horizon Stage' }
+            ],
+            giftTitle: '🎁 Kado Ulang Tahun & Digital Vault',
+            giftDesc: 'Terima kasih atas kehadiran & doa terbaik Anda dalam merayakan Protocol 3.0:',
+            wishTitle: 'Untaian Doa & Pesan Fotonik',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['crimson-soiree-bold-red'] = {
+            name: 'Minimalis Modern Bold Red',
+            category: 'Ulang Tahun',
+            subCat: 'Ulang tahun dewasa',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Ultah Dewasa • Bold Crimson',
+            packageVal: 'Paket Premium - Rp110.000',
+            desc: 'Kemegahan perayaan milad / ulang tahun babak ke-30 bertema Crimson Soirée: palet merah tua berani, tipografi sans modern tajam, amplop wax seal interaktif, galeri foto & kado digital.',
+            coverBadge: 'CRIMSON SOIRÉE: CHAPTER 30',
+            coverSubtitle: 'Bold Conviction at Thirty',
+            coverTitle: 'Devan Pramudya (Turning 30)',
+            coverDate: 'Sabtu, 20 Desember 2025',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA7u7oze2fsIArA9JU5fPuG8VRUbvwwHHb-KrIZrb-6grSw-5gzRr9d4NRYCwUvgglHPZnAbpiZdgmk3igMYj48mQ4V025UwNyp4Fx7CIbNcmth1HzAEB1R2j4pjOFa-jPPPrbjQmkvXQ_WiyjHSsRC9wgK6k4YBYMP0XKDRia3Bl1xUKOKKioGxZoMpFsTa5WPAWTesi5lR01didVxEZIQeB1FjNStLAIn57-KXjk0',
+            quoteIcon: '🍷',
+            quoteTitle: 'Bold Milestone',
+            quoteBody: '"Entering thirty with clarity, bold conviction, and deep gratitude for every milestone."',
+            profileBadge: 'Chapter 30',
+            profileName: 'Devan Pramudya',
+            profileDesc: 'Celebrating Thirty Bold Years • Dress Code: Crimson Red & Black Tie',
+            locationName: 'The Crimson Room, Grand Hyatt Jakarta',
+            events: [
+                { title: 'Welcome Drinks & Red Carpet', time: '18:30 - 19:30 WIB', date: 'Sabtu, 20 Desember 2025', place: 'Crimson Lounge' },
+                { title: 'Gala Dinner & Milestone Toast', time: '19:30 - 22:00 WIB', date: 'Sabtu, 20 Desember 2025', place: 'Grand Room' }
+            ],
+            giftTitle: '🎁 Kado Ulang Tahun & Tali Kasih',
+            giftDesc: 'Doa tulus dan kebersamaan sahabat adalah hadiah terindah bagi Devan:',
+            wishTitle: 'Untaian Doa & Pesan Sahabat',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['mint-soiree-geometric'] = {
+            name: 'Geometris Mint Fresh',
+            category: 'Ulang Tahun',
+            subCat: 'Ulang tahun dewasa',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Ultah Dewasa • Mint Geometric',
+            packageVal: 'Paket Premium - Rp110.000',
+            desc: 'Kesegaran perayaan ulang tahun dewasa bernuansa Mint Soirée: aksen hijau mint sejuk, motif prisma geometris modern, amplop digital segel kristal, agenda brunch pesta & kado digital.',
+            coverBadge: 'MINT SOIRÉE: CHAPTER 30',
+            coverSubtitle: 'Grounded Clarity & Creative Energy',
+            coverTitle: 'Reyhan Danendra (Turning 30)',
+            coverDate: 'Sabtu, 27 Desember 2025',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBUa5nKhZ0fyl6HfSUiPmVfYSRkugaoIIVwHkk1ENHonrCXMjoMxptho-zDpnPvxzfHS5SwArIvMT9AJmWIksSEqiOFb0BawlfKgKS1ZE1TmBUIF7QjoHISS_Nbp8JKzK9PzMOIAA4lnzN2K8TuWzO8UDwFHaA4Res8LSgDUN-aVENIlxhskSils4ZdaPSKY1ReSqU0khblEOI4qiqC42YhbQwf4YG8aZ8TXg2SddA3',
+            quoteIcon: '🌿',
+            quoteTitle: 'Grounded Energy',
+            quoteBody: '"Entering thirty with grounded clarity, creative energy, and deep gratitude for every milestone."',
+            profileBadge: 'Chapter 30',
+            profileName: 'Reyhan Danendra',
+            profileDesc: 'Celebrating Milestone 30 • Dress Code: Fresh Mint & Crisp White',
+            locationName: 'Botanica Glass Pavilion, Jakarta',
+            events: [
+                { title: 'Afternoon Brunch & Mocktails', time: '15:30 - 17:00 WIB', date: 'Sabtu, 27 Desember 2025', place: 'Garden Pavilion' },
+                { title: 'Sunset Toast & Celebration', time: '17:00 - 19:30 WIB', date: 'Sabtu, 27 Desember 2025', place: 'Main Glasshouse' }
+            ],
+            giftTitle: '🎁 Kado Ulang Tahun & Tali Asih',
+            giftDesc: 'Doa hangat dan kehadiran sahabat adalah pelengkap kebahagiaan Reyhan:',
+            wishTitle: 'Untaian Doa & Pesan Hangat',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['raden-arya-champagne'] = {
+            name: 'Tradisional Nusantara Champagne Glow',
+            category: 'Ulang Tahun',
+            subCat: 'Ulang tahun dengan tema kartun atau karakter original',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Karakter Original • Champagne Glow',
+            packageVal: 'Paket Eksklusif - Rp180.000',
+            desc: 'Kisah petualangan karakter original Raden Arya & Sang Garuda Kencana: kemegahan budaya Nusantara bernuansa champagne emas berkilau, kisah babak legenda, rundown pesta & kado tali asih.',
+            coverBadge: 'RADEN ARYA & GARUDA KENCANA',
+            coverSubtitle: 'Kisah Legenda Budaya Nusantara',
+            coverTitle: 'Raden Arya (Mahkota Garuda)',
+            coverDate: 'Sabtu, 3 Januari 2026',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuChhiII7NyQNgNEyDo4e3CDUnEaXefFwGqaSvtNSDIPhz6aXNTOlJXQvHKBntUXt1qMiMahvcuAwQwiIlOA_ynwTckrAoAe22MkZSaeWq-Oicetc-U9aUDXK6HiQH936eBuz2FlXP9ubXfYT4RKlRGCaIl0sqsTHiS6GoZzzLL9O0xttgksHjHumHI28k1rMeMfz8gaCpUxHNP1ncnt_U92ZIHI7bmI9ySJ5AHyCV_W',
+            quoteIcon: '🦅',
+            quoteTitle: 'Lentera Harapan',
+            quoteBody: '"Menyemai keberanian, merayakan kehangatan budi, dan menyalakan lentera harapan di setiap langkah."',
+            profileBadge: 'Karakter Original',
+            profileName: 'Raden Arya & Sang Garuda Kencana',
+            profileDesc: 'Petualangan Legenda Keraton Amarta • Dress Code: Champagne Gold & Kain Wastra Nusantara',
+            locationName: 'Pendopo Agung Keraton Amarta, Yogyakarta',
+            events: [
+                { title: 'Pahargyan & Sambutan Tamu', time: '18:30 - 19:30 WIB', date: 'Sabtu, 3 Januari 2026', place: 'Pendopo Sasana' },
+                { title: 'Gala Peringatan Hari Jadi', time: '19:30 - 22:00 WIB', date: 'Sabtu, 3 Januari 2026', place: 'Bale Ageng' }
+            ],
+            giftTitle: '🎁 Kado Tali Asih & Tanda Tresna',
+            giftDesc: 'Pangestu lan pandonga panjenengan sami karunia ingkang ageng:',
+            wishTitle: 'Untaian Doa & Berkah Pangestu',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['kaelen-black-gold'] = {
+            name: 'Bold Modern Black & Gold',
+            category: 'Ulang Tahun',
+            subCat: 'Ulang tahun dengan tema kartun atau karakter original',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Karakter Original • Black & Gold',
+            packageVal: 'Paket Eksklusif - Rp180.000',
+            desc: 'Epos karakter original Kaelen The Golden Alchemist bernuansa obsidian hitam & emas berkilau: lambang alkimia kencana, amplop digital orisinal, galeri konsep ilustrasi, RSVP & kado digital.',
+            coverBadge: 'CHRONICLES OF KAELEN',
+            coverSubtitle: 'The Golden Crucible Milestone',
+            coverTitle: 'Kaelen The Golden Alchemist',
+            coverDate: 'Sabtu, 10 Januari 2026',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCHz4UXFn4ociTnCF57fyzbl1d8EV5RzIgHGDKHUUGUJxdwTzmNR8VJBvLOT37tbVjfi2yBhv3BGeEeb4deY95-F_iIYCjGn2V37V1LT8ut29iYJkKAiF5Z-sujhcSqwpS6zrgL00SiULyGatn0SRjad9g8CG1gigruFni56bu8hcoMd12JY6hqdkOqutMlstqbKaO0xyq356KnzG76cPwstl2n07SH-sSpkSMIGaeS',
+            quoteIcon: '⚗️',
+            quoteTitle: 'Golden Crucible',
+            quoteBody: '"Di balik percikan alkimia kencana dan bayang-bayang obsidian, sebuah babak baru keberanian dimulai."',
+            profileBadge: 'Original Character',
+            profileName: 'Kaelen The Golden Alchemist',
+            profileDesc: 'Epos Karakter Orisinal • Dress Code: Obsidian Black & Shimmering Gold',
+            locationName: 'The Tribrata Grand Ballroom, Jakarta',
+            events: [
+                { title: 'The Alchemist Gathering', time: '18:30 - 19:30 WIB', date: 'Sabtu, 10 Januari 2026', place: 'Obsidian Foyer' },
+                { title: 'The Crucible Gala & Feast', time: '19:30 - 22:00 WIB', date: 'Sabtu, 10 Januari 2026', place: 'Grand Ballroom' }
+            ],
+            giftTitle: '🎁 Kado Ulang Tahun & Alchemical Vault',
+            giftDesc: 'Kehadiran Anda dan untaian doa adalah permata paling berharga bagi Kaelen:',
+            wishTitle: 'Untaian Doa & Catatan Alkimia',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['arya-nature-green'] = {
+            name: 'Tradisional Nusantara Nature Green',
+            category: 'Ulang Tahun',
+            subCat: 'Ulang tahun dengan tema kartun atau karakter original',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Karakter Original • Nature Green',
+            packageVal: 'Paket Eksklusif - Rp180.000',
+            desc: 'Petualangan Raden Arya & Sang Rusa Kencana di rimba nusantara asri: palet hijau zamrud alam & motif batik dedaunan, kisah lore karakter, countdown pesta, galeri ilustrasi dongeng & RSVP.',
+            coverBadge: 'ARYA & RUSA KENCANA',
+            coverSubtitle: 'Petualangan Rimba Nusantara Asri',
+            coverTitle: 'Raden Arya (Rusa Kencana)',
+            coverDate: 'Sabtu, 17 Januari 2026',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCjVy2TeXVgsz9WfnhHt8yTWrNagKryxUdKB3EEGikw2vGtgHqurtrWxXb5T52vnRnjs7N9leYwV98qlSXlCRO0JaRtl9rTUXAHDpvxrh55YhyoMme7DQYOs-aF4ITT9MlPSU8YlDReovsZuTGVgSGS53OJNngQQQgvM8zs_WrBAUCButfwPoJhZlxNYnY4slfWxpD7Ce7ock4ehzslrx2HIhowPQ9_NjYCkYTSfpx-',
+            quoteIcon: '🌿',
+            quoteTitle: 'Rimba Asri',
+            quoteBody: '"Di mana daun berbisik dan akar merangkul bumi, di sanalah keberanian mekar memberikan perlindungan."',
+            profileBadge: 'Karakter Orisinal',
+            profileName: 'Raden Arya & Sang Rusa Kencana',
+            profileDesc: 'Kisah Sahabat Rimba Nusantara • Dress Code: Nature Forest Green & Earth Tone',
+            locationName: 'Hutan Kota by Plataran, GBK, Jakarta',
+            events: [
+                { title: 'Sambutan Rimba Asri', time: '16:00 - 17:30 WIB', date: 'Sabtu, 17 Januari 2026', place: 'Garden Amphitheater' },
+                { title: 'Perayaan Syukuran Hari Jadi', time: '17:30 - 20:00 WIB', date: 'Sabtu, 17 Januari 2026', place: 'Plataran Glasshouse' }
+            ],
+            giftTitle: '🎁 Kado Hari Jadi & Tali Asih',
+            giftDesc: 'Doa kebaikan dan kebersamaan Anda adalah berkah terindah bagi kami:',
+            wishTitle: 'Untaian Doa & Pesan Sahabat Rimba',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['solaris-sunset-gradient'] = {
+            name: 'Bold Modern Sunset Gradient',
+            category: 'Ulang Tahun',
+            subCat: 'Ulang tahun dengan tema kartun atau karakter original',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Karakter Original • Sunset Solaris',
+            packageVal: 'Paket Eksklusif - Rp180.000',
+            desc: 'Karakter orisinal Solaris The Sunset Guardian dalam kobaran gradien jingga senja & ungu kosmik: amplop digital perisai surya, rundown perayaan malam, konsep visual karakter & RSVP.',
+            coverBadge: 'SOLARIS: SUNSET CONVERGENCE',
+            coverSubtitle: 'The Guardian of Dusk & Dawn',
+            coverTitle: 'Solaris The Sunset Guardian',
+            coverDate: 'Sabtu, 24 Januari 2026',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuClcfkEaZIvqACRX7sQ9n4fdhnAvglnuCHev9Jw3KNiN-290xidPlQ0OhLOyNpHsRS99zWpm1INpsj6pOEVbVYvo5aPGaarsVgzRfMmqp0GoVsO-KD0lgo2quIewVhhLCiZg4mtjMiI1t1mBy9OFj4A-RJbaUTetFR3wiuQMNHPz6-prW-q6bNU7ov7Mr0QmsryY24_vaJNpET9R9P6aAGpL-M17m8sfgL1GwzSQ1LO',
+            quoteIcon: '🌅',
+            quoteTitle: 'Sunset Hope',
+            quoteBody: '"Di batas cakrawala senja di mana nyala api keberanian bertemu kehangatan harapan, kita berkumpul merayakan babak baru."',
+            profileBadge: 'Original Guardian',
+            profileName: 'Solaris The Sunset Guardian',
+            profileDesc: 'Karakter Orisinal Solaris • Dress Code: Sunset Orange, Cosmic Purple & Gold',
+            locationName: 'The Sky Ballroom Level 50, The Westin Jakarta',
+            events: [
+                { title: 'Dusk Gathering & Solar Pass', time: '18:00 - 19:30 WIB', date: 'Sabtu, 24 Januari 2026', place: 'Sky View Foyer' },
+                { title: 'Convergence Gala & Night Show', time: '19:30 - 22:30 WIB', date: 'Sabtu, 24 Januari 2026', place: 'Main Sky Ballroom' }
+            ],
+            giftTitle: '🎁 Kado Ulang Tahun & Solar Vault',
+            giftDesc: 'Kehadiran sahabat dan senyuman di senja ini adalah anugerah terbesar bagi Solaris:',
+            wishTitle: 'Untaian Doa & Pesan Senja',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['raden-arya-warm-neutral'] = {
+            name: 'Tradisional Nusantara Warm Neutral',
+            category: 'Ulang Tahun',
+            subCat: 'Ulang tahun dengan tema kartun atau karakter original',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Karakter Original • Warm Neutral',
+            packageVal: 'Paket Premium - Rp110.000',
+            desc: 'Kisah karakter original Raden Arya & Harimau Kencana dalam kehangatan palet krem netral & cokelat kayu pusaka: amplop segel cap kerajaan, rundown perayaan hari jadi, galeri & kado digital.',
+            coverBadge: 'RADEN ARYA & HARIMAU KENCANA',
+            coverSubtitle: 'Sahabat Rimba Kencana',
+            coverTitle: 'Raden Arya (Harimau Kencana)',
+            coverDate: 'Sabtu, 31 Januari 2026',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCBJvzfATdhJNsKqQFM8bcceCwM83vXIOapX9wCDy6S9Tr6GSCGTrPdd3B9Boj7nebgHuYxaF2d7eeFW4hG1_bbs2mAkobgH-1agTAglYsgyJiGlfRNvDsooFfKkvu_kStFgAYCrP3oAViQCp6PLzRb8vaRaGYXN5XqMn56bhAm65WFZtgn1nHI72acw3-du-ek6OGctqZvfKAWbg9egOiYki3KovzdvnnpVz3GkY99',
+            quoteIcon: '🐅',
+            quoteTitle: 'Lentera Kebaikan',
+            quoteBody: '"Menapaki rimba kencana, merajut kebaikan budi pekerti, dan menyalakan lentera harapan bagi sesama."',
+            profileBadge: 'Karakter Orisinal',
+            profileName: 'Raden Arya & Harimau Kencana',
+            profileDesc: 'Kisah Budi Luhur Keraton Nusantara • Dress Code: Warm Neutral, Cream & Wooden Brown',
+            locationName: 'Plataran Dharmawangsa, Jakarta',
+            events: [
+                { title: 'Temu Ramah & Jamuan Teh Hangat', time: '17:30 - 18:30 WIB', date: 'Sabtu, 31 Januari 2026', place: 'Joglo Foyer' },
+                { title: 'Tasyakuran & Perayaan Hari Jadi', time: '18:30 - 21:00 WIB', date: 'Sabtu, 31 Januari 2026', place: 'Pendopo Utama' }
+            ],
+            giftTitle: '🎁 Kado Hari Jadi & Tali Tresna',
+            giftDesc: 'Pangestu dan doa tulus panjenengan sami adalah anugerah terindah:',
+            wishTitle: 'Untaian Doa & Berkah Pangestu',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
         themePreviews['reuni-akbar'] = {
             name: 'Reuni Akbar Sapphire Silver',
             category: 'Acara Formal',
@@ -1337,7 +1790,7 @@
         };
 
         themePreviews['floral-midnight-navy'] = {
-            name: 'Floral Midnight Navy - Acara Komunitas',
+            name: 'Floral Midnight Navy',
             category: 'Acara Formal',
             subCat: 'Acara komunitas',
             catKey: 'formal',
@@ -1367,7 +1820,7 @@
         };
 
         themePreviews['rustic-coral-peach'] = {
-            name: 'Rustic Coral & Peach - Sweet 17th Birthday',
+            name: 'Rustic Coral & Peach',
             category: 'Ulang Tahun',
             subCat: 'Sweet seventeen',
             catKey: 'ultah',
@@ -1397,7 +1850,7 @@
         };
 
         themePreviews['arctic-frost'] = {
-            name: 'Korporat Profesional Arctic Frost - Sweet 17th Birthday',
+            name: 'Korporat Profesional Arctic Frost',
             category: 'Ulang Tahun',
             subCat: 'Sweet seventeen',
             catKey: 'ultah',
@@ -1427,7 +1880,7 @@
         };
 
         themePreviews['editorial-cherry-blossom'] = {
-            name: 'Editorial Cherry Blossom - Sweet Seventeen',
+            name: 'Editorial Cherry Blossom',
             category: 'Ulang Tahun',
             subCat: 'Sweet seventeen',
             catKey: 'ultah',
@@ -1457,7 +1910,7 @@
         };
 
         themePreviews['orange-energy'] = {
-            name: 'Elegan Klasik Orange Energy - Sweet Seventeen',
+            name: 'Elegan Klasik Orange Energy',
             category: 'Ulang Tahun',
             subCat: 'Sweet seventeen',
             catKey: 'ultah',
@@ -1487,7 +1940,7 @@
         };
 
         themePreviews['rustic-purple-dream'] = {
-            name: 'Rustic Purple Dream - Ulang Tahun Remaja',
+            name: 'Rustic Purple Dream',
             category: 'Ulang Tahun',
             subCat: 'Ulang tahun remaja',
             catKey: 'ultah',
@@ -1544,6 +1997,459 @@
             giftDesc: 'Doa restu panjenengan sami karunia ingkang ageng tumraping kawula sarimbit:',
             wishTitle: 'Untaian Doa & Berkah Pangestu',
             audioSrc: '{{ asset("audio/wedding-melody.wav") }}'
+        };
+
+        // ==========================================
+        // 15 Template Baru Kategori Ulang Tahun
+        // ==========================================
+        themePreviews['celeste-royale-baby-blue'] = {
+            name: 'Elegan Klasik Baby Blue',
+            category: 'Ulang Tahun',
+            subCat: 'Sweet seventeen',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Sweet 17 • Baby Blue',
+            packageVal: 'Paket Eksklusif - Rp180.000',
+            desc: 'Kemewahan perayaan sweet seventeen bertema Celeste Royale: palet sapphire baby blue & emas klasik, amplop royal wax seal, arch portrait showcase, dress code etiquette, galeri lookbook eksklusif & RSVP.',
+            coverBadge: 'CELESTE ROYALE XVII',
+            coverSubtitle: 'Celebrating 17 Sapphire Years',
+            coverTitle: 'Seraphina Claire Bleu (Turning 17)',
+            coverDate: 'Sabtu, 25 Oktober 2025',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDo3jH7wHdS-iczIwb8fXQYoaGu5UVi1IG_NOJqIRvLtomSf2OqJKeX2z0hrfrQYuE2vOOaiMM7UAsyIwFv-WFWVjFEbLb7dUg6yr4c7rIG636_EnQB4JYlMQ9cqfXvvtD1_Y8p5DpvL1nabH4nPEABbUjZsPoC-ivM5e7kofMyGZlE51KE91OpzoiVck5YUuY-tA_V4dby1G4DAPE4IJj7bQfujdggUSI9uVnCpnL5',
+            quoteIcon: '✨',
+            quoteTitle: 'Celestial Grace',
+            quoteBody: '"Under the moonlit sapphire sky, a fairytale chapter unfolds at seventeen."',
+            profileBadge: 'The Birthday Debutante',
+            profileName: 'Seraphina Claire Bleu',
+            profileDesc: 'Putri tercinta Keluarga Besar Handoko • Dress Code: Sapphire Blue & Classic Gold',
+            locationName: 'The Carlton Grand Ballroom, Jakarta',
+            events: [
+                { title: 'Royal Welcome & Cocktail', time: '18:30 - 19:30 WIB', date: 'Sabtu, 25 Oktober 2025', place: 'Ballroom Foyer' },
+                { title: 'Celeste Gala & Cake Ceremony', time: '19:30 - 22:00 WIB', date: 'Sabtu, 25 Oktober 2025', place: 'Grand Ballroom' }
+            ],
+            giftTitle: '🎁 Kado Ulang Tahun & Tali Kasih',
+            giftDesc: 'Kehadiran dan doa restu sahabat tercinta adalah kado terindah bagi Seraphina:',
+            wishTitle: 'Untaian Doa & Ucapan Hangat',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['terra-epoque-terracotta'] = {
+            name: 'Editorial Terracotta',
+            category: 'Ulang Tahun',
+            subCat: 'Sweet seventeen',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Sweet 17 • Terracotta',
+            packageVal: 'Paket Eksklusif - Rp180.000',
+            desc: 'Desain majalah editorial haute couture bertema Terra Époque XVII: palet terracotta hangat & earthy bronze, amplop segel monogram, countdown mekar 17 tahun, galeri lookbook editorial & RSVP.',
+            coverBadge: 'TERRA ÉPOQUE XVII',
+            coverSubtitle: 'A Haute Couture Milestone at Seventeen',
+            coverTitle: 'Audrey Calista (Turning 17)',
+            coverDate: 'Sabtu, 1 November 2025',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBoyFSvSZfWDr4PYn8k6kebaH2uIyhUhjyP0L7DD2Xjw63ACK7bhdej_A-7fYYA-Vq3QQG-zQMJ5RC2eWTi8TgYK3ZOfbbKdlNeAaQWDHnnHzZvHxSjbbGBiua7AHUowi36w7Ck9xC97P0-S0nAAwpUSrDjVi9HQw6fi4WZfwxTEmLqwonIEivueP7G3seJE9ThdPEbc30yvJ7jztsljuIVXcMhwEIctWKn-9527hP_',
+            quoteIcon: '🍂',
+            quoteTitle: 'Warmth of Youth',
+            quoteBody: '"Like the warm golden sun casting grace upon the earth, seventeen begins with beauty and gratitude."',
+            profileBadge: 'The Debutante',
+            profileName: 'Audrey Calista',
+            profileDesc: 'Putri tercinta Keluarga Besar Handoko • Dress Code: Warm Terracotta & Earthy Chic',
+            locationName: 'The Glass House Grand Ballroom, Jakarta',
+            events: [
+                { title: 'Sunset Cocktail & Welcome', time: '18:00 - 19:00 WIB', date: 'Sabtu, 1 November 2025', place: 'Garden Terrace' },
+                { title: 'Époque Gala Dinner', time: '19:00 - 21:30 WIB', date: 'Sabtu, 1 November 2025', place: 'Glass Grand Ballroom' }
+            ],
+            giftTitle: '🎁 Kado Ulang Tahun & Tali Kasih',
+            giftDesc: 'Kehadiran dan senyum hangat sahabat adalah kado terindah bagi Audrey:',
+            wishTitle: 'Untaian Doa & Harapan Sahabat',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['forest-moss-seventeen'] = {
+            name: 'Elegan Klasik Forest Moss',
+            category: 'Ulang Tahun',
+            subCat: 'Sweet seventeen',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Sweet 17 • Forest Moss',
+            packageVal: 'Paket Eksklusif - Rp180.000',
+            desc: 'Pesona perayaan sweet seventeen bertema Forest Moss XVII: kemegahan nuansa hijau lumut hutan purba & emas antik, amplop heraldic crest, panduan dress code vintage, galeri kenangan & RSVP.',
+            coverBadge: 'FOREST MOSS XVII',
+            coverSubtitle: 'Enchanted Woods of Seventeen',
+            coverTitle: 'Charlotte Vivienne (Turning 17)',
+            coverDate: 'Sabtu, 8 November 2025',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA8rWbYbidJhZCYMtIfEZyCdrsoPqqPmooG1t4tbMp9UoKql5mdA7hL1v5xAow-ELL6M_QibaUpdTyIBqksG5X1Gznb3rsZj__6MKzEFWqGkmVNWT9XSn2I4z-Vp714HIQGsKE5PSAvaMuBZt3jEEAV2ZgkmAZET_GPTbnf6nOQKYh_ZfsLl_2jJUkXBfwP6J49QuO13g1pxuV0kFgtP9_lHUlzIsZReiM2OBc1dGfP',
+            quoteIcon: '🌿',
+            quoteTitle: 'Evergreen Grace',
+            quoteBody: '"Like deep evergreen leaves in enchanted woods, seventeen unfolds in timeless grace."',
+            profileBadge: 'The Birthday Star',
+            profileName: 'Charlotte Vivienne',
+            profileDesc: 'Putri tercinta Keluarga Besar Handoko • Dress Code: Forest Green & Antique Gold',
+            locationName: 'The St. Regis Grand Ballroom, Jakarta',
+            events: [
+                { title: 'Enchanted Twilight Reception', time: '18:30 - 19:30 WIB', date: 'Sabtu, 8 November 2025', place: 'Garden Foyer' },
+                { title: 'Gala Dinner & Cake Ceremony', time: '19:30 - 22:00 WIB', date: 'Sabtu, 8 November 2025', place: 'Grand Ballroom' }
+            ],
+            giftTitle: '🎁 Kado Ulang Tahun & Tali Kasih',
+            giftDesc: 'Doa restu dan senyuman tulus Anda adalah anugerah terindah bagi Charlotte:',
+            wishTitle: 'Untaian Doa & Berkah Sahabat',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['emeraude-soiree-emerald'] = {
+            name: 'Editorial Emerald Green',
+            category: 'Ulang Tahun',
+            subCat: 'Sweet seventeen',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Sweet 17 • Emerald Editorial',
+            packageVal: 'Paket Eksklusif - Rp180.000',
+            desc: 'Kemilau perayaan musim mekar ke-17 bertema Émeraude Soirée XVII: nuansa zamrud emerald mewah & tipografi editorial majalah, amplop digital couture, countdown jam pesta, galeri lookbook & kado.',
+            coverBadge: 'ÉMERAUDE SOIRÉE XVII',
+            coverSubtitle: 'High-Fashion Spring Awakening',
+            coverTitle: 'Madeleine Vivienne (Turning 17)',
+            coverDate: 'Sabtu, 15 November 2025',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDbF-0PPxJ4Qk8_4h-rlB3NeQJgwFUNaGmn3nURqjVZ_-aXgPEWiNymynuPyTV9SfrFEMMwzSKzo1iJkA9JnoAdKDSrK-c8-7gW7FS6Ddbojo4lLYP9EFI0NfS9vT-Ety31I3WCCVXJUEeiDUaNBZieXDvWzKRjDneMvOiWByXFJFym7fvEV7WcaMup7tpMmzYXI-r_045Q2Hk0ZQE8zxBhCvdb3dDN94mh3IFRFNrq',
+            quoteIcon: '✨',
+            quoteTitle: 'Emerald Glow',
+            quoteBody: '"Under emerald chandeliers and starlit grace, seventeen unfolds into timeless splendor."',
+            profileBadge: 'The Debutante',
+            profileName: 'Madeleine Vivienne',
+            profileDesc: 'Putri tercinta Keluarga Besar Handoko • Dress Code: Emerald Green & Haute Couture',
+            locationName: 'The Emerald Grand Ballroom, SCBD, Jakarta',
+            events: [
+                { title: 'Haute Cocktail Hour', time: '18:30 - 19:30 WIB', date: 'Sabtu, 15 November 2025', place: 'Emerald Foyer' },
+                { title: 'Soirée Gala & Toast', time: '19:30 - 22:00 WIB', date: 'Sabtu, 15 November 2025', place: 'Grand Ballroom' }
+            ],
+            giftTitle: '🎁 Kado Ulang Tahun & Tali Kasih',
+            giftDesc: 'Doa dan pelukan hangat sahabat adalah kado terindah bagi Madeleine:',
+            wishTitle: 'Untaian Doa & Pesan Sahabat',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['mocha-creme-seventeen'] = {
+            name: 'Elegan Klasik Mocha Cream',
+            category: 'Ulang Tahun',
+            subCat: 'Sweet seventeen',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Sweet 17 • Mocha Cream',
+            packageVal: 'Paket Eksklusif - Rp180.000',
+            desc: 'Kehangatan pesta sweet seventeen bernuansa Mocha Crème XVII: harmoni warna kopi susu moka, karamel lembut & arsitektur katedral, amplop lilin inisial, rundown gala dinner & kado digital.',
+            coverBadge: 'MOCHA CRÈME XVII',
+            coverSubtitle: 'Sweet Warmth of Seventeen',
+            coverTitle: 'Genevieve Aurelia (Turning 17)',
+            coverDate: 'Sabtu, 22 November 2025',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDAp0uzCMYn1RFPpTPjL0ezWD7beXQ33BDUS06PEWMKDhZzZ0jtmr-HFDTMTZ2kN5i86LofMMwZ8I2iccyrcr8oBR58RRyGpTamh6MNlRphn4iyi1lS_Wnxijej3dpRIRvRl6N3QRKUO4P9ClNvxgX83e7T-qx_3mEe9BvISWzrGSdWcmak_nTgsQiSGJPcPG0QJjqgu4pAScWoqHSM2onDA2Hq5OYj7eltphFh4ALl',
+            quoteIcon: '☕',
+            quoteTitle: 'Amber Warmth',
+            quoteBody: '"Like warm sunlight filtered through amber crystals, seventeen begins with grace and laughter."',
+            profileBadge: 'The Birthday Star',
+            profileName: 'Genevieve Aurelia',
+            profileDesc: 'Putri tercinta Keluarga Besar Handoko • Dress Code: Mocha, Caramel & Creamy White',
+            locationName: 'The Mulia Grand Ballroom, Jakarta',
+            events: [
+                { title: 'Welcome & High Tea', time: '17:30 - 18:30 WIB', date: 'Sabtu, 22 November 2025', place: 'Mulia Lounge' },
+                { title: 'Mocha Gala Celebration', time: '18:30 - 21:30 WIB', date: 'Sabtu, 22 November 2025', place: 'Grand Ballroom' }
+            ],
+            giftTitle: '🎁 Kado Ulang Tahun & Tali Kasih',
+            giftDesc: 'Kehadiran dan senyum ceria sahabat adalah kado termanis bagi Genevieve:',
+            wishTitle: 'Untaian Doa & Harapan Indah',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['chapter-30-soft-pink'] = {
+            name: 'Geometris Soft Pink',
+            category: 'Ulang Tahun',
+            subCat: 'Ulang tahun dewasa',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Ultah Dewasa • Chapter 30 Pink',
+            packageVal: 'Paket Premium - Rp110.000',
+            desc: 'Perayaan kedewasaan usia 30 tahun bernuansa modern geometric soft pink: refleksi babak kehidupan baru, rundown pesta intim & gala toast, mozaik galeri perjalanan usia & RSVP.',
+            coverBadge: 'CHAPTER 30: MODERN RADIANCE',
+            coverSubtitle: 'Celebrating Three Decades of Radiance',
+            coverTitle: 'Clara Vivienne (Turning 30)',
+            coverDate: 'Sabtu, 29 November 2025',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAdxp8bI3ax_s_0AjVgSYZMyddCLhePBYvG-Te4tPDIR9cDk6doi5QKPDQoOTR-CcibCNL_bMANS_Bf1rCxzfOqr943Wx4NSk0VMJMCX3ldCkiL14lqG3onjZon8DC6gC2Mv-JxwArNiI4EagFxv_oAc3qYJ0r8QzNcJLp7uQAIQcnBFD8eDb1e6fWFju0yyv0SqDcW5Lx25dnt4Fe6nC-sL981jL6Mci5RbywAVUnu',
+            quoteIcon: '🌸',
+            quoteTitle: 'Radiant Chapter',
+            quoteBody: '"Entering thirty with boundless clarity, grateful heart, and modern radiance."',
+            profileBadge: 'Milestone 30',
+            profileName: 'Clara Vivienne',
+            profileDesc: 'Celebrating Chapter 30 with beloved friends and family • Dress Code: Soft Pink & Chic Neutral',
+            locationName: 'The Glasshouse Lounge, Kebayoran Baru, Jakarta',
+            events: [
+                { title: 'Intimate Welcome & Drinks', time: '18:30 - 19:30 WIB', date: 'Sabtu, 29 November 2025', place: 'Garden Terrace' },
+                { title: 'Dinner & Milestone Toast', time: '19:30 - 22:00 WIB', date: 'Sabtu, 29 November 2025', place: 'Glasshouse Lounge' }
+            ],
+            giftTitle: '🎁 Kado Ulang Tahun & Tali Asih',
+            giftDesc: 'Doa terbaik dan tawa hangat Anda adalah kado paling bermakna bagi Clara:',
+            wishTitle: 'Untaian Doa & Pesan Hangat',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['midnight-soiree-navy'] = {
+            name: 'Minimalis Modern Midnight Navy',
+            category: 'Ulang Tahun',
+            subCat: 'Ulang tahun dewasa',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Ultah Dewasa • Midnight Navy',
+            packageVal: 'Paket Premium - Rp110.000',
+            desc: 'Desain perayaan ulang tahun dewasa maskulin & prestisius bertema Midnight Soirée: palet biru malam pekat & aksen perak modern, amplop segel geometris, panduan cocktail attire & RSVP.',
+            coverBadge: 'MIDNIGHT SOIRÉE: MILESTONE 35',
+            coverSubtitle: 'Quiet Confidence at Thirty-Five',
+            coverTitle: 'Adrian Wicaksono (Turning 35)',
+            coverDate: 'Sabtu, 6 Desember 2025',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB6AtwKU1AzpfBSTFj3XjEmRw0vPFIRTZzX9ttciYelUfIjcTtnFjbuzz0QCoC_Ihg7jVXW9Of_Mko6R5ojZ30buJ2WjRGAhWvrD0O6ZsSr5zjEnvt5pNYPyQYB31jJGnfnHPEKGWtdQl8yUWMjOgDIiSClms-_ORe_H06CgXhzqBGZa8jW_mo_kxOJjgtsQZWvJa93zPFwGB7gIqvdHbqD50L7x_1jVSkMpGba_xQV',
+            quoteIcon: '🍸',
+            quoteTitle: 'Quiet Confidence',
+            quoteBody: '"Entering thirty-five with clarity of mind, gratitude for every milestone, and quiet confidence."',
+            profileBadge: 'Milestone 35',
+            profileName: 'Adrian Wicaksono',
+            profileDesc: 'Celebrating 35 Milestones • Dress Code: Midnight Navy & Modern Tailored',
+            locationName: 'The Foundry Private Lounge, SCBD, Jakarta',
+            events: [
+                { title: 'Cocktail & Cigar Lounge', time: '19:00 - 20:00 WIB', date: 'Sabtu, 6 Desember 2025', place: 'Foundry Mezzanine' },
+                { title: 'Dinner & Anniversary Toast', time: '20:00 - 22:30 WIB', date: 'Sabtu, 6 Desember 2025', place: 'Main Dining Room' }
+            ],
+            giftTitle: '🎁 Kado Ulang Tahun & Tanda Kasih',
+            giftDesc: 'Kebersamaan dan doa tulus sahabat adalah kehormatan terbesar bagi Adrian:',
+            wishTitle: 'Untaian Doa & Ucapan Selamat',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['cyber-neon-futuristic'] = {
+            name: 'Geometris Cyber Neon',
+            category: 'Ulang Tahun',
+            subCat: 'Ulang tahun dewasa',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Ultah Dewasa • Cyber Neon 30',
+            packageVal: 'Paket Eksklusif - Rp180.000',
+            desc: 'Desain pesta ulang tahun futuristik bertema Cyber Neon: estetika grid fotonik, aksen cyan neon & dark mode berani, sound capsule HUD, countdown milidetik & VIP guest lounge pass.',
+            coverBadge: 'PROTOCOL 3.0: CYBER SOIRÉE',
+            coverSubtitle: 'Calibrated Focus at Thirty',
+            coverTitle: 'Kevin Danuarta (Turning 30)',
+            coverDate: 'Sabtu, 13 Desember 2025',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD3O39080xYBuY92ven8_nxqUEtJWtJmjc0ojiEfLTTSysF8QNGd-kKBEVnNM8sWiDiIPWApWm_NA-xXN5MxTWkFJG8vLQ_RLTOzMLXQ-aAG0ZnGf722OaoSDock9C6lfQPOe3Bo7SSwmeP8YPVX1XEbm28MTquRseGzv2S6Fw0KH0wNalbxipi41zHt1J3da-lcIma34ErsMEVOkGSJ_dlWZ4pSB8bKBzVG2wV3-27',
+            quoteIcon: '⚡',
+            quoteTitle: 'Future Horizons',
+            quoteBody: '"Entering thirty with calibrated focus, bold ambitions, and endless frequencies ahead."',
+            profileBadge: 'Protocol Host',
+            profileName: 'Kevin Danuarta',
+            profileDesc: 'Celebrating Milestone 3.0 • Dress Code: Cyber Chic, Black & Neon Accents',
+            locationName: 'Sky Cyber Lounge Level 42, Menara Astra, Jakarta',
+            events: [
+                { title: 'VIP Check-In & Sound Lab', time: '19:30 - 20:30 WIB', date: 'Sabtu, 13 Desember 2025', place: 'Cyber Foyer' },
+                { title: 'The Cyber Protocol & Afterparty', time: '20:30 - 23:00 WIB', date: 'Sabtu, 13 Desember 2025', place: 'Sky Horizon Stage' }
+            ],
+            giftTitle: '🎁 Kado Ulang Tahun & Digital Vault',
+            giftDesc: 'Terima kasih atas kehadiran & doa terbaik Anda dalam merayakan Protocol 3.0:',
+            wishTitle: 'Untaian Doa & Pesan Fotonik',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['crimson-soiree-bold-red'] = {
+            name: 'Minimalis Modern Bold Red',
+            category: 'Ulang Tahun',
+            subCat: 'Ulang tahun dewasa',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Ultah Dewasa • Bold Crimson',
+            packageVal: 'Paket Premium - Rp110.000',
+            desc: 'Kemegahan perayaan milad / ulang tahun babak ke-30 bertema Crimson Soirée: palet merah tua berani, tipografi sans modern tajam, amplop wax seal interaktif, galeri foto & kado digital.',
+            coverBadge: 'CRIMSON SOIRÉE: CHAPTER 30',
+            coverSubtitle: 'Bold Conviction at Thirty',
+            coverTitle: 'Devan Pramudya (Turning 30)',
+            coverDate: 'Sabtu, 20 Desember 2025',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA7u7oze2fsIArA9JU5fPuG8VRUbvwwHHb-KrIZrb-6grSw-5gzRr9d4NRYCwUvgglHPZnAbpiZdgmk3igMYj48mQ4V025UwNyp4Fx7CIbNcmth1HzAEB1R2j4pjOFa-jPPPrbjQmkvXQ_WiyjHSsRC9wgK6k4YBYMP0XKDRia3Bl1xUKOKKioGxZoMpFsTa5WPAWTesi5lR01didVxEZIQeB1FjNStLAIn57-KXjk0',
+            quoteIcon: '🍷',
+            quoteTitle: 'Bold Milestone',
+            quoteBody: '"Entering thirty with clarity, bold conviction, and deep gratitude for every milestone."',
+            profileBadge: 'Chapter 30',
+            profileName: 'Devan Pramudya',
+            profileDesc: 'Celebrating Thirty Bold Years • Dress Code: Crimson Red & Black Tie',
+            locationName: 'The Crimson Room, Grand Hyatt Jakarta',
+            events: [
+                { title: 'Welcome Drinks & Red Carpet', time: '18:30 - 19:30 WIB', date: 'Sabtu, 20 Desember 2025', place: 'Crimson Lounge' },
+                { title: 'Gala Dinner & Milestone Toast', time: '19:30 - 22:00 WIB', date: 'Sabtu, 20 Desember 2025', place: 'Grand Room' }
+            ],
+            giftTitle: '🎁 Kado Ulang Tahun & Tali Kasih',
+            giftDesc: 'Doa tulus dan kebersamaan sahabat adalah hadiah terindah bagi Devan:',
+            wishTitle: 'Untaian Doa & Pesan Sahabat',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['mint-soiree-geometric'] = {
+            name: 'Geometris Mint Fresh',
+            category: 'Ulang Tahun',
+            subCat: 'Ulang tahun dewasa',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Ultah Dewasa • Mint Geometric',
+            packageVal: 'Paket Premium - Rp110.000',
+            desc: 'Kesegaran perayaan ulang tahun dewasa bernuansa Mint Soirée: aksen hijau mint sejuk, motif prisma geometris modern, amplop digital segel kristal, agenda brunch pesta & kado digital.',
+            coverBadge: 'MINT SOIRÉE: CHAPTER 30',
+            coverSubtitle: 'Grounded Clarity & Creative Energy',
+            coverTitle: 'Reyhan Danendra (Turning 30)',
+            coverDate: 'Sabtu, 27 Desember 2025',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBUa5nKhZ0fyl6HfSUiPmVfYSRkugaoIIVwHkk1ENHonrCXMjoMxptho-zDpnPvxzfHS5SwArIvMT9AJmWIksSEqiOFb0BawlfKgKS1ZE1TmBUIF7QjoHISS_Nbp8JKzK9PzMOIAA4lnzN2K8TuWzO8UDwFHaA4Res8LSgDUN-aVENIlxhskSils4ZdaPSKY1ReSqU0khblEOI4qiqC42YhbQwf4YG8aZ8TXg2SddA3',
+            quoteIcon: '🌿',
+            quoteTitle: 'Grounded Energy',
+            quoteBody: '"Entering thirty with grounded clarity, creative energy, and deep gratitude for every milestone."',
+            profileBadge: 'Chapter 30',
+            profileName: 'Reyhan Danendra',
+            profileDesc: 'Celebrating Milestone 30 • Dress Code: Fresh Mint & Crisp White',
+            locationName: 'Botanica Glass Pavilion, Jakarta',
+            events: [
+                { title: 'Afternoon Brunch & Mocktails', time: '15:30 - 17:00 WIB', date: 'Sabtu, 27 Desember 2025', place: 'Garden Pavilion' },
+                { title: 'Sunset Toast & Celebration', time: '17:00 - 19:30 WIB', date: 'Sabtu, 27 Desember 2025', place: 'Main Glasshouse' }
+            ],
+            giftTitle: '🎁 Kado Ulang Tahun & Tali Asih',
+            giftDesc: 'Doa hangat dan kehadiran sahabat adalah pelengkap kebahagiaan Reyhan:',
+            wishTitle: 'Untaian Doa & Pesan Hangat',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['raden-arya-champagne'] = {
+            name: 'Tradisional Nusantara Champagne Glow',
+            category: 'Ulang Tahun',
+            subCat: 'Ulang tahun dengan tema kartun atau karakter original',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Karakter Original • Champagne Glow',
+            packageVal: 'Paket Eksklusif - Rp180.000',
+            desc: 'Kisah petualangan karakter original Raden Arya & Sang Garuda Kencana: kemegahan budaya Nusantara bernuansa champagne emas berkilau, kisah babak legenda, rundown pesta & kado tali asih.',
+            coverBadge: 'RADEN ARYA & GARUDA KENCANA',
+            coverSubtitle: 'Kisah Legenda Budaya Nusantara',
+            coverTitle: 'Raden Arya (Mahkota Garuda)',
+            coverDate: 'Sabtu, 3 Januari 2026',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuChhiII7NyQNgNEyDo4e3CDUnEaXefFwGqaSvtNSDIPhz6aXNTOlJXQvHKBntUXt1qMiMahvcuAwQwiIlOA_ynwTckrAoAe22MkZSaeWq-Oicetc-U9aUDXK6HiQH936eBuz2FlXP9ubXfYT4RKlRGCaIl0sqsTHiS6GoZzzLL9O0xttgksHjHumHI28k1rMeMfz8gaCpUxHNP1ncnt_U92ZIHI7bmI9ySJ5AHyCV_W',
+            quoteIcon: '🦅',
+            quoteTitle: 'Lentera Harapan',
+            quoteBody: '"Menyemai keberanian, merayakan kehangatan budi, dan menyalakan lentera harapan di setiap langkah."',
+            profileBadge: 'Karakter Original',
+            profileName: 'Raden Arya & Sang Garuda Kencana',
+            profileDesc: 'Petualangan Legenda Keraton Amarta • Dress Code: Champagne Gold & Kain Wastra Nusantara',
+            locationName: 'Pendopo Agung Keraton Amarta, Yogyakarta',
+            events: [
+                { title: 'Pahargyan & Sambutan Tamu', time: '18:30 - 19:30 WIB', date: 'Sabtu, 3 Januari 2026', place: 'Pendopo Sasana' },
+                { title: 'Gala Peringatan Hari Jadi', time: '19:30 - 22:00 WIB', date: 'Sabtu, 3 Januari 2026', place: 'Bale Ageng' }
+            ],
+            giftTitle: '🎁 Kado Tali Asih & Tanda Tresna',
+            giftDesc: 'Pangestu lan pandonga panjenengan sami karunia ingkang ageng:',
+            wishTitle: 'Untaian Doa & Berkah Pangestu',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['kaelen-black-gold'] = {
+            name: 'Bold Modern Black & Gold',
+            category: 'Ulang Tahun',
+            subCat: 'Ulang tahun dengan tema kartun atau karakter original',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Karakter Original • Black & Gold',
+            packageVal: 'Paket Eksklusif - Rp180.000',
+            desc: 'Epos karakter original Kaelen The Golden Alchemist bernuansa obsidian hitam & emas berkilau: lambang alkimia kencana, amplop digital orisinal, galeri konsep ilustrasi, RSVP & kado digital.',
+            coverBadge: 'CHRONICLES OF KAELEN',
+            coverSubtitle: 'The Golden Crucible Milestone',
+            coverTitle: 'Kaelen The Golden Alchemist',
+            coverDate: 'Sabtu, 10 Januari 2026',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCHz4UXFn4ociTnCF57fyzbl1d8EV5RzIgHGDKHUUGUJxdwTzmNR8VJBvLOT37tbVjfi2yBhv3BGeEeb4deY95-F_iIYCjGn2V37V1LT8ut29iYJkKAiF5Z-sujhcSqwpS6zrgL00SiULyGatn0SRjad9g8CG1gigruFni56bu8hcoMd12JY6hqdkOqutMlstqbKaO0xyq356KnzG76cPwstl2n07SH-sSpkSMIGaeS',
+            quoteIcon: '⚗️',
+            quoteTitle: 'Golden Crucible',
+            quoteBody: '"Di balik percikan alkimia kencana dan bayang-bayang obsidian, sebuah babak baru keberanian dimulai."',
+            profileBadge: 'Original Character',
+            profileName: 'Kaelen The Golden Alchemist',
+            profileDesc: 'Epos Karakter Orisinal • Dress Code: Obsidian Black & Shimmering Gold',
+            locationName: 'The Tribrata Grand Ballroom, Jakarta',
+            events: [
+                { title: 'The Alchemist Gathering', time: '18:30 - 19:30 WIB', date: 'Sabtu, 10 Januari 2026', place: 'Obsidian Foyer' },
+                { title: 'The Crucible Gala & Feast', time: '19:30 - 22:00 WIB', date: 'Sabtu, 10 Januari 2026', place: 'Grand Ballroom' }
+            ],
+            giftTitle: '🎁 Kado Ulang Tahun & Alchemical Vault',
+            giftDesc: 'Kehadiran Anda dan untaian doa adalah permata paling berharga bagi Kaelen:',
+            wishTitle: 'Untaian Doa & Catatan Alkimia',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['arya-nature-green'] = {
+            name: 'Tradisional Nusantara Nature Green',
+            category: 'Ulang Tahun',
+            subCat: 'Ulang tahun dengan tema kartun atau karakter original',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Karakter Original • Nature Green',
+            packageVal: 'Paket Eksklusif - Rp180.000',
+            desc: 'Petualangan Raden Arya & Sang Rusa Kencana di rimba nusantara asri: palet hijau zamrud alam & motif batik dedaunan, kisah lore karakter, countdown pesta, galeri ilustrasi dongeng & RSVP.',
+            coverBadge: 'ARYA & RUSA KENCANA',
+            coverSubtitle: 'Petualangan Rimba Nusantara Asri',
+            coverTitle: 'Raden Arya (Rusa Kencana)',
+            coverDate: 'Sabtu, 17 Januari 2026',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCjVy2TeXVgsz9WfnhHt8yTWrNagKryxUdKB3EEGikw2vGtgHqurtrWxXb5T52vnRnjs7N9leYwV98qlSXlCRO0JaRtl9rTUXAHDpvxrh55YhyoMme7DQYOs-aF4ITT9MlPSU8YlDReovsZuTGVgSGS53OJNngQQQgvM8zs_WrBAUCButfwPoJhZlxNYnY4slfWxpD7Ce7ock4ehzslrx2HIhowPQ9_NjYCkYTSfpx-',
+            quoteIcon: '🌿',
+            quoteTitle: 'Rimba Asri',
+            quoteBody: '"Di mana daun berbisik dan akar merangkul bumi, di sanalah keberanian mekar memberikan perlindungan."',
+            profileBadge: 'Karakter Orisinal',
+            profileName: 'Raden Arya & Sang Rusa Kencana',
+            profileDesc: 'Kisah Sahabat Rimba Nusantara • Dress Code: Nature Forest Green & Earth Tone',
+            locationName: 'Hutan Kota by Plataran, GBK, Jakarta',
+            events: [
+                { title: 'Sambutan Rimba Asri', time: '16:00 - 17:30 WIB', date: 'Sabtu, 17 Januari 2026', place: 'Garden Amphitheater' },
+                { title: 'Perayaan Syukuran Hari Jadi', time: '17:30 - 20:00 WIB', date: 'Sabtu, 17 Januari 2026', place: 'Plataran Glasshouse' }
+            ],
+            giftTitle: '🎁 Kado Hari Jadi & Tali Asih',
+            giftDesc: 'Doa kebaikan dan kebersamaan Anda adalah berkah terindah bagi kami:',
+            wishTitle: 'Untaian Doa & Pesan Sahabat Rimba',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['solaris-sunset-gradient'] = {
+            name: 'Bold Modern Sunset Gradient',
+            category: 'Ulang Tahun',
+            subCat: 'Ulang tahun dengan tema kartun atau karakter original',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Karakter Original • Sunset Solaris',
+            packageVal: 'Paket Eksklusif - Rp180.000',
+            desc: 'Karakter orisinal Solaris The Sunset Guardian dalam kobaran gradien jingga senja & ungu kosmik: amplop digital perisai surya, rundown perayaan malam, konsep visual karakter & RSVP.',
+            coverBadge: 'SOLARIS: SUNSET CONVERGENCE',
+            coverSubtitle: 'The Guardian of Dusk & Dawn',
+            coverTitle: 'Solaris The Sunset Guardian',
+            coverDate: 'Sabtu, 24 Januari 2026',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuClcfkEaZIvqACRX7sQ9n4fdhnAvglnuCHev9Jw3KNiN-290xidPlQ0OhLOyNpHsRS99zWpm1INpsj6pOEVbVYvo5aPGaarsVgzRfMmqp0GoVsO-KD0lgo2quIewVhhLCiZg4mtjMiI1t1mBy9OFj4A-RJbaUTetFR3wiuQMNHPz6-prW-q6bNU7ov7Mr0QmsryY24_vaJNpET9R9P6aAGpL-M17m8sfgL1GwzSQ1LO',
+            quoteIcon: '🌅',
+            quoteTitle: 'Sunset Hope',
+            quoteBody: '"Di batas cakrawala senja di mana nyala api keberanian bertemu kehangatan harapan, kita berkumpul merayakan babak baru."',
+            profileBadge: 'Original Guardian',
+            profileName: 'Solaris The Sunset Guardian',
+            profileDesc: 'Karakter Orisinal Solaris • Dress Code: Sunset Orange, Cosmic Purple & Gold',
+            locationName: 'The Sky Ballroom Level 50, The Westin Jakarta',
+            events: [
+                { title: 'Dusk Gathering & Solar Pass', time: '18:00 - 19:30 WIB', date: 'Sabtu, 24 Januari 2026', place: 'Sky View Foyer' },
+                { title: 'Convergence Gala & Night Show', time: '19:30 - 22:30 WIB', date: 'Sabtu, 24 Januari 2026', place: 'Main Sky Ballroom' }
+            ],
+            giftTitle: '🎁 Kado Ulang Tahun & Solar Vault',
+            giftDesc: 'Kehadiran sahabat dan senyuman di senja ini adalah anugerah terbesar bagi Solaris:',
+            wishTitle: 'Untaian Doa & Pesan Senja',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
+        };
+
+        themePreviews['raden-arya-warm-neutral'] = {
+            name: 'Tradisional Nusantara Warm Neutral',
+            category: 'Ulang Tahun',
+            subCat: 'Ulang tahun dengan tema kartun atau karakter original',
+            catKey: 'ulang-tahun',
+            badge: '🎂 Karakter Original • Warm Neutral',
+            packageVal: 'Paket Premium - Rp110.000',
+            desc: 'Kisah karakter original Raden Arya & Harimau Kencana dalam kehangatan palet krem netral & cokelat kayu pusaka: amplop segel cap kerajaan, rundown perayaan hari jadi, galeri & kado digital.',
+            coverBadge: 'RADEN ARYA & HARIMAU KENCANA',
+            coverSubtitle: 'Sahabat Rimba Kencana',
+            coverTitle: 'Raden Arya (Harimau Kencana)',
+            coverDate: 'Sabtu, 31 Januari 2026',
+            coverImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCBJvzfATdhJNsKqQFM8bcceCwM83vXIOapX9wCDy6S9Tr6GSCGTrPdd3B9Boj7nebgHuYxaF2d7eeFW4hG1_bbs2mAkobgH-1agTAglYsgyJiGlfRNvDsooFfKkvu_kStFgAYCrP3oAViQCp6PLzRb8vaRaGYXN5XqMn56bhAm65WFZtgn1nHI72acw3-du-ek6OGctqZvfKAWbg9egOiYki3KovzdvnnpVz3GkY99',
+            quoteIcon: '🐅',
+            quoteTitle: 'Lentera Kebaikan',
+            quoteBody: '"Menapaki rimba kencana, merajut kebaikan budi pekerti, dan menyalakan lentera harapan bagi sesama."',
+            profileBadge: 'Karakter Orisinal',
+            profileName: 'Raden Arya & Harimau Kencana',
+            profileDesc: 'Kisah Budi Luhur Keraton Nusantara • Dress Code: Warm Neutral, Cream & Wooden Brown',
+            locationName: 'Plataran Dharmawangsa, Jakarta',
+            events: [
+                { title: 'Temu Ramah & Jamuan Teh Hangat', time: '17:30 - 18:30 WIB', date: 'Sabtu, 31 Januari 2026', place: 'Joglo Foyer' },
+                { title: 'Tasyakuran & Perayaan Hari Jadi', time: '18:30 - 21:00 WIB', date: 'Sabtu, 31 Januari 2026', place: 'Pendopo Utama' }
+            ],
+            giftTitle: '🎁 Kado Hari Jadi & Tali Tresna',
+            giftDesc: 'Pangestu dan doa tulus panjenengan sami adalah anugerah terindah:',
+            wishTitle: 'Untaian Doa & Berkah Pangestu',
+            audioSrc: '{{ asset("audio/celebration-melody.wav") }}'
         };
 
         // Extra alias mapping
@@ -1605,7 +2511,22 @@
                 { slug: 'arctic-frost', name: 'Korporat Profesional Arctic Frost', tag: 'Sweet 17th Glacial VIP', icon: '❄️', iconBg: 'bg-sky-100 text-sky-800', demoUrl: '/demo/arctic-frost' },
                 { slug: 'editorial-cherry-blossom', name: 'Editorial Cherry Blossom', tag: 'Sweet 17th Sakura Reverie', icon: '🌸', iconBg: 'bg-pink-100 text-pink-800', demoUrl: '/demo/editorial-cherry-blossom' },
                 { slug: 'orange-energy', name: 'Elegan Klasik Orange Energy', tag: 'Sweet 17th Aura Soleil', icon: '✨', iconBg: 'bg-amber-100 text-amber-800', demoUrl: '/demo/orange-energy' },
-                { slug: 'rustic-purple-dream', name: 'Rustic Purple Dream', tag: 'Ultah Remaja Lavender', icon: '💜', iconBg: 'bg-purple-100 text-purple-800', demoUrl: '/demo/rustic-purple-dream' }
+                { slug: 'rustic-purple-dream', name: 'Rustic Purple Dream', tag: 'Ultah Remaja Lavender', icon: '💜', iconBg: 'bg-purple-100 text-purple-800', demoUrl: '/demo/rustic-purple-dream' },
+                { slug: 'celeste-royale-baby-blue', name: 'Elegan Klasik Baby Blue', tag: 'Sweet 17th Sapphire & Gold', icon: '💎', iconBg: 'bg-sky-100 text-sky-800', demoUrl: '/demo/celeste-royale-baby-blue' },
+                { slug: 'terra-epoque-terracotta', name: 'Editorial Terracotta', tag: 'Sweet 17th Editorial Haute', icon: '🏺', iconBg: 'bg-amber-100 text-amber-800', demoUrl: '/demo/terra-epoque-terracotta' },
+                { slug: 'forest-moss-seventeen', name: 'Elegan Klasik Forest Moss', tag: 'Sweet 17th Vintage Enchanted', icon: '🌲', iconBg: 'bg-emerald-100 text-emerald-800', demoUrl: '/demo/forest-moss-seventeen' },
+                { slug: 'emeraude-soiree-emerald', name: 'Editorial Emerald Green', tag: 'Sweet 17th Zamrud Editorial', icon: '💚', iconBg: 'bg-emerald-100 text-emerald-800', demoUrl: '/demo/emeraude-soiree-emerald' },
+                { slug: 'mocha-creme-seventeen', name: 'Elegan Klasik Mocha Cream', tag: 'Sweet 17th Moka & Karamel', icon: '🤎', iconBg: 'bg-stone-100 text-stone-800', demoUrl: '/demo/mocha-creme-seventeen' },
+                { slug: 'chapter-30-soft-pink', name: 'Geometris Soft Pink', tag: 'Ultah Dewasa 30 Geometric', icon: '💖', iconBg: 'bg-pink-100 text-pink-700', demoUrl: '/demo/chapter-30-soft-pink' },
+                { slug: 'midnight-soiree-navy', name: 'Minimalis Modern Midnight Navy', tag: 'Ultah Dewasa 35 Maskulin', icon: '🌌', iconBg: 'bg-indigo-100 text-indigo-800', demoUrl: '/demo/midnight-soiree-navy' },
+                { slug: 'cyber-neon-futuristic', name: 'Geometris Cyber Neon', tag: 'Ultah Dewasa 30 Cyan Neon', icon: '⚡', iconBg: 'bg-cyan-100 text-cyan-800', demoUrl: '/demo/cyber-neon-futuristic' },
+                { slug: 'crimson-soiree-bold-red', name: 'Minimalis Modern Bold Red', tag: 'Ultah Dewasa 30 Merah Berani', icon: '🍷', iconBg: 'bg-rose-100 text-rose-800', demoUrl: '/demo/crimson-soiree-bold-red' },
+                { slug: 'mint-soiree-geometric', name: 'Geometris Mint Fresh', tag: 'Ultah Dewasa 30 Mint Sejuk', icon: '🍃', iconBg: 'bg-teal-100 text-teal-800', demoUrl: '/demo/mint-soiree-geometric' },
+                { slug: 'raden-arya-champagne', name: 'Tradisional Nusantara Champagne Glow', tag: 'Karakter Nusantara Champagne', icon: '👑', iconBg: 'bg-yellow-100 text-yellow-800', demoUrl: '/demo/raden-arya-champagne' },
+                { slug: 'kaelen-black-gold', name: 'Bold Modern Black & Gold', tag: 'Karakter Obsidian & Emas', icon: '⚔️', iconBg: 'bg-stone-100 text-stone-800', demoUrl: '/demo/kaelen-black-gold' },
+                { slug: 'arya-nature-green', name: 'Tradisional Nusantara Nature Green', tag: 'Karakter Rusa Kencana Rimba', icon: '🦌', iconBg: 'bg-emerald-100 text-emerald-800', demoUrl: '/demo/arya-nature-green' },
+                { slug: 'solaris-sunset-gradient', name: 'Bold Modern Sunset Gradient', tag: 'Karakter Senja Jingga & Ungu', icon: '🌅', iconBg: 'bg-orange-100 text-orange-800', demoUrl: '/demo/solaris-sunset-gradient' },
+                { slug: 'raden-arya-warm-neutral', name: 'Tradisional Nusantara Warm Neutral', tag: 'Karakter Harimau Kencana Krem', icon: '🐅', iconBg: 'bg-stone-100 text-stone-800', demoUrl: '/demo/raden-arya-warm-neutral' },
             ],
             'acara-formal': [
                 { slug: 'clean-seminar', name: 'Clean Tech Seminar & Workshop', tag: 'Simposium & Konferensi Basic', icon: '🎙️', iconBg: 'bg-sky-100 text-sky-800', demoUrl: '/demo/clean-seminar' },
@@ -1634,7 +2555,8 @@
             if (cat === 'wisuda' || catKey === 'wisuda' || s.includes('wisuda') || s.includes('sarjana') || s.includes('graduate') || sub.includes('wisuda') || sub.includes('sarjana')) {
                 return 'wisuda';
             }
-            if (cat.includes('ulang') || catKey === 'ultah' || s.includes('cheerful') || s.includes('confetti') || s.includes('birthday') || s.includes('milad') || s.includes('ultah') || s.includes('ulang') || s.includes('rustic') || s.includes('coral') || s.includes('peach') || s.includes('arctic') || s.includes('frost') || s.includes('cherry') || s.includes('sakura') || s.includes('orange') || s.includes('soleil') || s.includes('purple') || s.includes('lavender')) {
+            const bdaySlugs = ['celeste-royale-baby-blue', 'terra-epoque-terracotta', 'forest-moss-seventeen', 'emeraude-soiree-emerald', 'mocha-creme-seventeen', 'chapter-30-soft-pink', 'midnight-soiree-navy', 'cyber-neon-futuristic', 'crimson-soiree-bold-red', 'mint-soiree-geometric', 'raden-arya-champagne', 'kaelen-black-gold', 'arya-nature-green', 'solaris-sunset-gradient', 'raden-arya-warm-neutral'];
+            if (bdaySlugs.includes(s) || cat.includes('ulang') || catKey === 'ulang-tahun' || catKey === 'ultah' || s.includes('cheerful') || s.includes('confetti') || s.includes('birthday') || s.includes('milad') || s.includes('ultah') || s.includes('ulang') || s.includes('rustic') || s.includes('coral') || s.includes('peach') || s.includes('arctic') || s.includes('frost') || s.includes('cherry') || s.includes('sakura') || s.includes('orange') || s.includes('soleil') || s.includes('purple') || s.includes('lavender')) {
                 return 'ulang-tahun';
             }
             if (cat.includes('formal') || catKey === 'formal' || catKey === 'acara-formal' || s.includes('seminar') || s.includes('workshop') || s.includes('corporate') || s.includes('korporat') || s.includes('reuni') || s.includes('floral-midnight') || s.includes('midnight-navy') || s.includes('nocturne') || s.includes('komunitas')) {
@@ -1705,6 +2627,21 @@
             'aura-soleil': '/demo/orange-energy',
             'rustic-purple-dream': '/demo/rustic-purple-dream',
             'purple-dream': '/demo/rustic-purple-dream',
+            'celeste-royale-baby-blue': '/demo/celeste-royale-baby-blue',
+            'terra-epoque-terracotta': '/demo/terra-epoque-terracotta',
+            'forest-moss-seventeen': '/demo/forest-moss-seventeen',
+            'emeraude-soiree-emerald': '/demo/emeraude-soiree-emerald',
+            'mocha-creme-seventeen': '/demo/mocha-creme-seventeen',
+            'chapter-30-soft-pink': '/demo/chapter-30-soft-pink',
+            'midnight-soiree-navy': '/demo/midnight-soiree-navy',
+            'cyber-neon-futuristic': '/demo/cyber-neon-futuristic',
+            'crimson-soiree-bold-red': '/demo/crimson-soiree-bold-red',
+            'mint-soiree-geometric': '/demo/mint-soiree-geometric',
+            'raden-arya-champagne': '/demo/raden-arya-champagne',
+            'kaelen-black-gold': '/demo/kaelen-black-gold',
+            'arya-nature-green': '/demo/arya-nature-green',
+            'solaris-sunset-gradient': '/demo/solaris-sunset-gradient',
+            'raden-arya-warm-neutral': '/demo/raden-arya-warm-neutral',
             'clean-seminar': '/demo/clean-seminar',
             'clean-tech-seminar-workshop': '/demo/clean-seminar',
             'clean-tech-seminar': '/demo/clean-seminar',
@@ -1778,10 +2715,13 @@
         }
 
         function openThemePreviewModal(slug) {
-            const rawSlug = (slug || '').toLowerCase();
+            const rawSlug = (slug || '').toLowerCase().trim();
             
             // Map legacy / alternative slugs to canonical themePreviews keys
             let matchedSlug = rawSlug;
+            if (themePreviews[rawSlug]) {
+                matchedSlug = rawSlug;
+            } else
             if (rawSlug.includes('cherry') || rawSlug.includes('sakura')) {
                 matchedSlug = 'editorial-cherry-blossom';
             } else if (rawSlug.includes('orange') || rawSlug.includes('soleil')) {
@@ -1856,7 +2796,7 @@
             renderCategorySelectorGrid(matchedSlug, currentCategoryKey);
 
             // Determine target iframe url strictly matching the template
-            let targetUrl = demoUrlMap[matchedSlug] || demoUrlMap[rawSlug];
+            let targetUrl = demoUrlMap[matchedSlug] || demoUrlMap[rawSlug] || ('/demo/' + matchedSlug);
             if (!targetUrl) {
                 const catList = categoryTemplates[currentCategoryKey] || categoryTemplates['pernikahan'];
                 const foundItem = catList.find(item => item.slug === matchedSlug || item.slug === rawSlug);

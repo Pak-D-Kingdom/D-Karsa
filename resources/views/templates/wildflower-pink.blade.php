@@ -113,9 +113,9 @@
 <body class="bg-[#fbf5f4] text-neutral-800 font-sans antialiased selection:bg-blush-300 selection:text-blush-900 overflow-hidden">
 
     @php
-        $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo, 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=1200');
-        $groomImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->groom_photo, 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600');
-        $brideImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->bride_photo, 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600');
+        $coverImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->cover_photo ?? null, 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=1200');
+        $groomImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->groom_photo ?? null, 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600');
+        $brideImg = \App\Services\TemplateManager::resolvePhotoUrl($couple->bride_photo ?? null, 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600');
         $audioUrl = !empty($couple->music_url) ? (str_starts_with($couple->music_url, 'http') ? $couple->music_url : asset('audio/' . $couple->music_url)) : asset('audio/wedding-melody.wav');
 
         $targetDate = !empty($couple->wedding_date) ? \Carbon\Carbon::parse($couple->wedding_date) : now()->addMonths(2);
@@ -321,7 +321,7 @@
                 <div class="w-12 h-0.5 bg-blush-400 mx-auto mt-2"></div>
             </div>
 
-            <div class="space-y-5">
+            <div id="itineraryContainer" class="space-y-5">
                 @forelse($couple->events as $ev)
                     <div class="floral-card rounded-3xl p-6 text-center space-y-2">
                         <span class="w-9 h-9 rounded-full bg-blush-100 text-blush-600 inline-flex items-center justify-center text-sm font-bold mb-1">
@@ -741,5 +741,6 @@
             }
         } catch(e) {}
     </script>
+    @include('templates.partials.preview-sync')
 </body>
 </html>

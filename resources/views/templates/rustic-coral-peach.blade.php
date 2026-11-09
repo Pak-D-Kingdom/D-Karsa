@@ -193,7 +193,7 @@
     <!-- ========================================================
          COVER SCREEN: DIGITAL ENVELOPE (Tampilan Awal Eksklusif)
          ======================================================== -->
-    <div id="invitation-cover" class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-surface flex flex-col items-center justify-between px-3 sm:px-4 py-4 sm:py-6 transition-all duration-700 ease-in-out select-none">
+    <div id="invitation-cover" class="fixed inset-0 z-[60] overflow-y-auto overscroll-contain bg-surface flex flex-col items-center justify-between px-3 sm:px-4 py-4 sm:py-6 transition-all duration-700 ease-in-out select-none">
         <!-- Decorative Ambient Gradient Backdrop -->
         <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary-fixed/30 via-surface to-surface-container-low pointer-events-none"></div>
 
@@ -1220,5 +1220,6 @@
             window.parent.postMessage({ type: 'PREVIEW_IFRAME_READY' }, '*');
         }
     </script>
+    @include('templates.partials.preview-sync')
 </body>
 </html>
