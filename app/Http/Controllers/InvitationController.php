@@ -394,16 +394,40 @@ class InvitationController extends Controller
     {
         $couple = Couple::with('events')->where('slug', $slug)->firstOrFail();
 
-        // If returned from Midtrans redirect with settlement / success status
-        $status = $request->query('transaction_status');
-        $statusCode = $request->query('status_code');
-        if (($status === 'settlement' || $status === 'capture' || $statusCode == '200') && $couple->payment_status !== 'paid') {
-            app(MidtransService::class)->markAsPaid(
-                $couple,
-                'Midtrans - ' . strtoupper($request->query('payment_type', 'Virtual Account / QRIS')),
-                $request->query('order_id')
-            );
-            session()->flash('payment_success', 'Pembayaran via Midtrans berhasil diverifikasi! Undangan Anda kini telah aktif.');
+        // Verifikasi pembayaran Midtrans jika belum berstatus 'paid'
+        if ($couple->payment_status !== 'paid') {
+            $orderId = $request->query('order_id');
+            $status = $request->query('transaction_status');
+            $statusCode = $request->query('status_code');
+
+            if (!empty($orderId) && $orderId === $couple->invoice_number) {
+                $midtransService = app(MidtransService::class);
+
+                if (MidtransService::hasApiCredentials()) {
+                    // Validasi langsung ke Midtrans Core API (Pencegahan Pemalsuan Parameter URL)
+                    $apiStatus = $midtransService->checkTransactionStatus($orderId);
+                    $verifiedStatus = $apiStatus['transaction_status'] ?? null;
+
+                    if (in_array($verifiedStatus, ['settlement', 'capture'])) {
+                        $paymentType = $apiStatus['payment_type'] ?? 'ONLINE';
+                        $trxId = $apiStatus['transaction_id'] ?? $orderId;
+                        $midtransService->markAsPaid(
+                            $couple,
+                            'Midtrans - ' . strtoupper($paymentType),
+                            $trxId
+                        );
+                        session()->flash('payment_success', 'Pembayaran via Midtrans berhasil diverifikasi! Undangan Anda kini telah aktif.');
+                    }
+                } elseif ($statusCode == '200' || in_array($status, ['settlement', 'capture'])) {
+                    // Mode Pengujian Sandbox Lokal (Tanpa API Server Key eksternal)
+                    $midtransService->markAsPaid(
+                        $couple,
+                        'Midtrans Sandbox - ' . strtoupper($request->query('payment_type', 'QRIS')),
+                        $orderId
+                    );
+                    session()->flash('payment_success', 'Pembayaran via Midtrans berhasil diverifikasi! Undangan Anda kini telah aktif.');
+                }
+            }
         }
 
         return view('builder.success', compact('couple'));

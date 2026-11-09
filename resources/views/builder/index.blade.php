@@ -1144,7 +1144,7 @@
                                     <button type="button" onclick="copyWeddingDateToCard(this)" class="text-[10px] text-brand hover:underline font-semibold cursor-pointer" title="Terapkan tanggal Hari-H ke acara ini">Gunakan Hari-H</button>
                                 </div>
                                 <input type="date" name="event_1_date" id="event1DateInput" value="{{ old('event_1_date') }}"
-                                       onchange="onEventDateChanged(this)"
+                                       onchange="onEventDateChanged(this)" oninput="onEventDateChanged(this)"
                                        class="event-date-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand bg-white cursor-pointer transition-all">
                                 <div class="event-date-preview text-[10px] text-ink2 font-medium mt-1"></div>
                             </div>
@@ -1228,7 +1228,7 @@
                                     <button type="button" onclick="copyWeddingDateToCard(this)" class="text-[10px] text-brand hover:underline font-semibold cursor-pointer" title="Terapkan tanggal Hari-H ke acara ini">Gunakan Hari-H</button>
                                 </div>
                                 <input type="date" name="event_2_date" id="event2DateInput" value="{{ old('event_2_date') }}"
-                                       onchange="onEventDateChanged(this)"
+                                       onchange="onEventDateChanged(this)" oninput="onEventDateChanged(this)"
                                        class="event-date-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand bg-white cursor-pointer transition-all">
                                 <div class="event-date-preview text-[10px] text-ink2 font-medium mt-1"></div>
                             </div>
@@ -3125,9 +3125,26 @@
         function onEventDateChanged(input) {
             const card = input.closest('.event-card-item');
             if (card) {
+                input.dataset.independent = "true";
                 updateEventDatePreview(card);
             }
+            const cards = document.querySelectorAll('.event-card-item');
+            if (cards.length > 0 && cards[0] === card && input.value) {
+                const weddingDateInput = document.getElementById('weddingDateInput') || document.querySelector('input[name="wedding_date"]');
+                if (weddingDateInput) {
+                    weddingDateInput.value = input.value;
+                    window._previousWeddingDate = input.value;
+                    try { localStorage.setItem('dkarsa_preview_wedding_date', input.value); } catch(e) {}
+                    const displayDateEl = document.getElementById('linkedWeddingDateDisplay');
+                    if (displayDateEl) {
+                        displayDateEl.textContent = formatIndonesianDateStr(input.value);
+                    }
+                }
+            }
             syncEventsToFormAndPreview();
+            if (typeof updateLivePreviewContent === 'function') {
+                updateLivePreviewContent(false);
+            }
         }
 
         function copyWeddingDateToCard(btn) {
@@ -3142,8 +3159,12 @@
             const dateInput = card.querySelector('.event-date-input');
             if (dateInput) {
                 dateInput.value = weddingDateVal;
+                delete dateInput.dataset.independent;
                 updateEventDatePreview(card);
                 syncEventsToFormAndPreview();
+                if (typeof updateLivePreviewContent === 'function') {
+                    updateLivePreviewContent(false);
+                }
                 if (typeof showBuilderToast === 'function') {
                     showBuilderToast('Tanggal acara disamakan dengan Hari-H.', '📅');
                 }
@@ -3161,16 +3182,20 @@
                 const dateInput = card.querySelector('.event-date-input');
                 if (dateInput) {
                     dateInput.value = weddingDateVal;
+                    delete dateInput.dataset.independent;
                     updateEventDatePreview(card);
                 }
             });
             syncEventsToFormAndPreview();
+            if (typeof updateLivePreviewContent === 'function') {
+                updateLivePreviewContent(false);
+            }
             if (typeof showBuilderToast === 'function') {
                 showBuilderToast('Seluruh tanggal acara berhasil disamakan dengan Hari-H.', '📅');
             }
         }
 
-        function syncWeddingDateToEvents() {
+        function syncWeddingDateToEvents(forceSyncCards = false) {
             const weddingDateInput = document.getElementById('weddingDateInput') || document.querySelector('input[name="wedding_date"]');
             const weddingDateVal = weddingDateInput?.value || '';
 
@@ -3179,17 +3204,30 @@
                 displayDateEl.textContent = weddingDateVal ? formatIndonesianDateStr(weddingDateVal) : 'Belum dipilih di Langkah 1';
             }
 
-            // If Acara 1 date is empty, initialize it with Hari-H date
             const cards = document.querySelectorAll('.event-card-item');
-            if (cards.length > 0 && weddingDateVal) {
-                const card1Date = cards[0].querySelector('.event-date-input');
-                if (card1Date && !card1Date.value) {
-                    card1Date.value = weddingDateVal;
-                }
-            }
+            const prevDate = window._previousWeddingDate || '';
 
-            // Update date previews for all cards
-            cards.forEach(card => updateEventDatePreview(card));
+            cards.forEach((card, idx) => {
+                const dateInput = card.querySelector('.event-date-input');
+                if (dateInput) {
+                    // Update card date if empty, or matches previous Hari-H, or forced, or is Acara 1, or is not manually detached
+                    if (!dateInput.value || (prevDate && dateInput.value === prevDate) || forceSyncCards || (idx === 0) || !dateInput.dataset.independent) {
+                        dateInput.value = weddingDateVal;
+                        if (idx === 0) delete dateInput.dataset.independent;
+                    }
+                    updateEventDatePreview(card);
+                }
+            });
+
+            window._previousWeddingDate = weddingDateVal;
+            try {
+                localStorage.setItem('dkarsa_preview_wedding_date', weddingDateVal);
+            } catch(e) {}
+
+            syncEventsToFormAndPreview();
+            if (typeof updateLivePreviewContent === 'function') {
+                updateLivePreviewContent(false);
+            }
         }
 
         // ========================================================
@@ -3392,7 +3430,7 @@
                             <label class="block text-xs font-semibold text-ink2">Tanggal Acara</label>
                             <button type="button" onclick="copyWeddingDateToCard(this)" class="text-[10px] text-brand hover:underline font-semibold cursor-pointer" title="Terapkan tanggal Hari-H ke acara ini">Gunakan Hari-H</button>
                         </div>
-                        <input type="date" value="${evDate}" onchange="onEventDateChanged(this)"
+                        <input type="date" value="${evDate}" onchange="onEventDateChanged(this)" oninput="onEventDateChanged(this)"
                                class="event-date-input w-full rounded-2xl border border-ink/20 px-3.5 py-2.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand bg-white cursor-pointer transition-all">
                         <div class="event-date-preview text-[10px] text-ink2 font-medium mt-1"></div>
                     </div>
@@ -3567,6 +3605,13 @@
                         iframe.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_FIELD', field: 'maps_url', value: firstEv.maps_url }, '*');
                         iframe.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_FIELD', field: 'google_maps_url', value: firstEv.maps_url }, '*');
                     }
+                }
+
+                const weddingDateVal = document.getElementById('weddingDateInput')?.value || '';
+                const effectivePrimaryDate = (eventsList.length > 0 && eventsList[0].date) ? eventsList[0].date : weddingDateVal;
+                if (effectivePrimaryDate) {
+                    iframe.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_FIELD', field: 'wedding_date', value: effectivePrimaryDate }, '*');
+                    iframe.contentWindow.postMessage({ type: 'UPDATE_PREVIEW_DATE', date: effectivePrimaryDate, wedding_date: effectivePrimaryDate }, '*');
                 }
             }
 
@@ -4479,10 +4524,9 @@
             if (selectedCatVal) params.set('category', selectedCatVal);
             if (subCatVal) params.set('sub_category', subCatVal);
             if (headingVal) params.set('event_heading', headingVal);
-            if (weddingDateVal) {
-                params.set('wedding_date', weddingDateVal);
-            } else if (events.length > 0 && events[0].date) {
-                params.set('wedding_date', events[0].date);
+            const primaryDate = (events.length > 0 && events[0].date) ? events[0].date : weddingDateVal;
+            if (primaryDate) {
+                params.set('wedding_date', primaryDate);
             }
             if (quoteVal) params.set('quote', quoteVal);
 
@@ -4903,6 +4947,11 @@
                         field: 'wedding_date',
                         value: weddingDateVal
                     }, '*');
+                    iframe.contentWindow.postMessage({
+                        type: 'UPDATE_PREVIEW_DATE',
+                        date: weddingDateVal,
+                        wedding_date: weddingDateVal
+                    }, '*');
                 }
 
                 const effectiveGuestVal = previewGuestTestName || localStorage.getItem('dkarsa_preview_guest_name') || 'Bapak / Ibu / Saudara/i';
@@ -5153,6 +5202,15 @@
 
                 // 3. Pulihkan field input dasar (lewati category, sub_category, selected_theme, selected_package)
                 if (draft.fields) {
+                    // Catat tanggal Hari-H draf agar tracking auto-sync bekerja mulus saat user mengubah tanggal
+                    const restoredWeddingDate = draft.fields?.wedding_date || (draft.events && draft.events[0]?.date) || '';
+                    if (restoredWeddingDate) {
+                        window._previousWeddingDate = restoredWeddingDate;
+                        try {
+                            localStorage.setItem('dkarsa_preview_wedding_date', restoredWeddingDate);
+                        } catch(e) {}
+                    }
+
                     Object.keys(draft.fields).forEach(key => {
                         if (['category', 'sub_category', 'selected_theme', 'selected_package'].includes(key)) {
                             return;
@@ -5250,8 +5308,11 @@
                 window._isRestoringDraft = false;
 
                 // 6. Sinkronisasi tampilan & live preview
+                if (typeof syncWeddingDateToEvents === 'function') syncWeddingDateToEvents(false);
+                if (typeof syncEventsToFormAndPreview === 'function') syncEventsToFormAndPreview();
                 if (typeof syncParentsToPreview === 'function') syncParentsToPreview();
-                if (typeof updateLivePreviewContent === 'function') updateLivePreviewContent(true);
+                if (typeof sendLatestPreviewDataToIframe === 'function') sendLatestPreviewDataToIframe();
+                if (typeof updateLivePreviewContent === 'function') updateLivePreviewContent(true, true);
 
                 // 7. Pindah ke langkah terakhir yang sedang diisi
                 if (draft.current_step && draft.current_step > 1 && typeof goToStep === 'function') {
@@ -5377,6 +5438,26 @@
                 weddingDateInput.addEventListener('change', () => {
                     syncWeddingDateToEvents();
                     updateLivePreviewContent(false);
+                });
+            }
+
+            // Inisialisasi _previousWeddingDate pada saat halaman dimuat
+            const initWedDateInput = document.getElementById('weddingDateInput') || document.querySelector('input[name="wedding_date"]');
+            const initEv1Date = document.getElementById('event1DateInput');
+            window._previousWeddingDate = initWedDateInput?.value || initEv1Date?.value || '';
+            if (window._previousWeddingDate) {
+                try {
+                    localStorage.setItem('dkarsa_preview_wedding_date', window._previousWeddingDate);
+                } catch(e) {}
+            }
+
+            // Dynamic URL generation for Fullscreen button on click
+            const btnFs = document.getElementById('btnBuilderFullscreenDemo');
+            if (btnFs) {
+                btnFs.addEventListener('click', function() {
+                    const canonicalKey = getCanonicalTemplateKey(currentSelectedTheme);
+                    const params = getLivePreviewParams();
+                    this.href = `/demo/${canonicalKey}?${params.toString()}`;
                 });
             }
 

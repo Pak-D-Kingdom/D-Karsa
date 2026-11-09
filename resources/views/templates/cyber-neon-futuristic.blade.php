@@ -449,7 +449,7 @@
 <span class="material-symbols-outlined text-[18px]">calendar_month</span>
 <span class="font-label-cyber-sm text-label-cyber-sm uppercase tracking-wider">LOKAKARYA MOMEN SPESIAL</span>
 </div>
-<span class="font-headline-sm text-headline-sm text-on-surface font-bold">{{ strtoupper($eventDateFormatted) }}</span>
+<span id="previewWeddingDateFormatted" class="preview-wedding-date-text font-headline-sm text-headline-sm text-on-surface font-bold">{{ strtoupper($eventDateFormatted) }}</span>
 <span class="font-label-cyber-md text-label-cyber-md text-secondary-fixed-dim mt-0.5">19.00 WIB – SELESAI</span>
 </div>
 </div>

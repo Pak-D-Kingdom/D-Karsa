@@ -237,7 +237,7 @@
                     <h1 id="previewNamesCover" class="font-script text-3xl sm:text-4xl text-oriental-lightgold drop-shadow-md leading-tight truncate">
                         {{ $couple->groom_name }} <span class="font-cinzel text-lg text-oriental-gold font-normal">&amp;</span> {{ $couple->bride_name }}
                     </h1>
-                    <p class="font-serif text-xs text-white/90 mt-0.5 tracking-wide">
+                    <p class="font-serif text-xs text-white/90 mt-0.5 tracking-wide preview-wedding-date-text" id="previewCoverDate">
                         📅 {{ $weddingDateFormatted }}
                     </p>
                 </div>
@@ -277,7 +277,7 @@
                 <h2 class="font-script text-4xl sm:text-5xl text-white my-3 leading-tight">
                     {{ $couple->groom_name }} &amp; {{ $couple->bride_name }}
                 </h2>
-                <p class="font-serif text-xs text-white/80">{{ $weddingDateFormatted }}</p>
+                <p class="font-serif text-xs text-white/80 preview-wedding-date-text" id="previewHeroDate">{{ $weddingDateFormatted }}</p>
                 <div class="mt-3 inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-black/30 border border-oriental-gold/40 text-[11px] text-oriental-lightgold font-medium">
                     <span>📍</span> {{ $couple->venue_name ?? 'Lokasi Acara' }}
                 </div>
@@ -356,7 +356,7 @@
             <div class="oriental-card rounded-3xl p-6 text-center">
                 <span class="font-cinzel text-xs font-bold text-oriental-red tracking-[0.2em] uppercase block">Save The Date</span>
                 <h3 class="font-serif text-2xl font-bold text-neutral-900 mt-1">Hari Bahagia Kami</h3>
-                <p class="text-xs text-neutral-600 mt-1 mb-5">{{ $weddingDateFormatted }}</p>
+                <p class="text-xs text-neutral-600 mt-1 mb-5 preview-wedding-date-text" id="previewWeddingDateFormatted">{{ $weddingDateFormatted }}</p>
 
                 <!-- Month Header -->
                 <div class="bg-oriental-red text-oriental-lightgold py-2 px-4 rounded-xl font-cinzel font-bold text-xs uppercase tracking-widest mb-3 flex items-center justify-between">
@@ -759,11 +759,14 @@
         }, 4000);
 
         // 4. Generate Real Calendar Month Grid
-        const targetWeddingDate = new Date("{{ $targetDate->format('Y-m-d H:i:s') }}");
+        var targetWeddingDate = window.targetWeddingDate || new Date("{{ $targetDate->format('Y-m-d H:i:s') }}");
+        window.targetWeddingDate = targetWeddingDate;
+
         function buildCalendar() {
-            const year = targetWeddingDate.getFullYear();
-            const month = targetWeddingDate.getMonth(); // 0-indexed
-            const activeDay = targetWeddingDate.getDate();
+            var target = window.targetWeddingDate || targetWeddingDate;
+            const year = target.getFullYear();
+            const month = target.getMonth(); // 0-indexed
+            const activeDay = target.getDate();
 
             const firstDayIndex = new Date(year, month, 1).getDay(); // 0 is Sunday
             const totalDaysInMonth = new Date(year, month + 1, 0).getDate();
@@ -799,12 +802,14 @@
                 gridBody.appendChild(tr);
             }
         }
+        window.buildCalendar = buildCalendar;
         buildCalendar();
 
         // 5. Countdown Timer
         function updateCountdown() {
+            var target = window.targetWeddingDate || targetWeddingDate;
             const now = new Date().getTime();
-            const diff = targetWeddingDate.getTime() - now;
+            const diff = target.getTime() - now;
 
             if (diff <= 0) {
                 document.getElementById('countDays').textContent = '00';
@@ -824,8 +829,25 @@
             document.getElementById('countMinutes').textContent = String(m).padStart(2, '0');
             document.getElementById('countSeconds').textContent = String(s).padStart(2, '0');
         }
+        window.updateCountdown = updateCountdown;
         setInterval(updateCountdown, 1000);
         updateCountdown();
+
+        window.updateTargetDate = function(newDateStr) {
+            if (!newDateStr) return;
+            var parts = String(newDateStr).split('T')[0].split(' ')[0].split('-');
+            var dt;
+            if (parts.length === 3) {
+                dt = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10), 9, 0, 0);
+            } else {
+                dt = new Date(newDateStr);
+            }
+            if (isNaN(dt.getTime())) return;
+            window.targetWeddingDate = dt;
+            targetWeddingDate = dt;
+            buildCalendar();
+            updateCountdown();
+        };
 
         // 6. Copy text helper
         function copyText(val, btn) {

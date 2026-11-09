@@ -55,6 +55,186 @@
             };
         }
 
+        // Universal Event & Wedding Date Synchronization Engine
+        function applyUniversalWeddingDate(dateStr) {
+            if (!dateStr) return;
+            try {
+                let cleanStr = String(dateStr).trim();
+                let targetDt = null;
+
+                if (cleanStr.includes('/')) {
+                    const slashParts = cleanStr.split('/');
+                    if (slashParts.length === 3) {
+                        if (slashParts[0].length === 4) {
+                            targetDt = new Date(parseInt(slashParts[0], 10), parseInt(slashParts[1], 10) - 1, parseInt(slashParts[2], 10), 9, 0, 0);
+                        } else {
+                            targetDt = new Date(parseInt(slashParts[2], 10), parseInt(slashParts[1], 10) - 1, parseInt(slashParts[0], 10), 9, 0, 0);
+                        }
+                    }
+                } else {
+                    const parts = cleanStr.split('T')[0].split(' ')[0].split('-');
+                    if (parts.length === 3 && parts[0].length === 4) {
+                        targetDt = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10), 9, 0, 0);
+                    } else {
+                        targetDt = new Date(cleanStr);
+                    }
+                }
+
+                if (!targetDt || isNaN(targetDt.getTime())) return;
+
+                window.targetWeddingDate = targetDt;
+                window.targetDate = targetDt;
+                window.countdownTarget = targetDt;
+
+                // 1. Panggil hook spesifik template jika tersedia
+                if (typeof window.updateTargetDate === 'function') {
+                    try { window.updateTargetDate(cleanStr); } catch(e) {}
+                }
+
+                // 2. Format tanggal bahasa Indonesia resmi
+                const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+                const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+                const dNum = targetDt.getDate();
+                const mIdx = targetDt.getMonth();
+                const yNum = targetDt.getFullYear();
+                const dayName = dayNames[targetDt.getDay()];
+                const monthName = monthNames[mIdx];
+                const fullIndoDate = `${dayName}, ${dNum} ${monthName} ${yNum}`;
+                const shortIndoDate = `${dNum} ${monthName} ${yNum}`;
+                const monthYearUpper = `${monthName.toUpperCase()} ${yNum}`;
+                const fullIndoDateUpper = fullIndoDate.toUpperCase();
+                const shortIndoDateUpper = shortIndoDate.toUpperCase();
+
+                // 3. Sinkronkan Header Bulan Kalender & Grid Kalender
+                const mHeader = document.getElementById('calendarMonthHeader');
+                if (mHeader) {
+                    mHeader.textContent = monthYearUpper;
+                }
+                if (typeof window.buildCalendar === 'function') {
+                    try { window.buildCalendar(); } catch(e) {}
+                } else {
+                    const gridBody = document.getElementById('calendarGridBody');
+                    if (gridBody) {
+                        const firstDayIndex = new Date(yNum, mIdx, 1).getDay();
+                        const totalDaysInMonth = new Date(yNum, mIdx + 1, 0).getDate();
+                        gridBody.innerHTML = '';
+                        let currentDay = 1;
+                        let finished = false;
+                        for (let row = 0; row < 6; row++) {
+                            if (finished) break;
+                            const tr = document.createElement('tr');
+                            for (let col = 0; col < 7; col++) {
+                                const td = document.createElement('td');
+                                if (row === 0 && col < firstDayIndex) {
+                                    td.innerHTML = '<span class="text-neutral-300"></span>';
+                                } else if (currentDay > totalDaysInMonth) {
+                                    td.innerHTML = '<span class="text-neutral-300"></span>';
+                                    finished = true;
+                                } else {
+                                    if (currentDay === dNum) {
+                                        td.innerHTML = `<span class="calendar-day-active">${currentDay}</span>`;
+                                    } else {
+                                        td.innerHTML = `<span class="text-neutral-700">${currentDay}</span>`;
+                                    }
+                                    currentDay++;
+                                }
+                                tr.appendChild(td);
+                            }
+                            gridBody.appendChild(tr);
+                        }
+                    }
+                }
+
+                // 4. Sinkronkan seluruh teks display tanggal di semua template dengan selector
+                const dateTargets = [
+                    document.getElementById('previewWeddingDateFormatted'),
+                    document.getElementById('previewWeddingDate'),
+                    document.getElementById('previewEventDate'),
+                    document.getElementById('previewCoverDate'),
+                    document.getElementById('previewHeroDate'),
+                    document.getElementById('previewSaveTheDate'),
+                    document.getElementById('weddingDateDisplay'),
+                    document.getElementById('eventDateDisplay'),
+                    document.getElementById('eventDateBadge'),
+                    document.getElementById('previewEventDateBadge')
+                ];
+                dateTargets.forEach(el => {
+                    if (el) {
+                        const isUpper = el.textContent && el.textContent === el.textContent.toUpperCase() && el.textContent.trim().length > 3;
+                        const formattedText = isUpper ? fullIndoDateUpper : fullIndoDate;
+                        el.textContent = el.textContent && el.textContent.includes('📅') ? `📅 ${formattedText}` : formattedText;
+                    }
+                });
+
+                document.querySelectorAll('.preview-wedding-date-text, .wedding-date-text, .event-date-formatted, .preview-cover-date, .preview-hero-date').forEach(el => {
+                    const isUpper = el.textContent && el.textContent === el.textContent.toUpperCase() && el.textContent.trim().length > 3;
+                    const formattedText = isUpper ? fullIndoDateUpper : fullIndoDate;
+                    el.textContent = el.textContent && el.textContent.includes('📅') ? `📅 ${formattedText}` : formattedText;
+                });
+
+                // 4b. Smart text replacer across leaf DOM elements containing Indonesian date patterns
+                const indoDateRegex = /((?:Minggu|Senin|Selasa|Rabu|Kamis|Jumat|Sabtu),\s*)?\d{1,2}\s+(?:Januari|Februari|Maret|April|Mei|Juni|Juli|Agustus|September|Oktober|November|Desember)\s+\d{4}/gi;
+                document.querySelectorAll('p, span, h1, h2, h3, h4, h5, h6, b, strong, div').forEach(el => {
+                    if (el.children.length === 0 && el.textContent) {
+                        const txt = el.textContent.trim();
+                        if (indoDateRegex.test(txt)) {
+                            el.textContent = txt.replace(indoDateRegex, (match, prefix) => {
+                                const isAllUpper = match === match.toUpperCase();
+                                if (prefix) {
+                                    return isAllUpper ? fullIndoDateUpper : fullIndoDate;
+                                } else {
+                                    return isAllUpper ? shortIndoDateUpper : shortIndoDate;
+                                }
+                            });
+                        }
+                    }
+                });
+
+                // 5. Update Universal Countdown Timers di seluruh template
+                function refreshUniversalCountdown() {
+                    const now = Date.now();
+                    const diff = targetDt.getTime() - now;
+
+                    let d = '00', h = '00', m = '00', s = '00';
+                    if (diff > 0) {
+                        d = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+                        h = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+                        m = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+                        s = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
+                    }
+
+                    const dayEls = document.querySelectorAll('#countDays, #count-days, #cd-days, #cdDays, #hud-days, #hudDays, #timerDays, #timer-days, #days, .cd-days, .countdown-days, [data-countdown="days"]');
+                    dayEls.forEach(el => { el.textContent = d; });
+                    const hrEls = document.querySelectorAll('#countHours, #count-hours, #cd-hours, #cdHours, #hud-hours, #hudHours, #timerHours, #timer-hours, #hours, .cd-hours, .countdown-hours, [data-countdown="hours"]');
+                    hrEls.forEach(el => { el.textContent = h; });
+                    const minEls = document.querySelectorAll('#countMinutes, #count-minutes, #cd-minutes, #cdMinutes, #hud-minutes, #hud-mins, #hudMins, #timerMinutes, #timer-minutes, #minutes, .cd-minutes, .countdown-minutes, [data-countdown="minutes"]');
+                    minEls.forEach(el => { el.textContent = m; });
+                    const secEls = document.querySelectorAll('#countSeconds, #count-seconds, #cd-seconds, #cdSeconds, #hud-seconds, #hud-secs, #hudSecs, #timerSeconds, #timer-seconds, #seconds, .cd-seconds, .countdown-seconds, [data-countdown="seconds"]');
+                    secEls.forEach(el => { el.textContent = s; });
+                }
+
+                refreshUniversalCountdown();
+                if (!window._universalCountdownTimer) {
+                    window._universalCountdownTimer = setInterval(refreshUniversalCountdown, 1000);
+                }
+
+                // 6. Update tombol Simpan ke Google Calendar
+                document.querySelectorAll('a[href*="calendar.google.com"]').forEach(link => {
+                    try {
+                        const url = new URL(link.href);
+                        const ymd = targetDt.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+                        const endDt = new Date(targetDt.getTime() + (4 * 3600 * 1000));
+                        const ymdEnd = endDt.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+                        url.searchParams.set('dates', `${ymd}/${ymdEnd}`);
+                        link.href = url.toString();
+                    } catch(e) {}
+                });
+            } catch(e) {
+                console.warn('applyUniversalWeddingDate error:', e);
+            }
+        }
+        window.applyUniversalWeddingDate = applyUniversalWeddingDate;
+
         function hydratePreviewFromStorage() {
             try {
                 const urlParams = new URLSearchParams(window.location.search);
@@ -150,6 +330,16 @@
                     if (bgHeader) bgHeader.style.backgroundImage = `url('${groomPhoto}')`;
                 }
 
+                // 4b. Hydrate Wedding / Event Date, Calendar, and Countdown
+                const weddingDateFromUrl = urlParams.get('wedding_date');
+                const weddingDateFromStorage = safeGetItem('dkarsa_preview_wedding_date');
+                const effectiveWeddingDate = weddingDateFromUrl || weddingDateFromStorage;
+                if (effectiveWeddingDate) {
+                    applyUniversalWeddingDate(effectiveWeddingDate);
+                } else if (eventList && eventList.length > 0 && eventList[0].date) {
+                    applyUniversalWeddingDate(eventList[0].date);
+                }
+
                 // 5. Hydrate Cover Photo
                 const coverPhoto = safeGetItem('dkarsa_preview_cover_photo');
                 if (coverPhoto) {
@@ -178,6 +368,9 @@
 
         try {
             window.addEventListener('storage', function(e) {
+                if (e.key && (e.key === 'dkarsa_preview_wedding_date' || e.key === 'wedding_date') && e.newValue) {
+                    applyUniversalWeddingDate(e.newValue);
+                }
                 if (e.key && e.key.startsWith('dkarsa_')) {
                     hydratePreviewFromStorage();
                 }
@@ -190,18 +383,30 @@
                 const data = event.data;
                 if (!data || typeof data !== 'object') return;
 
+                if (data.type === 'UPDATE_PREVIEW_DATE' && (data.date || data.value || data.wedding_date)) {
+                    applyUniversalWeddingDate(data.date || data.value || data.wedding_date);
+                }
+
                 if (data.type === 'UPDATE_PREVIEW_EVENTS' && Array.isArray(data.events) && data.events.length > 0) {
                     if (typeof window.renderDynamicEvents === 'function') {
                         window.renderDynamicEvents(data.events);
                     }
                     const ev0 = data.events[0];
-                    if (ev0 && ev0.maps_url) {
-                        const allMaps = document.querySelectorAll('#previewMapsLinkMain, #previewMapsLink, a[href*="maps.google.com"], a[href*="maps.app.goo.gl"], a[href*="goo.gl/maps"]');
-                        allMaps.forEach(el => { el.href = ev0.maps_url; });
+                    if (ev0) {
+                        if (ev0.date) {
+                            applyUniversalWeddingDate(ev0.date);
+                        }
+                        if (ev0.maps_url) {
+                            const allMaps = document.querySelectorAll('#previewMapsLinkMain, #previewMapsLink, a[href*="maps.google.com"], a[href*="maps.app.goo.gl"], a[href*="goo.gl/maps"]');
+                            allMaps.forEach(el => { el.href = ev0.maps_url; });
+                        }
                     }
                 }
 
                 if (data.type === 'UPDATE_PREVIEW_FIELD') {
+                    if ((data.field === 'wedding_date' || data.field === 'date') && data.value) {
+                        applyUniversalWeddingDate(data.value);
+                    }
                     if ((data.field === 'maps_url' || data.field === 'google_maps_url') && data.value) {
                         const allMaps = document.querySelectorAll('#previewMapsLinkMain, #previewMapsLink, a[href*="maps.google.com"], a[href*="maps.app.goo.gl"], a[href*="goo.gl/maps"]');
                         allMaps.forEach(el => { el.href = data.value; });

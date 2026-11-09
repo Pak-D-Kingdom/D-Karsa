@@ -33,11 +33,7 @@ class MidtransService
             return 50000;
         }
 
-        // Try extracting numeric digits
-        if (preg_match('/(\d+)[.,]?(\d{3})/', $packageName, $matches)) {
-            return (int)($matches[1] . $matches[2]);
-        }
-
+        // Default tier fallback (Pencegahan manipulasi nominal client-side)
         return 50000;
     }
 
@@ -153,6 +149,37 @@ class MidtransService
             Log::warning("Midtrans Snap API Error: " . $response->body());
         } catch (\Throwable $e) {
             Log::error("Midtrans Snap API Exception: " . $e->getMessage());
+        }
+
+        return null;
+    }
+
+    /**
+     * Check transaction status directly with Midtrans Core API
+     */
+    public function checkTransactionStatus(string $orderId): ?array
+    {
+        if (!static::hasApiCredentials()) {
+            return null;
+        }
+
+        try {
+            $serverKey = static::getServerKey();
+            $authHeader = 'Basic ' . base64_encode($serverKey . ':');
+            $baseUrl = static::isProduction()
+                ? 'https://api.midtrans.com/v2/'
+                : 'https://api.sandbox.midtrans.com/v2/';
+
+            $response = Http::withHeaders([
+                'Authorization' => $authHeader,
+                'Accept' => 'application/json',
+            ])->timeout(8)->get($baseUrl . urlencode($orderId) . '/status');
+
+            if ($response->successful()) {
+                return $response->json();
+            }
+        } catch (\Throwable $e) {
+            Log::error("Midtrans checkTransactionStatus exception: " . $e->getMessage());
         }
 
         return null;
